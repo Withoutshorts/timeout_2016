@@ -92,6 +92,32 @@ if len(session("user")) = 0 then
 
     end if
 
+
+     call aktBudgettjkOn_fn()
+    
+
+    if len(trim(request("visKol_rekvnr"))) <> 0 then
+        visKol_rekvnr = request("visKol_rekvnr")
+    else
+        visKol_rekvnr = 0
+    end if 
+
+
+     if len(trim(request("eksDataNr2"))) <> 0 then
+        eksDataNr2 = request("eksDataNr2")
+    else
+        eksDataNr2 = 0
+    end if 
+
+    
+
+    if len(trim(request("visKol_forecast"))) <> 0 then
+        visKol_forecast = request("visKol_forecast")
+    else
+        visKol_forecast = 0
+    end if 
+    
+
     if len(trim(request("historisk_wip"))) <> 0 then
         historisk_wip = request("historisk_wip")
     else
@@ -126,19 +152,36 @@ if len(session("user")) = 0 then
         visSimpel = -1
     end if
 
+
+
+
+
+
+
+
     
     if len(trim(request("eksDataStd"))) <> 0 then 'fra joblisten
+      
 
-  
-    eksDataStd = 1
-    
-    if len(trim(request("eksDataNrl"))) <> 0 then
-    eksDataNrl = 1
-    else
-    eksDataNrl = 0
-    end if
+      eksDataStd = 1
 
-    if len(trim(request("eksDataJsv"))) <> 0 then
+      if len(trim(request("eksDataNrl"))) <> 0 then
+      eksDataNrl = 1
+      eksDataNr3 = 1
+      visSimpel = 2
+      else
+      eksDataNrl = 0
+      eksDataNr3 = 0
+      visSimpel = 0
+      end if
+
+         if len(trim(request("eksDataNrl"))) <> 0 OR lto = "epi2017" then
+         eksDataNr2 = 1
+         else
+         eksDataNr2 = 0
+         end if
+
+      if len(trim(request("eksDataJsv"))) <> 0 then
     eksDataJsv = 1
     else
     eksDataJsv = 0
@@ -156,36 +199,51 @@ if len(session("user")) = 0 then
     eksDataMile = 0
     end if
     
-
+      
     
 
     else ' fra f.eks webblik joblisten
 
-    eksDataStd = 1
+        eksDataStd = 1
 
-    if len(trim(request("eksDataNrl"))) <> 0 then
-    eksDataNrl = 1
-    else
-    eksDataNrl = 0
+        if len(trim(request("eksDataNrl"))) <> 0 then
+        eksDataNrl = 1
+        else
+        eksDataNrl = 0
+        end if
+
+
+        if len(trim(request("eksDataNr3"))) <> 0 then
+        eksDataNr3 = 1
+        else
+        eksDataNr3 = 0
+        end if
+
+    
+        if len(trim(request("eksDataJsv"))) <> 0 then
+        eksDataJsv = 1
+        else
+        eksDataJsv = 0
+        end if
+
+
+        eksDataAkt = 0
+
+
+        if len(trim(request("eksDataMile"))) <> 0 then
+        eksDataMile = 1
+        else
+        eksDataMile = 0
+        end if
+
     end if
 
-    if len(trim(request("eksDataJsv"))) <> 0 then
-    eksDataJsv = 1
-    else
-    eksDataJsv = 0
-    end if
+      
 
-
-    eksDataAkt = 0
-
-
-    if len(trim(request("eksDataMile"))) <> 0 then
-    eksDataMile = 1
-    else
-    eksDataMile = 0
-    end if
-
-    end if
+    'if session("mid") = 1 then
+     'Response.write "optiPrint: "& optiPrint & "eksDataStd : "& eksDataStd &" eksDataNrl: " & eksDataNrl &" eksDataNr3: " & eksDataNr3
+     'Response.end
+    'end if
 
 	
 	level = session("rettigheder")
@@ -226,6 +284,7 @@ if len(session("user")) = 0 then
     call TimeOutVersion()
 
     call akttyper2009(2)
+    call multible_licensindehavereOn()
 
     '************** STI OG MAPPE ******************
 	
@@ -267,17 +326,28 @@ if len(session("user")) = 0 then
     case 0,2 
     strTxtExport = strTxtExport & "Kontakt;Kontakt id;Jobnavn;Jobnr.;Status;Startdato;Slutdato;Prioitet;"
         
-         cellerForAkt_og_Faser = ";;;;;;;;;"
+        cellerForAkt_og_Faser = ";;;;;;;;;"
 
-        if eksDataNrl <> 1 then 
+        if cint(eksDataNrl) <> 1 then 
         strTxtExport = strTxtExport & "Realiseret Timer;"
-          cellerForAkt_og_Faser = cellerForAkt_og_Faser & ";"
+        cellerForAkt_og_Faser = cellerForAkt_og_Faser & ";"
         end if
      
            
+        if cint(visKol_forecast) = 1 then
+        strTxtExport = strTxtExport & "Forecast Timer;Forecast Beløb;"
+        cellerForAkt_og_Faser = cellerForAkt_og_Faser & ";"
+        end if
 
-            if eksDataNrl = 1 then
-            cellerForAkt_og_Faser = cellerForAkt_og_Faser & ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;"
+
+            if cint(eksDataNrl) = 1 then
+                
+                if cint(eksDataNr3) = 1 then
+                cellerForAkt_og_Faser = cellerForAkt_og_Faser & ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;"
+                else
+                cellerForAkt_og_Faser = cellerForAkt_og_Faser & ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;"
+                end if
+
 
                 
                             if cint(bdgmtypon_val) = 1 then 
@@ -296,7 +366,15 @@ if len(session("user")) = 0 then
 
 
              if eksDataJsv = 1 then
-             cellerForAkt_og_Faser = cellerForAkt_og_Faser & ";;;;;;;;;;;;;;;;"
+
+                        '*** Viser jobans 3-5
+                        select case lto
+                        case "intranet - local", "oko"
+                        cellerForAkt_og_Faser = cellerForAkt_og_Faser & ";;;;;;;"
+                        case else
+                        cellerForAkt_og_Faser = cellerForAkt_og_Faser & ";;;;;;;;;;;;;;;;"
+                        end select
+                  
                 
                  if cint(showSalgsAnv) = 1 then
                  cellerForAkt_og_Faser = cellerForAkt_og_Faser & ";;;;;;;;;;;;;;;"
@@ -307,50 +385,90 @@ if len(session("user")) = 0 then
 
 
 
-                    if eksDataNrl = 1 then
+                    if cint(eksDataNrl) = 1 then
 	                strTxtExport = strTxtExport &"Fastpris:1/Lbn Timer:0;Forkalk. Timer;Budget. Bruttooms.;Valuta;Kurs;Budget. Bruttooms. (basis valuta, alle kolonner -->);"
   
     
                           if cint(bdgmtypon_val) = 1 then 'budget på mtyper slået til
          
-                         for t = 1 to UBOUND(mtypgrpids)
+                                 for t = 1 to UBOUND(mtypgrpids)
 
-                            if len(trim(mtypgrpnavn(t))) <> 0 then
+                                    if len(trim(mtypgrpnavn(t))) <> 0 then
             
-                            strTxtExport = strTxtExport &"Budget "&  mtypgrpnavn(t) & ";"
+                                    strTxtExport = strTxtExport &"Budget "&  mtypgrpnavn(t) & ";"
 
-                            end if
-                        next
+                                    end if
+                                next
 
 
                          end if
         
-                    strTxtExport = strTxtExport &"Budget Salgsomk. (indkøb);Budget Intern kost.;Budget DB beløb;Budget DB %;"_
-                    &"Realiseret Timer;~Real. Timepris;Real. Internkost. pr. time;Real. Bruttoomsætning;Real. Nettoomsætning;"
-    
-                          if cint(bdgmtypon_val) = 1 then 'budget på mtyper slået til
-         
-                                for t = 0 to UBOUND(mtypeids)
-                                       strTxtExport = strTxtExport &"Real. timer: "&  mtypenavne(t) & ";Real. kostpris: "&  mtypenavne(t) & ";"
-                                next
 
-
-                         end if    
+                        if cint(visSimpel) = 2 then 'Kun udviddet
+                        strTxtExport = strTxtExport &"Budget Salgsomk. (indkøb);Budget Intern kost.;Budget DB beløb;Budget DB %;"
+                        end if
         
-                    strTxtExport = strTxtExport &"Real. DB beløb;Real. DB %;"_
-                    &"WIP DB beløb;WIP DB %;Faktureret;Faktisk Salgsomk. (indkøb);Faktisk Internkost.;Faktisk DB beløb;Faktisk DB %;"_
-                    &"Timepris (faktisk);Stade (WIP) %;WIP pr. dato ("& historisk_wipTxt &");WIP angivet dato;WIP Omsætning; Bal. Faktureret-Oms. WIP;Faktureret i faktura valuta;"
+                        
+                        if cint(visSimpel) = 1 OR cint(visSimpel) = 2 then 
+                        strTxtExport = strTxtExport &"Realiseret Timer;~Real. Timepris;"
+                        end if
 
-       
+                        
+                        if cint(visSimpel) = 2 then 
+                        strTxtExport = strTxtExport &"Real. Internkost. pr. time;"
+                        end if
+
+
+                        if cint(visSimpel) = 1 OR cint(visSimpel) = 2 then 
+                        strTxtExport = strTxtExport &"Real. Bruttoomsætning;Real. Nettoomsætning;Saldo Budget BruttoOms. / Real. Oms.;"
+                        end if
+
+
+                        if cint(visSimpel) = 2 then 'Kun udviddet
+
+                              if cint(bdgmtypon_val) = 1 then 'budget på mtyper slået til
+         
+                                    for t = 0 to UBOUND(mtypeids)
+                                           strTxtExport = strTxtExport &"Real. timer: "&  mtypenavne(t) & ";Real. kostpris: "&  mtypenavne(t) & ";"
+                                    next
+
+                               end if    
+        
+
+                        strTxtExport = strTxtExport &"Real. DB beløb;Real. DB %;"
+
+                        if cint(eksDataNr3) = 1 then
+                        strTxtExport = strTxtExport &"WIP DB beløb;WIP DB %;"
+                        end if
+        
+                        strTxtExport = strTxtExport &"Faktureret;Faktisk Salgsomk. (indkøb);Faktisk Internkost.;Faktisk DB beløb;Faktisk DB %;Timepris (faktisk);"
+        
+        
+                        
+                        if cint(eksDataNr3) = 1 then
+                        strTxtExport = strTxtExport &"Stade (WIP) %;WIP pr. dato ("& historisk_wipTxt &");WIP angivet dato;WIP Omsætning; Bal. Faktureret-Oms. WIP;Faktureret i faktura valuta;"
+                        end if
+
+
 
                     end if
+
+                    end if
+
 
     
          
 
 
                     if eksDataJsv = 1 then
-	                strTxtExport = strTxtExport &"Kontaktpers;Jobansvarlig 1;Jobans1. %;Init 1;Jobejer 2;Jobans2. %;Init 2;Medansv. 3;Jobans3. %;Init 3;Medansv. 4;Jobans4. %;Init 4;Medansv. 5;Jobans5. %;Init 5;"
+	                strTxtExport = strTxtExport &"Kontaktpers;Jobansvarlig 1;Jobans1. %;Init 1;Jobejer 2;Jobans2. %;Init 2;"
+        
+                        '*** Viser jobans 3-5
+                        select case lto
+                        case "intranet - local", "oko"
+                        case else
+                        strTxtExport = strTxtExport &"Medansv. 3;Jobans3. %;Init 3;Medansv. 4;Jobans4. %;Init 4;Medansv. 5;Jobans5. %;Init 5;"
+                        end select
     
                     if cint(showSalgsAnv) = 1 then
                     strTxtExport = strTxtExport &"Salgsansv. 1;Salgsansv. 1 %;Salgsansv. 1 Init;Salgsansv. 2;Salgsansv. 2 %;Salgsansv. 2 Init;Salgsansv. 3;Salgsansv. 3 %;Salgsansv. 3 Init;Salgsansv. 4;Salgsansv. 4 %;Salgsansv. 4 Init;Salgsansv. 5;Salgsansv. 5 %;Salgsansv. 5 Init;"
@@ -358,37 +476,54 @@ if len(session("user")) = 0 then
 
                     end if
     
-                    if eksDataNrl = 1 then
-                    strTxtExport = strTxtExport &"Aftale;Rekvnr.;Pre-konditioner opfyldt;Forretningsomr.;Afd./Business Unit;Projektgrupper (job);"
-                    end if
+                   
+                    strTxtExport = strTxtExport &"Aftale;"
+                   
+                            
+                            if cint(visKol_rekvnr) = 1 then
+                            strTxtExport = strTxtExport & "Rekvnr.;Pre-konditioner opfyldt;"
+                            end if
+        
+                            if cint(eksDataNr2) = 1 then
+                            strTxtExport = strTxtExport & "Forretningsomr.;Afd./Business Unit;Projektgrupper (job);"
+                            end if
+                    
+                   
 
-                    if eksDataJsv = 1 then
+                    'if eksDataJsv = 1 then
 
-                    if level = 1 then
-                        if lto <> "epi" OR (lto = "epi" AND (thisMid = 6 OR thisMid = 11 OR thisMid = 59 OR thisMid = 1686 OR thisMid = 1720)) OR (lto = "epi_no" AND thisMid = 2) OR (lto = "epi_ab" AND thisMid = 2) OR (lto = "epi_sta" AND thisMid = 2) then 
-                        strTxtExport = strTxtExport & "Virksomhedsandel;"
-                        cellerForAkt_og_Faser = cellerForAkt_og_Faser & ";"
-                        end if
-                    end if
+                    'if level = 1 then
+                    '    if lto <> "epi" OR (lto = "epi" AND (thisMid = 6 OR thisMid = 11 OR thisMid = 59 OR thisMid = 1686 OR thisMid = 1720)) OR (lto = "epi_no" AND thisMid = 2) OR (lto = "epi_ab" AND thisMid = 2) OR (lto = "epi_sta" AND thisMid = 2) then 
+                    '    strTxtExport = strTxtExport & "Virksomhedsandel;"
+                    '    cellerForAkt_og_Faser = cellerForAkt_og_Faser & ";"
+                    '    end if
+                    'end if
     
-                    end if
+                    'end if
 
                     'if optiPrint = 2 then
-                    if eksDataNrl = 1 then
+                    if cint(eksDataNrl) = 1 then
                     strTxtExport = strTxtExport & "Beskrivelse;"  ';Kommentar" & vbcrlf 
                     end if
     
                      strTxtExport = strTxtExport & "Kommentar;" 
 
+                    
+            
+                     if cint(multible_licensindehavere) = 1 AND instr(lto, "epi") <> 0 then
+                     strTxtExport = strTxtExport &"Licensindehaver;"
+                     end if
+
 
                      if cint(eksDataAkt) = 1 then
-                     strTxtExport = strTxtExport &"Fase;Aktiviteter;Aktivitet startdato;Aktivitet slutdato;"
+                     strTxtExport = strTxtExport &"Fase;Aktiviteter;Aktivitet startdato;Aktivitet slutdato;Aktivitets beskrivelse;"
                      end if
 
                       if cint(eksDataMile) = 1 then
                      strTxtExport = strTxtExport &"Milepæl;Dato;Type;Beløb;"
                      end if
 
+                    
 
    
     strTxtExport = strTxtExport & vbcrlf 
@@ -445,7 +580,7 @@ if len(session("user")) = 0 then
     end if
     
     strSQL = strSQL &" rekvnr, serviceaft, kommentar, jo_dbproc, udgifter, jo_bruttooms, (jo_bruttooms * jo_valuta_kurs/100) AS jo_bruttooms_basisval, jo_bruttofortj, jo_udgifter_intern, jo_udgifter_ulev, "_
-    &" restestimat, stade_tim_proc, kp.navn AS kontaktpers, preconditions_met, jo_valuta, jo_valuta_kurs "_
+    &" restestimat, stade_tim_proc, kp.navn AS kontaktpers, preconditions_met, jo_valuta, jo_valuta_kurs, lincensindehaver_faknr_prioritet_job "_
     &" FROM job AS j"
 
     strSQL = strSQL & " LEFT JOIN kunder AS k ON (k.kid = j.jobknr) "
@@ -506,44 +641,50 @@ if len(session("user")) = 0 then
 	strJobans1nr = oRec("m1nr")
 	strJobans1init = oRec("m1init")
 
-    if len(trim(strJobans1)) <> 0 then
-    strJobans1nr = "("&strJobans1nr&")"
-    else
-    strJobans1nr = ""
-    end if
+    'if len(trim(strJobans1)) <> 0 then
+    'strJobans1nr = " ("&strJobans1nr&")"
+    'else
+    'strJobans1nr = ""
+    'end if
 	
     strJobans2 = oRec("m2navn")
     jobans_proc_2 = oRec("jobans_proc_2")
 	strJobans2nr = oRec("m2nr")
 	strJobans2init = oRec("m2init")
 
-     if len(trim(strJobans2)) <> 0 then
-    strJobans2nr = "("&strJobans2nr&")"
-    else
-    strJobans2nr = ""
-    end if
+    'if len(trim(strJobans2)) <> 0 then
+    'strJobans2nr = " ("&strJobans2nr&")"
+    'else
+    'strJobans2nr = ""
+    'end if
 
+
+    '*** Viser jobans 3-5
+    select case lto
+    case "intranet - local", "oko"
+
+    case else
     strJobans3 = oRec("m3navn")
     jobans_proc_3 = oRec("jobans_proc_3")
 	strJobans3nr = oRec("m3nr")
 	strJobans3init = oRec("m3init")
 
-     if len(trim(strJobans3)) <> 0 then
-    strJobans3nr = "("&strJobans3nr&")"
-    else
-    strJobans3nr = ""
-    end if
+    'if len(trim(strJobans3)) <> 0 then
+    'strJobans3nr = " ("&strJobans3nr&")"
+    'else
+    'strJobans3nr = ""
+    'end if
 
     strJobans4 = oRec("m4navn")
     jobans_proc_4 = oRec("jobans_proc_4")
 	strJobans4nr = oRec("m4nr")
 	strJobans4init = oRec("m4init")
 
-    if len(trim(strJobans4)) <> 0 then
-    strJobans4nr = "("&strJobans4nr&")"
-    else
-    strJobans4nr = ""
-    end if
+    'if len(trim(strJobans4)) <> 0 then
+    'strJobans4nr = " ("&strJobans4nr&")"
+    'else
+    'strJobans4nr = ""
+    'end if
 
 
     strJobans5 = oRec("m5navn")
@@ -551,12 +692,13 @@ if len(session("user")) = 0 then
 	strJobans5nr = oRec("m5nr")
 	strJobans5init = oRec("m5init")
 
-    if len(trim(strJobans5)) <> 0 then
-    strJobans5nr = "("&strJobans5nr&")"
-    else
-    strJobans5nr = ""
-    end if
+    'if len(trim(strJobans5)) <> 0 then
+    'strJobans5nr = "("&strJobans5nr&")"
+    'else
+    'strJobans5nr = ""
+    'end if
 
+    end select
     
 
      if cint(showSalgsAnv) = 1 then
@@ -622,11 +764,11 @@ if len(session("user")) = 0 then
 
 
 
-    if level = 1 then
-        if lto <> "epi" OR (lto = "epi" AND (thisMid = 6 OR thisMid = 11 OR thisMid = 59 OR thisMid = 1686 OR thisMid = 1 OR thisMid = 1720)) OR (lto = "epi_no" AND thisMid = 2) OR (lto = "epi_ab" AND thisMid = 2) OR (lto = "epi_sta" AND thisMid = 2) then
-        virksomheds_proc = oRec("virksomheds_proc")
-        end if
-    end if
+    'if level = 1 then
+    '    if lto <> "epi" OR (lto = "epi" AND (thisMid = 6 OR thisMid = 11 OR thisMid = 59 OR thisMid = 1686 OR thisMid = 1 OR thisMid = 1720)) OR (lto = "epi_no" AND thisMid = 2) OR (lto = "epi_ab" AND thisMid = 2) OR (lto = "epi_sta" AND thisMid = 2) then
+    '    virksomheds_proc = oRec("virksomheds_proc")
+    '    end if
+    'end if
 
     if isNull(oRec("beskrivelse")) <> true then
 	strJobBesk = oRec("beskrivelse")
@@ -635,23 +777,44 @@ if len(session("user")) = 0 then
     end if
 
     if isNull(oRec("kontaktpers")) <> true then
-    kontaktpers = oRec("kontaktpers")
-    else
-    kontaktpers = ""
-    end if
+      kontaktpers = oRec("kontaktpers")
+      else
+      kontaktpers = ""
+      end if
 
-	dblBudget = oRec("jo_bruttooms") 'oRec("jobTpris")
+      dblBudget = oRec("jo_bruttooms") 'oRec("jobTpris")
 
-    nettoomstimer = oRec("jobTpris")
-	intFaspris = oRec("fastpris")
-	rekvnr = oRec("rekvnr")
-	serviceaft = oRec("serviceaft")
-	komm = oRec("kommentar")
-	jo_dbproc = oRec("jo_dbproc")
-	joDbbelob = oRec("jo_bruttofortj")
+      nettoomstimer = oRec("jobTpris")
+      intFaspris = oRec("fastpris")
+      rekvnr = oRec("rekvnr")
+      serviceaft = oRec("serviceaft")
+      komm = oRec("kommentar")
+      jo_dbproc = oRec("jo_dbproc")
+      joDbbelob = oRec("jo_bruttofortj")
 
-    'udgifter = oRec("udgifter") 'salgsomk + internkost
+      'udgifter = oRec("udgifter") 'salgsomk + internkost
+
+      salgsomk = 0
+      select case lto
+      case "intranet - local", "oko"
+
+
+
+      '*** Salgsomkostninger Ulev **'
+      strSQLSalgsomk_ulev = "SELECT SUM(ju_belob) AS salgsomk_ulev FROM job_ulev_ju WHERE ju_jobid = "& oRec("id") &" GROUP BY ju_jobid"
+                    
+                    oRec6.open strSQLSalgsomk_ulev, oConn, 3
+                    if not oRec6.EOF then
+                    salgsomk = oRec6("salgsomk_ulev")
+                    end if
+                    oRec6.close
+        
+
+
+    case else
 	salgsomk = oRec("jo_udgifter_ulev")
+    end select
+
     jo_udgifter_ulev = oRec("jo_udgifter_ulev")
     internKost = oRec("jo_udgifter_intern")
 
@@ -660,6 +823,9 @@ if len(session("user")) = 0 then
     jo_valuta = oRec("jo_valuta")
     call valutakode_fn(jo_valuta)
     jo_valuta_kurs = oRec("jo_valuta_kurs")
+
+
+    licensindehaver = oRec("lincensindehaver_faknr_prioritet_job")
 
 		'*** Export ****
 		'objF.WriteLine("Id "&  chr(009) &" Kundenavn "&  chr(009) &"Kundenr "& chr(009) &"Jobnavn "& chr(009)&"Aktivitet "& chr(009) &"Kunde "& chr(009) &"Timer / Enheder"& chr(009) &"Heraf fakturerbare timer"& chr(009) &"Reg. Timepris (uanset fastpris/lbn.tim.)"& chr(009) &"Gns.fak. Timepris" & chr(009) & "Medarbejder "& chr(009) &"Kommentar ")
@@ -688,6 +854,7 @@ if len(session("user")) = 0 then
 
 
       if dblBudget <> 0 then
+
             jobbudget = dblBudget
             else
             jobbudget = 0
@@ -725,6 +892,7 @@ if len(session("user")) = 0 then
 
 
             'call timeRealOms '** cls_timer
+            '** salgsOmkFaktisk, kostpris
             call timeRealOms(oRec("jobnr"), sqlDatostRealTimer, sqlDatoslut, nettoomstimer, oRec("fastpris"), budgettimerIalt, aty_sql_realhours, jo_valuta_kurs) '** cls_timer
 
             'response.write "timertilfak: "& timertilfak & " faktureretLastFakDato: "& faktureretLastFakDato &" sqlDatostart: "& sqlDatostart & " sqlDatostRealTimer: "& sqlDatostRealTimer
@@ -878,12 +1046,122 @@ if len(session("user")) = 0 then
 		
 		strTxtExport = strTxtExport & Chr(34) & strKunde & Chr(34) &";" & Chr(34) & strKnr & Chr(34) &";"& Chr(34) & strJobnavn & Chr(34) &";"& Chr(34) &strJobnr& Chr(34) &";"& Chr(34) &strStatus& Chr(34) &";" & Chr(34) & dtStdato & Chr(34) & ";"& Chr(34) & dtSldato& Chr(34) &";" & Chr(34) & prioitet & Chr(34) &";"
         
-        if eksDataNrl <> 1 then 
+        if cint(eksDataNrl) <> 1 then 'vises kun i simpel ellers vises de sammen med andre nøgletal
         strTxtExport = strTxtExport & Chr(34) & formatnumber(timerforbrugt,2) & Chr(34) &";"
+        end if
+
+
+        '**** Forecast ******
+        if cint(visKol_forecast) = 1 then
+        thisFc = 0
+        thisFcBelob = 0
+
+             if aktBudgettjkOn_afgr = 1 OR aktBudgettjkOn_afgr = 2 then
+             aktid = 0
+             timerTastet = 0
+             usemrn = 0
+             useDateStSQL = sqlDatoslut 'strAar_slut &"-"& strMrd_slut &"-"& strDag_slut
+                
+           
+             datoKrionly = 0
+             call ressourcetimerTildelt(useDateStSQL, oRec("id"), 0, usemrn, datoKrionly)
+             thisFc = restimerAll
+            
+
+            else 
+
+                     strSQLfc = "SELECT SUM(timer) AS fctimer FROM ressourcer_md WHERE jobid = "& oRec("id") &" GROUP BY jobid"
+                    'Response.write strSQLfc  & "sqlDatostRealTimer: " & sqlDatostRealTimer & ", sqlDatoslut: " & sqlDatoslut
+                    'Response.end
+        
+                    oRec6.open strSQLfc, oConn, 3
+                    if not oRec6.EOF then
+                    thisFc = oRec6("fctimer")
+                    end if
+                    oRec6.close
+
+             end if
+
+
+                
+                    '*** Vægtet pr. type
+                    select case lto
+                    case "intranet - local", "oko"
+
+
+                    '*** AVG timepris == SKAL fordeles på typer **'
+
+                    sqlDatoslutYear = year(sqlDatoslut) 
+                    select case aktBudgettjkOn_afgr
+                    case 1
+                    sqlPerKri = " AND aar = "& sqlDatoslutYear &""
+                    case 2
+                    sqlPerKri = " AND aar = YEAR("& sqlDatoslut &") AND md = MONTH("& sqlDatoslut &")"
+                    case else
+                    sqlPerKri = ""
+                    end select
+
+                    strSQLrcfc = "SELECT SUM(timer) AS sumtimer, medid, aktid FROM ressourcer_md WHERE jobid = "& oRec("id") &" "& sqlPerKri &" GROUP BY jobid, aktid, medid"
+        
+                    'response.write "<hr>" & strSQLrcfc & "<br>"
+                    'response.flush
+
+                    thisFCtpAvg = 0
+                    oRec6.open strSQLrcfc, oConn, 3
+                    while not oRec6.EOF 
+                
+                            strSQLrcfc_tp = "SELECT AVG(6timepris) AS avgtp FROM timepriser WHERE jobid = "& oRec("id") &" AND medarbid = "& oRec6("medid") &" AND aktid = "& oRec6("aktid") &" GROUP BY jobid, aktid, medarbid" 
+
+                            'response.write strSQLrcfc_tp & "<br><br>"
+
+                            oRec5.open strSQLrcfc_tp, oConn, 3
+                            while not oRec5.EOF
+                            thisFCtpAvg = thisFCtpAvg + (oRec5("avgtp") * oRec6("sumtimer")) * 1
+                            thisSumTimer = thisSumTimer +  oRec6("sumtimer")
+
+                            'Response.write "<br>=" & thisFCtpAvg & " + " & oRec5("avgtp") &"*"& oRec6("sumtimer")  & "<br>"
+                            oRec5.movenext
+                            wend
+                            oRec5.close
+
+                    
+                    'thisFCtpAvg = oRec6("avgtp")
+                    
+                    oRec6.movenext
+                    wend
+                    oRec6.close
+
+                    
+                    thisFcBelob = thisFCtpAvg
+
+                    'Response.write "<br>SUMTIMER: " & thisSumTimer & "<br>"
+                    'response.flush
+
+                    case else
+
+                    '*** AVG timepris == SKAL fordeles på typer **'
+                    strSQLtp = "SELECT AVG(6timepris) AS avgtp FROM timepriser WHERE jobid = "& oRec("id") &" GROUP BY jobid"
+        
+                    thisFCtpAvg = 0
+                    oRec6.open strSQLtp, oConn, 3
+                    if not oRec6.EOF then
+                    thisFCtpAvg = oRec6("avgtp")
+                    end if
+                    oRec6.close
+
+        
+                    thisFcBelob = (thisFCtpAvg*thisFc)
+                    end select
+
+
+        
+
+        strTxtExport = strTxtExport & Chr(34) & formatnumber(thisFc,2) & Chr(34) &";" & Chr(34) & formatnumber(thisFcBelob,2) & Chr(34) &";"
+
         end if
           
         
-        if eksDataNrl = 1 then
+        if cint(eksDataNrl) = 1 then
         strTxtExport = strTxtExport & Chr(34) & intFaspris & Chr(34) &";"& Chr(34) & formatnumber(timerialt, 2) & Chr(34) &";"
         strTxtExport = strTxtExport & Chr(34) & formatnumber(dblBudget,2) & Chr(34) &";"& Chr(34) & valutaKode_CCC & Chr(34) &";"& Chr(34) & jo_valuta_kurs & Chr(34) &";"& Chr(34) & formatnumber(jo_bruttooms_basisval,2) & Chr(34) &";"
                 
@@ -914,130 +1192,191 @@ if len(session("user")) = 0 then
                     next
 
             end if
+
+
+                    
+                    if cint(visSimpel) = 2 then 'Kun udviddet
+                    strTxtExport = strTxtExport & Chr(34) & formatnumber(salgsomk,2) & Chr(34) &";"& Chr(34) & formatnumber(internKost,2) & Chr(34) &";"_
+                    & Chr(34) & formatnumber(joDbbelob,2) & Chr(34) &";"_
+                    & Chr(34) & formatnumber(jo_dbproc,0) & Chr(34) &";"
+                    end if
+
+
+                    if cint(visSimpel) = 1 OR cint(visSimpel) = 2 then 'Udviddet Økonomiske nøgletal
+                    strTxtExport = strTxtExport & Chr(34) & formatnumber(timerforbrugt,2) & Chr(34) &";"& Chr(34) & formatnumber(tp,2) & Chr(34) &";"
+                    end if
+
+                    
+                    if cint(visSimpel) = 2 then 'Udviddet Økonomiske nøgletal
+                    strTxtExport = strTxtExport & Chr(34) & formatnumber(gnskostprtime, 2) & Chr(34) &";"
+                    end if
+                    
+
+                    if cint(visSimpel) = 1 OR cint(visSimpel) = 2 then 'Udviddet Økonomiske nøgletal
+
+
+                    select case lto
+                    case "intranet - local", "oko"
+                    saldoBudget_RealOms = (dblBudget*1 - OmsRealBrutto*1) 
+                    case else
+                    saldoBudget_RealOms = (dblBudget*1 - OmsReal*1) 
+                    end select
+
+
+                    strTxtExport = strTxtExport  & Chr(34) & formatnumber(OmsRealBrutto,2) & Chr(34) &";" & Chr(34) & formatnumber(OmsReal,2) & Chr(34) &";"& Chr(34) & formatnumber(saldoBudget_RealOms,2) & Chr(34) &";"
+                    end if
+
         
-        strTxtExport = strTxtExport & Chr(34) & formatnumber(salgsomk,2) & Chr(34) &";"& Chr(34) & formatnumber(internKost,2) & Chr(34) &";"_
-        & Chr(34) & formatnumber(joDbbelob,2) & Chr(34) &";"_
-        & Chr(34) & formatnumber(jo_dbproc,0) & Chr(34) &";"_
-        & Chr(34) & formatnumber(timerforbrugt,2) & Chr(34) &";"& Chr(34) & formatnumber(tp,2) & Chr(34) &";"& Chr(34) & formatnumber(gnskostprtime, 2) & Chr(34) &";"& Chr(34) & formatnumber(OmsRealBrutto,2) & Chr(34) &";"_
-        & Chr(34) & formatnumber(OmsReal,2) & Chr(34) &";"
-        
-                 
-        
-         if cint(bdgmtypon_val) = 1 then 
+                    if cint(visSimpel) = 2 then 'Udviddet Økonomiske nøgletal
+
+
+
+                     if cint(bdgmtypon_val) = 1 then 
             
-                    for t = 0 to UBOUND(mtypeids)
+                                for t = 0 to UBOUND(mtypeids)
 
                   
-                    thisMtypTimerBelob = 0
-                    thisMtypTimer = 0
-                    thisMtyptimerkost = 0
+                                thisMtypTimerBelob = 0
+                                thisMtypTimer = 0
+                                thisMtyptimerkost = 0
         
                     
-                    'if lto = "epi" then 'konsolideret
+                                'if lto = "epi" then 'konsolideret
 
         
-                        if cint(realfakpertot) <> 0 then 'timer o peridoe elle total == konsolideret
-                        strSQLmtypbgt = "SELECT SUM(timer) AS mtyptimer, SUM(belob) AS mtyptimerbelob, SUM(kost) AS timerkost FROM timer_konsolideret_tot WHERE jobid = "& oRec("id") & " AND (mtype = "& mtypeids(t) & " "& mtypesostergp(t) &") AND dato BETWEEN '"& sqlDatostartMtypTkons &"' AND '"& sqlDatoslut &"' GROUP BY jobid"
-                        else
-                        strSQLmtypbgt = "SELECT SUM(timer) AS mtyptimer, SUM(belob) AS mtyptimerbelob, SUM(kost) AS timerkost FROM timer_konsolideret_tot WHERE jobid = "& oRec("id") & " AND (mtype = "& mtypeids(t) & " "& mtypesostergp(t) &") GROUP BY jobid"
-                        end if
+                                    'if cint(realfakpertot) <> 0 then 'timer o peridoe elle total == konsolideret
+                                    'strSQLmtypbgt = "SELECT SUM(timer) AS mtyptimer, SUM(belob) AS mtyptimerbelob, SUM(kost) AS timerkost FROM timer_konsolideret_tot WHERE jobid = "& oRec("id") & " AND (mtype = "& mtypeids(t) & " "& mtypesostergp(t) &") AND dato BETWEEN '"& sqlDatostartMtypTkons &"' AND '"& sqlDatoslut &"' GROUP BY jobid"
+                                    'else
+                                    'strSQLmtypbgt = "SELECT SUM(timer) AS mtyptimer, SUM(belob) AS mtyptimerbelob, SUM(kost) AS timerkost FROM timer_konsolideret_tot WHERE jobid = "& oRec("id") & " AND (mtype = "& mtypeids(t) & " "& mtypesostergp(t) &") GROUP BY jobid"
+                                    'end if
 
-                    'else 'EVT ANDRE EPI VERSIONER 20151120 
+                                'else 'EVT ANDRE EPI VERSIONER 20151120 
 
-                        'call mtyperIGrp_fn(mtypeids(t),1) 
+                                    'call mtyperIGrp_fn(mtypeids(t),1) 
 
-                        'if cint(realfakpertot) <> 0 then
-                        'strSQLmtypbgt = "SELECT sum(t.timer) AS mtyptimer, sum(kostpris*t.timer*(t.kurs/100)) AS timerkost, sum(t.timer*(t.timepris*(t.kurs/100))) AS mtyptimerbelob FROM timer t WHERE t.tjobnr = '"& jobnr &"' AND ("& aty_sql_realhours &") AND ("& medarbimType(t) &") AND (dato BETWEEN '"& sqlDatostartMtypTkons &"' AND '"& sqlDatoslut &"') GROUP BY tjobnr"
-                        'else
-                        'strSQLmtypbgt = "SELECT sum(t.timer) AS mtyptimer, sum(kostpris*t.timer*(t.kurs/100)) AS timerkost, sum(t.timer*(t.timepris*(t.kurs/100))) AS mtyptimerbelob FROM timer t WHERE t.tjobnr = '"& jobnr &"' AND ("& aty_sql_realhours &") AND ("& medarbimType(t) &") GROUP BY tjobnr"
-                        'end if
+                                    if cint(realfakpertot) <> 0 then
+                                    strSQLmtypbgt = "SELECT sum(t.timer) AS mtyptimer, sum(kostpris*t.timer*(t.kurs/100)) AS timerkost, sum(t.timer*(t.timepris*(t.kurs/100))) AS mtyptimerbelob FROM timer t WHERE t.tjobnr = '"& jobnr &"' AND ("& aty_sql_realhours &") AND ("& medarbimType(t) &") AND (dato BETWEEN '"& sqlDatostartMtypTkons &"' AND '"& sqlDatoslut &"') GROUP BY tjobnr"
+                                    else
+                                    strSQLmtypbgt = "SELECT sum(t.timer) AS mtyptimer, sum(kostpris*t.timer*(t.kurs/100)) AS timerkost, sum(t.timer*(t.timepris*(t.kurs/100))) AS mtyptimerbelob FROM timer t WHERE t.tjobnr = '"& jobnr &"' AND ("& aty_sql_realhours &") AND ("& medarbimType(t) &") GROUP BY tjobnr"
+                                    end if
 
 
-                    'end if
+                                'end if
            
                    
 
-                    'Response.write strSQLmtypbgt
-                    oRec6.open strSQLmtypbgt, oConn, 3
-                    if not oRec6.EOF then
-                        thisMtypTimerBelob = oRec6("mtyptimerbelob")
-                        thisMtypTimer = oRec6("mtyptimer")
-                        thisMtyptimerkost = oRec6("timerkost")
-                    end if
-                    oRec6.close
+                                'Response.write strSQLmtypbgt
+                                oRec6.open strSQLmtypbgt, oConn, 3
+                                if not oRec6.EOF then
+                                    thisMtypTimerBelob = oRec6("mtyptimerbelob")
+                                    thisMtypTimer = oRec6("mtyptimer")
+                                    thisMtyptimerkost = oRec6("timerkost")
+                                end if
+                                oRec6.close
 
 
-                    strTxtExport = strTxtExport & Chr(34) & formatnumber(thisMtypTimer,2) & Chr(34) &";" & Chr(34) & formatnumber(thisMtyptimerkost,2) & Chr(34) &";"
+                                strTxtExport = strTxtExport & Chr(34) & formatnumber(thisMtypTimer,2) & Chr(34) &";" & Chr(34) & formatnumber(thisMtyptimerkost,2) & Chr(34) &";"
                    
 
-                    next
-        end if
+                                next
 
-        if len(trim(realDbbelob)) <> 0 AND realDbbelob <> 0 AND isNULL(realDbbelob) <> true then
-        realDbbelob = realDbbelob
-        else
-        realDbbelob = 0
-        end if
+                    end if 
 
-        strTxtExport = strTxtExport & Chr(34) & formatnumber(realDbbelob,2) & Chr(34) &";"
-        strTxtExport = strTxtExport & Chr(34) & formatnumber(realDB,0) & Chr(34) &";"
-        strTxtExport = strTxtExport & Chr(34) & formatnumber(forvDbbel,2) & Chr(34) &";"
-        strTxtExport = strTxtExport & Chr(34) & formatnumber(forvDb,0) & Chr(34) &";"
+      
+
+                if len(trim(realDbbelob)) <> 0 AND realDbbelob <> 0 AND isNULL(realDbbelob) <> true then
+                realDbbelob = realDbbelob
+                else
+                realDbbelob = 0
+                end if
+
+                strTxtExport = strTxtExport & Chr(34) & formatnumber(realDbbelob,2) & Chr(34) &";"
+                strTxtExport = strTxtExport & Chr(34) & formatnumber(realDB,0) & Chr(34) &";"
 
 
-        if len(trim(faktureret)) <> 0 AND faktureret <> 0 AND isNULL(faktureret) <> true then
-        faktureret = faktureret
-        else
-        faktureret = 0
-        end if
+                if cint(eksDataNr3) = 1 then
+                strTxtExport = strTxtExport & Chr(34) & formatnumber(forvDbbel,2) & Chr(34) &";"
+                strTxtExport = strTxtExport & Chr(34) & formatnumber(forvDb,0) & Chr(34) &";"
+                end if
+
+
+
+                if len(trim(faktureret)) <> 0 AND faktureret <> 0 AND isNULL(faktureret) <> true then
+                faktureret = faktureret
+                else
+                faktureret = 0
+                end if
         
 
-        strTxtExport = strTxtExport & Chr(34) & formatnumber(faktureret,2) & Chr(34) &";" 
-        strTxtExport = strTxtExport & Chr(34) & formatnumber(salgsOmkFaktisk,2) & Chr(34) &";"& Chr(34) & formatnumber(kostpris,2) & Chr(34) &";"
+                strTxtExport = strTxtExport & Chr(34) & formatnumber(faktureret,2) & Chr(34) &";" 
+                strTxtExport = strTxtExport & Chr(34) & formatnumber(salgsOmkFaktisk,2) & Chr(34) &";"& Chr(34) & formatnumber(kostpris,2) & Chr(34) &";"
 
 
-        if len(trim(db2bel)) <> 0 AND db2bel <> 0 AND isNULL(db2bel) <> true then
-        db2bel = db2bel
-        else
-        db2bel = 0
-        end if
+                if len(trim(db2bel)) <> 0 AND db2bel <> 0 AND isNULL(db2bel) <> true then
+                db2bel = db2bel
+                else
+                db2bel = 0
+                end if
         
-        strTxtExport = strTxtExport & Chr(34) & formatnumber(db2bel,2) & Chr(34) &";"
+                strTxtExport = strTxtExport & Chr(34) & formatnumber(db2bel,2) & Chr(34) &";"
         
-        strTxtExport = strTxtExport & Chr(34) & formatnumber(db2,0) & Chr(34) &";"
-        strTxtExport = strTxtExport & Chr(34) & formatnumber(gnstimepris,2) & Chr(34) &";"& Chr(34) & formatnumber(afsl_proc, 0) & Chr(34) &";"
-        strTxtExport = strTxtExport & Chr(34) & wipdato & Chr(34) &";" & Chr(34) & wipHistdato & Chr(34) &";"
+                strTxtExport = strTxtExport & Chr(34) & formatnumber(db2,0) & Chr(34) &";"
+                strTxtExport = strTxtExport & Chr(34) & formatnumber(gnstimepris,2) & Chr(34) &";"
 
-        if len(trim(OmsWIP)) <> 0 AND OmsWIP <> 0 AND isNULL(OmsWIP) <> true then
-        OmsWIP = OmsWIP
-        else
-        OmsWIP = 0
+
+
+               '****** WIP ***************
+               if cint(eksDataNr3) = 1 then
+
+                            strTxtExport = strTxtExport & Chr(34) & formatnumber(afsl_proc, 0) & Chr(34) &";"
+                            strTxtExport = strTxtExport & Chr(34) & wipdato & Chr(34) &";" & Chr(34) & wipHistdato & Chr(34) &";"
+
+                            if len(trim(OmsWIP)) <> 0 AND OmsWIP <> 0 AND isNULL(OmsWIP) <> true then
+                            OmsWIP = OmsWIP
+                            else
+                            OmsWIP = 0
+                            end if
+
+                            if len(trim(balWIP)) <> 0 AND balWIP <> 0 AND isNULL(balWIP) <> true then
+                            balWIP = balWIP
+                            else
+                            balWIP = 0
+                            end if
+
+                            if len(trim(faktureret_fakvaluta)) <> 0 AND faktureret_fakvaluta <> 0 AND isNULL(faktureret_fakvaluta) <> true then
+                            faktureret_fakvaluta = faktureret_fakvaluta
+                            else
+                            faktureret_fakvaluta = 0
+                            end if
+
+                            strTxtExport = strTxtExport & Chr(34) & formatnumber(OmsWIP, 2) & Chr(34) &";"& Chr(34) & formatnumber(balWIP, 2) & Chr(34) &";"
+                            strTxtExport = strTxtExport & Chr(34) & formatnumber(faktureret_fakvaluta,2) & Chr(34) &";"
+		
+                end if
+
+
+
+        
+                end if 'if cint(visSimpel) = 2 then 'Kun avanceret
+        
         end if
 
-        if len(trim(balWIP)) <> 0 AND balWIP <> 0 AND isNULL(balWIP) <> true then
-        balWIP = balWIP
-        else
-        balWIP = 0
-        end if
-
-        if len(trim(faktureret_fakvaluta)) <> 0 AND faktureret_fakvaluta <> 0 AND isNULL(faktureret_fakvaluta) <> true then
-        faktureret_fakvaluta = faktureret_fakvaluta
-        else
-        faktureret_fakvaluta = 0
-        end if
-
-        strTxtExport = strTxtExport & Chr(34) & formatnumber(OmsWIP, 2) & Chr(34) &";"& Chr(34) & formatnumber(balWIP, 2) & Chr(34) &";"
-        strTxtExport = strTxtExport & Chr(34) & formatnumber(faktureret_fakvaluta,2) & Chr(34) &";"
-		end if
 
 
+        '**** jobansvarlige ***'
         if eksDataJsv = 1 then
         strTxtExport = strTxtExport & Chr(34) & kontaktpers & Chr(34) &";"& Chr(34) & strJobans1 & strJobans1nr & Chr(34) &";"& Chr(34) & jobans_proc_1 & Chr(34) &";"& Chr(34) & strJobans1init & Chr(34) &";"_
-		& Chr(34) & strJobans2 & strJobans2nr & Chr(34) &";"& Chr(34) & jobans_proc_2 & Chr(34) &";"& Chr(34) & strJobans2init & Chr(34) &";"_
-        & Chr(34) & strJobans3 & strJobans3nr & Chr(34) &";"& Chr(34) & jobans_proc_3 & Chr(34) &";"& Chr(34) & strJobans3init & Chr(34) &";"_
+		& Chr(34) & strJobans2 & strJobans2nr & Chr(34) &";"& Chr(34) & jobans_proc_2 & Chr(34) &";"& Chr(34) & strJobans2init & Chr(34) &";"
+        
+        select case lto
+        case "intranet - local", "oko"
+        case else
+        strTxtExport = strTxtExport & Chr(34) & strJobans3 & strJobans3nr & Chr(34) &";"& Chr(34) & jobans_proc_3 & Chr(34) &";"& Chr(34) & strJobans3init & Chr(34) &";"_
         & Chr(34) & strJobans4 & strJobans4nr & Chr(34) &";"& Chr(34) & jobans_proc_4 & Chr(34) &";"& Chr(34) & strJobans4init & Chr(34) &";"_
         & Chr(34) & strJobans5 & strJobans5nr & Chr(34) &";"& Chr(34) & jobans_proc_5 & Chr(34) &";"& Chr(34) & strJobans5init & Chr(34) &";"
-        
+        end select
+
+
             if cint(showSalgsAnv) = 1 then
             strTxtExport = strTxtExport & Chr(34) & strsalgsans1 & strsalgsans1nr & Chr(34) &";"& Chr(34) & salgsans_proc_1 & Chr(34) &";"& Chr(34) & strsalgsans1init & Chr(34) &";"_
 		    & Chr(34) & strsalgsans2 & strsalgsans2nr & Chr(34) &";"& Chr(34) & salgsans_proc_2 & Chr(34) &";"& Chr(34) & strsalgsans2init & Chr(34) &";"_
@@ -1048,10 +1387,20 @@ if len(session("user")) = 0 then
         
         end if
 
-        if eksDataNrl = 1 then
 
-		        strTxtExport = strTxtExport & Chr(34) & serviceaft& Chr(34) &";"& Chr(34) & rekvnr & Chr(34) &";"& Chr(34) & preconditions_met & Chr(34) &";"
+
        
+
+		        strTxtExport = strTxtExport & Chr(34) & serviceaft& Chr(34) &";"
+
+        
+                if cint(visKol_rekvnr) = 1 then
+                strTxtExport = strTxtExport & Chr(34) & rekvnr & Chr(34) &";"& Chr(34) & preconditions_met & Chr(34) &";"
+                end if
+       
+
+
+                if cint(eksDataNr2) = 1 then 
 
                 '**** Fomr ****'
                 strTxtFomr = ""
@@ -1102,19 +1451,22 @@ if len(session("user")) = 0 then
                 strTxtExport = strTxtExport & Chr(34) & ";"
 
 
-        end if
+                end if '  if cint(eksDataNr2) = 2 then 'Fomr. og projektgrupper
 
 
-        if eksDataJsv = 1 then
+        'end if eksDataNr1
 
-            if level = 1 then
-                if lto <> "epi" OR (lto = "epi" AND (thisMid = 6 OR thisMid = 11 OR thisMid = 59 OR thisMid = 1686 OR thisMid = 1 OR thisMid = 1720)) OR (lto = "epi_no" AND thisMid = 2) OR (lto = "epi_ab" AND thisMid = 2) OR (lto = "epi_sta" AND thisMid = 2) then
-                strTxtExport = strTxtExport  & Chr(34) & virksomheds_proc & Chr(34) & ";"
-                end if
-            end if
+
+        'if eksDataJsv = 1 then
+
+        '    if level = 1 then
+        '        if lto <> "epi" OR (lto = "epi" AND (thisMid = 6 OR thisMid = 11 OR thisMid = 59 OR thisMid = 1686 OR thisMid = 1 OR thisMid = 1720)) OR (lto = "epi_no" AND thisMid = 2) OR (lto = "epi_ab" AND thisMid = 2) OR (lto = "epi_sta" AND thisMid = 2) then
+        '        strTxtExport = strTxtExport  & Chr(34) & virksomheds_proc & Chr(34) & ";"
+        '        end if
+        '    end if
        
         
-        end if
+        'end if
 
 
             'if optiPrint = 2 then
@@ -1127,7 +1479,7 @@ if len(session("user")) = 0 then
             strJobBesk = replace(strJobBesk, "&nbsp;", "")
             strJobBesk = replace(strJobBesk, ";", "")
             
-            if eksDataNrl = 1 then
+            if cint(eksDataNrl) = 1 then
 		    strTxtExport = strTxtExport & Chr(34) & trim(strJobBesk) & Chr(34) & ";" 
             end if
             
@@ -1153,7 +1505,38 @@ if len(session("user")) = 0 then
             
 		    strTxtExport = strTxtExport & Chr(34) & trim(strKomm) & Chr(34) & ";" 
             
+            
+            if cint(multible_licensindehavere) = 1 AND instr(lto, "epi") <> 0 then
 
+            licensindehaverKnavn = ""
+
+                    'if licensindehaver <> "0" AND licensindehaver <> "#0#" then
+
+                    '    licensindehaver = replace(licensindehaver, "#", "")
+                    '    strSQLklicens = " SELECT kkundenavn FROM kunder WHERE kid = " & licensindehaver
+                    '    oRec6.open strSQLklicens, oConn, 3
+                    '    if not oRec6.EOF then
+
+                    '        licensindehaverKnavn = oRec6("kkundenavn")
+                        
+                    '    end if
+                    '    oRec6.close
+
+                    'end if
+
+                    select case licensindehaver
+                    case "0", "#0#"
+                    licensindehaverKnavn = "Epinion P/S"
+                    case "3", "#3#"
+                    licensindehaverKnavn = "Epinion Research UK"
+                    case "2", "#2#"
+                    licensindehaverKnavn = "Epinion Norge AS"
+                    case else
+                    licensindehaverKnavn = ""
+                    end select
+
+            strTxtExport = strTxtExport & Chr(34) & licensindehaverKnavn & Chr(34) & ";" 
+            end if
             
 
 
@@ -1165,7 +1548,7 @@ if len(session("user")) = 0 then
          
 
             lastFase = ""
-            strSQL2 = "SELECT id, navn, fase, aktstartdato, aktslutdato FROM aktiviteter WHERE job = "& jobIder(i) & " ORDER BY fase, sortorder, navn"
+            strSQL2 = "SELECT id, navn, fase, aktstartdato, aktslutdato, beskrivelse FROM aktiviteter WHERE job = "& jobIder(i) & " ORDER BY fase, sortorder, navn"
 	        oRec5.open strSQL2, oConn, 3
 	        while not oRec5.EOF 
 	        
@@ -1177,7 +1560,7 @@ if len(session("user")) = 0 then
 
            
 
-            strTxtExport = strTxtExport & cellerForAkt_og_Faser &";"& Chr(34) & trim(oRec5("navn")) & Chr(34) &";"& Chr(34) & oRec5("aktstartdato") & chr(34) &";"& Chr(34) & oRec5("aktslutdato") & Chr(34)  & vbcrlf 
+            strTxtExport = strTxtExport & cellerForAkt_og_Faser &";"& Chr(34) & trim(oRec5("navn")) & Chr(34) &";"& Chr(34) & oRec5("aktstartdato") & chr(34) &";"& Chr(34) & oRec5("aktslutdato") & Chr(34) &";"& Chr(34) & oRec5("beskrivelse") & Chr(34) & vbcrlf 
 	        oRec5.movenext
 	        wend
 	        oRec5.close
@@ -1520,7 +1903,12 @@ if len(session("user")) = 0 then
 	
 	objF.close
 
-	Response.redirect "../inc/log/data/"& file &""	
+    'Response.write "HER OK ../inc/log/data/"& file &""	
+    'Response.end
+
+    Response.write "Din .csv fil er klar <a href=""../inc/log/data/"& file &""">her</a>" 
+
+	'Response.redirect "../inc/log/data/"& file &""	
 	
 end if
 %>

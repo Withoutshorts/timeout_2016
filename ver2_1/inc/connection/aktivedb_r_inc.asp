@@ -103,8 +103,42 @@ function aktivedb(x)
         strConnect_aktiveDB = "timeout_cflow64"
         case 175
         strConnect_aktiveDB = "timeout_wap64"
-
-      
+        case 176
+        strConnect_aktiveDB = "timeout_miele64"
+        case 177
+        strConnect_aktiveDB = "timeout_sduuas64"
+        case 178
+        strConnect_aktiveDB = "timeout_ddc64"
+        case 179
+        strConnect_aktiveDB = "timeout_trustgmp64"
+        case 180
+        strConnect_aktiveDB = "timeout_flash64"
+        case 181
+        strConnect_aktiveDB = "timeout_sdumikjoh64"
+        case 182
+        strConnect_aktiveDB = "timeout_cool64"
+        case 183
+        strConnect_aktiveDB = "timeout_lm64"
+        case 184
+        strConnect_aktiveDB = "timeout_rm64"
+        case 185
+        strConnect_aktiveDB = "timeout_foa64"
+        case 186
+        strConnect_aktiveDB = "timeout_care64"
+       case 187
+        strConnect_aktiveDB = "timeout_db64"
+        case 188
+        strConnect_aktiveDB = "timeout_a2764"
+       case 189
+        strConnect_aktiveDB = "timeout_sducei64"
+       case 190
+        strConnect_aktiveDB = "timeout_kongeaa64"
+       case 191
+        strConnect_aktiveDB = "timeout_herlev64"
+       case 192
+        strConnect_aktiveDB = "timeout_sweco64"
+       case 193
+        strConnect_aktiveDB = "timeout_remakers64"
 
 	case else
 	strConnect_aktiveDB = "nogo"

@@ -282,7 +282,7 @@
 						usedmedabId = " Tmnr = 0 AND "
 						
 						strSQL10 = "SELECT DISTINCT(medarbejderid), mnavn, mid, timeprisalt, medarbejdertype FROM progrupperelationer, medarbejdere "_
-						&" LEFT JOIN timepriser ON (aktid = "& thisaktid(x) &" AND medarbid = medarbejderid) WHERE mid = medarbejderid AND mansat <> 2 AND "_
+						&" LEFT JOIN timepriser ON (aktid = "& thisaktid(x) &" AND medarbid = medarbejderid) WHERE mid = medarbejderid AND mansat <> 2 AND mansat <> 4 AND "_
 						&" (projektgruppeid = "& gp1 &" OR projektgruppeid = "& gp2 &" OR projektgruppeid = "& gp3 &" OR projektgruppeid = "& gp4 &" OR projektgruppeid = "& gp5 &" OR projektgruppeid = "& gp6 &" OR projektgruppeid = "& gp7 &" OR projektgruppeid = "& gp8 &" OR projektgruppeid = "& gp9 &" OR projektgruppeid = "& gp10 &") "_
 						&" GROUP BY medarbejderid ORDER BY projektgruppeid"', timer DESC"
 						

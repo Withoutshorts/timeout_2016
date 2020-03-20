@@ -160,6 +160,15 @@
 
      call akttyper2009(2)
 
+    if len(trim(request("FM_soeg"))) <> 0 then
+        FM_sogval = request("FM_soeg")
+        sogkriSQL = " AND (j.jobnavn LIKE '%"& FM_sogval &"%' OR j.jobnr LIKE '%"& FM_sogval &"%')"
+    else
+        FM_sogval = ""
+        sogkriSQL = ""
+    end if
+
+
 %>
 
 <%call menu_2014 %> 
@@ -183,6 +192,16 @@
                                 <h4 class="panel-title-well"><%=medarb_txt_021 %></h4>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col-lg-4">
+                                 Søg jobnavn eller jobnr: <br />
+			                    <input type="text" name="FM_soeg" id="FM_soeg" class="form-control input-small" placeholder="" value="<%=FM_sogval %>">
+                            </div>
+                        </div>
+
+                        <br />
+
                         <div class="row">
                             <div class="col-lg-4">Kunde:</div>
                             <div class="col-lg-4">Periode:</div>                           
@@ -306,7 +325,7 @@
                                     <option value="2" <%=statusSEL2 %>><%=jobstatus_txt_002 %></option>
                                     <option value="3" <%=statusSEL3 %>><%=jobstatus_txt_003 %></option>
                                     <option value="4" <%=statusSEL4 %>><%=jobstatus_txt_004 %></option>
-                                    <option value="0" <%=statusSEL0 %>><%=jobstatus_txt_005 %></option>
+                                    <option value="0" <%=statusSEL0 %>><%=jobstatus_txt_005 %> (maks 300)</option>
                                 </select>
                             </div>
                                 
@@ -332,6 +351,8 @@
                                 <th>Pris</th>
                                 <th>Forslået<br /><span style="font-size:9px;">pris til fakturering</span></th>
                                 <th>Forskel</th>
+                                <th>Timepris <br />  <span style="font-size:9px;">Svende timer</span></th>
+                                <th>Timepris <br /> <span style="font-size:9px;">Ubemandet timer</span></th>
                                 <th>Timer <br /><span style="font-size:9px;">Real. - Forslået</span></th>
                                 <%'end if %>
                                 <th>Kommentar</th>
@@ -342,19 +363,30 @@
                         %>
                         <tbody>
 
-                            <%                               
+                            <%       
+                                svendetimepristotal = 0
+                                svendetimertotal = 0
+                                ubemandetimerTotal = 0
+                                ubemandettimeprisTotal = 0
                                 evalTotal = 0
                                 evalPrisTotal = 0
                                 evalFPrisTotal = 0
                                 evalForskelTotal = 0
                                 eval_suggested_hoursTotal = 0
                                 antal = 0
+
+                                if statusType = 0 then
+                                lmt = " LIMIT 300"
+                                else
+                                lmt = " LIMIT 400"
+                                end if
+
                                 strEval = "SELECT j.id AS jobid, j.jobnavn, k.kkundenavn, jobnr, "_
-                                &" e.eval_jobid, e.eval_evalvalue, eval_comment, eval_jobvaluesuggested, eval_diff, e.eval_original_price, j.jo_bruttooms, j.fastpris, eval_suggested_hours "_
+                                &" e.eval_jobid, e.eval_evalvalue, eval_comment, eval_jobvaluesuggested, eval_diff, e.eval_original_price, j.jo_bruttooms, j.fastpris, eval_suggested_hours, eval_fakbartimepris, eval_fakbartimer, ubemandet_maskine_timePris, ubemandet_maskine_timer "_
                                 &" FROM job AS j "_
                                 &" LEFT JOIN eval as e ON (e.eval_jobid = j.id) "_
                                 &" LEFT JOIN fomr_rel as f ON (f.for_jobid = j.id) "_
-                                &" LEFT JOIN kunder as k ON (k.Kid = j.jobknr) WHERE risiko >= 0 " & jobansSQLfilter & fomrSQLfilter & kundeSQLfilter & sqlDato & statusSQLfilter & " GROUP BY j.id ORDER BY kkundenavn, jobnavn"  
+                                &" LEFT JOIN kunder as k ON (k.Kid = j.jobknr) WHERE risiko >= 0 " & jobansSQLfilter & fomrSQLfilter & kundeSQLfilter & sqlDato & statusSQLfilter & sogkriSQL & " GROUP BY j.id ORDER BY kkundenavn, jobnavn " & lmt  
                                 
                                 'if session("mid") = 1 then
                                 'response.write "<br><br><br>HER: "& strEval
@@ -496,8 +528,54 @@
                                     end if
                                 end if
                                 %>
-                                <td style="color:<%=forskelColor%>; text-align:right"><%=formatnumber(eval_diff,2) %></td>
+                                <td style="color:<%=forskelColor%>; text-align:right"><%=formatnumber(eval_diff/100,2) %></td>
 
+                                <td style="text-align:right;">
+                                    <%
+                                    if len(oRec("eval_fakbartimepris")) <> 0 then
+                                        svendetimepris = oRec("eval_fakbartimepris")
+                                    else
+                                        svendetimepris = 0
+                                    end if
+
+                                    if len(oRec("eval_fakbartimer")) <> 0 then
+                                        svendetimer = oRec("eval_fakbartimer")
+                                    else
+                                        svendetimer = 0
+                                    end if
+
+                                    svendetimepristotal = svendetimepristotal + (svendetimepris * svendetimer)
+
+                                    svendetimertotal = svendetimertotal + svendetimer
+
+                                    %>
+
+                                    <b><%=formatnumber(svendetimepris, 2) %></b>
+                                </td>
+
+                                <td style="text-align:right;">
+                                    <%
+                                    if len(oRec("ubemandet_maskine_timePris")) <> 0 then
+                                        ubemandettimepris = oRec("ubemandet_maskine_timePris")
+                                    else
+                                        ubemandettimepris = 0
+                                    end if
+
+                                    if len(oRec("ubemandet_maskine_timer")) <> 0 then
+                                        ubemandettimer = oRec("ubemandet_maskine_timer")
+                                    else
+                                        ubemandettimer = 0
+                                    end if
+
+                                    ubemandettimeprisTotal = ubemandettimeprisTotal + (ubemandettimepris * ubemandettimer)
+
+                                    ubemandentimerTotal = ubemandentimerTotal + ubemandettimer
+
+
+
+                                    %>
+                                    <b><%=formatnumber(ubemandettimepris, 2) %></b>
+                                </td>
 
                                 <%StrSQLTimerTOT = "SELECT sum(timer) as totTimer FROM timer WHERE tjobnr = '"& oRec("jobnr") &"' AND ("& aty_sql_realhours &")"
                                 oRec2.open StrSQLTimerTOT, oConn, 3
@@ -551,6 +629,7 @@
                                 <th style="text-align:center; border-right:hidden"><%if evaltotal <> 0 then %><%=evalTotal %> <%end if %> <br /> <span style="font-size:10px"><%if evalTotal <> 0 and antal <> 0 then %> (<%=formatnumber((evalTotal/antal),2) %>) <% end if %></span></th>
                                 <th style="border-right:hidden; text-align:right"><%=formatnumber(evalPrisTotal,2) %></th>
                                 <th style="border-right:hidden; text-align:right"><%=formatnumber(evalFPrisTotal,2) %></th>
+                                
                                 <%
                                 evalForskelTotal = evalFPrisTotal - evalPrisTotal
 
@@ -593,6 +672,22 @@
 
                                 %>
                                 <th style="border-right:hidden; color:<%=forskelTotalColor%>; text-align:right"><%=formatnumber(evalForskelTotal,2) %></th>
+                                <th style="text-align:right; border-right:hidden;">
+                                    <%if svendetimepristotal > 0 AND svendetimertotal > 0 then %>
+                                        <%svendetimeprisTotalGns = svendetimepristotal / svendetimertotal %>
+                                        <%=formatnumber(svendetimeprisTotalGns, 2) %>
+                                    <%else %>
+                                    0,00
+                                    <%end if %>
+                                </th>
+                                <th style="text-align:right; border-right:hidden;">
+                                    <%if ubemandettimeprisTotal > 0 AND ubemandentimerTotal > 0 then %>
+                                        <%ubemandettimeprisTotalGns = ubemandettimeprisTotal / ubemandentimerTotal %>
+                                        <%=formatnumber(ubemandettimeprisTotalGns, 2) %>
+                                    <%else %>
+                                        0,00
+                                    <%end if %>
+                                </th>
                                 <th style="border-right:hidden; color:<%=forskelTotalHoursColor%>; text-align:right"><%=formatnumber(eval_suggested_hoursTotal,2) %></th>
                                 <th></th>
                             </tr>

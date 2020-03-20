@@ -2,6 +2,7 @@
    
     <%
 
+   
     '* BUFFER TRUE AND META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE" 
     '* FÅR JAVSCRIOPT ALERT TIL AT FEJLE ved forecastoverskreddet
 
@@ -31,46 +32,16 @@
 	<!--#include file="inc/timereg_akt_2006_inc.asp"-->
     <!--#include file="inc/timereg_hojrediv_inc.asp"-->
 	<!--#include file="inc/timereg_matrix_timespan_inc.asp"-->
-    
+    <!--#include file="inc/timereg_akt_2006_nyheder_inc.asp"-->
 	<!--#include file="inc/isint_func.asp"-->
     <!--#include file="../inc/regular/treg_func.asp"-->
     <!--#include file="../inc/regular/topmenu_inc.asp"-->
  
-	
-    <style>
-        /* The Modal (background) */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 100000; /* Sit on top */
-            padding-top: 100px; /* Location of the box */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgb(0,0,0); /* Fallback color */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-        }
 
-        /* Modal Content */
-        .modal-content {
-            background-color: #fefefe;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 350px;
-            height: 350px;
-        }
+  
+<!--- MODAL mere end Norm alter - bruges timereg. siden 20181120 -->
 
-        .picmodal:hover,
-        .picmodal:focus {
-        text-decoration: none;
-        cursor: pointer;
-        }
-    </style>
-
-    <div id="normtimerModal" class="modal"> <!-- Modal content -->
+  <div id="normtimerModal" class="modal" style="z-index:2000;"> <!-- Modal content -->
         <div class="modal-content">
             <div style="text-align:center"><h4>Meddelelse</h4></div>
             <br />
@@ -102,6 +73,19 @@
         'section for ajax calls
         if Request.Form("AjaxUpdateField") = "true" then
         Select Case Request.Form("control")
+
+        case "FN_nyhederlaest"
+
+            sqlDTD = year(now) &"-"& month(now) &"-"& day(now)
+            strSQL = "SELECT id FROM info_screen WHERE ('"& sqlDTD &"' >= datofra AND '"& sqlDTD &"' <= datotil) AND vigtig = 1 ORDER BY vigtig DESC, id DESC"
+            oRec.open strSQL, oConn, 3 
+            while not oRec.EOF
+
+                oConn.execute("INSERT INTO news_rel SET medarbid = "& session("mid") &", newsid = "& oRec("id") &", newsread = 1")
+
+            oRec.movenext
+            wend
+            oRec.close
 
         case "FN_tjktimer_traveldietexp"
                 '** Traveldietexp
@@ -476,8 +460,14 @@
         'response.end
         matregid = 0
         matava = 0
+        mattype = 0
+        'Denne skal rettes
 
-        call indlaes_mat(matregid, otf, medid, jobid, aktid, aftid, matId, strEditor, strDato, intAntal, regdato, valuta, intkode, personlig, bilagsnr, pris, salgspris, navn, gruppe, varenr, opretlager, betegnelse, mat_func, matreg_opdaterpris, matava)
+        basic_valuta = request("basic_valuta")	
+        basic_kurs = request("basic_kurs")	
+        basic_belob = request("basic_belob")
+
+        call indlaes_mat(matregid, otf, medid, jobid, aktid, aftid, matId, strEditor, strDato, intAntal, regdato, valuta, intkode, personlig, bilagsnr, pris, salgspris, navn, gruppe, varenr, opretlager, betegnelse, mat_func, matreg_opdaterpris, matava, mattype, basic_valuta, basic_kurs, basic_belob)
 	
 
         response.end
@@ -567,6 +557,7 @@
          case "FN_tilfojakt"
                   
                   '*** bruges på 14 / 2 mds listen ***'
+                  '** 20190108 - HAR ÆNDRET SÅ Lås bliver = 1. Har droppet dato kritierie på 14 og 2 md liste. ER de tilføjet er de med.
                  
                  'jobid = request("jobid")   
                  medid = request("usemrn")
@@ -618,6 +609,8 @@
                  aktid = request("aktid") 
                  medid = request("usemrn")
 
+                 dtNow = year(now) & "-"& month(now) & "-"& day(now)
+
                      thisJob = 0
                      strSQLjob = "SELECT job FROM aktiviteter WHERE id = "& aktid 
                      oRec5.open strSQLjob, oConn, 3
@@ -633,14 +626,14 @@
                  oRec5.open strSQLsel, oConn, 3
                  if not oRec5.EOF then 
 
-                 strSQLLasAkt = "UPDATE timereg_usejob SET forvalgt = 2 WHERE id = "& oRec5("id")
+                 strSQLLasAkt = "UPDATE timereg_usejob SET forvalgt = 1, forvalgt_af = "& session("mid") &", forvalgt_dt = '"& dtNow &"' WHERE id = "& oRec5("id")
                  'Response.write "A"& strSQLInsdAkt & "<br>"
                  'Response.flush
                  oConn.Execute(strSQLLasAkt)
 
                  else
 
-                  strSQLLasAkt = "INSERT INTO timereg_usejob SET jobid = "& thisJob &", aktid = "& aktid &", forvalgt = 2, medarb = "& medid 
+                  strSQLLasAkt = "INSERT INTO timereg_usejob SET jobid = "& thisJob &", aktid = "& aktid &", forvalgt = 1, forvalgt_dt = '"& dtNow &"', forvalgt_af = "& session("mid") &", medarb = "& medid 
                   'Response.write "B" &strSQLInsdAkt & "<br>"
                   'Response.flush
                   oConn.Execute(strSQLLasAkt)
@@ -788,7 +781,11 @@
         '*********************************************************************************************************************************************         
         case "FN_showakt"        
             
-
+                         
+                         'if session("mid") = 1 then
+                         '  Response.write "HER"            
+                          ' Response.end
+                        'end if
 
             '*** Variable ****
             call smileyAfslutSettings()
@@ -825,6 +822,11 @@
             jobnr_bl = 0
             end if
 
+                    'if session("mid") = 1 then
+                    'Response.write "jobnr_bl : "& jobnr_bl 
+                    'Response.write "<br>visallemedarb_bl : "& visallemedarb_bl 
+                    'end if
+
             'Response.write "jobnr_bl : "& jobnr_bl 
             'Response.write "<br>visallemedarb_bl : "& visallemedarb_bl 
             'Response.end
@@ -834,9 +836,9 @@
             '**** aktiviteter på valgte job **********'
             '**** bruges ikke på 14 / 2 md listen ****'
             if instr(request("job_aktids"),",") <> 0 then
-            aktidsSQL = " WHERE (a.id = "&  replace(request("job_aktids"),",", "  OR a.id = ")
+            aktidsSQL = " WHERE (a.id = " & replace(request("job_aktids"),",", "  OR a.id = ")
             else
-            aktidsSQL = " WHERE (a.id = 0)"
+            aktidsSQL = " WHERE (a.id = 0 "
             end if
            
           
@@ -846,12 +848,13 @@
 
             call positiv_aktivering_akt_fn()
 
-            'Response.write positiv_aktivering_akt_val & "<br>"
-            'Response.flush
+          
+            'Response.write "P:"& positiv_aktivering_akt_val & "#<br>"
 
+                      
 
                 select case lto
-                case "mpt", "intranet - local"
+                case "mpt", "xintranet - local"
                 jobstatusExtra = " OR j.jobstatus = 2 OR j.jobstatus = 4"
                 case else
                 jobstatusExtra = ""
@@ -880,23 +883,32 @@
             strSQLAktStatusKri = " AND ((j.jobstatus = 1 OR j.jobstatus = 3 "& jobstatusExtra &") AND a.aktstatus = 1)"
 
             end if
+
+                        
+
+            
+
             
             nyakt = 0
           
+
+                'if session("mid") = 21 AND lto = "dencker" then
+                'Response.write "<hr>HER 6 = " & request("job_iRowLoops")
+                'Response.end
+                'end if  
 
             job_iRowLoops = split(request("job_iRowLoops"),",")
             job_iRowLoops_cn = job_iRowLoops(1) 
 
             aktidsSQLOptions = ""
           
-          
+
             foundone = "n"
             usemrn = request("usemrn")
-            
            
 
             dim aktidsPrMid
-            redim aktidsPrMid(200)
+            redim aktidsPrMid(300)
 
             stDato = request("stDato")
             
@@ -912,6 +924,8 @@
             'dim tjekDato
             redim tjekdag(7)
             tjekdag(1) = stDato
+
+                
             
             for x = 2 to 7
             tjekdag(x) = dateAdd("d", x-1, stDato)
@@ -929,6 +943,9 @@
             '** Således at det er underordnet om man indtaster på en tirsdag (7,5) eller en fredag (7,0) '****'
             normTimerGns5 = (ntimManIgnHellig + ntimTirIgnHellig + ntimOnsIgnHellig + ntimTorIgnHellig + ntimFreIgnHellig + ntimLorIgnHellig + ntimSonIgnHellig)  / 5
             normTimerprUge = (ntimManIgnHellig + ntimTirIgnHellig + ntimOnsIgnHellig + ntimTorIgnHellig + ntimFreIgnHellig + ntimLorIgnHellig + ntimSonIgnHellig)                         
+
+
+               
 
 
             'Response.write "<hr>"& normTimerGns5 &".."& tjekdag(1)
@@ -949,6 +966,7 @@
             call ersmileyaktiv()
 
 
+                                        
           
             
             
@@ -988,7 +1006,7 @@
 
             if (cint(ignJobogAktper) = 1 OR cint(ignJobogAktper) = 2 OR cint(ignJobogAktper) = 3) then
             'if ignJobogAktper = "1" AND jobstatus <> 3 then 'tilbud then
-            strSQLAktDatoKri = " AND (a.aktstartdato <= '"& useDateSlSQL &"' AND a.aktslutdato >= '"& useDateStSQL &"') OR (a.fakturerbar = 6 AND j.jobstatus = 3)"
+            strSQLAktDatoKri = " AND (a.aktstartdato <= '"& useDateSlSQL &"' AND a.aktslutdato >= '"& useDateStSQL &"')" 'OR (a.fakturerbar = 6 AND j.jobstatus = 3)
             else
             strSQLAktDatoKri = ""
 	        end if
@@ -1102,8 +1120,42 @@
 
                                     
                                     
+
+
+
+
+                                            '*************************************************************************************************
+                                            '*** Henter kun akt med ressource forecase Oko, WWF timer for valgte medarb    *******************
+                                            '*************************************************************************************************
+                                            if cint(viskunForecast) = 1 then
+                                            
+                                                call allejobaktmedFC(viskunForecast, usemrn, jobid, risiko)
+                                            
+                                            end if
+
+                                            'if session("mid") = 1 then
+                                            'Response.Write "forecastAktids: " & forecastAktids
+                                            'end if
+
+                                            '*************************************************************************************************
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                     
-                                    '*** Blandetliste
+                                    '*** Blandetliste bla. Øko / oko
                                     '*************************************************************************************************************************'
                                     '**** Henter kun akt med timer på + netop tilføjede (aktid <>0) ved blandetliste 14 dage / 2 md / Via lle medarb på job **'
                                     '*************************************************************************************************************************'
@@ -1125,17 +1177,18 @@
                                             '-1 = Skjult (altid med options listen i bunden af timereg.siden) 
                                             '0 = findes ikke, da de kunde findes i timereg-usejob hvis de er tiføjet
                                             '1 = Vis, vises kun med timer inde for de seneste 14 dg / 2 md, eller hvis de er tilføjt indefor de senste 14 dage
-                                            '2 = Vises altid selvom der ikke er timer indenfor seneste 14 ddg / 2 md, og de er tilføjet for mere ned 14 / 2 md siden 
+                                            '2 = LÅST = Vises altid selvom der ikke er timer indenfor seneste 14 ddg / 2 md
 
                                     
 
                                             '*** Henter og netop tilføjede og låste (faste aktiviteter) ***'
                                             '*** Kun specifkke aktiviteter kan være forvalgt til 1 eller skjult -1
-                                            strSQLaktIdUseJob = "SELECT aktid, forvalgt FROM timereg_usejob WHERE (aktid <> 0 AND (forvalgt = 1 AND forvalgt_dt >= '"& useDateSt_30SQL &"') OR (forvalgt = 2)) AND medarb = "& usemrn  
+                                            '*** AND forvalgt_dt >= '"& useDateSt_30SQL &"'
+                                            strSQLaktIdUseJob = "SELECT aktid, forvalgt FROM timereg_usejob WHERE (aktid <> 0 AND (forvalgt = 1) OR (forvalgt = 2)) AND medarb = "& usemrn  
                                     
                                             'if session("mid") = 1 then
                                             'Response.write "<hr>"& strSQLaktIdUseJob 
-                                            'Response.flush
+                                            'Response.end
                                             'end if
 
                                    
@@ -1161,8 +1214,19 @@
                                             '*** Tilføjer alle dem med timebudget / forecast på
                                             '*** INDEN FOR FY - akt vises, men advisering styrer om der kan tastes
                                             if cint(viskunForecast) = 1 then
-                                                strSQLaktIdFc = "SELECT aktid FROM ressourcer_md WHERE aktid <> 0 AND medid = "& usemrn  
+                                            
+                                                datoKrionly = 1
+                                                call ressourcetimerTildelt(useDateStSQL, 0, 0, usemrn, datoKrionly)
+
+                                                strSQLaktIdFc = "SELECT r.aktid FROM ressourcer_md r"_
+                                                &" LEFT JOIN aktiviteter a ON (a.id = r.aktid)"_
+                                                &" LEFT JOIN job j ON (j.id = r.jobid)"_
+                                                &" WHERE r.aktid <> 0 AND r.medid = "& usemrn &" "& sqlBudgafg &" AND j.jobstatus = 1 AND a.aktstatus = 1 GROUP BY r.aktid"
                                     
+                                                'if session("mid") = 1 then
+                                                'Response.Write strSQLaktIdFc
+                                                'end if
+
                                                 oRec6.open strSQLaktIdFc, oConn, 3 
                                                 While not oRec6.EOF
 
@@ -1178,9 +1242,9 @@
                                             end if
 
 
-                                             '*** Tilføjer ALTID alle dem fra intern 
+                                             '*** Tilføjer ALTID alle dem fra intern, alle interne. Risiko -1, Prioritet -1 
                                             select case lto
-                                            case "oko", "adra", "xintranet - local"
+                                            case "oko", "adra", "xintranet - local", "xwwf"
 
                                                     'if lto = "oko" then
                                                     'minus3kri = "OR j.risiko = -3"
@@ -1267,18 +1331,18 @@
                                              '*** Følger jo også projektgrupper, timreg_usejob er afledt af projektgrupper på job ***'
                                   
                                             if cint(positiv_aktivering_akt_val) = 1 then
-                                            useJobaktKri = "aktid <> 0 AND ((forvalgt = -1) OR (forvalgt = 1 AND forvalgt_dt <= '"& useDateSt_30SQL &"'))"
+                                            useJobaktKri = "aktid <> 0 AND ((forvalgt = -1) OR (forvalgt = 1))" 'AND forvalgt_dt <= '"& useDateSt_30SQL &"'))"
                                             else
                                             'Samme job kan findes flere gange, men det er ok
                                             'useJobaktKri = "(jobid <> 0 AND aktid = 0 AND forvalgt = 1) OR (aktid <> 0 AND ((forvalgt = -1) OR (forvalgt = 1 AND forvalgt_dt <= '"& useDateSt_30SQL &"')))"
-                                            useJobaktKri = "((jobid <> 0 AND forvalgt = 1 AND aktid = 0) OR (aktid <> 0 AND forvalgt = -1) OR (aktid <> 0 AND forvalgt = 1 AND forvalgt_dt <= '"& useDateSt_30SQL &"'))" 
+                                            useJobaktKri = "((jobid <> 0 AND forvalgt = 1 AND aktid = 0) OR (aktid <> 0 AND forvalgt = -1) OR (aktid <> 0 AND forvalgt = 1))" ' AND forvalgt_dt <= '"& useDateSt_30SQL &"'))" 
                                             end if
 
                                             strSQLaktIdUseJob = "SELECT aktid, jobid, forvalgt FROM timereg_usejob WHERE "& useJobaktKri &" AND medarb = "& usemrn &" GROUP BY jobid, aktid"
                                     
                                             'if session("mid") = 1 then
-                                            'Response.write "<hr>"& strSQLaktIdUseJob 
-                                            'Response.flush
+                                            '    Response.write "<hr>"& strSQLaktIdUseJob 
+                                            '    Response.flush
                                             'end if
 
                                             oRec6.open strSQLaktIdUseJob, oConn, 3 
@@ -1314,33 +1378,54 @@
 
 
 
-        
-                                            strSQLaktTimerIUge = "SELECT t.taktivitetid, SUM(timer) AS timeriuge, tmnavn, tmnr FROM timer AS t "  
-                                            strSQLaktTimerIUge = strSQLaktTimerIUge &" WHERE (tmnr = "& usemrn &" AND tdato BETWEEN '"& useDateSt_30SQL &"' AND '"& useDateSlSQL &"')"
-                                            strSQLaktTimerIUge = strSQLaktTimerIUge &" GROUP BY t.taktivitetid"
+
+
+                                                'if session("mid") = 1 then
+                                                'Response.Write "aktidsSQLOptions : " & aktidsSQLOptions 
+                                                'end if
+
+
+
+
+                                                    '14 dages, 2 md liste visning 5 eller 6
+                                                    'VIS altid dem med timer på.
+                                                    select case lto 
+                                                    case "wwf"
+                                                    viskunForecastShowAlleWithHours = 1
+                                                    case else
+                                                    viskunForecastShowAlleWithHours = 1
+                                                    end select
+
+                                                    if cint(viskunForecast) = 0 Or cint(viskunForecastShowAlleWithHours) = 1 then '** IKKE HVSI VIS KUN FORECAST
+
+                                                        strSQLaktTimerIUge = "SELECT t.taktivitetid, SUM(timer) AS timeriuge, tmnavn, tmnr FROM timer AS t "
+                                                        strSQLaktTimerIUge = strSQLaktTimerIUge &" LEFT JOIN aktiviteter a ON (a.id = taktivitetid)"
+                                                        strSQLaktTimerIUge = strSQLaktTimerIUge &" WHERE (tmnr = "& usemrn &" AND a.aktstatus = 1 AND "& aty_sql_hide_on_treg &" AND tdato BETWEEN '"& useDateSt_30SQL &"' AND '"& useDateSlSQL &"')"
+                                                        strSQLaktTimerIUge = strSQLaktTimerIUge &" GROUP BY t.taktivitetid"
                                            
                                  
-                                 
-                                           'Response.write "<br>"& strSQLaktTimerIUge
-                                           'Response.end
-                                            z = 0
-                                            oRec6.open strSQLaktTimerIUge, oConn, 3 
-                                            While not oRec6.EOF
+                                                        'if session("mid") = 1 then
+                                                        'Response.write "<br>"& strSQLaktTimerIUge
+                                                        'Response.end
+                                                        'end if
+                                            
+                        
+                                                        z = 0
+                                                        oRec6.open strSQLaktTimerIUge, oConn, 3 
+                                                        While not oRec6.EOF
 
-                                               if instr(aktidsSkjWrt, "#"& oRec6("taktivitetid") &"#") = 0 then
-                                                aktidsMtimSQL = aktidsMtimSQL & " OR a.id = " & oRec6("taktivitetid")
-                                                'aktidsMtimWrt = aktidsMtimWrt & ",#"& oRec6("taktivitetid") &"#"
+                                                           if instr(aktidsSkjWrt, "#"& oRec6("taktivitetid") &"#") = 0 then
+                                                            aktidsMtimSQL = aktidsMtimSQL & " OR a.id = " & oRec6("taktivitetid")
+                                                            'aktidsMtimWrt = aktidsMtimWrt & ",#"& oRec6("taktivitetid") &"#"
                                         
-                                                end if
+                                                            end if
                                         
+                                                        oRec6.movenext
+                                                        wend
+                                                        oRec6.close
+                                                
+                                                    end if ' if cint(viskunForecast) = 1 then
 
-                                      
-                                        
-                                    
-                                            oRec6.movenext
-                                            wend
-                                            oRec6.close
-                                    
                                     
                                     
                                             if cint(positiv_aktivering_akt_val) = 1 then
@@ -1356,7 +1441,8 @@
 
 
 
-
+                                            
+                                               
 
                                    
                                    
@@ -1367,23 +1453,28 @@
                                             '*** Alm.liste sorteret efter job, kunde etc.
                                             '*********************************************
 
-
-
-                                            '*************************************************************************************************
-                                            '*** Henter kun akt med ressource forecase Oko, WWF timer for valgte medarb    *******************
-                                            '*************************************************************************************************
                                             
-                                            
-                                            call allejobaktmedFC(viskunForecast, usemrn, jobid, risiko)
+                                                'Nulstiller listen af aktiveter der skal vises pr. job HVIS:
+                                                'cint(positiv_aktivering_akt_val) = 1
+                                                'cint(viskunForecast) = 1
+                                                'cint(visallemedarb_bl) = 1
 
-                                            '*************************************************************************************************
+                                                
+                                                if cint(positiv_aktivering_akt_val) = 1 OR cint(visallemedarb_bl) = 1 OR cint(viskunForecast) = 1 then
+                                                aktidsSQL = " WHERE (a.id = 0 "
+                                                end if
 
-
-
+                                                'if session("mid") = 1 then
+                                                'Response.write "cint(positiv_aktivering_akt_val): " & cint(positiv_aktivering_akt_val)
+                                                'Response.write "cint(viskunForecast) = 0: " & cint(viskunForecast) & "<br>"
+                                                'end if
+                        
 
 
                                                 if cint(intEasyreg) <> 1 AND visHRliste <> "1" AND risiko >= 0 then 'viser altid ALLE på HR listen. Bruger alm. projektgrupper selvom positiv_aktivering_akt_ er slået til
 
+                                
+                                               
                                    
                                                 '*********************************************************************************************************
                                                 '*** Positiv tilmeling af aktiviteter slået til ***'
@@ -1392,86 +1483,92 @@
                                                     
                                                             
 
-
-
                                                                 if cint(positiv_aktivering_akt_val) = 1 OR cint(visallemedarb_bl) = 1 then
                                                                 aktidsMtimSQL = "WHERE (a.id = 0 "
 
+
+
+
                                                     
-                                                                        if cint(visallemedarb_bl) = 1 then '** Vis alle medarbejdere på et job MMMI løsningen
+                                                                                if cint(visallemedarb_bl) = 1 then '** Vis alle medarbejdere på et job MMMI løsningen
                                                                 
-                                                                                            '** Er der søgt på et jobnr **
+                                                                                                    '** Er der søgt på et jobnr **
 
-                                                                                            jobid = 0
-                                                                                            if jobnr_bl <> "0" then
-                                                                                            strJobnrJobnavnSog = " j.jobnr = '"& jobnr_bl &"'"
-                                                                                            else
-                                                                                            strJobnrJobnavnSog = " j.jobnr = 0"
-                                                                                            end if
+                                                                                                    jobid = 0
+                                                                                                    if jobnr_bl <> "0" then
+                                                                                                    strJobnrJobnavnSog = " j.jobnr = '"& jobnr_bl &"'"
+                                                                                                    else
+                                                                                                    strJobnrJobnavnSog = " j.jobnr = 0"
+                                                                                                    end if
 
 
-                                                                                            strSQLjob = "SELECT j.id, a.id AS aktid, "_
-                                                                                            &" a.projektgruppe1, a.projektgruppe2, a.projektgruppe3, a.projektgruppe4, a.projektgruppe5, a.projektgruppe6, a.projektgruppe7, a.projektgruppe8, a.projektgruppe9, a.projektgruppe10 "_
-                                                                                            &" FROM job AS j "_
-                                                                                            &" LEFT JOIN aktiviteter AS a ON (a.job = j.id) "_ 
-                                                                                            &" WHERE "& strJobnrJobnavnSog
-                                                                        
-                                                                                                'Response.write strSQLjob & "<hr>"
-                                                                                                'Response.end
+                                                                                                    strSQLjob = "SELECT j.id, a.id AS aktid, "_
+                                                                                                    &" a.projektgruppe1, a.projektgruppe2, a.projektgruppe3, a.projektgruppe4, a.projektgruppe5, a.projektgruppe6, a.projektgruppe7, a.projektgruppe8, a.projektgruppe9, a.projektgruppe10 "_
+                                                                                                    &" FROM job AS j "_
+                                                                                                    &" LEFT JOIN aktiviteter AS a ON (a.job = j.id) "_ 
+                                                                                                    &" WHERE "& strJobnrJobnavnSog
                                                                         
 
-                                                                                            'aktidsjob = " OR a.id = 0 "
-                                                                                            an = 0
-                                                                                            oRec6.open strSQLjob, oConn, 3
-                                                                                            while not oRec6.EOF 
+                                                                                                        'if session("mid") = 1 then
+                                                                                                        'Response.write strSQLjob & "<hr>"
+                                                                                                        'Response.end
+                                                                                                        'end if                                                                            
 
-                                                                                            jobid = oRec6("id")
-                                                                        
-                                                                                            aktidpjob(an) = aktidpjob(an) & " OR a.id = "& oRec6("aktid")
 
-                                                                                            aktidsjob = aktidsjob & " OR a.id = "& oRec6("aktid")
+                                                                                                    'aktidsjob = " OR a.id = 0 "
+                                                                                                    an = 0
+                                                                                                    oRec6.open strSQLjob, oConn, 3
+                                                                                                    while not oRec6.EOF 
+
+                                                                                                    jobid = oRec6("id")
                                                                         
-                                                                                            aktidsjobProdgrp(an) = "#"& oRec6("projektgruppe1") &"#,"_
-                                                                                            & "#"& oRec6("projektgruppe2") &"#,"_
-                                                                                            & "#"& oRec6("projektgruppe3") &"#,"_
-                                                                                            & "#"& oRec6("projektgruppe4") &"#,"_                                                                
-                                                                                            & "#"& oRec6("projektgruppe5") &"#,"_
-                                                                                            & "#"& oRec6("projektgruppe6") &"#,"_                                                
-                                                                                            & "#"& oRec6("projektgruppe7") &"#,"_
-                                                                                            & "#"& oRec6("projektgruppe8") &"#,"_
-                                                                                            & "#"& oRec6("projektgruppe9") &"#,"_
-                                                                                            & "#"& oRec6("projektgruppe10") &"#,"
+                                                                                                    aktidpjob(an) = aktidpjob(an) & " OR a.id = "& oRec6("aktid")
+
+                                                                                                    aktidsjob = aktidsjob & " OR a.id = "& oRec6("aktid")
+                                                                        
+                                                                                                    aktidsjobProdgrp(an) = "#"& oRec6("projektgruppe1") &"#,"_
+                                                                                                    & "#"& oRec6("projektgruppe2") &"#,"_
+                                                                                                    & "#"& oRec6("projektgruppe3") &"#,"_
+                                                                                                    & "#"& oRec6("projektgruppe4") &"#,"_                                                                
+                                                                                                    & "#"& oRec6("projektgruppe5") &"#,"_
+                                                                                                    & "#"& oRec6("projektgruppe6") &"#,"_                                                
+                                                                                                    & "#"& oRec6("projektgruppe7") &"#,"_
+                                                                                                    & "#"& oRec6("projektgruppe8") &"#,"_
+                                                                                                    & "#"& oRec6("projektgruppe9") &"#,"_
+                                                                                                    & "#"& oRec6("projektgruppe10") &"#,"
                                                                        
 
                                                                        
-                                                                                            an = an + 1
-                                                                                            oRec6.movenext
-                                                                                            wend 
-                                                                                            oRec6.close
+                                                                                                    an = an + 1
+                                                                                                    oRec6.movenext
+                                                                                                    wend 
+                                                                                                    oRec6.close
                                                                         
-                                                                                            anEnd = an - 1
+                                                                                                    anEnd = an - 1
                                                                         
                                                                         
                                                                       
 
 
-                                                                           '*** Medarb. med rettighder til job og aktiviteter via timereg_usejob ****'
-                                                                          strSQLaktIdUseJob = "SELECT "_
-                                                                          &" tu.medarb AS mid FROM timereg_usejob tu LEFT JOIN medarbejdere AS m ON (m.mid = tu.medarb) "_
-                                                                          &" WHERE jobid = "& jobid & " AND m.mansat = 1 ORDER BY mnavn LIMIT 50" 
+                                                                                   '*** Medarb. med rettighder til job og aktiviteter via timereg_usejob ****'
+                                                                                  strSQLaktIdUseJob = "SELECT "_
+                                                                                  &" tu.medarb AS mid FROM timereg_usejob tu LEFT JOIN medarbejdere AS m ON (m.mid = tu.medarb) "_
+                                                                                  &" WHERE jobid = "& jobid & " AND m.mansat = 1 ORDER BY mnavn LIMIT 50" 
 
-                                                                        else
+                                                                                else
 
 
-                                                                          strSQLaktIdUseJob = "SELECT aktid FROM timereg_usejob WHERE medarb = "& usemrn &" AND jobid = "& jobid &" AND aktid <> 0"
+                                                                                  strSQLaktIdUseJob = "SELECT aktid FROM timereg_usejob WHERE medarb = "& usemrn &" AND jobid = "& jobid &" AND aktid <> 0"
         
-                                                                        end if 'cint(visallemedarb_bl) = 1
+                                                                                end if 'cint(visallemedarb_bl) = 1
                                                    
                                                              
     
-
-                                                                       'Response.write strSQLaktIdUseJob & "<hr>"
-                                                                       'Response.end
+                                                                       'if session("mid") = 1 then
+                                                                       'Response.write "HER" & strSQLaktIdUseJob & "<hr>"
+                                                                       'Response.Flush
+                                                                       'end if
+                                                                        'Response.end
                                                   
                                                                         anMaTU = 0
                                                                         oRec6.open strSQLaktIdUseJob, oConn, 3 
@@ -1574,7 +1671,7 @@
                                 
                                     'lastFase = ""
                                     antalmedarbids = 1
-                                    '*** ER Der valgt alle medarb **'
+                                    '*** ER Der valgt alle medarb MMMI **'
                                     if cint(visallemedarb_bl) = 1 then
                                     
                                     'Response.write "midsMtimArrTxt: " & midsMtimArrTxt & "<br>"
@@ -1645,7 +1742,7 @@
                                         select case lto
                                         case "adra", "xintranet - local"
                                         ordBySQL =  "a.sortorder, a.navn"
-                                        case "oko"
+                                        case "oko", "wwf"
                                         ordBySQL =  "j.jobnr, a.sortorder, a.navn"
                                         case else
                                         ordBySQL =  "k.kkundenavn, j.jobnavn, a.fase, a.sortorder, a.navn"
@@ -1653,9 +1750,9 @@
                                         
                                             select case lto
                                             case "tec"
-                                            lmt = "0,200"
+                                            lmt = "0,300"
                                             case else
-                                            lmt = "0,200"
+                                            lmt = "0,300"
                                             end select
                                       
 
@@ -1665,9 +1762,9 @@
 
                                             select case lto
                                             case "tec", "dencker"
-                                            lmt = "0,200"
+                                            lmt = "0,300"
                                             case else
-                                            lmt = "0,100"
+                                            lmt = "0,300" '100
                                             end select
 
                                         end if 
@@ -1675,14 +1772,21 @@
                                     end if
 
 
-                                   
 
-                                    strSQLakt = strSQLakt & aktidsSQL &")" & strSQLAktDatoKri & " "& strSQLAktStatusKri &" "& forecastAktids &" "& strJobnrJobnavnSog &" GROUP BY a.id ORDER BY " & ordBySQL & " LIMIT " & lmt
+                                   '*** Praktikant må ikke se sygdom **
+                                   strSQLaidmaikkesetype = ""
+                                   if (lto = "plan" AND session("mid") = 274 AND usemrn <> 274) OR (lto = "plan" AND session("mid") = 1 AND usemrn <> 1) then
+                                        strSQLaidmaikkesetype = " AND (a.fakturerbar <> 20 AND a.fakturerbar <> 21) "
+                                   end if
+
+                                    strSQLakt = strSQLakt & aktidsSQL &" "& forecastAktids &")" & strSQLAktDatoKri & " "& strSQLAktStatusKri &" "& strJobnrJobnavnSog &" "& strSQLaidmaikkesetype &" GROUP BY a.id ORDER BY " & ordBySQL & " LIMIT " & lmt
                                     
                                       
 
                                     'if session("mid") = 1 then
                                     'Response.Write "<br><br><br> sql: "& strSQLakt & "<br>"
+                                    'Response.Write "aktidsSQL: " & aktidsSQL & "<br><br>"
+                                    'Response.Write "forecastAktids: " & forecastAktids & "<br><br>"
                                     'Response.write "lto" & lto
                                     'Response.flush
                                     'end if               
@@ -1777,17 +1881,19 @@
 
                                            
 
-                                              '*********************************************************************************************************
-                                              '*** AKTIVITETSLINJE ****'
-                                              '*** AKT. NAVN AKTIVITETSNAVN ****
-                                              '*** AKTIVITETER PÅ JOB ****'
-                                              '*********************************************************************************************************
+                                        '*********************************************************************************************************
+                                        '*** AKTIVITETSLINJE ****'
+                                        '*** AKT. NAVN AKTIVITETSNAVN ****
+                                        '*** AKTIVITETER PÅ JOB ****'
+                                        '*********************************************************************************************************
                                     
 
 
                                         'strAktiviteter = strAktiviteter & "<tr><td bgcolor='#FFFFFF' colspan='2' valign='top' style='padding:5px 5px 4px 2px; border:1px #cccccc solid; border-bottom:0px; border-left:0px;'>"& aktnavn &"</td>"
                                         'strAktiviteter = strAktiviteter & "</tr></table>"
-                                          
+                        
+                        
+                                      
 
                                                             '** Blandet liste medarb. overskift ****'
                                                              if cint(visallemedarb_bl) = 1 AND cdbl(lastMnr) <> cdbl(usemrn) then
@@ -1834,7 +1940,7 @@
                                                         
 			                                                select case lto
                                                            
-                                                            case "dencker", "oko" 'født med faser åbne
+                                                            case "dencker", "oko", "wwf" 'født med faser åbne
                                                             acnForFase = acnForFase + acn
                                                             tr_vzb = "visible"
 			                                                tr_dsp = ""
@@ -1935,6 +2041,105 @@
                                            aktBGcol = "#FFFFFF"
 
                                           end if
+
+
+
+
+
+
+                                        
+
+
+                                                                 
+
+
+
+
+
+
+                                        
+                                                                        '**********************************************************************
+                                                                        '**** TJK Ressourcetimer / Forecasttimer ***'
+                                                                        '**********************************************************************
+
+                                                                        resTimerThisM = 0
+                                                                        restimeruspecThisM = 0
+                                                                        SQLdatoKriTimer = ""
+                                                                        
+                                                                        if cint(aktBudgettjkOn) = 1 OR cint(visAktlinjerSimpel_restimer) = 1 then 'ER Advisering hvis overskreddet SLÅET TIL
+                                                                        datoKrionly = 0
+                                                                        call ressourcetimerTildelt(useDateStSQL, job_jid, job_aid, usemrn, datoKrionly)
+                                                                        end if
+                                                                        '**********************************************************************
+                                                           
+
+
+                                                                        '**********************************************************************
+                                                                        '** tot timeforbrug alle aktiviter til at holde op mod uspecificeret **
+                                                                        '** kun akt. der tæller med i daglig timereg.                        **
+                                                                        '** AFgrænsning
+                                                                        if cint(aktBudgettjkOn_afgr) <> 0 then
+
+                                                                                    if cint(aktBudgettjkOn_afgr) = 1 then 'ÅR 1
+
+
+
+                                                                                            if month(useDateStSQL) < month(aktBudgettjkOnRegAarSt) then                                                                          
+                                                                                               useRgnArrYear =  year(dateAdd("yyyy", -1, useDateStSQL))
+                                                                                               useRgnArrSQLDate = useRgnArrYear &"/"& month(aktBudgettjkOnRegAarSt) &"/"& day(aktBudgettjkOnRegAarSt)
+
+                                                                                               useRgnArrYear =  year(useDateStSQL)
+                                                                                               useRgnArrDt = dateAdd("d", -1, aktBudgettjkOnRegAarSt)
+                                                                                               useRgnArrNextSQLDate = useRgnArrYear &"/"& month(useRgnArrDt) &"/"& day(useRgnArrDt)
+                                                                                       
+                                                                                            else
+                                                                                               useRgnArrYear =  year(useDateStSQL)
+                                                                                               useRgnArrSQLDate = useRgnArrYear &"/"& month(aktBudgettjkOnRegAarSt) &"/"& day(aktBudgettjkOnRegAarSt)
+                                                                                       
+                                                                                               useRgnArrYear =  year(dateAdd("yyyy", 1, useDateStSQL))
+                                                                                               useRgnArrDt = dateAdd("d", -1, aktBudgettjkOnRegAarSt)
+                                                                                               useRgnArrNextSQLDate = useRgnArrYear &"/"& month(useRgnArrDt) &"/"& day(useRgnArrDt)
+
+                                                                                            end if
+
+
+
+                                                                                     else 'MD 2
+                                                                    
+                                                                                       useRgnArrYear =  year(useDateStSQL)
+                                                                                       useRgnArrSQLDate = useRgnArrYear &"/"& month(aktBudgettjkOnRegAarSt) &"/"& day(aktBudgettjkOnRegAarSt)
+
+                                                                           
+                                                                                     end if
+
+
+
+                                                                           end if
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                           
                                           if cint(intEasyreg) <> 1 AND (cint(sortByVal) = 5 OR cint(sortByVal) = 6) then
                                           strAktiviteter = strAktiviteter & "<tr class='td_"&job_aid&"' id='td_"&job_aid&"' style='visibility:"&tr_vzb&"; display:"&tr_dsp&"; background-color:"& aktBGcol &";'>"
@@ -1954,12 +2159,15 @@
                                         
                                           '** AKTIVITETS BASIS DATA **'
                                           strAktiviteter = strAktiviteter & "<td valign='"&aTdAlgn&"' height='30' style='padding-right:3px; border-bottom:1px #cccccc solid; background-color:"& aktBGcol &";'>"
+                        
+                                          'strAktiviteter = strAktiviteter & "F:"& resforecastMedOverskreddet & " "& cdbl(akt_timerTot_medarb) &" >= "& cdbl(resTimerThisM) & "|"
                                 
 				                          strAktiviteter = strAktiviteter & "<input type='hidden' name='FM_jobid' id='FM_jobid_"& job_iRowLoops_cn &"' value='"& job_jid &"'>"
 
                                           strAktiviteter = strAktiviteter & "<input type='hidden' name='FM_mat_aktid' id='FM_mat_aktid_"& job_iRowLoops_cn &"' value='"& job_aid &"'>" 
                                           strAktiviteter = strAktiviteter & "<input type='hidden' name='FM_aktivitetid' id='FM_aktivitetid' value='"& job_aid &"'>" 
                                           strAktiviteter = strAktiviteter & "<input type='hidden' class='an_"&jobid&"_"&lcase(job_fase)&"' name='jq_aktivitetnavn' id='an_"& job_aid &"' value='"& left(aktnavn, 50) &"'>"
+                                          
                                           if cint(visallemedarb_bl) = 1 then
                                           strAktiviteter = strAktiviteter & "<input type='hidden' name='FM_medid' id='FM_medid' value='"& medarbids(mn) &"'>"
                                           else
@@ -1985,7 +2193,7 @@
                                                                     call jq_format(job_kundenavn)
                                                                     job_kundenavn = jq_formatTxt
                                                                     
-                                                                    if lto <> "oko" AND lto <> "xintrant - local" then
+                                                                    if lto <> "oko" AND lto <> "wwf" AND lto <> "xintrant - local" then
                                                                     strAktiviteter = strAktiviteter & "<span style='font-size:10px; color:#000000; line-height:10px;'>"& left(job_kundenavn, 50) &"</span><br>"
 		                                                            end if
 		        
@@ -2018,7 +2226,7 @@
                                 
                                                                    
 
-                                                                        if cdbl(job_jid) = 3 AND lto = "oko" then 'cint(InternJobOskriftIsWrt) = 1 AND 
+                                                                        if cdbl(job_jid) = 3 AND (lto = "oko" OR lto = "wwf") then 'cint(InternJobOskriftIsWrt) = 1 AND 
 
                                                                         wrtBreak = 0
                                                                         else
@@ -2048,20 +2256,20 @@
                                                                     
                                                             
                                                                             select case lto
-                                                                            case "oko", "xintranet - local"
+                                                                            case "oko", "xintranet - local", "wwf"
 
                                                                             case else
 
                                                                                 strAktiviteter = strAktiviteter & "&nbsp;<span class='fjern_akt_bl' id='fjern_akt_"& job_aid &"' style=""color:darkred; font-size:9px; cursor:hand;"">[X]</span>"
                                                                     
-
-                                                                                if instr(aktidsLasWrt, "#"& job_aid &"#") <> 0 then
-                                                                                 strAktiviteter = strAktiviteter & "&nbsp;<span style=""cursor:pointer;""><img src=""../ill/las_on.gif"" class='sli_akt_bl' id='sli_akt_"& job_aid &"' border=0 alt=""Slip aktivitet""></span>&nbsp;"
+                                                                                '** 20190108 Der kan ikke længeres låses. Når de er tilføejet er de tilføjet. Kan stadigvæk fjernes.
+                                                                                'if instr(aktidsLasWrt, "#"& job_aid &"#") <> 0 then
+                                                                                ' strAktiviteter = strAktiviteter & "&nbsp;<span style=""cursor:pointer;""><img src=""../ill/las_on.gif"" class='sli_akt_bl' id='sli_akt_"& job_aid &"' border=0 alt=""Slip aktivitet""></span>&nbsp;"
                                                                     
-                                                                                else
-                                                                                 strAktiviteter = strAktiviteter & "&nbsp;<span style=""cursor:pointer;""><img src=""../ill/las.gif"" class='las_akt_bl' id='las_akt_"& job_aid &"' border=0 alt=""L&aring;s aktivitet""></span>&nbsp;"
+                                                                                'else
+                                                                                ' strAktiviteter = strAktiviteter & "&nbsp;<span style=""cursor:pointer;""><img src=""../ill/las.gif"" class='las_akt_bl' id='las_akt_"& job_aid &"' border=0 alt=""L&aring;s aktivitet""></span>&nbsp;"
                                                                     
-                                                                                end if
+                                                                                'end if
 
                                                                            'strAktiviteter = strAktiviteter & "&nbsp;<span style=""color:#999999; font-size:9px; font-style:oblique;"">Fjern<br /><input class=""fjern_job"" type=""checkbox"" value=""1"" id='fjern_job_"&job_jid&"'/></span>"
                                                                             end select
@@ -2120,6 +2328,17 @@
                                                              end if
 
                                                              
+
+
+
+
+
+
+
+
+
+
+
                             
                                                             '***************************************************************************************
                                                             '*** AKTIVITETS LINJE DETALJER 
@@ -2139,67 +2358,12 @@
                                                             
                                                                  
 
-				                                                   
-                                                                     
-		                                                    
-                                                                
-                                                                       '******************************************************************************************'
-                                                                       '***** Aktlinje detaljer. Forecast Resourcetimer Budget, timepris, real. tid 
-                                                                       '*************** // Activities details, dates etc ****'
-                                                                       '******************************************************************************************'
-
-
-                                                                   
-
-
-                                                                        '**** Ressourcetimer / Forecasttimer ***'
-                                                                        call ressourcetimerTildelt(useDateStSQL,job_jid, job_aid, usemrn)
-
-                                                           
-
-                                                                        '** tot timeforbrug alle aktiviter til at holde op mod uspecificeret **
-                                                                        '** kun akt. der tæller med i daglig timereg.                        **
-                                            
-                                                                       
-                                                                        'AFgrænsning
-                                                                        if cint(aktBudgettjkOn_afgr) <> 0 then
-
-                                                                                    if cint(aktBudgettjkOn_afgr) = 1 then 'ÅR 1
-
-                                                                                    if month(useDateStSQL) < month(aktBudgettjkOnRegAarSt) then                                                                          
-                                                                                       useRgnArrYear =  year(dateAdd("yyyy", -1, useDateStSQL))
-                                                                                       useRgnArrSQLDate = useRgnArrYear &"/"& month(aktBudgettjkOnRegAarSt) &"/"& day(aktBudgettjkOnRegAarSt)
-
-                                                                                       useRgnArrYear =  year(useDateStSQL)
-                                                                                       useRgnArrDt = dateAdd("d", -1, aktBudgettjkOnRegAarSt)
-                                                                                       useRgnArrNextSQLDate = useRgnArrYear &"/"& month(useRgnArrDt) &"/"& day(useRgnArrDt)
-                                                                                       
-                                                                                    else
-                                                                                       useRgnArrYear =  year(useDateStSQL)
-                                                                                       useRgnArrSQLDate = useRgnArrYear &"/"& month(aktBudgettjkOnRegAarSt) &"/"& day(aktBudgettjkOnRegAarSt)
-                                                                                       
-                                                                                       useRgnArrYear =  year(dateAdd("yyyy", 1, useDateStSQL))
-                                                                                       useRgnArrDt = dateAdd("d", -1, aktBudgettjkOnRegAarSt)
-                                                                                       useRgnArrNextSQLDate = useRgnArrYear &"/"& month(useRgnArrDt) &"/"& day(useRgnArrDt)
-
-                                                                                    end if
-
-
-
-                                                                                     else 'MD 2
-                                                                    
-                                                                                       useRgnArrYear =  year(useDateStSQL)
-                                                                                       useRgnArrSQLDate = useRgnArrYear &"/"& month(aktBudgettjkOnRegAarSt) &"/"& day(aktBudgettjkOnRegAarSt)
-
-                                                                           
-                                                                                     end if
-
-
-
-                                                                           end if
-
-
-                                                                                select case cint(aktBudgettjkOn_afgr) 
+				                                    
+                                                                        '****** REAL Timer på aktlinje *********************************************'
+                                                
+                        
+                        
+                                                                            select case cint(aktBudgettjkOn_afgr) 
                                                                                 case 1 'regnskabsår
                                                                                 SQLdatoKriTimer = " AND tdato BETWEEN '"& useRgnArrSQLDate &"' AND '"& useRgnArrNextSQLDate &"'"
                                                                                 case 2 'måned
@@ -2209,12 +2373,22 @@
                                                                                 end select
 
                                                                       
-                                                                            'if session("mid") = 1 then
+
+
+
+
+
+                                                                            'if session("mid") = 1 AND lto = "wwf" then
                                                                             'Response.write "SQLdatoKriTimer: " & SQLdatoKriTimer & " month(useDateStSQL) " & month(useDateStSQL) &" < "&  month(aktBudgettjkOnRegAarSt)
                                                                             'end if
 
+
+
+
+                                                                        '***********************************************************************************
                                                                         '** Timer real kun valgte medarb **'
                                                                         'aktdata(iRowLoop, 38) = 0
+                                                                        '***********************************************************************************
                                                                         akt_timerTot_medarb = 0
                                                                         job_timerTot_medarb = 0
                                                                         if cint(visAktlinjerSimpel_medarbrealtimer) = 1 OR cint(visAktlinjerSimpel_restimer) = 1 then
@@ -2237,8 +2411,12 @@
 
                                                                      
                                                                             strSQLtmnr = "SELECT SUM(timer) AS timermnr FROM timer WHERE tjobnr = '"& job_jobnr & "' AND tmnr = "& usemrn &" AND ("& aty_sql_realhours &") "& SQLdatoKriTimer &" GROUP BY tjobnr"
+                                                                           
+                                                                            'if session("mid") = 1 then
                                                                             'Response.write strSQLtmnr
                                                                             'Response.flush
+                                                                            'end if
+                                                                            
                                                                             oRec2.open strSQLtmnr, oConn, 3
                                                                             if not oRec2.EOF then  
                                                                             job_timerTot_medarb = oRec2("timermnr")
@@ -2252,7 +2430,19 @@
 
 
 
-                                                                        if cint(aktBudgettjkOn) = 1 then
+                                                                        
+
+
+                                                           
+																   '**********************************************************************
+                                                                   '**** Ressourcetimer / Forecasttimer ***'
+                                                                   '**********************************************************************
+
+
+                            
+
+
+                                                                    if cint(aktBudgettjkOn) = 1 then
 
                                                                                     '** 1) Er der timebudget/forkalk. på akt. tjekkes for den enkelte aktivitet. 
                                                                                     '** 2) Er der uespecificeret budfget tjekeks der samlet på alle akt. på job
@@ -2260,9 +2450,40 @@
                                                             
                                                                                     '*** HUSK BG farver ***'
                                                                                      resforecastMedOverskreddet = 0
-                                                            
+
+                                                                                     'Hvis positiv akt slået til og aktid er med fra timereg use job. 
+                                                                                     'Der kan ALTID tastes på postivt tilføjet aktiviteter, da admin kan overstyre enkelte aktivieter på specielle job eller interne
+                                                                                     'Hvis positiv ikke er slået til kan alle fra jobbanken tastes på + dem med forecast
+                                                                                     'hvis tilføjet fra jobbanken SKAL der være Forecast timer efter reglerne.
+                                                    
+                                                    
+                                                                                    'aktidsSQL
+                                                                                    'Overstyre Forecast KAN altid taste på dem der er postivt tildelt
+
+                                                                                
+                                                                                    aktidsPostivtildelt = replace(aktidsSQL, "WHERE (", "")
+                                                                                    aktidsPostivtildelt = replace(aktidsPostivtildelt, " ", "")
+                                                                                    aktidsPostivtildelt_arr = split(aktidsPostivtildelt, "OR a.id=")
+                                                                                    aktidsPostivtildeltTjk = ""
+                                                                                    for aab = 0 To UBOUND(aktidsPostivtildelt_arr)
+                                                                                            aktidsPostivtildeltTjk = aktidsPostivtildeltTjk &"#"& aktidsPostivtildelt_arr(aab) & "#,"
+                                                                                    next
+                                                                                                'if session("mid") = 1 then
+                                                                                                'Response.write "<br>job_aid: "& job_aid &" aktidsPostivtildeltTjk: "& aktidsPostivtildeltTjk
+                                                                                                'end if
+
+                                                                                    if cint(positiv_aktivering_akt_val) = 1 AND instr(aktidsPostivtildeltTjk, "#"& job_aid &"#") <> 0 then
+                                                                                    resforecastMedOverskreddet = 0
+                                                                                    
+                                                                                    else
+
                                                                                     '** 1) Den enkelte akt
                                                                                     if resTimerThisM <> 0 then
+
+                                                                                                'if session("mid") = 1 then
+                                                                                                'Response.write "<br>"& cdbl(akt_timerTot_medarb) &" >= "& cdbl(resTimerThisM)
+                                                                                                'end if
+                                                                                           
 
                                                                                             if cdbl(akt_timerTot_medarb) >= cdbl(resTimerThisM) then
                                                                                             resforecastMedOverskreddet = 1
@@ -2289,13 +2510,10 @@
                                                                                             end if
 
                                                                                     end if
-
+                                                                    
+                                                                                end if 'overstyre if cint(positiv_aktivering_akt_val) = 1
 
                                                                         end if 'aktBudgettjkOn
-
-
-                                                           
-
 
                                                             
                                                          
@@ -2307,14 +2525,17 @@
 
 
 
+                                                    'if session("mid") = 1 then
+                                                    'Response.write "visSimpelAktLinje: " & visSimpelAktLinje & "<br>"
+                                                    'end if
 
-                                                    
-
-
-                                                    
+                                                    '********************************************************************************************************
+                                                    '**** VIS KUN AKT deltaljer på fakturerbare, ikke fakturerbare, salg + 90 E1
+                                                    '********************************************************************************************************
                                                     if ((visSimpelAktLinje <> "1" AND visHRliste <> "1" AND (job_internt > -1)) AND _
                                                     (job_fakturerbar = 1 OR job_fakturerbar = 2 OR job_fakturerbar = 5 OR job_fakturerbar = 6 OR job_fakturerbar = 90)) _
-                                                    OR (lto = "oko" AND (left(aktnavn, 10) = "Intern tid" OR job_internt = -3)) _
+                                                    OR (lto = "oko" AND (left(aktnavn, 10) = "Intern tid" OR job_internt = -3 OR job_internt = -2)) _
+                                                    OR (lto = "wwf" AND (left(aktnavn, 10) = "Intern tid" OR job_internt = -3)) _
                                                     OR (lto = "wap" AND job_internt = -3) then 'fakturerbar, ikke fakbar, Km og Salg + E1
                                                                       
 
@@ -2441,32 +2662,36 @@
                                                            
                                                            
 
-                                                           '*****************'
-                                                           '**** Budget *****'
-                                                           'select case lto
-                                                           'case "mmmi", "wwf", "unik"
+                                                                       '***************************'
+                                                                       '**** Forkalk / Budget *****'
+                                                                       'select case lto
+                                                                       'case "mmmi", "wwf", "unik"
                                                            
-                                                           'case else
+                                                                       'case else
 
-                                                            if cint(visAktlinjerSimpel_timebudget) = 1 then
+                                                                        if cint(visAktlinjerSimpel_timebudget) = 1 then
                                                                     
-                                                            select case job_bgr 
-                                                            case 1 
-                                                            job_bgr_Txt = "<span style='font-family:Arial; font-size:9px; color:#999999; line-height:12px;'> Forkalk.: </span><span style='font-family:Arial; font-size:9px; line-height:12px; color:#5582d2;'>" & formatnumber(job_aktbudgettimer, 2)  & " t."
-                                                            case 2
-                                                            job_bgr_Txt = "<span style='font-family:Arial; font-size:9px; color:#999999; line-height:12px;'> Stk.: </span><span style='font-family:Arial; font-size:9px; line-height:12px; color:#5582d2;'>"& formatnumber(job_antalstk, 2)  & " stk."
-                                                            case else
-                                                            job_bgr_Txt = ""
-                                                            end select
+                                                                        select case job_bgr 
+                                                                        case 1 
+                                                                        job_bgr_Txt = "<span style='font-family:Arial; font-size:9px; color:#999999; line-height:12px;'> Forkalk.: </span><span style='font-family:Arial; font-size:9px; line-height:12px; color:#5582d2;'>" & formatnumber(job_aktbudgettimer, 2)  & " t."
+                                                                        case 2
+                                                                        job_bgr_Txt = "<span style='font-family:Arial; font-size:9px; color:#999999; line-height:12px;'> Stk.: </span><span style='font-family:Arial; font-size:9px; line-height:12px; color:#5582d2;'>"& formatnumber(job_antalstk, 2)  & " stk."
+                                                                        case else
+                                                                        job_bgr_Txt = ""
+                                                                        end select
                                                                 
-                                                            if len(trim(job_bgr_Txt)) <> 0 then
-                                                            strAktiviteter = strAktiviteter & job_bgr_Txt & " "
-                                                            end if
+                                                                        if len(trim(job_bgr_Txt)) <> 0 then
+                                                                        strAktiviteter = strAktiviteter & job_bgr_Txt & " "
+                                                                        end if
 
-                                                            strAktiviteter = strAktiviteter & "</span>"
+                                                                        strAktiviteter = strAktiviteter & "</span>"
 
-                                                            end if '** visAktlinjerSimpel_timebudget
-                                                           ' end select
+                                                                        end if '** visAktlinjerSimpel_timebudget
+                                                                       ' end select
+
+
+
+
 
 
                                                             '**************************************************'
@@ -2529,75 +2754,80 @@
 
 
                                                           
-                                                            '****************************************
-                                                            '**** Forcast medarb *****'
-                                                            '****************************************
+                                                                    '****************************************
+                                                                    '**** Forcast medarb *****'
+                                                                    '****************************************
                                                             
-
-                                                            if (cint(aktBudgettjkOn) = 1) AND (job_fakturerbar = 1 OR (job_fakturerbar = 2 AND (lto = "bf" OR lto = "intranet - local")) OR job_fakturerbar = 90) _
-                                                            OR (lto = "oko" AND left(aktnavn, 10) = "Intern tid") OR (lto = "wap") then
+                                                            
+                                                           
+                                                                    'aktidsSQL
+                                                                    if (cint(aktBudgettjkOn) = 1 OR cint(visAktlinjerSimpel_restimer) = 1) AND (job_fakturerbar = 1 OR (job_fakturerbar = 2 AND (lto = "bf" OR lto = "xintranet - local")) OR job_fakturerbar = 90) _
+                                                                    OR (lto = "oko" AND left(aktnavn, 10) = "Intern tid") OR (lto = "wap") then
                                                                          
                                                               
                                                                      
                                                                     
-                                                                    if cint(resforecastMedOverskreddet) = 2 then 'ikke noget forecast
+                                                                            if cint(resforecastMedOverskreddet) = 2 then 'ikke noget forecast
 
-                                                                    resTimerThisMSaldo = formatnumber((resTimerThisM - akt_timerTot_medarb), 2)
-                                                                    tmforbrugTxt = akt_timerTot_medarb
+                                                                            resTimerThisMSaldo = formatnumber((resTimerThisM - akt_timerTot_medarb), 2)
+                                                                            tmforbrugTxt = akt_timerTot_medarb
 
-                                                                    else
+                                                                            else
 
-                                                                     if cdbl(resTimerThisM) <> 0 then
-                                                                    resTimerThisMSaldo = formatnumber((resTimerThisM - akt_timerTot_medarb), 2)
-                                                                    tmforbrugTxt = akt_timerTot_medarb
-                                                                    else 'uspec
-                                                                    resTimerThisMSaldo = formatnumber((restimeruspecThisM - job_timerTot_medarb), 2)
-                                                                    tmforbrugTxt = job_timerTot_medarb
-                                                                    end if
+                                                                                'if cdbl(resTimerThisM) <> 0 then
+                                                                                resTimerThisMSaldo = formatnumber((resTimerThisM - akt_timerTot_medarb), 2)
+                                                                                tmforbrugTxt = akt_timerTot_medarb
+                                                                                'else 'uspec
+                                                                                'resTimerThisMSaldo = formatnumber((restimeruspecThisM - job_timerTot_medarb), 2)
+                                                                                'tmforbrugTxt = job_timerTot_medarb
+                                                                                'end if
 
-                                                                    end if
+                                                                            end if
 
-                                                                    if cint(resforecastMedOverskreddet) = 1 then
-                                                                    resFcol = "red"
-                                                                    resBGcol = "#ffdfdf"
-                                                                    resTxt = " = <span style=""color:red; background-color:#ffdfdf; font-size:9px; line-height:12px;""><b>"& resTimerThisMSaldo &"</b></span>"
-                                                                    'resFBgcol = "red"
-                                                                    else
+                                                                            if cint(resforecastMedOverskreddet) = 1 then
+                                                                            resFcol = "red"
+                                                                            resBGcol = "#ffdfdf"
+                                                                            resTxt = " = <span style=""color:red; background-color:#ffdfdf; font-size:9px; line-height:12px;""><b>"& resTimerThisMSaldo &"</b></span>"
+                                                                            'resFBgcol = "red"
+                                                                            else
 
-                                                                        if cint(resforecastMedOverskreddet) = 2 then '** Ikke noget forecast overhovedet Hverken på akt. eller uspec
-                                                                        resFcol = "#999999"
-                                                                        resBGcol = "#F7F7F7"
-                                                                         resTxt = " = <span style=""color:#999999; background-color:#F7F7F7; font-size:9px; line-height:12px;""><b>"& resTimerThisMSaldo &"</b></span>"
-                                                                        else
-                                                                        resFcol = "#5582d2"
-                                                                        resBGcol = "#FFFFFF"
-                                                                          resTxt = " = <span style=""color:#5582d2; font-size:9px; line-height:12px;""><b>"& resTimerThisMSaldo &"</b></span>"
-                                                                        end if
-                                                                    'resFBgcol = "#FFFFFF"
+                                                                                if cint(resforecastMedOverskreddet) = 2 then '** Ikke noget forecast overhovedet Hverken på akt. eller uspec
+                                                                                resFcol = "#999999"
+                                                                                resBGcol = "#F7F7F7"
+                                                                                 resTxt = " = <span style=""color:#999999; background-color:#F7F7F7; font-size:9px; line-height:12px;""><b>"& resTimerThisMSaldo &"</b></span>"
+                                                                                else
+                                                                                resFcol = "#5582d2"
+                                                                                resBGcol = "#FFFFFF"
+                                                                                  resTxt = " = <span style=""color:#5582d2; font-size:9px; line-height:12px;""><b>"& resTimerThisMSaldo &"</b></span>"
+                                                                                end if
+                                                                            'resFBgcol = "#FFFFFF"
 
-                                                                    end if
+                                                                            end if
+
+
+
 
                                                                 
-                                                                if cint(visAktlinjerSimpel_restimer) = 1 then
+                                                                        if cint(visAktlinjerSimpel_restimer) = 1 then
 
-                                                                strAktiviteter = strAktiviteter & "<span style='font-family:Arial; font-size:9px; line-height:12px; color:#999999;'>Forecast - Real.: </span><span style='font-family:Arial; font-size:9px; line-height:12px; white-space:nowrap; color:"& resFcol &";'>"
+                                                                        strAktiviteter = strAktiviteter & "<span style='font-family:Arial; font-size:9px; line-height:12px; color:#999999;'>Forecast - Real.: </span><span style='font-family:Arial; font-size:9px; line-height:12px; white-space:nowrap; color:"& resFcol &";'>"
                                                                 
                                                                 
-                                                                'if cint(resforecastMedOverskreddet) <> 2 then 'ikke angivet forecast
+                                                                        'if cint(resforecastMedOverskreddet) <> 2 then 'ikke angivet forecast
                                 
 
-                                                                if cdbl(restimeruspecThisM) > 0 AND cdbl(restimerThisM) = 0 then '** der findes uspecificerede og der er IKKE angivet forecast / budget på akt.
-                                                                strAktiviteter = strAktiviteter & formatnumber(restimeruspecThisM, 2) &" (uspec.) - "& formatnumber(tmforbrugTxt, 2) &"</span> " & resTxt 
-                                                                else
-                                                                strAktiviteter = strAktiviteter & formatnumber(resTimerThisM, 2) &" - "& formatnumber(tmforbrugTxt, 2) &"</span>" & resTxt 
-                                                                end if
+                                                                        if cdbl(restimeruspecThisM) > 0 AND cdbl(restimerThisM) = 0 then '** der findes uspecificerede og der er IKKE angivet forecast / budget på akt.
+                                                                        strAktiviteter = strAktiviteter & formatnumber(restimeruspecThisM, 2) &" (uspec.) - "& formatnumber(tmforbrugTxt, 2) &"</span> " & resTxt 
+                                                                        else
+                                                                        strAktiviteter = strAktiviteter & formatnumber(resTimerThisM, 2) &" - "& formatnumber(tmforbrugTxt, 2) &"</span>" & resTxt 
+                                                                        end if
 
                                                         
-                                                                end if '**  if cint(visSimpelAktLinje_realtimer) = 1 then
+                                                                        end if '**  if cint(visSimpelAktLinje_realtimer) = 1 then
                                                                 
 
 
-				                                            end if '** aktBudgettjkOn
+				                                                    end if '** aktBudgettjkOn: FORECAST
 
                                                            
 
@@ -2845,13 +3075,14 @@
 
                                         
                                                         select case cint(godkendtstatus)                        
-                                                        case 1,3
+                                                        case 1
                                                             if cint(level) <> 1 then
 	                                                            maxl = 0
                                                                 fmbgcol = fmbgcol
 	                                                        else
 	                                                            maxl = maxl
-                                                                fmbgcol = "#FFFFFF"
+                                                                'fmbgcol = "#FFFFFF"
+                                                                fmbgcol = fmbgcol '* Behold BG color
 	                                                        end if
                                                          end select
 
@@ -2887,7 +3118,7 @@
                                                     '*********************************************
                                                     if (maxl <> 0) OR timtype = "hidden"  then 'Timefelt åben
 								                        
-                                                        if cint(origin) <> 0 then
+                                                        if cint(origin) <> 0 AND cint(origin) <> 20 then
                                                         felt = felt &"<input type='hidden' name='FM_timer' value='-9003'>" 'fra TT    
                                                         else
                                                         felt = felt &"<input class='dcls_"&x&" "&aty_real_cls&"_"&x&" timerfelt' type='"& timtype &"' name='FM_timer' id='FM_timer_"&job_iRowLoops_cn&"_"&x&"' value='"& timerThis &"' maxlength='"&maxl&"' style=""background-color:"&fmbgcol&"; border:"&fmborcl&"; height:16px; width:"& tfeltwth &"px; font-family:arial; font-size:10px;"" onkeyup=""doKeyDown()"" onfocus=""markerfelt('"&job_iRowLoops_cn&""&x&"','"&x&"'), showKMdailog('"&job_fakturerbar&"', '"&job_iRowLoops_cn&""&x&"', '"& bopalThis &"', '"& job_iRowLoops_cn &"', '"& job_kid &"')"";>"
@@ -2897,7 +3128,7 @@
                                                     'uge lukket, / admin / ell. vis som klokkeslet, så skal timefeltet altid være hidden og ikke en span
                                                     'Eller fra TimeTag eller TimeOut mobile?? 20160104
                                                     
-                                                        if cint(origin) <> 0 then 'Må ikke opdatere timer på registrering fra Excel, Vietnam, TiemTag, Timeout mobile. Da det dobler op pga. der kan være flere linjer der er grundlag
+                                                        if cint(origin) <> 0 AND cint(origin) <> 20 then 'Må ikke opdatere timer på registrering fra Excel, Vietnam, TiemTag, Timeout mobile. Da det dobler op pga. der kan være flere linjer der er grundlag
                                                         felt = felt &"<input type='hidden' name='FM_timer' value=''>" 'Brug evt -9003 ligesom ved klokkeslet
 								                        else
                                                         felt = felt &"<input type='hidden' name='FM_timer' value='"& timerThis &"'>" 
@@ -2905,8 +3136,8 @@
 
                                                         felt = felt &"<div style='position:relative; background-color:"&fmbgcol&"; border:"&fmborcl&"; height:12px; padding:3px; width:"& tfeltwth &"px; font-family:arial; font-size:10px; line-height:12px;'>"& timerThis
                                 
-                                                        if cint(origin) <> 0 then
-                                                        felt = felt &"<span style=""font-size:9px; color:#999999;""> ("& timereg_txt_001 &")</span>"
+                                                        if cint(origin) <> 0 AND cint(origin) <> 20 then
+                                                        felt = felt &"<span style=""font-size:9px; color:#999999;""> ("& origin &" - "& timereg_txt_001 &")</span>"
                                                         end if
 
                                                         felt = felt &"</div>"
@@ -2928,7 +3159,7 @@
                                                   
 
                                                     select case job_fakturerbar
-                                                    case 8,11,12,13,14,15,16,17,18,19,20,21,22,23,26,27,28,29,50,51,52,91,111,112,115,120,121,122,125 '** Ferie + Sygdom + E2
+                                                    case 8,11,12,13,14,15,16,17,18,19,20,21,22,23,25,26,27,28,29,50,51,52,91,111,112,115,120,121,122,125,128,129 '** Ferie + Sygdom + E2
                                                         
 
                                                                 'Tildel ferie, ferie u løn, overført og tildel ferie fridag skal ingnorerer helligdage, Omsorg 
@@ -2950,9 +3181,34 @@
                                                                     case 5
                                                                     nTimDagFlt = normtimer_fre
                                                                     case 6
-                                                                    nTimDagFlt = normtimer_lor
+                                                                        select case lto
+                                                                        case "plan"
+
+                                                                            if cint(job_fakturerbar) = 25 OR cint(job_fakturerbar) = 125 then 'Rejse / Rejsefri / 1 maj timers
+                                                                            nTimDagFlt = "7.4"
+                                                                            nTimDagFlt = nTimDagFlt * 1 / 10
+                                                                            else
+                                                                            nTimDagFlt = normtimer_lor
+                                                                            end if
+
+                                                                        case else
+                                                                        nTimDagFlt = normtimer_lor
+                                                                        end select
+
                                                                     case 7
-                                                                    nTimDagFlt = normtimer_son
+                                                                        select case lto
+                                                                        case "plan"
+                                                            
+                                                                            if cint(job_fakturerbar) = 25 OR cint(job_fakturerbar) = 125 then 'Rejse / Rejsefri / 1 maj timers
+                                                                            nTimDagFlt = "7.4"
+                                                                            nTimDagFlt = nTimDagFlt * 1 / 10
+                                                                            else
+                                                                            nTimDagFlt = normtimer_son
+                                                                            end if
+
+                                                                        case else
+                                                                        nTimDagFlt = normtimer_son
+                                                                        end select
                                                                     end select 
                                                                 end if
 
@@ -2986,8 +3242,13 @@
                                                              end if
 
 
+                                                                'if session("mid") = 1 then
+                                                                'felt = felt &"<input type='text' name='FM_normt' id='FM_normt_"&job_iRowLoops_cn&"_"&x&"' value='"& nTimDagFlt &"'>" & x
+                                                                'else
                                                                 felt = felt &"<input type='hidden' name='FM_normt' id='FM_normt_"&job_iRowLoops_cn&"_"&x&"' value='"& nTimDagFlt &"'>"
-                                                     
+                                                                'end if
+                                                                
+
                                                              case else
                                                      
                                                              felt = felt &"<input type='hidden' name='FM_dager' id='FM_dager_"&job_iRowLoops_cn&"_"&x&"' value=''>"
@@ -3017,7 +3278,7 @@
                                                   
                                                    
                                     
-                                                        if cint(origin) <> 0 then 'Må ikke opdatere timer på registrering fra Excel, Vietnam, TiemTag, Timeout mobile. Da det dobler op pga. der kan være flere linjer der er grundlag
+                                                        if cint(origin) <> 0 AND cint(origin) <> 20 then 'Må ikke opdatere timer på registrering fra Excel, Vietnam, TiemTag, Timeout mobile. Da det dobler op pga. der kan være flere linjer der er grundlag
                                                         felt = felt &"<input type='hidden' name='FM_sttid' value=''><span style=""background-color:"&fmbgcol&"; height:12px; width:"& tfeltwth-10 &"px; font-family:arial; font-size:10px; padding:3px; line-height:12px; border:0px;"">"& timerThis &"</span>"_
 								                        &""& br &"<input type='hidden' name='FM_sltid' value=''><span style=""font-size:9px; color:#999999;""> (timereg_txt_001)</span>"
 								                
@@ -3180,7 +3441,7 @@
                 '****************************************************************************************************
 
                select case lto 
-               case "oko", "xintranet - local"
+               case "oko", "xintranet - local", "xwwf"
                                     
                case else 
                 
@@ -3210,7 +3471,7 @@
                end select
                
                if (wwfvisalleinterne = 1) then
-               wwfvisalleinterneSQLkri = " OR (j.jobnr = 'WWF04')" 'Vis internet dog IKKE fravær //  eller - 2 undt. Ferie + ferie fri optjent AND (a.fakturerbar <> 12 AND a.fakturerbar <> 15 )
+               wwfvisalleinterneSQLkri = " OR (jobnavn = 'WWF04')" '(j.risiko < 0) " ''WWF04' 'Vis internet dog IKKE fravær //  eller - 2 undt. Ferie + ferie fri optjent AND (a.fakturerbar <> 12 AND a.fakturerbar <> 15 )
                else
                wwfvisalleinterneSQLkri = ""
                end if
@@ -4117,21 +4378,21 @@
         
         select case lcase(lto)
         case "hvk_bbb"
-        lmt = " LIMIT 0, 200"
+        lmt = " LIMIT 0, 300"
         case "hestia"
-        lmt = " LIMIT 0, 200"
+        lmt = " LIMIT 0, 300"
         case "dencker"
-        lmt = " LIMIT 0, 200"
+        lmt = " LIMIT 0, 300"
         case "mi", "intranet - local"
-        lmt = " LIMIT 0, 200"
+        lmt = " LIMIT 0, 300"
         case "kejd_pb"
         lmt = " LIMIT 0, 100"
         case "jttek"
-        lmt = " LIMIT 0, 200"
+        lmt = " LIMIT 0, 300"
         case "epi2017"
-        lmt = " LIMIT 0, 200"
+        lmt = " LIMIT 0, 300"
         case else
-        lmt = " LIMIT 0, 100"
+        lmt = " LIMIT 0, 300"
         end select
         'lmt = ""
         dtWhcls = ""
@@ -4484,12 +4745,25 @@
     select case rdir
     case "timetag_web" 'timeout mobile
     origin = 12
-    case "ugeseddel_2011", "touchMonitor" 'timetag
+    case "ugeseddel_2011", "touchMonitor", "jobreg" 'timetag
     origin = 11
+    case "favorit" 'incl favorit på mobil
+    origin = 20
     case else
     origin = 0
     end select
 
+       '*** Origin values *'''
+
+        '0: Alm. timreg eller via Epi gl. tricTrac + FAVORIT
+        '1: Vietnam import
+        '3: IBM SPSS
+        '10 Excel upload
+        '11: TimeTag  / Ugeseddel + Touchmonitor
+        '12: TimeOut Mobile, incl Fav mobile
+        '20: Favorit
+      
+        'xx: Tilret fra ugeseddel / afvigelsese håndtering == Beholder origin
 
 
     if len(trim(request("fromsdsk"))) <> 0 then
@@ -4646,15 +4920,7 @@
 
     
 
-    '*** Origin values *'''
-
-        '0: Alm. timreg eller via Epi gl. tricTrac
-        '1: Vietnam import
-        '3: IBM SPSS
-        '10 Excel upload
-        '11: TimeTag  / Ugeseddel + Touchmonitor
-        '12: TimeOut Mobile
-        'xx: Tilret fra ugeseddel / afvigelsese håndtering == Beholder origin
+     
 
 
         
@@ -4666,6 +4932,7 @@
     '*** Tjekker om budget og forecast MAX er slået til
     call akt_maksbudget_treg_fn()
     call aktBudgettjkOn_fn()
+    call ferieMaxOn_fn()
     '***************************************************
 
 	if func = "db" then
@@ -4901,7 +5168,9 @@
 			
 			'*** Validerer at job og akt er udfyldt når der indlæses fra ugeseddel (timeTag) eller timeOut mobile, 
             '**  hvor der er mulighed for at akt og job ikke er udfyldt ***
-            if rdir = "timetag_web" OR rdir = "ugeseddel_2011" OR rdir = "touchMonitor" then
+            if rdir = "timetag_web" OR rdir = "ugeseddel_2011" OR rdir = "touchMonitor" OR rdir = "jobreg" then
+
+
             if len(trim(request("FM_jobid"))) = 0 OR (request("FM_jobid") <= 0 AND (origin = 12 OR origin = 11)) then
                 
                     
@@ -4970,13 +5239,43 @@
 
 
 
-                   
 
+          
+
+            '*****************************************************************
             '*** Er periode lukket *****'
-            call timerIndlaesPeriodeLukket(medarbejderids(0), request("FM_datoer"), jobids(0))
+            '*****************************************************************
+            if rdir = "favorit" OR rdir = "" then 'Favorit eller gl. timereg. side = MATRIX
 
+                'Tjekkes når timrg. siden eler FAVORIT siden loader
+
+            else 'ugeseddel
+
+                '*** Er periode lukket *****'
+
+                'if session("mid") = 1 AND rdir = "timetag_web" then
+                'response.write "HER medarbejderids(0):"  & medarbejderids(0) &" ," & request("FM_datoer") & ", jobids(0): "&  jobids(0) & "<br>"
+                'response.end
+                'end if
+
+                call timerIndlaesPeriodeLukket(medarbejderids(0), request("FM_datoer"), jobids(0))
+
+                'response.write "HER 2: " & medarbejderids(0) &","& request("FM_datoer") & "<br>"
+                'response.end
+
+                'end if
 
             end if
+          
+           
+
+      
+            end if
+
+
+           
+
+
 
 			antalErr = 0
 			for y = 0 to UBOUND(tTimertildelt)
@@ -5512,7 +5811,7 @@
 			            ystart = (j * 7) 
 			            end if
 			
-                        if rdir = "timetag_web" OR rdir = "ugeseddel_2011" OR rdir = "touchMonitor" then 'ugeseddel er opdater aktivieter eller tilføje herreløse fra TimeTag
+                        if rdir = "timetag_web" OR rdir = "ugeseddel_2011" OR rdir = "touchMonitor" OR rdir = "jobreg" then 'ugeseddel er opdater aktivieter eller tilføje herreløse fra TimeTag
 			            yslut = 0
                         else
                         yslut = (ystart + 6)
@@ -5528,6 +5827,32 @@
 			
 			            'for y = 0 to UBOUND(tTimertildelt)
 			            for y = ystart to yslut 'AND y <= z  
+
+
+
+                        if rdir = "favorit" OR rdir = "" then 'Favorit eller gl. timereg. side = MATRIX
+
+                            '*** Er periode lukket *****'
+
+                            '*** BLIVER TJEKKET NÅR timereg. siden og FAVORIT LOADER
+
+                            'if session("mid") = 1 then
+
+                            'Response.Write "ugeerAfsl_og_autogk_smil: " & ugeerAfsl_og_autogk_smil &" rdir: "& rdir & " dato: " & datoer(y) & " jobids(j): " & jobids(j) & " medarbejderid: " & medarbejderid
+                            'Response.end
+            
+                            'if session("mid") = 1 then 'level <> 1 OR
+                            '    call timerIndlaesPeriodeLukket(medarbejderid, datoer(y), jobids(j))
+                            'end if
+
+                            'end if
+
+                        end if
+
+
+
+
+
 			    
 			                '*** tjekker om felt id liggen i den rigtige aktlinie *'
 			                '**  DVS mellem 11 - 17, eller 21-27 etc..          ***'
@@ -5678,7 +6003,7 @@
 				                                                        strJobknavn, medarbejderid, strMnavn,_
 				                                                        useDato, useTimerThis, strKomm, intTimepris,_
 				                                                        dblkostpris, offentlig, intServiceAft, strYear,_
-				                                                        tSttid(y), tSltid(y), visTimerelTid, stopur, intValuta, bopal, destination, 0, 0, origin, extsysid, mtrx, intKpValuta)
+				                                                        tSttid(y), tSltid(y), visTimerelTid, stopur, intValuta, bopal, destination, 0, 0, origin, extsysid, mtrx, intKpValuta, 0)
             				
     				    
     				    
@@ -5706,7 +6031,8 @@
     				                                muDag = 0
 				                                    useDato = datoer(y)
 
-                                                    if rdir = "xtimetag_web" OR rdir = "ugeseddel_2011" OR rdir = "favorit" then
+
+                                                    if rdir = "xtimetag_web" OR rdir = "xugeseddel_2011" OR rdir = "favorit" OR rdir = "favorit_mob" then
                                                     useDage = ""
                                                     usetSltid = ""
                                                     usetSttid = ""
@@ -5733,12 +6059,15 @@
                                                              'Response.Write "<br>"& tSttid(y)& "usetSttid : "&  usetSttid &" timer:" & useTimer & " Dato: " & useDato & " ntimPer:"& ntimPer &" medarbejderid: "& medarbejderid&"<br>"
                                                              'Response.flush
 
+                                                                  'Response.Write "tSttid "& usetSttid &",  tSltid "& usetSltid &", visTimerelTid "& visTimerelTid &", stopur "& stopur
+                                                                  'Response.end
+
                                
                                                             call opdaterTimer(aktids(j), strAktNavn, tfaktimvalue, strFastpris, intJobnr, strJobnavn, strJobknr,_
 				                                            strJobknavn, medarbejderid, strMnavn,_
 				                                            useDato, useTimer, strKomm, intTimepris,_
 				                                            dblkostpris, offentlig, intServiceAft, strYear,_
-				                                            usetSttid, usetSltid, visTimerelTid, stopur, intValuta, bopal, destination, useDage, tildeliheledage, origin, extsysid, mtrx, intKpValuta)
+				                                            usetSttid, usetSltid, visTimerelTid, stopur, intValuta, bopal, destination, useDage, tildeliheledage, origin, extsysid, mtrx, intKpValuta, 0)
     				        
     				        
     				                                        isAktMedidDatoWrt = isAktMedidDatoWrt & ",#"&aktids(j)&"_"&medarbejderid&"_"&useDato&"#"
@@ -5792,6 +6121,7 @@
 
 
                       'Response.Write "tSttid "& tSttid &",  tSltid "& tSltid &", visTimerelTid "& visTimerelTid &", stopur "& stopur
+                      'Response.end
 			                            'Response.flush
 			    
 			                            'aktids(j) ", strAktNavn, tfaktimvalue, strFastpris, intJobnr, strJobnavn, strJobknr,_
@@ -5805,7 +6135,7 @@
 				                        call opdaterTimer(aktids(j), strAktNavn, tfaktimvalue, strFastpris, intJobnr, strJobnavn, strJobknr,_
 				                        strJobknavn, medarbejderid, strMnavn,_
 				                        useDatoer(j), useTimer(j), strKomm, intTimepris,_
-				                        dblkostpris, offentlig, intServiceAft, strYear, tSttid, tSltid, visTimerelTid, stopur, intValuta, bopal, destination, 0, 0, origin, extsysid, mtrx, intKpValuta)
+				                        dblkostpris, offentlig, intServiceAft, strYear, tSttid, tSltid, visTimerelTid, stopur, intValuta, bopal, destination, 0, 0, origin, extsysid, mtrx, intKpValuta, 0)
  
 			                        '*** Opdaterer stopur timer overført *****'
 			                        strSQLstopU = "UPDATE stopur SET timereg_overfort = 1 WHERE id = "& entrysids(j) 
@@ -5835,6 +6165,15 @@
 
 
                     'response.write "EmailNotificer: "& EmailNotificer &" EmailNotificerTxt: " & EmailNotificerTxt
+
+
+                'select case lto 
+                'case "cst" 'midlertidigt slået fra 20180824 - Aktiv igen 20180912
+                'EmailNotificer = 0
+                'EmailNotificer2 = 0
+                'EmailNotificer3 = 0
+                'case else
+                'end select
 
 
                 if cint(EmailNotificer) = 1 then
@@ -5879,7 +6218,102 @@
 	
 	end if '** AntalErr **'
 	
-	
+
+
+                                                            
+'*************************************************************************
+'***** Indlæs ekstra tillæg CFLOW - fra ugeseddel_2011
+'*************************************************************************
+
+if lto = "cflow" OR lto = "intranet - local" then
+
+
+ usemrn = request("usemrn") 'session("mid")                                                      
+ timertilindlasning = 0
+ timeregDato = request("FM_datoer")
+
+'if session("mid") = 1 then
+
+ '   Response.write "HER usemrn: " & usemrn & " FM_rejsetid: " & request("FM_rejsetid")
+ '   Response.end
+
+'end if
+
+        '*** Rejsetid
+        if len(trim(request("FM_rejsetid"))) <> 0 AND request("FM_rejsetid") <> "0" then
+        timertilindlasning = request("FM_rejsetid")
+        else
+        timertilindlasning = 0
+        end if
+
+        if timertilindlasning <> 0 then
+        ftaktim = 52 'Standard 50% type. Beregn om det skal være 100%
+        call overtidsTillaeg(1, lto, timeregDato, usetSltid, usemrn, timertilindlasning, ftaktim)
+        
+        'timerthis_mtx_komma = replace(timertilindlasning, ".", ",")
+        'timerthis_mtx_tot = (timerthis_mtx_tot * 1) - (timerthis_mtx_komma * 1)
+
+        timertilindlasning = 0
+        
+    
+        end if
+
+
+
+
+
+        '*** FM_arbute_no 
+        if len(trim(request("FM_arbute_no"))) <> 0 AND request("FM_arbute_no") <> 0 then
+        timertilindlasning = useTimer
+        else
+        timertilindlasning = 0
+        end if
+
+        if timertilindlasning <> 0 then
+        ftaktim = 50 
+        call overtidsTillaeg(1, lto, timeregDato, usetSltid, usemrn, timertilindlasning, ftaktim)
+        timertilindlasning = 0
+        end if
+
+
+
+          '*** FM_arbute_world
+        if len(trim(request("FM_arbute_world"))) <> 0 then
+        timertilindlasning = useTimer
+        else
+        timertilindlasning = 0
+        end if
+
+        if timertilindlasning <> 0 then
+        ftaktim = 60 
+        call overtidsTillaeg(1, lto, timeregDato, usetSltid, usemrn, timertilindlasning, ftaktim)
+        timertilindlasning = 0
+        end if
+
+           '*** FM_arbute_teamleder
+        if len(trim(request("FM_arbute_teamleder"))) <> 0 then
+        timertilindlasning = useTimer
+        else
+        timertilindlasning = 0
+        end if
+
+        if timertilindlasning <> 0 then
+        ftaktim = 61 
+        call overtidsTillaeg(1, lto, timeregDato, usetSltid, usemrn, timertilindlasning, ftaktim)
+        timertilindlasning = 0
+        end if
+
+
+
+end if                                                    
+                                                       
+'** End ekstra tillæg 
+'***************************************************************************************************
+                                                        
+
+
+
+
 	 '** hvis der skal tjekkes values fra timeindlæsningen brus .end her ***'
 	 '** 
      'Response.end
@@ -5984,10 +6418,15 @@
 
 
                     intAntals(i) = replace(intAntals(i), ",", ".")
-
+                    mattype = 0
 
                     'call insertMat_fn(matIds(i), intAntals(i), strNavn, strVarenr, dblKobsPris, dblSalgsPris, strEnhed, jobid, strEditor, strDato, thisMid, avaGrp, regDatoSQL, aftid, intValuta, intkode, bilagsnr, dblKurs, personlig)
-                    call insertMat_fn(matIds(i), intAntals(i), strNavn, strVarenr, dblKobsPris, dblSalgsPris, strEnhed, jobid, aktid, strEditor, strDato, thisMid, avaGrp, regDatoSQL, aftid, intValuta, intkode, bilagsnr, dblKurs, personlig, ava)
+
+                    'Denne skal rettes
+                    basic_valuta = "NA"
+                    basic_kurs = 100
+                    basic_belob = 0
+                    call insertMat_fn(matIds(i), intAntals(i), strNavn, strVarenr, dblKobsPris, dblSalgsPris, strEnhed, jobid, aktid, strEditor, strDato, thisMid, avaGrp, regDatoSQL, aftid, intValuta, intkode, bilagsnr, dblKurs, personlig, ava, mattype, basic_valuta, basic_kurs, basic_belob)
 
                           
 
@@ -6087,14 +6526,169 @@
 
         
             '**** Tilføjer Tillæg / maksFlexControl ***'
+            '*** Fjernet fra WAP 20190329
+            if cint(multitildel) <> 1 then
+
             select case lto
-            case "intranet - local", "wap"
-            mids = request("FM_medid")    
-            timerthis = 0
-            call maksFlexControl(lto, mids, timerthis)
+            case "xintranet - local", "xwap"
+                mids = request("FM_medid")    
+                timerthis = 0
+                call maksFlexControl(lto, mids, timerthis)
+
+            'case "intranet - local", "lm"
+
+
+            case "xwwf"
+
+                    'if session("mid") = 1 then
+                    'Response.write "usemrn =" & request("FM_use_me") & " origin = " & origin
+                    'Response.end
+                    'end if
+                    
+
+                    if origin <> 0 AND origin <> 20 AND len(trim(request("FM_medid"))) <> 0 then                                              
+                    mids = request("FM_medid")   
+                    else
+
+                        if len(trim(request("FM_use_me"))) <> 0 then
+                        mids = request("FM_use_me")
+                        else
+                        mids = 0
+                        end if
+
+                    end if
+
+                    timerthis = 0
+
+                    call maksFlexControl(lto, mids, timerthis)
+              
+            
+              case "dencker", "intranet - local"
+
+                    'if session("mid") = 21 then
+                    'Response.write "usemrn =" & request("FM_use_me") & " origin = " & origin & " usemrn: " & usemrn
+                    'Response.end
+                    'end if
+                    
+
+                    if origin <> 0 AND origin <> 20 AND len(trim(request("FM_medid"))) <> 0 then                                              
+                    mids = request("FM_medid")   
+                    else
+
+                        if len(trim(request("FM_use_me"))) <> 0 then
+                        mids = request("FM_use_me")
+                        else
+                        mids = 0
+                        end if
+
+                    end if
+
+                    timerthis = 0
+
+                    'Slåt til/fra 20190827
+                    'call maksFlexControl(lto, mids, timerthis)
+              
+
+
+
+                    'end if 'session("mid")              
+                                                        
+
+                    '*** Indlæser Madordning og Rundstykker
+                    'if session("mid") = 21 OR session("mid") = 1 then
+
+                    call medariprogrpFn(mids)
+
+                    extsysid = 0
+                    insertUpdate = 1
+                    'call dageDatoer(1)
+                    timeregDatoer = split(request("FM_datoer"), ", ")
+                    dd = 1
+                    insertUpdate = 3
+                    
+                    tilfoej = 0
+                    select case month(now)
+                    case 2,4,6,8,10,12
+                              tilfoej = 1
+                    case else
+                              tilfoej = 0
+                    end select
+
+
+                  
+
+                    if cint(tilfoej) = 1 then
+
+                        for dd = 1 to 65 '2 måneder+lidt
+
+                                          
+
+                                if dd = 1 then
+                                datonow = dateadd("d", 7, timeregDatoer(1))
+                                else
+                                datonow = dateadd("d", 1, datonow)
+                                end if
+
+                                        tfaktim = 10
+
+                                        timerkom = ""
+                                        koregnr = ""
+                                        destination = ""
+                                        usebopal = 0
+
+                                        select case datepart("w", datonow, 2,2)
+                                        case 1,2,3,4 'man-tor
+
+                                                        'response.write "<br>HER DAWTOER 2: "& datepart("w", datonow, 2,2) &" "' & timeregDato
+                                                        'response.flush
+
+
+
+                                        '** Madordning
+                                        aktid = "102587"
+                                        antal = "33"
+                                        if instr(medariprogrpTxt, "#42#") <> 0 then 'med i madordning
+                                        call indlasTimerTfaktimAktid(lto, mids, antal, tfaktim, aktid, insertUpdate, datonow, extsysid, timerkom, koregnr, destination, usebopal)
+                                        end if
+
+                                        case 5 'fredag
+                                        '** Rundstykker 1
+                                        aktid = "105046"
+                                        antal = "5.5"
+                                        if instr(medariprogrpTxt, "#43#") <> 0 then 'med i madordning
+                                        call indlasTimerTfaktimAktid(lto, mids, antal, tfaktim, aktid, insertUpdate, datonow, extsysid, timerkom, koregnr, destination, usebopal)
+                                        end if
+
+                                        '** Rundstykker 2
+                                        aktid = "105046"
+                                        antal = "11"
+                                        if instr(medariprogrpTxt, "#44#") <> 0 then 'med i madordning
+                                        call indlasTimerTfaktimAktid(lto, mids, antal, tfaktim, aktid, insertUpdate, datonow, extsysid, timerkom, koregnr, destination, usebopal)
+                                        end if
+
+                                        '** Rundstykker 3
+                                        aktid = "105046"
+                                        antal = "16.5"
+
+                                        if instr(medariprogrpTxt, "#45#") <> 0 then 'med i madordning
+                                        call indlasTimerTfaktimAktid(lto, mids, antal, tfaktim, aktid, insertUpdate, datonow, extsysid, timerkom, koregnr, destination, usebopal)
+                                        end if
+                                        end select
+
+                        next
+
+
+
+                     end if 'tilfoej 
+
+                        'response.end
+
+                    'end if 'mid 21
+
 
             case else
             end select
+            end if 'if cint(multitildel) <> 1 then
 
        
 	
@@ -6108,6 +6702,9 @@
         usemrn = request("FM_medid")
         varTjDatoUS_man = request("varTjDatoUS_man")              
         Response.Redirect "../to_2015/favorit.asp?varTjDatoUS_man="&varTjDatoUS_man&"&FM_medid="&usemrn
+        case "favorit_mob"
+        choosendate = request("FM_choosendate")
+        Response.Redirect "../to_2015/favorit.asp?FM_choosendate="&choosendate
         case "timetag_web"
         Response.Redirect "../timetag_web/timetag_web.asp?indlast=1"
         case "ugeseddel_2011"
@@ -6125,6 +6722,10 @@
 
         'Response.Redirect "../to_2015/monitor.asp?usemrn="&usemrn&"&varTjDatoUS_man="&varTjDatoUS_man&"&FM_datoer="& useDato
         response.Redirect "../to_2015/ugeseddel_2011.asp?lto="&lto&"medarb_navn="&medarb_navn&"&medid="&usemrn&"&usemrn="&usemrn&"&touchMonitor=1&varTjDatoUS_man="&year(now)&"/"&month(now)&"/"&day(now)
+
+        case "jobreg" 'MPT
+        response.Redirect "../to_2015/jobs.asp?func=red&jobid="& request("FM_jobid")
+
 
         case else
 	    Response.Redirect "timereg_akt_2006.asp?showakt=1" 
@@ -6290,7 +6891,7 @@
                 <%if cint(splithr) <> 1 then %>
                 
 	            <%=tsa_txt_002%>:<br /> <%=weekdayname(datepart("w",cDateUge,1)) %> d. 
-	            <%=formatdatetime(cDateUge, 2) &" "& tsa_txt_003 %>. 
+	            <%=formatdatetime(cDateUge, 2) &" "%> 
 	            <%=formatdatetime(cDateUge, 3) %><br /><br />
 
                
@@ -6302,7 +6903,7 @@
                
 
                 <%=tsa_txt_002%>:<br /> <%=weekdayname(datepart("w",cDateUge,1)) %> d. 
-	            <%=formatdatetime(cDateUge, 2) &" "& tsa_txt_003 %>. 
+	            <%=formatdatetime(cDateUge, 2) &" "%> 
 	            <%=formatdatetime(cDateUge, 3) %><br /><br />
 	       
                 <%end select 
@@ -6317,8 +6918,9 @@
                 <%if cint(splithr) <> 1 then %>
 
                     <%select case cint(SmiWeekOrMonth) 
-                    case 0 'uge aflsutning  %>
-                    <b><%=tsa_txt_005 &" "& datepart("ww", cDateUgeTilAfslutning, 2, 2)%> </b>
+                    case 0 'uge aflsutning 
+                    call thisWeekNo53_fn(cDateUgeTilAfslutning) %>
+                    <b><%=tsa_txt_005 &" "& thisWeekNo53%> </b>
                     <%case 1
                     afslutmd = dateAdd("m", -1, cDateUge)
                     %>
@@ -6484,7 +7086,7 @@
   
 	<SCRIPT src="inc/smiley_jav.js"></script>
 	<SCRIPT src="inc/timereg_2017_06_func.js"></script>
-   <SCRIPT src="inc/matind_2014_jav.js"></script>
+   <SCRIPT src="inc/matind_2019_jav.js"></script>
    
 	
     <%call browsertype()
@@ -6562,89 +7164,89 @@
                 
                
                 '*** Det valgte job ****'
-                'Response.Write "<br><br><br><br><br><br><br><br><br><br><br><br><br>jobid: " &request("jobid")
+                'if session("mid") = 1 then
+                'Response.Write "<br><br><br><br><br><br><br><br><br><br><br><br><br>jobid: " &request("jobid") & " aktBudgettjkOnViskunmbgt: " & aktBudgettjkOnViskunmbgt
                 'Response.write "<br>request(FM_viskunetjob); " & request("FM_viskunetjob")
+                'end if
 
+                if cint(aktBudgettjkOnViskunmbgt) = 1 then 'Vis altid og KUN dem med FORECAST på. WWF + ØKO + evt. specielle. (interne, fravær / oprettet på WWF tideles manuelt)
 
-                if (len(request("jobid")) <> 0 AND request("FM_ch_medarb") <> "1") then 'OR (len(request("jobid")) <> 0 AND request("FM_ch_medarb") = "1" AND request("FM_mtilfoj") = "1") then
+                    call allejobaktmedFC(1, usemrn, 0, 0)
+                    jobid = replace(forecastJobidsTxt, "#", "")
 
-                if len(trim(request("FM_viskunetjob"))) <> 1 then
-                jobid = replace(request("seljobid"), "0,", "") 
-                else
-                jobid = "" '** Ryd liste, vis kun et job 
                 end if
+
+                'Tilføjer job og aktiviteter.
+                'Fra jobbanken, Positiv aktivering
+
+                        
+                        if (len(request("jobid")) <> 0 AND request("FM_ch_medarb") <> "1") then 'OR (len(request("jobid")) <> 0 AND request("FM_ch_medarb") = "1" AND request("FM_mtilfoj") = "1") then
+
+                        if len(trim(request("FM_viskunetjob"))) <> 1 then
+                        jobid = replace(request("seljobid"), "0,", "") 
+                        else
+                        jobid = "" '** Ryd liste, vis kun et job 
+                        end if
                 
-                '''jobid = replace(request("seljobid"), ",999999", "") 
-                jobidsSeljids = split(request("jobid"), ",")
-                for i = 0 TO UBOUND(jobidsSeljids)
+                        '''jobid = replace(request("seljobid"), ",999999", "") 
+                        jobidsSeljids = split(request("jobid"), ",")
+                        for i = 0 TO UBOUND(jobidsSeljids)
                     
-                    if instr(jobid, "#"& jobidsSeljids(i) & "#,") = 0 AND instr(jobid, ","& jobidsSeljids(i) & ",") = 0 then
-                      jobid = jobid &",#"& trim(jobidsSeljids(i)) & "#" 
-                    end if
+                            if instr(jobid, "#"& jobidsSeljids(i) & "#,") = 0 AND instr(jobid, ","& jobidsSeljids(i) & ",") = 0 then
+                              jobid = jobid &",#"& trim(jobidsSeljids(i)) & "#" 
+                            end if
 
-                next
+                        next
 
-                ''jobid = replace(jobid, ",##", "")
-                jobid = replace(jobid, " ", "")
-                jobid = replace(jobid, "#", "")
-                jobid = trim(jobid)
-                jobid = "0,"&jobid &",999999,"
+                        ''jobid = replace(jobid, ",##", "")
+                        jobid = replace(jobid, " ", "")
+                        jobid = replace(jobid, "#", "")
+                        jobid = trim(jobid)
+                        jobid = "0,"&jobid &",999999,"
 
                
                
-                    '** Nulstillerforvalgt ALLE job for denne medarbejder ****'
-                    'strSQLUpdFvOff = "UPDATE timereg_usejob SET forvalgt = 0 WHERE medarb = "& usemrn &"" 
-                    'Response.Write "<br><br><br><br>Nulstilelr: " & strSQLUpdFvOff 
-                    'oConn.Execute(strSQLUpdFvOff)
-                    '******************************************************'
+                            '** Nulstillerforvalgt ALLE job for denne medarbejder ****'
+                            'strSQLUpdFvOff = "UPDATE timereg_usejob SET forvalgt = 0 WHERE medarb = "& usemrn &"" 
+                            'Response.Write "<br><br><br><br>Nulstilelr: " & strSQLUpdFvOff 
+                            'oConn.Execute(strSQLUpdFvOff)
+                            '******************************************************'
                    
 
-                else	
+                        else	
 
-                'Response.Write "<br><br>jobidjobidjobid<br><br>: jobidjobidjobid: " & jobid 
-                    
+                   
                         
-                        '*** Ellers åbnes det job der sidst er reg. timer på (evt, 10) ***'
-                        'strSQLlastjobid = "SELECT j.id AS jid FROM timer "_
-                        '&" LEFT JOIN job j ON (j.jobnr = tjobnr) WHERE tmnr = "& session("mid") &" ORDER BY tid DESC LIMIT 1"
-                        ''Response.Write "<br><br><br><br><br><br>"& strSQLlastjobid
-                        ''Response.flush 
-                        
-                        'oRec.open strSQLlastjobid, oConn, 3
-                        'if not oRec.EOF then
-                        'jobid = oRec("jid")
-                        'end if
-                        'oRec.close
-                        
-                        if len(trim(usemrn)) <> 0 then
-                        usemrn = usemrn
-                        else
-                        usemrn = session("mid")
-                        end if
+                                if len(trim(usemrn)) <> 0 then
+                                usemrn = usemrn
+                                else
+                                usemrn = session("mid")
+                                end if
                            
-                        jobid = "0"
-                        strSQLfv = "SELECT jobid FROM timereg_usejob WHERE medarb = "& usemrn & " AND forvalgt = 1"
+                                jobid = "0"
+                                strSQLfv = "SELECT jobid FROM timereg_usejob WHERE medarb = "& usemrn & " AND forvalgt = 1"
 
-                        'Response.Write "<br><br><br><br><br>sdfsdfsdf: "& strSQLfv
-                        'Response.flush
+                                'Response.Write "<br><br><br><br><br>sdfsdfsdf: "& strSQLfv
+                                'Response.flush
 
-                        oRec5.open strSQLfv, oConn, 3
-                        while not oRec5.EOF
+                                oRec5.open strSQLfv, oConn, 3
+                                while not oRec5.EOF
             
-                        jobid = jobid &","& oRec5("jobid") 
+                                jobid = jobid &","& oRec5("jobid") 
 
-                        oRec5.movenext
-                        wend
-                        oRec5.close
+                                oRec5.movenext
+                                wend
+                                oRec5.close
 
-                        jobid = jobid & ",999998,"
-                        'end select
+                                jobid = jobid & ",999998,"
+                                'end select
             		    
-                    'end if
-                end if
+                            'end if
+                        end if
 
 
 
+              
 
 
                 '******************************************'
@@ -6653,6 +7255,13 @@
                 '** Er der valgt et eller flere job ***'
                 '** Sætter forvalgt = 1 i timereg_usejob **'
                 '******************************************'
+
+
+                'if session("mid") = 1 then
+                'Response.write "jobid: " & jobid
+                'Response.end
+                'end if
+
 
                 'dim jobidss
                 'redim jobidss(2)
@@ -7365,10 +7974,83 @@
 
 
 
+  
+ select case lto
+ case "dencker", "intranet - local"
+  %>
+  
 
-	
+     <!-- Nyheds DEL -->
     
+    <%
+        call HentNyhedsVariabler()
     %>
+        
+     <div style="position:absolute; left:1125px; top:102px; width:300px;">
+
+         <table cellpadding="0" cellspacing="0" border="0" width="100%">
+             <tr style="background-color:#5C75AA;">
+                <td colspan="4" style="padding:2px 3px 2px 5px; height:30px;">
+	            <h4 style="color:#FFFFFF;">Nyheder:</h4></td>
+             </tr>
+         </table>
+
+         <table style="width:100%; background-color:white;">  
+            <%for i = 0 TO UBOUND(nyhedsid) %>
+             <%if nyhedoverskrift(i) <> "" then %>
+             <tr>
+                <td style="padding:10px;">
+                    <%if nyhedvigtig(i) = 1 then  %>
+                    <h4 style="color:#f44842;"><%=nyhedoverskrift(i) %> <br /><span style="font-size:9px; color:#9e9e9e;">Oprettet: <%=datofra(i) %> af <%=newsEditor(i) %></span></h4>
+                    <%else %>
+                    <h4 style="font-size:150%; margin-bottom:5px;"><%=nyhedoverskrift(i) %> <br /><span style="font-size:9px; color:#9e9e9e;">Oprettet: <%=datofra(i) %> af <%=newsEditor(i) %></span></h4>
+                    <%end if %>
+
+                    <%if nyhedbrodtext(i) <> "" then  %>
+                    <strong> <%=nyhedbrodtext(i) %> </strong>                 
+                    <%else %>
+                       Ingen beskrivelse
+                    <%end if %>
+
+                    <%if filnavn(i) <> "" then %>       
+                        <br /> <span id="modal_<%=nyhedsid(i) %>" class="nyhedsbillede"><img src="../inc/upload/<%=lto%>/<%=filnavn(i) %>" alt='' border='0' style="width:100px; height:100px;"></span>                        
+                        <div id="nyhedsbillede_<%=nyhedsid(i) %>" class="modal" style="z-index:1000;">
+                            <!-- Modal content -->
+                            <div class="modal-content" style="text-align:center; width:1600px; height:850px;">
+                                <img src="../inc/upload/<%=lto%>/<%=filnavn(i) %>" alt='' border='0' style="max-width:100%; max-height:100%;">
+                            </div>
+                        </div>
+                    <%end if %>
+
+                </td>                                
+            </tr>
+         
+             <%end if %>
+            <%
+            next
+            %>
+
+             <%if antalnyheder = 0 then %>
+            <tr>
+                <td>Ingen nyheder i dag</td>
+            </tr>
+            <%end if %>
+
+         </table>
+     </div>
+
+
+    <!-- Nyheds pop up -->    
+
+    
+
+    <%call NyhedsPopUp() %>
+    <script src="inc/timereg_nyheder_jav.js"></script>
+     
+ <%end select%>
+
+
+
      <div id="kalender" style="position:absolute; left:870px; top:102px; width:210px; visibility:<%=dKalVzb%>; display:<%=dKalDsp%>;">
 	<!--#include file="../inc/regular/calender_2006.asp"-->
 	<!--#include file="inc/timereg_dage_2006_inc.asp"-->
@@ -7445,6 +8127,11 @@
      end if
 				
 	
+
+
+
+
+
 	'*******************************************************************************'
 	'***************************** Jobbanken Filter              *******************'
 	'*******************************************************************************'
@@ -7462,18 +8149,35 @@
 
 
      if cint(stempelurOn) = 1 then 
-            lft = 630
+            lft = 550
         else
-            lft = 720
+            lft = 640
         end if
 
+      leftst = 635
+
+      if cint(vis_favorit) = 0 then
+      addLeftTo = 60
+      else
+      addLeftTo = 0
+      end if
 
     'links til ugeseddel og komme/gå %>
-    <div style="position:absolute; background-color:#ffffff; border:0px #5582d2 solid; padding:4px; top:82px; width:75px; left:<%=lft%>px; z-index:0;"><a href="../to_2015/<%=lnkUgeseddel%>" class="vmenu"><%=tsa_txt_337 %></a></div>
+    <div style="position:absolute; background-color:#ffffff; border:0px #5582d2 solid; padding:4px; top:82px; width:75px; left:<%=lft+addLeftTo%>px; z-index:0;"><a href="../to_2015/<%=lnkUgeseddel%>" class="vmenu"><%=tsa_txt_337 %></a></div>
     
     <%if cint(stempelurOn) = 1 then %>
-    <div style="position:absolute; background-color:#ffffff; border:0px #5582d2 solid; padding:4px; top:82px; width:85px; left:720px; z-index:0;"><a href="<%=lnkLogind%>" class="vmenu"><%=tsa_txt_340 %></a></div>
+    <div style="position:absolute; background-color:#ffffff; border:0px #5582d2 solid; padding:4px; top:82px; width:85px; left:<%=leftst+addLeftTo%>px; z-index:0;">
+       <a href="../to_2015/<%=lnkLogind%>" class="vmenu"><%=tsa_txt_340 %></a>
+        
+    </div>
     <%end if
+
+
+     if cint(vis_favorit) = 1 then%>
+      <div style="position:absolute; background-color:#ffffff; border:0px #5582d2 solid; padding:4px; top:82px; width:75px; left:730px; z-index:0;">
+          <a href="../to_2015/<%=lnkFavorit%>"><%=favorit_txt_001 %></a>
+           </div>
+     <%end if
    
 	call filterheaderid(102,20,745,pTxt,fiVzb,fiDsp,"filterTreg", "relative")%>
 
@@ -8245,7 +8949,8 @@
 
          select case cint(SmiWeekOrMonth) 
          case 0 'uge aflsutning
-         weekMonthDate = datepart("ww", tjekdag(7),2,2)
+         call thisWeekNo53_fn(tjekdag(7))
+         weekMonthDate = thisWeekNo53 'datepart("ww", tjekdag(7),2,2)
          case 1 'MD
          weekMonthDate = datepart("m", tjekdag(7),2,2)
          case 2
@@ -8256,7 +8961,7 @@
 
          
 
-         call erugeAfslutte(datepart("yyyy", tjekdag(7),2,2), weekMonthDate, usemrn, SmiWeekOrMonth, 0) 
+         call erugeAfslutte(datepart("yyyy", tjekdag(7),2,2), weekMonthDate, usemrn, SmiWeekOrMonth, 0, tjekdag(7)) 
 
 
         %>
@@ -8289,8 +8994,12 @@
              <td align="right" valign="top">
 
                     <!-- skift uge pile -->
-                 <%  prevWeek = datepart("ww", useDatePrevWeek, 2,2) 
-                     nextWeek = datepart("ww", useDateNextWeek, 2,2)  %>
+                 <%  
+                     
+                     call thisWeekNo53_fn(useDatePrevWeek)
+                     prevWeek = thisWeekNo53 'datepart("ww", useDatePrevWeek, 2,2) 
+                     call thisWeekNo53_fn(useDateNextWeek)
+                     nextWeek = thisWeekNo53 'datepart("ww", useDateNextWeek, 2,2)  %>
 
 	                        <table cellpadding="0" cellspacing="0" border="0" width="100%">
 	                        <tr>
@@ -8326,7 +9035,8 @@
 
         select case cint(SmiWeekOrMonth) 
         case 0 
-            s0Show_weekMd = datePart("ww", s0Show_sidstedagsidsteuge, 2,2)
+            call thisWeekNo53_fn(s0Show_sidstedagsidsteuge)
+            s0Show_weekMd = thisWeekNo53 'datePart("ww", s0Show_sidstedagsidsteuge, 2,2)
         case 1
             s0Show_weekMd = datePart("m", s0Show_sidstedagsidsteuge, 2,2)
         case 2
@@ -8335,7 +9045,7 @@
 
         
         '** tjekker om uge er afsluttet og viser afsluttet eller form til afslutning
-		call erugeAfslutte(year(s0Show_sidstedagsidsteuge), s0Show_weekMd, usemrn, SmiWeekOrMonth, 0)
+		call erugeAfslutte(year(s0Show_sidstedagsidsteuge), s0Show_weekMd, usemrn, SmiWeekOrMonth, 0, tjekdag(7))
       
        
         'if session("mid") = 1 then
@@ -8510,8 +9220,14 @@
 
 
                        <!-- skift uge pile -->
-                 <%  prevWeek = datepart("ww", useDatePrevWeek, 2,2) 
-                     nextWeek = datepart("ww", useDateNextWeek, 2,2)  %>
+                 <%  
+                     
+                     call thisWeekNo53_fn(useDatePrevWeek)
+                     prevWeek = thisWeekNo53
+                     'prevWeek = datepart("ww", useDatePrevWeek, 2,2)
+                     call thisWeekNo53_fn(useDateNextWeek)
+                     nextWeek = thisWeekNo53
+                     'nextWeek = datepart("ww", useDateNextWeek, 2,2)  %>
 
                     <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
      
@@ -8700,9 +9416,6 @@
     end if 
     %>
 
-     <%
-	    'oskrift = tsa_txt_031 &" "& datepart("ww", tjekdag(1), 2 ,2) & " "& datepart("yyyy", tjekdag(1), 2 ,3) 
-	    %>
 	
  
      </span></h4>
@@ -8867,7 +9580,7 @@
                                         <%
                                         strSQL = "SELECT Mid, Mnavn, Mnr, Brugergruppe, medarbejdertype, mt.type AS mtypenavn, mt.id AS mtid "_
                                         &", normtimer_man, normtimer_tir, normtimer_ons, normtimer_tor, normtimer_fre, normtimer_lor, normtimer_son "_
-                                         &" FROM medarbejdere AS m LEFT JOIN medarbejdertyper AS mt ON (mt.id = m.medarbejdertype) WHERE mansat <> 2 "& medarbgrpIdSQLkri &" ORDER BY mt.type, Mnavn" %>
+                                         &" FROM medarbejdere AS m LEFT JOIN medarbejdertyper AS mt ON (mt.id = m.medarbejdertype) WHERE mansat <> 2 AND mansat <> 4 "& medarbgrpIdSQLkri &" ORDER BY mt.type, Mnavn" %>
                                         
                                         <h4>Multitildel <span><a href="#" class="red" onclick="showmultiDiv()">[x]</a></span></h4>
                                         <%=tsa_txt_268 %> (<%=tsa_txt_357 %>)<br /><br />
@@ -9161,7 +9874,7 @@
 					
 					
 					
-    '*** Aktiviteter og Timer SQL MAIN **** 
+    '*** Job - Aktiviteter og Timer SQL MAIN **** 
 	strSQL = "SELECT a.navn, a.id AS aid, a.fakturerbar, "_
 	&" j.jobnr AS jnr, j.id AS jid, j.jobnavn AS jnavn, j.risiko, job_internbesk, "_
     &" j.serviceaft, j.beskrivelse AS jobbesk, j.jobans1, jobans2, jobstartdato, jobslutdato, j.fastpris, jo_bruttooms, j.rekvnr, j.kommentar, j.kundekpers, j.budgettimer, "_
@@ -9284,15 +9997,29 @@
             if cint(intHR) <> 1 then 
             '*** MAIN PERSONLIG AKTIV JOBLISTE VISNING ***********************
             '** HR mode viser alle interne RISIKO = -1
+                
+                if cint(aktBudgettjkOnViskunmbgt) = 1 then 'viser alle med budget på
+                    if len(triM(seljobidSQLfc)) <> 0 then
+                        seljobidSQL = seljobidSQL & " OR "& seljobidSQLfc
+                    end if
+                end if
+
+                select case lto
+                case "wwf"
+                strSQLspecial = "" '" OR jobknr = 1"
+                case else
+                strSQLspecial = ""
+                end select
+
 
                 '*** Datospærring Vis først job når stdato er oprindet
                 select case ignJobogAktper
                 case 0,1
-                strSQL = strSQL &" WHERE ("& seljobidSQL &") AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobstatus = 1) OR (j.jobstatus = 3 "& jobstatusExtra &")) AND "& strSQLkri3
+                strSQL = strSQL &" WHERE ("& seljobidSQL &" "& strSQLspecial &") AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobstatus = 1) OR (j.jobstatus = 3 "& jobstatusExtra &")) AND "& strSQLkri3
                 case 3
-                strSQL = strSQL &" WHERE ("& seljobidSQL &") AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobslutdato >= '"& varTjDatoUS_man &"' AND j.jobstatus = 1) OR (j.jobstatus = 3 "& jobstatusExtra &")) AND "& strSQLkri3
+                strSQL = strSQL &" WHERE ("& seljobidSQL &" "& strSQLspecial &") AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobslutdato >= '"& varTjDatoUS_man &"' AND j.jobstatus = 1) OR (j.jobstatus = 3 "& jobstatusExtra &")) AND "& strSQLkri3
                 case else
-                strSQL = strSQL &" WHERE ("& seljobidSQL &") AND (j.jobstatus = 1 OR j.jobstatus = 3 "& jobstatusExtra &") AND "& strSQLkri3
+                strSQL = strSQL &" WHERE ("& seljobidSQL &" "& strSQLspecial &" ) AND (j.jobstatus = 1 OR j.jobstatus = 3 "& jobstatusExtra &") AND "& strSQLkri3
                 end select
 
                 'if cint(ignJobogAktper) = 1 then '** Vis kun job og aktiviteter med startdato i det valgte interval
@@ -9754,7 +10481,7 @@
                                                     end select %>
 
                                                     <%if editok = 1 then %>
-                                                    <a href="jobs.asp?menu=job&func=red&id=<%=aktdata(iRowLoop, 4) %>&int=1&rdir=treg" style="color:yellowgreen; font-weight:lighter;"><sub>[ <%=left(tsa_txt_251, 3) %>. ]</sub></a>
+                                                    <a href="jobs.asp?menu=job&func=red&id=<%=aktdata(iRowLoop, 4) %>&int=1&rdir=treg" style="color:yellowgreen;">..\</a>
                                                     <%end if %>
                                                     <br /><span style="color:#cccccc; font-size:9px;"><%=left(aktdata(iRowLoop, 32), 30) & " " & aktdata(iRowLoop, 56) %></span>
                                                     </td>
@@ -10600,8 +11327,19 @@
         <input type="hidden" id="matregid" name="matregid" value="0" />
         <input type="hidden" id="matreg_func" name="matreg_func" value="dbopr" />
         
+        <%	
+        ' Henter basis valuta	
+        basic_valuta = "DKK"	
+        strSQL = "SELECT valutakode FROM valutaer WHERE grundvaluta = 1"	
+        oRec.open strSQL, oconn, 3	
+        if not oRec.EOF then	
+            basic_valuta = oRec("valutakode")	
+        end if	
+        oRec.close	
+        %>	
+
+        <input type="text" id="basic_valuta" value="<%=basic_valuta %>" />
         
-    
    
    
     <tr><td colspan="2">

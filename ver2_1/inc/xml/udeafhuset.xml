@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Er du sikker på du vil slette denne ude af huset registrering</txt_1>
+    <txt_2 >Det vil slette disse timeregistreringer</txt_2>
+    <txt_3 >Ja</txt_3>
+    <txt_4 >Nej</txt_4>
+    <txt_5 >Ude af huset</txt_5>
+    <txt_6 >Type</txt_6>
+    <txt_7 >Er ude af huset fra d.</txt_7>
+    <txt_8 >Fra klokken</txt_8>
+    <txt_9 >Til d.</txt_9>
+    <txt_10 >Til klokken</txt_10>
+
+    <txt_11 >Heledagen</txt_11>
+    <txt_12 >Ingen</txt_12>
+    <txt_13 >Opret</txt_13>
+    <txt_14 >Ingen ude af huset registreringer</txt_14>
+    <txt_15 >Ubestemt</txt_15>
+    <txt_16 >Medarbejder</txt_16>
+    <txt_17 >Forretningsrejse</txt_17>
+    <txt_18 >Ferie</txt_18>
+    <txt_19 >Arbejde hjemme</txt_19>
+    <txt_20 >Syg</txt_20>
+    <txt_21 >Møde</txt_21>
+
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >Are you sure you want to delete this out of office registration</txt_1>
+    <txt_2 >It will delete these time records</txt_2>
+    <txt_3 >Yes</txt_3>
+    <txt_4 >No</txt_4>
+    <txt_5 >Out of office</txt_5>
+    <txt_6 >Type</txt_6>
+    <txt_7 >Is out of office from</txt_7>
+    <txt_8 >at</txt_8>
+    <txt_9 >to</txt_9>
+    <txt_10 >at</txt_10>
+
+    <txt_11 >All day</txt_11>
+    <txt_12 >None</txt_12>
+    <txt_13 >Create</txt_13>
+    <txt_14 >No out of office records</txt_14>
+    <txt_15 >Indefinite</txt_15>
+    <txt_16 >Employee</txt_16>
+    <txt_17 >Business trip</txt_17>
+    <txt_18 >Holiday</txt_18>
+    <txt_19 >Works from home</txt_19>
+    <txt_20 >Sick</txt_20>
+    <txt_21 >Meeting</txt_21>
+
+  </no>
+
+
+  <!--- Svensk -->
+  <so>
+
+    <txt_1 >Are you sure you want to delete this out of office registration</txt_1>
+    <txt_2 >It will delete these time records</txt_2>
+    <txt_3 >Yes</txt_3>
+    <txt_4 >No</txt_4>
+    <txt_5 >Out of office</txt_5>
+    <txt_6 >Type</txt_6>
+    <txt_7 >Is out of office from</txt_7>
+    <txt_8 >at</txt_8>
+    <txt_9 >to</txt_9>
+    <txt_10 >at</txt_10>
+
+    <txt_11 >All day</txt_11>
+    <txt_12 >None</txt_12>
+    <txt_13 >Create</txt_13>
+    <txt_14 >No out of office records</txt_14>
+    <txt_15 >Indefinite</txt_15>
+    <txt_16 >Employee</txt_16>
+    <txt_17 >Business trip</txt_17>
+    <txt_18 >Holiday</txt_18>
+    <txt_19 >Works from home</txt_19>
+    <txt_20 >Sick</txt_20>
+    <txt_21 >Meeting</txt_21>
+
+  </so>
+
+
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >Are you sure you want to delete this out of office registration</txt_1>
+    <txt_2 >It will delete these time records</txt_2>
+    <txt_3 >Yes</txt_3>
+    <txt_4 >No</txt_4>
+    <txt_5 >Out of office</txt_5>
+    <txt_6 >Type</txt_6>
+    <txt_7 >Is out of office from</txt_7>
+    <txt_8 >at</txt_8>
+    <txt_9 >to</txt_9>
+    <txt_10 >at</txt_10>
+
+    <txt_11 >All day</txt_11>
+    <txt_12 >None</txt_12>
+    <txt_13 >Create</txt_13>
+    <txt_14 >No out of office records</txt_14>
+    <txt_15 >Indefinite</txt_15>
+    <txt_16 >Employee</txt_16>
+    <txt_17 >Business trip</txt_17>
+    <txt_18 >Holiday</txt_18>
+    <txt_19 >Works from home</txt_19>
+    <txt_20 >Sick</txt_20>
+    <txt_21 >Meeting</txt_21>
+
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >Are you sure you want to delete this out of office registration</txt_1>
+    <txt_2 >It will delete these time records</txt_2>
+    <txt_3 >Yes</txt_3>
+    <txt_4 >No</txt_4>
+    <txt_5 >Out of office</txt_5>
+    <txt_6 >Type</txt_6>
+    <txt_7 >Is out of office from</txt_7>
+    <txt_8 >at</txt_8>
+    <txt_9 >to</txt_9>
+    <txt_10 >at</txt_10>
+
+    <txt_11 >All day</txt_11>
+    <txt_12 >None</txt_12>
+    <txt_13 >Create</txt_13>
+    <txt_14 >No out of office records</txt_14>
+    <txt_15 >Indefinite</txt_15>
+    <txt_16 >Employee</txt_16>
+    <txt_17 >Business trip</txt_17>
+    <txt_18 >Holiday</txt_18>
+    <txt_19 >Works from home</txt_19>
+    <txt_20 >Sick</txt_20>
+    <txt_21 >Meeting</txt_21>
+
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Are you sure you want to delete this out of office registration</txt_1>
+    <txt_2 >It will delete these time records</txt_2>
+    <txt_3 >Yes</txt_3>
+    <txt_4 >No</txt_4>
+    <txt_5 >Out of office</txt_5>
+    <txt_6 >Type</txt_6>
+    <txt_7 >Is out of office from</txt_7>
+    <txt_8 >at</txt_8>
+    <txt_9 >to</txt_9>
+    <txt_10 >at</txt_10>
+
+    <txt_11 >All day</txt_11>
+    <txt_12 >None</txt_12>
+    <txt_13 >Create</txt_13>
+    <txt_14 >No out of office records</txt_14>
+    <txt_15 >Indefinite</txt_15>
+    <txt_16 >Employee</txt_16>
+    <txt_17 >Business trip</txt_17>
+    <txt_18 >Holiday</txt_18>
+    <txt_19 >Works from home</txt_19>
+    <txt_20 >Sick</txt_20>
+    <txt_21 >Meeting</txt_21>
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+    <txt_1 >Are you sure you want to delete this out of office registration</txt_1>
+    <txt_2 >It will delete these time records</txt_2>
+    <txt_3 >Yes</txt_3>
+    <txt_4 >No</txt_4>
+    <txt_5 >Out of office</txt_5>
+    <txt_6 >Type</txt_6>
+    <txt_7 >Is out of office from</txt_7>
+    <txt_8 >at</txt_8>
+    <txt_9 >to</txt_9>
+    <txt_10 >at</txt_10>
+
+    <txt_11 >All day</txt_11>
+    <txt_12 >None</txt_12>
+    <txt_13 >Create</txt_13>
+    <txt_14 >No out of office records</txt_14>
+    <txt_15 >Indefinite</txt_15>
+    <txt_16 >Employee</txt_16>
+    <txt_17 >Business trip</txt_17>
+    <txt_18 >Holiday</txt_18>
+    <txt_19 >Works from home</txt_19>
+    <txt_20 >Sick</txt_20>
+    <txt_21 >Meeting</txt_21>
+    
+  </es>
+
+
+</sprog>

@@ -43,6 +43,8 @@
     aar = year(now)
 	end if
 
+    call browsertype()
+
     thisfile = "forecast_kapacitet.asp"
 
 
@@ -170,7 +172,7 @@
                             </select>
                         </div>
                     </div> -->
-
+                  
                     <form action="forecast_kapacitet.asp?" method="post">
                     <table><tr>
 
@@ -222,25 +224,28 @@
                            
                     %>
 
+                   <!-- <a href="timbudgetsim.asp">Simulering >></a> -->
+
+                    <br /><br />
                     <table id="fckap" style="background-color:#FFFFFF;" class="table dataTable table-striped table-bordered table-hover ui-datatable">
                         <thead>
                             <tr>
                                 <th style="vertical-align:bottom; text-align:left;">Afd. (org. projektgrp.)</th>
-                                <th style="vertical-align:bottom; text-align:left">Navn</th>
+                                <th style="vertical-align:bottom; text-align:left">Navn <br />Med.type hvis skiftet</th>
                                 <th style="vertical-align:bottom; text-align:left">A. Norm.<br />/uge</th>
                                 <th style="vertical-align:bottom; text-align:left">B. Ansat <br />mdr</th>
                                 <th style="vertical-align:bottom; text-align:left">C. Årsnorm</th>
                                 <th style="vertical-align:bottom; text-align:left">D. Ferie/FF</th>
                                 <th style="vertical-align:bottom; text-align:left">E. Forecast interne timer<br /> forening (3)</th>
-                                <th style="vertical-align:bottom; text-align:left">F. Forecast interne timer<br /> afdeling (7XXX)</th>
+                                <th style="vertical-align:bottom; text-align:left">F. Forecast interne timer<br /> afdeling (7XXX) <span style="font-size:9px;">(prioritet -3)</span></th>
                                 <th style="vertical-align:bottom; text-align:left">G. Faktisk <br /> syge, fravær, barsel mm.</th>
                                 <th style="vertical-align:bottom; text-align:left">H. Kapacitet til projekt <br /> t/år</th>
                          
                                 <th style="vertical-align:bottom; text-align:left">I. Forecast</th>
                                 <th style="vertical-align:bottom; text-align:left">J. Interne timer (E+F)</th>
                                 <th style="vertical-align:bottom; text-align:left">K. Projekt tid (I-J)</th>
-                                <th style="vertical-align:bottom; text-align:left">L. Overskud Projekt tid %</th>
-                                <th style="vertical-align:bottom; text-align:left">M. <br />Timer<br />overskud<br />/underskud</th>
+                                <th style="vertical-align:bottom; text-align:left">L. Overskud <br />Proj. tid %</th>
+                                <th style="vertical-align:bottom; text-align:left">M. <br />Timer<br />oversk.<br />/undersk.<br />(C-(D+G+I))</th>
                               
                             </tr>
                         </thead>
@@ -249,6 +254,9 @@
 
 
             end if 'media
+
+
+          
 
 
                             '*** Projektfordleing KUN EXP **'
@@ -289,6 +297,12 @@
                             totalMedarbInterntid = 0
                             totalMedarbProtid = 0
                             resultskud = 0
+                                
+                            i = 100
+                            dim  norm_ugetotalArr, intervalWeeksArr, intervalWMnavn
+                            redim  norm_ugetotalArr(i), intervalWeeksArr(i), intervalWMnavn(i) 
+
+
                             strSQLSelmed = "SELECT m.mnavn, m.init, mid, ansatdato, opsagtdato FROM medarbejdere m WHERE "& medarbSQlKri &" ORDER BY mnavn"
 
                             'response.write "strSQLSelmed: "& strSQLSelmed
@@ -297,6 +311,25 @@
                             oRec.open strSQLSelmed, oConn, 3
                             while not oRec.EOF
                             totalAntalMedarbs = totalAntalMedarbs + 1
+
+                         
+
+
+                            '**************************************************
+                            '** Måneder ansat, ferie, årsnorm
+                            '**************************************************
+
+                          
+
+                            startperiode = aar &"/01/01"
+                            slutperiode = aar &"/12/31"
+                            call kapcitetsnorm(oRec("mid"), oRec("ansatdato"), oRec("opsagtdato"), startperiode, slutperiode, 1) 
+                            
+                                
+                            
+                            
+                                
+
 
                             '**************************************************
                             '** projektgruppe, medarbejder navn mm
@@ -319,89 +352,29 @@
                             oRec2.close
 
 
-                            '**************************************************
-                            '** Måneder ansat, ferie, årsnorm
-                            '**************************************************
-                            maanederansat = 0
-                            arrsferie = 0
-                            dagsdato = Day(now) &"-"& Month(now) &"-"& Year(now)
-                            'strSQLansat = "SELECT ansatdato FROM medarbejdere WHERE mid = "& oRec("mid")
-                            'response.Write strSQLansat
-                            'oRec2.open strSQLansat, oConn, 3
-                            'if not oRec2.EOF then
-                            if year(oRec("ansatdato")) < year(now) then
-                            asDato = "01-01-"& aar
-                            else
-                            asDato = oRec("ansatdato")
-                            end if
 
-                            if cint(year(oRec("opsagtdato"))) <> cint(aar) then
-                            endDtKri = "31-12-"& aar
-                            else
-                            endDtKri = oRec("opsagtdato")
-                            end if
 
-                            maanederansat = DateDiff("m",asDato,endDtKri,2,2) + 1 '(altid + indeværende md)
-                                           
 
-                            'end if
-                            'oRec2.close 
 
-                            if maanederansat > 12 then
-                            maanederansat = 12
-                            end if
 
-                           
 
-                            ansatdatoKri = "1-1-"& aar
-                            if cDate(oRec("ansatdato")) > cDate(ansatdatoKri) then
-                            ansatdatoKri = oRec("ansatdato")
-                            else
-                            ansatdatoKri = ansatdatoKri
-                            end if
-
-                            norm_ugetotal = 0
-                            'ntimMan = 0
-                            'ntimTir = 0
-                            'ntimOns = 0
-                            'ntimTor = 0
-                            'ntimFre = 0
-                            'ntimLor = 0
-                            'ntimSon = 0
-                            nTimerPerIgnHellig = 0
-                            call normtimerPer(oRec("mid"), ansatdatoKri, 6, 0)
-                            norm_ugetotal = nTimerPerIgnHellig 'ntimMan + ntimTir + ntimOns + ntimTor + ntimFre + ntimLor + ntimSon  
-                                                    
-                                
-
-                            select case aar
-                            case 2017
-                            antalUger = 52
-                            case 2018
-                            antalUger = 51.22
-                            case else
-                            antalUger = 52
-                            end select
-
-                            antalhelligdagetimer = 60 '104 'helligdageIalt * 7.4
-                            norm_aarstotal = (((maanederansat/12) * (norm_ugetotal * antalUger)) - (antalhelligdagetimer))
-                            arrsferie = ((maanederansat/12) * norm_ugetotal * 6)
-                            if  totalAntalMedarbs = 1 then
-                            totalMedarbNorm = norm_aarstotal
-                            totalMedarbFerie = arrsferie
-                            else 
-                            totalMedarbNorm = totalMedarbNorm + norm_aarstotal
-                            totalMedarbFerie = totalMedarbFerie + arrsferie  
-                            end if
                             if media <> "export" then                                 
                             %>
                             <tr>
-                                <td><div style="width:150px; overflow-wrap:break-word;"><%=left(strProgrupppeNavn, 150)%></div></td>
-                                <td><div style="width:200px;"><%=oRec("mnavn") & " ["& oRec("init") &"]" %></div></td>
+                                <td style="width:100px; overflow-wrap:break-word;"><%=left(strProgrupppeNavn, 15)%></td>
+                                <td style="width:200px; overflow-wrap:break-word;"><%=left(oRec("mnavn"), 20) & " ["& oRec("init") &"]" %>
 
-                                <td><div style="width:50px;">
+                                    <%if mt > 9999999 then '0 %>
+                                    <span style="font-size:9px;"><%=mtText %></span>
+
+                                    <%end if %>
+
+                                </td>
+
+                                <td style="width:80px; overflow-wrap:break-word;">
                                     <%=formatnumber(norm_ugetotal,2)%>
-                                    </div></td>
+                                    
+                                </td>
 
                             <%else 
                                 
@@ -414,7 +387,7 @@
                                 
                              if media <> "export" then    %>
 
-                                <td><div style="width:35px;">
+                                <td style="width:35px;">
                                         <%
                                
                              end if
@@ -430,7 +403,7 @@
 
                                     if media <> "export" then
                                     %>
-                                    </div></td>
+                                    </td>
                                     <td><%=formatnumber(norm_aarstotal,0)%>
                                         <br />
                                         <%'"maanederansat/12:" & maanederansat/12 &" * norm_ugetotal * 52:"& norm_ugetotal * 52 &" - antalhelligdagetimer:" & antalhelligdagetimer %>
@@ -773,6 +746,23 @@
 
                     </table>
 
+                    <div class="row">
+                          <div class="col-lg-12">
+                            <br /><br /><br />
+                                </div>
+                    </div>
+
+                    <div class="row">
+                          <div class="col-lg-6">
+                            <%'if lto = "sduuas" then %>
+                            <script type="text/javascript" src="js/libs/excanvas.compiled.js"></script>
+                            <script type="text/javascript" src="js/plugins/flot/jquery.flot.js"></script>
+                            <script type="text/javascript" src="js/demos/flot/stacked-vertical_dashboard_sduuas.js"></script>
+                            <div id="stacked-vertical-chart" class="chart-holder-200"></div>
+                           <%'end if %>
+                        </div>
+                    </div>
+
                
 
                     <% '*** CSV eksport **''
@@ -818,7 +808,7 @@
                         strEksportHeader = strEksportHeader & "J. Interne timer (E+F);"
                         strEksportHeader = strEksportHeader & "K. Projekt tid (I-J);"
                         strEksportHeader = strEksportHeader & "L. Overskud Projekttid %;"
-                        strEksportHeader = strEksportHeader & "M. Timer Overskud/Underskud;"
+                        strEksportHeader = strEksportHeader & "M. Timer Overskud/Underskud (C-(D+G+I));"
                         strEksportHeader = strEksportHeader & strTxtExportHeaderJob & vbcrlf
                                         
                        

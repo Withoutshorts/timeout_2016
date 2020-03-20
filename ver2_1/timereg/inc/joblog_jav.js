@@ -183,19 +183,15 @@ function checkAllGK(val){
 	
     antal_v = document.getElementById("antal_v").value 
 	
-    //if (val == 1) {
-    //document.getElementById("chkalle1").checked = true
-    //document.getElementById("chkalle2").checked = false
-    //tval = true
-    //} else {
-    //tval = false
-    //document.getElementById("chkalle1").checked = false
-    //document.getElementById("chkalle2").checked = true
-    //}
-	
-    for (i = 0; i < antal_v ; i++)
-        document.getElementById("FM_godkendt" + val + "_" + i).checked = true
+    //for (i = 0; i < antal_v ; i++)
+     //   document.getElementById("FM_godkendt" + val + "_" + i).checked = true
+
+    $(".FM_godkendt_"+ val +"").attr('checked', true);
 }
+
+
+
+
 
 function clearK_Jobans() {
     //alert("her")

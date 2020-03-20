@@ -8,6 +8,7 @@ Set objXmlHttp_ttw = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp_ttw.open "GET", "http://localhost/inc/xml/timetag_web.xml", False
 'objXmlHttp_ttw.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/timetag_web.xml", False
 'objXmlHttp_ttw.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/timetag_web.xml", False
+'objXmlHttp_ttw.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver4_22/inc/xml/timetag_web.xml", False
 'objXmlHttp_ttw.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/timetag_web.xml", False
 objXmlHttp_ttw.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/timetag_web.xml", False
 
@@ -107,6 +108,7 @@ Set oNodes_ttw = objXmlDom_ttw.documentElement.selectNodes(sXPathQuery_ttw)
           ttw_txt_025 = oNode_ttw.selectSingleNode("txt_25").Text
           ttw_txt_026 = oNode_ttw.selectSingleNode("txt_26").Text
           ttw_txt_027 = oNode_ttw.selectSingleNode("txt_27").Text
+          ttw_txt_028 = oNode_ttw.selectSingleNode("txt_28").Text
   
           
     next

@@ -99,11 +99,56 @@
             fromDateTim = sqlFra &" "& fraklokken
             toDateTime = sqlTil &" "& tilklokken
 
+            if len(trim(request("FM_udetype"))) <> 0 then
+                udetype = request("FM_udetype")
+            else
+                udetype = 0
+            end if
 
             'response.Write "HerHerHerHerHerHer Medarbejder " & medid & " fradato " & sqlFra & "tildato " & sqlTil & " fraklokken " & fraklokken & " til klokken " & tilklokken & " Heledagen " & heledagen
 
-            strSQL = "INSERT INTO udeafhuset (medid, fradato, fratidspunkt, tildato, tiltidspunkt, heledagen, fra, til) VALUES ("& medid &", '"& sqlFra &"', '"& fraklokken &"', '"& sqlTil &"', '"& tilklokken &"', "& heledagen &", '"& fromDateTim &"', '"& toDateTime &"')"
+            strSQL = "INSERT INTO udeafhuset (medid, fradato, fratidspunkt, tildato, tiltidspunkt, heledagen, fra, til, udeafhusettype) VALUES ("& medid &", '"& sqlFra &"', '"& fraklokken &"', '"& sqlTil &"', '"& tilklokken &"', "& heledagen &", '"& fromDateTim &"', '"& toDateTime &"', "& udetype &")"
             oConn.execute(strSQL)
+
+
+            'Tjekekr om der skal timer ind i dag
+            sqlNow = year(now) &"-"& month(now) &"-"& day(now)
+            if sqlFra = sqlNow AND udetype <> 0 then
+                
+                aktid = 0
+                select case cint(udetype)
+                    case 1 'Forretnignsrejse
+                        aktid = 33            
+                    case 2 'Ferie
+                        aktid = 13     
+                    case 3 'Arbejde hjemme
+                        aktid = 32
+                    case 4 'Syg
+                        aktid = 30
+                end select
+
+                sqlNow = year(now) &"-"& month(now) &"-"& day(now) 
+                call normtimerPer(medid, sqlNow, 0, 0)
+                antal = ntimper
+
+                lastUid = 0
+                strSQL = "SELECT id FROM udeafhuset ORDER BY id DESC" 
+                oRec3.open strSQL, oConn, 3
+                if not oRec3.EOF then
+                    lastUid = oRec3("id")
+                end if
+                oRec3.close
+
+                timerkom = ""
+                koregnr = ""
+                destination = ""
+                usebopal = 0
+
+                call indlasTimerTfaktimAktid(lto, medid, antal, 0, aktid, 0, sqlNow, lastUid, timerkom, koregnr, destination, usebopal)
+            end if
+
+
+
 
             response.Redirect "udeafhuset.asp"
 
@@ -111,13 +156,106 @@
             case "ud_slet"
 
                 udID = request("FM_udID")
+                udeafhusettype = request("udeafhusettype")
+                medid = request("medid")
 
-                strSQL = "DELETE FROM udeafhuset WHERE id = "& udID 
-                oConn.execute(strSQL)
+                if udeafhusettype = 0 then 
+                    strSQL = "DELETE FROM udeafhuset WHERE id = "& udID 
+                    oConn.execute(strSQL)
 
-                response.Redirect "udeafhuset.asp"
+                    response.Redirect "udeafhuset.asp"
+                else 'Her skal der også slettes timer derfor blvier der spurgt inden om man er sikker på man vil slette
+                          
+                    udeafhusettype = request("udeafhusettype")
+
+                    %>
+                    <div class="container">
+                        <h3 style="text-align:center;"><%=udeafhuset_txt_001 %></h3>
+                        <div class="portlet-body">
+                            <%
+
+                            select case udeafhusettype
+                                case "1", cint(1)
+                                    aktivitetsid = 33
+                                case "2", cint(2)
+                                    aktivitetsid = 13
+                                case "3", cint(3)
+                                    aktivitetsid = 32
+                                case "4", cint(4)
+                                    aktivitetsid = 30
+                            end select
+
+                            deleteTimerTxt = ""
+                            strSQL = "SELECT timer, tmnavn, taktivitetnavn, tdato FROM timer WHERE tmnr = "& medid & " AND taktivitetid = "& aktivitetsid & " AND extsysid = "& udID
+                            'response.Write strSQL
+                            oRec.open strSQL, oConn, 3
+                            while not oRec.EOF
+                                deleteTimerTxt = deleteTimerTxt & "<tr><td>"&oRec("tmnavn")&"</td>"
+                                deleteTimerTxt = deleteTimerTxt & "<td>"&oRec("taktivitetnavn")&"</td>"
+                                deleteTimerTxt = deleteTimerTxt & "<td>"&oRec("timer")&"</td>"
+                                deleteTimerTxt = deleteTimerTxt & "<td>"&oRec("tdato")&"</td>"
+                                deleteTimerTxt = deleteTimerTxt & "<tr>" 
+                            oRec.movenext
+                            wend
+                            oRec.close
+                            %>
+
+                            <%if deleteTimerTxt <> "" then %>
+                            <h4 class="col-lg-12" style="text-align:center;"><%=udeafhuset_txt_002 %></h4>
+                            <div class="row">        
+                                <div class="col-lg-4"></div>
+                                <div class="col-lg-4">
+                                    <table class="table dataTable table-striped table-bordered table-hover ui-datatable">
+                                        <tbody>
+                                            <%=deleteTimerTxt %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <%end if %>
+                            <br /><br />
+                            <div class="row">
+                                <div class="col-lg-12" style="text-align:center;">
+                                    <a href="udeafhuset.asp?func=sletmedtimer&medid=<%=medid %>&FM_udID=<%=udID %>&udeafhusettype=<%=udeafhusettype %>" class="btn btn-danger btn-sm" style="width:50px;"><b><%=udeafhuset_txt_003 %></b></a>
+                                    &nbsp
+                                    <a href="udeafhuset.asp" class="btn btn-default btn-sm" style="width:50px;"><b><%=udeafhuset_txt_004 %></b></a>
+                                </div>
+                            </div>
+
+                        </div>
+                        <br /><br /><br /><br />
+                    </div>
+                    <%
+
+                end if ' udeafhuesttype
             
+            case "sletmedtimer"
 
+                    medid = request("medid")
+                    udID = request("FM_udID")
+
+                    if udID <> 0 then
+                        udeafhusettype = request("udeafhusettype")
+
+                        select case udeafhusettype
+                            case "1", cint(1)
+                                aktivitetsid = 33
+                            case "2", cint(2)
+                                aktivitetsid = 13
+                            case "3", cint(3)
+                                aktivitetsid = 32
+                            case "4", cint(4)
+                                aktivitetsid = 30
+                        end select
+
+                        strSQL = "DELETE FROM timer WHERE tmnr = "& medid & " AND taktivitetid = "& aktivitetsid & " AND extsysid = "& udID 
+                        oConn.execute(strSQL)
+
+                        strSQL = "DELETE FROM udeafhuset WHERE id = "& udID 
+                        oConn.execute(strSQL)
+                    end if
+
+                    response.Redirect "udeafhuset.asp"
         %>
 
         <%case else %>
@@ -125,19 +263,22 @@
         <script src="js/datepicker.js" type="text/javascript"></script>
         <div class="container">
             <div class="portlet">
-                <h3 class="portlet-title"><u>Ude af huset</u></h3>
+                <h3 class="portlet-title"><u><%=udeafhuset_txt_005 %></u></h3>
                 <div class="portlet-body">
 
 
                     <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
-                                <th>Medarbejder</th>
-                                <th>Er ude af huset fra d.</th>                                
-                                <th>Fra klokken</th>
-                                <th>Til d.</th>
-                                <th>Til klokken</th>
-                                <th>Heledagen</th>
+                                <th><%=udeafhuset_txt_016 %></th>
+                                <%if lto = "cool" OR lto = "hidalgo" OR lto = "kongeaa" then %>
+                                <th><%=udeafhuset_txt_006 %></th>
+                                <%end if %>
+                                <th><%=udeafhuset_txt_007 %></th>                                
+                                <th><%=udeafhuset_txt_008 %></th>
+                                <th><%=udeafhuset_txt_009 %></th>
+                                <th><%=udeafhuset_txt_010 %></th>
+                                <th><%=udeafhuset_txt_011 %></th>
                             </tr>
                         </thead>
 
@@ -147,7 +288,7 @@
                                 <tr>
                                     <td>
                                         <select class="form-control input-small" name="FM_medid">
-                                            <option value="0">Ingen</option>
+                                            <option value="0"><%=udeafhuset_txt_012 %></option>
                                         
                                             <%
                                                 strSQL = "SELECT Mid, mnavn FROM medarbejdere WHERE mansat = 1 ORDER BY mnavn"
@@ -162,6 +303,18 @@
                                             %>
                                         </select>
                                     </td>
+
+                                    <%if lto = "cool" OR lto = "hidalgo" OR lto = "kongeaa" then %>
+                                    <td>
+                                        <select class="form-control input-small" name="FM_udetype">
+                                            <option value="0"><%=udeafhuset_txt_021 %></option>
+                                            <option value="1"><%=udeafhuset_txt_017 %></option>
+                                            <option value="2"><%=udeafhuset_txt_018 %></option>
+                                            <option value="3"><%=udeafhuset_txt_019 %></option>
+                                            <option value="4"><%=udeafhuset_txt_020 %></option>
+                                        </select>
+                                    </td>
+                                    <%end if %>
 
                                     <td>
                                         <div class='input-group date'>
@@ -192,14 +345,14 @@
                                     <td style="text-align:center"><input type="checkbox" name="FM_heledagen" value="1" /></td>
 
                                     <!-- Opret knap -->
-                                    <td style="text-align:center"><button type="submit" class="btn btn-default btn-sm"><b>Opret</b></button></td>
+                                    <td style="text-align:center"><button type="submit" class="btn btn-default btn-sm"><b><%=udeafhuset_txt_013 %></b></button></td>
 
                                 </tr>
                             </form>
 
                             <%
                                 x = 0
-                                strSQL = "SELECT id, medid, m.mnavn as mnavn, fradato, fratidspunkt, tildato, tiltidspunkt, heledagen FROM udeafhuset as u LEFT JOIN medarbejdere as m ON m.mid = u.medid"
+                                strSQL = "SELECT id, medid, m.mnavn as mnavn, fradato, fratidspunkt, tildato, tiltidspunkt, heledagen, udeafhusettype FROM udeafhuset as u LEFT JOIN medarbejdere as m ON m.mid = u.medid ORDER BY id DESC"
                                 'response.Write strSQl
                                 oRec.open strSQL, oConn, 3
                                 while not oRec.EOF
@@ -207,6 +360,24 @@
                             %>
                                 <tr>
                                     <td><%=oRec("mnavn") %></td>
+
+                                    <%if lto = "cool" OR lto = "hidalgo" OR lto = "kongeaa" then %>
+                                        <%
+                                        select case oRec("udeafhusettype") 
+                                            case cint(1)
+                                            typeTxt = udeafhuset_txt_017
+                                            case cint(2)
+                                            typeTxt = udeafhuset_txt_018
+                                            case cint(3)
+                                            typeTxt = udeafhuset_txt_019
+                                            case cint(4)
+                                            typeTxt = udeafhuset_txt_020
+                                            case else
+                                            typeTxt = udeafhuset_txt_021
+                                        end select
+                                        %>
+                                        <td><%=typeTxt %></td>
+                                    <%end if %>
 
                                     <td>                              
                                         <div class='input-group date'>
@@ -251,7 +422,7 @@
                                         %>
                                     </td>
 
-                                    <td style="text-align:center"><a href="udeafhuset.asp?func=ud_slet&FM_udID=<%=oRec("id") %>"><span style="color:darkred;" class="fa fa-times"></span></a></td>
+                                    <td style="text-align:center"><a href="udeafhuset.asp?func=ud_slet&FM_udID=<%=oRec("id") %>&udeafhusettype=<%=oRec("udeafhusettype") %>&medid=<%=oRec("medid") %>"><span style="color:darkred;" class="fa fa-times"></span></a></td>
 
                                 </tr>
                             <%
@@ -263,7 +434,7 @@
                             <%if x = 0 then %>
 
                                 <tr>
-                                    <td colspan="20" style="text-align:center;">Ingen ude af huset registreringer</td>
+                                    <td colspan="20" style="text-align:center;"><%=udeafhuset_txt_014 %></td>
                                 </tr>
 
                             <%end if %>

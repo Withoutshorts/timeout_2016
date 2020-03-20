@@ -77,13 +77,14 @@ if len(session("user")) = 0 then
 		end if
 	
 	
+    totalProfit = 0
 	
 	
 	'**************************************************
 	'***** Faste Filter kriterier *********************
 	'**************************************************
 		
-	
+	    
 		
 	'*** Job og Kundeans ***
 	call kundeogjobans()
@@ -136,28 +137,39 @@ if len(session("user")) = 0 then
 
         if len(trim(request("FM_toplist"))) <> 0 then
         
-        topList = request("FM_toplist")
-        select case topList
-        case 5
-        topSel5 = "SELECTED"
-        case 10
-        topSel10 = "SELECTED"
-        case 20
-        topSel20 = "SELECTED"
-        case 50
-        topSel50 = "SELECTED"
-        end select
+            topList = request("FM_toplist")
+            select case topList
+            case 5
+            topSel5 = "SELECTED"
+            case 10
+            topSel10 = "SELECTED"
+            case 20
+            topSel20 = "SELECTED"
+            case 50
+            topSel50 = "SELECTED"
+            end select
          
 	    else
-        topList = 20
-        topSel20 = "SELECTED"
+            select case lto
+            case "nt"
+                topList = 50
+                topSel50 = "SELECTED"
+            case else
+                topList = 20
+                topSel20 = "SELECTED"
+            end select
         end if
 
 
     if len(trim(request("FM_visprkunde"))) <> 0 then
     visprkunde = request("FM_visprkunde")
     else
-    visprkunde = 0
+        select case lto 
+        case "nt"
+            visprkunde = 1
+        case else
+            visprkunde = 0
+        end select
     end if
 
     if cint(visprkunde) = 1 then
@@ -173,9 +185,14 @@ if len(session("user")) = 0 then
         
 
         if len(request("FM_toplist_kunder_jobbudget_fak")) <> 0 then
-        toplist_kunder_jobbudget_fak = request("FM_toplist_kunder_jobbudget_fak")
+            toplist_kunder_jobbudget_fak = request("FM_toplist_kunder_jobbudget_fak")
         else
-        toplist_kunder_jobbudget_fak = 0
+            select case lto 
+            case "nt"
+            toplist_kunder_jobbudget_fak = 1
+            case else
+            toplist_kunder_jobbudget_fak = 0
+            end select
         end if
     
 
@@ -386,7 +403,7 @@ if len(session("user")) = 0 then
     	    
 	  
 	    <table cellspacing=0 cellpadding=0 border=0 width=100% bgcolor="#FFFFFF">
-	    <form action="oms.asp?rdir=<%=rdir %>" method="post">
+	    <form action="oms.asp?rdir=<%=rdir %>&sogogsubmitted=1" method="post">
 	    
 	<%end if %>
 
@@ -405,7 +422,7 @@ if len(session("user")) = 0 then
 
 	<tr>
 		<td valign=top colspan="2"><br /><b>År:</b>&nbsp;
-	<select name="seomsfor" id="seomsfor" style="width:85px;" onchange="submit();">
+	<select name="seomsfor" id="seomsfor" style="width:85px;">
 			
 			<%
 			useaar = 2005
@@ -423,8 +440,8 @@ if len(session("user")) = 0 then
 			'x = x + 1
 			next%>
 		</select>
-            <br /><br />
-           <input type="radio" name="FM_visprkunde" value="0" <%=visprkunde0CHK %> onchange="submit();" /> Vis omsætning total <br /><input type="radio" name="FM_visprkunde" value="1" <%=visprkunde1CHK %> onchange="submit();" /> Vis omsætning pr. kunde / lev.
+            <br /><br /><!--  Auto submit er irriterende her pga. load tid -->
+           <input type="radio" name="FM_visprkunde" value="0" <%=visprkunde0CHK %> /> Vis omsætning total <br /><input type="radio" name="FM_visprkunde" value="1" <%=visprkunde1CHK %> /> Vis omsætning pr. kunde / lev.
             
             &nbsp;top: 
             <select name="FM_toplist">
@@ -488,7 +505,12 @@ if len(session("user")) = 0 then
 	
 	
 	
-	
+    <%
+        
+      
+        
+        
+        if request("sogogsubmitted") = 1 then %>
 	<!-------------------------------Sideindhold------------------------------------->
 <%
 	
@@ -565,12 +587,13 @@ if len(session("user")) = 0 then
                     '("& jobidFakSQLkri &") AND
                     'SELECT f.fakadr, IF(faktype = 0, COALESCE(sum(f.beloeb * (f.kurs/100)),0), COALESCE(sum(f.beloeb * -1 * (f.kurs/100)),0)) AS beloeb
                     if cint(toplist_kunder_jobbudget_fak) = 0 then
-                    strSQLf = "SELECT f.fakadr, SUM(IF(faktype = 0, f.beloeb * (f.kurs/100), f.beloeb * -1 * (f.kurs/100))) AS beloeb, kkundenavn, kkundenr FROM fakturaer AS f "_
-                    &" LEFT JOIN kunder AS k ON (kid = fakadr "& ktypeKri &") "_
-                    &" WHERE "_
-    	            &" ((YEAR(fakdato) = '"& strYear &"' AND brugfakdatolabel = 0) "_
-                    &" OR (brugfakdatolabel = 1 AND YEAR(labeldato) = '"& strYear &"')) AND "_
-					&" (faktype = 0) AND shadowcopy <> 1 "& ktypeKri &" GROUP BY fakadr ORDER BY beloeb DESC LIMIT "& topList 
+                   
+                        strSQLf = "SELECT f.fakadr, SUM(IF(faktype = 0, f.beloeb * (f.kurs/100), f.beloeb * -1 * (f.kurs/100))) AS beloeb, kkundenavn, kkundenr FROM fakturaer AS f "_
+                        &" LEFT JOIN kunder AS k ON (kid = fakadr "& ktypeKri &") "_
+                        &" WHERE "_
+    	                &" ((YEAR(fakdato) = '"& strYear &"' AND brugfakdatolabel = 0) "_
+                        &" OR (brugfakdatolabel = 1 AND YEAR(labeldato) = '"& strYear &"')) AND "_
+					    &" (faktype = 0) AND shadowcopy <> 1 "& ktypeKri &" GROUP BY fakadr ORDER BY beloeb DESC LIMIT "& topList 
         
                     else
             
@@ -596,7 +619,7 @@ if len(session("user")) = 0 then
                     'OR faktype = 1
                 
                     'if session("mid") = 1 then
-                    'response.write strSQLf
+                    'response.write "<br><br><br><br><br><br><br><br><br><br><br><br>HER EHER<br>"& strSQLf
                     'response.flush 
                     'end if
 
@@ -815,8 +838,10 @@ for k = 0 TO antalK 'antal kunder
 					&" (faktype = 0 OR faktype = 1) AND shadowcopy <> 1 "& visprkundeSQLFakKri &" GROUP BY fid" 'fid
 					
 
+                   'if session("mid") = 1 then
                    'response.write strSQL4 & "<br><br>"
                    'response.Flush
+                   'end if
 
                     f = 0
 					oRec2.open strSQL4, oConn, 3
@@ -1192,7 +1217,7 @@ for k = 0 TO antalK 'antal kunder
         if cint(visprkunde) = 1 then
         visprkundeSQLjobKri = " AND jobknr = " & fordeltPrkundeIds(k) 
         else
-        visprkundeSQLjobKri = ""
+        visprkundeSQLjobKri = "" 'visprkundeSQLjobKri '""
         end if
 		
 		for m = 1 to 12
@@ -1254,11 +1279,16 @@ for k = 0 TO antalK 'antal kunder
                     strSQLIF = strSQLIF &" IF ((jobstatus = 0 OR jobstatus = 2) AND (kunde_levbetint = 2 OR kunde_levbetint = 3), YEAR(dt_actual_eta) = "& strYear &" AND MONTH(dt_actual_eta) = "& m 
                     strSQLIF = strSQLIF &",0))))" 
 
+                    'NT 20181019 ved alle job valgt, 30 sek. længere load tid hvis jobIdSQLKri IKEK er trimmet
+                    if cint(kundeid) = 0 AND cint(jobid) = 0 AND cint(jobans) = 0 AND cint(jobans2) = 0 AND cint(jobans3) = 0 AND cint(kundeans) = 0 AND len(trim(jobSogVal)) = 0 AND cint(aftaleid) = 0 AND cint(segment) = 0 then 
+		            jobIdSQLKri = " j.id <> 0 "
+                    end if
 
-                     strSQL1 = "SELECT jobtpris, jobnavn, jobnr, budgettimer, fastpris, jobstartdato, jobslutdato, fakturerbart, udgifter, (jo_bruttooms * (jo_valuta_kurs/100)) AS jo_bruttooms, orderqty, shippedqty, "_
+
+                     strSQL1 = "SELECT jobtpris, jobnavn, jobnr, budgettimer, fastpris, jobstartdato, jobslutdato, fakturerbart, jo_udgifter_intern AS udgifter, (jo_bruttooms * (jo_valuta_kurs/100)) AS jo_bruttooms, orderqty, shippedqty, "_
                      &" sales_price_pc, cost_price_pc, tax_pc, freight_pc, cost_price_pc_valuta, sales_price_pc_valuta, jobstatus, jo_dbproc"_
 			         &" FROM job AS j WHERE "_
-                     &" ("& strSQLIF &") "_
+                     &" ("& jobIdSQLKri &") AND ("& strSQLIF &") "_
                      &" "& jobstKri &" "& visprkundeSQLjobKri &" GROUP BY id ORDER BY jobnavn" 
     
                      '&" ("& jobIdSQLKri &") AND  "_                 
@@ -1267,13 +1297,20 @@ for k = 0 TO antalK 'antal kunder
             
             case else
 
-             strSQL1 = "SELECT jobtpris, jobnavn, jobnr, budgettimer, fastpris, jobstartdato, jobslutdato, fakturerbart, udgifter, (jo_bruttooms * (jo_valuta_kurs/100)) AS jo_bruttooms"_
+                    '20181019 ved alle job valgt, 30 sek. længere load tid hvis jobIdSQLKri IKEK er trimmet
+                    if cint(kundeid) = 0 AND cint(jobid) = 0 AND cint(jobans) = 0 AND cint(jobans2) = 0 AND cint(jobans3) = 0 AND cint(kundeans) = 0 AND len(trim(jobSogVal)) = 0 AND cint(aftaleid) = 0 AND cint(segment) = 0 then 
+		            jobIdSQLKri = " j.id <> 0 "
+                    end if
+
+             strSQL1 = "SELECT jobtpris, jobnavn, jobnr, budgettimer, fastpris, jobstartdato, jobslutdato, fakturerbart, jo_udgifter_intern, udgifter, (jo_bruttooms * (jo_valuta_kurs/100)) AS jo_bruttooms"_
 			 &" FROM job AS j WHERE ("& jobIdSQLKri &") AND YEAR(jobstartdato) = "& strYear &" AND MONTH(jobstartdato) = "& m &" AND fakturerbart = 1 "& jobstKri &" "& visprkundeSQLjobKri &" ORDER BY jobnavn" 'tilbud
 		
              end select
                 
 		
             'if session("mid") = 1 AND lto = "nt" then
+            'Response.Write "visprkunde: " & visprkunde & "<br>"
+            'Response.write "visprkundeSQLjobKri: " & visprkundeSQLjobKri & "<br>"
 			'Response.write "Budget:<br>"
 			'Response.write strSQL1 &"<br>"
             'response.flush
@@ -1312,13 +1349,13 @@ for k = 0 TO antalK 'antal kunder
                      
                         profit_pc = formatnumber((mrdOrderqtyThis * oRec("sales_price_pc") * (salgsprisKurs/100)) - (mrdOrderqtyThis * (oRec("cost_price_pc") + tax_pc_calc + oRec("freight_pc")) * (kostprisKurs/100)) * basisValKursUse/100, 2) 
                         
-                        
+                        profit_MD = (oRec("jo_bruttooms") - oRec("udgifter")) * 1
                      
                 
                    'mrdDBproc(m) = mrdDBproc(m)/1 + oRec("jo_dbproc")/1
                    'mrdDBprocCnt(m) = mrdDBprocCnt(m) + 1
 
-                   mrdProfit(m) = mrdProfit(m)/1 + profit_pc/1
+                   mrdProfit(m) = mrdProfit(m)/1 + profit_MD 'profit_pc/1
 
                   
                    end select
@@ -1463,6 +1500,8 @@ for k = 0 TO antalK 'antal kunder
                   
 
                 <%
+                
+                basisValISO_f8 = "" ' 
 
 	            tTop = 0
 	            tLeft = 0
@@ -1485,6 +1524,7 @@ for k = 0 TO antalK 'antal kunder
 <%
 
 
+                  
 
 
 if request("print") <> "j" AND media <> "export" then
@@ -1520,119 +1560,354 @@ if media <> "export" then
    
      
 end if 'media
+
+
+
+      
+
+
+
             
-if media <> "export" then%>
+            if media <> "export" then%>
 
-<tr bgcolor="#8caae6">
-	<td style="width:150px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff">&nbsp;A1) Budget Bruttooms. Job:</td>
-    <td valign="bottom"  align="right" style="width:70px; padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff"><%=basisValISO_f8 &" "&formatnumber(mrdOmsBudgetTOT,0)%></td>
+            <tr bgcolor="#8caae6">
+	            <td style="width:150px; border-bottom:<%=bd%>px #000000 solid;"><font>&nbsp;A1) Budget Bruttooms. Job:</td>
+                <td valign="bottom"  align="right" style="width:70px; padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font><%=basisValISO_f8 &" "&formatnumber(mrdOmsBudgetTOT,0)%></font></td>
     
-    <%for m = 1 to 12 %>
-     <td  valign="bottom" align="right" style="width:70px; padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff"><%=basisValISO_f8 &" "&formatnumber(mrdOmsBudget(m), 0)%></font></td>
-    <%next %>
+                <%for m = 1 to 12 %>
+                 <td  valign="bottom" align="right" style="width:70px; padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font><%=basisValISO_f8 &" "&formatnumber(mrdOmsBudget(m), 0)%></font></td>
+                <%next %>
     
-</tr>
-
-<%select case lto
-  case "nt", "intranet - local"
-  %>
-
-    <tr bgcolor="#8caae6">
-	<td style="width:150px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff">&nbsp;A2) Antal stk.:</td>
-    <td valign="bottom"  align="right" style="width:70px; padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff"><%=formatnumber(mrdOrderQtyTOT,0)%></td>
-    
-    <%for m = 1 to 12 %>
-     <td  valign="bottom" align="right" style="width:70px; padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff"><%=formatnumber(mrdOrderqty(m), 0)%></font></td>
-    <%next %>
-    
-</tr>
+            </tr>
 
 
-<tr bgcolor="#8caae6">
-	<td style="width:150px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff">&nbsp;A3) Profit:</td>
-    <td valign="bottom"  align="right" style="width:70px; padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff"><%=basisValISO_f8 &" "& formatnumber(mrdProfitTOT, 0)%></td>
-    
-    <%for m = 1 to 12 %>
-     <td  valign="bottom" align="right" style="width:70px; padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff"><%=basisValISO_f8 &" "& formatnumber(mrdProfit(m), 0)%></font></td>
-    <%next %>
-    
-</tr>
-
-<tr bgcolor="#8caae6">
-	<td style="width:150px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff">&nbsp;A4) DB %:</td>
-    <td valign="bottom"  align="right" style="width:70px; padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff"><%=formatnumber(mrdDBprocTOT, 2)%> %</td>
-    
-    <%for m = 1 to 12 %>
-     <td  valign="bottom" align="right" style="width:70px; padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff"><%=formatnumber(mrdDBproc(m), 2)%> %</font></td>
-    <%next %>
-    
-</tr>
 
 
-  <%
-  end select %>
+
+
+            <%select case lto
+              case "nt", "intranet - local"
+              %>
+
+                <tr bgcolor="#8caae6">
+	            <td style="width:150px; border-bottom:<%=bd%>px #000000 solid;"><font>&nbsp;A1 B) Omkostninger:</td>
+                <td valign="bottom"  align="right" style="width:70px; padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font><%=basisValISO_f8 &" "& formatnumber(mrdOmsUdgifterTOT, 0)%></td>
+    
+                <%for m = 1 to 12 %>
+                 <td  valign="bottom" align="right" style="width:70px; padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font><%=basisValISO_f8 &" "& formatnumber(mrdJobUdgifter(m), 0)%></font></td>
+                <%next %>
+    
+            </tr>
+
+                <tr bgcolor="#8caae6">
+	            <td style="width:150px; border-bottom:<%=bd%>px #000000 solid;"><font>&nbsp;A2) Antal stk.:</td>
+                <td valign="bottom"  align="right" style="width:70px; padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font><%=formatnumber(mrdOrderQtyTOT,0)%></td>
+    
+                <%for m = 1 to 12 %>
+                 <td  valign="bottom" align="right" style="width:70px; padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font><%=formatnumber(mrdOrderqty(m), 0)%></font></td>
+                <%next %>
+    
+            </tr>
+
+
+
+            <tr bgcolor="#fff296">
+	            <td style="width:150px; border-bottom:<%=bd%>px #000000 solid;"><font >&nbsp;A3) Profit:</td>
+                <td valign="bottom"  align="right" style="width:70px; padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font><%=basisValISO_f8 &" "& formatnumber(mrdProfitTOT, 0)%></td>
+    
+                <%for m = 1 to 12 %>
+                 <td  valign="bottom" align="right" style="width:70px; padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font><%=basisValISO_f8 &" "& formatnumber(mrdProfit(m), 0)%></font></td>
+                <%next %>
+    
+            </tr>
+
+            <tr bgcolor="#8caae6">
+	            <td style="width:150px; border-bottom:<%=bd%>px #000000 solid;"><font>&nbsp;A4) DB %:</td>
+                <td valign="bottom"  align="right" style="width:70px; padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font><%=formatnumber(mrdDBprocTOT, 2)%> %</td>
+    
+                <%for m = 1 to 12 %>
+                 <td  valign="bottom" align="right" style="width:70px; padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font><%=formatnumber(mrdDBproc(m), 2)%> %</font></td>
+                <%next %>
+    
+            </tr>
+
+                                <%if lto = "nt" then%>
+                                <tr bgcolor="#8caae6">
+                                    <td style="width:150px; border-bottom:<%=bd%>px #000000 solid;"><font>&nbsp;N1) Salgsbudget:</td>
+
+                                    <% 
+                                    if cint(kundeid) <> 0 then
+                                        sqlWHERE = " AND kundeid = " & kundeid
+                                    else
+                                        sqlWHERE = ""
+                                    end if
+
+                                    totalSalesgoal = 0
+
+                                    strSQL = "SELECT sum(salesgoal) as totalsalesgoal FROM budget_kunder WHERE date_year = " & stryear & sqlWHERE
+                                    oRec.open strSQL, oConn, 3
+                                    if not oRec.EOF then
+                                        totalSalesgoal = oRec("totalsalesgoal")
+                                    end if
+                                    oRec.close
+
+                                    salesgoalIndex = (mrdProfitTOT / totalSalesgoal) * 100
+
+                                    %>
+
+                                    <td valign="bottom"  align="right" style="width:70px; padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font><%=basisValISO_f8 &" "& formatnumber(totalSalesgoal, 0)%></td>
+                                    <td colspan="12">&nbsp</td>
+                                </tr>
+    
+                                <tr bgcolor="#8caae6">
+                                    <td style="width:150px; border-bottom:<%=bd%>px #000000 solid;"><font>&nbsp;N2) Index:</td>
+
+                                    <td valign="bottom"  align="right" style="width:70px; padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font><%=basisValISO_f8 &" "& formatnumber(salesgoalIndex, 0) & " %"%></td>
+                                    <td colspan="12">&nbsp</td>
+                                </tr>
+
+                                <%end if
+
+                end select 'lto
+
+                     %>
+
 
 <%
-else     
+        else     'Media
 
-        if cint(visprkunde) = 1 then
-        ekspTxt = ekspTxt & fordeltPrkundeNames(k) & ";"  
-        end if
-      
-         ekspTxt = ekspTxt & "Budget Bruttooms. Job;"
+                    if lto <> "nt" then
 
-       for m = 1 to 12
-         ekspTxt = ekspTxt & formatnumber(mrdOmsBudget(m), 0) & ";"  
-        next 
+                        if cint(visprkunde) = 1 then
+                            ekspTxt = ekspTxt & fordeltPrkundeNames(k) & ";"  
+                        end if
 
-    ekspTxt = ekspTxt & "xx99123sy#z"
+                        ekspTxt = ekspTxt & "Budget Bruttooms. Job;"
 
-    select case lto
-    case "nt", "intranet - local"
+                        ekspTxt = ekspTxt & formatnumber(mrdOmsBudgetTOT, 0) & ";"
 
-         if cint(visprkunde) = 1 then
-        ekspTxt = ekspTxt & fordeltPrkundeNames(k) & ";"  
-        end if
+                        for m = 1 to 12
+                            ekspTxt = ekspTxt & formatnumber(mrdOmsBudget(m), 0) & ";"  
+                        next    
+
+
+                        ekspTxt = ekspTxt & "xx99123sy#z"
+                    end if
+
+                    
+                    select case lto
+                    case "xxnt", "intranet - local"
+
+                         if cint(visprkunde) = 1 then
+                        ekspTxt = ekspTxt & fordeltPrkundeNames(k) & ";"  
+                        end if
      
-         ekspTxt = ekspTxt & "Antal stk.;"
+                         ekspTxt = ekspTxt & "Antal stk.;"
 
-       for m = 1 to 12
-         ekspTxt = ekspTxt & formatnumber(mrdorderqty(m), 0) & ";"  
-        next 
+                       for m = 1 to 12
+                         ekspTxt = ekspTxt & formatnumber(mrdorderqty(m), 0) & ";"  
+                        next 
 
-    ekspTxt = ekspTxt & "xx99123sy#z"
+                    ekspTxt = ekspTxt & "xx99123sy#z"
 
 
 
-       if cint(visprkunde) = 1 then
-        ekspTxt = ekspTxt & fordeltPrkundeNames(k) & ";"  
-        end if
+                       if cint(visprkunde) = 1 then
+                        ekspTxt = ekspTxt & fordeltPrkundeNames(k) & ";"  
+                        end if
      
-         ekspTxt = ekspTxt & "Profit;"
+                         ekspTxt = ekspTxt & "Profit;"
 
-       for m = 1 to 12
-         ekspTxt = ekspTxt & formatnumber(mrdprofit(m), 0) & ";"  
-        next 
+                       for m = 1 to 12
+                         ekspTxt = ekspTxt & formatnumber(mrdprofit(m), 0) & ";"  
+                        next 
 
-    ekspTxt = ekspTxt & "xx99123sy#z"
+                    ekspTxt = ekspTxt & "xx99123sy#z"
 
 
-      if cint(visprkunde) = 1 then
-        ekspTxt = ekspTxt & fordeltPrkundeNames(k) & ";"  
-        end if
+                      if cint(visprkunde) = 1 then
+                        ekspTxt = ekspTxt & fordeltPrkundeNames(k) & ";"  
+                        end if
      
-         ekspTxt = ekspTxt & "DB %;"
+                         ekspTxt = ekspTxt & "DB %;"
 
-       for m = 1 to 12
-         ekspTxt = ekspTxt & formatnumber(mrdDBproc(m), 2) & ";"  
-        next 
+                       for m = 1 to 12
+                         ekspTxt = ekspTxt & formatnumber(mrdDBproc(m), 2) & ";"  
+                        next 
 
-    ekspTxt = ekspTxt & "xx99123sy#z"
+                    ekspTxt = ekspTxt & "xx99123sy#z"
 
-    end select
+                    end select
 
+
+                    if lto = "nt" then
+
+                        'Profit     
+                        if cint(visprkunde) = 1 then
+                        ekspTxt = ekspTxt & fordeltPrkundeNames(k) & ";"  
+                        end if
+
+                        ekspTxt = ekspTxt & "Profit;"
+
+                        ekspTxt = ekspTxt & formatnumber(MrdProfitTOT, 2) & ";"
+
+                        for m = 1 to 12
+                            ekspTxt = ekspTxt & formatnumber(mrdprofit(m), 2) & ";"  
+                            totalProfit = totalProfit + mrdprofit(m)
+                        next 
+                       
+                        ekspTxt = ekspTxt & "xx99123sy#z"
+
+
+                        'DB %
+                        if cint(visprkunde) = 1 then
+                        ekspTxt = ekspTxt & fordeltPrkundeNames(k) & ";"  
+                        end if
+
+                        ekspTxt = ekspTxt & "DB %;"
+
+                        ekspTxt = ekspTxt & formatnumber(MrdDBprocTOT, 2) & ";"
+
+                        for m = 1 to 12
+                         ekspTxt = ekspTxt & formatnumber(mrdDBproc(m), 2) & ";"  
+                        next 
+
+                        ekspTxt = ekspTxt & "xx99123sy#z"
+
+
+                        'N1) Salgsbudget 
+                        if cint(visprkunde) = 1 then
+                        ekspTxt = ekspTxt & fordeltPrkundeNames(k) & ";"  
+                        end if
+
+                        ekspTxt = ekspTxt & "Salgsbudget;"
+
+                        if cint(visprkunde) = 1 then
+                            sqlWHERE = " AND kundeid = " & fordeltPrkundeIds(k)
+                        else
+                            sqlWHERE = ""
+                        end if
+
+                        totalSalesgoal = 0
+                        strSQL = "SELECT sum(salesgoal) as totalsalesgoal FROM budget_kunder WHERE date_year = "& strYear & sqlWHERE
+                        oRec.open strSQL, oConn, 3
+                        if not oRec.EOF then
+                            totalSalesgoal = oRec("totalsalesgoal")
+                        end if
+                        oRec.close               
+
+                        if totalSalesgoal <> 0 then
+                            salesgoalIndex = (mrdProfitTOT / totalSalesgoal) * 100
+                        else
+                            salesgoalIndex = ""
+                        end if
+
+                        'for m = 1 TO 12
+                            'ekspTxt = ekspTxt & ";"
+                        'next
+
+                        ekspTxt = ekspTxt & formatnumber(totalSalesgoal, 2) & ";"  
+
+                        ekspTxt = ekspTxt & "xx99123sy#z" 
     
-end if 'media
+
+                        'N2) Salgsbudget index
+                        if cint(visprkunde) = 1 then
+                        ekspTxt = ekspTxt & fordeltPrkundeNames(k) & ";"  
+                        end if
+        
+                        ekspTxt = ekspTxt & "Index;" 
+
+                        'for m = 1 TO 12
+                            'ekspTxt = ekspTxt & ";"
+                        'next
+
+                        ekspTxt = ekspTxt & salesgoalIndex & " %;"
+    
+                        ekspTxt = ekspTxt & "xx99123sy#z" 
+
+
+                        'N3) Salgsbudget og profit year before
+                        if cint(visprkunde) = 1 then
+                        ekspTxt = ekspTxt & fordeltPrkundeNames(k) & ";"  
+                        end if
+
+                        ekspTxt = ekspTxt & "Salgsbudget - "& (strYear -1) &";"
+
+                        if cint(visprkunde) = 1 then
+                            sqlWHERE = " AND kundeid = " & fordeltPrkundeIds(k)
+                        else
+                            sqlWHERE = ""
+                        end if
+
+                        totalSalesgoal = 0
+                        strSQL = "SELECT sum(salesgoal) as totalsalesgoal FROM budget_kunder WHERE date_year = "& (strYear -1) & sqlWHERE
+                        oRec.open strSQL, oConn, 3
+                        if not oRec.EOF then
+                            totalSalesgoal = oRec("totalsalesgoal")
+                        end if
+                        oRec.close
+
+                        strSQLIF = "IF (jobstatus = 1 AND kunde_levbetint = 1, YEAR(dt_confb_etd) = "& (strYear -1) &","
+                        strSQLIF = strSQLIF &" IF (jobstatus = 1 AND (kunde_levbetint = 2 OR kunde_levbetint = 3), YEAR(dt_confb_eta) = "& (strYear -1) &","
+                        strSQLIF = strSQLIF &" IF ((jobstatus = 0 OR jobstatus = 2) AND kunde_levbetint = 1 , YEAR(dt_actual_etd) = "& (strYear -1) &","
+                        strSQLIF = strSQLIF &" IF ((jobstatus = 0 OR jobstatus = 2) AND (kunde_levbetint = 2 OR kunde_levbetint = 3), YEAR(dt_actual_eta) = "& (strYear -1) 
+                        strSQLIF = strSQLIF &",0))))"
+
+                       
+                        udgifter = 0
+                        oms = 0
+                        strSQL = "SELECT jo_udgifter_intern AS udgifter, (jo_bruttooms * (jo_valuta_kurs/100)) AS jo_bruttooms FROM job j WHERE "_
+                        &" ("& jobIdSQLKri &") AND ("& strSQLIF &") "_
+                        &" "& jobstKri &" "& visprkundeSQLjobKri &" GROUP BY id ORDER BY jobnavn" 
+
+                        'response.Write "<br> herher " & strSQL
+                        oRec.open strSQL, oConn, 3
+                        while not oRec.EOF
+                            udgifter = udgifter + oRec("udgifter")  
+                            oms = oms + oRec("jo_bruttooms")
+                        oRec.movenext
+                        wend
+                        oRec.close
+
+                        profit_lastyear = (oms - udgifter) * 1 
+                        profit_lastyear = profit_lastyear/1
+
+                        if totalSalesgoal > 0 then
+                            profitbudget_lastyear = (profit_lastyear / totalSalesgoal) * 100
+                        else
+                            profitbudget_lastyear = 0
+                        end if
+
+                        'for m = 1 TO 12
+                            'ekspTxt = ekspTxt & ";"
+                        'next
+
+                        ekspTxt = ekspTxt & formatnumber(totalSalesgoal, 2) &";"
+
+                        ekspTxt = ekspTxt & "xx99123sy#z" 
+
+                        if cint(visprkunde) = 1 then
+                        ekspTxt = ekspTxt & fordeltPrkundeNames(k) & ";"  
+                        end if
+
+                        ekspTxt = ekspTxt & "Profit - "& (strYear -1) &";"
+
+                        'for m = 1 TO 12
+                            'ekspTxt = ekspTxt & ";"
+                        'next
+
+                        ekspTxt = ekspTxt & formatnumber(profit_lastyear, 2) & ";"
+
+                        ekspTxt = ekspTxt & "xx99123sy#z" 
+
+                    end if
+    
+         end if 'media
+
+
+  
+ 
       
  
     
@@ -1715,11 +1990,11 @@ if cint(visprkunde) = 0 then
 
 
         <tr bgcolor="#8caae6">
-	        <td  style="border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff">&nbsp;B1) Realiseret Oms. ~ *:</td>
-            <td valign="bottom"  align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff"><%=basisValISO_f8 &" "&formatnumber(mrdOmsTotal, 0)%></td>
+	        <td  style="border-bottom:<%=bd%>px #000000 solid;"><font>&nbsp;B1) Realiseret Oms. ~ *:</td>
+            <td valign="bottom"  align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font><%=basisValISO_f8 &" "&formatnumber(mrdOmsTotal, 0)%></td>
     
             <%for m = 1 to 12 %>
-            <td  valign="bottom" align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font color="#ffffff"><%=basisValISO_f8 &" "&formatnumber(mrdOms(m), 0)%></td>
+            <td  valign="bottom" align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;"><font><%=basisValISO_f8 &" "&formatnumber(mrdOms(m), 0)%></td>
             <%
             next 
         
@@ -1781,9 +2056,11 @@ else
                      
                      ekspTxt = ekspTxt & "Realiseret oms.;"
 
+                     ekspTxt = ekspTxt & formatnumber(mrdOmsTotal, 0) & ";"
+
                      for m = 1 to 12
-                     ekspTxt = ekspTxt & formatnumber(mrdOms(m), 0) & ";"  
-                    next 
+                        ekspTxt = ekspTxt & formatnumber(mrdOms(m), 0) & ";"  
+                     next 
 
                     ekspTxt = ekspTxt & "xx99123sy#z"
 
@@ -1815,18 +2092,21 @@ end if 'media
 
         <%else
 
-              if cint(visprkunde) = 1 then
-              ekspTxt = ekspTxt & fordeltPrkundeNames(k) & ";"  
-              end if 
+            if lto <> "nt" then
+                if cint(visprkunde) = 1 then
+                ekspTxt = ekspTxt & fordeltPrkundeNames(k) & ";"  
+                end if 
 
-             ekspTxt = ekspTxt & "Udfaktureret oms.;"
+                ekspTxt = ekspTxt & "Udfaktureret oms.;"
     
-             for m = 1 to 12
-                 ekspTxt = ekspTxt & formatnumber(fakbeloeb(m), 0) & ";"  
+                ekspTxt = ekspTxt & formatnumber(fakOmsTotal, 2) & ";"
+
+                for m = 1 to 12
+                    ekspTxt = ekspTxt & formatnumber(fakbeloeb(m), 0) & ";"  
                 next 
 
-            ekspTxt = ekspTxt & "xx99123sy#z"
-
+                ekspTxt = ekspTxt & "xx99123sy#z"
+            end if
 
     
 
@@ -1919,17 +2199,120 @@ end if 'media
         <%next %>
      </tr>
 
+        <%if cint(visprkunde) = 1 then %>
+        <tr bgcolor="#fff296">
+            <td style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;N1) Salgsbudget</td>
+            <td valign="bottom"  align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;">
+
+                <%
+                salesgoal = 0
+                strSQL = "SELECT salesgoal FROM budget_kunder WHERE kundeid =" & fordeltPrkundeIds(k) & " AND date_year = "& strYear
+                oRec.open strSQL, oConn, 3
+                if not oRec.EOF then
+                    salesgoal = oRec("salesgoal")
+                end if
+                oRec.close
+                %>
+                <%=formatnumber(salesgoal, 0) %>
+            </td>
+            <td colspan="12">&nbsp</td>
+        </tr>
+
+        <tr bgcolor="#fff4aa">
+            <td style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;N2) Index</td>
+            <td valign="bottom"  align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;">
+                <%
+                    if salesgoal > 0 then
+                        proftbudgetdiff = (mrdProfitTOT / salesgoal) * 100
+                    else
+                        proftbudgetdiff = 0
+                    end if
+                %>
+                <%=formatnumber(proftbudgetdiff, 0) & "%" %>
+            </td>
+            <td colspan="12">&nbsp</td>
+        </tr>
+
+        <tr bgcolor="#fffced">
+            <td style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;N3) Salgsbudget - <%=(stryear - 1) %></td>
+            <td valign="bottom"  align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;">
+                <%
+                    strSQLIF = "IF (jobstatus = 1 AND kunde_levbetint = 1, YEAR(dt_confb_etd) = "& (strYear -1) &","
+                    strSQLIF = strSQLIF &" IF (jobstatus = 1 AND (kunde_levbetint = 2 OR kunde_levbetint = 3), YEAR(dt_confb_eta) = "& (strYear -1) &","
+                    strSQLIF = strSQLIF &" IF ((jobstatus = 0 OR jobstatus = 2) AND kunde_levbetint = 1 , YEAR(dt_actual_etd) = "& (strYear -1) &","
+                    strSQLIF = strSQLIF &" IF ((jobstatus = 0 OR jobstatus = 2) AND (kunde_levbetint = 2 OR kunde_levbetint = 3), YEAR(dt_actual_eta) = "& (strYear -1) 
+                    strSQLIF = strSQLIF &",0))))"
+
+
+                    udgifter = 0
+                    oms = 0
+                    strSQL = "SELECT jo_udgifter_intern AS udgifter, (jo_bruttooms * (jo_valuta_kurs/100)) AS jo_bruttooms FROM job j WHERE "_
+                    &" ("& jobIdSQLKri &") AND ("& strSQLIF &") "_
+                    &" "& jobstKri &" "& visprkundeSQLjobKri &" GROUP BY id ORDER BY jobnavn" 
+
+                    'response.Write "<br> herher " & strSQL
+                    oRec.open strSQL, oConn, 3
+                    while not oRec.EOF
+                        udgifter = udgifter + oRec("udgifter")  
+                        oms = oms + oRec("jo_bruttooms")
+                    oRec.movenext
+                    wend
+                    oRec.close
+
+                    'response.Write "oms " & formatnumber(oms, 2) & " udgifter " & formatnumber(udgifter, 2)
+
+                    salesbudget = 0
+                    strSQL = "SELECT salesgoal FROM budget_kunder WHERE kundeid =" & fordeltPrkundeIds(k) & " AND date_year = "& (strYear -1)
+                    oRec.open strSQL, oConn, 3
+                    if not oRec.EOF then
+                        salesbudget = oRec("salesgoal")
+                    end if
+                    oRec.close
+
+                    profit_lastyear = (oms - udgifter) * 1 
+                    profit_lastyear = profit_lastyear/1
+
+                    'response.Write "<br> profit_lastyear " & formatnumber(profit_lastyear, 2) & "<br>"
+
+                    if salesbudget > 0 then
+                        profitbudget_lastyear = (profit_lastyear / salesbudget) * 100
+                    else
+                        profitbudget_lastyear = 0
+                    end if
+                %>               
+                <%=formatnumber(salesbudget, 0) %>
+            <td colspan="12">&nbsp</td>
+        </tr>
+
+        <tr bgcolor="#fffced">
+            <td style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;N4) Profit - <%=(stryear - 1) %></td>
+            <td valign="bottom"  align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;">             
+                <span style="display:inline-block;"><%=formatnumber(profit_lastyear, 0) %></span>
+            <td colspan="12">&nbsp</td>
+        </tr>
+
+        <tr bgcolor="#fffced">
+            <td style="border-bottom:<%=bd%>px #000000 solid;">&nbsp;N5) Index  <%=(stryear - 1) %></td>
+            <td valign="bottom"  align="right" style="padding-right:2px; border-bottom:<%=bd%>px #000000 solid;">             
+                <span style="display:inline-block;"><%=formatnumber(profitbudget_lastyear, 0) & "%" %></span>
+            <td colspan="12">&nbsp</td>
+        </tr>
+
+        <%end if %>
+
      <% end if
 
-          if cint(visprkunde) = 1 then
+         if lto <> "nt" then
+            if cint(visprkunde) = 1 then
             ekspTxt = ekspTxt & fordeltPrkundeNames(k) & ";"  
-          end if 
+            end if 
 
             ekspTxt = ekspTxt & ""& d3kolonneTxt &";"
     
-        for m = 1 to 12
-         ekspTxt = ekspTxt & formatnumber(fakmatBeloeb(m), 0) & ";"  
-        next 
+            for m = 1 to 12
+             ekspTxt = ekspTxt & formatnumber(fakmatBeloeb(m), 0) & ";"  
+            next 
+         end if
 
     ekspTxt = ekspTxt & "xx99123sy#z"
 
@@ -2236,9 +2619,12 @@ if media <> "export" then %>
 <%end if %>
 
 
+        <%end if 'sogogsubmitted %>
 
 
         <%
+
+       
             
          '******************* Eksport **************************' 
                 if media = "export" then
@@ -2281,12 +2667,48 @@ if media <> "export" then %>
 				                if cint(visprkunde) = 1 then
                                 strOskrifter = strOskrifter & "Kunde;"
                                 end if
-				                strOskrifter = strOskrifter & "Type;Januar;Februar;Marts;April;Maj;Juni;Juli;August;September;Oktober;November;December;"
+				                strOskrifter = strOskrifter & "Type;Total;Januar;Februar;Marts;April;Maj;Juni;Juli;August;September;Oktober;November;December;"
 				               
 
 				
 				                objF.writeLine("Periode afgrænsning: "& strYear & vbcrlf)
 				                objF.WriteLine(strOskrifter & chr(013))
+
+                                
+                                if lto = "nt" AND cint(visprkunde) = 1 then
+
+                                    ekspTot = ekspTot & ";Salgsbudget;"
+                                        
+                                    salesgoal = 0
+                                    strSQL = "SELECT sum(salesgoal) as totgoal FROM budget_kunder WHERE date_year = "& strYear
+                                    oRec.open strSQL, oConn, 3
+                                    if not oRec.EOF then
+                                        salesgoal = oRec("totgoal")
+                                    end if
+                                    oRec.close
+
+                                    'for c = 1 TO 13
+                                        'ekspTot = ekspTot & ";"
+                                    'next
+                                    
+                                    ekspTot = ekspTot & formatnumber(salesgoal, 2) & ";" & chr(013)
+
+                                    ekspTot = ekspTot & ";Total profit;"
+                                    ekspTot = ekspTot & formatnumber(totalProfit, 2) & ";"
+
+
+
+
+
+                                    ekspTot = ekspTot & chr(013) & chr(013)
+
+                                    ekspTxt = ekspTot & ekspTxt
+
+                
+                                    
+
+                                end if
+
 				                objF.WriteLine(ekspTxt)
 				                objF.close
 				
@@ -2299,7 +2721,10 @@ if media <> "export" then %>
 	                            </tr>
 	                            <tr>
 	                            <td valign=top bgcolor="#ffffff" style="padding:5px 5px 5px 15px;">
-	                            <a href="../inc/log/data/<%=file%>" class=vmenu target="_blank" onClick="Javascript:window.close()">Din CSV. fil er klar >></a>
+	                            <a href="../inc/log/data/<%=file%>" class=vmenu target="_blank" >Din CSV. fil er klar >></a>
+
+                                <!-- onClick="Javascript:window.close()" -->
+
 	                            </td></tr>
 	                            </table>
 	            
@@ -2335,6 +2760,7 @@ Hvis <b>Key account</b> er slået til, er tallene baseret på alle medarbejdere på
 
 <%if cint(visprkunde) = 1 then %>
 <span style="color:red;">D1 udfaktureret omsætning pr. kunde er sorteret efter fakturabeløb før kreditnotaer, men vist incl. kreditnotaer, fordelt på top 5,10 eller 20 kunder.</span><br />
+<span style="color:red;">N5) og N2) Index - er profitten i forhold til salgsbudgetet</span>
 <% end if 
 
 
@@ -2351,13 +2777,13 @@ Hvis <b>Key account</b> er slået til, er tallene baseret på alle medarbejdere på
 	%>
 	<tr>
     <td align=center>
-	<a href="<%=thisfile%>.asp?print=j&media=print&<%=printEksLnk %>" target="_blank">&nbsp;<img src="../ill/printer3.png" border=0 alt="" /></a>
-	</td><td><a href="<%=thisfile%>.asp?print=j&media=print&<%=printEksLnk %>" target="_blank" class=vmenu>Print version</a></td>
+	<a href="<%=thisfile%>.asp?print=j&media=print&<%=printEksLnk %>&sogogsubmitted=1" target="_blank">&nbsp;<img src="../ill/printer3.png" border=0 alt="" /></a>
+	</td><td><a href="<%=thisfile%>.asp?print=j&media=print&<%=printEksLnk %>&sogogsubmitted=1" target="_blank" class=vmenu>Print version</a></td>
 	</tr>
     <tr>
     <td align=center>
-	<a href="#" onclick="Javascript:window.open('<%=thisfile%>.asp?media=export&<%=printEksLnk %>', '', 'width=350,height=150,resizable=no,scrollbars=no')" class=vmenu>&nbsp;<img src="../ill/export1.png" border=0 alt="" /></a>
-	</td><td><a href="#" onclick="Javascript:window.open('<%=thisfile%>.asp?media=export&<%=printEksLnk %>', '', 'width=350,height=150,resizable=no,scrollbars=no')" class=vmenu>.CSV fil eksport</a></td>
+	<a href="#" onclick="Javascript:window.open('<%=thisfile%>.asp?media=export&<%=printEksLnk %>&sogogsubmitted=1', '', 'width=350,height=150,resizable=no,scrollbars=no')" class=vmenu>&nbsp;<img src="../ill/export1.png" border=0 alt="" /></a>
+	</td><td><a href="#" onclick="Javascript:window.open('<%=thisfile%>.asp?media=export&<%=printEksLnk %>&sogogsubmitted=1', '', 'width=350,height=150,resizable=no,scrollbars=no')" class=vmenu>.CSV fil eksport</a></td>
 	</tr>
 	</table>
 	</div>
@@ -2402,8 +2828,9 @@ Hvis <b>Key account</b> er slået til, er tallene baseret på alle medarbejdere på
     <%select case lto 
      case "nt"
         %>
-                =============================================================================<br />
-          Datokriterier for job, Commi, Sales kombineret med FOB 1, DDP 2, CIF 3<br />
+           =============================================================================<br />
+          
+        <!--Datokriterier for job, Commi, Sales kombineret med FOB 1, DDP 2, CIF 3<br />
           Commission : 2 (fastpris) = leverandør lev. bet.<br />
           Salesorder : 3 = kunde lev. bet.<br /><br />
 
@@ -2411,7 +2838,27 @@ Hvis <b>Key account</b> er slået til, er tallene baseret på alle medarbejdere på
            kunde_levbetint FOB, DDP, CIF<br /><br />
 
            Aktive = Confimed Buyer ETD on FOB else Confimed Buyer ETA<br />
-           Shipped / closed = = Actual Buyer ETD on FOB else Actual Buyer ETA<br /><br />
+           Shipped / closed = = Actual Buyer ETD on FOB else Actual Buyer ETA<br /><br />-->
+
+        GÆLDER både Commi & Sales ordre, da ordretypen ikke styrer faktura datoer, men udelukkende den måde ordren bliver beregnet på 
+        <br /><br>
+        <b>FOB ordre:</b><br />
+        kunde_levbetint = 1 : FOB<br />
+        Job aktivt = 1 : dt_confb_etd (Confirmend Buyer ETD)<br />
+        jobstatus = 0 OR jobstatus = 2 : dt_actual_etd (Actual Buyer ETD)<br />
+
+        <b>DDP & CIF ordre:</b><br />
+        kunde_levbetint = 2 = DDP & kunde_levbetint = 3 = CIF<br />
+        Job aktivt = 1 (Aktivt) : dt_confb_eta (Confirmend Buyer ETA)<br />
+        jobstatus = 0 (Lukket) OR jobstatus = 2 (Passivt) : dt_actual_eta (Actual Buyer ETA)<br /><br />
+
+
+        IF (jobstatus = 1 AND kunde_levbetint = 1, YEAR(dt_confb_etd) = 2018, <br />
+        IF (jobstatus = 1 AND (kunde_levbetint = 2 OR kunde_levbetint = 3), YEAR(dt_confb_eta) = 2018, <br />
+        IF ((jobstatus = 0 OR jobstatus = 2) AND kunde_levbetint = 1 , YEAR(dt_actual_etd) = 2018,<br />
+        IF ((jobstatus = 0 OR jobstatus = 2) AND (kunde_levbetint = 2 OR kunde_levbetint = 3), YEAR(dt_actual_eta) = 2018,<br /><br />
+
+
         =============================================================================<br />
         <br />
         <%

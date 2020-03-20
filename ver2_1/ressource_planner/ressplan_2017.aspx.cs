@@ -19,11 +19,12 @@ public partial class ressplan_2017 : System.Web.UI.Page
 
     //public string lto =             request["lto"];
 
-    static string connString = "";
+    //static string connString = "";
 
     //public string connString = "";
 
     //static string connString = "Data Source=127.0.0.1;Database=timeout_intranet;User ID = root; Password=";
+    static string connString = "Data Source=194.150.108.154;Database=timeout_intranet;User ID = to_outzource2; Password=SKba200473";
     //"driver={MySQL ODBC 3.51 Driver};server=localhost; Port=3306; uid=root; pwd=; database=timeout_intranet;";
 
     #endregion
@@ -58,8 +59,10 @@ public partial class ressplan_2017 : System.Web.UI.Page
 
 
         //connString = "Data Source=127.0.0.1;Database=timeout_" + lto + ";User ID = root; Password=";
-        connString = "Data Source=194.150.108.154; Port=3306; Database=timeout_" + lto + "; User ID = to_outzource2; Password=SKba200473";
+        //connString = "Data Source=194.150.108.154; Port=3306; Database=timeout_" + lto + "; User ID = to_outzource2; Password=SKba200473";
         //connString = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=to_outzource2; pwd=SKba200473; database=timeout_"+lto+";";
+        //connString = "driver={MySQL ODBC 3.51 Driver};server=194.150.108.154; Port=3306; uid=to_outzource2; pwd=SKba200473; database=timeout_intranet;";
+        connString = "Data Source=194.150.108.154;Database=timeout_intranet;User ID = to_outzource2; Password=SKba200473";
         lblsql.InnerHtml = connString;
 
 
@@ -122,7 +125,7 @@ public partial class ressplan_2017 : System.Web.UI.Page
         //    lto = "intranet"; 
         //};
 
-        ///string connString = "Data Source=194.150.108.154;Database=timeout_hidalgo;User ID = to_outzource2; Password=SKba200473";
+        string connString = "Data Source=194.150.108.154;Database=timeout_intranet;User ID = to_outzource2; Password=SKba200473";
         //string connString = "Data Source=127.0.0.1;Database=timeout_"+ lto + ";User ID = root; Password=";
 
 
@@ -167,7 +170,7 @@ public partial class ressplan_2017 : System.Web.UI.Page
         MySqlCommand sqlCommand;
 
         //string connString = "Data Source=127.0.0.1;Database=timeout_intranet;User ID = root; Password=";
-        //string connString = "Data Source=194.150.108.154;Database=timeout_hidalgo;User ID = to_outzource2; Password=SKba200473";
+        string connString = "Data Source=194.150.108.154;Database=timeout_intranet;User ID = to_outzource2; Password=SKba200473";
 
 
         try

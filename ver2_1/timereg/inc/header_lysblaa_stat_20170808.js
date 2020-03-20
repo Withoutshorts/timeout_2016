@@ -34,12 +34,12 @@ $(document).ready(function () {
 
 
         if ($("#FM_visdeakmed").is(':checked') == false) {
-            $("#FM_visdeakmed12").removeAttr("checked");
+            //$("#FM_visdeakmed12").removeAttr("checked");
             $("#FM_visdeakmed12").attr("disabled", "disabled");
 
         } else {
 
-            $("#FM_visdeakmed12").attr("disabled", "");
+            $("#FM_visdeakmed12").removeAttr("disabled");
         }
 
 
@@ -48,7 +48,7 @@ $(document).ready(function () {
     });
 
 
-    $("#FM_visdeakmed12").click(function () {
+    $("#FM_visdeakmed12").change(function () {
 
 
         vismedarb();
@@ -65,16 +65,24 @@ $(document).ready(function () {
 
     $("#FM_medarb").click(function () {
 
+
+        //browstype_client = $("#browstype_client").val();
+        bodyid = $("body").attr("id");
+
         
 
         if ($("#FM_medarb option:selected").val() == 0) {
 
-            $("#FM_medarb").each(function () {
+            $("#FM_medarb > option").each(function () {
 
-                //alert("HER")
-                $("#FM_medarb option").prop('selected', true);
+                //alert("HER" + thisfile)
+
+                if (bodyid != "2015") {
+                    $("#FM_medarb option").attr('selected', 'selected');
+                } else {
+                    $("#FM_medarb option").prop('selected', true);
+                }
                 
-
             });
 
 
@@ -88,6 +96,8 @@ $(document).ready(function () {
 
 
     function vismedarb() {
+
+        
 
         $('#FM_medarb').children().remove();
 
@@ -106,11 +116,13 @@ $(document).ready(function () {
         }
 
 
-        if ($("#FM_visdeakmed12").is(':checked') == true) {
-            jq_mansat12 = 1
-        } else {
-            jq_mansat12 = 0
-        }
+        //if ($("#FM_visdeakmed12").is(':checked') == true) {
+        //    jq_mansat12 = 1
+        //} else {
+        //    jq_mansat12 = 0
+        //}
+
+        jq_mansat12 = $("#FM_visdeakmed12").val()
 
 
         if ($("#FM_vispasmed").is(':checked') == true) {
@@ -137,9 +149,10 @@ $(document).ready(function () {
         $.post("?jq_medarb=" + jq_medarb + "&jq_progrp=" + jq_progrp + "&jq_mansat=" + jq_mansat + "&jq_mansatpas=" + jq_mansatpas + "&jq_mansat12=" + jq_mansat12 + "&jq_mtyper=" + jq_mtyper + "&jq_mtypergrp=" + jq_mtypergrp, { control: "FN_medipgrp", AjaxUpdateField: "true" }, function (data) {
 
 
+            //alert("HEJ")
+            //$("#testthis").val(data);
+
             $("#FM_medarb").html(data);
-
-
 
             antalM = $('#FM_medarb option').size();
             antalM = antalM - 1
@@ -164,7 +177,7 @@ $(document).ready(function () {
     
 
     if ($("#FM_visdeakmed").is(':checked') == false) {
-        $("#FM_visdeakmed12").removeAttr("checked");
+        //$("#FM_visdeakmed12").removeAttr("checked");
         $("#FM_visdeakmed12").attr("disabled", "disabled");
     }
 

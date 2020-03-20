@@ -1082,12 +1082,13 @@ if len(session("user")) = 0 then
 
          call normtimerPer(intMids(m), oRec("tdato"), 6, 0)
 	     if ntimPer <> 0 then
-         ntimPerUse = ntimPer/antalDageMtimer
+         'ntimPerUse = ntimPer/antalDageMtimer
+         normTimerGns5 = (ntimManIgnHellig + ntimTirIgnHellig + ntimOnsIgnHellig + ntimTorIgnHellig + ntimFreIgnHellig + ntimLorIgnHellig + ntimSonIgnHellig)  / 5
          else
-         ntimPerUse = 1
+         normTimerGns5 = 1
          end if 
 
-          intFerieFridageOpt(m) = oRec("timer") / ntimPerUse
+          intFerieFridageOpt(m) = oRec("timer") / normTimerGns5 'ntimPerUse
           intFerieFridageOptTimer(m) = oRec("timer")
 
         end if

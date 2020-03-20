@@ -94,6 +94,9 @@
     <txt_194>Rejsedage</txt_194>
     <txt_195>IT on duty call</txt_195>
 
+    <txt_198>Ferie optjent til afh. 1.5.2019-31.8.2019</txt_198>
+    <txt_199>Ferie optjent indefrosset</txt_199>
+
 
       <!-- End typer -->
     
@@ -122,6 +125,7 @@
     <txt_184>Rediger medarbejder</txt_184>
 
     <txt_196>Ferie korrektion</txt_196>
+    <txt_197>Omsorgsdage Optjent</txt_197>
     
   </dk>
 
@@ -208,7 +212,10 @@
     <txt_184 >Rediger ansatt</txt_184>
 
     <txt_196>Ferie korrektion</txt_196>
-    
+    <txt_197>Omsorgsdage Optjent</txt_197>
+    <txt_198>Ferie optjent til afh. 1.5.2019-31.8.2019</txt_198>
+    <txt_199>Ferie optjent indefrosset</txt_199>
+
   </no>
 
 
@@ -294,7 +301,9 @@
     <txt_184 >Redigera anställd</txt_184>
 
     <txt_196>Ferie korrektion</txt_196>
-
+    <txt_197>Omsorgsdage Optjent</txt_197>
+    <txt_198>Ferie optjent til afh. 1.5.2019-31.8.2019</txt_198>
+    <txt_199>Ferie optjent indefrosset</txt_199>
 
   </se>
 
@@ -382,6 +391,9 @@
     <txt_184 >Mitarbeiter editieren</txt_184>
 
     <txt_196>Ferie korrektion</txt_196>
+    <txt_197>Omsorgsdage Optjent</txt_197>
+    <txt_198>Ferie optjent til afh. 1.5.2019-31.8.2019</txt_198>
+    <txt_199>Ferie optjent indefrosset</txt_199>
 
   </de>
 
@@ -468,6 +480,9 @@
     <txt_184 >Modifier employé</txt_184>
 
     <txt_196>Ferie korrektion</txt_196>
+    <txt_197>Omsorgsdage Optjent</txt_197>
+    <txt_198>Ferie optjent til afh. 1.5.2019-31.8.2019</txt_198>
+    <txt_199>Ferie optjent indefrosset</txt_199>
 
   </fr>
   
@@ -596,6 +611,9 @@
     <txt_184>Edit Profile</txt_184>
 
     <txt_196>Ferie korrektion</txt_196>
+    <txt_197>Omsorgsdage Optjent</txt_197>
+    <txt_198>Ferie optjent til afh. 1.5.2019-31.8.2019</txt_198>
+    <txt_199>Ferie optjent indefrosset</txt_199>
 
   </uk>
 
@@ -682,6 +700,9 @@
     <txt_184 >Editar empleado</txt_184>
 
     <txt_196>Ferie korrektion</txt_196>
+    <txt_197>Omsorgsdage Optjent</txt_197>
+    <txt_198>Ferie optjent til afh. 1.5.2019-31.8.2019</txt_198>
+    <txt_199>Ferie optjent indefrosset</txt_199>
 
   </es>
   

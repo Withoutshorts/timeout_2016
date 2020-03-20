@@ -506,7 +506,7 @@
     <txt_443 >Enheds pris</txt_443>
     <txt_444 >Enhed</txt_444>
     <txt_445 >Pris ialt</txt_445>
-    <txt_446 >Der findes ingen fakturaer i det valgte interval.</txt_446>
+    <txt_446 >Der findes ingen fakturaer på det valgte job / aftale</txt_446>
     <txt_447 >Ialt</txt_447>
     <txt_448 >Inkl. kladder og interne. Ekskl. moms</txt_448>
     <txt_449 >Faktura pre. indstillinger</txt_449>
@@ -1037,7 +1037,7 @@
     <txt_443 >Price</txt_443>
     <txt_444 >Unit</txt_444>
     <txt_445 >Total Price</txt_445>
-    <txt_446 >No invoices in this period</txt_446>
+    <txt_446 >No invoices</txt_446>
     <txt_447 >Total</txt_447>
     <txt_448 >Incl. draft and internal. Excl. VAT</txt_448>
     <txt_449 >Invoice pre settings</txt_449>
@@ -1352,7 +1352,7 @@
     <txt_227 >Sök:</txt_227>
     <txt_228 >Kontakter som skapats under "kontakter" i huvudet menyn.</txt_228>
     <txt_229 >Godkänna fakturan nu</txt_229>
-    <txt_230 >Fakturahistorik</txt_230>
+    <txt_230 >Faktura historik</txt_230>
     <txt_231 >Kontakter:</txt_231>
     <txt_232 >(Fakturadatum | faktura etikett datum)</txt_232>
     <txt_233 >Sortera efter</txt_233>
@@ -1569,7 +1569,7 @@
     <txt_443 >Price</txt_443>
     <txt_444 >Unit</txt_444>
     <txt_445 >Total Price</txt_445>
-    <txt_446 >No invoices in this period</txt_446>
+    <txt_446 >No invoices</txt_446>
     <txt_447 >Total</txt_447>
     <txt_448 >Incl. draft and internal. Excl. VAT</txt_448>
     <txt_449 >Invoice pre settings</txt_449>
@@ -2098,7 +2098,7 @@
     <txt_443 >Price</txt_443>
     <txt_444 >Unit</txt_444>
     <txt_445 >Total Price</txt_445>
-    <txt_446 >No invoices in this period</txt_446>
+    <txt_446 >No invoices</txt_446>
     <txt_447 >Total</txt_447>
     <txt_448 >Incl. draft and internal. Excl. VAT</txt_448>
     <txt_449 >Invoice pre settings</txt_449>
@@ -2628,7 +2628,7 @@
     <txt_443 >Price</txt_443>
     <txt_444 >Unit</txt_444>
     <txt_445 >Total Price</txt_445>
-    <txt_446 >No invoices in this period</txt_446>
+    <txt_446 >No invoices</txt_446>
     <txt_447 >Total</txt_447>
     <txt_448 >Incl. draft and internal. Excl. VAT</txt_448>
     <txt_449 >Invoice pre settings</txt_449>
@@ -3215,7 +3215,7 @@
   <txt_443 >Price</txt_443>
   <txt_444 >Unit</txt_444>
   <txt_445 >Total Price</txt_445>
-  <txt_446 >No invoices in this period</txt_446>
+  <txt_446 >No invoices</txt_446>
   <txt_447 >Total</txt_447>
   <txt_448 >Incl. draft and internal. Excl. VAT</txt_448>
   <txt_449 >Invoice pre settings</txt_449>
@@ -3745,7 +3745,7 @@
     <txt_443 >Price</txt_443>
     <txt_444 >Unit</txt_444>
     <txt_445 >Total Price</txt_445>
-    <txt_446 >No invoices in this period</txt_446>
+    <txt_446 >No invoices</txt_446>
     <txt_447 >Total</txt_447>
     <txt_448 >Incl. draft and internal. Excl. VAT</txt_448>
     <txt_449 >Invoice pre settings</txt_449>

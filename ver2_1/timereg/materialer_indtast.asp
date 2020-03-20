@@ -220,8 +220,14 @@
         
         matregid = request("matregid")
         matava = 0
-        
-        call indlaes_mat(matregid, otf, medid, jobid, aktid, aftid, matId, strEditor, strDato, intAntal, regdato, valuta, intkode, personlig, bilagsnr, pris, salgspris, navn, gruppe, varenr, opretlager, betegnelse, mat_func, matreg_opdaterpris, matava)
+        mattype = 0
+
+        'Denne skal rettes
+        basic_valuta = request("basic_valuta")
+        basic_kurs = request("basic_kurs")
+        basic_belob = request("basic_belob")
+
+        call indlaes_mat(matregid, otf, medid, jobid, aktid, aftid, matId, strEditor, strDato, intAntal, regdato, valuta, intkode, personlig, bilagsnr, pris, salgspris, navn, gruppe, varenr, opretlager, betegnelse, mat_func, matreg_opdaterpris, matava, mattype, basic_valuta, basic_kurs, basic_belob)
 	
          
 
@@ -243,7 +249,7 @@ if len(session("user")) = 0 then
 	%>
 	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
     <!--<SCRIPT src="inc/matind_jav.js"></script>-->
-    <SCRIPT src="inc/matind_2014_jav.js"></script>
+    <SCRIPT src="inc/matind_2019_jav.js"></script>
 
 	<%
 	
@@ -482,7 +488,7 @@ if len(session("user")) = 0 then
      
     'call vis_lager_fn()
 
-    if lto = "dencker" OR lto = "jttek" OR lto = "mpt" OR lto = "intranet - local" then
+    if lto = "dencker" OR lto = "jttek" OR lto = "mpt" OR lto = "intranet - local" OR lto = "hidalgo" then
         vis_lager = 1
     else
         vis_lager = 0
@@ -670,7 +676,7 @@ if len(session("user")) = 0 then
 
 	 %>
 	
-	 <h4><%=oskrift %></h4>
+	 <h4><%=oskrift %> her</h4>
 
 <form>
     
@@ -680,7 +686,21 @@ if len(session("user")) = 0 then
         <input type="hidden" id="matreg_matid" value="0" />
         <input type="hidden" id="matreg_aftid" name="aftid" value="0" />
         <input type="hidden" id="matreg_func" value="<%=dbfunc%>" />
-         <input type="hidden" id="matregid" name="matregid" value="<%=matregid%>" />
+        <input type="hidden" id="matregid" name="matregid" value="<%=matregid%>" />
+
+        <%
+            ' Henter basis valuta
+            basic_valuta = "DKK"
+            strSQL = "SELECT valutakode FROM valutaer WHERE grundvaluta = 1"
+            oRec.open strSQL, oconn, 3
+            if not oRec.EOF then
+                basic_valuta = oRec("valutakode")
+            end if
+            oRec.close
+        %>
+
+        <input type="hidden" id="basic_valuta" value="<%=basic_valuta %>" />
+
 
     	<table width=100% cellspacing=0 cellpadding=0 border=0>
      
@@ -724,11 +744,16 @@ if len(session("user")) = 0 then
     <%call matStFelter() %>
 
 
-            <tr id="dv_mat_otf_sb" style="visibility:<%=dvotf_vzb%>; display:<%=dvotf_dsp%>;"><td colspan="2" align=right><br /><br />
+            <tr id="dv_mat_otf_sb" style="visibility:<%=dvotf_vzb%>; display:<%=dvotf_dsp%>;">
+                <td colspan="2" align=right><br /><br />
 	<input type="button" id="matreg_sb" value="<%=tsa_txt_085 %> >>" />
   <br />
     <br />
-    &nbsp;</td></tr>
+        &nbsp;</td></tr>
+
+        <!--
+        <tr><td colspan="2" style="text-align:left;"><a style="color:red;" href="materialer_indtast.asp?id=<%=matid%>&func=slet&matregid=<%=mfid %>&fromsdsk=<%=fromsdsk %>&aftid=<%=aftid %>&vis=<%=vis%>&mid=<%=usemrn%>">[Slet]</a></td></tr>
+        -->
 	
   
 
@@ -754,6 +779,18 @@ if len(session("user")) = 0 then
 
         <!-- Lager -->
 
+    <%
+    ' Henter basis valuta
+    basic_valuta = "DKK"
+    strSQL = "SELECT valutakode FROM valutaer WHERE grundvaluta = 1"
+    oRec.open strSQL, oconn, 3
+    if not oRec.EOF then
+        basic_valuta = oRec("valutakode")
+    end if
+    oRec.close
+    %>
+
+    <input type="hidden" id="basic_valuta" value="<%=basic_valuta %>" />
 	
 	
 	
@@ -953,6 +990,14 @@ if len(session("user")) = 0 then
 	    sogliste = ""
 	    useSog = 0
 	    end if
+
+        if len(trim(request("vasallemed"))) <> 0 then
+            vasallemedCHK = "CHECKED"
+            vasallemed = 1
+        else
+            vasallemedCHK = ""
+            vasallemed = 0
+        end if
 	    %>
 	    
 	    Søg:
@@ -968,9 +1013,9 @@ if len(session("user")) = 0 then
             <br />
             <input name="showonlypers" id="showonlypers" type="checkbox" <%=showonlypersCHK %> /> <%=tsa_txt_320 %>
             
-            <%if level = 1 OR (lto = "dencker" OR lto = "jttek") then %>
+            <%if level = 1 OR (lto = "dencker" OR lto = "jttek" OR lto = "mpt") then %>
             <br />
-            <input name="vasallemed" id="vasallemed" type="checkbox" <%=vasallemedCHK %> /> Vis for alle medarbejdere
+            <input name="vasallemed" id="vasallemed" value="1" type="checkbox" <%=vasallemedCHK %> /> Vis materiale forbrug for alle medarbejdere
 
             <%end if %>
                 
@@ -1012,7 +1057,7 @@ if len(session("user")) = 0 then
      call tableDivAbs(tTop,tLeft,tWdth,tHgt,tId, tVzb, tDsp, tZindex)
 	
     showonlypers = 0
-    vasallemed = 0
+    'vasallemed = 0
 
      call senstematReg(usemrn, useSog, sogBilagOrJob, showonlypers, vasallemed, sogliste)
 

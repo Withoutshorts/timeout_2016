@@ -191,7 +191,7 @@ end select
     <table cellpadding=0 cellspacing=0 border=0>
         <tr>
             <td align=center id="treg" style="white-space:nowrap; width:100px; padding:2px; background-color:<%=bgtreg%>; border-right:1px #d6dff5 solid; border-bottom:0px;">
-			<a href="<%=lnkTreg %>" id="showtim" class=rmenu><%=tsa_txt_116 %></a></td>
+			<a href="<%=lnkTreg %>" id="showtim" class=rmenu><%=tsa_txt_116 %></a> </td>
              
              <!--
              <td align=center id="afst" style="white-space:nowrap; width:100px; padding:4px; background-color:<%=bgafst%>; border-right:1px #d6dff5 solid; border-bottom:0px;">

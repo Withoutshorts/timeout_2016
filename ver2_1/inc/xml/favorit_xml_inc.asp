@@ -9,6 +9,7 @@ Set objXmlHttp_favorit = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp_favorit.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/favorit_sprog.xml", False
 'objXmlHttp_favorit.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/favorit_sprog.xml", False
 'objXmlHttp_favorit.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/favorit_sprog.xml", False
+'objXmlHttp_favorit.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver4_22/inc/xml/favorit_sprog.xml", False
 objXmlHttp_favorit.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/favorit_sprog.xml", False
 
 objXmlHttp_favorit.send
@@ -116,6 +117,20 @@ Set oNodes_favorit = objXmlDom_favorit.documentElement.selectNodes(sXPathQuery_f
         favorit_txt_030 = oNode_favorit.selectSingleNode("txt_30").Text
         favorit_txt_031 = oNode_favorit.selectSingleNode("txt_31").Text
         favorit_txt_032 = oNode_favorit.selectSingleNode("txt_32").Text
+
+        favorit_txt_033 = oNode_favorit.selectSingleNode("txt_33").Text
+        favorit_txt_034 = oNode_favorit.selectSingleNode("txt_34").Text
+        favorit_txt_035 = oNode_favorit.selectSingleNode("txt_35").Text
+        favorit_txt_036 = oNode_favorit.selectSingleNode("txt_36").Text
+        favorit_txt_037 = oNode_favorit.selectSingleNode("txt_37").Text
+        favorit_txt_038 = oNode_favorit.selectSingleNode("txt_38").Text
+        favorit_txt_039 = oNode_favorit.selectSingleNode("txt_39").Text
+        favorit_txt_040 = oNode_favorit.selectSingleNode("txt_40").Text
+        favorit_txt_041 = oNode_favorit.selectSingleNode("txt_41").Text
+        favorit_txt_042 = oNode_favorit.selectSingleNode("txt_42").Text
+        favorit_txt_043 = oNode_favorit.selectSingleNode("txt_43").Text
+        favorit_txt_044 = oNode_favorit.selectSingleNode("txt_44").Text
+        favorit_txt_045 = oNode_favorit.selectSingleNode("txt_45").Text
   
           
     next

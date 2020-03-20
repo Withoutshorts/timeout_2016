@@ -1203,6 +1203,18 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 
 	        });
 
+
+            if ($("#aktinfo_0").attr("checked", true)) 
+            {
+	            $(".aktoskrift").attr("checked", "checked");
+	            $(".faseoskrift").attr("checked", "checked");
+            } 
+            else 
+            {
+                $(".aktoskrift").removeAttr("checked", "checked");
+	            $(".faseoskrift").removeAttr("checked", "checked");
+            }
+
 	        $("#aktinfo_0").click(function() {
 
 	            var thisid = this.id
@@ -1807,7 +1819,7 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 
 
 
-    <script src="inc/jobprint_jav.js"></script> 
+    <script src="inc/jobprint_jav2.js"></script> 
 	
 	
 	
@@ -2480,8 +2492,9 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 				             else
 				             fsCHK = ""
 				             end if
-				 
-				strChkHTML = strChkHTML & "<tr><td colspan="&cspanFull&" bgcolor=""#FFFFFF""><br><br><input id="&lcase(strFase)&" name=""FM_vis_fase"" "&fsCHK&" value=""#"&lcase(strFase)&"#"" type=""checkbox"" class=""faseoskrift"" /><b>"&replace(strFase, "_", " ")&"</b></td></tr>"    
+				
+            strChkHTML = strChkHTML & "<tr><td colspan="&cspanFull&" bgcolor=""#ffffff""><br><br>&nbsp;</td></tr>"
+				strChkHTML = strChkHTML & "<tr><td colspan="&cspanFull&" bgcolor=""#C4C4C4"">Fase:<br><input id="&lcase(strFase)&" name=""FM_vis_fase"" "&fsCHK&" value=""#"&lcase(strFase)&"#"" type=""checkbox"" class=""faseoskrift"" /><b>"&replace(strFase, "_", " ")&"</b></td></tr>"    
 			    lastFase = strFase	
                 af = 0
 				end if 
@@ -2517,7 +2530,7 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
                     case "synergi1", "intranet - local"
                      strAktHTML = strAktHTML & "<span class=""jobpr16""><u>"& strNavn & "</u></span>"
                     case else
-                     strAktHTML = strAktHTML & "<span class=""jobpr16"">"& strNavn & "</span>"
+                     strAktHTML = strAktHTML & "<span class=""jobpr16""><b>"& strNavn & "</b></span>"
                     end select
                
 				
@@ -2628,7 +2641,7 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 				
 				
 				strChkHTML = strChkHTML & "<td align=right valign=top style=""white-space:nowrap;"" class=lille>"& formatnumber(useAntal, 2) &" "& aty_enh &"</td>"        
-				strChkHTML = strChkHTML & "<td align=right valign=top class=lille style=""padding-left:10px;"">"& valExtCode &"</td><td align=right valign=top class=lille> "& formatnumber(aktbudgetsum, 2) &"</td></tr>"
+				strChkHTML = strChkHTML & "<td align=right valign=top class=lille style=""padding-left:10px; padding-right:2px;"">"& valExtCode &"</td><td align=right valign=top class=lille> "& formatnumber(aktbudgetsum, 2) &"</td></tr>"
 				
 				
 				if instr(vlgAkt, "#"& oRec("aktid") &"#") <> 0 OR (vlgAkt = "-1" AND aktbudgetsum <> 0) then 
@@ -2909,7 +2922,9 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 
         select case lto
         case "mpt"
-        strHilsenHTML = strHilsenHTML &"<br><br><br><table cellspacing=0 cellpadding=0 border=0 width=""100%""><tr><td style=""padding-top:10px;"">Vinarliga<br><br><b>"& afsKnavn &"</b><br><i>"& afsenderName &"</i></td></tr></table>"        
+        strHilsenHTML = strHilsenHTML &"<br><br><br><table cellspacing=0 cellpadding=0 border=0 width=""100%""><tr><td style=""padding-top:10px;"">Vinarliga<br><br><b>"& afsKnavn &"</b><br><i>"& afsenderName &"</i></td></tr></table>"
+        case "glad"
+        strHilsenHTML = strHilsenHTML & ""
 	    case else
 		strHilsenHTML = strHilsenHTML &"<table cellspacing=0 cellpadding=0 border=0 width=""100%""><tr><td style=""padding-top:10px;"">Med venlig hilsen <br>"& afsKnavn &"<br><br>"& afsenderName &"</td></tr></table>"        
 		end select
@@ -3422,6 +3437,12 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 		<table cellspacing=0 cellpadding=2 border=0>
 		<!-- https://outzource.dk/timeout_xp/wwwroot/ver2_1/pdf/ -->
 		
+
+               <tr>
+                    <td><input type="button" id="kunmail" value="Send mail >>" style="font-size:9px;" /> </td>
+               </tr>
+
+
 		<form action="job_make_pdf.asp?lto=<%=lto%>&id=<%=id%>&kid=<%=kid%>" target="_blank" method="post" id="mk_pdf">
 
         <%if lto = "synergi1" OR lto = "intranet - local" OR lto = "dencker" then
@@ -3433,8 +3454,9 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 		<tr>
 		    <td><input id="gempdf" type="button" style="font-size:9px;" value=" PDF >> " /> <!-- jobbeskPdf(); --><!-- onclick="gemtxtPdf();" -->
 		    <input id="Checkbox3" name="gem_pdf_somfil" value="1" type="checkbox" <%=gfpdfCHK %> /> Gem samtidig fil i filarkiv.
-
-              
+            <input type="hidden" name="sendmail" id="sendmail" />
+            <input type="hidden" name="sendkunmail" id="sendkunmail" />  
+            <input type="hidden" name="FM_mailmodtager" id="FM_mailmodtager" />
 
             <input id="xjobbeskoskrivPdf" name="xjobbeskoskriv" type="hidden" value="0" />    
             <input id="FM_vis_indledning_pdf" name="FM_vis_indledning_pdf" type="hidden" /></td>
@@ -3444,14 +3466,26 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
             <input id="pdf_foid" name="pdf_foid" value="" type="hidden" />
             </form>
 
+            <%
+            if len(trim(request("printnow"))) <> 0 then
+                printnow = request("printnow")
+            else
+                printnow = 0
+            end if
+            %>
+            <input type="hidden" id="printnow" value="<%=printnow %>" />
 
-
+            
             <form action="job_print.asp?id=<%=id%>&func=print&kid=<%=kid %>" method="post" target="_blank" id="mk_pnt">
-	    
+
 		    </tr>
 		    <tr>
 		    <td><!-- Main Print Form -->
-                <input id="gempnt"  type="button" value=" Print >> " style="font-size:9px;" /><!-- jobbeskPr(); --><!-- onclick="gemtxtPrint();" -->
+
+                <input id="gempnt_mail" type="button" value=" Print >> " style="font-size:9px;" />
+
+              <!--  <input id="gempnt" type="button" value=" Print >> " style="font-size:9px;" /> --> <!-- jobbeskPr(); --><!-- onclick="gemtxtPrint();" -->
+
                 <%if lto = "dencker" OR lto = "intranet - local" OR lto = "synergi1" OR lto = "essens" OR lto = "jttek" then
                 gfpCHK = "CHECKED"
                 else
@@ -3471,10 +3505,11 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
                 -->
                 <br />
                 <span style="color:#999999; padding:1px;">(overskriver eksisterende fil med samme navn)</span>
-                </td>
-		</tr>
-		
 
+                <input type="checkbox" id="sendmail_CBH" /> Send mail ved print
+
+                </td>
+		    </tr>
               
 		</table>
 		
@@ -3484,36 +3519,54 @@ if len(trim(session("user"))) = 0 AND cint(nosession) = 0  then
 		<br /><br />
 		
 	
-		<b>Gem PDF ovenfor, og email til:</b><br />
+        <%if lto <> "dencker" then 'ved dencker er det altid den samme der modtager mailen %>
+
+		<b>Modtager af mail:</b><br />
+
+        <select id="mailmodtager" style="width:200px;">
+
+            <option value="">Vælg</option>
+
 		<%
-
-        
-
-        
-
-      
-
-		strSQL = "SELECT navn, email FROM kontaktpers WHERE kundeid = " & kid
+		 strSQL = "SELECT navn, email FROM kontaktpers WHERE kundeid = " & kid
 		'Response.Write strSQL 
 		'Response.Flush
 		
 		oRec.open strSQL, oConn, 3
         while not oRec.EOF
 
-                
+        if len(trim(oRec("email"))) <> 0 then
+            strmail = oRec("email")
+        else
+            strmail = "Ingen mail"
+        end if
+
+        if len(trim(oRec("navn"))) <> 0 then
+            strnavn = oRec("navn")
+        else
+            strnavn = "Intet navn"
+        end if
         
-        Response.Write "<i>"& oRec("navn") & "</i>, <a href='mailto:"&oRec("email")&"&subject=Vedr.: "& strjobnr&"_"& tilbudsnr &"' class=vmenu>" & oRec("email") & "</a><br>"
-        
+       ' Response.Write "<i>"& oRec("navn") & "</i>, <a href='mailto:"&oRec("email")&"&subject=Vedr.: "& strjobnr&"_"& tilbudsnr &"' class=vmenu>" & oRec("email") & "</a><br>"
+
+        if len(trim(oRec("email"))) <> 0 OR len(trim(oRec("navn"))) <> 0 then
+        Response.Write "<option value='"&oRec("email")&"'>"&strnavn&" - "&strmail&"</option>"
+        end if
+
         oRec.movenext
         wend
         oRec.close
         
         %>
-
+        </select>
  
 
 
-        <br />Kontaktpersoner oprettes under fanebladet "kontakter" i hovemenuen.
+        <br /> <br /> Kontaktpersoner oprettes under fanebladet "Kunder" -> "Kontaktpersoner" i hovemenuen.
+
+
+        <%end if ' lto <> dencker %>
+
         </td>
         </tr>
         </table>

@@ -533,7 +533,39 @@ if session("user") = "" then
 		
 		
 		    response.cookies("stat")("showcpr") = showcpr
-	        
+
+
+            '******* Direkte excel ********
+            if len(trim(request("FM_directexp"))) <> 0 AND request("FM_directexp") <> 0 then
+            directexp = 1
+	        directexpCHK = "CHECKED"
+            else
+            directexp = 0
+	        directexpCHK = ""
+            end if
+
+            '****** Vis godkendte / afviste ***********
+	        if len(trim(request("showapr"))) <> 0 then
+            showapr = request("showapr")
+            else
+            showapr = "-1"
+            end if
+
+            showaprCHB_alle = ""
+            showaprCHB_afvist = ""
+            showaprCHB_godkendt = ""
+            select case showapr
+                case "-1"
+                showaprSQLKri = ""
+                showaprCHB_alle = "SELECTED"
+                case "0"
+                showaprSQLKri = "AND godkendtstatus = 0"
+                showaprCHB_afvist = "SELECTED"
+                case "1"
+                showaprSQLKri = "AND godkendtstatus = 1"
+                showaprCHB_godkendt = "SELECTED"
+            end select
+            
 	        
              '*** Show Forretningsområde ****
             if len(trim(request("joblog_uge"))) <> 0 then
@@ -647,7 +679,9 @@ if session("user") = "" then
 	                    tjkDato = dateadd("d",7,tjkDato)
 	                    end if
 	    
-	                    tjkDatoW = datepart("ww", tjkDato, 2,2)
+                        call thisWeekNo53_fn(tjkDato)
+                        tjkDatoW = thisWeekNo53
+	                    'tjkDatoW = datepart("ww", tjkDato, 2,2)
 	    
 	                    if cint(bruguge_week) = cint(tjkDatoW) then
 	    
@@ -692,12 +726,17 @@ if session("user") = "" then
                     else 'brugmd = 1
 
                 
-                    brugmd = "1"
-	                brugmdCHK = "CHECKED"
+                        brugmd = "1"
+	                    brugmdCHK = "CHECKED"
 	    
 	                    bruguge_week = request("bruguge_week") 'bruges ikke til beregning da, der er valgt md
 	                    'brugmd_md = request("brugmd_md") 
+
+                        if len(trim(request("bruguge_year"))) <> 0 then
                         bruguge_year = request("bruguge_year") 
+                        else
+                        bruguge_year = year(now)
+                        end if
 	   
 	                    stDato = "1/"& brugmd_md &"/"&bruguge_year
 	                    tjkDato = stDato 
@@ -753,7 +792,10 @@ if session("user") = "" then
         bruguge = 1
 	    brugugeCHK = "CHECKED"
     	
-	    bruguge_week = datepart("ww", stDaguge&"/"&stMduge&"/"&stAaruge, 2,2)
+	    'bruguge_week = datepart("ww", stDaguge&"/"&stMduge&"/"&stAaruge, 2,2)
+        call thisWeekNo53_fn(stDaguge&"/"&stMduge&"/"&stAaruge)
+        bruguge_week = thisWeekNo53
+
 	    bruguge_year = datepart("yyyy", stDaguge&"/"&stMduge&"/"&stAaruge, 2,2) 
         
         else
@@ -766,7 +808,9 @@ if session("user") = "" then
 	    bruguge_year = request("bruguge_year") 
 	    else
     	
-	    bruguge_week = datepart("ww", now, 2,2)
+	    'bruguge_week = datepart("ww", now, 2,2)
+        call thisWeekNo53_fn(now)
+        bruguge_week = thisWeekNo53 
 	    bruguge_year = datepart("yyyy", now, 2,2)
 	    end if 
 	    
@@ -829,6 +873,10 @@ if session("user") = "" then
 			
 			end if
 		
+
+            if cint(joblog_uge) = 3 AND media = "export" then
+                joblog_uge = 1
+            end if
 		
 			
 			
@@ -875,6 +923,30 @@ if session("user") = "" then
     fordelpamedarb = request("FM_orderby_medarb")
     else
     fordelpamedarb = 0
+    end if
+
+
+    'Response.write "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>HER: " & request("FM_vismat")
+
+    if len(trim(request("FM_orderby_medarb"))) <> 0 then
+     
+        if len(trim(request("FM_vismat"))) <> 0 AND request("FM_vismat") <> 0 then 
+        vismat = 1
+        else
+        vismat = 0
+        end if
+
+    response.Cookies("stat")("joblog_vismat") = vismat
+
+    else
+
+
+        if request.Cookies("stat")("joblog_vismat") <> "" then
+        vismat = request.Cookies("stat")("joblog_vismat")
+        else
+        vismat = 0
+        end if
+
     end if
 
 
@@ -937,7 +1009,7 @@ if session("user") = "" then
 	if func = "opdaterliste" then
 	
 	  
-	
+	  '** Timer fra joblog
 	  ujid = split(request("ids"), ",")
 	  'uGodkendt = split(trim(request("FM_godkendt")), "#, ")
        
@@ -958,6 +1030,36 @@ if session("user") = "" then
 
 				strSQL = "UPDATE timer SET godkendtstatus = "& uGodkendt &", "_
 				&"godkendtstatusaf = '"& editor &"', godkendtdato = '"& uGodkendtDato &"' WHERE tid = " & ujid(u) & " AND overfort = 0"
+				
+				'Response.write strSQL &"<br>"
+				
+				oConn.execute(strSQL)
+				
+
+	next
+
+
+    '*** Materialer fra joblog ***'
+    
+
+     umatid = split(request("matids"), ",")
+	 uGodkendtDato = year(now) & "-" & month(now) & "-" & day(now) 
+     editor = session("user")
+
+     for u = 0 to UBOUND(umatid)
+	
+	
+
+
+                if len(trim(request("FM_godkendt_"& trim(umatid(u))))) <> 0 then
+                uGodkendt = request("FM_godkendt_"& trim(umatid(u)))
+                else
+                uGodkendt = 0
+                end if
+              
+
+				strSQL = "UPDATE materiale_forbrug SET godkendt = "& uGodkendt &", "_
+				&"gkaf = '"& editor &"', gkdato = '"& uGodkendtDato &"' WHERE id = " & umatid(u) & ""
 				
 				'Response.write strSQL &"<br>"
 				
@@ -1022,7 +1124,7 @@ if session("user") = "" then
   
 	'*** LINK og faste VAR ****
 	strLink = "joblog.asp?rdir="&rdir&"&menu="&menu&"&FM_medarb="&thisMiduse&"&FM_medarb_hidden="&thisMiduse&""_
-    &"&joblog_uge="&joblog_uge&"&FM_orderby_medarb="&request("FM_orderby_medarb")&""_
+    &"&joblog_uge="&joblog_uge&"&FM_orderby_medarb="&request("FM_orderby_medarb")&"&FM_vismat="&request("FM_vismat")&""_
 	&"&lastFakdag="&lastFakdag&"&FM_job="&jobid&"&FM_start_dag="&strDag&""_
 	&"&FM_start_mrd="&strMrd&"&FM_start_aar="&strAar&"&FM_slut_dag="&strDag_slut&""_
 	&"&FM_slut_mrd="&strMrd_slut&"&FM_slut_aar="&strAar_slut&""_
@@ -1334,7 +1436,7 @@ if session("user") = "" then
          
 
         <tr id="tr_pre" style="display:none; visibility:hidden;">
-			<td colspan="2" valign=top> 
+			<td colspan="2" valign=top>
          
             <%if rdir <> "treg" then %>
 		
@@ -1369,6 +1471,17 @@ if session("user") = "" then
 		
 		<input type="radio" name="FM_orderby_medarb" id="Radio2" value="0" <%=chkFordelingen%>><%=joblog2_txt_019 %>
 	    
+
+        <%if cint(vismat) = 1 then
+            vismatCHK = "CHECKED"
+         else
+            vismatCHK = ""
+         end if
+            %>
+
+        <br />
+        <input type="checkbox" name="FM_vismat" id="FM_vismat" value="1" <%=vismatCHK%>> Vis materialeforbrug
+
         <!--
         
         Vis Komprimeret visning<br />
@@ -1422,6 +1535,13 @@ if session("user") = "" then
 
 		<br /><input id="Checkbox1" name="showcpr" value="1" type="checkbox" <%=showCPRCHK %> /> <%=joblog2_txt_030 %>
 		
+        <br /><br />
+        <%=joblog_txt_235 %>:
+        <select name="showapr">
+            <option value="-1" <%=showaprCHB_alle %>><%=joblog_txt_153 %></option>
+            <option value="1" <%=showaprCHB_godkendt %>><%=joblog_txt_236 %></option>
+            <option value="0" <%=showaprCHB_afvist %>><%=joblog_txt_237 %></option>
+        </select>
      
 
        </td>
@@ -1432,11 +1552,13 @@ if session("user") = "" then
        
        <tr>
        
-       <td colspan=2 align=right valign=bottom>
-       
-       
-	<input type="submit" value=" <%=joblog2_txt_031 %> >> ">
-	</td>
+        <td>
+            <br /><input type="checkbox" name="FM_directexp" id="directexp" value="1" <%=directexpCHK %>/><%=joblog_txt_035 %> (<%=joblog_txt_036 %>)
+        </td>
+
+       <td colspan=1 align=right valign=bottom>
+	    <input type="submit" value=" <%=joblog2_txt_031 %> >> ">
+	  </td>
 	</tr>
 	
 	
@@ -1531,7 +1653,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 	<h4>Periode <%=formatdatetime(strDag&"/"&strMrd&"/"&strAar, 1)%> - <%=formatdatetime(strDag_slut&"/"&strMrd_slut&"/"&strAar_slut, 1)%> </h4>
 	<%else
 	
-	    if media <> "export" then%>
+	    if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then%>
 	    <!--include file="inc/stat_submenu.asp"-->
 	    <%end if%>
 	<%end if%>
@@ -1556,6 +1678,8 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 	   <input type="hidden" name="FM_kundejobans_ell_alle" value="<%=visKundejobans%>">
 	    <input type="hidden" name="FM_akttype" value="<%=vartyper%>">
 	    <input type="hidden" name="FM_orderby_medarb" value="<%=fordelpamedarb%>">
+        <input type="hidden" name="FM_vismat" value="<%=vismat%>">
+               
 	    <input type="hidden" name="bruguge" value="<%=bruguge%>">
 	    <input type="hidden" name="bruguge_week" value="<%=bruguge_week%>">
         <input type="hidden" name="brugmd" value="<%=brugmd%>">
@@ -1675,15 +1799,15 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 	&" LEFT JOIN medarbejdere m ON (m.mid = tmnr)"_
     &" LEFT JOIN valutaer v ON (v.id = t.valuta)"_
 	&" WHERE ("& jobnrSQLkri &") AND ("& medarbSQlKri &") AND ("& aty_sql_sel &") AND "_
-	&" (Tdato BETWEEN '"& startDatoKriSQL &"' AND '"& slutDatoKriSQL &"') "& grpByKri &" ORDER BY "& orderByKri
+	&" (Tdato BETWEEN '"& startDatoKriSQL &"' AND '"& slutDatoKriSQL &"') "& showaprSQLKri &" "& grpByKri &" ORDER BY "& orderByKri
 	
 	'&" WHERE "& jobMedarbKri &" "& selaktidKri &""_
-    'Response.write strSQL & "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>"
+    'Response.write "<br> her " & strSQL & "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>"
 	
 	
 	'Response.Write "visKundejobans "& visKundejobans &"<br>jobAnsSQLkri:" & jobAnsSQLkri & "<br>"& jobAns2SQLkri & "<br> kundeans"& kundeAnsSQLkri & "<br><br>"
 	
-	'if lto = "sdeo" and session("mid") = 1 then
+	'if lto = "tia" and session("mid") = 1 then
 	'Response.Write strSQL
 	'Response.end
 	'end if
@@ -1714,14 +1838,27 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
             medarbtimerArr(m,8) = oRec("Tdato")
             medarbtimerArr(m,9) = oRec("timer")
             medarbtimerArr(m,10) = oRec("kid")
-            medarbtimerArr(m,11) = oRec("timerkom")
+
+            timerKom = oRec("timerkom")
+            if isNull(timerKom) <> true then
+            timerKom = replace(timerKom, "''", "")
+            timerKom = replace(timerKom, "'", "")
+            timerKom = replace(timerKom, "&#39;", "")
+            timerKom = replace(timerKom, "&#34;", "")   
+            timerKom = replace(timerKom, chr(39), "")
+            timerKom = replace(timerKom, chr(34), "")
+            else
+            timerKom = ""
+            end if
+
+            medarbtimerArr(m,11) = timerKom
             medarbtimerArr(m,12) = oRec("init")
             medarbtimerArr(m,13) = oRec("mcpr")
             end if
 
 
-
-        strWeekNum = datepart("ww", oRec("Tdato"),2,2)
+        call thisWeekNo53_fn(oRec("Tdato"))
+        strWeekNum = thisWeekNo53 'datepart("ww", oRec("Tdato"),2,2)
 		thisFase = oRec("fase")
 		id = 1
 		
@@ -1746,7 +1883,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 		
 			
 			
-			if media <> "export" then
+			if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then
 			
 			
 			'** Fordel på medarb **'
@@ -1805,7 +1942,11 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				        if v <> 0 then
         				
 				        call jobtotaler()
-        				
+                    
+                        if cint(vismat) = 1 AND cint(joblog_uge) = 1 then
+        				'call materialeforbrug(oRec("tjobnr"), oRec("tmnr"))
+                        call materialeforbrug(lastjobnr, lastmedarb)
+                        end if
 				      
 				        end if
 				
@@ -1946,12 +2087,14 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				    
 				   if v <> 0 then
 				   
-				
-        				
+					
 				        call jobtotaler()
-        				
-				       
-				   
+
+                        if cint(vismat) = 1 AND cint(joblog_uge) = 1 then
+                        'call materialeforbrug(oRec("tjobnr"), oRec("tmnr"))
+                        call materialeforbrug(lastjobnr, lastmedarb)
+        				end if
+				    
 				   end if
 				    
 				
@@ -1972,17 +2115,20 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                 <table border="0" width=100% cellpadding="0" cellspacing="0" bgcolor="#ffffff">
               
 				    
-					
+					<%call thisWeekNo53_fn(oRec("Tdato")) %>
 				    <tr>
 				        <td colspan=16 bgcolor="#ffffff" style="padding:10px 10px 0px 10px;">
-				        <h4><%=joblog2_txt_006 %>: <%=datepart("ww", oRec("tdato"), 2,2)&" - "& datepart("yyyy", oRec("tdato"), 2,2)%> - <%=oRec("tmnavn") %> (<%=oRec("tmnr") %>)</h4>
+				        <h4><%=joblog2_txt_006 %>: <%=thisWeekNo53&" - "& datepart("yyyy", oRec("tdato"), 2,2)%> - <%=oRec("tmnavn") %> (<%=oRec("tmnr") %>)</h4>
 				        
 				        <%
-				        call erugeAfslutte(datepart("yyyy", oRec("tdato"), 2,2), datepart("ww", oRec("tdato"), 2,2), oRec("tmnr"), SmiWeekOrMonth, 0) 
+				        call erugeAfslutte(datepart("yyyy", oRec("tdato"), 2,2), thisWeekNo53, oRec("tmnr"), SmiWeekOrMonth, 0, oRec("tdato")) 
 				        %>
 				        
-				        <%if showAfsuge = 0 then %>
-				        <%=joblog2_txt_047 %> <%=formatdatetime(cdAfs, 2)%> kl. <%=formatdatetime(cdAfs, 3)%> (uge <%=datepart("ww", cdAfs, 2, 2)%>)
+				        <%if showAfsuge = 0 then 
+
+                          call thisWeekNo53_fn(cdAfs)   
+                        %>
+				        <%=joblog2_txt_047 %> <%=formatdatetime(cdAfs, 2)%> kl. <%=formatdatetime(cdAfs, 3)%> (uge <%=thisWeekNo53%>)
                         
 		                <%end if%>
 				        
@@ -2011,7 +2157,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
         'else
          'call jobansoglastfak()
 		
-		end if '** media	  
+		end if '** media if cint(directexp) <> 1 AND media <> "export" then
 				
 
         if cint(joblog_uge) <> 3 then 'månedsoversigt
@@ -2052,7 +2198,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                             thisFase = ""
                             end if
 				
-				            if media <> "export" then
+				            if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then
 				            %>
 				
 				
@@ -2240,7 +2386,8 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 
                             strMrd_sm = datepart("m", oRec("Tdato"), 2, 2)
                             strAar_sm = datepart("yyyy", oRec("Tdato"), 2, 2)
-                            strWeek = datepart("ww", oRec("Tdato"), 2, 2)
+                            call thisWeekNo53_fn(oRec("Tdato"))
+                            strWeek = thisWeekNo53 'datepart("ww", oRec("Tdato"), 2, 2)
                             strAar = datepart("yyyy", oRec("Tdato"), 2, 2)
 
                             if cint(SmiWeekOrMonth) = 0 then
@@ -2252,46 +2399,60 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                             end if
 
                 
-                            call erugeAfslutte(useYear, usePeriod, oRec("mid"), SmiWeekOrMonth, 0)
-		        
-		                    'Response.Write "smilaktiv: "& smilaktiv & "<br>"
-		                    'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &"<br>"
-		                    'Response.Write "autolukvdatodato: "& autolukvdatodato & "<br>"
-		                    'Response.Write "tjkDag: "& tjkDag & "<br>"
-		                    'Response.Write "autolukvdato: "& autolukvdato & "<br>"
-		                    'Response.Write "erugeafsluttet:" & erugeafsluttet & "<br>"
-		        
-		                    call lonKorsel_lukketPer(oRec("Tdato"), jobRisiko)
-		         
-                            'if ( (( datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0) OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 )) AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
-                            '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", oRec("Tdato")) = year(now) AND DatePart("m", oRec("Tdato")) < month(now)) OR _
-                            '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", oRec("Tdato")) < year(now) AND DatePart("m", oRec("Tdato")) = 12)) OR _
-                            '(smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", oRec("Tdato")) < year(now) AND DatePart("m", oRec("Tdato")) <> 12) OR _
-                            '(smilaktiv = 1 AND autolukvdato = 1 AND (year(now) - DatePart("yyyy", oRec("Tdato")) > 1))) OR cint(lonKorsel_lukketIO) = 1 then
-              
-                            'ugeerAfsl_og_autogk_smil = 1
-                            'else
-                            'ugeerAfsl_og_autogk_smil = 0
-                            'end if 
-				
-                             '*** tjekker om uge er afsluttet / lukket / lønkørsel
-                            call tjkClosedPeriodCriteria(oRec("tdato"), ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO)
+                            if cint(directexp) <> 1 AND media <> "export" then
 
-				            'if print <> "j" then
-				            'awdt = 350
-				            'else
-				            awdt = 250
-				            'end if
-				            'oRec("fakturerbar")
+                                        call erugeAfslutte(useYear, usePeriod, oRec("mid"), SmiWeekOrMonth, 0, oRec("tdato"))
+		        
+		                                'Response.Write "smilaktiv: "& smilaktiv & "<br>"
+		                                'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &"<br>"
+		                                'Response.Write "autolukvdatodato: "& autolukvdatodato & "<br>"
+		                                'Response.Write "tjkDag: "& tjkDag & "<br>"
+		                                'Response.Write "autolukvdato: "& autolukvdato & "<br>"
+		                                'Response.Write "erugeafsluttet:" & erugeafsluttet & "<br>"
+		        
+		                                call lonKorsel_lukketPer(oRec("Tdato"), jobRisiko, oRec("mid"))
+		         
+                                   
+				
+                                         '*** tjekker om uge er afsluttet / lukket / lønkørsel
+                                        call tjkClosedPeriodCriteria(oRec("tdato"), ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO, ugegodkendt)
+
+				                        'if print <> "j" then
+				                        'awdt = 350
+				                        'else
+				                        awdt = 250
+				                        'end if
+				                        'oRec("fakturerbar")
+
+                                end if 'if cint(directexp) <> 1 AND media <> "export" then
+
+
+
+
+
 				            call akttyper(oRec("fakturerbar"), 1)
 
-				            if media <> "export" then
+                           '*** Åben / Spærret for indtastninger hvis:
+                            'Or cint(godkendtstatus) = 3
+                            '*** Der må redigeres hvis:
+                            '*** Ugen ikke er godkendt
+                            '*** Origin = Favorit eller gl. timereg.
+                            '*** Timer ikke er overført
+                            '*** Timer ikke er godkendt dvs. afvist eller tentative må gerne redigeres.
+                            '*** Admin må gerne redigere i godkendte. MEN ikke overførte.
+
+
+				            if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then
 				            %>
 				            <td style="padding:3px 10px 5px 0px; width:<%=awdt%>px; border-top:1px #cccccc solid;" valign="top">
 				            <%
-				                if ((oRec("godkendtstatus") <> 1 AND oRec("godkendtstatus") <> 3 AND request("print") <> "j" AND ugeerAfsl_og_autogk_smil = 0) _
-				                OR (oRec("godkendtstatus") <> 1 AND oRec("godkendtstatus") <> 3 AND request("print") <> "j" AND ugeerAfsl_og_autogk_smil = 1 AND level = 1)) _
-				                AND (cdate(lastfakdato) <  cdate(oRec("Tdato")) AND oRec("overfort") = 0) then %>
+
+				                if ((ugeerAfsl_og_autogk_smil = 0 AND oRec("godkendtstatus") <> 1) _
+                                OR (ugeerAfsl_og_autogk_smil = 1 AND oRec("godkendtstatus") = 2) _
+				                OR ((ugeerAfsl_og_autogk_smil = 1 OR ugeerAfsl_og_autogk_smil = 0) AND level = 1)) _
+				                AND (cdate(lastfakdato) < cdate(oRec("Tdato")) AND oRec("overfort") = 0 AND request("print") <> "j") then 
+                                
+                                %>
     					
     					
     					            <a href="#" onclick="Javascript:window.open('../to_2015/rediger_tastede_dage_2006.asp?id=<%=oRec("tid") %>', '', 'width=450,height=675,resizable=yes,scrollbars=yes')" class=vmenu>
@@ -2299,7 +2460,6 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
     					
 					                <%=oRec("anavn")%>
     					
-					                <img src="../ill/blyant.gif" width="12" height="11" alt="Tilføj kommentar" border="0">
 					                </a>
 					    
 				                    &nbsp;<span style="color:#999999; font-size:9px;">(<%=lcase(akttypenavn)%>)</span>
@@ -2331,11 +2491,23 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 
 				
 
+
                             timerKom = ""
                             timerKom = oRec("timerkom")
+
+                            if isNull(timerKom) <> true then
+                            
+                            timerKom = replace(timerKom, "''", "")
+                            timerKom = replace(timerKom, "'", "")
+                            timerKom = replace(timerKom, "&#39;", "")
+                            timerKom = replace(timerKom, "&#34;", "")   
+                            timerKom = replace(timerKom, chr(39), "")
+                            timerKom = replace(timerKom, chr(34), "")
 				            if len(trim(timerKom)) <> 0 then%>
 				            <br /><i><%=timerKom%></i>
 				            <%end if%>
+
+                            <%end if%>
 				
 			                <%
 				            '**** Kundekommentarer ****
@@ -2376,7 +2548,12 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                             if len(oRec("Anavn")) <> 0 then
                             'aktnavnEksp = replace(oRec("Anavn"), Chr(34), "&quot;")
                             aktnavnEksp = replace(oRec("Anavn"), "''", "")
-                            aktnavnEksp = replace(oRec("Anavn"), "'", "")
+                            aktnavnEksp = replace(aktnavnEksp, "&#39;", "")
+                            aktnavnEksp = replace(aktnavnEksp, "&#34;", "")   
+                            aktnavnEksp = replace(aktnavnEksp, chr(39), "")
+                            aktnavnEksp = replace(aktnavnEksp, chr(34), "")
+                            aktnavnEksp = replace(aktnavnEksp, "'", "")
+                            aktnavnEksp = replace(aktnavnEksp, ";", "")
                             else
                             aktnavnEksp = ""
                             end if
@@ -2422,7 +2599,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                                 wend
                                 oRec5.close
 
-                            if media <> "export" then%>
+                            if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then%>
 				            <td style="padding-top:3px; padding-left:5px; border-top:1px #cccccc solid;" valign="top"><span style="color:#999999; font-size:10px;"><%=forr %></span>
 
                             </td>
@@ -2451,7 +2628,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 
 
 
-				            if media <> "export" then%>
+				            if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then%>
 				            <td style="padding-top:3px; padding-left:5px; border-top:1px #cccccc solid;" valign="top"><%=left(oRec("Tmnavn"),25)%>&nbsp;[<%=oRec("init")%>]
                     
                                 <%if cint(showcpr) = 1 then%>
@@ -2474,10 +2651,22 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				
                              end select
 				
-				            if media <> "export" then%>
-				            <td align="right" style="padding-top:3px; padding-right:5px; border-top:1px #cccccc solid;" valign="top"><b> <%=formatnumber(oRec("Timer"), 2)%></b>
+				            if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then%>
+				            <td align="right" style="padding-top:3px; padding-right:5px; border-top:1px #cccccc solid;" valign="top">
+                                
+                                <%  if ((oRec("godkendtstatus") <> 1 AND oRec("godkendtstatus") <> 3 AND request("print") <> "j" AND ugeerAfsl_og_autogk_smil = 0) _
+				                OR (oRec("godkendtstatus") <> 1 AND oRec("godkendtstatus") <> 3 AND request("print") <> "j" AND ugeerAfsl_og_autogk_smil = 1 AND level = 1)) _
+				                AND (cdate(lastfakdato) <  cdate(oRec("Tdato")) AND oRec("overfort") = 0) then %>
+    					
+    					
+    					         <a href="#" onclick="Javascript:window.open('../to_2015/rediger_tastede_dage_2006.asp?id=<%=oRec("tid") %>', '', 'width=450,height=675,resizable=yes,scrollbars=yes')" class=vmenu>
+					             <%=formatnumber(oRec("Timer"), 2)%></a>
+
+                                 <%else %>
+                                
+                                <b><%=formatnumber(oRec("Timer"), 2)%></b>
                     
-                  
+                                <%end if %>
 
 				            <%
 				            end if
@@ -2533,7 +2722,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				                if len(oRec("sttid")) <> 0 then
 				
 					                if left(formatdatetime(oRec("sttid"), 3), 5) <> "00:00" then
-					                    if media <> "export" then
+					                    if cint(directexp) <> 1 AND media <> "export" then ' if media <> "export" then
 					                    Response.write "<span style=""color:#999999; font-size:9px;""><br>"& left(formatdatetime(oRec("sttid"), 3), 5) & " - " & left(formatdatetime(oRec("sltid"), 3), 5)
 					                    end if
 					                    ekspTxt = ekspTxt & left(formatdatetime(oRec("sttid"), 3), 5) & " - " & left(formatdatetime(oRec("sltid"), 3), 5) &";"
@@ -2547,7 +2736,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 
                             end select
 				
-				            if media <> "export" then%>
+				            if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then%>
 				            </td>
 				            <%end if
 				
@@ -2564,7 +2753,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				            if cint(hideenheder) = 0 then 
 				
 				    
-				                if media <> "export" then%>
+				                 if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then%>
 				                <td align="right" style="padding-top:3px; padding-right:5px; border-top:1px #cccccc solid; white-space:nowrap;" valign="top"><%=formatnumber(enheder, 2)%></td>
 				                <%end if
 
@@ -2575,7 +2764,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                                 end select
 				
 				            else
-				                if media <> "export" then%>
+				                if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then%>
 				                <td style="border-top:1px #cccccc solid;"><img src="ill/blank.gif" width="1" height="1" border="0" /></td>
 				                <%end if
 				            end if
@@ -2599,7 +2788,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				            '*** Timepriser ***'
 				            if (level <=2 OR level = 6) AND cint(hidetimepriser) = 0 then
 				
-				            if media <> "export" then%>
+				            if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then%>
 				            <td style="padding-top:3px; padding-right:5px; white-space:nowrap; border-top:1px #cccccc solid;" align="right" valign="top">
 				            <%
 				            end if
@@ -2622,7 +2811,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
     				                'end if 
     				    
     				    
-    				                if media <> "export" then%>
+    				                if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then%>
     				                <%=tpris %>
 				                    <%end if 
 				                
@@ -2633,7 +2822,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                                     end select
     				            else
     				
-    				            if media <> "export" then%>
+    				            if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then%>
     				            &nbsp;
     				            <%end if
 
@@ -2645,7 +2834,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 
 				                end if
 				
-				                if media <> "export" then%>
+				                if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then%>
 				                </td>
 			                    <td style="padding-top:3px; padding-left:15px; padding-right:5px; border-top:1px #cccccc solid; white-space:nowrap;" align="right" valign="top">
 				                <%
@@ -2659,8 +2848,8 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				                tprisTot = tpris*oRec("timer")
 				                end if 
 				    
-				                if media <> "export" then%>
-				                <%=formatnumber(tprisTot , 2)&" "&oRec("valutakode")%>
+				                if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then%>
+				                <b><%=formatnumber(tprisTot , 2)&" "&oRec("valutakode")%></b>
 			                    <%end if 
 			        
 			                    select case ver 
@@ -2672,7 +2861,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 
     			                else
     			                
-                                if media <> "export" then%>
+                                if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then%>
     			                &nbsp;
     			                <%end if
 
@@ -2686,12 +2875,12 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 
 				                end if
 				    
-				                if media <> "export" then%>
+				                if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then%>
 				                </td>
 				                <%end if
 				
 				                else
-				                    if media <> "export" then %>
+				                    if cint(directexp) <> 1 OR media <> "export" then 'if media <> "export" then %>
 				                    <td style="border-top:1px #cccccc solid;"><img src="ill/blank.gif" width="1" height="1" border="0" /></td>
 				                    <td style="border-top:1px #cccccc solid;"><img src="ill/blank.gif" width="1" height="1" border="0" /></td>
 				                    <%end if
@@ -2702,7 +2891,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				            '*** Kostpriser ***'
 				            if level = 1 AND cint(visKost) = 1 then
 				
-				            if media <> "export" then%>
+				            if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then%>
 				            <td style="padding-top:3px; padding-right:5px; white-space:nowrap; border-top:1px #cccccc solid;" align="right" valign="top">
 				            <%end if
 				    
@@ -2711,7 +2900,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				   
 				                if cint(aty_fakbar) = 1 OR cint(aty_medpafak) = 1 then
 
-				                    if media <> "export" then
+				                    if cint(directexp) <> 1 AND media <> "export" then'if media <> "export" then
 				                    %>
     				                <%=formatnumber(oRec("kostpris"), 2)%>
 				                    <%end if 
@@ -2723,7 +2912,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                                 end select
 
     				            else
-    				                if media <> "export" then%>
+    				                if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then%>
     				                &nbsp;
     				                <%end if
 
@@ -2735,7 +2924,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 
 				                end if
 				
-				             if media <> "export" then
+				             if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then
 			                 %>
 				             </td>
 			                 <td style="padding-top:3px; padding-right:5px; white-space:nowrap; border-top:1px #cccccc solid;" align="right" valign="top">
@@ -2754,7 +2943,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                                 call valutakode_fn(oRec("kpvaluta"))
 
 				    
-				                 if media <> "export" then%>
+				                 if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then%>
 				                 <%=formatnumber(kostTot, 2)&" "& valutaKode_CCC%> 
 			                     <%
                                  'basisValISO    
@@ -2767,7 +2956,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                                 end select
     			     
     			                 else
-    			                  if media <> "export" then%>
+    			                  if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then%>
     			                  &nbsp;
     			                  <%end if
 
@@ -2779,13 +2968,13 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				  
 				              end if 'aty_fakbar
 				    
-				                 if media <> "export" then%>
+				                 if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then%>
 				                </td>
 				                <%
 				                end if
 				            else 
 				
-				                 if media <> "export" then%>
+				                 if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then%>
 				                 <td style="border-top:1px #cccccc solid;"><img src="ill/blank.gif" width="1" height="1" border="0" /></td>
 				                <td style="border-top:1px #cccccc solid;"><img src="ill/blank.gif" width="1" height="1" border="0" /></td>
 				                <%end if
@@ -2793,13 +2982,13 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				            end if
 				
 				
-				             if media <> "export" then
+				             if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then
 				    
 				                %>
 				                 <!-- Taste dato -->
 				                <%if cint(hidegkfakstat) <> 1 then  %>
-				                <td style="padding-top:3px; padding-right:5px; border-top:1px #cccccc solid;" align="right" valign="top"><font class="megetlillesilver"><%=oRec("TasteDato")%><br />
-                                <i><%=oRec("editor") %></i></font></td>
+				                <td style="padding-top:3px; padding-right:5px; border-top:1px #cccccc solid; white-space:nowrap;" valign="top"><span style="color:#999999;"><%=oRec("TasteDato")%><br />
+                                <%=left(oRec("editor"), 15) %></span></td>
 				                <%else %>
 				                <td style="border-top:1px #cccccc solid;"><img src="ill/blank.gif" width="1" height="1" border="0" /></td>
 				                <%end if 
@@ -2819,7 +3008,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				            end if%>
 				
 				            <%if cint(hidegkfakstat) <> 1 then 
-				                if media <> "export" then%>
+				                if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then%>
 				                <td class=lille valign=top style="padding:3px 1px 3px 3px; border-top:1px #cccccc solid; white-space:nowrap;">
                                 <%end if
                     
@@ -2867,7 +3056,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                              end if
                  
                     
-                                if media <> "export" then
+                                if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then
                  
 					            if level = 1 OR _
 					            cint(session("mid")) = cint(jobans1) OR _
@@ -2879,7 +3068,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 					                '*** Godkendelse ***'
 					                 if print <> "j" then%>
     					
-					                 <input name="ids" id="ids" value="<%=oRec("tid")%>" type="hidden" />
+					               <input name="ids" id="ids" value="<%=oRec("tid")%>" type="hidden" />
 					               <input type="radio" name="FM_godkendt_<%=oRec("tid")%>" id="FM_godkendt1_<%=v%>" class="FM_godkendt_1" value="1" <%=gkCHK1 %>><span style="color:<%=gk1bgcol%>;"><%=joblog2_txt_048 %></span><br />
                                    <input type="radio" name="FM_godkendt_<%=oRec("tid")%>" id="FM_godkendt3_<%=v%>" class="FM_godkendt_3" value="3" <%=gkCHK3 %>><span style="color:<%=gk3bgcol%>;"><%=joblog2_txt_049 %></span><br />
                                    <input type="radio" name="FM_godkendt_<%=oRec("tid")%>" id="FM_godkendt2_<%=v%>" class="FM_godkendt_2" value="2" <%=gkCHK2 %>><span style="color:<%=gk2bgcol%>;"><%=joblog2_txt_050 %></span><br />
@@ -2888,9 +3077,9 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
                                     <!--<input name="FM_godkendt" id="FM_godkendt_hd_<=v>" value="#" type="hidden" />-->
 					                <%
 					                else
-    					    
-					        
-    					    
+    					            %>
+					                &nbsp;
+    					            <%
 					                end if
 					
 					            visopdaterknap = 1
@@ -2926,7 +3115,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 					            'end if 
 					
 
-			                    if media <> "export" then%>
+			                    if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then%>
 				                </td>
 				                <td valign="top" style="padding:3px 5px 3px 3px; border-top:1px #cccccc solid;">
 				                <%
@@ -2939,7 +3128,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				            erFaktureret = 1%>
 				    
 				                <%
-				                 if media <> "export" then
+				                 if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then
 				     
 				                    if (level = 1 OR _
 					                cint(session("mid")) = cint(jobans1) OR _
@@ -2956,7 +3145,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				
 				            <%end if 
 				
-				             if media <> "export" then%>
+				             if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then%>
 				            </td>
 				            </tr>
 				            <%end if %>
@@ -2973,7 +3162,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				            end select
 				
 				            else 
-				                 if media <> "export" then
+				                if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then
 				                %>
 				                <td style="border-top:1px #cccccc solid;"><img src="ill/blank.gif" width="1" height="1" border="0" /></td>
 				                <td style="border-top:1px #cccccc solid;"><img src="ill/blank.gif" width="1" height="1" border="0" /></td>
@@ -2984,12 +3173,19 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 				
 				
 				            komm_note_Txt = ""
-                            timerKom = ""
                             timerKom = oRec("timerkom")
+
+                            if isNull(timerKom) <> true then
+                            timerKom = replace(timerKom, "''", "")
+                            timerKom = replace(timerKom, "'", "")
+                            timerKom = replace(timerKom, "&#39;", "")
+                            timerKom = replace(timerKom, "&#34;", "")   
+                            timerKom = replace(timerKom, chr(39), "")
+                            timerKom = replace(timerKom, chr(34), "")
 				            if len(timerKom) <> 0 then
 				            komm_note_Txt = timerKom & kundeKomm
 				            end if
-                
+                            end if
                 
                 
                            'call htmlreplace(komm_note_Txt)
@@ -3076,7 +3272,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 
 
 
-     if media <> "export" then
+     if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then
     
         if cint(joblog_uge) = 1 then
     
@@ -3093,6 +3289,50 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 	    end if
 	
     end if
+
+
+
+
+    '*** Materiale forbrug / mixet visning ***'
+     'if media <> "export" then
+     'if cint(joblog_uge) = 1 then
+
+     '<table>
+
+    'call tablematheader()
+
+    'strSQLmat = "SELECT matnavn, matantal, forbrugsdato, godkendt, matkobspris, matsalgspris, valuta, godkendt, dato, editor FROM materiale_forbrug WHERE jobid <> 0 AND usrid <> 0 ORDER BY forbrugsdato "
+    'oRec.open strSQLmat, oConn, 3
+    'while not oRec.EOF
+
+                            
+                            '<tr>
+                            '    <td></td>
+                            '    <td><=datepart("ww", oRec("forbrugsdato"), 2, 2)  ></td>
+                            '    <td><=oRec("forbrugsdato") ></td>
+                            '    <td><=oRec("matnavn") ></td>
+                            '    <td></td>
+                            '    <td>USR</td>
+                            '    <td><=oRec("matantal") ></td>
+                            '    <td><=oRec("matsalgspris") ></td>
+                            '    <td><=oRec("matantal")*oRec("matsalgspris") & " " & oRec("valuta") ></td>
+                            '    <td><=oRec("godkendt") ></td>
+                            '    <td><=oRec("dato") ><br />
+                            '        <=oRec("editor") >
+                            '    </td>
+
+                            '</tr>
+                            
+
+    'oRec.movenext
+	'wend
+	'oRec.Close
+
+    '</table>
+         
+
+    'end if 
+    'end if
 
 
     
@@ -3115,7 +3355,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 
 
 
-                if media <> "export" then
+                if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then
 
 	
 	                if x = 0 then
@@ -3146,7 +3386,7 @@ slutDatoKriSQL = strAar_slut &"/"& strMrd_slut &"/"& strDag_slut
 
 if x <> 0 then
 
-    if media <> "export" then
+    if cint(directexp) <> 1 AND media <> "export" then 'if media <> "export" then
 
         if cint(joblog_uge) = 2 then
         call dagstotaler(3)
@@ -3156,6 +3396,11 @@ if x <> 0 then
           if cint(joblog_uge) <> 3 then
 
                     call jobtotaler()
+
+                    if cint(vismat) = 1 AND cint(joblog_uge) = 1 then
+                        call materialeforbrug(lastjobnr, lastmedarb)
+                    end if
+
 
                     if media = "print" then
 
@@ -3204,7 +3449,13 @@ if x <> 0 then
 
 
                 '******************* Eksport **************************' 
-                if media = "export" then
+                if cint(directexp) = 1 OR media = "export" then 
+
+
+               
+
+                    if cint(joblog_uge) <> 3 then
+                'if media = "export" then
 
 
 
@@ -3358,22 +3609,45 @@ if x <> 0 then
 				                objF.WriteLine(ekspTxt)
 				                objF.close
 				
+
+                                 if cint(directexp) = 1 then
+                                    %>
+                    
+				                <div style="position:relative:300px; top:-200px;">
+	                                <table border=0 cellspacing=1 cellpadding=0 width="300">
+	                                <tr><td valign=top bgcolor="#ffffff" style="padding:5px;">
+	                                <img src="../ill/outzource_logo_200.gif" />
+	                                </td>
+	                                </tr>
+	                                <tr>
+	                                <td valign=top bgcolor="#ffffff" style="padding:5px 5px 5px 15px;">
+                                       
+	                                <a href="../inc/log/data/<%=file%>" class=vmenu target="_blank"><%=joblog2_txt_060 %> >></a>
+	                                </td></tr>
+	                                </table>
+	                            </div>
+                                <br /><br /><br />&nbsp;
+
+                                <%
+                                 else
 				                %>
-				
-	                            <table border=0 cellspacing=1 cellpadding=0 width="200">
-	                            <tr><td valign=top bgcolor="#ffffff" style="padding:5px;">
-	                            <img src="../ill/outzource_logo_200.gif" />
-	                            </td>
-	                            </tr>
-	                            <tr>
-	                            <td valign=top bgcolor="#ffffff" style="padding:5px 5px 5px 15px;">
-	                            <a href="../inc/log/data/<%=file%>" class=vmenu target="_blank" onClick="Javascript:window.close()"><%=joblog2_txt_060 %> >></a>
-	                            </td></tr>
-	                            </table>
-	            
+                                <br />
+				                <div style="height:300px">
+	                                <table border=0 cellspacing=1 cellpadding=0 width="300">
+	                                <tr><td valign=top bgcolor="#ffffff" style="padding:5px;">
+	                                <img src="../ill/outzource_logo_200.gif" />
+	                                </td>
+	                                </tr>
+	                                <tr>
+	                                <td valign=top bgcolor="#ffffff" style="padding:5px 5px 5px 15px;">
+                                       
+	                                <a href="../inc/log/data/<%=file%>" class=vmenu target="_blank"><%=joblog2_txt_060 %> >></a>
+	                                </td></tr>
+	                                </table>
+	                            </div>
 	          
 	            
-	                            <%
+	                            <%end if
                 
                 
                                 Response.end
@@ -3382,7 +3656,37 @@ if x <> 0 then
 
 
 
-                end if 'media%>
+                'end if 'media
+
+                    else 'joblog_uge = 3??
+
+                                     'if session("mid") = "1" then
+                '    Response.write "HER: " & joblog_uge
+                '    Response.flush
+                'end if
+        
+                        %>
+                            <br />
+				            <div style="height:300px">
+	                            <table border=0 cellspacing=1 cellpadding=0 width="300">
+	                            <tr><td valign=top bgcolor="#ffffff" style="padding:5px;">
+	                            <img src="../ill/outzource_logo_200.gif" />
+	                            </td>
+	                            </tr>
+	                            <tr>
+	                            <td valign=top bgcolor="#ffffff" style="padding:5px 5px 5px 15px;">
+                                 <%=joblog_txt_238 %> 
+	                            </td></tr>
+	                            </table>
+	                        </div>
+                        <%
+
+                            
+
+                    end if 'joblog_uge
+                                    
+                end if 'direkte excel               
+                %>
 
 
 
@@ -3393,7 +3697,7 @@ if x <> 0 then
 
 
 
-            <%if print <> "j" then%>
+            <%if print <> "j" AND media <> "export" then%>
 
               <!--pagehelp-->
 
@@ -3439,14 +3743,14 @@ if x <> 0 then
 
 
 
-            if print <> "j" then
+            if print <> "j" AND media <> "export" then
 
             ptop = pr_top
             pleft = 840
             pwdt = 140
 
             pnteksLnk = "FM_segment="&segment&"&viskunabnejob0="&viskunabnejob0&"&viskunabnejob1="&viskunabnejob1&"&viskunabnejob2="&viskunabnejob2
-            pnteksLnk = pnteksLnk & "&FM_orderby_medarb="&fordelpamedarb&"&datointerval="&strDag&"/"&strMrd&"/"&strAar & " - " & strDag_slut&"/"&strMrd_slut&"/"&strAar_slut
+            pnteksLnk = pnteksLnk & "&FM_orderby_medarb="&fordelpamedarb&"&FM_vismat="&vismat&"&datointerval="&strDag&"/"&strMrd&"/"&strAar & " - " & strDag_slut&"/"&strMrd_slut&"/"&strAar_slut
             pnteksLnk = pnteksLnk & "&rdir="&rdir &"&FM_kunde="&kundeid &"&menu=stat&jobnr="&intJobnr&"&eks="&request("eks")&"&lastFakdag="&lastFakdag&"&selmedarb="&selmedarb&"&selaktid="&selaktid
             pnteksLnk = pnteksLnk & "&FM_job="&request("FM_job")&"&FM_start_dag="&strDag&"&FM_start_mrd="&strMrd&"&FM_start_aar="&strAar&"&FM_slut_dag="&strDag_slut&"&FM_slut_mrd="&strMrd_slut&"&FM_slut_aar="&strAar_slut
             pnteksLnk = pnteksLnk & "&FM_kundejobans_ell_alle="&visKundejobans&"&FM_jobsog="&jobSogVal&"&FM_akttype="&vartyper&"&nomenu="&nomenu&"&FM_mthrap_grpbyakt="&mthrap_grpbyakt
@@ -3493,6 +3797,26 @@ if x <> 0 then
                              <input type="hidden" name="FM_medarb" value="<%=thisMiduse%>" />
                             <br />
                         <input type="submit" id="sbm_csv" value="<%=joblog2_txt_145 %> >>" style="font-size:9px;" />
+
+                        <%case "tia" 
+
+                            %>
+                               <form action="joblog.asp?media=export&ver=0&cur=0&<%=pnteksLnk%>" target="_blank" method="post"> 
+                           <input type="hidden" name="FM_medarb_hidden" value="<%=thisMiduse%>" />
+                             <input type="hidden" name="FM_medarb" value="<%=thisMiduse%>" />
+                        <input type="submit" id="sbm_csv" value="<%=joblog2_txt_143 %> >>" style="font-size:9px;" />
+                              </form><br />
+                            <%
+                            
+                            if level = 1 then%>
+
+                            <form action="../timereg_net/get_app_hours_to_tia_nav.aspx" target="_blank" method="post"> 
+                            <input type="submit" id="sbm_csv" value="Send hours to NAV journal >>" style="font-size:9px;" />
+                            <span style="font-size:9px;"> <br />Period: Last salary payout date + 1 month. (see HR list)</span>
+                           
+
+                            <%end if %>
+
                         <%case else %>
                         <form action="joblog.asp?media=export&ver=0&cur=0&<%=pnteksLnk%>" target="_blank" method="post"> 
                            <input type="hidden" name="FM_medarb_hidden" value="<%=thisMiduse%>" />
@@ -3525,10 +3849,32 @@ if x <> 0 then
             </div>
             <%else%>
 
-            <% 
-            Response.Write("<script language=""JavaScript"">window.print();</script>")
+            
+                    <%if media <> "export" then
+                    Response.Write("<script language=""JavaScript"">window.print();</script>")
+                    end if
             %>
             <%end if%>
+
+<%else %>
+
+<br />
+
+<div style="height:300px">
+    <table border=0 cellspacing=1 cellpadding=0 width="300">
+        <tr><td valign=top bgcolor="#ffffff" style="padding:5px;">
+        <img src="../ill/outzource_logo_200.gif" />
+        </td>
+        </tr>
+        <tr>
+        <td valign=top bgcolor="#ffffff" style="padding:5px 5px 5px 15px;">
+           Der blev ikke fundet nogle registreringer
+        </td></tr>
+    </table>
+</div>
+
+
+
 
 
 

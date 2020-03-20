@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Personnummer</txt_1>
+    <txt_2 >Tjenestenummer</txt_2>
+    <txt_3 >Efternavn</txt_3>
+    <txt_4 >Fornavne</txt_4>
+    <txt_5 >Matrikel</txt_5>
+    <txt_6 >Stilling</txt_6>
+    <txt_7 >Uge</txt_7>
+    <txt_8 >Ugedag</txt_8>
+    <txt_9 >Fra klokken</txt_9>
+    <txt_10 >Til klokken</txt_10>
+
+    <txt_11 >Job</txt_11>
+    <txt_12 >Aktivitet</txt_12>
+    <txt_13 >Lønart</txt_13>
+    <txt_14 >Vælg</txt_14>
+    <txt_15 >Print</txt_15>
+    <txt_16 >Opdater</txt_16>
+    <txt_17 >Lønmodtagerens underskrift</txt_17>
+    <txt_18 >Bevillingsindehavers underskrift og stempel</txt_18>
+    <txt_19 >Ol-konto</txt_19>
+
+    <txt_20 >Januar</txt_20>
+    <txt_21 >Februar</txt_21>
+    <txt_22 >Marts</txt_22>
+    <txt_23 >April</txt_23>
+    <txt_24 >Maj</txt_24>
+    <txt_25 >Juni</txt_25>
+    <txt_26 >Juli</txt_26>
+    <txt_27 >August</txt_27>
+    <txt_28 >September</txt_28>
+    <txt_29 >Oktober</txt_29>
+    <txt_30 >November</txt_30>
+    <txt_31 >December</txt_31>
+
+    <txt_32 >Mandag</txt_32>
+    <txt_33 >Tirsdag</txt_33>
+    <txt_34 >Onsdag</txt_34>
+    <txt_35 >Torsdag</txt_35>
+    <txt_36 >Fredag</txt_36>
+    <txt_37 >Lørdag</txt_37>
+    <txt_38 >Søndag</txt_38>
+    <txt_39 >År</txt_39>
+    <txt_40 >Måned</txt_40>
+    <txt_41 >Print til pdf</txt_41>
+    <txt_42 >Dato</txt_42>
+    <txt_43 >Oplysninger om medarbejderen</txt_43>
+
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >Personal ID</txt_1>
+    <txt_2 >Service number</txt_2>
+    <txt_3 >Lastname</txt_3>
+    <txt_4 >First names</txt_4>
+    <txt_5 >Land registry</txt_5>
+    <txt_6 >Position</txt_6>
+    <txt_7 >Week</txt_7>
+    <txt_8 >Weekday</txt_8>
+    <txt_9 >From</txt_9>
+    <txt_10 >Until</txt_10>
+
+    <txt_11 >Job</txt_11>
+    <txt_12 >Activity</txt_12>
+    <txt_13 >Wage type</txt_13>
+    <txt_14 >Choose</txt_14>
+    <txt_15 >Print</txt_15>
+    <txt_16 >Update</txt_16>
+    <txt_17 >Employee's signature</txt_17>
+    <txt_18 >Grant Holder's signature and stamp</txt_18>
+    <txt_19 >Ol-Account</txt_19>
+
+    <txt_20 >January</txt_20>
+    <txt_21 >February</txt_21>
+    <txt_22 >March</txt_22>
+    <txt_23 >April</txt_23>
+    <txt_24 >May</txt_24>
+    <txt_25 >June</txt_25>
+    <txt_26 >July</txt_26>
+    <txt_27 >August</txt_27>
+    <txt_28 >September</txt_28>
+    <txt_29 >October</txt_29>
+    <txt_30 >November</txt_30>
+    <txt_31 >December</txt_31>
+
+    <txt_32 >Monday</txt_32>
+    <txt_33 >Tuesday</txt_33>
+    <txt_34 >Wednesday</txt_34>
+    <txt_35 >Thursday</txt_35>
+    <txt_36 >Friday</txt_36>
+    <txt_37 >Saturday</txt_37>
+    <txt_38 >Sunday</txt_38>
+    <txt_39 >Year</txt_39>
+    <txt_40 >Month</txt_40>
+    <txt_41 >PDF print</txt_41>
+    <txt_42 >Date</txt_42>
+    <txt_43 >Information about the employee</txt_43>
+
+  </no>
+
+
+  <!--- Svensk -->
+  <so>
+
+    <txt_1 >Personal ID</txt_1>
+    <txt_2 >Service number</txt_2>
+    <txt_3 >Lastname</txt_3>
+    <txt_4 >First names</txt_4>
+    <txt_5 >Land registry</txt_5>
+    <txt_6 >Position</txt_6>
+    <txt_7 >Week</txt_7>
+    <txt_8 >Weekday</txt_8>
+    <txt_9 >From</txt_9>
+    <txt_10 >Until</txt_10>
+
+    <txt_11 >Job</txt_11>
+    <txt_12 >Activity</txt_12>
+    <txt_13 >Wage type</txt_13>
+    <txt_14 >Choose</txt_14>
+    <txt_15 >Print</txt_15>
+    <txt_16 >Update</txt_16>
+    <txt_17 >Employee's signature</txt_17>
+    <txt_18 >Grant Holder's signature and stamp</txt_18>
+    <txt_19 >Ol-Account</txt_19>
+
+    <txt_20 >January</txt_20>
+    <txt_21 >February</txt_21>
+    <txt_22 >March</txt_22>
+    <txt_23 >April</txt_23>
+    <txt_24 >May</txt_24>
+    <txt_25 >June</txt_25>
+    <txt_26 >July</txt_26>
+    <txt_27 >August</txt_27>
+    <txt_28 >September</txt_28>
+    <txt_29 >October</txt_29>
+    <txt_30 >November</txt_30>
+    <txt_31 >December</txt_31>
+
+    <txt_32 >Monday</txt_32>
+    <txt_33 >Tuesday</txt_33>
+    <txt_34 >Wednesday</txt_34>
+    <txt_35 >Thursday</txt_35>
+    <txt_36 >Friday</txt_36>
+    <txt_37 >Saturday</txt_37>
+    <txt_38 >Sunday</txt_38>
+    <txt_39 >Year</txt_39>
+    <txt_40 >Month</txt_40>
+    <txt_41 >PDF print</txt_41>
+    <txt_42 >Date</txt_42>
+    <txt_43 >Information about the employee</txt_43>
+
+  </so>
+
+
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >Personal ID</txt_1>
+    <txt_2 >Service number</txt_2>
+    <txt_3 >Lastname</txt_3>
+    <txt_4 >First names</txt_4>
+    <txt_5 >Land registry</txt_5>
+    <txt_6 >Position</txt_6>
+    <txt_7 >Week</txt_7>
+    <txt_8 >Weekday</txt_8>
+    <txt_9 >From</txt_9>
+    <txt_10 >Until</txt_10>
+
+    <txt_11 >Job</txt_11>
+    <txt_12 >Activity</txt_12>
+    <txt_13 >Wage type</txt_13>
+    <txt_14 >Choose</txt_14>
+    <txt_15 >Print</txt_15>
+    <txt_16 >Update</txt_16>
+    <txt_17 >Employee's signature</txt_17>
+    <txt_18 >Grant Holder's signature and stamp</txt_18>
+    <txt_19 >Ol-Account</txt_19>
+
+    <txt_20 >January</txt_20>
+    <txt_21 >February</txt_21>
+    <txt_22 >March</txt_22>
+    <txt_23 >April</txt_23>
+    <txt_24 >May</txt_24>
+    <txt_25 >June</txt_25>
+    <txt_26 >July</txt_26>
+    <txt_27 >August</txt_27>
+    <txt_28 >September</txt_28>
+    <txt_29 >October</txt_29>
+    <txt_30 >November</txt_30>
+    <txt_31 >December</txt_31>
+
+    <txt_32 >Monday</txt_32>
+    <txt_33 >Tuesday</txt_33>
+    <txt_34 >Wednesday</txt_34>
+    <txt_35 >Thursday</txt_35>
+    <txt_36 >Friday</txt_36>
+    <txt_37 >Saturday</txt_37>
+    <txt_38 >Sunday</txt_38>
+    <txt_39 >Year</txt_39>
+    <txt_40 >Month</txt_40>
+    <txt_41 >PDF print</txt_41>
+    <txt_42 >Date</txt_42>
+    <txt_43 >Information about the employee</txt_43>
+
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >Personal ID</txt_1>
+    <txt_2 >Service number</txt_2>
+    <txt_3 >Lastname</txt_3>
+    <txt_4 >First names</txt_4>
+    <txt_5 >Land registry</txt_5>
+    <txt_6 >Position</txt_6>
+    <txt_7 >Week</txt_7>
+    <txt_8 >Weekday</txt_8>
+    <txt_9 >From</txt_9>
+    <txt_10 >Until</txt_10>
+
+    <txt_11 >Job</txt_11>
+    <txt_12 >Activity</txt_12>
+    <txt_13 >Wage type</txt_13>
+    <txt_14 >Choose</txt_14>
+    <txt_15 >Print</txt_15>
+    <txt_16 >Update</txt_16>
+    <txt_17 >Employee's signature</txt_17>
+    <txt_18 >Grant Holder's signature and stamp</txt_18>
+    <txt_19 >Ol-Account</txt_19>
+
+    <txt_20 >January</txt_20>
+    <txt_21 >February</txt_21>
+    <txt_22 >March</txt_22>
+    <txt_23 >April</txt_23>
+    <txt_24 >May</txt_24>
+    <txt_25 >June</txt_25>
+    <txt_26 >July</txt_26>
+    <txt_27 >August</txt_27>
+    <txt_28 >September</txt_28>
+    <txt_29 >October</txt_29>
+    <txt_30 >November</txt_30>
+    <txt_31 >December</txt_31>
+
+    <txt_32 >Monday</txt_32>
+    <txt_33 >Tuesday</txt_33>
+    <txt_34 >Wednesday</txt_34>
+    <txt_35 >Thursday</txt_35>
+    <txt_36 >Friday</txt_36>
+    <txt_37 >Saturday</txt_37>
+    <txt_38 >Sunday</txt_38>
+    <txt_39 >Year</txt_39>
+    <txt_40 >Month</txt_40>
+    <txt_41 >PDF print</txt_41>
+    <txt_42 >Date</txt_42>
+    <txt_43 >Information about the employee</txt_43>
+
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Personal ID</txt_1>
+    <txt_2 >Service number</txt_2>
+    <txt_3 >Lastname</txt_3>
+    <txt_4 >First names</txt_4>
+    <txt_5 >Land registry</txt_5>
+    <txt_6 >Position</txt_6>
+    <txt_7 >Week</txt_7>
+    <txt_8 >Weekday</txt_8>
+    <txt_9 >From</txt_9>
+    <txt_10 >Until</txt_10>
+
+    <txt_11 >Job</txt_11>
+    <txt_12 >Activity</txt_12>
+    <txt_13 >Wage type</txt_13>
+    <txt_14 >Choose</txt_14>
+    <txt_15 >Print</txt_15>
+    <txt_16 >Update</txt_16>
+    <txt_17 >Employee's signature</txt_17>
+    <txt_18 >Grant Holder's signature and stamp</txt_18>
+    <txt_19 >Ol-Account</txt_19>
+
+    <txt_20 >January</txt_20>
+    <txt_21 >February</txt_21>
+    <txt_22 >March</txt_22>
+    <txt_23 >April</txt_23>
+    <txt_24 >May</txt_24>
+    <txt_25 >June</txt_25>
+    <txt_26 >July</txt_26>
+    <txt_27 >August</txt_27>
+    <txt_28 >September</txt_28>
+    <txt_29 >October</txt_29>
+    <txt_30 >November</txt_30>
+    <txt_31 >December</txt_31>
+
+    <txt_32 >Monday</txt_32>
+    <txt_33 >Tuesday</txt_33>
+    <txt_34 >Wednesday</txt_34>
+    <txt_35 >Thursday</txt_35>
+    <txt_36 >Friday</txt_36>
+    <txt_37 >Saturday</txt_37>
+    <txt_38 >Sunday</txt_38>
+    <txt_39 >Year</txt_39>
+    <txt_40 >Month</txt_40>
+    <txt_41 >PDF print</txt_41>
+    <txt_42 >Date</txt_42>
+    <txt_43 >Information about the employee</txt_43>
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+    <txt_1 >Personal ID</txt_1>
+    <txt_2 >Service number</txt_2>
+    <txt_3 >Lastname</txt_3>
+    <txt_4 >First names</txt_4>
+    <txt_5 >Land registry</txt_5>
+    <txt_6 >Position</txt_6>
+    <txt_7 >Week</txt_7>
+    <txt_8 >Weekday</txt_8>
+    <txt_9 >From</txt_9>
+    <txt_10 >Until</txt_10>
+
+    <txt_11 >Job</txt_11>
+    <txt_12 >Activity</txt_12>
+    <txt_13 >Wage type</txt_13>
+    <txt_14 >Choose</txt_14>
+    <txt_15 >Print</txt_15>
+    <txt_16 >Update</txt_16>
+    <txt_17 >Employee's signature</txt_17>
+    <txt_18 >Grant Holder's signature and stamp</txt_18>
+    <txt_19 >Ol-Account</txt_19>
+
+    <txt_20 >January</txt_20>
+    <txt_21 >February</txt_21>
+    <txt_22 >March</txt_22>
+    <txt_23 >April</txt_23>
+    <txt_24 >May</txt_24>
+    <txt_25 >June</txt_25>
+    <txt_26 >July</txt_26>
+    <txt_27 >August</txt_27>
+    <txt_28 >September</txt_28>
+    <txt_29 >October</txt_29>
+    <txt_30 >November</txt_30>
+    <txt_31 >December</txt_31>
+
+    <txt_32 >Monday</txt_32>
+    <txt_33 >Tuesday</txt_33>
+    <txt_34 >Wednesday</txt_34>
+    <txt_35 >Thursday</txt_35>
+    <txt_36 >Friday</txt_36>
+    <txt_37 >Saturday</txt_37>
+    <txt_38 >Sunday</txt_38>
+    <txt_39 >Year</txt_39>
+    <txt_40 >Month</txt_40>
+    <txt_41 >PDF print</txt_41>
+    <txt_42 >Date</txt_42>
+    <txt_43 >Information about the employee</txt_43>
+    
+  </es>
+
+
+</sprog>

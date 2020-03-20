@@ -58,10 +58,15 @@ tloadA = now
         prev_varTjDatoUS_man = dateAdd("d", -7, varTjDatoUS_man)
         next_varTjDatoUS_man = dateAdd("d", 7, varTjDatoUS_man)
 
-        prevWeek = datepart("ww", dateAdd("d", -7, varTjDatoUS_man), 2,2) 
-        nextWeek = datepart("ww", dateAdd("d", 7, varTjDatoUS_man), 2,2) 
+        call thisWeekNo53_fn(dateAdd("d", -7, varTjDatoUS_man))
+        prevWeek = thisWeekNo53
+        'prevWeek = datepart("ww", dateAdd("d", -7, varTjDatoUS_man), 2,2) 
+        call thisWeekNo53_fn(dateAdd("d", 7, varTjDatoUS_man))
+        nextWeek = thisWeekNo53
+        'nextWeek = datepart("ww", dateAdd("d", 7, varTjDatoUS_man), 2,2) 
 
-
+        call thisWeekNo53_fn(varTjDatoUS_son) 'varTjDatoUS_man 20200113
+        thisWeek = thisWeekNo53
       
 
         
@@ -72,12 +77,12 @@ tloadA = now
         
         varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man) 'Altid torsdag, så vi er sikker på vi er i ugen
 
-           if datepart("ww", varTjDatoUS_tor,2,2) = 53 then
-           varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_tor) 'ind i næste år
-           end if
+           'if cint(thisWeek) = 53 then
+           'varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_tor) 'ind i næste år
+           'end if
 
-        sm_sidsteugedag = datePart("ww",varTjDatoUS_tor, 2,2)
-        sm_aar = year(varTjDatoUS_tor)
+        sm_sidsteugedag = thisWeek 'datePart("ww",varTjDatoUS_tor, 2,2)
+        sm_aar = year(varTjDatoUS_son) 'varTjDatoUS_tor 20200113
 
 
         else
@@ -99,10 +104,10 @@ tloadA = now
 
         
 
-    call erugeAfslutte(sm_aar, sm_sidsteugedag, sm_mid, SmiWeekOrMonth, 0)
+    call erugeAfslutte(sm_aar, sm_sidsteugedag, sm_mid, SmiWeekOrMonth, 0, varTjDatoUS_son)
 
 
-    fmlink = "../to_2015/ugeseddel_2011.asp?usemrn="& usemrn &"&varTjDatoUS_man="& varTjDatoUS_man &"&varTjDatoUS_son= "& varTjDatoUS_son &"&nomenu=1&rdir=godkenduge"
+    fmlink = "../to_2015/ugeseddel_2011.asp?usemrn="& usemrn &"&varTjDatoUS_man="& varTjDatoUS_man &"&varTjDatoUS_son="& varTjDatoUS_son &"&nomenu=1&rdir=godkenduge"
 
     %>
     <div id="sindhold" style="position:absolute; left:40px; top:40px; z-index:0; width:400px; background-color:#FFFFFF; padding:20px;">
@@ -119,15 +124,19 @@ tloadA = now
         <br /><br />
 
         <%if cint(SmiWeekOrMonth) = 0 then 'uge %>
-        <h4><%=godkendweek_txt_105 & " " %> <%=datepart("ww", varTjDatoUS_tor, 2,2)%>
+        <h4><%=godkendweek_txt_105 & " " %> 
             
-            <%if datepart("ww", varTjDatoUS_tor, 2,2) = 53 then
+            <%=thisWeek%>
+            
+            <%if cint(thisWeek) = 53 then
             response.write " - "& datepart("yyyy", dateAdd("yyyy", - 1, varTjDatoUS_tor), 2,2) &" / "& datepart("yyyy", varTjDatoUS_tor, 2,2)
             else
             response.write " - "& datepart("yyyy", varTjDatoUS_tor, 2,2)
             end if
             %>
-	    <%else
+	    
+            
+        <%else
             
             select case lto
             case "tec", "esn"
@@ -148,7 +157,12 @@ tloadA = now
      
         <%
     
-        if level <=2 OR level = 6 then %>
+        if level <=2 OR level = 6 then 
+            
+            'if session("mid") = 1 then
+            '    Response.Write " DT: " & varTjDatoUS_man
+            'end if
+            %>
            
         <%call godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir) %>
 

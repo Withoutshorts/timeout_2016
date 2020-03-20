@@ -790,6 +790,7 @@ sub vedr
     select case lto
     case "synergi1", "intranet - local"
     vedr_pd = "5px 105px 5px 0px"
+
     case else
     vedr_pd = "5px 15px 5px 0px"
     end select
@@ -882,6 +883,9 @@ sub vedr
 
 	           
 	            end if
+
+
+                    
 
 
                 if (len(trim(strJobBesk)) <> 0 AND cint(vis_jobbesk) = 1) then%>
@@ -1093,6 +1097,8 @@ end function
 '***** Sub-Total materialer***'
 
 function subtotmat(m)
+
+
 %>
 <!--
 <tr>
@@ -1473,11 +1479,12 @@ end function
 
 
 
-public am
+public am, antalMatTot
 sub matlinjer
 
             strFakmat = ""
 
+            antalMatTot = 0
             antalmatthis = 0
 			'for m = 0 to 1 
 			matBelob = 0
@@ -1828,6 +1835,9 @@ sub matlinjer
                 if m = 0 then    
                 antalmatthis = antalmatthis + 1
                 end if
+
+                   antalMatTot = (antalMatTot*1) + (matAntal*1)  
+
                 oRec2.movenext
                 wend
                 oRec2.close
@@ -1836,6 +1846,11 @@ sub matlinjer
                 if cint(showmatasgrp) = 2 AND am <> 0 then 'luft før næste aktlinje
                    'strFakmat = strFakmat &"<tr><td colspan=20><br>&nbsp;</td></tr>"
                 end if
+
+                select case lto
+                case "nt"
+                  strFakmat = strFakmat &"<tr><td colspan=3>"& formatnumber(antalMatTot, 2) &"</td><td colspan=5>&nbsp;</td></tr>"
+                end select
 
 end sub
 

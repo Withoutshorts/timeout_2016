@@ -826,7 +826,9 @@ function visjoblog(showtimerkorsel)
 	oRec.open strSQL, oConn, 0, 1
 	v = 0
 	while not oRec.EOF
-		strWeekNum = datepart("ww", oRec("Tdato"),2,2)
+
+        call thisWeekNo53_fn(oRec("Tdato"))
+		strWeekNum = thisWeekNo53 'datepart("ww", oRec("Tdato"),2,2)
 		id = 1
 				
 				if fordelpamedarb = 1 then

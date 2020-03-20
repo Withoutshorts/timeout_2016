@@ -68,7 +68,7 @@ case "FN_getMedlisten"
               if jq_vispasluk <> "1" then
               visAlleSQLval = " AND mansat = 1 "
               else
-              visAlleSQLval = " AND mansat <> -1 "
+              visAlleSQLval = " AND mansat <> -1 AND mansat <> 4 "
               end if
 
               lastMid = request("lastmid")

@@ -312,6 +312,8 @@
 				strFax = request("FM_fax")
 				strEmail = request("FM_email")
 				strEan = trim(request("FM_ean"))
+                strEan = replace(strEan, " ", "")
+
 				strWWW = request("FM_www")
 				
 				if len(request("FM_nace")) <> 0 then
@@ -451,6 +453,14 @@
 				else
 				intCvr = 0
 				end if
+
+                intCvr = replace(intCvr, " ", "")
+
+                if IsNumeric(intCvr) = false then
+                    errortype = 229
+			        call showError(errortype)
+                    response.End
+                end if
 				
 				if len(request("FM_useasfak")) <> "0" then
 				intuseasfak = request("FM_useasfak")
@@ -504,6 +514,30 @@
                 else
                 kfak_valuta = 1
                 end if
+
+
+                if request("opdater_job_fakturaindstilligner") = "1" then 'Opdater faktura indstillinger p åalle job tilknyttet denne kunde
+
+
+                                        'FM_kfak_moms
+                                        'FM_valuta
+                                        ''FM_betbetint
+	                                    ''FM_betbet
+                                        ''FM_levbet
+                                        'FM_kfak_sprog
+
+
+                    strSQLupjobfak = "UPDATE job SET jfak_sprog = "& kfak_sprog &", jfak_moms = "& kfak_moms &", valuta = "& kfak_valuta &" WHERE jobknr = "& id &" AND (jobstatus = 1 Or jobstatus = 3)"
+                    
+                    'if session("mid") = 1 then
+                    'response.write strSQLupjobfak
+                    'response.end
+                    'end if
+
+                    oConn.execute(strSQLupjobfak)
+
+                end if
+
                         
                 if len(trim(request("FM_kstatus"))) <> 0 then
                 kstatus = 0
@@ -511,7 +545,7 @@
                 kstatus = 1
                 end if
 				
-				
+
                 '*** Hvis denne kunde vælges som primær licens indehaver nulstilles den eksisterende ****'
                 '*** Ændret 20170117
                 '*** Det er tilladt at have multible selskaber
@@ -701,8 +735,67 @@
 				oConn.execute(strSQLupdate)
 				
 				thiskid = id
-				end if
+				end if ' opret
+
+
+                %>
+			    <!--#include file="../timereg/inc/isint_func.asp"-->
+			    <%
+
+                '********* Budget for kunde ***************
+                '******** Opdater / rediger - Kunde budget 
+                '*******
+                'if lto = "nt" OR lto = "outz" then
+                    i = year(now)
+                    for i = i-3 TO i+5
+
+                        findes = 0
+                    
+                        strSQLbudget = "SELECT id date_year FROM budget_kunder WHERE date_year = "& i & " AND kundeid = "& thiskid
+                        oRec.open strSQLbudget, oConn, 3
+                        if not oRec.EOF then
+                            findes = 1
+                        end if
+                        oRec.close
+
+                        if len(trim(request("FM_budget_salesgoal_" & i))) <> 0 then
+                            budget_salesgoal = request("FM_budget_salesgoal_" & i)
+                            budget_salesgoal = replace(budget_salesgoal, ".", "")
+                            budget_salesgoal = replace(budget_salesgoal, ",", ".")
+
+                            isInt = 0
+			                call erDetInt(budget_salesgoal) 
+			                if isInt > 0 then
+
+                                 
+                                    errortype = 225
+				                    call showError(errortype)
+			
+			                        response.End
+                
+                            end if
+
+                        else
+                            budget_salesgoal = 0
+                        end if
+                    
+                        if cint(findes) = 0 then
+                            strSQLbudget = "INSERT INTO budget_kunder SET kundeid = "& thiskid & ", salesgoal = "& budget_salesgoal &", date_year = "& i 
+                        else
+                            strSQLbudget = "UPDATE budget_kunder SET salesgoal = "& budget_salesgoal & " WHERE kundeid = "& thiskid & " AND date_year = "& i 
+                        end if
+
+                        oConn.execute(strSQLbudget)
+
+                        'response.Write "<br> --------------------------------------- ÅR - " & i & " goal " & budget_salesgoal & " her SQL " & strSQLbudget
+                    
+
+                    next
+                'end if
+
 				
+                'response.End
+
 				
                 '*** Irriterende ved update, at den gemmer  ***'
 				'if len(thiskri) <> 0 AND func <> "dbopr" then
@@ -803,7 +896,7 @@
     '**************** CREATE / EDIT *************************************                                 
     case "red", "opret"
     
-    %><script src="js/kunder_jav.js" type="text/javascript"></script><%
+    %><script src="js/kunder_jav1.js" type="text/javascript"></script><%
 
     if func = "opret" then
 
@@ -1396,6 +1489,61 @@
                     <div class="panel panel-default">
                         <div class="panel-heading">
                           <h4 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapse_budget">Budget</a>
+                          </h4>
+                        </div> <!-- /.panel-heading -->
+                        <div id="collapse_budget" class="panel-collapse collapse">
+                            <div class="panel-body">
+
+                                <div class="row">
+                                    <div class="col-lg-2"><span style="font-size:150%; cursor:pointer;" id="editbudget" class="fa fa-pencil-square-o"></span></div>
+                                </div>
+
+                                <table class="table dataTable table-striped table-bordered table-hover ui-datatable">
+                                    <thead>
+                                        <tr>
+                                            <th>Budget</th>
+                                            <%
+                                                i = year(now)
+                                                for i = i-3 to i+5 %>
+                                                <th style="width:10%"><%=i %></th>
+                                            <%next %>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+
+                                            <td style="width:150px;">Sales goal</td>
+                                            <%
+                                            i = year(now)
+                                              for i = i-3 to i+5
+
+                                              strsalesgoal = 0
+                                              strSQLbudget = "SELECT salesgoal FROM budget_kunder WHERE kundeid = "& id &" AND date_year = "& i
+                                                oRec.open strSQLbudget, oConn, 3 
+                                                if not oRec.EOF then
+                                                    strsalesgoal = oRec("salesgoal")                                                   
+                                                end if
+                                                oRec.close
+
+                                            %>                                            
+                                                <td style="text-align:right;">
+                                                    <input type="text" style="display:none;" class="form-control input-small budget_input" name="FM_budget_salesgoal_<%=i %>" value="<%=strsalesgoal %>" />
+                                                    <span class="budget_values"><%=formatnumber(strsalesgoal, 0) %></span>
+                                                </td>
+                                            <%next %>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                       </div>
+                    </div>
+                   
+
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <h4 class="panel-title">
                             <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseTwo"><%=kunder_txt_043 %></a>
                           </h4>
                         </div> <!-- /.panel-heading -->
@@ -1704,7 +1852,7 @@
 			                            <%
 			
 			                            'if func <> "red" then
-			                            strSQL = "SELECT mnavn, mnr, mid, init FROM medarbejdere WHERE mansat <> 2 ORDER BY mnavn"
+			                            strSQL = "SELECT mnavn, mnr, mid, init FROM medarbejdere WHERE mansat <> 2 AND mansat <> 4 ORDER BY mnavn"
 			                            'else
 			                            'strSQL = "SELECT mnavn, mnr, mid, kundeans1 FROM medarbejdere LEFT JOIN kunder ON (kunder.kid = "& id &")  WHERE mansat <> 2"
 			                            'end if
@@ -1743,7 +1891,7 @@
 			                                    <%
 			
 			                                    'if func <> "red" then
-			                                    strSQL = "SELECT mnavn, mnr, mid, init FROM medarbejdere WHERE mansat <> 2 ORDER BY mnavn"
+			                                    strSQL = "SELECT mnavn, mnr, mid, init FROM medarbejdere WHERE mansat <> 2 AND mansat <> 4 ORDER BY mnavn"
 			                                    'else
 			                                    'strSQL = "SELECT mnavn, mnr, mid, kundeans2 FROM medarbejdere LEFT JOIN kunder ON (kunder.kid = "& id &")  WHERE mansat <> 2"
 			                                    'end if
@@ -1997,6 +2145,14 @@
                                     <textarea id="TextArea3" name="FM_levbet" cols="70" rows="7" class="form-control input-small"><%=strLevbet %></textarea>
                                 </div>
                             </div>
+                            <%if level = 1 then %>
+                            <div class="row">
+                                <div class="col-lg-1 pad-t20">&nbsp</div>
+                                <div class="col-lg-10 pad-t20"><input type="checkbox" value="1" name="opdater_job_fakturaindstilligner">&nbsp;Update Invoice settings on all active jobs related to this customer. 
+                                   
+                                </div>
+                            </div>
+                            <%end if %>
 
                         </div>
                        </div>
@@ -2529,7 +2685,7 @@ case else
 		                kids = kids & "," & oRec("kid")
                        
                       
-                        if cint(lastKid) = cint(oRec("kid")) then
+                       if cdbl(lastKid) = cdbl(oRec("kid")) then
                        trBgCol = "#FFFFE1" 
                        else
                        trBgCol = ""
@@ -2605,7 +2761,7 @@ case else
 			        Aktive = Antaly
                     %>
                     <%if Antalx <> 0 then  %> 
-                    <a href="../timereg/jobs.asp?menu=job&FM_kunde=<%=oRec("Kid") %>"><span style="color:#999999"><%=Antaljob%></span> 
+                    <a href="job_list.asp?menu=job&FM_kunde=<%=oRec("Kid") %>"><span style="color:#999999"><%=Antaljob%></span> 
                         <%if Aktive <> 0 then  %>
                         (<%=Aktive %>)
                         <%end if %>

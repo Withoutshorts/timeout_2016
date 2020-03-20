@@ -147,7 +147,9 @@
 
                   '*** Sletter fra timereg usejob og tilføjer igen **'
                   del = 1 '1 slet fra timereg_usejob / 0: tilføj kun
-                  call tilfojtilTU(strMid, del)
+                  copyfollow = 0
+                  medarb_copy = 0
+                  call tilfojtilTU(strMid, del, copyfollow, medarb_copy)
                 
                 else
                  
@@ -171,9 +173,10 @@
                     'Response.end
 		            'call setGuidenUsejob(strMid, guidjobids, 1, guideasyids, forvalgt,2)
                     del = 0 '1 slet fra timereg_usejob / 0: tilføj kun
-                    
+                    copyfollow = 0
+                    medarb_copy = 0            
                     if cint(positiv_aktivering_akt_val) <> 1 then
-                    call tilfojtilTU(strMid, del)
+                    call tilfojtilTU(strMid, del, copyfollow, medarb_copy)
 		            end if
 		            
 		            
@@ -329,7 +332,7 @@
                                     &nbsp;[<%=oRec("init") %>]
                                     <%end if    
                                     %>
-                                   </a></td>
+                                   </a>&nbsp;(<%=oRec("mnr") %>)</td>
 
                                <td>
                                      <%=mstatus %>
@@ -422,9 +425,9 @@
 	                LantChar = left(strExclude, (antChar -5)) 
 	                strExcludeFinal = "WHERE " & LantChar
 	
-	                strSQL = "SELECT Mnavn, Mid, init, mnr, mansat, lastlogin, ansatdato FROM medarbejdere "& strExcludeFinal &" AND (mansat <> '2') ORDER BY Mnavn"
+	                strSQL = "SELECT Mnavn, Mid, init, mnr, mansat, lastlogin, ansatdato FROM medarbejdere "& strExcludeFinal &" AND (mansat <> '2' AND mansat <> '4') ORDER BY Mnavn"
 	                else
-	                strSQL = "SELECT Mnavn, Mid, init, mnr, mansat, lastlogin, ansatdato FROM medarbejdere WHERE mansat <> '2' ORDER BY Mnavn"
+	                strSQL = "SELECT Mnavn, Mid, init, mnr, mansat, lastlogin, ansatdato FROM medarbejdere WHERE mansat <> '2' AND mansat <> '4' ORDER BY Mnavn"
 	                end if
 
                     'response.write "strSQL: " & strSQL & "<br>" 
@@ -450,7 +453,7 @@
                             &nbsp;[<%=oRec("init") %>]
                             <%end if    
                             %>
-                           </a></td>
+                           </a>&nbsp;(<%=oRec("mnr") %>)</td>
 
                         <td>
                              <%=mstatus %>
@@ -862,6 +865,68 @@ case else
 
           <div class="portlet-body">
 
+              <div>
+
+                  <%'*** ER der gengangere ***'
+                           medarbejderIdStr = ""
+                           medarbejderIdStrDobbel = ""
+                           lastMid = 0
+                           strSQLg = "SELECT id FROM projektgrupper WHERE orgvir = 1"
+                           oRec4.open strSQLg, oConn, 3
+                           while not oRec4.EOF
+                               
+
+                                   strSQLgrel = "SELECT medarbejderId FROM progrupperelationer WHERE projektgruppeid = "& oRec4("id")    
+                                    'if session("mid") = 1 then
+                                    'Response.write strSQLgrel
+                                    'end if
+                                   oRec5.open strSQLgrel, oConn, 3
+                                   while not oRec5.EOF
+                               
+                                   
+
+                                    if instr(medarbejderIdStr, ",#"& oRec5("medarbejderId") &"#") <> 0 then
+
+                                    call meStamdata(oRec5("medarbejderId"))
+                                    medarbejderIdStrDobbel = medarbejderIdStrDobbel & meTxt & "<br>"
+                      
+                                    end if
+
+
+                                    medarbejderIdStr = medarbejderIdStr & ",#"& oRec5("medarbejderId") &"#"
+                                    lastMid = oRec5("medarbejderId")
+
+                                   oRec5.movenext
+                                   wend
+                                   oRec5.close
+
+
+                                    'if instr(medarbejderIdStr, ",#"& lastMid &"#") <> 0 then
+
+                                    'call meStamdata(lastMid)
+                                    'medarbejderIdStrDobbel = medarbejderIdStrDobbel & meTxt & "<br>"
+                      
+                                    'end if          
+
+                           oRec4.movenext
+                           wend 
+                           oRec4.close
+
+
+                            if len(trim(medarbejderIdStrDobbel)) <> 0 then
+                            %>
+                            <span style="background-color:lightpink;"><b>Følgende medarbejdere er med i mere end 1 organisatorisk projektgruppe.</span></b> <br />
+                            Dette er ikke tilladt og kan give problemer med forescast mm. og bør derfor rettes.
+                            <br />
+                            <%=medarbejderIdStrDobbel %>
+
+                            <%
+                            end if
+                               
+                           %><br /><br />&nbsp;
+
+              </div>
+
               <table id="progrp_list" class="table dataTable table-striped table-bordered table-hover ui-datatable">                 
                <thead>
                    <tr>
@@ -888,7 +953,7 @@ case else
                             
 				                
 	                         
-                                call fTeamleder(session("mid"), oRec("id"))
+                        call fTeamleder(session("mid"), oRec("id"), 0)
 
                         if cint(lastid) = cint(oRec("id")) then
                        trBgCol = "#FFFFE1" 
@@ -913,6 +978,17 @@ case else
                            <%else %>
                            <%=oRec("navn") %>
                            <%end if %>
+
+                           <%'**** Teamledere i gruppen 
+                               
+                               call fTeamleder(session("mid"), oRec("id"), 3)
+                               
+                               Response.write "<br>"& teamlederNavne
+
+                               %>
+
+                           
+
                        </td>
                        <td>
                             <%if oRec("id") <> "10" AND (oRec("opengp") = 1 OR level = 1 OR erTeamleder = 1) then%>
@@ -920,6 +996,9 @@ case else
                            <%else %>
                            Medlemmer (<%=antalMediPgrpX %>)
                            <%end if %>
+
+
+                           
 
                        </td>
                             <td>

@@ -41,6 +41,7 @@ if len(session("user")) = 0 then
 	id = request("id")
 	end if
 	
+    call GetSytemSetup()
 	
 	call fomr_account_fn()         
 %>
@@ -54,8 +55,8 @@ if len(session("user")) = 0 then
     select case func 
     case "slet"
 
-        oskrift = "Forretningsområder" 
-        slttxta = "Du er ved at <b>SLETTE</b> et forretningsområde. Er dette korrekt?"
+        oskrift = fomr_txt_001
+        slttxta = fomr_txt_002 & " <b>"&fomr_txt_002&"</b> " & fomr_txt_004
         slttxtb = "" 
         slturl = "fomr.asp?func=sletok&id="& id
 
@@ -142,8 +143,16 @@ if len(session("user")) = 0 then
 	'varSubVal = "Opret" 
 	'varbroedkrumme = "Opret ny"
 	dbfunc = "dbopr"
+    select case lto
+    case "a27"
+    jobokCHK = ""
+	aktokCHK = "CHECKED"
+    business_area_label = "progress-bar-warning"
+    case else
     jobokCHK = "CHECKED"
 	aktokCHK = ""
+    business_area_label = ""
+    end select
     konto = 0
 
     fomr_segment = ""
@@ -187,12 +196,19 @@ if len(session("user")) = 0 then
     
 %>
 
+<%if useTrainerlog = 1 then %>
+    <style>
+        .removefromtrailerlog {
+            display:none;
+        }
+    </style>
+<%end if %>
 
 <!--Forretningsområder redigering-->
 <div class="container">
     <div class="portlet">
         <h3 class="portlet-title">
-          <u>Forretningsområde</u>
+          <u><%=fomr_txt_005 %></u>
         </h3>
 
         <form action="fomr.asp?menu=tok&func=<%=dbfunc%>" method="post">
@@ -200,7 +216,7 @@ if len(session("user")) = 0 then
         <div class="row">
             <div class="col-lg-10">&nbsp</div>
             <div class="col-lg-2 pad-b10">
-            <button type="submit" class="btn btn-success btn-sm pull-right"><b>Opdatér</b></button>
+            <button type="submit" class="btn btn-success btn-sm pull-right"><b><%=fomr_txt_005 %></b></button>
             </div>
         </div>
 
@@ -210,38 +226,38 @@ if len(session("user")) = 0 then
               <div class="well well-white">  
             <div class="row">
                 <div class="col-lg-1">&nbsp</div>
-                <div class="col-lg-2">Forretningsområde:&nbsp<span style="color:red;">*</span></div>
-                <div class="col-lg-3"><input type="text" name="FM_navn" class="form-control input-small" value="<%=strNavn %>" placeholder="Navn"/></div>
-                <div class="col-lg-1">Label:</div><div class="col-lg-2"><input type="text" name="FM_business_area_label" class="form-control input-small" value="<%=business_area_label %>" placeholder="Label"/></div>
+                <div class="col-lg-2"><%=fomr_txt_007 %>:&nbsp<span style="color:red;">*</span></div>
+                <div class="col-lg-3"><input type="text" name="FM_navn" class="form-control input-small" value="<%=strNavn %>" placeholder="<%=fomr_txt_007 %>"/></div>
+                <div class="col-lg-1"><%=fomr_txt_008 %>:</div><div class="col-lg-2"><input type="text" name="FM_business_area_label" class="form-control input-small" value="<%=business_area_label %>" placeholder="<%=fomr_txt_008 %>"/></div>
             </div>
             <div class="row">
                 <div class="col-lg-1">&nbsp</div>
-                <div class="col-lg-2">Unit/afdeling:</div>
-                <div class="col-lg-3"><input type="text" name="FM_business_unit" class="form-control input-small" value="<%=business_unit %>" placeholder="Afdelling"/></div>
+                <div class="col-lg-2"><%=fomr_txt_009 %>:</div>
+                <div class="col-lg-3"><input type="text" name="FM_business_unit" class="form-control input-small" value="<%=business_unit %>" placeholder="<%=fomr_txt_010 %>"/></div>
             </div>
 
 
 
             <div class="row">
                 <div class="col-lg-1">&nbsp</div>
-                <div class="col-lg-2 pad-t20"><b>Indstillinger:</b></div>
+                <div class="col-lg-2 pad-t20"><b><%=fomr_txt_011 %>:</b></div>
             </div>
             <div class="row">
                 <div class="col-lg-1">&nbsp</div>
-                    <div class="col-lg-2">kan bruges på jobniveau?</div> <div class="col-lg-1"><input type="checkbox" name="FM_jobok" <%=jobokCHK %>></div>
+                    <div class="col-lg-2"><%=fomr_txt_012 %></div> <div class="col-lg-1"><input type="checkbox" name="FM_jobok" <%=jobokCHK %>></div>
             </div>
             <div class="row">
                 <div class="col-lg-1">&nbsp</div>
-                    <div class="col-lg-2">kan bruges på akts. niveau?</div> <div class="col-lg-1"><input type="checkbox" name="FM_aktok" <%=aktokCHK %>></div>
+                    <div class="col-lg-2"><%=fomr_txt_013 %></div> <div class="col-lg-1"><input type="checkbox" name="FM_aktok" <%=aktokCHK %>></div>
             </div>
 
 
             <%if cint(fomr_account) = 0 then %>
             <div class="row pad-b20">
                 <div class="col-lg-1">&nbsp</div>
-                <div class="col-lg-2 pad-t20">Konto:</div>
+                <div class="col-lg-2 pad-t20"><%=fomr_txt_014 %>:</div>
               <div class="col-lg-3 pad-t20"><select class="form-control input-sm" name="FM_konto">
-              <option value="0">Ingen</option>
+              <option value="0"><%=fomr_txt_015 %></option>
 
                 <%
                     licensindehaverKid = 0
@@ -271,11 +287,11 @@ if len(session("user")) = 0 then
                     </div>
                   <% end if %>
 
-                  <div class="row pad-t20">
+                  <div class="row pad-t20 removefromtrailerlog">
                       <div class="col-lg-1">&nbsp</div>
-                      <div class="col-lg-6">Dette forretningsområde skal være forvalgt på job oprettet på kunder i følgende segmenter:</div>
+                      <div class="col-lg-6"><%=fomr_txt_016 %>:</div>
                   </div>
-                        <div class="row">
+                        <div class="row removefromtrailerlog">
                             <div class="col-lg-1">&nbsp</div>
                             <div class="col-lg-4">
                             <%strSQL = "SELECT id, navn FROM kundetyper WHERE id <> 0 ORDER BY navn"
@@ -301,7 +317,7 @@ if len(session("user")) = 0 then
                         if seg = 0 then
                         %>
 
-                        - Der er ikke oprettet nogen kundesegmenter.
+                        - <%=fomr_txt_017 %>
 
                         <%
                         end if
@@ -315,7 +331,7 @@ if len(session("user")) = 0 then
                
                     </section>
             <%if dbfunc = "dbred" then%> 
-             <br /><br /><br /><div style="font-weight: lighter;">Sidst opdateret den <b><%=strDato%></b> af <b><%=strEditor%></b></div>
+             <br /><br /><br /><div style="font-weight: lighter;"><%=fomr_txt_018 %> <b><%=strDato%></b> <%=fomr_txt_019 %> <b><%=strEditor%></b></div>
             <%end if  %>    
                 </div>
              </form>
@@ -569,7 +585,7 @@ if len(session("user")) = 0 then
 	oleft = 0
 	otop = 0
 	owdt = 300
-	oskrift = "Forretningsområder"
+	oskrift = fomr_txt_001
 	
     if request("print") = "j" then
 	media = "print"
@@ -591,23 +607,23 @@ if len(session("user")) = 0 then
 	   <div class="portlet-body">
 	        <div class="row">
             <div class="col-lg-1">&nbsp</div>
-            <div class="col-lg-5">Vis forretingsområder fordelt på:</div>
+            <div class="col-lg-5"><%=fomr_txt_020 %>:</div>
 	        </div>
         
             <div class="row">
             <div class="col-lg-1">&nbsp</div>
-               <div class="col-lg-2"><input type="radio" name="FM_fordel_jobakt" value="0" <%=fordel_jobakt0CHK %> /> Job<br /></div>
+               <div class="col-lg-2"><input type="radio" name="FM_fordel_jobakt" value="0" <%=fordel_jobakt0CHK %> /> <%=fomr_txt_021 %><br /></div>
             </div>
 
             <div class="row">
             <div class="col-lg-1">&nbsp</div>
-                <div class="col-lg-2"><input type="radio" name="FM_fordel_jobakt" value="1" <%=fordel_jobakt1CHK %> /> Aktiviteter</div>
+                <div class="col-lg-2"><input type="radio" name="FM_fordel_jobakt" value="1" <%=fordel_jobakt1CHK %> /> <%=fomr_txt_022 %></div>
             </div>
        
 			<!-- Brug altid datointerval, FM_usedatokri = 1 -->
             <div class="row pad-t20">
                 <div class="col-lg-1">&nbsp</div>
-			    <div class="col-lg-2">Periode:</div>
+			    <div class="col-lg-2"><%=fomr_txt_023 %>:</div>
 			</div>
             <div class="row">
                 <div class="col-lg-1">&nbsp</div>
@@ -616,7 +632,7 @@ if len(session("user")) = 0 then
                 </div>
                 <div class="col-lg-1">
                     <%if request("print") <> "j" then%>
-			        <button class="btn btn-sm btn-success pull-right"><b> Kør </b></button><br />&nbsp;
+			        <button class="btn btn-sm btn-success pull-right"><b> <%=fomr_txt_024 %> </b></button><br />&nbsp;
                     </div>
 			        <%end if%>
                 </div>
@@ -737,7 +753,7 @@ if len(session("user")) = 0 then
         <div class="portlet-body">
 	    <div class="row">
             <div class="col-lg-1">&nbsp</div>
-            <div class="col-lg-8"><%Response.write "Indtastet i alt i den valgte periode, på de valgte medarbejdere og job,<br> uanset om aktivitet er tilknyttet et forretningsområde: <b>"& formatnumber(totaltimer, 2)&"</b> timer.<br>"%></div>
+            <div class="col-lg-8"><%Response.write fomr_txt_025 & "<br>" & fomr_txt_046 & "<b>"& formatnumber(totaltimer, 2)&"</b> "& fomr_txt_047 &" <br>"%></div>
 	    </div>
       </div>
 	   </div>
@@ -760,9 +776,9 @@ if len(session("user")) = 0 then
 		<td align=right width="8" valign=top rowspan=2><img src="../ill/blank.gif" width="8" height="32" alt="" border="0"></td>
 	</tr>
 	<tr bgcolor="#5582D2">
-		<td class=alt><b>Forretningsområder</b></td>
-		<td class=alt align=right><b>Timer</b></td>
-		<td class=alt align=right><b>%-del af total</b> (<%=formatnumber(totaltimer, 2)%>)</td>
+		<td class=alt><b><%=fomr_txt_001 %></b></td>
+		<td class=alt align=right><b><%=fomr_txt_026 %></b></td>
+		<td class=alt align=right><b>%-<%=fomr_txt_027 %></b> (<%=formatnumber(totaltimer, 2)%>)</td>
 	</tr>
 	<%
 	
@@ -793,9 +809,9 @@ if len(session("user")) = 0 then
 
 
         if cint(ja) = 0 then 
-        %><h4>Forretningsområder fordelt på job</h4><%
+        %><h4><%=fomr_txt_028 %></h4><%
         else
-        %><h4>Forretningsområder fordelt på aktiviteter</h4><%
+        %><h4><%=fomr_txt_029 %></h4><%
         end if
 
 
@@ -904,7 +920,7 @@ if len(session("user")) = 0 then
 		    <td bgcolor="#cccccc" colspan="5"><img src="ill/blank.gif" width="1" height="1" border="0" alt=""></td>
 	    </tr>
         <tr>
-            <td bgcolor="#8cAAe6" class=alt colspan=5 style="padding:6px 4px 2px 7px;">Segment: <b> <%= ktypenavn(k)%></b></td>
+            <td bgcolor="#8cAAe6" class=alt colspan=5 style="padding:6px 4px 2px 7px;"><%=fomr_txt_030 %>: <b> <%= ktypenavn(k)%></b></td>
         </tr>
 
         <%
@@ -933,7 +949,7 @@ if len(session("user")) = 0 then
 		        <td><%=fomrnavn(f)%>:</td>
 		        <td align=right>
 		
-		        <b><%=formatnumber(fomridSum(k,f))%></b>&nbsp;timer</td>
+		        <b><%=formatnumber(fomridSum(k,f))%></b>&nbsp;<%=fomr_txt_048 %></td>
 		        <td align=right><%=formatpercent((fomridSum(k,f)/totaltimer), 2)%></td>
 		        <td>&nbsp;</td>
 	         </tr>
@@ -965,7 +981,7 @@ if len(session("user")) = 0 then
             <td bgcolor="#FFFFFF" colspan=5 style="padding:16px 4px 2px 7px;">&nbsp;</td>
         </tr>
         <tr>
-            <td bgcolor="#FFFFFF" colspan=5 style="padding:6px 4px 2px 7px;"><b>Totaler:</b></td>
+            <td bgcolor="#FFFFFF" colspan=5 style="padding:6px 4px 2px 7px;"><b><%=fomr_txt_031 %>:</b></td>
         </tr>
 
      <%
@@ -996,7 +1012,7 @@ if len(session("user")) = 0 then
 		        <td><%=fomrnavn(f)%>:</td>
 		        <td align=right>
 		
-		        <b><%=formatnumber(fomridSumTot(f))%></b>&nbsp;timer</td>
+		        <b><%=formatnumber(fomridSumTot(f))%></b>&nbsp;<%=fomr_txt_038 %></td>
 		        <td align=right><%=formatpercent((fomridSumTot(f)/totaltimer), 2)%></td>
 		        <td>&nbsp;</td>
 	         </tr>
@@ -1016,18 +1032,18 @@ if len(session("user")) = 0 then
 	
 	<tr bgcolor="#eff3ff">
 		<td height=20>&nbsp;</td>
-		<td colspan=3><br><br>Der er <b>ikke</b> oprettet nogen forretningsområder, eller der er ikke indtastet timer på de oprettede forretningsområder. <br>
-		Forretningsområder kan oprettes af admin brugere i kontrolpanelet.<br><br>&nbsp;</td>
+		<td colspan=3><br><br><%=fomr_txt_032 %> <b><%=fomr_txt_033 %></b> <%=fomr_txt_034 %> <br>
+		<%=fomr_txt_035 %><br><br>&nbsp;</td>
 		<td>&nbsp;</td>
 	 </tr>
 	<%end if%>
 	
 	
 	<tr bgcolor="#FFFFFF">
-		<td colspan=2 style="padding:6px 4px 2px 7px;"><b>Ialt:</b></td>
+		<td colspan=2 style="padding:6px 4px 2px 7px;"><b><%=fomr_txt_036 %>:</b></td>
 		
      
-        <td align=right><b><%=fomridSumGTot %></b> timer</td>
+        <td align=right><b><%=fomridSumGTot %></b> <%=fomr_txt_048 %></td>
         <td>&nbsp;</td>
 	
 		<td align=right valign=top><img src="../ill/blank.gif" width="1" height="1" alt="" border="0"></td>
@@ -1036,14 +1052,14 @@ if len(session("user")) = 0 then
 	</div>
 	
     <br />
-	Timer indtastet på aktiviter uden forretningsområde tilknyttet ~ <b><%=formatnumber(totaltimer - timerfomr, 2) %></b> timer.<br />
-    Timeforbrug på forretningsområder er fordelt således at hvis et job eller en aktivitet dækker flere forretningsområder tæller timer 100% med i begge områder.
+	<%=fomr_txt_037 %> ~ <b><%=formatnumber(totaltimer - timerfomr, 2) %></b> <%=fomr_txt_048 %><br />
+    <%=fomr_txt_038 %>
 	
 	<br><br>&nbsp;
 
 
     <br /><br />
-    <b><span id="sp_grundlag" style="color:#5582d2;">+ Grundlag</span></b>
+    <b><span id="sp_grundlag" style="color:#5582d2;">+ <%=fomr_txt_039 %></span></b>
     <div style="width:780px; padding:20px; background-color:#ffffff; visibility:hidden; display:none;" id="div_grundlag" >
     
     <%=strJobTxt %>
@@ -1145,7 +1161,7 @@ if len(session("user")) = 0 then
             <td bgcolor="#FFFFFF" colspan=5 style="padding:16px 4px 2px 7px;">&nbsp;</td>
         </tr>
         <tr>
-            <td bgcolor="lightpink" colspan=5 style="padding:6px 4px 2px 7px;"><b>Totaler:</b></td>
+            <td bgcolor="lightpink" colspan=5 style="padding:6px 4px 2px 7px;"><b><%=fomr_txt_031 %>:</b></td>
         </tr>
 
         <%
@@ -1164,7 +1180,7 @@ if len(session("user")) = 0 then
 		<td><%=oRec("fomrnavn")%>:</td>
 		<td align=right>
 		
-		<b><%=formatnumber(oRec("timerfomr"))%></b>&nbsp;timer</td>
+		<b><%=formatnumber(oRec("timerfomr"))%></b>&nbsp;<%=fomr_txt_048 %></td>
 		<td align=right><%=formatpercent((oRec("timerfomr")/totaltimer), 2)%></td>
 		<td>&nbsp;</td>
 	 </tr>
@@ -1204,7 +1220,7 @@ case else
 <div class="container">
     <div class="portlet">
         <h3 class="portlet-title">
-            <u>Forretningsområder</u>
+            <u><%=fomr_txt_001 %></u>
         </h3>
                 
         <form action="fomr.asp?menu=tok&func=opret" method="post">
@@ -1212,7 +1228,7 @@ case else
                          <div class="row">
                              <div class="col-lg-10">&nbsp;</div>
                              <div class="col-lg-2">
-                          <button class="btn btn-sm btn-success pull-right"><b>Opret ny +</b></button><br />&nbsp;
+                          <button class="btn btn-sm btn-success pull-right"><b><%=fomr_txt_040 %> +</b></button><br />&nbsp;
                  <!--<a href="kunder.asp?menu=<%=menu%>&func=opret&ketype=<%=ketype%>&FM_soeg=<%=thiskri%>&medarb=<%=medarb%>" class="alt">Opret ny +</a>-->
                                      </div>
                  </div>
@@ -1223,15 +1239,15 @@ case else
             <table id="example" class="table dataTable table-striped table-bordered table-hover ui-datatable"> 
                 <thead>
                     <tr>
-                        <th>Id</th>
-                        <th>Forretningsområde</th>
-                        <th>Unit/Afd.</th>
+                        <th><%=fomr_txt_041 %></th>
+                        <th><%=fomr_txt_006 %></th>
+                        <th><%=fomr_txt_042 %></th>
                         <%if cint(fomr_account) <> 1 then %>
-                        <th>Konto</th>
+                        <th><%=fomr_txt_014 %></th>
                         <%end if %>
-                        <th>Job (bruges af antal job)</th>
-                        <th>Akt. (bruges af antal aktiviter)</th>
-                        <th style="width: 5%">Slet</th>
+                        <th><%=fomr_txt_043 %></th>
+                        <th><%=fomr_txt_044 %></th>
+                        <th style="width: 5%"><%=fomr_txt_045 %></th>
                     </tr>
                 </thead>
                 <tbody>

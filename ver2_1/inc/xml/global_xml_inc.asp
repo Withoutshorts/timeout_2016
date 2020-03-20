@@ -26,8 +26,8 @@ objXmlHttp_global.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/
 'objXmlHttp_global.open "GET", "http://localhost/timeout_xp/inc/xml/global_sprog_fk.xml", False
 case else
 'objXmlHttp_global.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/global_sprog.xml", False
-'objXmlHttp_global.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/global_sprog.xml", False
-objXmlHttp_global.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/global_sprog.xml", False
+objXmlHttp_global.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/global_sprog.xml", False
+'objXmlHttp_global.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver4_22/inc/xml/global_sprog.xml", False
 'objXmlHttp_global.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/global_sprog.xml", False
 'objXmlHttp_global.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/global_sprog.xml", False
 'objXmlHttp_global.open "GET", "http://localhost/inc/xml/global_sprog.xml", False
@@ -71,16 +71,35 @@ case 1
    
     select case lto
     case "cflow"
-    sXPathQuery_global = "//sprog/cflow"
-    'Session.LCID = 1030
+        sXPathQuery_global = "//sprog/cflow"
+        'Session.LCID = 1030
+    case "dencker"
+        sXPathQuery_global = "//sprog/dencker"
+        'Session.LCID = 1030
+    case "miele"
+        sXPathQuery_global = "//sprog/miele"
+        'Session.LCID = 1030
+    case "plan"
+        sXPathQuery_global = "//sprog/plan_dkk"
+        'Session.LCID = 1030
     case else
-    sXPathQuery_global = "//sprog/dk"
-    'Session.LCID = 1030
+        sXPathQuery_global = "//sprog/dk"
+        'Session.LCID = 1030
     end select
 
 case 2
-sXPathQuery_global = "//sprog/uk"
-'Session.LCID = 2057
+    select case lto 
+        case "plan"
+            sXPathQuery_global = "//sprog/plan_uk"
+        case "tia"
+            sXPathQuery_global = "//sprog/tia_uk"
+            'Session.LCID = 1030
+        case "a27"
+            sXPathQuery_global = "//sprog/trainerlog_uk"
+        case else
+            sXPathQuery_global = "//sprog/uk"
+        'Session.LCID = 2057
+    end select
 case 3
 sXPathQuery_global = "//sprog/se"
 'Session.LCID = 1053
@@ -212,6 +231,10 @@ Set oNodes_global = objXmlDom_global.documentElement.selectNodes(sXPathQuery_glo
         global_txt_194 = oNode_global.selectSingleNode("txt_194").Text
         global_txt_195 = oNode_global.selectSingleNode("txt_195").Text
         global_txt_196 = oNode_global.selectSingleNode("txt_196").Text
+        global_txt_197 = oNode_global.selectSingleNode("txt_197").Text
+
+        global_txt_198 = oNode_global.selectSingleNode("txt_198").Text
+        global_txt_199 = oNode_global.selectSingleNode("txt_199").Text
 
     next
 

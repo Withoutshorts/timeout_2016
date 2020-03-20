@@ -114,7 +114,7 @@
 					&" LEFT JOIN valutaer v3 ON (v3.id = tp3_valuta) "_
 					&" LEFT JOIN valutaer v4 ON (v4.id = tp4_valuta) "_
 					&" LEFT JOIN valutaer v5 ON (v5.id = tp5_valuta) "_
-					&" WHERE projektgruppeid = "& oRec("id") &" AND mnavn <> '' AND mansat <> 2 AND "& mtypeSQLKri &" ORDER BY mnavn"
+					&" WHERE projektgruppeid = "& oRec("id") &" AND mnavn <> '' AND mansat <> 2 AND mansat <> 4 AND "& mtypeSQLKri &" ORDER BY mnavn"
 					
 
 
@@ -356,7 +356,7 @@
 									&" LEFT JOIN valutaer v3 ON (v3.id = tp3_valuta) "_
 									&" LEFT JOIN valutaer v4 ON (v4.id = tp4_valuta) "_
 									&" LEFT JOIN valutaer v5 ON (v5.id = tp5_valuta) "_
-									&" WHERE projektgruppeid = "& oRec("id") &" AND mnavn <> '' AND mansat <> 2 AND "& mtypeSQLKri &" ORDER BY mnavn"
+									&" WHERE projektgruppeid = "& oRec("id") &" AND mnavn <> '' AND mansat <> 2 AND mansat <> 4 AND "& mtypeSQLKri &" ORDER BY mnavn"
 									
 									'Response.Write strSQL3
 									'Response.flush

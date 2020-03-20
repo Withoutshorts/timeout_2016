@@ -7,6 +7,7 @@ Set objXmlHttp_godkendweek = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp_godkendweek.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/godkend_uge_sprog.xml", False
 'objXmlHttp_godkendweek.open "GET", "http://localhost/inc/xml/godkend_uge_sprog.xml", False
 'objXmlHttp_godkendweek.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/godkend_uge_sprog.xml", False
+'objXmlHttp_godkendweek.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver4_22/inc/xml/godkend_uge_sprog.xml", False
 'objXmlHttp_godkendweek.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/godkend_uge_sprog.xml", False
 'objXmlHttp_godkendweek.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/godkend_uge_sprog.xml", False
 objXmlHttp_godkendweek.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/godkend_uge_sprog.xml", False
@@ -242,6 +243,25 @@ Set oNodes_godkendweek = objXmlDom_godkendweek.documentElement.selectNodes(sXPat
 
     godkendweek_txt_151 = oNode_godkendweek.selectSingleNode("txt_151").Text
     godkendweek_txt_152 = oNode_godkendweek.selectSingleNode("txt_152").Text
+
+    godkendweek_txt_153 = oNode_godkendweek.selectSingleNode("txt_153").Text
+    godkendweek_txt_154 = oNode_godkendweek.selectSingleNode("txt_154").Text
+    godkendweek_txt_155 = oNode_godkendweek.selectSingleNode("txt_155").Text
+    godkendweek_txt_156 = oNode_godkendweek.selectSingleNode("txt_156").Text
+    godkendweek_txt_157 = oNode_godkendweek.selectSingleNode("txt_157").Text
+    godkendweek_txt_158 = oNode_godkendweek.selectSingleNode("txt_158").Text
+    godkendweek_txt_159 = oNode_godkendweek.selectSingleNode("txt_159").Text
+    godkendweek_txt_160 = oNode_godkendweek.selectSingleNode("txt_160").Text
+
+    godkendweek_txt_161 = oNode_godkendweek.selectSingleNode("txt_161").Text
+    godkendweek_txt_162 = oNode_godkendweek.selectSingleNode("txt_162").Text
+    godkendweek_txt_163 = oNode_godkendweek.selectSingleNode("txt_163").Text
+    godkendweek_txt_164 = oNode_godkendweek.selectSingleNode("txt_164").Text
+    godkendweek_txt_165 = oNode_godkendweek.selectSingleNode("txt_165").Text
+    godkendweek_txt_166 = oNode_godkendweek.selectSingleNode("txt_166").Text
+    godkendweek_txt_167 = oNode_godkendweek.selectSingleNode("txt_167").Text
+    godkendweek_txt_168 = oNode_godkendweek.selectSingleNode("txt_168").Text
+
           
     next
 

@@ -11,16 +11,16 @@
 $(document).ready(function() {
 
 
-    
-    
+
+
     mobil_week_reg_job_dd = $("#mobil_week_reg_job_dd").val()
     //alert("her søger: " + mobil_week_reg_job_dd)
     if (mobil_week_reg_job_dd == 1) {
 
-        
+
         sogjobogkunde(0);
 
-        
+
     }
    
 
@@ -29,10 +29,92 @@ $(document).ready(function() {
     });
 
 
+    function toSeconds(time_str) {
+        // Extract hours, minutes and seconds
+        var parts = time_str.split(':');
+        // compute  and return total seconds
+        return parts[0] * 3600 + // an hour has 3600 seconds
+            parts[1] * 60 +   // a minute has 60 seconds
+            +"00";        // parts[2] seconds
+    }
+
+    $("#FM_sttid, #FM_sltid").keyup(function () {
+
+
+        sttid = $("#FM_sttid").val()
+        sltid = $("#FM_sltid").val()
+
+        //timerThis = 3
+        toSecondsA = toSeconds(sttid)
+        toSecondsB = toSeconds(sltid)
+
+        var difference = 0
+        if (toSecondsA - toSecondsB > 0) {
+            difference = 0
+        } else {
+            difference = Math.abs(toSecondsA - toSecondsB);
+        }
+
+        // compute hours, minutes and seconds
+        var result = [
+            // an hour has 3600 seconds so we have to compute how often 3600 fits
+            // into the total number of seconds
+            Math.floor(difference / 3600), // HOURS
+            // similar for minutes, but we have to "remove" the hours first;
+            // this is easy with the modulus operator
+            Math.floor((difference % 3600) / 60), // MINUTES
+            // the remainder is the number of seconds
+            difference % 60 // SECONDS
+        ];
+
+        // formatting (0 padding and concatenation)
+        result = result.map(function (v) {
+            return v < 10 ? '0' + v : v;
+        }).join(':');
+
+        $("#FM_timer").val(result);
+
+        var result60 = result //.Tostring()
+        var result100Arr = result60.split(':');
+        //alert(result100Arr[0])
+        var hoursIn100 = result100Arr[0]
+
+        if (hoursIn100 < 10) {
+            hoursIn100 = hoursIn100.substr(hoursIn100.length - 1);
+        }
+
+        var minIn100 = result100Arr[1] * (100 / 60)
+        minIn100 = Math.floor(minIn100)
+
+        if (minIn100 < 10) {
+            minIn100 = "0" + minIn100;
+        }
+
+
+        if (hoursIn100 > 24) {
+            hoursIn100 = 0
+        }
+
+        if (minIn100 > 60) {
+            minIn100 = 0
+        }
+
+        if (hoursIn100 == 'NaN' || minIn100 == 'NaN') {
+            var result100 = 0
+        } else {
+            var result100 = hoursIn100 + "," + minIn100
+        }
+
+
+        $("#FM_timer").val(result100);
+
+    });
+
+
 
     $(".status_all").click(function () {
 
-        
+
 
         var thisid = this.id
         var thisvallngt = thisid.length
@@ -45,16 +127,16 @@ $(document).ready(function() {
 
             $(".status_chk_" + thisval).attr("checked", "checked");
 
-            } else {
+        } else {
 
             $(".status_chk_" + thisval).removeAttr("checked");
-           
+
         }
 
 
     });
 
- 
+
 
 
 
@@ -70,7 +152,7 @@ $(document).ready(function() {
 
     $("#FM_visallemedarb").click(function () {
 
-       
+
         var sesid = $("#FM_sesMid").val()
         $("#usemrn").val(sesid)
 
@@ -80,7 +162,7 @@ $(document).ready(function() {
     });
 
     $("#usemrn").change(function () {
-       
+
         $("#filterkri").submit();
     });
 
@@ -96,15 +178,15 @@ $(document).ready(function() {
 
     });
 
-    
-   //Kun ved job = DD
+
+    //Kun ved job = DD
     $("#dv_job_0").change(function () {
 
         //alert("søger")
 
-      
+
         $("#btn_indlas").prop("disabled", false);
-         
+
 
         mobil_week_reg_job_dd = $("#mobil_week_reg_job_dd").val()
         mobil_week_reg_akt_dd = $("#mobil_week_reg_akt_dd").val()
@@ -119,9 +201,9 @@ $(document).ready(function() {
                 $("#dv_akt_0").prop("disabled", false);
             }
 
-           
+
             sogakt(0);
-        
+
             if (mobil_week_reg_akt_dd != "1") {
 
                 aktSogVal = $("#FM_akt_0").val()
@@ -145,14 +227,14 @@ $(document).ready(function() {
             //$("#test").val(data);
 
         });
-         
+
     });
 
 
 
     $(".FM_job").keyup(function () {
 
-       
+
         mobil_week_reg_akt_dd = $("#mobil_week_reg_akt_dd").val()
 
         if (mobil_week_reg_akt_dd != "1") {
@@ -165,28 +247,28 @@ $(document).ready(function() {
         thisval = thisvaltrim
 
         //alert(thisval)
-        
+
         sogjobogkunde(thisval);
 
         if (mobil_week_reg_akt_dd == "1") {
-            $("#dv_akt_0").prop("disabled", false);  
+            $("#dv_akt_0").prop("disabled", false);
         }
 
     });
 
-    
-   
+
+
 
 
     $(".FM_akt").keyup(function () {
 
-       
+
         $(".dv_job").hide();
 
-       var thisid = this.id
-       var thisvallngt = thisid.length
-       var thisvaltrim = thisid.slice(7, thisvallngt)
-       thisval = thisvaltrim
+        var thisid = this.id
+        var thisvallngt = thisid.length
+        var thisvaltrim = thisid.slice(7, thisvallngt)
+        thisval = thisvaltrim
 
         sogakt(thisval);
 
@@ -209,12 +291,9 @@ $(document).ready(function() {
 
 
 
+function sogakt(thisval) {
 
 
-
-    function sogakt(thisval) {
-
-      
         mobil_week_reg_akt_dd = $("#mobil_week_reg_akt_dd").val()
         mobil_week_reg_job_dd = $("#mobil_week_reg_job_dd").val()
 
@@ -235,21 +314,16 @@ $(document).ready(function() {
             jq_jobid = $("#dv_job_0").val()
         }
 
-        
-       
+
+
         jq_medid = $("#FM_medid").val()
         jq_aktid = $("#FM_akt_" + thisval).val()
         jq_pa = $("#FM_pa").val()
 
         varTjDatoUS_man = $("#varTjDatoUS_man").val()
 
-        
-
         //$(".chbox_job").hide();
-
-       
-
-        if (mobil_week_reg_akt_dd != "1") {
+if (mobil_week_reg_akt_dd != "1") {
 
             $("#dv_akt_" + thisval).css("display", "");
             $("#dv_akt_" + thisval).css("visibility", "visible");
@@ -263,23 +337,41 @@ $(document).ready(function() {
         //alert(jq_jobid + ":: medid: " + jq_medid + " jq_aktid: " + jq_aktid + "## jq_pa" + jq_pa)
         //alert("#" + jq_newfilterval.length + "")
 
-         if (jq_newfilterval.length > 0 || mobil_week_reg_akt_dd == "1") {
+        if (jq_newfilterval.length > 0 || mobil_week_reg_akt_dd == "1") {
 
-             $.post("?jq_newfilterval=" + jq_newfilterval + "&jq_jobid=" + jq_jobid + "&jq_medid=" + jq_medid + "&jq_aktid=" + jq_aktid + "&jq_pa=" + jq_pa + "&varTjDatoUS_man=" + varTjDatoUS_man + "&jq_aktidc=" + jq_aktidc, { control: "FN_sogakt", AjaxUpdateField: "true" }, function (data) {
-            //alert("cc")
-            //$("#dv_akt_test").html(data);
-            $("#dv_akt_" + thisval).html(data);
+            $.post("?jq_newfilterval=" + jq_newfilterval + "&jq_jobid=" + jq_jobid + "&jq_medid=" + jq_medid + "&jq_aktid=" + jq_aktid + "&jq_pa=" + jq_pa + "&varTjDatoUS_man=" + varTjDatoUS_man + "&jq_aktidc=" + jq_aktidc, { control: "FN_sogakt", AjaxUpdateField: "true" }, function (data) {
+                //alert("cc")
+                //$("#dv_akt_test").html(data);
+                $("#dv_akt_" + thisval).html(data);
 
-           //alert("END")
-
-
-            if (mobil_week_reg_akt_dd != "1") {
+                //alert("END")
 
 
-                $(".chbox_akt").bind('keyup', function () {
+                if (mobil_week_reg_akt_dd != "1") {
 
 
-                    if (window.event.keyCode == "13") {
+                    $(".chbox_akt").bind('keyup', function () {
+
+
+                        if (window.event.keyCode == "13") {
+
+                            var thisvaltrim = $("#dv_akt_" + thisval).val()
+                            thisAktidUse = thisvaltrim
+                            //thisJobnavn = $("#hiddn_job_" + thisJobid).val()
+                            thisAktnavn = $("#dv_akt_" + thisval + " option:selected").text()
+
+                            $("#FM_akt_" + thisval).val(thisAktnavn)
+                            $("#FM_aktid_" + thisval).val(thisAktidUse)
+                            //$(".dv_akt").hide();
+                            $(".chbox_akt").hide();
+
+                        }
+
+                    });
+
+
+                    $(".chbox_akt").bind('click', function () {
+
 
                         var thisvaltrim = $("#dv_akt_" + thisval).val()
                         thisAktidUse = thisvaltrim
@@ -291,55 +383,34 @@ $(document).ready(function() {
                         //$(".dv_akt").hide();
                         $(".chbox_akt").hide();
 
-                    }
+                    });
 
-                });
-
-
-                $(".chbox_akt").bind('click', function () {
+                } else {
 
 
-                    var thisvaltrim = $("#dv_akt_" + thisval).val()
-                    thisAktidUse = thisvaltrim
-                    //thisJobnavn = $("#hiddn_job_" + thisJobid).val()
-                    thisAktnavn = $("#dv_akt_" + thisval + " option:selected").text()
 
-                    $("#FM_akt_" + thisval).val(thisAktnavn)
-                    $("#FM_aktid_" + thisval).val(thisAktidUse)
-                    //$(".dv_akt").hide();
-                    $(".chbox_akt").hide();
-
-                });
-
-            } else {
-
-              
-
-            }
+                }
 
 
-     
 
-        });
+
+            });
 
         }
 
-            
+
 
     }
 
-  
 
-  
+
+
     function sogjobogkunde(thisval) {
-
-
-        
 
 
         mobil_week_reg_job_dd = $("#mobil_week_reg_job_dd").val()
         mobil_week_reg_akt_dd = $("#mobil_week_reg_akt_dd").val()
-       
+
 
         jq_newfilterval = $("#FM_job_" + thisval).val()
         jq_medid = $("#FM_medid").val()
@@ -487,6 +558,8 @@ $(document).ready(function() {
         //}
     }
 
+
+    //alert(dagsval1)
 
     //if (dagsval1 != "0,00") {
         $("#sp_sumtimer_dag_1").html(dagsval1);

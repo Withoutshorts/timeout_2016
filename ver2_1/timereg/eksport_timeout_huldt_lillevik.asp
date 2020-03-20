@@ -122,18 +122,44 @@ Do Until hlt_fileIndput.AtEndOfStream
 
 
     'case 3 'Utetillæg innland
-    'case 4 'Overtid 50%
-    'case 5 'Overtid 100%
-    'case 6 'Reisetid ordinær
-    'case 7 'Reisetid 100% 
-    'case 8 'Reisetid 50%
+    'case 4 '025 Overtid 50%
+    'case 5 '026 Overtid 100%
+    'case 6 '010 Reisetid ordinær
+    'case 7 '026 Reisetid 100% 
+    'case 8 '025 Reisetid 50%
     'case 9 'Utetillæg utland
     'case 10 'Efter midnat
-    'case 11 'Timebank
-    'case 15 'Avspad m løn
-    'case 18 'Ordinære timer
-    'case 20 'Avspadsering egenbetalt 
-    'case 22 'Teamleder tillæg
+
+    '*** 
+    'case 11 '025 Overtid 50% fastlønn N
+    'case 12 '026 Overtid 100% fastlønn N
+
+    'case 13 '400 Timebank
+
+    'case 18 'Avspad m løn
+    'case 19 '048 Helligdage N
+
+     '*** + 1 efter 20190218
+
+    'case 20 022 Sitetillegg Onshore Utland timer
+
+    'case 23 '401 Avspadsering egenbetalt 
+    'case 24 '402 Avspadsering udbetalt N
+
+    'case 26 '010 Ordinære timer
+
+    'case 32 '013 Syk timer i per. N
+    'case 37 '013 Barn Syk timer i per. N
+
+    'case 41 '018 Permisjon N (41)
+
+    'case 43 '400 Timebank + 028 50% tillegg
+    'case 44 '400 Timebank + 029 100% tillegg
+
+    'case 47  021 Sitetillegg Onshore Innland
+    'case 48  023 Sitetillegg Offshore
+
+    'case 49 'Teamleder tillæg
 
 
 
@@ -143,12 +169,12 @@ Do Until hlt_fileIndput.AtEndOfStream
     lonart = "00020"
     'e1 = "000000005000"
     sats = 300
-    case 4 'Overtid 50%
+    case 4, 11 'Overtid 50%
      wrtLine = 1
     lonart = "00025"
-     'e1 = "000000005000"
+    'e1 = "000000005000"
     sats = 300
-    case 5 'Overtid 100%
+    case 5, 12 'Overtid 100%
      wrtLine = 1
     lonart = "00026"
      'e1 = "000000005000"
@@ -178,41 +204,104 @@ Do Until hlt_fileIndput.AtEndOfStream
     lonart = "00026"
     'e1 = "000000005000"
     sats = 300
-    case 11 'Timebank
-     wrtLine = 1
+  
+
+    case 13 '11 'Timebank
+    wrtLine = 1
     lonart = "00400"
     'e1 = "000000000000"
     sats = 300
-    case 15 'Avspad m løn
+    
+    case 18 '15 'Avspad m løn
      wrtLine = 1
-    lonart = "00402"
+    lonart = "00018"
     'e1 = "000000005000"
     sats = 300
-    case 18 'Ordinære timer
+
+    case 19 'Helligdage N
+    wrtLine = 1
+    lonart = "00048"
+    'e1 = "000000005000"
+    sats = 300
+
+    case 20 'Sitetillæg Onshore  Utland
+    wrtLine = 1
+    lonart = "00022"
+    'e1 = "000000005000"
+    sats = 300
+
+    case 23 '20 'Avspadsering egenbetalt 
+    wrtLine = 1
+    lonart = "00401"
+    'e1 = "000000000000"
+    sats = 300
+
+    
+    case 24 '402 Avspadsering udbetalt N
+    wrtLine = 1
+    lonart = "00402"
+    'e1 = "000000000000"
+    sats = 300
+
+    case 26 '20 '18 'Ordinære timer
      wrtLine = 1
     lonart = "00010"
     'e1 = "000000005000"
     sats = 300
-    case 20 'Avspadsering egenbetalt 
-     wrtLine = 1
-    lonart = "00401"
+
+    case 32, 37 '013 Syk timer i per. N
+    wrtLine = 1
+    lonart = "00013"
     'e1 = "000000000000"
     sats = 300
-    case 22 'Teamleder tillæg
+
+    case 41 '018 Permisjon N
+    wrtLine = 1
+    lonart = "00018"
+    'e1 = "000000000000"
+    sats = 300
+
+    case 43 '400 Timebank + 028 50% tillegg
+    wrtLine = 1
+    lonart = "00028"
+    'e1 = "000000000000"
+    sats = 300
+
+    case 44 '400 Timebank + 029 100% tillegg
+    wrtLine = 1
+    lonart = "00029"
+    'e1 = "000000000000"
+    sats = 300
+
+  
+    case 47 '021 Sitetillegg Onshore Innland
+    wrtLine = 1
+    lonart = "00021"
+    'e1 = "000000000000"
+    sats = 300
+
+    case 48 '023 Sitetillegg Offshore
+    wrtLine = 1
+    lonart = "00023"
+    'e1 = "000000000000"
+    sats = 300
+
+    case 49 '22 'Teamleder tillæg
     wrtLine = 1
     lonart = "00022"
     'e1 = "000000005000"
     sats = 300
     case else
     wrtLine = 0
-    sats = 0
-    lonart = "00000"
+    sats = 300
+    'lonart = "00000"
+    lonart = "99999"
     'e1 = "000000000000"
     end select
 
     e1 = "000000000000"
 
-    
+    'wrtLine = 1
 
     'if len(trim(sSeg(s))) <> 0 then
     'belob = sSeg(s)*sats '"1234567890"
@@ -220,41 +309,79 @@ Do Until hlt_fileIndput.AtEndOfStream
     belob = 0
     'end if
     
+    if cint(s) = 26 then ' 25, 20 AND sSeg(14) <> 0 'ordinære - lunch
+    antal = trim(sSeg(s) - (sSeg(14))) '14
+    'antal = antal * 100
+    else
     antal = trim(sSeg(s))
+    end if
+
     antal_left = instr(antal, ",")
 
+    if antal_left <> 0 then
     antal = replace(antal, ".", "")
     antal = replace(antal, ",", "")
+    antalNUL = 0
+    else
 
-    if antal_left <> 0 then
-    antal_timer = left(antal, antal_left-1)
+        'Response.write "<br>antal " & antal
+        'Response.flush
+
+        if antal <> "0" AND len(trim(antal)) <> 0 then
+        antal = antal & "00"
+        antalNUL = 0
+        else
+        antalNUL = 1
+        end if
+
+    end if
+
+
+    if s = 200 then 'ordinære - lunch
+
+        'antal_timer = left(antal, antal_left-1)
+        'if right(antal, 2) <> 00 then
+        'antal = antal_timer&"50"
+        'end if
+
+    else
+
+        if antal_left <> 0 then
+        antal_timer = left(antal, antal_left-1)
   
-    'afrund til nærnmeste 15 min
-    if right(antal, 2) < 13 then
-    antal = antal_timer&"00"
-    end if
+            'afrund til nærnmeste 15 min
+            if right(antal, 2) < 13 then
+            antal = antal_timer&"00"
+            end if
 
-    if right(antal, 2) >= 13 AND right(antal, 2) < 35 then
-    antal = antal_timer&"25"
-    end if
+            if right(antal, 2) >= 13 AND right(antal, 2) < 35 then
+            antal = antal_timer&"25"
+            end if
    
-    if right(antal, 2) >= 35 AND right(antal, 2) < 60 then
-    antal = antal_timer&"50"
+            if right(antal, 2) >= 35 AND right(antal, 2) < 60 then
+            antal = antal_timer&"50"
+            end if
+
+            if right(antal, 2) >= 60 AND right(antal, 2) < 85 then
+            antal = antal_timer&"75"
+            end if
+
+            if right(antal, 2) >= 85 then
+            antal_timer = antal_timer + 1
+            antal = antal_timer&"00"
+            end if
+
+        end if
+
     end if
 
-    if right(antal, 2) >= 60 AND right(antal, 2) < 85 then
-    antal = antal_timer&"75"
-    end if
-
-    if right(antal, 2) >= 85 then
-    antal_timer = antal_timer + 1
-    antal = antal_timer&"00"
-    end if
-
-    end if
-
-
+    'tjekker om linjen er tom
+    if antalNUL <> "1" then
     antalLinjeTjk = antal
+    else
+    antalLinjeTjk = 0
+    end if
+
 
     antal_len = len(antal)
     n = 0
@@ -321,6 +448,15 @@ Do Until hlt_fileIndput.AtEndOfStream
             sdLine = personId & lonart & avdelingsno & projektno & e1 & e2 & e3 & e4 & e5 & dato & antal & sats & belob & filler '& vbcr
             hlt_fileOutput.WriteLine(sdLine)
 
+            select case lonart
+            case "00028", "00029"
+
+            sdLine = personId & "00400" & avdelingsno & projektno & e1 & e2 & e3 & e4 & e5 & dato & antal & sats & belob & filler '& vbcr
+            hlt_fileOutput.WriteLine(sdLine)
+
+            end select
+
+
         end if
 
     'end if
@@ -353,319 +489,6 @@ Response.Write "Script er udført"
 
 
 
-'Function CreateSDLine(csvLine, Instkode, Tjenstekode, loenArt1, loenArt2, enheder, enheder2)
-Function CreateHLTLine(csvLine, Instkode, Tjenstekode, loenArt1, loenArt2, enheder, enheder2)
-
-
-    if InStr(enheder,",") > 0 then
-
-         enheder = Replace(enheder,",","")
-        
-    
-    end if
-
-    if (loenArt1 = "790") then
-
-
-        ''** Syg altid ,00 i dage ***'
-        
-        enhederDecimaler_len = len(enheder)
-        enhederDecimaler_left = left(enheder, enhederDecimaler_len-2)
-        enheder = enhederDecimaler_left & "00"
-       
-    end if
-
-
-     if (loenArt1 = "910") then 
-
-
-        ''** Barnsyg altid min 1,00 i dage ***'
-        
-        enhederDecimaler_len = len(enheder)
-        enhederDecimaler_left = left(enheder, enhederDecimaler_len-2)
-
-        if cint(enhederDecimaler_left) < 1 then
-        enheder = "100"
-        else
-        enheder = enhederDecimaler_left & "00"
-        end if
-
-        'Response.write "LA:" & loenArt1 & " enh: "& enheder & " ..."
-    'Response.flush 
-    'strEnheder = "" & Lpad(enheder,"0",5) '4
-
-    'Response.write "strEnheder:" & strEnheder &"<br><br>"
-    'Response.flush 
-       
-    end if
-
-
-    strEnheder = "" & Lpad(enheder,"0",5) '4
-
-
-
-
-    if InStr(enheder,"-") > 0  then
-
-        strChar = ""
-
-
-
-        'Formattering af enheder til håndtering af minus jft sd løn format
-
-        if StrComp(Right(strEnheder,1),"0") = 0 then strEnheder = left(strEnheder,4) & "å" end if
-
-        if StrComp(right(strEnheder,1),"1") = 0 then strEnheder = left(strEnheder,4) & "J" end if
-
-        if StrComp(right(strEnheder,1),"2") = 0 then strEnheder = left(strEnheder,4) & "K" end if
-
-        if StrComp(right(strEnheder,1),"3") = 0 then strEnheder = left(strEnheder,4) & "L" end if
-
-        if StrComp(right(strEnheder,1),"4") = 0 then strEnheder = left(strEnheder,4) & "M" end if
-
-        if StrComp(right(strEnheder,1),"5") = 0 then strEnheder = left(strEnheder,4) & "N" end if
-
-        if StrComp(right(strEnheder,1),"6") = 0 then strEnheder = left(strEnheder,4) & "O" end if
-
-        if StrComp(right(strEnheder,1),"7") = 0 then strEnheder = left(strEnheder,4) & "P" end if
-
-        if StrComp(right(strEnheder,1),"8") = 0 then strEnheder = left(strEnheder,4) & "Q" end if
-
-        if StrComp(right(strEnheder,1),"9") = 0 then strEnheder = left(strEnheder,4) & "R" end if
-
- 
-
-    end if
-
-
-    
-    
-    '**** Enheder 2 ******
-    if InStr(enheder2,",") > 0 then
-
-        enheder2 = Replace(enheder2,",","")
-
-    end if
-
-    
-    'Response.write "LA:" & loenArt2 & " enh: "& enheder2 & "<br>"
-    'Response.flush 
-    strEnheder2 = "" & Lpad(enheder2,"0",5) '4
-
-
-
-   
-
-
-
-    sdLine = ""
-
-
-
-   '001-002 Inst.kode
-
-    sdLine =  Instkode 'Lpad(Instkode," ",2)
-
-
-
-    '003-004 Filler
-
-    sdLine = sdLine & "  "
-
-
-
-    '005-005  KortArt altid på 7
-
-    sdLine = sdLine & "7"
-
-    
-
-    '006 Tjenstekode værdier 0, 1, 2, 3
-
-    sdLine = sdLine & Tjenstekode 
-
-
-
-    '007-011 Tjenstenummer
-
-    sdLine = sdLine & Lpad(trim(csvLine(1)),"0",5) '"0"
-
-
-
-    '012-015 Afdeling
-
-    sdLine = sdLine & "    "
-
-
-
-    '016-017 År
-
-    'Response.write csvLine(hlt_datoFieldNo) & "<br>"
-    'Response.flush
-
-    if len(trim(csvLine(hlt_datoFieldNo))) <> 0 AND hlt_datoFieldNo <> 32 then
-    csvLine(hlt_datoFieldNo) = csvLine(hlt_datoFieldNo)
-    else
-    csvLine(hlt_datoFieldNo) = day(now) &"-"& month(now) &"-"& year(now)
-    end if 
-
-    yVal = datepart("yyyy", csvLine(hlt_datoFieldNo), 2,2)
-    yVal = right(yVal, 2)
-    sdLine = sdLine & yVal 
-    'sdLine = sdLine & csvLine(27) &"##"
-
-
-    '018-019 Måned
-    
-    mdVal = datepart("m", csvLine(hlt_datoFieldNo), 2,2)
-    'mdVal = mid(csvLine(27),6,2)
-    if len(trim(mdVal)) = 1 then ' md < 10
-    mdVal = "0"&left(mdVal, 1)
-    else
-    mdVal = mdVal
-    end if
-    sdLine = sdLine & mdVal
-
-   'sdLine = sdLine & left(Right(csvLine(25),7),2)
-   
-    '020-021 Uge / Blank
-
-    sdLine = sdLine & "  "
-
-
-
-    '022-023 dag
-    dVal = datepart("d", csvLine(hlt_datoFieldNo), 2,2)
-    if len(trim((dVal))) = 1 then 'dag < 10
-    sdLine = sdLine & "0"&dVal
-    else
-    sdLine = sdLine & dVal
-    end if
-    
-    'sdLine = sdLine & "dval:#" & dVal & "#"
-
-    '024-026 lønart
-
-    sdLine = sdLine & loenArt1
-
-
-
-    '027-031 Enheder
-
-    sdLine = sdLine & strEnheder
-
-
-
-    '032 - 034 
-    if Len(loenArt2) > 0 then
-
-        sdLine = sdLine & loenArt2 & Lpad("","0",3)
-        '035 - 038 'Sekunder lønart i timer 
-        sdLine = sdLine & strEnheder2
-
-    else
-        
-        sdLine = sdLine & "00000000"
-
-    end if
-
-
-    
-
-
-    '096-099 Filler
-
-    sdLine = Rpad(sdLine," ",99)
-
-
-
-    '100-109 Konto
-
-    sdLine =  Rpad(sdLine," ",109)
-
-
-
-    '110-115 Filler
-
-    sdLine =  Rpad(sdLine," ",115)
-
-
-
-    '116 Intern behandlingskode Værdien skal være ’K’ for KMD eller ’T’ for Tabulex
-
-    sdLine = sdLine & "T"
-
-
-
-    '117 Særlig kode 6 = sygdom, 8 = ferie
-
-    if StrComp(loenArt2,"790") = 0 then
-
-        sdLine = sdLine & "6"
-
-    end if
-
-
-
-    if StrComp(loenArt2,"752") = 0 then
-
-        sdLine = sdLine & "8"
-
-    end if
-
-
-
-
-
-    if StrComp(loenArt2,"752") <> 0 and StrComp(loenArt2,"790") <> 0  then
-
-        sdLine = sdLine & " "
-
-    end if
-
-
-
-    '118-128 Filler
-
-    sdLine = Rpad(sdLine," ",128)
-
-   
-
-    CreateHLTLine = sdLine
-
-End Function
-
-
-'*** Bagvedstillede nuller ****
-Function Rpad (sValue, sPadchar, iLength)
-  
-  if len(trim(sValue)) <> 0 then
-  Rpad = sValue & string(iLength - Len(sValue), sPadchar)
-  end if
-
-End Function
-
-
-'*** foranstillede nuller ****
-Function Lpad (sValue, sPadchar, iLength)
-
-  if len(trim(sPadchar)) <> 0 then
-  sPadchar = sPadchar
-  else
-  sPadchar = 0
-  end if
-
-  
-
-  if len(trim(sValue)) <> 0 then
-  Lpad = string(iLength - Len(sValue),sPadchar) & sValue
-  end if
-
- 'Response.Write "iLength: " & iLength & " sPadchar: "& sPadchar & " sValue: " & sValue & " Lpad: "&  Lpad &"<br>"
- 'Response.flush
-
-
-End Function
 
 
 

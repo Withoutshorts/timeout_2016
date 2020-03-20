@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+
+    <txt_1>Medarbejder Dashboard</txt_1>
+    <txt_2>Søgefilter</txt_2>
+    <txt_3>Projektgruppe</txt_3>
+    <txt_4>Navn</txt_4>
+    <txt_5>Måned</txt_5>
+    <txt_6>Kvartal</txt_6>
+    
+    <txt_7>År</txt_7>
+    <txt_8>Søg</txt_8>
+    <txt_9>Nøgletal</txt_9>
+    
+    
+    <txt_10>Jobnavn/nr.</txt_10>
+    
+    <txt_11>Tidsfordeling - Fomr. %</txt_11>
+    <txt_12>Faktureringsindex</txt_12>
+    <txt_13>Real. Fakturerbare timer</txt_13>
+    <txt_14>Norm.</txt_14>
+    
+    <txt_15>Jobtype</txt_15>
+    <txt_16>Forkalk.</txt_16>
+    <txt_17>Realiseret</txt_17>
+    
+    <txt_18>Aftale</txt_18>
+    <txt_19>Aktiv</txt_19>
+    <txt_20>Lukket</txt_20>
+    
+    <txt_21>Tilføj Mat. forbr. / Udlæg</txt_21>
+    <txt_22>Kontakt</txt_22>
+    
+    <txt_23>Tel.</txt_23>
+    <txt_24>Kontaktpers. / Filialer</txt_24>
+    
+    <txt_25>Email</txt_25>
+    <txt_26>Dir. Tel.</txt_26>
+    <txt_27>Mobil</txt_27>
+    
+    
+    <txt_28>Luk vindue</txt_28>
+    <txt_29>Jobbeskrivelse</txt_29>
+    <txt_30>Se total</txt_30>
+    
+    
+    <txt_31>Timeregistrering uge</txt_31>
+    <txt_32>Se timeregistreringer uge</txt_32>
+    
+    
+    <txt_33>Indlæs timer som</txt_33>
+    <txt_34>tal (timer) eller </txt_34>
+    <txt_35>start og slut tid (9:25-10:45)</txt_35>
+    
+    
+    <txt_36>Incid. id</txt_36>
+    
+    <txt_37>Stopur's Entry</txt_37>
+
+    <txt_38>Timeregistrering pr. dag</txt_38>
+    <txt_39>Luk job ved indlæsning af timer</txt_39>
+    <txt_40>Send mail til jobansvarlig om at du har afsluttet dit arbejde på dette job. (ved indlæsning)</txt_40>
+    <txt_41>Luk job efter indtastning og send mail til jobansvarlige.</txt_41>
+    <txt_42>Luk job ved indlæsning af timer</txt_42>
+    
+    <txt_43>
+      Mask. Afleveret til produktion, send mail til jobansvarlige og
+      opret samtidig et nyt job (kopier dette job).
+    </txt_43>
+    <txt_44>
+      Luk job efter indtastning, send mail til jobansvarlige og
+      opret samtidig et nyt job (kopier dette job).
+    </txt_44>
+
+    <txt_45>Tidslås på aktiviteter</txt_45>
+    <txt_46>Ignorér tidslås på ativiteter.</txt_46>
+    <txt_47>Navigation</txt_47>
+    <txt_48>Op/ned: [Piletaster], Højre: [Ctrl] + [x], Venstre:  [Ctrl] + [z]</txt_48>
+    <txt_49>Klokkeslet angives således</txt_49>
+
+    <txt_50>9:45, 12:23, 23:55 etc. </txt_50>
+   
+    
+  </dk>
+
+
+ 
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1>Employee Dashboard</txt_1>
+    <txt_2>Search</txt_2>
+    <txt_3>Department</txt_3>
+    <txt_4>Name</txt_4>
+    <txt_5>Month</txt_5>
+
+    <txt_6>Quater</txt_6>
+    <txt_7>Year</txt_7>
+    <txt_8>Search</txt_8>
+    <txt_9>KPI's</txt_9>
+    <txt_10>Jobname/No.</txt_10>
+    
+    
+    <txt_11>Timesplit - Businessarea %</txt_11>
+    <txt_12>Invoice index</txt_12>
+    
+    <txt_13>real. Invoicable hours</txt_13>
+    <txt_14>Norm.</txt_14>
+    
+
+    <txt_15>Job type</txt_15>
+    <txt_16>Pre calc.</txt_16>
+    <txt_17>Accomplish</txt_17>
+
+    <txt_18>Agreement</txt_18>
+    <txt_19>Active</txt_19>
+    <txt_20>Closed</txt_20>
+
+    <txt_21>Enter mat. consump. / expences</txt_21>
+    <txt_22>Contact</txt_22>
+
+    <txt_23>Tel.</txt_23>
+    <txt_24>Contact persons / branch office</txt_24>
+
+    <txt_25>Email</txt_25>
+    <txt_26>Dir. Tel.</txt_26>
+    <txt_27>Cell</txt_27>
+
+
+    <txt_28>Close window</txt_28>
+    <txt_29>Job description</txt_29>
+    <txt_30>View total</txt_30>
+
+
+    <txt_31>Time recording</txt_31>
+    <txt_32>
+      View time recordings for
+      week
+    </txt_32>
+
+
+    <txt_33>Add time recording as</txt_33>
+    <txt_34>number (hours) or </txt_34>
+    <txt_35>start and end time (11:25-13:45)</txt_35>
+
+
+    <txt_36>Incid. id</txt_36>
+
+    <txt_37>Stopwatch Entry</txt_37>
+
+    <txt_38>Total hours</txt_38>
+    <txt_39>Close job when submitting time recording</txt_39>
+    <txt_40>Machine delivered for production and send email to job accountable.</txt_40>
+    <txt_41>Close job when submitting time recording and send email to job accountable.</txt_41>
+    <txt_42>Close job when submitting time recording</txt_42>
+
+    <txt_43>
+      Machine delivered for production and send email to job accountable.
+      and create new job (copy this job).
+    </txt_43>
+    <txt_44>
+      Close job when submitting time recording, and send email to job accountable
+      and create new job (copy this job).
+    </txt_44>
+
+    <txt_45>Timelock on activities</txt_45>
+    <txt_46>Ignore timelock on activities.</txt_46>
+    <txt_47>Navigation</txt_47>
+    <txt_48>Up/Down: [Arrowkeys], Right: [Ctrl] + [x], Left:  [Ctrl] + [z]</txt_48>
+    <txt_49>Timeformat</txt_49>
+
+    <txt_50>9:45, 12:23, 23:55 etc. </txt_50>
+    
+
+
+  </uk>
+
+
+</sprog>

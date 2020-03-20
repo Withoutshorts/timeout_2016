@@ -352,6 +352,10 @@ public class ozUploadFile
               
 
                 data.tdato = ConvertDate(data.tdato);
+                data.timerkom = data.timerkom.Replace("'", "");
+                //data.timerkom = data.timerkom.Substring(0, 250);
+
+
                 string strInsert = "INSERT INTO timer_import_temp (dato, origin, medarbejderid, jobid, aktnavn, timer, tdato, timerkom, lto, editor, overfort, jobnavn, aktid, errid, errmsg)";
                 strInsert += " VALUES('" + DateTime.Now.ToString("yyyy-MM-dd") + "',+"+ORIGIN+",'" + data.medarbejderid + "'," + data.jobid + ",'" + data.aktnavn + "'," + data.timer.Replace(',', '.') + ",'" + data.tdato + "','" + data.timerkom + "','" + folder + "','" + editorIn + "',0,'',0,0,0)";
 

@@ -212,10 +212,17 @@ end if
 		
 			seldocument = "timereg_akt_2006"
 			showother = "dontshow"
-			kalenderlink = "searchstring="&searchstring&""
+			'kalenderlink = "searchstring="&searchstring&""
+            kalenderlink = "searchstring=0" '"&searchstring&""
 			illpath = "../"
 			
-		
+            'select case lto
+            'case "synergi1"
+            'jobidLnk = left(jobid, 200)	
+            'case else
+	        'jobidLnk = jobid
+            'end select
+
 	response.cookies("timereg_2006")("dato") = strDag&"/"&strMrd&"/"&strAar
 	
 '*****************************************************************************************
@@ -235,7 +242,7 @@ end if
 if print <> "j" then
 %>
 <table cellpadding="0" cellspacing="0" border="0" width="100%">
-<form action="timereg_akt_2006.asp?jobid=<%=jobid%>&usemrn=<%=usemrn%>&showakt=1&fromsdsk=<%=fromsdsk%>" method="POST" name="pickdate" id="pickdate">
+<form action="timereg_akt_2006.asp?usemrn=<%=usemrn%>&showakt=1&fromsdsk=<%=fromsdsk%>" method="POST" name="pickdate" id="pickdate">
 <tr bgcolor="#5C75AA">
 	<td width="194" colspan="4" style="padding:2px 3px 0px 5px;">
 	<font class="stor-hvid"><%=calender_txt_107%></font> <%=kalenderMnavn%></td>
@@ -248,13 +255,15 @@ if print <> "j" then
 	<tr><td colspan=4 bgcolor="#003399" height=1><img src="<%=illpath%>ill/blank.gif" width="1" height="1" alt="" border="0"></td></tr>
 </form></table>
 
+<!-- &<%=kalenderlink%> jobid=<=jobidLnk%>& -->
+
 <table cellspacing="0" cellpadding="0" border="0" width="100%" bgcolor="#FFFFFF">
 	<tr bgcolor="ffffff" height="25">
 		<td>
 		<img src="<%=illpath%>ill/pile_tilbage.gif" alt="" vspace="1" hspace="2" border="0">
-		<a class="vmenu" href="timereg_akt_2006.asp?jobid=<%=jobid%>&usemrn=<%=usemrn%>&showakt=<%=showakt%>&strdag=28&strmrd=<%=prevMonth%>&straar=<%=prevYear%>&<%=kalenderlink%>&fromsdsk=<%=fromsdsk%>"><%=prevMonthName%></a></td>
+		<a class="vmenu" href="timereg_akt_2006.asp?usemrn=<%=usemrn%>&showakt=<%=showakt%>&strdag=28&strmrd=<%=prevMonth%>&straar=<%=prevYear%>&fromsdsk=<%=fromsdsk%>"><%=prevMonthName%></a></td>
 		<td align="center"><b><%=thisMonthName%>&nbsp;<%=strAar%></b></td>
-		<td align="right"><a class="vmenu" href="timereg_akt_2006.asp?jobid=<%=jobid%>&usemrn=<%=usemrn%>&showakt=<%=showakt%>&strdag=1&strmrd=<%=nextMonth%>&straar=<%=nextYear%>&<%=kalenderlink%>&fromsdsk=<%=fromsdsk%>"><%=nextMonthName%></a><img src="<%=illpath%>ill/pile_selected.gif" alt="" vspace="1" hspace="2" border="0"></td>
+		<td align="right"><a class="vmenu" href="timereg_akt_2006.asp?usemrn=<%=usemrn%>&showakt=<%=showakt%>&strdag=1&strmrd=<%=nextMonth%>&straar=<%=nextYear%>&fromsdsk=<%=fromsdsk%>"><%=nextMonthName%></a><img src="<%=illpath%>ill/pile_selected.gif" alt="" vspace="1" hspace="2" border="0"></td>
 		</tr>
 </table>
 <table cellspacing="0" cellpadding="0" border="0" width="100%" bgcolor="#FFFFFF">
@@ -284,7 +293,8 @@ acls = "class=vmenu"
 acls2 = "class=vmenu"
 '** ugenr **%>
 <tr><td height=25 class=lillegray valign=top align=right style="padding:0px 3px 0px 3px;">
-<%=datepart("ww", firstDayOfMonth,2,2)%></td>
+<%call thisWeekNo53_fn(firstDayOfMonth) %>
+<%=thisWeekNo53%></td>
 
 <%
 '** Mellemrum før første dag i første uge
@@ -407,7 +417,10 @@ else
 
 end if
 %>
-<a <%=acls%> href="timereg_akt_2006.asp?jobid=<%=jobid%>&usemrn=<%=usemrn%>&showakt=1&strdag=<%=daysinFirstWeek%>&strmrd=<%=strMrd%>&straar=<%=strAar%>&<%=kalenderlink%>&fromsdsk=<%=fromsdsk%>"><%=daysinFirstWeek%></a>
+
+    <!-- &<=kalenderlink%> -->
+
+<a <%=acls%> href="timereg_akt_2006.asp?usemrn=<%=usemrn%>&showakt=1&strdag=<%=daysinFirstWeek%>&strmrd=<%=strMrd%>&straar=<%=strAar%>&fromsdsk=<%=fromsdsk%>"><%=daysinFirstWeek%></a>
 <%
 
 	Response.write "<br>"
@@ -459,7 +472,8 @@ for dayCount = startsecondWeek to numberofdaysinmonth
 	</tr>
 	<tr>
 		<td height=25 class=lillegray valign=top align=right style="padding:0px 3px 0px 3px;">
-		<%=datepart("ww", dayCount &"/" & strMrd & "/" & strAar,2,2)%>
+        <%call thisWeekNo53_fn(dayCount &"/" & strMrd & "/" & strAar) %>
+        <%=thisWeekNo53%>
 </td>
 	<%end if%>
 	
@@ -533,8 +547,9 @@ end if
 
 end if%>
 
+<!--&<=kalenderlink%> -->
 
-<a <%=acls2%> href="timereg_akt_2006.asp?jobid=<%=jobid%>&usemrn=<%=usemrn%>&showakt=1&strdag=<%=dayCount%>&strmrd=<%=strMrd%>&straar=<%=strAar%>&<%=kalenderlink%>&fromsdsk=<%=fromsdsk%>"><%=dayCount%></a>
+<a <%=acls2%> href="timereg_akt_2006.asp?usemrn=<%=usemrn%>&showakt=1&strdag=<%=dayCount%>&strmrd=<%=strMrd%>&straar=<%=strAar%>&fromsdsk=<%=fromsdsk%>"><%=dayCount%></a>
 <br>
 <%
 

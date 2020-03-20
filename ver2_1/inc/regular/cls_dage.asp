@@ -89,6 +89,7 @@ else
                 prgGrpFundet = 1
                 erHellig = oRec9("nh_open")
                 helligdagnavn = oRec9("nh_name")
+                'positivFundet = 1
                 else
                 erHellig = 0
                 helligdagnavn = ""
@@ -107,6 +108,7 @@ else
                 erHellig = 0
                 prgGrpFundet = 1
                 helligdagnavn = ""
+                'negativFundet = 1
                 else
                 erHellig = oRec9("nh_open")
                 helligdagnavn = oRec9("nh_name")
@@ -2515,6 +2517,314 @@ end function
 
 
 
+   sub calender_2015
 
+    %>
+      <div class="container" style="z-index:1000; margin-right:5px; width:310px;"><!-- style="position:absolute; left:1270px; width:310px;" -->
+                
+                    <style>
+                        #calendartable th {
+                            text-align:center;
+                            padding:1px;
+                            word-spacing:1px;
+                            border-right:hidden;
+                        }
+                        #calendartable td {
+                            text-align:center;
+                            padding:1px;
+                            word-spacing:1px;
+                            border-right:hidden;
+                        }
+
+                        #calendartable .diffrentMonth {
+                            color:#d9d9d9;
+                        }
+                    </style>
+
+                    <%
+                    chosenYear = year(varTjDatoUS_man)
+                    chosenMonth = month(varTjDatoUS_man)
+                    chosenDate = chosenYear &"-"& chosenMonth & "-1" 
+                    firstday = weekday(chosenDate, 2)
+
+                    'response.Write "fisrtday " & firstday
+                    lastday = dateadd("m", 1, chosenDate)
+                    lastday = dateadd("d", -1, lastday)
+
+                    weeksInMonth = dateDiff("d", chosenDate, DateAdd("d", 1, lastday))
+                    'response.Write "days in month " &  weeksInMonth
+                    weeksInMonth = weeksInMonth / 7
+                    'response.Write "<br> herher " & weeksInMonth & "<br>"
+                    weeksInMonth = weeksInMonth + 0.5
+                    'response.Write "<br> weeksInMonth after " & weeksInMonth
+
+                    weeksInMonth = round(weeksInMonth)
+
+                    select case cint(chosenMonth)
+                            case 1
+                                calendarMonth = ugetast_txt_020
+                            case 2
+                                calendarMonth = ugetast_txt_021
+                            case 3
+                                calendarMonth = ugetast_txt_022
+                            case 4
+                                calendarMonth = ugetast_txt_023
+                            case 5
+                                calendarMonth = ugetast_txt_024
+                            case 6
+                                calendarMonth = ugetast_txt_025
+                            case 7
+                                calendarMonth = ugetast_txt_026
+                            case 8
+                                calendarMonth = ugetast_txt_027
+                            case 9
+                                calendarMonth = ugetast_txt_028
+                            case 10
+                                calendarMonth = ugetast_txt_029
+                            case 11
+                                calendarMonth = ugetast_txt_030
+                            case 12
+                                calendarMonth = ugetast_txt_031
+                    end select
+                        
+                    preDate = DateAdd("m", -1, varTjDatoUS_man)
+                    preNext = DateAdd("m", 1, varTjDatoUS_man)
+
+                    preYear = DateAdd("yyyy", -1, varTjDatoUS_man)
+                    nextYear = DateAdd("yyyy", 1, varTjDatoUS_man)
+
+                    'response.Write "First Day " & firstday & " LASTDAY " & lastday & " WEEKS " & weeksInMonth
+                    %>
+
+                    <!-- <div style="white-space:nowrap;">
+                    <h5 style="text-align:left;"><</h5> 
+                    <h5 style="text-align:center"><%=calendarMonth %></h5>
+                    <h5 style="text-align:right;">></h5>
+                    </div> -->
+                    
+                   <!-- <table style="zoom:80%; margin-bottom:15px; width:100%">
+                        <tr>
+                            <th style="padding:1px;">
+                                <select class="form-control input-small">
+                                    <option>1</option>
+                                    <option>2</option>
+                                </select>
+                            </th>
+                            <th>
+                                <select class="form-control input-small">
+                                    <option>Jan</option>
+                                    <option>Feb</option>
+                                </select>
+                            </th>
+                            <th style="padding:1px;">
+                                <select class="form-control input-small">
+                                    <option>2020</option>
+                                    <option>2020</option>
+                                </select>
+                            </th>
+                            <th style="text-align:right"><span></span></th>
+                        </tr>
+                    </table> -->
+                    
+
+                    <table style="width:100%;">
+                        <tr>
+                            <th style="text-align:left;"><a  style="color:inherit; text-decoration:none;"href="favorit.asp?varTjDatoUS_man=<%=preYear %>"><h5><<</h5></a></th>
+                            <th style="text-align:right; color:#444;"><a  style="color:inherit; text-decoration:none;"href="favorit.asp?varTjDatoUS_man=<%=preDate %>"><h5><</h5></a></th>
+                            <th style="text-align:center; color:#444; width:125px;"><h5 style="font-size:110%;"><%=calendarMonth &" "& chosenYear %></h5></th>
+                            <th style="text-align:left; color:#444;"><a style="color:inherit; text-decoration:none;" href="favorit.asp?varTjDatoUS_man=<%=preNext %>"><h5>></h5></a></th>
+                            <th style="text-align:right;"><a  style="color:inherit; text-decoration:none;"href="favorit.asp?varTjDatoUS_man=<%=nextYear %>"><h5>>></h5></a></th>
+                        </tr>
+                    </table>
+
+	                <table id="calendartable" class="table datatable" style="zoom:100%;"><!-- table-bordered -->
+                        <thead>
+                            <tr style="background-color:#f2f2f2">
+                                <th style="visibility:hidden; border-right:inherit;"><%=favorit_txt_040 %></th>
+                                <th><%=favorit_txt_033 %></th>
+                                <th><%=favorit_txt_034 %></th>
+                                <th><%=favorit_txt_035 %></th>
+                                <th><%=favorit_txt_036 %></th>
+                                <th><%=favorit_txt_037 %></th>
+                                <th style="background-color:#CCCCCC"><%=favorit_txt_038 %></th>
+                                <th style="background-color:#CCCCCC"><%=favorit_txt_039 %></th>
+                                <th style="border-right:inherit;"><%=favorit_txt_041 %></th>
+                            </tr>                           
+                        </thead>
+
+                        <tbody>
+
+                            <%
+                            '** Finder de typer der er med i det daglige timeregnskab ***'
+                            call akttyper2009(2)
+
+
+                            strSQLTimer = ""
+                            select case lto
+                            case "tec", "xintranet - local", "esn"
+                            strSQLTimer = strSQLTimer &" AND (tfaktim <> 0)"
+                            case else
+                            strSQLTimer = strSQLTimer & "  AND (("& aty_sql_realhours &")"_
+		                    & " OR (tfaktim = 30 OR tfaktim = 31 OR tfaktim = 7 OR tfaktim = 11))"
+                            end select 
+
+                            loopDate = chosenDate
+                            totalHoursInMonth = 0
+
+                            for i = 1 TO (weeksInMonth) 
+                            'response.Write "NEW WEEK " & i
+                            weekTotal = 0
+                            %>     
+                                <tr>
+                                    <%for d = 1 TO 7 %>
+
+                                        <%
+                                        'Er dagen en helldigdag
+                                        call helligdage(loopDate, 0, lto, usemrn)
+                                        if erHellig = 1 then
+                                            fontstyle = "#d9d9d9"
+                                        else
+                                            fontstyle = "inherit"
+                                        end if
+
+                                           if formatdatetime(now, 2) = formatdatetime(loopdate, 2) then
+                                            'tdbgCol = "lightpink"
+                                            fontstyle = "red"
+                                            end if
+
+
+                                        'Henter timer på dagen
+                                        timerpaadag = 0
+                                        fravarpaadag = 0
+                                        focls = 0
+                                        markcolor = "" '"#d9d9d9"
+                                        markbox = ""
+                                        
+                                        strSQL = "SELECT timer, tfaktim FROM timer WHERE tmnr = "& usemrn & " AND tdato = '"& year(loopDate) &"-"& month(loopDate) &"-"& day(loopDate) &"' "& strSQLTimer
+                                        'response.Write strSQL & "<br><br>"
+                                        oRec.open strSQL, oConn, 3
+                                        while not oRec.EOF
+                                             timerpaadag = timerpaadag + oRec("timer")
+                                                
+                                            if focls = 0 then
+                                                select case oRec("tfaktim")
+                                                case 7,8,11,13,14,18,19,20,21,22,23,24,25,26,31,23,115,120,121,122
+                                                markcolor = "#fff7ba"
+                                                focls = 1
+                                                end select
+                                            end if
+
+                                            
+                                        oRec.movenext
+                                        wend
+                                        oRec.close
+                                      
+                                       
+                                        if cdbl(timerpaadag) > 0 then
+                                            markbox = "<div style='font-size:9px; background-color:"& markcolor &";'>"& formatnumber(timerpaadag, 2) & "</div>"
+                                        else
+                                            markbox = "<div style='font-size:9px; background-color:"& markcolor &"; visibility:hidden;'>"& formatnumber(timerpaadag, 2) &"</div>"
+                                        end if
+                                        %>
+
+
+                                        <%if d = 1 then
+                                            response.Write "<th style='background-color:#f2f2f2; color:#444; border-right:inherit;'>"& DatePart("ww", loopdate, 2, 2) &"</th>"
+                                        end if %>
+
+                                        <%
+                                            
+                                            if d = 6 OR d = 7 then
+                                            tdbgCol = "#f2f2f2" '"aliceblue"
+                                            else
+                                            tdbgCol = ""
+                                            end if
+
+                                         
+                                            
+                                            if i = 1 then 
+                                            
+                                           %>                                
+
+                                            <%if d >= firstday then %>
+                                                <td style="background-color:<%=tdbgCol%>;"><a href="favorit.asp?varTjDatoUS_man=<%=loopDate %>" style="color:inherit; text-decoration:none;"><b><%=day(loopDate) %></b></a><br> <%=markbox %></td>
+                                                <%loopDate = dateadd("d", 1, loopDate) %>
+                                            <%else 
+                                                timerpaadag = 0
+                                                %>
+                                                <td style="color:<%=fontstyle%>; background-color:<%=tdbgCol%>;">&nbsp;
+                                                    <!-- <a href="favorit.asp?varTjDatoUS_man=<%=loopDate %>" style="color:inherit; text-decoration:none;"><span class="diffrentMonth"><b><%=day(dateadd("d", d, dateadd("d", -firstday ,chosenDate))) %></b></span></a> -->
+
+                                                </td>
+                                            <%end if %>
+
+                                        <%else %>
+                                        
+                                        <%
+
+                                            if loopDate > lastday then 'Next months days
+                                                timerpaadag = 0
+                                                response.Write "<td style='background-color:"&tdbgCol&";'></td>"
+                                            else
+
+                                                response.Write "<td style=""background-color:"&tdbgCol&";""><a href='favorit.asp?varTjDatoUS_man="& loopDate &"' style='color:"& fontstyle &"; text-decoration:none;' ><span><b>"& day(loopDate) &"</span></b></a> <br> "& markbox &"</td>"
+                                            end if
+
+                                        if i = weeksInMonth AND d = 7 AND day(loopDate) < day(lastDay) AND month(loopDate) = month(lastday) then
+                                            i = i - 1
+                                            'response.Write "print en uge mere " & loopDate & " LD " & lastDay & " WEKS " & weeksInMonth & " i " & i
+                                        end if
+
+
+                                        loopDate = dateadd("d", 1, loopDate)
+                                        %>  
+
+                                        <%end if %>
+
+                                    <%
+                                        weekTotal = weekTotal + timerpaadag
+                                    next %>
+
+                                    <td style="vertical-align:bottom; border-right:inherit;"><div style="font-size:9px;"><b><%=formatnumber(weekTotal, 2) %></b></div></td>
+
+                                    <%
+                                        totalHoursInMonth = totalHoursInMonth + weekTotal
+                                    %>
+
+                                </tr>
+                            <%next %>
+                        
+                            <tr>
+                                <td colspan="8" style="text-align:left; border-bottom:hidden;"><div style="background-color:#fff7ba; width:12px; display:inline-block;">&nbsp</div> <span style="border:0px 0px 0px 0px; width:100px; padding:3px; font-size:9px;"><%=favorit_txt_042 %></span></td>
+                                <td style="border-right:inherit; border-bottom:hidden;"><div style="font-size:9px;"><b><%=formatnumber(totalHoursInMonth, 2) %></b></div></td>
+                            </tr>
+
+                            <tr>
+                                <%if request.Cookies("calendar2020") = "1" then %>
+                                <td colspan="9" style="text-align:left; padding-top:7px; border-top:hidden;"><span id="showcaldenderdropdown" style="border:0px 0px 0px 0px; width:100px; color:inherit; cursor:pointer;"><span style="font-size:120%;"class="fa fa-unlock"></span></span></td>
+                                <%else %>
+                                <td colspan="9" style="text-align:left; padding-top:7px; border-top:hidden;"><span id="showcaldenderfixed" style="border:0px 0px 0px 0px; width:100px; color:inherit; cursor:pointer;"><span style="font-size:120%;" class="fa fa-lock"></span></span></td>
+                                <%end if %>
+                            </tr>
+
+                            </tbody>
+                            
+
+                            <!--
+                            <tr>
+                                <td colspan="4" style="background-color:#d9d9d9; font-size:9px; text-align:left;">Alm. dage</td>
+                            </tr>-->
+                            
+                        
+
+	                </table>
+               
+                     
+
+	               	             
+            </div>
+<%
+
+end sub
 
 %>

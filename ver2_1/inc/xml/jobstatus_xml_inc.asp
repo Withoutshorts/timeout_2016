@@ -15,10 +15,10 @@ Set objXMLDom_jobstatus = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp_jobstatus = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp_jobstatus.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/jobstatus_sprog.xml", False
 'objXmlHttp_jobstatus.open "GET", "http://localhost/inc/xml/jobstatus_sprog.xml", False
-'objXmlHttp_jobstatus.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/jobstatus_sprog.xml", False
+objXmlHttp_jobstatus.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/jobstatus_sprog.xml", False
 'objXmlHttp_jobstatus.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver4_22/inc/xml/jobstatus_sprog.xml", False
 'objXmlHttp_jobstatus.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/jobstatus_sprog.xml", False
-objXmlHttp_jobstatus.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/jobstatus_sprog.xml", False
+'objXmlHttp_jobstatus.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/jobstatus_sprog.xml", False
 objXmlHttp_jobstatus.send
 
 

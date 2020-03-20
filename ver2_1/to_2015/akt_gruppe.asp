@@ -263,6 +263,7 @@ display: none;
                     <%
 
                    whSQL = "(jobstatus = 1 OR jobstatus = 3)"
+
                    strSQLjob = "SELECT jobnavn, jobnr, j.id, kid, kkundenavn, kkundenr, count(a.id) AS antalA FROM job j "_
 		            &" LEFT JOIN kunder ON (kid = jobknr) "_
 		            &" LEFT JOIN aktiviteter a ON (a.job = j.id) "_

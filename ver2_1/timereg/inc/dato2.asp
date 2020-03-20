@@ -26,7 +26,7 @@ else
     select case lto 
     case "epi2017", "xintranet - local"
 
-    slutDato_temp = dateadd("d", -1, strDag&"/"&strMrd&"/"&strAar)
+    slutDato_temp = dateadd("d", -1, strDag&"/"&strMrd&"/"&strAar) '** Make sure they manually set end date
     strMrd_slut = month(slutDato_temp)
 	strDag_slut = day(slutDato_temp)
 	strAar_slut = year(slutDato_temp) 

@@ -972,7 +972,7 @@
 					'** der ikke allerede er skrevet
 					'** (har timer eller VENTE timer på) ***'
 					
-					deakSQL = " AND mansat <> '2' AND mansat <> '3' " '** passive må IKKE vælges til ekstra linier, f.eks Epi med 350 medarb. bliver meget tung **'
+					deakSQL = " AND mansat <> '2' AND mansat <> '3' AND mansat <> '4' " '** passive må IKKE vælges til ekstra linier, f.eks Epi med 350 medarb. bliver meget tung **'
                     
                     pgrpSQL = "(projektgruppeid = "& gp1 &" OR projektgruppeid = "& gp2 &" OR projektgruppeid = "& gp3 &" OR projektgruppeid = "& gp4 &" "_
 				    &" OR projektgruppeid = "& gp5 &" OR projektgruppeid = "& gp6 &" OR projektgruppeid = "& gp7 &" OR projektgruppeid = "& gp8 &" "_

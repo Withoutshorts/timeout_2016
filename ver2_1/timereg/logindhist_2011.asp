@@ -325,8 +325,12 @@ if len(session("user")) = 0 then
     <%if media <> "print" then %>
 
        <%
-       prevWeek = datepart("ww", prev_varTjDatoUS_man, 2,2) 
-       nextWeek = datepart("ww", next_varTjDatoUS_man, 2,2) 
+       call thisWeekNo53_fn(prev_varTjDatoUS_man)
+       prevWeek = thisWeekNo53
+       'prevWeek = datepart("ww", prev_varTjDatoUS_man, 2,2) 
+       call thisWeekNo53_fn(next_varTjDatoUS_man)
+       nextWeek = thisWeekNo53
+       'nextWeek = datepart("ww", next_varTjDatoUS_man, 2,2) 
        %>
 
          <tr>
@@ -367,8 +371,11 @@ if len(session("user")) = 0 then
             'Skal det være mandag for måned og søndag for uge??
             select case cint(SmiWeekOrMonth) 
             case 0 
-            periodeTxt = tsa_txt_005 & " "& datepart("ww", tjkDato, 2 ,2)
-            weekMonthDate = datepart("ww", varTjDatoUS_son,2,2)
+            call thisWeekNo53_fn(tjkDato)
+            tjkDato = thisWeekNo53
+            periodeTxt = tsa_txt_005 & " "& tjkDato 'datepart("ww", tjkDato, 2 ,2)
+            call thisWeekNo53_fn(varTjDatoUS_son)
+            weekMonthDate = thisWeekNo53 'datepart("ww", varTjDatoUS_son,2,2)
             case 1
             periodeTxt = monthname(datepart("m", tjkDato, 2 ,2))
             weekMonthDate = datepart("m", varTjDatoUS_son,2,2)
@@ -402,7 +409,8 @@ if len(session("user")) = 0 then
          '** Periode aflsutning Dag / UGE / MD
          select case cint(SmiWeekOrMonth) 
          case 0
-         weekMonthDate = datepart("ww", varTjDatoUS_son,2,2)
+         call thisWeekNo53_fn(varTjDatoUS_son)
+         weekMonthDate = thisWeekNo53 'datepart("ww", varTjDatoUS_son,2,2)
          case 1
          weekMonthDate = datepart("m", varTjDatoUS_son,2,2)
          case 2
@@ -412,7 +420,7 @@ if len(session("user")) = 0 then
 
          'Response.Write "Hej der<br>"
 
-         call erugeAfslutte(datepart("yyyy", varTjDatoUS_son,2,2), weekMonthDate, usemrn, SmiWeekOrMonth, 0) 
+         call erugeAfslutte(datepart("yyyy", varTjDatoUS_son,2,2), weekMonthDate, usemrn, SmiWeekOrMonth, 0, tjkDato) 
 
          
          '** Faneblade med afslutnings status
@@ -440,7 +448,8 @@ if len(session("user")) = 0 then
         call rettidigafsl(s0Show_sidstedagsidsteuge, 0)
 
         if cint(SmiWeekOrMonth) = 0 then
-            s0Show_weekMd = datePart("ww", s0Show_sidstedagsidsteuge, 2,2)
+            call thisWeekNo53_fn(s0Show_sidstedagsidsteuge)
+            s0Show_weekMd = thisWeekNo53 'datePart("ww", s0Show_sidstedagsidsteuge, 2,2)
         else
             s0Show_weekMd = datePart("m", s0Show_sidstedagsidsteuge, 2,2)
         end if
@@ -448,7 +457,7 @@ if len(session("user")) = 0 then
         
          '** HVORFOR DENNE IGEN?
         '** tjekker om uge er afsluttet og viser afsluttet eller form til afslutning
-		call erugeAfslutte(year(s0Show_sidstedagsidsteuge), s0Show_weekMd, usemrn, SmiWeekOrMonth, 0)
+		call erugeAfslutte(year(s0Show_sidstedagsidsteuge), s0Show_weekMd, usemrn, SmiWeekOrMonth, 0, tjkDato)
       
       
       
@@ -524,7 +533,7 @@ if len(session("user")) = 0 then
         <%if cint(smilaktiv) <> 0 AND media = "print" then 
 
            
-          call erugeAfslutte(datepart("yyyy", varTjDatoUS_son,2,2) , weekMonthDate, usemrn, SmiWeekOrMonth, 0) 
+          call erugeAfslutte(datepart("yyyy", varTjDatoUS_son,2,2) , weekMonthDate, usemrn, SmiWeekOrMonth, 0, tjkDato) 
 
           call ugeAfsluttetStatus(varTjDatoUS_son, showAfsuge, ugegodkendt, ugegodkendtaf, SmiWeekOrMonth) 
 
@@ -596,9 +605,9 @@ call eksportogprint(ptop,pleft, pwdt)
 
         'response.write "weekMonthDate: "& weekMonthDate
 
-        call erugeAfslutte(sm_aar, weekMonthDate, sm_mid, SmiWeekOrMonth, 0)
+        call erugeAfslutte(sm_aar, weekMonthDate, sm_mid, SmiWeekOrMonth, 0, tjkDato)
                      
-        fmlink = "ugeseddel_2011.asp?usemrn="& usemrn &"&varTjDatoUS_man="& varTjDatoUS_man &"&varTjDatoUS_son= "& varTjDatoUS_son &"&nomenu="& nomenu &"&rdir=logindhist"
+        fmlink = "ugeseddel_2011.asp?usemrn="& usemrn &"&varTjDatoUS_man="& varTjDatoUS_man &"&varTjDatoUS_son="& varTjDatoUS_son &"&nomenu="& nomenu &"&rdir=logindhist"
         %>
            
         <%call godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir) %>

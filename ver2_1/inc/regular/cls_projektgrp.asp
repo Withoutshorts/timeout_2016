@@ -33,7 +33,7 @@ end sub
                   progrpArr(pgArr) = replace(progrpArr(pgArr), "#", "")
                   progrpArr(pgArr) = replace(progrpArr(pgArr), " ", "")
 
-                  call fTeamleder(session("mid"), progrpArr(pgArr))
+                  call fTeamleder(session("mid"), progrpArr(pgArr), 0)
 
               next
 
@@ -90,7 +90,7 @@ sub medarb_teamlederfor
 
 
             if cint(teamleder_flad) = 0 then '0: Bruger Teamleder niveau , 1: Flat - alle kan se alle uanset om de er teamledere 
-                    'call fTeamleder(session("mid"), prjGoptionsId(p))
+                    'call fTeamleder(session("mid"), prjGoptionsId(p), 0)
                     if cint(prjGTeamleder(p)) = 1 then 'Er han teamleder for gruppen?
                     midsTjkRettighed = midsTjkRettighed & medarbgrpIdSQLkri
                     end if
@@ -140,17 +140,59 @@ end sub
 
 '***** Tilføj Medarbrejder til timereg.usejob for alle de job ahn/hun ertilmedt via sine projektgrupper ***
 
-function tilfojtilTU(mid, del)
+function tilfojtilTU(mid, del, copyfollow, medarb_copy)
 
  'call positiv_aktivering_akt_fn()
  'pa = pa_aktlist 
 
-if len(trim(request("FM_progrpfollowactivejoblist"))) <> 0 then 'ved opret / rediger medarbejder -- forvælges på opret medarbejder
-    pa_tilfojvmedopret = 1
-else
-    pa_tilfojvmedopret = 0
-end if
+'if len(trim(request("FM_progrpfollowactivejoblist"))) <> 0 then 'ved opret / rediger medarbejder -- forvælges på opret medarbejder
+    pa_tilfojvmedopret = copyfollow
+'else
+'    pa_tilfojvmedopret = 0
+'end if
 'mid <> 0 enjelt medarb / alle medab
+
+
+'Response.write "pa_tilfojvmedopret " & pa_tilfojvmedopret 
+'Response.end 
+'pa_tilfojvmedopret = 2
+if pa_tilfojvmedopret = 2 then 'COPY active joblist/ favorites frme other employee
+
+        
+
+        strSQLCopy = "SELECT medarb, jobid, easyreg, forvalgt, forvalgt_sortorder, forvalgt_af, forvalgt_dt, aktid, favorit FROM timereg_usejob WHERE medarb = "& medarb_copy
+        oRec5.open strSQLCopy, oConn, 3
+        while not oRec5.EOF 
+
+                tu_reg_mid_findes = 0
+                strSQLtjk = "SELECT id, medarb, jobid, aktid FROM timereg_usejob WHERE medarb = "& mid & " AND jobid = "& oRec5("jobid") & " AND aktid = " & oRec5("aktid") 
+                oRec9.open strSQLtjk, oConn, 3
+                if not oRec9.EOF then
+                tu_reg_mid_findes = 1
+                
+                        strSQLdel = "DELETE FROM timereg_usejob WHERE id = "& oRec9("id") 'Favorit er ekstra sikring pga TIA bør ikke være nødvendig 20171005
+                        'Response.write strSQLdel
+                        oConn.execute(strSQLdel)
+                          
+                end if
+                oRec9.close
+
+                'if cint(tu_reg_mid_findes) = 0 then
+
+                fv_dt = year(now) & "/" & month(now) & "/"& day(now)
+
+                strSQLins = "INSERT INTO timereg_usejob (medarb, jobid, easyreg, forvalgt, forvalgt_sortorder, forvalgt_af, forvalgt_dt, aktid, favorit) "_
+                &" VALUES ("& mid &", "& oRec5("jobid") & ", "& oRec5("easyreg") &","& oRec5("forvalgt") &","& oRec5("forvalgt_sortorder") &","& session("mid") & ",'"& fv_dt & "'," & oRec5("aktid") & ", " & oRec5("favorit") &")"
+                'Response.write strSQLdel
+                oConn.execute(strSQLins)
+
+                'end if
+
+        oRec5.movenext
+        wend 
+        oRec5.close
+
+else 'Follow progrp
 
 if mid <> 0 then
 midSQLKri = "mid = "& mid
@@ -158,7 +200,7 @@ else
 midSQLKri = "mid <> 0"
 end if
 
-strSQL = "SELECT mid, mnavn FROM medarbejdere WHERE "& midSQLKri &" AND mansat <> 2 ORDER BY mnavn"
+strSQL = "SELECT mid, mnavn FROM medarbejdere WHERE "& midSQLKri &" AND mansat <> 2 AND mansat <> 4 ORDER BY mnavn"
 
 'Response.Write strSQL & "<hr>"
 'Response.flush
@@ -178,13 +220,13 @@ while not oRec5.EOF
 	
     '*** Søger efter job først, da timereg_usejob kun indeholder de job der er aktive lige nu. 
     '*** Du kan godt være tilmeldt et job via dine projektgrupper uden det er med i timereg_usejob
-
+    '''** Har medtaget passive, da de skal potentielt bliver åbnet igen og derfor skal kunne ses. 20190116
 	lastKid = 0
 	strSQLj = "SELECT j.id AS jid, j.jobstatus, j.jobnavn, j.jobnr, j.jobknr, Kid, Kkundenavn, Kkundenr, "_
 	&" useasfak, g.jobid AS gjid, g.easyreg, forvalgt FROM job j "_
     &" LEFT JOIN kunder ON (kunder.Kid = j.jobknr) "_
 	&" LEFT JOIN timereg_usejob AS g ON (g.medarb = "& oRec5("mid") &" AND g.jobid = j.id) "_
-	&" WHERE (jobstatus = 1 OR jobstatus = 3) AND kunder.Kid = j.jobknr "& strPgrpSQLkri &""_
+	&" WHERE (jobstatus = 1 OR jobstatus = 2 OR jobstatus = 3) AND kunder.Kid = j.jobknr "& strPgrpSQLkri &""_
 	&" GROUP BY j.id, kid ORDER BY Kkundenavn, jobnavn"
 	
     'if session("mid") = 1 AND lto = "hestia" then
@@ -214,7 +256,7 @@ while not oRec5.EOF
                 if cint(pa_tilfojvmedopret) = 1 then
 
                     if cint(oRec3("forvalgt")) = 0 then
-                     forvalgt_dtSQL = year(now) &"/"& month(now) &"/"& day(now)
+                    forvalgt_dtSQL = year(now) &"/"& month(now) &"/"& day(now)
                     strSQlfv = "UPDATE timereg_usejob SET forvalgt = 1, forvalgt_af = "& session("mid") &", forvalgt_dt = '"& forvalgt_dtSQL & "' WHERE id = "& oRec3("id")
                     oConn.execute(strSQlfv)
                     end if
@@ -264,15 +306,25 @@ while not oRec5.EOF
         '** Renser ud i timereg.use job for den valgte medarbejder ****
         strSQLDontDelJob = strSQLDontDelJob & ")"
         if cint(del) = 1 then
-        strSQLdel = "DELETE FROM timereg_usejob WHERE medarb = "& oRec5("mid") & strSQLDontDelJob & " AND favorit <> 1" 'Favorit er ekstra sikring pga TIA bør ikke være nødvendig 20171005
-        'Response.write strSQLdel
-        oConn.execute(strSQLdel)
-        'Response.end
+            if lto = "tia" then
+            strSQLdel = "DELETE FROM timereg_usejob WHERE medarb = "& oRec5("mid") & strSQLDontDelJob & " AND favorit <> 1" 'Favorit er ekstra sikring pga TIA bør ikke være nødvendig 20171005
+            'Response.write strSQLdel
+            oConn.execute(strSQLdel)
+            'Response.end
+            else
+            strSQLdel = "DELETE FROM timereg_usejob WHERE medarb = "& oRec5("mid") & strSQLDontDelJob 
+            oConn.execute(strSQLdel)
+           end if
+
         end if    
 
 oRec5.movenext
 wend
 oRec5.close
+
+
+
+end if 'Copy / follow
 
 
 
@@ -436,6 +488,39 @@ end function
         
         end function
 
+        public progrpAktids, progrpFindespaaAktivitet
+         function projktgrpPaaAktids(pid, aid)
+        
+                            progrpFindespaaAktivitet = 0
+                            progrpAktids = "#0#"
+
+                            '*** Sætter guiden aktive job ready ***'
+					        strSQLjob = "SELECT id AS aid FROM aktiviteter WHERE ("_
+					        &" projektgruppe1 = "& pid &" OR " _
+					        &" projektgruppe2 = "& pid &" OR " _
+					        &" projektgruppe3 = "& pid &" OR " _
+					        &" projektgruppe4 = "& pid &" OR " _
+					        &" projektgruppe5 = "& pid &" OR " _
+					        &" projektgruppe6 = "& pid &" OR " _
+					        &" projektgruppe7 = "& pid &" OR " _
+					        &" projektgruppe8 = "& pid &" OR " _
+					        &" projektgruppe9 = "& pid &" OR " _
+					        &" projektgruppe10 = "& pid &") AND id = " & aid 
+					        
+					        oRec9.open strSQLjob, oConn, 3
+					        if not oRec9.EOF then
+					        
+                            progrpFindespaaAktivitet = 1
+					        progrpAktids = progrpAktids &",#"& oRec9("aid") &"#"
+					  
+					        end if
+					        oRec9.close
+					        
+					        
+					      
+        
+        
+        end function
 
 
 
@@ -454,6 +539,7 @@ end function
         '0  : Neutral 
         '-1 : Skjult
         '2  : Låst, vises altid , selvom der er gået mere end 14  dage / 2 md.
+        '** 20190108 - HAR ÆNDRET SÅ Lås bliver = 1. Har droppet dato kritierie på 14 og 2 md liste. ER de tilføjet er de med.
 
         '*** Fra Guiden er forvalg altid = 0 (job), eller 1 (aktiviteter)
          
@@ -617,22 +703,104 @@ end function
 
 
 
-public erTeamleder, erTeamlederForVilkarligGruppe
-function fTeamleder(medid, prgid)
+public erTeamleder, erTeamlederForVilkarligGruppe, strPrgids, teamlederNavne
+function fTeamleder(medid, prgid, io)
+
+    'if session("mid") = 1 then
+    'level = 3
+    'end if
     
+    if io = 0 then
+        erTeamleder = 0
+        strSQLt = "SELECT teamleder FROM progrupperelationer WHERE medarbejderID = "& medid &" AND teamleder = 1 AND ProjektgruppeId = "& prgid
 
-    erTeamleder = 0
-    strSQLt = "SELECT teamleder FROM progrupperelationer WHERE medarbejderID = "& medid &" AND teamleder = 1 AND ProjektgruppeId = "& prgid
+        'Response.write strSQLt
+        'Response.flush
 
-    'Response.write strSQLt
-    'Response.flush
-
-    oRec3.open strSQLt, oConn, 3
-    if not oRec3.EOF then
-    erTeamleder = 1
-    erTeamlederForVilkarligGruppe = 1
+        oRec3.open strSQLt, oConn, 3
+        if not oRec3.EOF then
+        erTeamleder = 1
+        erTeamlederForVilkarligGruppe = 1
+        end if
+        oRec3.close
     end if
-    oRec3.close
+
+    
+    if io = 1 then 'Finder alle grupper man er teamleder for
+        
+
+        if level <> 1 then
+
+            dim prgids
+            redim prgids(10)
+
+            strSQL = "SELECT projektgruppeid, p.navn as prgnavn FROM progrupperelationer LEFT JOIN projektgrupper as p ON (projektgruppeid = p.id) WHERE medarbejderid = "& medid &" AND teamleder = 1"
+            'response.Write strSQL
+            oRec.open strSQL, oConn, 3
+            antalTeamPrg = 0
+            while not oRec.EOF
+
+                prgids(antalTeamPrg) = oRec("projektgruppeid")
+
+            antalTeamPrg = antalTeamPrg + 1
+            oRec.movenext
+            wend
+            oRec.close
+
+            if antalTeamPrg  <> 0 then
+            p = 0
+            for p = 0 TO UBOUND(prgids)
+
+                'response.Write "<br>" & " prg " & prgids(p)
+                if prgids(p) <> "" then
+                    if p = 0 then
+                        strPrgids = prgids(p)
+                    else                    
+                        strPrgids = strPrgids & "," & prgids(p) 
+                    end if
+                end if
+            
+            next
+
+            else
+
+                    strPrgids = "ingen"
+            end if
+
+
+        else 'Level 1
+
+            strPrgids = "alle"
+
+        end if
+
+        'response.Write "<br> Alle grupper " & strPrgids
+
+    end if
+
+     if io = 3 then
+        teamlederNavne = ""
+        strSQLt = "SELECT mnavn, init FROM progrupperelationer "_ 
+        & " LEFT JOIN medarbejdere m ON (m.mid = medarbejderId) "_
+        & " WHERE teamleder = 1 AND ProjektgruppeId = "& prgid
+
+        'Response.write strSQLt
+        'Response.flush
+        tn = 0
+        oRec3.open strSQLt, oConn, 3
+        while not oRec3.EOF 
+        
+        if tn > 0 then
+        teamlederNavne = teamlederNavne & ", "
+        end if
+
+        teamlederNavne = teamlederNavne & oRec3("mnavn") & " ["& oRec3("init") &"]"
+
+        tn = tn + 1
+        oRec3.movenext
+        wend
+        oRec3.close
+    end if
     
 
 
@@ -643,12 +811,19 @@ end function
 public erNotificer
 function fnotificer(prgid)
     
+    if len(trim(prgid)) <> 0 then
+    prgid = prgid
+    else
+    prgid = 0
+    end if
 
     erNotificer = "0"
     strSQLt = "SELECT notificer, medarbejderID FROM progrupperelationer WHERE notificer = 1 AND ProjektgruppeId = "& prgid
 
-    'Response.write strSQLt
+    'if session("mid") = 1 then
+    'Response.write "<br><br>#<br>" & strSQLt
     'Response.flush
+    'end if
 
     oRec3.open strSQLt, oConn, 3
     while not oRec3.EOF 
@@ -771,7 +946,7 @@ function projgrp(progrp,level,medarbid,visning)
     
     'level = session("rettigheder")
     '** Admin, eller indtil projgrp er sat op
-    if cint(level) = 1 OR cint(teamleder_flad) = 1 then  '( (lto = "epi" OR lto = "epi_no" OR lto = "epi_ab" OR lto = "epi_sta" OR lto = "epi_uk") AND (level <=2 OR level = 6)) OR lto = "mi" then
+    if cint(level) = 1 OR cint(teamleder_flad) = 1 OR (lto = "plan" AND (session("mid") = 268 OR session("mid") = 274)) then  '( (lto = "epi" OR lto = "epi_no" OR lto = "epi_ab" OR lto = "epi_sta" OR lto = "epi_uk") AND (level <=2 OR level = 6)) OR lto = "mi" then
         teamlederKri = "" 
         grpid = "pgrel1.ProjektgruppeId"
         medarbIdKri = "" 
@@ -848,7 +1023,7 @@ function projgrp(progrp,level,medarbid,visning)
             prjGoptionsId(p) = oRec3("projektgruppeid") 'pid   
             prjGoptionsTxt(p) = oRec3("pgnavn")
         
-            if cint(teamleder_flad) = 1 OR cint(level) = 1 then
+            if cint(teamleder_flad) = 1 OR cint(level) = 1 OR (lto = "plan" AND (session("mid") = 268 OR session("mid") = 274) ) then
             prjGTeamleder(p) = 1
             else
             prjGTeamleder(p) = oRec3("teamleder")
@@ -873,13 +1048,16 @@ public medarbgrpIdSQLkri, instrMedidProgrpThisGrp
 public medarbgrpId, medarbgrpTxt, antalMedgrp, instrMedidProgrp, strOptionsJq
 function medarbiprojgrp(progrp, medid, mtypesorter, seloptions)
 
-'Response.Write "progrp" & progrp & "<br>"
+'if session("mid") = 1 then
+'Response.Write "progrp" & progrp & ": "& seloptions &"<br>"
 'Response.end
+'seloptions = -1
+'end if
     
     instrMedidProgrpThisGrp = ""
 
     if lto = "epi2017" then
-        redim medarbgrpId(4550), medarbgrpTxt(4550)
+        redim medarbgrpId(6550), medarbgrpTxt(6550)
     else
         redim medarbgrpId(2050), medarbgrpTxt(2050)
     end if    
@@ -956,10 +1134,7 @@ function medarbiprojgrp(progrp, medid, mtypesorter, seloptions)
     &" WHERE ("& prgKri & " AND "& strSQLmansat &" "& jurMedidsSQL &")  GROUP BY mid ORDER BY "& odrBySQL
     
     
-    'if session("mid") = 1 then
-    'Response.Write strSQLp & "<br><br>"
-    'Response.flush
-    'end if
+   
     
     'for q = 0 to UBOUND(intMids)
     'Response.write "q: "& intMids(q) & "<br>"  
@@ -967,8 +1142,12 @@ function medarbiprojgrp(progrp, medid, mtypesorter, seloptions)
    
 
     instrMedidProgrp = "#0#,"
-    'strOptionsJqHd = "0"
-    strOptionsJq = "<option value='0'>"&joblog_txt_188&"</option>" 
+    strOptionsJq = "<option value='0'>"& joblog_txt_188 &"</option>" 
+
+    'if session("mid") = 1 then
+    'strOptionsJq = strOptionsJq & "<option>"& strSQLmansat & "mansat12:#"& mansat12 &"#</option>"
+    'Response.end
+    'end if
 
     oRec3.Open strSQLp, oConn, 0, 1
     m = 0
@@ -1027,21 +1206,22 @@ function medarbiprojgrp(progrp, medid, mtypesorter, seloptions)
 
     
                 if seloptions <> -1 then
-                for t = 0 To UBOUND(intMids) 
+
+                    for t = 0 To UBOUND(intMids) 
                                 
-                    if mSel = "" then
+                        if mSel = "" then
                     
-                        if cdbl(intMids(t)) = cdbl(medarbgrpId(m)) then
-                        mSel = "SELECTED"
-                        else
-                        mSel = ""
+                            if cdbl(intMids(t)) = cdbl(medarbgrpId(m)) then
+                            mSel = "SELECTED"
+                            else
+                            mSel = ""
+                            end if
+                    
                         end if
-                    
-                    end if
                     
                     
                 
-                next
+                    next
                 end if
 
 
@@ -1070,7 +1250,7 @@ antalMediPgrpX = 0
 if len(trim(strSQLmansat)) <> 0 then
 strSQLmansat = strSQLmansat
 else
-strSQLmansat = " m.mansat <> 2 "
+strSQLmansat = " m.mansat <> 2 AND m.mansat <> 4 "
 end if
 
             '** antal aktive og passive medarbejdere i grp. ***'
@@ -1163,16 +1343,34 @@ if len(trim(request("FM_visdeakmed"))) <> 0 then
 visdeakmed = 1
 visdeakmedCHK = "CHECKED"
 
-                if len(trim(request("FM_visdeakmed12"))) <> 0 then
+                if len(trim(request("FM_visdeakmed12"))) <> 0 AND request("FM_visdeakmed12") <> 0 then
+
+                visdeakmed12 = request("FM_visdeakmed12")
+                select case visdeakmed12
+                case "1"
+                visdeakmed1Sel = "SELECTED"
+                case "3"
+                visdeakmed3Sel = "SELECTED"
+                case "12"
+                visdeakmed12Sel = "SELECTED"
+                case "112"
+                visdeakmed112Sel = "SELECTED"
+                end select
+
+
+                if cint(visdeakmed12) <> 112 then
                 dd = now
-                opsagtdatoKri = dateAdd("m", -12, dd)
-                opsagtdatoKri = year(opsagtdatoKri) &"/"& month(opsagtdatoKri) &"/"& day(opsagtdatoKri) 
+                opsagtdatoKri = dateAdd("m", -visdeakmed12, dd)
+                opsagtdatoKri = year(opsagtdatoKri) &"/"& month(opsagtdatoKri) &"/1" '& day(opsagtdatoKri) 
+                else
+                opsagtdatoKri = year(opsagtdatoKri) &"/1/1" '& day(opsagtdatoKri) 
+                end if
 
                 strSQLmansat = strSQLmansat & " OR (m.mansat = 2" 'de-aktiverede
                 strSQLmansat = strSQLmansat & " AND opsagtdato > '"& opsagtdatoKri &"')"
 
-                visdeakmed12 = 1
-                visdeakmed12CHK = "CHECKED"
+                'visdeakmed12 = 1
+                'visdeakmed12CHK = "CHECKED"
 
                 else
                 opsagtdatoKri = ""
@@ -1200,8 +1398,7 @@ end if
         <%=godkendweek_txt_082 %>
         </span><br />
 
-      
-        <select multiple size="9" id="FM_progrp" name="FM_progrp" style="position:relative; z-index:1; width:406px; <%=fm_cls_2015_style_11%>" class="<%=fm_cls_2015 %>">
+       
            
             
        
@@ -1213,34 +1410,354 @@ end if
        level = session("rettigheder")
 
 
-           'Response.write "HER " & progrp
+      
 
        if (progrp = "0" AND level = 1) OR lto = "adra" then 'OR lto = "mi"
-       
-            progrp = 10 
-            
-           'select case lto
-           'case "epi", "epi_cati", "epi_no", "epi_sta", "epi_ab", "intranet - local"
-           '** Af performance hensyn henter vi en anden end "Alle" gruppen HVIS medarbejderen er medlem af andre grupper, når siden hentes første gang. 
-           '** Hvis der ike fidnes medlemskaber bruges "Alle" gruppen 
-           'strSQLp = "SELECT projektgruppeId FROM progrupperelationer WHERE medarbejderId = "& session("mid") &" AND projektgruppeId <> 10 LIMIT 1"
-           
-           'Response.write strSQLp
-           'Response.flush
-           'oRec6.open strSQLp, oConn, 3
-           'if not oRec6.EOF then 
+        progrp = 10 
+       end if
 
-           'progrp = oRec6("projektgruppeId")
-
-           'end if
-           'oRec6.close
-
-           'end select
-
+       if (len(trim(progrp)) = 0 OR progrp = "0") AND level <> 1 then
+        progrp = "-1"
        end if
 
        
-       'Response.Write "<br><br><br><br><br><br><br>"& progrp & " level: "& level
+
+       'if len(trim(progrp)) = 0 then
+       'progrp = "0"
+       'else
+       'progrp = progrp
+       'end if
+
+       'if session("mid") = 1 then
+       'Response.Write "<hr><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>"
+       'response.Write "HER: " & progrp & " level: "& level
+       'end if
+       
+    
+
+       progrp = "0, " & progrp & ", 0"
+       arr_progrp = split(progrp, ",")
+       for u = 0 TO UBOUND(arr_progrp)
+        call projgrp(trim(arr_progrp(u)),level,medarbid,0)
+       next
+
+      %>
+      <select multiple size="9" id="FM_progrp" name="FM_progrp" style="position:relative; z-index:1; width:406px; <%=fm_cls_2015_style_11%>" class="<%=fm_cls_2015 %>">
+      <%
+       
+
+               for p = 0 to prgAntal 
+       
+               if prjGoptionsId(p) <> 0 then
+        
+                'if instr(progrp, ",") = 0 AND fo = 0 then
+                'progrp = prjGoptionsId(p)
+                '   end if
+       
+                if instr(progrp, ", " & prjGoptionsId(p) & ",") <> 0 then
+                pgSEL = "SELECTED"
+                fo = 1
+                else
+                pgSEl = ""
+                end if%>
+                
+                <option value="<%=prjGoptionsId(p)%>" <%=pgSEl%>><%=prjGoptionsTxt(p) %> </option>
+
+          
+
+      
+              <%
+          
+
+                pf = pf + 1
+        
+                end if
+
+      
+              next 
+      
+      if pf = 0 then
+      %>
+       <option value="-1" SELECTED><%=godkendweek_txt_083 %></option>
+       
+      <%
+      end if
+      %>  
+            </select>
+
+      
+
+            <br />
+        <input id="FM_visdeakmed" name="FM_visdeakmed" type="checkbox" <%=visdeakmedCHK %> /> <%=godkendweek_txt_084 %> 
+        <!--<input id="FM_visdeakmed12" name="FM_visdeakmed12" type="checkbox" <%=visdeakmed12CHK %> /> <%=godkendweek_txt_085 %><br />-->
+        
+        <br />
+        <select id="FM_visdeakmed12" name="FM_visdeakmed12">
+              <option value="0">Show all disabled employees</option>
+              <option value="12" <%=visdeakmed12Sel %>>Disabled last 12 months</option>
+              <option value="112" <%=visdeakmed112Sel %>>Disabled this year</option>
+              <option value="3" <%=visdeakmed3Sel %>>Disabled last 3 full months</option>
+              <option value="1" <%=visdeakmed1Sel %>>Disabled last full month</option>
+        </select>
+        <br /><br />
+
+        <input id="FM_vispasmed" name="FM_vispasmed" type="checkbox" <%=vispasmedCHK %> /> <%=godkendweek_txt_086 %><br />&nbsp;
+     
+        <input type="hidden" id="jq_userid" value="<%=medarbid%>" />
+         
+        </td>
+  
+	<td valign=top style="padding-top:20px;"><b><%=godkendweek_txt_087 %>:</b> (<span id="antalmedarblist"><%=antalMedgrp+1 %></span>)
+    <br /><img src="../ill/blank.gif" width="50" height="11"  border="0"/><br /> 
+	<%
+	mft = 0 
+	mSel = ""
+	
+    if thisfile = "joblog_timetotaler" AND vis_medarbejdertyperChk = "CHECKED" then
+    mTypeSort = 1
+    else
+    mTypeSort = 0
+    end if 
+    
+
+
+        if cint(vis_medarbejdertyper_grp) = 1 then
+            
+            vlgtmtypgrp = 0
+            call mtyperIGrp_fn(vlgtmtypgrp,1)    
+            
+            strOptionsJq = "<option value='0' DISABLED>"&godkendweek_txt_088&"</option>"
+            strOptionsJq = strOptionsJq & "<option value='0'>"&godkendweek_txt_089&"</option>"
+            'strOptionsJq = "<option value='0' DISABLED></option>"
+            
+            'for t = 1 to UBOUND(mtypgrpids)
+                dim mSelMTypGRP
+                redim mSelMTypGRP(50)    
+
+                for mtgp = 1 to UBOUND(kunMtypgrp) 'mtypgrpids 
+                 mSelMTypGRP(mtgp) = ""
+                       for s = 0 To UBOUND(intMids) 
+            
+                        
+                            if mSelMTypGRP(mtgp) = "" then
+                   
+                            if cdbl(intMids(s)) = cdbl(kunMtypgrp(mtgp)) then
+                            mSelMTypGRP(mtgp) = "SELECTED"
+                            else
+                            mSelMTypGRP(mtgp) = ""
+                            end if
+                    
+                            end if
+                        
+                              'strOptionsJq =  strOptionsJq & "<option value='"& kunMtypgrp(t) &"' "& mSelMTypGRP(mtgp) &">"& kunMtypgrpNavn(t) &" // "& intMids(s) &"</option>" 
+                  
+
+                        next
+
+            
+                if len(trim(kunMtypgrpNavn(mtgp))) <> 0 then 
+                strOptionsJq =  strOptionsJq & "<option value='"& kunMtypgrp(mtgp) &"' "& mSelMTypGRP(mtgp) &">"& kunMtypgrpNavn(mtgp) &"</option>" 
+                end if
+
+                next
+
+
+        else 
+	        
+            call medarbiprojgrp(progrp, medarbid, mTypeSort, 1)
+        end if    
+
+     
+
+	'call medarbiprojgrp(progrp, medarbid, mTypeSort, 1)
+    'if session("mid") = 1 then
+	'    Response.Write progrp &";"& medarbid
+	'end if
+        
+        if thisfile = "bal_real_norm_2007.asp" then
+        mselWidth = 250
+        else
+        mselWidth = 350
+        end if
+
+
+    %>
+    <select name="FM_medarb" id="FM_medarb" multiple style="width:<%=mselWidth%>px; <%=fm_cls_2015_style_11%>" class="<%=fm_cls_2015 %>" size=9>
+    <%=strOptionsJq %>
+    </select> 
+      
+        
+
+     <%if thisfile = "joblog_timetotaler" then %>
+             <br />
+              <input type="checkbox" name="FM_vis_medarbejdertyper" id="FM_vis_medarbejdertyper" value="1" <%=vis_medarbejdertyperChk %> /><%=godkendweek_txt_090 %><br />
+
+                <%if cint(bdgmtypon_val) = 1 AND cint(bdgmtypon_prgrp) > 1 then  %>
+               <input type="checkbox" name="FM_vis_medarbejdertyper_grp" id="FM_vis_medarbejdertyper_grp" value="1" <%=vis_medarbejdertyper_grpChk %> /><%=godkendweek_txt_091 %>
+               <br /> <span style="font-size:9px; color:#999999;">(<%=godkendweek_txt_092 %>)</span><br /><br />  
+            <%end if %>    
+
+              <input type="checkbox" name="FM_visMedarbNullinier" id="FM_visMedarbNullinier" value="1" <%=vis_visMedarbNullinierChk %> /><%=godkendweek_txt_093 %>
+              
+             
+		    <%end if %>
+	
+	
+	<%
+    strFMmedarb_hd = "0"
+
+    if cint(vis_medarbejdertyper_grp) <> 1 then
+            
+    for m = 0 to antalMedgrp 
+
+    if len(trim(medarbgrpId(m))) <> 0 AND medarbgrpId(m) > 0 then 
+    strFMmedarb_hd = strFMmedarb_hd & ", "& medarbgrpId(m) 
+    end if%>
+	
+	<%next 
+        
+    end if%>
+	<input id="FM_medarb_hidden" name="FM_medarb_hidden" type="hidden" value="<%=strFMmedarb_hd%>" />
+
+
+       <br /><br /><img src="../ill/blank.gif" width="200" height="1" border="0" /><input id="Submit2" type="submit" value="<%=godkendweek_txt_080 %> >> " style="<%=fm_cls_2015_style%>" class="<%=fm_cls_2015_bt %>" />
+	</td>
+
+<% 
+end sub
+
+
+sub progrpmedarb_2018
+
+if thisfile = "forecast_kapcitet.asp" then
+        fm_cls_2015 = "form-control input-small"
+        fm_cls_2015_bt = "btn btn-secondary btn-sm"
+        fm_cls_2015_style = ""
+        fm_cls_2015_style_11 = ""
+else
+        fm_cls_2015 = ""
+        fm_cls_2015_bt = ""
+        fm_cls_2015_style = "font-size:9px;"
+        fm_cls_2015_style_11 = "font-size:11px;"
+end if
+
+'** Aktive, de-aktive, passive **'
+
+if len(trim(request("FM_progrp"))) = 0 then 'Der er ikke søgt DEFAULT
+visdeakmed = 0
+visdeakmedCHK = ""
+vispasmed = 1
+
+select case lto 
+case "adra", "intranet - local", "tia"
+vispasmedCHK = ""
+strSQLmansat = " (m.mansat = 1) " 'viser aktive + passive 
+case else
+vispasmedCHK = "CHECKED"
+strSQLmansat = " (m.mansat = 1 OR m.mansat = 3) " 'viser aktive + passive 
+end select
+
+
+else
+
+visdeakmed = 0
+vispasmed = 0
+strSQLmansat = " (m.mansat = 1 " 'viser aktive 
+
+if len(trim(request("FM_visdeakmed"))) <> 0 then
+visdeakmed = 1
+visdeakmedCHK = "CHECKED"
+
+                if len(trim(request("FM_visdeakmed12"))) <> 0 AND request("FM_visdeakmed12") <> 0 then
+
+                visdeakmed12 = request("FM_visdeakmed12")
+                select case visdeakmed12
+                case "1"
+                visdeakmed1Sel = "SELECTED"
+                case "3"
+                visdeakmed3Sel = "SELECTED"
+                case "12"
+                visdeakmed12Sel = "SELECTED"
+                case "112"
+                visdeakmed112Sel = "SELECTED"
+                end select
+
+                if cint(visdeakmed12) <> 112 then
+                dd = now
+                opsagtdatoKri = dateAdd("m", -visdeakmed12, dd)
+                opsagtdatoKri = year(opsagtdatoKri) &"/"& month(opsagtdatoKri) &"/1" '& day(opsagtdatoKri) 
+                else
+                opsagtdatoKri = year(opsagtdatoKri) &"/1/1" '& day(opsagtdatoKri) 
+                end if
+
+                strSQLmansat = strSQLmansat & " OR (m.mansat = 2" 'de-aktiverede
+                strSQLmansat = strSQLmansat & " AND opsagtdato > '"& opsagtdatoKri &"')"
+
+                'visdeakmed12 = 1
+                'visdeakmed12CHK = "CHECKED"
+
+                else
+                opsagtdatoKri = ""
+                strSQLmansat = strSQLmansat & " OR m.mansat = 2" 'de-aktiverede
+                end if          
+
+
+end if
+
+if len(trim(request("FM_vispasmed"))) <> 0 then
+vispasmed = 1
+vispasmedCHK = "CHECKED"
+strSQLmansat = strSQLmansat & " OR m.mansat = 3" 'viser passive
+end if
+
+
+strSQLmansat = strSQLmansat & ")"
+
+end if
+
+%>
+   <!-- <td valign=top style="padding-top:20px; width:426px;"><b><%=godkendweek_txt_081 %>:</b><br />
+    
+        <span style="font-size:10px; line-height:12px; color:#999999; padding-top:4px;">
+        <%=godkendweek_txt_082 %>
+        </span><br />
+         -->
+       <div class="col-lg-3">
+
+         
+
+        <select multiple size="9" id="FM_progrp" name="FM_progrp" class="form-control input-small">
+           
+            
+       
+       <% 
+       
+       pf = 0
+       fo = 0
+
+       level = session("rettigheder")
+
+
+           
+
+       if (progrp = "0" AND level = 1) OR lto = "adra" then 'OR lto = "mi"
+            progrp = 10 
+       end if
+
+       if (len(trim(progrp)) = 0 OR progrp = "0") AND level <> 1 then
+          progrp = "-1"
+       end if
+
+       'if len(trim(progrp)) = 0 then
+       'progrp = "0"
+       'else
+       'progrp = progrp
+       'end if
+
+       'if session("mid") = 1 then
+       'Response.Write "<hr><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>"
+       'Response.Write "HER: " & progrp & " level: "& level
+       'end if
 
        progrp = "0, " & progrp & ", 0"
        arr_progrp = split(progrp, ",")
@@ -1294,15 +1811,30 @@ end if
       
 
             <br />
-        <input id="FM_visdeakmed" name="FM_visdeakmed" type="checkbox" <%=visdeakmedCHK %> /> <%=godkendweek_txt_084 %>  <br /><input id="FM_visdeakmed12" name="FM_visdeakmed12" type="checkbox" <%=visdeakmed12CHK %> /> <%=godkendweek_txt_085 %><br />
+        <input id="FM_visdeakmed" name="FM_visdeakmed" type="checkbox" <%=visdeakmedCHK %> /> <%=godkendweek_txt_084 %>  
+        <!--<br /><input id="FM_visdeakmed12" name="FM_visdeakmed12" type="checkbox" <%=visdeakmed12CHK %> /> <%=godkendweek_txt_085 %>-->
+           <br />
+            <select id="FM_visdeakmed12" name="FM_visdeakmed12">
+              <option value="0">Show all disabled employees</option>
+              <option value="12" <%=visdeakmed12Sel %>>Disabled last 12 months</option>
+              <option value="112" <%=visdeakmed112Sel %>>Disabled this year</option>
+              <option value="3" <%=visdeakmed3Sel %>>Disabled last 3 full months</option>
+              <option value="1" <%=visdeakmed1Sel %>>Disabled last full month</option>
+        </select><br /><br />
+
         <input id="FM_vispasmed" name="FM_vispasmed" type="checkbox" <%=vispasmedCHK %> /> <%=godkendweek_txt_086 %><br />&nbsp;
      
         <input type="hidden" id="jq_userid" value="<%=medarbid%>" />
          
-        </td>
-  
+        </div>
+
+      <!--  </td> -->
+  <!--
 	<td valign=top style="padding-top:20px;"><b><%=godkendweek_txt_087 %>:</b> (<span id="antalmedarblist"><%=antalMedgrp+1 %></span>)
-    <br /><img src="../ill/blank.gif" width="50" height="11"  border="0"/><br /> 
+    <br /><img src="../ill/blank.gif" width="50" height="11"  border="0"/><br />  -->
+
+
+    <div class="col-lg-3">
 	<%
 	mft = 0 
 	mSel = ""
@@ -1375,7 +1907,7 @@ end if
 
 
     %>
-    <select name="FM_medarb" id="FM_medarb" multiple style="width:<%=mselWidth%>px; <%=fm_cls_2015_style_11%>" class="<%=fm_cls_2015 %>" size=9>
+    <select name="FM_medarb" id="FM_medarb" multiple class="form-control input-small" size="9">
     <%=strOptionsJq %>
     </select> 
       
@@ -1412,9 +1944,13 @@ end if
     end if%>
 	<input id="FM_medarb_hidden" name="FM_medarb_hidden" type="hidden" value="<%=strFMmedarb_hd%>" />
 
+    </div>
+
+
+    <!--
 
        <br /><br /><img src="../ill/blank.gif" width="200" height="1" border="0" /><input id="Submit2" type="submit" value="<%=godkendweek_txt_080 %> >> " style="<%=fm_cls_2015_style%>" class="<%=fm_cls_2015_bt %>" />
-	</td>
+	</td> -->
 
 <% 
 end sub

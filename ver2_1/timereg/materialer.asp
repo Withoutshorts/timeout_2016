@@ -1192,7 +1192,7 @@ if len(session("user")) = 0 then
 		sogKri = ""
 		sogeKriUse = split(sogVal, ";")
 		for b = 0 to UBOUND(sogeKriUse)
-		sogKri = sogKri &" m.navn LIKE '%"& sogeKriUse(b) &"%' OR m.varenr = '%"& sogeKriUse(b) &"%' OR m.betegnelse LIKE '"& sogeKriUse(b) &"%' OR "
+		sogKri = sogKri &" m.navn LIKE '%"& sogeKriUse(b) &"%' OR m.varenr LIKE '%"& sogeKriUse(b) &"%' OR m.betegnelse LIKE '"& sogeKriUse(b) &"%' OR "
 		next
 		
 		lensogKri = len(sogKri)
@@ -1218,8 +1218,11 @@ if len(session("user")) = 0 then
 	&" WHERE "& lagerSQLkri &""& matgrpSQLKri &""& sogLevSQLkri &" ("& sogKri &") "& useStLimitSQLkri &""_
 	&" GROUP BY m.id ORDER BY "& orderBYSQL &" LIMIT "& useLimit
 	
+
+    'if session("mid") = 1 then
 	'Response.Write strSQL
 	'Response.flush
+    'end if
 	
 	x = 0
 	

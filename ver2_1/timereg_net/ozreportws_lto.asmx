@@ -52,6 +52,7 @@ Public Class ozreportws_lto
         Dim modtEmail As String
         Dim modtName As String
         Dim strConn As String
+        Dim strConn64 As String
         Dim lto As String = "xxx"
         Dim rapporttype As String
         Dim aboMtyper As String
@@ -62,6 +63,7 @@ Public Class ozreportws_lto
 
         'Dim strMids As String = ""
 
+        Dim exMsg As String = ""
 
         '*** Alle der tæller med i dagligt timeregnskab ***'
         Dim strConn_admin As String
@@ -135,11 +137,12 @@ Public Class ozreportws_lto
             If lto_rapporttype <> "0" Then
 
                 Select Case lto_rapporttype
-                    Case 5, 6, 9, 10, 12 'Sender til alle aktive medarbejdere
+                    Case 5, 6, 9, 10, 12, 105, 106, 116, 200 'Sender til alle aktive medarbejdere, Der skal bare være oprettet 1
 
                         rapporttypeKri = "rapporttype = " & lto_rapporttype & ""
+                        'medarbejdertyper = - 3 system remidners
                         'strSQLadmin = "SELECT mid AS medid, email, mnavn AS navn FROM medarbejdere WHERE mansat = 1 <> 0 " & EmailToKri & " ORDER BY mid " & lto_limitkri
-                        strSQLadmin = "SELECT email, navn, lto, rapporttype, medid, medarbejdertyper, projektgrupper FROM rapport_abo WHERE id <> 0 AND (" & rapporttypeKri & ") " & strLtoKri & " ORDER BY id LIMIT 0,1" '" & lto_limitkri
+                        strSQLadmin = "SELECT email, navn, lto, rapporttype, medid, medarbejdertyper, projektgrupper FROM rapport_abo WHERE id <> 0 AND (" & rapporttypeKri & ") " & strLtoKri & " AND medarbejdertyper = -3 ORDER BY id LIMIT 0,1" '" & lto_limitkri
 
 
                     Case Else 'Abonenter
@@ -156,7 +159,7 @@ Public Class ozreportws_lto
 
         Else
 
-            strSQLadmin = "SELECT email, navn, lto, rapporttype, medid, medarbejdertyper, projektgrupper FROM rapport_abo WHERE id <> 0 AND (rapporttype = 1 OR rapporttype = 0 OR rapporttype = 2 OR rapporttype = 3 OR rapporttype = 4) " & strLtoKri & " " & EmailToKri & " ORDER BY id " & lto_limitkri
+            strSQLadmin = "SELECT email, navn, lto, rapporttype, medid, medarbejdertyper, projektgrupper FROM rapport_abo WHERE id <> 0 AND (rapporttype = 1 OR rapporttype = 0 OR rapporttype = 2 OR rapporttype = 3 OR rapporttype = 4 OR rapporttype = 21 OR rapporttype = 22) " & strLtoKri & " " & EmailToKri & " ORDER BY id " & lto_limitkri
 
         End If
 
@@ -166,7 +169,9 @@ Public Class ozreportws_lto
 
         Dim antalEmails As Integer = 0 '= "Retrieve: " & strSQLadmin
 
-        'Return antalEmails
+        'Return "HER: " & strSQLadmin ''antalEmails
+        'Return "HER: Ok"
+
 
         While objDR_admin.Read() = True
 
@@ -186,7 +191,7 @@ Public Class ozreportws_lto
 
 
             Select Case lto_rapporttype
-                Case 5
+                Case 5, 105, 106, 116, 200
 
                     lto = lto_kri
                     rapporttype = lto_rapporttype
@@ -210,17 +215,22 @@ Public Class ozreportws_lto
             End If
 
 
-            Select Case lto
-                Case "dencker"
-                    startDatoAtDSQL = Year(Now) & "/4/21"
-                Case Else
 
-                    startDatoAtDSQL = Year(Now) & "/1/1"
-            End Select
+
+
+            'Select Case lto
+            'Case "dencker"
+            'startDatoAtDSQL = Year(Now) & "/4/21"
+            'Case Else
+
+            startDatoAtDSQL = Year(Now) & "/1/1"
+            'End Select
 
 
             strConn = "Driver={MySQL ODBC 3.51 Driver};Server=localhost;Database=timeout_" & lto_db & ";User=to_outzource2;Password=SKba200473;"
-            'strConn = "timeout_" & lto & "64"
+            'strConn64 = "timeout_dencker64"
+            '"Driver={MySQL ODBC 3.51 Driver};Server=localhost;Database=timeout_" & lto_db & ";User=to_outzource2;Password=SKba200473;"
+            'strConn = "timeout_" & lto_db & "64"
             'strConn = "timeout_bf64"
 
             Select Case objDR_admin.Item("lto")
@@ -229,7 +239,7 @@ Public Class ozreportws_lto
                     show_atd = "1"
                     show_fc = "0"
 
-                Case "bf" '** Børnefonden
+                Case "bf", "plan" '** Børnefonden
 
                     show_atd = "1"
                     show_fc = "1"
@@ -256,7 +266,7 @@ Public Class ozreportws_lto
 
 
 
-
+            Dim objConn64 As OdbcConnection
             Dim objConn As OdbcConnection
             Dim objCmd As OdbcCommand
             'Dim objDataSet As New DataSet
@@ -270,6 +280,9 @@ Public Class ozreportws_lto
             '** Åbner Connection ***'
             objConn = New OdbcConnection(strConn)
             objConn.Open()
+
+            'objConn64 = New OdbcConnection(strConn64)
+            'objConn64.Open()
 
 
 
@@ -318,7 +331,7 @@ Public Class ozreportws_lto
 
             Select Case CInt(rapporttype)
 
-                Case 2, 3 'Rapporttype 2 og 3 Rapport 2 = projektoverblik for jobansvarlige Rapport = 3 Kun egne projekter
+                Case 2, 3, 22 'Rapporttype 2 og 3 Rapport 2 = projektoverblik for jobansvarlige Rapport = 3 Kun egne projekter. 22 Opdelt pr. job. 2 opdelt per akt.
 
 
 
@@ -351,8 +364,18 @@ Public Class ozreportws_lto
                     Dim sumTimerSaldo As Double = 0
                     Dim sumRealtimerPer As String = 0
 
-                    Dim strMids(100000) As String
+                    Dim strMids(1000000) As String
+                    Dim medarbidsSQLstringTemp As String = " (mid = 0 "
 
+                    Dim aktidthis As String = "0"
+                    Dim jobnrThis As String = "0"
+                    Dim strSQLjobtjk As String = ""
+
+                    Dim strSQLjobMedarb As String = ""
+
+                    Dim thisJobid As Integer = 0
+                    Dim thisAktid As Integer = 0
+                    Dim thisMedid As Integer = 0
 
 
 
@@ -361,80 +384,249 @@ Public Class ozreportws_lto
                     Using writer As StreamWriter = New StreamWriter("D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_14\inc\upload\" & lto & "\" & flname2, False, Encoding.GetEncoding("iso-8859-1"))
 
 
-                        ExpTxtheader = "Project;Project No.;Activity;Employee;Init;Forcast Hours Total;Real. Hours Month;Saldo;Forcast Hours " & MonthName(Month(dDato)) & " - " & Year(dDato) & ";Real. Hours " & MonthName(Month(dDato)) & " - " & Year(dDato) & ";"
+                        ExpTxtheader = "Project;Project No.;Activity;Employee;Init;Forcast Hours Total;Real. Hours Total;Saldo;Forcast Hours " & MonthName(Month(dDato)) & " - " & Year(dDato) & ";Real. Hours " & MonthName(Month(dDato)) & " - " & Year(dDato) & ";"
                         writer.WriteLine(ExpTxtheader)
 
-                        '** HENTER JOB hvor medarb. er jobansvarlig
-                        'Dim jobidsSQL As String = " AND (tjobnr = '-1'"
-                        Dim strSQLjobans As String = "SELECT j.id AS jobid, jobnr, jobnavn, a.navn AS aktnavn, a.id AS aktid FROM job AS j " _
-                        & " LEFT JOIN aktiviteter AS a ON (a.job = j.id AND (fakturerbar = 1 OR fakturerbar = 2)) "
-
+                        Dim strSQLjobans As String = ""
                         Select Case CInt(rapporttype)
-                            Case 2
-                                strSQLjobans = strSQLjobans & " WHERE (jobans1 = " & medid & " OR jobans2 = " & medid & " OR jobans3 = " & medid & " OR jobans4 = " & medid & " OR jobans5 = " & medid & ") AND jobstatus = 1 AND risiko >= 0"
-                            Case 3
-                                strSQLjobans = strSQLjobans & " WHERE jobstatus = 1 AND risiko >= 0"
+                            Case 22
+                                '** HENTER JOB hvor medarb. er jobansvarlig
+                                strSQLjobans = "SELECT j.id AS jobid, jobnr, jobnavn FROM job AS j " _
+
+                            Case Else
+                                '** HENTER JOB (og aktiviteter) hvor medarb. er jobansvarlig
+                                'Dim jobidsSQL As String = " AND (tjobnr = '-1'"
+                                strSQLjobans = "SELECT j.id AS jobid, jobnr, jobnavn, a.navn AS aktnavn, a.id AS aktid FROM job AS j " _
+                                & " LEFT JOIN aktiviteter AS a ON (a.job = j.id AND (fakturerbar = 1 OR fakturerbar = 2)) "
                         End Select
 
-                        strSQLjobans = strSQLjobans & " GROUP BY a.id ORDER BY j.jobnavn, a.id"
 
+                        Dim risikoSQLkri As String = ""
+                        Select Case lto
+                            Case "dencker"
+                                risikoSQLkri = " AND risiko <> 9999"
+                            Case Else
+                                risikoSQLkri = " AND risiko >= 0"
+                        End Select
+
+                        Select Case CInt(rapporttype)
+                            Case 2, 22
+                                strSQLjobans = strSQLjobans & " WHERE (jobans1 = " & medid & " OR jobans2 = " & medid & " OR jobans3 = " & medid & " OR jobans4 = " & medid & " OR jobans5 = " & medid & ") AND jobstatus = 1" & risikoSQLkri
+                            Case 3
+                                strSQLjobans = strSQLjobans & " WHERE jobstatus = 1" & risikoSQLkri
+                        End Select
+
+
+                        Select Case CInt(rapporttype)
+                            Case 22
+                                strSQLjobans = strSQLjobans & " GROUP BY j.id ORDER BY j.jobnavn"
+                            Case Else
+                                strSQLjobans = strSQLjobans & " AND a.id IS NOT NULL GROUP BY a.id ORDER BY j.jobnavn, a.id"
+                        End Select
+
+
+
+                        Dim sqlGrpByJobAKt As String = ""
+                        Select Case CInt(rapporttype)
+                            Case 22
+                                sqlGrpByJobAKt = " j.id "
+                            Case Else
+                                sqlGrpByJobAKt = " a.id "
+                        End Select
 
                         objCmd = New OdbcCommand(strSQLjobans, objConn)
                         objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+
+                        'Return "HER 3" + strSQLjobans
+
+
 
                         While objDR.Read() = True
 
                             'jobidsSQL = jobidsSQL & " Or tjobnr = '" & objDR2("jobnr") & "'"
 
 
-                            strMids(objDR.Item("aktid")) = " (mid = 0 "
+                            'strMids(objDR.Item("aktid")) = " (mid = 0 "
+                            medarbidsSQLstringTemp = " (mid = 0 "
+                            'Return "HER"
                             'If lastJobid <> objDR.Item("jobid") Then
+
+
+
+
+                            '***NEDENSTÅENDE 2 kald fejle pga INT 32 eller noget med COnnetion string traet INT as Bigint
+
+                            '** FC
+                            strSQLjobMedarb = ""
+
+                            thisJobid = 0
+                            thisAktid = 0
+                            thisMedid = 0
+
+
+                            If IsDBNull(objDR.Item("jobid")) <> True Then
+                                thisJobid = 0
+                            Else
+                                thisJobid = objDR.Item("jobid")
+                            End If
+
+
+
+                            'If IsDBNull(objDR_admin.Item("medid")) <> True Then
+                            thisMedid = medid
+                            'Else
+                            'thisMedid = objDR_admin.Item("medid")
+                            'End If
+
+                            'Return "OK"
 
 
                             'expTxtJobAkt = objDR.Item("jobnavn") & ";" & objDR.Item("jobnr") & ";" & objDR.Item("aktnavn") & ";"
                             'writer.Write(expTxtJobAkt)
-                            If lastJobid <> objDR.Item("jobid") And lastJobid <> 0 Then
+                            If lastJobid <> thisJobid And lastJobid <> 0 Then
                                 writer.WriteLine("")
                             End If
+
 
 
                             '******************************************************************************************************************************
                             '** Finder Alle medarbejdere med FC og TImer **********************************************************************************
 
                             Select Case CInt(rapporttype)
-                                Case 2
-
-                                    '** FC
-                                    Dim strSQLjobMedarb As String = "SELECT medid FROM ressourcer_md WHERE jobid = " & objDR.Item("jobid") & " AND aktid = " & objDR.Item("aktid") & ""
-                                    objCmd = New OdbcCommand(strSQLjobMedarb, objConn)
-                                    objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-
-                                    While objDR2.Read() = True
-
-                                        'If Len(Trim((objDR2.Item("medid")))) <> 0 Then
-                                        strMids(objDR.Item("aktid")) = strMids(objDR.Item("aktid")) & " OR mid = " & objDR2.Item("medid")
-                                        'End If
-
-
-                                    End While
-                                    objDR2.Close()
+                                Case 2, 22
 
 
 
-                                    '** Finder Alle medarbejdere med timer på
-                                    strSQLjobMedarb = "SELECT tmnr FROM timer WHERE tjobnr = '" & objDR.Item("jobnr") & "' AND taktivitetid = " & objDR.Item("aktid") & ""
-                                    objCmd = New OdbcCommand(strSQLjobMedarb, objConn)
-                                    objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
-                                    While objDR2.Read() = True
-
-                                        'If InStr(strMids(objDR.Item("aktid")), objDR2.Item("tmnr")) = -1 And Len(Trim((objDR2.Item("tmnr")))) <> 0 Then
-                                        strMids(objDR.Item("aktid")) = strMids(objDR.Item("aktid")) & " OR mid = " & objDR2.Item("tmnr")
-                                        'End If
+                                    Select Case CInt(rapporttype)
+                                        Case 22 'GRP BY JOB
 
 
-                                    End While
-                                    objDR2.Close()
+
+
+
+
+                                            strSQLjobMedarb = "SELECT medid FROM ressourcer_md WHERE jobid = " & thisJobid & " GROUP BY medid"
+                                            objCmd = New OdbcCommand(strSQLjobMedarb, objConn)
+                                            objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+
+                                            While objDR2.Read() = True
+
+                                                If Len(Trim((thisMedid))) <> 0 Then
+                                                    strMids(thisJobid) = strMids(thisJobid) & " OR mid = " & thisMedid
+                                                    medarbidsSQLstringTemp = medarbidsSQLstringTemp & " OR mid = " & thisMedid
+                                                End If
+
+
+
+                                            End While
+                                            objDR2.Close()
+
+                                        Case Else '2 pr. aktivitet
+
+
+                                            If IsDBNull(objDR.Item("aktid")) <> True Then
+                                                thisAktid = 0
+                                            Else
+                                                thisAktid = objDR.Item("aktid")
+                                            End If
+
+                                            strSQLjobMedarb = "SELECT medid FROM ressourcer_md WHERE jobid = " & thisJobid & " AND aktid = " & thisAktid & " GROUP BY medid"
+
+
+                                            objCmd = New OdbcCommand(strSQLjobMedarb, objConn)
+                                            objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                                            While objDR2.Read() = True
+
+                                                If Len(Trim((thisMedid))) <> 0 Then
+                                                    strMids(thisAktid) = strMids(thisAktid) & " OR mid = " & thisMedid
+                                                    medarbidsSQLstringTemp = medarbidsSQLstringTemp & " OR mid = " & thisMedid
+                                                End If
+
+
+                                            End While
+                                            objDR2.Close()
+
+
+                                    End Select
+
+
+                                    Select Case CInt(rapporttype)
+                                        Case 22
+                                            aktidthis = 0
+                                            jobnrThis = objDR.Item("jobnr")
+                                        Case Else
+                                            aktidthis = objDR.Item("aktid")
+                                            jobnrThis = objDR.Item("jobnr")
+                                    End Select
+
+
+
+                                    Select Case CInt(rapporttype)
+                                        Case 22 'GRP BY JOB
+
+
+
+
+                                            '** Finder Alle medarbejdere med timer på
+                                            strSQLjobMedarb = "SELECT tmnr FROM timer WHERE tjobnr = '" & jobnrThis & "' " & akttyper_realhours & " GROUP BY tmnr"
+                                            objCmd = New OdbcCommand(strSQLjobMedarb, objConn)
+                                            objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                                            While objDR2.Read() = True
+
+
+                                                If IsDBNull(objDR2.Item("tmnr")) <> True Then
+
+                                                    medarbidsSQLstringTemp += " OR mid = " & objDR2.Item("tmnr")
+
+
+                                                End If
+
+                                                If InStr(strMids(objDR.Item("jobid")), objDR2.Item("tmnr")) = -1 And Len(Trim((objDR2.Item("tmnr")))) <> 0 Then
+                                                    strMids(objDR.Item("jobid")) = strMids(objDR.Item("jobid")) & " OR mid = " & objDR2.Item("tmnr")
+                                                    medarbidsSQLstringTemp = medarbidsSQLstringTemp & " OR mid = " & objDR2.Item("tmnr")
+                                                End If
+
+
+                                            End While
+                                            objDR2.Close()
+
+
+                                        Case Else
+
+                                            '** Finder Alle medarbejdere med timer på
+                                            strSQLjobMedarb = "SELECT tmnr FROM timer WHERE tjobnr = '" & jobnrThis & "' AND taktivitetid = " & aktidthis & " " & akttyper_realhours & " GROUP BY tmnr"
+                                            objCmd = New OdbcCommand(strSQLjobMedarb, objConn)
+                                            objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                                            While objDR2.Read() = True
+
+
+                                                If IsDBNull(objDR2.Item("tmnr")) <> True Then
+
+                                                    medarbidsSQLstringTemp += " OR mid = " & objDR2.Item("tmnr")
+
+
+                                                End If
+
+                                                If InStr(strMids(objDR.Item("aktid")), objDR2.Item("tmnr")) = -1 And Len(Trim((objDR2.Item("tmnr")))) <> 0 Then
+                                                    strMids(objDR.Item("aktid")) = strMids(objDR.Item("aktid")) & " OR mid = " & objDR2.Item("tmnr")
+                                                    medarbidsSQLstringTemp = medarbidsSQLstringTemp & " OR mid = " & objDR2.Item("tmnr")
+                                                End If
+
+
+                                            End While
+                                            objDR2.Close()
+
+
+
+                                            'strSQLjobtjk = strSQLjobtjk & ";<br>" & strSQLjobMedarb
+
+                                    End Select
 
 
                                     '******************************************************************************************************************************
@@ -443,13 +635,20 @@ Public Class ozreportws_lto
 
 
 
-                                    strMids(objDR.Item("aktid")) = strMids(objDR.Item("aktid")) & ")"
+                                    'strMids(objDR.Item("aktid")) = strMids(objDR.Item("aktid")) & ")"
 
-                                    medarbidsSQLstring = strMids(objDR.Item("aktid"))
+                                    medarbidsSQLstringTemp = medarbidsSQLstringTemp & ")"
+                                    'medarbidsSQLstring = strMids(objDR.Item("aktid"))
+                                    medarbidsSQLstring = medarbidsSQLstringTemp
+
+                                    'medarbidsSQLstring = "mid <> 0 AND mansat = 1" '& medid
 
                                 Case 3
                                     medarbidsSQLstring = "mid = " & medid
                             End Select
+
+
+
 
 
                             'Dim strSQLMedarbT As String = "SELECT mid AS medid, mnavn, init FROM medarbejdere WHERE " & strMids(objDR.Item("aktid")) & " GROUP BY mid ORDER BY mnavn"
@@ -461,74 +660,194 @@ Public Class ozreportws_lto
 
                             '" & strMids(objDR.Item("aktid")) & "
                             'GROUP BY mid 
-                            Dim strSQLMedarb As String = "SELECT mid AS medid, mnavn, init FROM medarbejdere WHERE " & medarbidsSQLstring & " GROUP BY mid ORDER BY mnavn"
+
+                            'Dencker 
+                            '& grpbySQL + Limit 1
+                            Dim grpbySQL As String = "tmnr"
+                            Dim MedarbLimit As String = ""
+
+                            Select Case CInt(rapporttype)
+                                Case 22
+
+                                    Select Case lto
+                                        Case "dencker"
+                                            grpbySQL = "tjobnr"
+                                            MedarbLimit = " LIMIT 1"
+                                        Case Else
+                                            grpbySQL = "tmnr"
+                                            MedarbLimit = " LIMIT 2000"
+                                    End Select
+
+                                Case Else
+                                    grpbySQL = "tmnr"
+                                    MedarbLimit = " LIMIT 2000"
+                            End Select
+
+
+                            Dim strSQLMedarb As String = "SELECT mid AS medid, mnavn, init FROM medarbejdere WHERE " & medarbidsSQLstring & " GROUP BY mid ORDER BY mnavn" & MedarbLimit
                             objCmd = New OdbcCommand(strSQLMedarb, objConn)
                             objDR3 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
+
+
+
                             While objDR3.Read() = True
+
+
+
+                                'Try
+
+
+
 
 
                                 sumFCtimer = 0
                                 sumRealtimer = 0
                                 sumTimerSaldo = 0
 
-                                expTxtJobAkt = objDR.Item("jobnavn") & ";" & objDR.Item("jobnr") & ";" & objDR.Item("aktnavn") & ";"
-                                'writer.Write(expTxtJobAkt)
+                                Select Case CInt(rapporttype)
+                                    Case 22
+                                        expTxtJobAkt = objDR.Item("jobnavn") & ";" & objDR.Item("jobnr") & ";0;"
+                                    Case Else
+                                        expTxtJobAkt = objDR.Item("jobnavn") & ";" & objDR.Item("jobnr") & ";" & objDR.Item("aktnavn") & ";"
+                                End Select
 
-                                expTxt = objDR3.Item("mnavn") & ";" & objDR3.Item("init") & ";"
+
+
+                                'writer.Write(expTxtJobAkt)
+                                Select Case CInt(rapporttype)
+                                    Case 22
+                                        Select Case lto
+                                            Case "dencker"
+                                                expTxt = "All;;"
+                                            Case Else
+                                                expTxt = objDR3.Item("mnavn") & ";" & objDR3.Item("init") & ";"
+                                        End Select
+
+                                    Case Else
+                                        expTxt = objDR3.Item("mnavn") & ";" & objDR3.Item("init") & ";"
+                                End Select
+
                                 'writer.Write(expTxt)
 
                                 '** HENTER ALLE job MED Forecast                        
                                 '** TOTAL
-                                Dim strSQLjobFC As String = "SELECT SUM(timer) AS sumFCtimer FROM ressourcer_md WHERE " _
-                                & " jobid = " & objDR.Item("jobid") & " AND aktid = " & objDR.Item("aktid") & " AND medid = " & objDR3.Item("medid") & " GROUP BY medid"
+
+                                Dim strSQLjobFC As String = ""
+                                Select Case CInt(rapporttype)
+                                    Case 22
+                                        Select Case lto
+                                            Case "dencker"
+                                                strSQLjobFC = "SELECT SUM(timer) AS sumFCtimer FROM ressourcer_md WHERE " _
+                                                & " jobid = " & objDR.Item("jobid") & " AND medid <> 0 GROUP BY jobid"
+                                            Case Else
+                                                strSQLjobFC = "SELECT SUM(timer) AS sumFCtimer FROM ressourcer_md WHERE " _
+                                                & " jobid = " & objDR.Item("jobid") & " AND medid = " & objDR3.Item("medid") & " GROUP BY medid"
+                                        End Select
+
+                                    Case Else
+                                        strSQLjobFC = "SELECT SUM(timer) AS sumFCtimer FROM ressourcer_md WHERE " _
+                                        & " jobid = " & objDR.Item("jobid") & " AND aktid = " & objDR.Item("aktid") & " AND medid = " & objDR3.Item("medid") & " GROUP BY medid"
+                                End Select
                                 objCmd = New OdbcCommand(strSQLjobFC, objConn)
                                 objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                                'exMsg += "<br><br><hr>A:<br>" + strSQLjobFC
+
+
+
 
                                 If objDR2.Read() = True Then
 
 
-                                    expTxt = expTxt & objDR2.Item("sumFCtimer") & ";"
+                                    expTxt = expTxt & objDR2.Item("sumFCtimer").ToString & ";"
                                     'writer.Write(expTxt)
 
-                                    sumFCtimer = objDR2.Item("sumFCtimer")
+                                    sumFCtimer = objDR2.Item("sumFCtimer").ToString
 
                                 End If
                                 objDR2.Close()
 
-                                If sumFCtimer = 0 Then
+
+
+
+                                If sumFCtimer = "0" Then
                                     'writer.Write(";")
                                     expTxt = expTxt & ";"
                                 End If
+
+
 
 
                                 '** HENTER ALLE job MED timer
                                 '** TOTAL
-                                Dim strSQLjobTimer As String = "SELECT tjobnr, tjobnavn, tknavn, tknr, taktivitetnavn, tmnavn, tmnr, SUM(timer) AS sumtimer FROM timer WHERE " _
-                                & " tdato BETWEEN '2002-01-01' AND '2044-01-01' AND tjobnr = '" & objDR.Item("jobnr") & "' " & akttyper_invoiceable & " AND taktivitetid = " & objDR.Item("aktid") & " AND tmnr = " & objDR3.Item("medid") & " GROUP BY tmnr"
+                                'Dim strSQLjobTimer As String = "SELECT tjobnr, tjobnavn, tknavn, tknr, taktivitetnavn, tmnavn, tmnr, CAST(CONV(sum(timer),16,10) AS UNSIGNED INTEGER) AS sumtimer FROM timer WHERE " _
+                                '& " tdato BETWEEN '2002-01-01' AND '2044-01-01' AND tjobnr = '" & objDR.Item("jobnr") & "' " & akttyper_invoiceable & " AND taktivitetid = " & objDR.Item("aktid") & " AND tmnr = " & objDR3.Item("medid") & " GROUP BY tmnr"
+                                Dim strSQLjobTimer As String = ""
+                                Select Case CInt(rapporttype)
+
+                                    Case 22
+
+                                        Select Case lto
+                                            Case "dencker"
+                                                strSQLjobTimer = "SELECT tjobnr, SUM(timer) AS sumtimer FROM timer WHERE " _
+                                                & " tdato BETWEEN '2002-01-01' AND '2044-01-01' AND tjobnr = '" & objDR.Item("jobnr") & "' AND tmnr <> 0 GROUP BY tjobnr"
+                                            Case Else
+                                                strSQLjobTimer = "SELECT tjobnr, SUM(timer) AS sumtimer FROM timer WHERE " _
+                                                & " tdato BETWEEN '2002-01-01' AND '2044-01-01' AND tjobnr = '" & objDR.Item("jobnr") & "' AND tmnr = " & objDR3.Item("medid") & " GROUP BY tmnr"
+                                        End Select
+
+                                    Case Else
+                                        strSQLjobTimer = "SELECT tjobnr, SUM(timer) AS sumtimer FROM timer WHERE " _
+                                        & " tdato BETWEEN '2002-01-01' AND '2044-01-01' AND tjobnr = '" & objDR.Item("jobnr") & "' " & akttyper_realhours & " AND taktivitetid = " & objDR.Item("aktid") & " AND tmnr = " & objDR3.Item("medid") & " GROUP BY tmnr"
+
+                                End Select
+
+
                                 objCmd = New OdbcCommand(strSQLjobTimer, objConn)
                                 objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                                'exMsg += ";<br>AA<br>" + strSQLjobTimer
+
+
+                                'Else
+                                'Try
+                                'CAST(CONV('55244A5562C5566354',16,10) AS UNSIGNED INTEGER)
 
                                 If objDR2.Read() = True Then
 
 
-                                    expTxt = expTxt & objDR2.Item("sumtimer") & ";"
-                                    'writer.Write(expTxt)
+                                    'Then
 
-                                    sumRealtimer = objDR2.Item("sumtimer")
+                                    'exMsg += "FEJL" + objDR2("sumtimer").ToString
+
+                                    expTxt = expTxt & objDR2.Item("sumtimer").ToString & ";"
+                                    sumRealtimer = objDR2.Item("sumtimer").ToString
+
+                                    'sumRealtimer = 0
+
+
+
+
+                                    'expTxt = expTxt & "0;"
+                                    'sumRealtimer = "0"
+
+                                    'End If
 
                                 End If
                                 objDR2.Close()
 
-                                If sumRealtimer = 0 Then
+                                If sumRealtimer = "0" Then
                                     'writer.Write(";")
                                     expTxt = expTxt & ";"
                                 End If
 
 
-                                sumTimerSaldo = (sumFCtimer - sumRealtimer)
 
-                                If sumTimerSaldo = 0 Then
+
+                                sumTimerSaldo = ((sumFCtimer * 1) - (sumRealtimer * 1))
+
+                                If sumTimerSaldo = "0" Then
                                     'writer.Write(";")
                                     expTxt = expTxt & ";"
                                 Else
@@ -538,62 +857,131 @@ Public Class ozreportws_lto
 
 
 
+
                                 '** HENTER ALLE job MED Forecast I PERIODE                        
                                 '** TOTAL
-                                Dim strSQLjobFCPer As String = "SELECT SUM(timer) AS sumFCtimerPer FROM ressourcer_md WHERE " _
-                                & " jobid = " & objDR.Item("jobid") & " AND aktid = " & objDR.Item("aktid") & " AND medid = " & objDR3.Item("medid") & " AND md = (" & Month(dDato) & ") AND aar = (" & Year(dDato) & ") GROUP BY medid"
+                                Dim strSQLjobFCPer As String = ""
+                                Select Case CInt(rapporttype)
+
+                                    Case 22
+
+                                        Select Case lto
+                                            Case "dencker"
+                                                strSQLjobFCPer = "SELECT SUM(timer) AS sumFCtimerPer FROM ressourcer_md WHERE " _
+                                                & " jobid = " & objDR.Item("jobid") & " AND medid <> 0 AND md = (" & Month(dDato) & ") AND aar = (" & Year(dDato) & ") GROUP BY jobid"
+                                            Case Else
+                                                strSQLjobFCPer = "SELECT SUM(timer) AS sumFCtimerPer FROM ressourcer_md WHERE " _
+                                                & " jobid = " & objDR.Item("jobid") & " AND medid = " & objDR3.Item("medid") & " AND md = (" & Month(dDato) & ") AND aar = (" & Year(dDato) & ") GROUP BY medid"
+                                        End Select
+
+                                    Case Else
+
+                                        strSQLjobFCPer = "SELECT SUM(timer) AS sumFCtimerPer FROM ressourcer_md WHERE " _
+                                        & " jobid = " & objDR.Item("jobid") & " AND aktid = " & objDR.Item("aktid") & " AND medid = " & objDR3.Item("medid") & " AND md = (" & Month(dDato) & ") AND aar = (" & Year(dDato) & ") GROUP BY medid"
+
+                                End Select
+
+
+
+
+
+
                                 objCmd = New OdbcCommand(strSQLjobFCPer, objConn)
                                 objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                                'exMsg += ";<br>B<br>" + strSQLjobFCPer
 
                                 If objDR2.Read() = True Then
 
 
-                                    expTxt = expTxt & objDR2.Item("sumFCtimerPer") & ";"
+                                    expTxt = expTxt & objDR2.Item("sumFCtimerPer").ToString & ";"
                                     'writer.Write(expTxt)
 
-                                    sumFCtimerPer = objDR2.Item("sumFCtimerPer")
+                                    sumFCtimerPer = objDR2.Item("sumFCtimerPer").ToString
 
                                 End If
                                 objDR2.Close()
 
-                                If sumFCtimerPer = 0 Then
+                                If sumFCtimerPer = "0" Then
                                     'writer.Write(";")
                                     expTxt = expTxt & ";"
                                 End If
+
 
 
 
                                 '** HENTER ALLE job MED timer i valgte periode, hvor medarb er jobansvarlig
                                 '** Måned
+                                Dim strSQLjobTimerPer As String = ""
+                                Select Case CInt(rapporttype)
+                                    Case 22
 
-                                Dim strSQLjobTimerPer As String = "SELECT tjobnr, tjobnavn, tknavn, tknr, taktivitetnavn, tmnavn, tmnr, SUM(timer) AS sumtimerPer FROM timer WHERE " _
-                                & " tdato BETWEEN '" & startDatoSQL & "' AND '" & slutDatoSQL & "' AND tjobnr = '" & objDR.Item("jobnr") & "' AND taktivitetid = " & objDR.Item("aktid") & akttyper_invoiceable & " AND tmnr = " & objDR3.Item("medid") & " GROUP BY tmnr"
+                                        Select Case lto
+                                            Case "dencker"
+                                                strSQLjobTimerPer = "SELECT SUM(timer) AS sumtimerPer FROM timer WHERE " _
+                                            & " tdato BETWEEN '" & startDatoSQL & "' AND '" & slutDatoSQL & "' AND tjobnr = '" & objDR.Item("jobnr") & "' AND tmnr <> 0 GROUP BY tjobnr"
+                                            Case Else
+                                                strSQLjobTimerPer = "SELECT SUM(timer) AS sumtimerPer FROM timer WHERE " _
+                                                & " tdato BETWEEN '" & startDatoSQL & "' AND '" & slutDatoSQL & "' AND tjobnr = '" & objDR.Item("jobnr") & "' AND tmnr = " & objDR3.Item("medid") & " GROUP BY tmnr"
+                                        End Select
+
+                                    Case Else
+                                        strSQLjobTimerPer = "SELECT SUM(timer) AS sumtimerPer FROM timer WHERE " _
+                                        & " tdato BETWEEN '" & startDatoSQL & "' AND '" & slutDatoSQL & "' AND tjobnr = '" & objDR.Item("jobnr") & "' AND taktivitetid = " & objDR.Item("aktid") & akttyper_realhours & " AND tmnr = " & objDR3.Item("medid") & " GROUP BY tmnr"
+
+                                End Select
                                 objCmd = New OdbcCommand(strSQLjobTimerPer, objConn)
                                 objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                                'exMsg = ";<br>C<br>" + strSQLjobTimerPer
+                                'Return exMsg
 
                                 While objDR2.Read() = True
 
 
-                                    expTxt = expTxt & objDR2.Item("sumtimerPer") & ";"
+                                    expTxt = expTxt & objDR2.Item("sumtimerPer").ToString & ";"
                                     'writer.Write(expTxt)
-                                    sumRealtimerPer = objDR2.Item("sumtimerPer")
+                                    sumRealtimerPer = objDR2.Item("sumtimerPer").ToString
 
 
                                 End While
                                 objDR2.Close()
 
-                                If sumRealtimerPer = 0 Then
+                                If sumRealtimerPer = "0" Then
                                     'writer.Write(";")
                                     expTxt = expTxt & ";"
                                 End If
 
-                                If CInt(rapporttype) = 2 Or (CInt(rapporttype) = 3 And (sumRealtimer <> 0 Or sumFCtimer <> 0)) Then
+
+
+                                If CInt(rapporttype) = 2 Or CInt(rapporttype) = 22 Or (CInt(rapporttype) = 3 And (sumRealtimer <> 0 Or sumFCtimer <> 0)) Then
 
                                     writer.Write(expTxtJobAkt)
                                     writer.Write(expTxt)
-                                    writer.WriteLine("")
+
+
+                                    If CInt(rapporttype) = 22 Then
+
+                                        Select Case lto
+                                            Case "dencker"
+                                            Case Else
+                                                writer.WriteLine("")
+                                        End Select
+
+                                    End If
+
+
 
                                 End If
+
+
+
+
+
+                                'Catch ex As Exception
+
+                                'Return "HER: " + ex.Message + " exMsg: " + exMsg
+                                'End Try
 
 
                             End While
@@ -602,8 +990,10 @@ Public Class ozreportws_lto
 
                             'writer.WriteLine("")
 
-
+                            'If IsDBNull(objDR.Item("jobid")) <> True Then
                             lastJobid = objDR.Item("jobid")
+                            'End If
+
 
                         End While '** JOBANS LOOP
                         objDR.Close()
@@ -611,7 +1001,11 @@ Public Class ozreportws_lto
 
 
 
+                        'Return strSQLjobtjk
+
+
                     End Using 'Writer
+
 
 
                     'Dim report2 As New ozreportcls()
@@ -675,7 +1069,7 @@ Public Class ozreportws_lto
                     flname4 = "timeout_rapport_" & rapporttype & "_" & lto & "_" & fnEnd & ".csv"
 
 
-                    Dim useyear As String = "2018" 'Year(Now)
+                    Dim useyear As String = "2020" 'Year(Now)
 
                     Using writer As StreamWriter = New StreamWriter("D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_14\inc\upload\" & lto & "\" & flname4, False, Encoding.GetEncoding("iso-8859-1"))
 
@@ -832,7 +1226,12 @@ Public Class ozreportws_lto
                     fileNameUseForManuel = flname4
 
 
-                Case 5, 6 'Email Notifikation hvis uge ikke er afsluttet. 5: All / 6: Sns
+
+                'WEEKLY
+                Case 5, 6, 105, 106 'Email Notifikation hvis uge ikke er afsluttet. 5: All / 6: Sns
+
+
+
 
 
                     Dim weekclosedbyuser As Integer = 0
@@ -845,21 +1244,28 @@ Public Class ozreportws_lto
 
                     Dim ddw As Integer = DatePart("w", dd, Microsoft.VisualBasic.FirstDayOfWeek.Monday, FirstWeekOfYear.FirstFourDays)
 
-                    If ddw = 1 Then
-                        dgsondag = DateAdd("d", -1, dd)
+
+                    If CInt(rapporttype) = 105 Or CInt(rapporttype) = 106 Then
+                        dgsondag = DateAdd("m", -1, dd)
                     Else
-                        dgsondag = DateAdd("d", -(ddw), dd)
+
+                        If ddw = 1 Then
+                            dgsondag = DateAdd("d", -1, dd)
+                        Else
+                            dgsondag = DateAdd("d", -(ddw), dd)
+                        End If
+
                     End If
 
                     Dim slutDatoWeekSQL As String = DatePart("yyyy", dgsondag) & "-" & DatePart("m", dgsondag) & "-" & DatePart("d", dgsondag)
 
                     Dim strSQLmedids As String = ""
-                    If CInt(rapporttype) = 5 Then
+                    If CInt(rapporttype) = 5 Or CInt(rapporttype) = 105 Then
                         'Employees in Commercial, HR and Finance (cost center 100, 400 & 700)  ONLY IF THEY GOT HOURS
                         strSQLmedids = "SELECT mid AS medid, email, mnavn AS navn, med_cal, init FROM medarbejdere WHERE mansat = 1 <> 0 ORDER BY mid LIMIT 2000" 'mid = 1 AND
                     End If
 
-                    If CInt(rapporttype) = 6 Then
+                    If CInt(rapporttype) = 6 Or CInt(rapporttype) = 106 Then
                         strSQLmedids = "SELECT pr.id AS pid, mid AS medid, m.mnavn As navn, init, m.email, teamleder, med_cal FROM progrupperelationer pr "
                         strSQLmedids += " LEFT JOIN medarbejdere m On (m.mid = pr.medarbejderid And mansat = 1)"
                         strSQLmedids += " WHERE (pr.projektgruppeid = 12 Or pr.projektgruppeid = 13 Or pr.projektgruppeid = 14) And teamleder = 0 AND mid IS NOT NULL"
@@ -870,26 +1276,95 @@ Public Class ozreportws_lto
                     Dim medidMember100400700 As Integer = 0
                     Dim medidHours100400700 As Integer = 0
 
-                    Dim ddSondayLastWeek As Date = Date.Now
-                    ddSondayLastWeek = DateAdd("d", -1, ddSondayLastWeek)
-                    Dim ddSondayLastWeekSQL As String = DatePart("yyyy", ddSondayLastWeek) & "-" & DatePart("m", ddSondayLastWeek) & "-" & DatePart("d", ddSondayLastWeek)
+                    'Dim ddSondayLastWeek As Date = Date.Now
+                    'ddSondayLastWeek = DateAdd("d", -1, ddSondayLastWeek)
+                    'Dim ddSondayLastWeekSQL As String = DatePart("yyyy", ddSondayLastWeek) & "-" & DatePart("m", ddSondayLastWeek) & "-" & DatePart("d", ddSondayLastWeek)
 
+                    'Dim ddMondayLastWeek As Date = Date.Now
+                    'ddMondayLastWeek = DateAdd("d", -7, ddMondayLastWeek)
+                    'Dim ddMondayLastWeekSQL As String = DatePart("yyyy", ddMondayLastWeek) & "-" & DatePart("m", ddMondayLastWeek) & "-" & DatePart("d", ddMondayLastWeek)
+
+
+
+                    Dim ddSondayLastWeek As Date = Date.Now
+                    Dim ddSondayLastWeekSQL As String = ""
+
+                    Dim ddMondayLastWeekSQL As String = ""
                     Dim ddMondayLastWeek As Date = Date.Now
-                    ddMondayLastWeek = DateAdd("d", -7, ddMondayLastWeek)
-                    Dim ddMondayLastWeekSQL As String = DatePart("yyyy", ddMondayLastWeek) & "-" & DatePart("m", ddMondayLastWeek) & "-" & DatePart("d", ddMondayLastWeek)
+
+                    '*** WEEKLY - MONTHLY
+                    Select Case CInt(rapporttype)
+                        Case 105, 106
+
+                            Dim lastDay As String = "30"
+                            Select Case Month(dd)
+                                Case 1, 3, 5, 7, 8, 10, 12
+                                    lastDay = "31"
+
+                                Case 2
+                                    Select Case Year(dd)
+                                        Case "2000", "2004", "2008", "2012", "2016", "2020", "2024", "2028", "2032", "2036", "2040", "2044"
+                                            lastDay = "29"
+                                        Case Else
+                                            lastDay = "28"
+
+                                    End Select
+
+
+                                Case Else
+
+                                    lastDay = "30"
+                            End Select
+
+                            ddSondayLastWeek = lastDay & "-" & Month(dd) & "-" & Year(dd) 'DateAdd("d", -(ddw), ddSondayLastWeek)
+                            ddSondayLastWeekSQL = DatePart("yyyy", ddSondayLastWeek) & "-" & DatePart("m", ddSondayLastWeek) & "-" & DatePart("d", ddSondayLastWeek)
+
+                        Case Else
+
+                            ddSondayLastWeek = dgsondag 'dd 'DateAdd("d", -(ddw), ddSondayLastWeek)
+                            ddSondayLastWeekSQL = DatePart("yyyy", ddSondayLastWeek) & "-" & DatePart("m", ddSondayLastWeek) & "-" & DatePart("d", ddSondayLastWeek)
+
+                    End Select
+
+
+                    '*** WEEKLY - MONTHLY
+                    Select Case CInt(rapporttype)
+                        Case 105, 106
+
+                            ddMondayLastWeek = "1-" & Month(dd) & "-" & Year(dd)
+                            ddMondayLastWeekSQL = DatePart("yyyy", ddMondayLastWeek) & "-" & DatePart("m", ddMondayLastWeek) & "-" & DatePart("d", ddMondayLastWeek)
+
+                        Case Else
+
+                            ddMondayLastWeek = DateAdd("d", -(7), dd) 'DateAdd("d", -(ddw + 6), ddMondayLastWeek)
+                            ddMondayLastWeekSQL = DatePart("yyyy", ddMondayLastWeek) & "-" & DatePart("m", ddMondayLastWeek) & "-" & DatePart("d", ddMondayLastWeek)
+
+                    End Select
+
+
 
                     objCmd = New OdbcCommand(strSQLmedids, objConn)
                     objDR2 = objCmd.ExecuteReader
                     While objDR2.Read()
 
 
+
+
+
+
                         medidMember100400700 = 0
                         medidHours100400700 = 0
-                        If CInt(rapporttype) = 5 And objDR2("med_cal") <> "LT" Then 'Employees in Commercial, HR and Finance (cost center 100, 400 & 700)  ONLY IF THEY GOT HOURS
+                        If (CInt(rapporttype) = 5 Or CInt(rapporttype) = 105) And objDR2("med_cal") <> "LT" Then 'Employees in Commercial, HR and Finance (cost center 100, 400 & 700)  ONLY IF THEY GOT HOURS
 
+                            Select Case lto
+                                Case "tia"
+                                    strSQL100400700 = "Select pr.id As pid, medarbejderId As medid FROM progrupperelationer pr WHERE (pr.projektgruppeid = 11 Or pr.projektgruppeid = 15 Or pr.projektgruppeid = 17) And teamleder = 0 And medarbejderId = " & objDR2("medid")
 
+                                Case Else
+                                    strSQL100400700 = "Select pr.id As pid, medarbejderId As medid FROM progrupperelationer pr WHERE (pr.projektgruppeid = 10 ) And teamleder = 0 And medarbejderId = " & objDR2("medid")
 
-                            strSQL100400700 = "Select pr.id As pid, medarbejderId As medid FROM progrupperelationer pr WHERE (pr.projektgruppeid = 11 Or pr.projektgruppeid = 15 Or pr.projektgruppeid = 17) And teamleder = 0 And medarbejderId = " & objDR2("medid")
+                            End Select
+
                             objCmd = New OdbcCommand(strSQL100400700, objConn)
                             objDR4 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
                             If objDR4.Read() Then
@@ -903,6 +1378,9 @@ Public Class ozreportws_lto
 
 
                             strSQL100400700 = "Select SUM(timer) As timer FROM timer WHERE tmnr = " & objDR2("medid") & " And tdato BETWEEN '" & ddMondayLastWeekSQL & "' AND '" & ddSondayLastWeekSQL & "' GROUP BY tmnr"
+
+
+
                             objCmd = New OdbcCommand(strSQL100400700, objConn)
                             objDR4 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
                             If objDR4.Read() Then
@@ -917,16 +1395,35 @@ Public Class ozreportws_lto
                         End If
 
 
-                        Dim strSQLugeafsluttet As String = "Select mid FROM ugestatus WHERE mid = " & objDR2.Item("medid") & " And uge = '" & slutDatoWeekSQL & "' GROUP BY mid"
-                        objCmd = New OdbcCommand(strSQLugeafsluttet, objConn)
-                        objDR4 = objCmd.ExecuteReader
-                        weekclosedbyuser = 0
-                        If objDR4.Read() = True Then
-                            weekclosedbyuser = 1
+                        If CInt(rapporttype) = 105 Or CInt(rapporttype) = 106 Then
+
+
+                            Dim strSQLugeafsluttet As String = "Select mid FROM ugestatus WHERE mid = " & objDR2("medid") & " And ( MONTH(uge) = MONTH('" & ddSondayLastWeekSQL & "') AND YEAR(uge) = YEAR('" & ddSondayLastWeekSQL & "') )  AND splithr = 1 GROUP BY mid"
+                            objCmd = New OdbcCommand(strSQLugeafsluttet, objConn)
+                            objDR4 = objCmd.ExecuteReader
+                            weekclosedbyuser = 0
+                            If objDR4.Read() = True Then
+                                weekclosedbyuser = 1
+
+                            End If
+                            objDR4.Close()
+
+                        Else
+
+                            Dim strSQLugeafsluttet As String = "Select mid FROM ugestatus WHERE mid = " & objDR2.Item("medid") & " And uge = '" & slutDatoWeekSQL & "' GROUP BY mid"
+
+                            'Return strSQLugeafsluttet
+                            objCmd = New OdbcCommand(strSQLugeafsluttet, objConn)
+                            objDR4 = objCmd.ExecuteReader
+                            weekclosedbyuser = 0
+                            If objDR4.Read() = True Then
+                                weekclosedbyuser = 1
+
+                            End If
+                            objDR4.Close()
+
 
                         End If
-                        objDR4.Close()
-
 
                         If (CInt(weekclosedbyuser) = 0 And CInt(medidMember100400700) = 0) Or (CInt(weekclosedbyuser) = 0 And CInt(medidMember100400700) = 1 And CInt(medidHours100400700) > 0) And Len(objDR2("email")) > 0 Then
 
@@ -955,6 +1452,9 @@ Public Class ozreportws_lto
                     objDR2.Close()
 
 
+
+
+
                 'LM
                 Case 9, 10, 12 'Email Notifikation til alle LM hvis medarbejderes uge ikke er afsluttet
 
@@ -980,13 +1480,13 @@ Public Class ozreportws_lto
                     fileNameUseForManuel = flname9
 
                     'Dim dgs As Date = Date.Now
-                    'Dim strSQKkundeins As String = "INSERT INTO   Set afe_email = '" + teamlederemail + "', afe_file = '" + fileNameUseForManuel + "', afe_sent = 0, afe_date = '" & DatePart("yyyy", dd) & "-" & DatePart("m", dd) & "-" & DatePart("d", dd) & "', afe_progrp = " & projektgruppeid & ", afe_init = 'TSUU'"
-                    'objCmd = New OdbcCommand(strSQKkundeins, objConn)
+                    'Dim strSQKkundeinst As String = "INSERT INTO  abonner_file_email Set afe_email = '" + teamlederemail + "', afe_file = '" + fileNameUseForManuel + "', afe_sent = 0, afe_date = '" & DatePart("yyyy", dd) & "-" & DatePart("m", dd) & "-" & DatePart("d", dd) & "', afe_progrp = " & projektgruppeid & ", afe_init = 'TSUU'"
+                    'objCmd = New OdbcCommand(strSQKkundeinst, objConn)
                     'objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
                     'objDR2.Close()
 
 
-
+                    'Return "HER: Ok 2"
 
                     Dim strSQLprogrp As String = ""
                     Select Case rapporttype
@@ -1003,7 +1503,7 @@ Public Class ozreportws_lto
                     strSQLTeamleder += " LEFT JOIN progrupperelationer pr ON (pr.projektgruppeid = p.id) "
                     strSQLTeamleder += " LEFT JOIN medarbejdere m ON (m.mid = pr.medarbejderid AND mansat = 1) "
                     strSQLTeamleder += " WHERE " & strSQLprogrp & " And teamleder = 1 AND mnavn IS NOT NULL "
-                    strSQLTeamleder += " ORDER BY mid LIMIT 500"
+                    strSQLTeamleder += " ORDER BY mid LIMIT 1000"
                     objCmd = New OdbcCommand(strSQLTeamleder, objConn)
                     objDR4 = objCmd.ExecuteReader
 
@@ -1051,7 +1551,7 @@ Public Class ozreportws_lto
 
 
                 'PM
-                Case 13, 14 'Email Notifikation til alle PM hvis medarbejderes har timer er ikke er aflsuttet
+                Case 13, 14 'Email Notifikation til alle PM hvis medarbejderes har timer er ikke er godkendt
 
 
 
@@ -1071,18 +1571,18 @@ Public Class ozreportws_lto
                     Dim teamlederId As Integer = 0
 
 
-                    flname9 = "timeout_rapport_" & rapporttype & "_" & lto & "_" & fnEnd & "_" & teamlederId & ".csv"
-                    fileNameUseForManuel = flname9
+
 
 
 
                     Dim strSQLprogrp As String = ""
                     Select Case rapporttype
-                        Case 13
+                        Case 13, 14
                             'Employees in Commercial, HR and Finance (cost center 100, 400 & 700)  ONLY IF THEY GOT HOURS
                             strSQLprogrp = "(p.id <> 10 AND p.id <> 16 AND p.orgvir <> 2)" 'SKAL KUN være VIRTUAL grupperne AND <> DEV pid = 16
                         Case 14
                             strSQLprogrp = "(p.id = 12 OR p.id = 13 OR p.id = 14)"
+
                     End Select
 
                     'If lastPid <> objDR2("pid") Or CInt(lastPid) = 0 Then
@@ -1118,6 +1618,8 @@ Public Class ozreportws_lto
                             flname9 = "timeout_rapport_" & rapporttype & "_" & lto & "_" & fnEnd & "_" & teamlederId & ".csv"
                             fileNameUseForManuel = flname9
 
+
+
                             If Len(Trim(teamlederemail)) > 0 Then
 
                                 Dim dgs As Date = Date.Now
@@ -1136,13 +1638,359 @@ Public Class ozreportws_lto
 
 
 
+                Case 116 'Monthly LM 600 joblog
 
 
-                Case Else 'Rapporttype 0 og 1 'skal være else 
+
+
+                    fileNameUseForManuel = ""
+
+                    Dim teamlederemail As String = ""
+
+
+                    Dim projektgruppeid As Integer = 200
+                    Dim flname9 As String = ""
+
+                    Dim dd As Date = Date.Now
+                    Dim format As String = "yyyyMd_hhmmss"
+                    Dim fnEnd As String = dd.ToString(format)
+
+
+                    Dim teamlederId As Integer = 0
+
+                    Dim strSQLprogrp As String = ""
+
+                    strSQLprogrp = "(p.id = 16)"
+                    Dim progrpId As Integer = 16
+
+
+
+
+                    dd = DateAdd("m", -1, dd)
+                    Dim ddSondayLastWeek As Date = Date.Now
+                    Dim ddSondayLastWeekSQL As String = ""
+
+                    Dim ddMondayLastWeekSQL As String = ""
+                    Dim ddMondayLastWeek As Date = Date.Now
+
+
+                    Dim lastDay As String = "30"
+                    Select Case Month(dd)
+                        Case 1, 3, 5, 7, 8, 10, 12
+                            lastDay = "31"
+
+                        Case 2
+                            Select Case Year(dd)
+                                Case "2000", "2004", "2008", "2012", "2016", "2020", "2024", "2028", "2032", "2036", "2040", "2044"
+                                    lastDay = "29"
+                                Case Else
+                                    lastDay = "28"
+
+                            End Select
+
+
+                        Case Else
+
+                            lastDay = "30"
+                    End Select
+
+                    ddSondayLastWeek = lastDay & "-" & Month(dd) & "-" & Year(dd) 'DateAdd("d", -(ddw), ddSondayLastWeek)
+                    ddSondayLastWeekSQL = DatePart("yyyy", ddSondayLastWeek) & "-" & DatePart("m", ddSondayLastWeek) & "-" & DatePart("d", ddSondayLastWeek)
+
+
+
+                    ddMondayLastWeek = "1-" & Month(dd) & "-" & Year(dd)
+                    ddMondayLastWeekSQL = DatePart("yyyy", ddMondayLastWeek) & "-" & DatePart("m", ddMondayLastWeek) & "-" & DatePart("d", ddMondayLastWeek)
+
+
+
+                    'Dim lastWeekSundaySQL As String = DatePart("yyyy", dd) & "-" & DatePart("m", dd) & "-" & DatePart("d", dd)
+                    Dim lastWeekSundaySQL As String = ddSondayLastWeekSQL
+                    Dim lastWeekMondaySQL As String = ddMondayLastWeekSQL
+                    'lastWeekMondaySQL = DatePart("yyyy", dd) & "-" & DatePart("m", dd) & "-1" '& DatePart("d", dd)
+
+
+
+                    Dim jobansSQLkkr As String = " (mid = 0"
+                    Dim jobnrSQLkkr As String = " (tjobnr = '-1'"
+
+
+
+
+                    ExpTxtheader = "Customer;Project name;Project No.;Activity;Employee;Init;Hours;Date;Approved;LM;"
+                    flname = "timeout_rapport_" & rapporttype & "_" & lto & "_" & fnEnd & ".csv"
+                    fileNameUseForManuel = flname
+
+                    Using writer As StreamWriter = New StreamWriter("D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_14\inc\upload\" & lto & "\" & flname, False, Encoding.GetEncoding("iso-8859-1"))
+
+                        'writer.WriteLine("Periode: " & startDatoTxt & " - " & slutDatoTxt & ", uge: " & DatePart("ww", slutDato, Microsoft.VisualBasic.FirstDayOfWeek.Monday, FirstWeekOfYear.FirstFourDays) & ";")
+                        writer.WriteLine(ExpTxtheader)
+
+                        '*** Heter timer på alle job der er tilknyttet costcenter 600 Pid = 16
+                        Dim strSQLjob As String
+                        Dim strSQL100400700 As String
+                        Dim medidHours100400700 As Double
+                        strSQLjob = "SELECT j.id, j.jobnavn, j.jobnr, k.kkundenavn, k.kkundenr, jobans1, jobans2 FROM job j "
+                        strSQLjob += "LEFT Join kunder k ON (kid = jobknr) WHERE (j.projektgruppe1 = " & progrpId & " Or j.projektgruppe2 = " & progrpId & " OR j.projektgruppe3 = " & progrpId & " OR j.projektgruppe4 = " & progrpId & " OR j.projektgruppe5 = " & progrpId
+                        strSQLjob += " Or j.projektgruppe6 = " & progrpId & " Or j.projektgruppe7 = " & progrpId & " OR j.projektgruppe8 = " & progrpId & " OR j.projektgruppe9 = " & progrpId & " OR j.projektgruppe10 = " & progrpId & ") GROUP BY j.id ORDER BY j.id"
+                        'AND (jobans1 = " & objDR2("medid") & " OR jobans2 = " & objDR2("medid") & ")
+
+                        objCmd = New OdbcCommand(strSQLjob, objConn)
+                        objDR3 = objCmd.ExecuteReader
+                        While objDR3.Read()
+
+
+                            If objDR3("jobans1") <> 0 Then
+                                jobansSQLkkr += " OR mid = " & objDR3("jobans1")
+                            End If
+
+                            If objDR3("jobans2") <> 0 Then
+                                jobansSQLkkr += " OR mid = " & objDR3("jobans2")
+                            End If
+
+                            jobnrSQLkkr += " OR tjobnr = '" & objDR3("jobnr") & "'"
+
+
+                        End While
+                        objDR3.Close()
+
+                        jobnrSQLkkr += ")"
+                        jobansSQLkkr += ")"
+
+
+                        Dim strSQLTeamlederThis As String = ""
+                        Dim strSQLTeamlederThis2 As String = ""
+                        Dim projektgruppeidLM As Integer = 0
+                        Dim InitLM As String = ""
+
+                        strSQL100400700 = "Select tknavn, tknr, tjobnr, tjobnavn, timer, taktivitetid, taktivitetnavn, tmnr, tmnavn, tdato, godkendtstatus, init FROM timer "
+                        strSQL100400700 += "LEFT JOIN medarbejdere ON (mid = tmnr) "
+                        strSQL100400700 += "WHERE " & jobnrSQLkkr & " And tdato BETWEEN '" & lastWeekMondaySQL & "' AND '" & lastWeekSundaySQL & "' AND (tfaktim = 1 OR tfaktim = 2 OR tfaktim = 91) ORDER BY tjobnr, tdato, tmnr"
+                        objCmd = New OdbcCommand(strSQL100400700, objConn)
+                        objDR4 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                        While objDR4.Read()
+
+                            medidHours100400700 = objDR4("timer")
+
+                            If medidHours100400700 <> 0 Then
+
+
+                                projektgruppeidLM = 0
+
+                                strSQLTeamlederThis = "SELECT pr.projektgruppeid, p.id FROM projektgrupper p"
+                                strSQLTeamlederThis += " Left Join progrupperelationer pr ON (pr.projektgruppeid = p.id)"
+                                strSQLTeamlederThis += " WHERE orgvir = 2 And medarbejderid = " & objDR4("tmnr")
+                                strSQLTeamlederThis += " GROUP BY medarbejderid"
+                                objCmd = New OdbcCommand(strSQLTeamlederThis, objConn)
+                                objDR3 = objCmd.ExecuteReader
+
+                                If objDR3.Read() = True Then
+
+                                    projektgruppeidLM = objDR3("id")
+
+
+                                End If
+                                objDR3.Close()
+
+                                InitLM = ""
+                                strSQLTeamlederThis2 = "Select init FROM progrupperelationer pgr"
+                                strSQLTeamlederThis2 += " LEFT JOIN medarbejdere m ON (m.mid = pgr.medarbejderid)"
+                                strSQLTeamlederThis2 += " WHERE projektgruppeid = " & projektgruppeidLM & " AND teamleder = 1"
+                                strSQLTeamlederThis2 += " GROUP BY medarbejderid"
+                                objCmd = New OdbcCommand(strSQLTeamlederThis2, objConn)
+                                objDR3 = objCmd.ExecuteReader
+
+                                If objDR3.Read() = True Then
+
+                                    InitLM = objDR3("init")
+
+
+                                End If
+                                objDR3.Close()
+
+
+
+                                '";" & objDR4("tknr") & " objDR4("taktivitetid") & ";"
+                                'empNotCompleted += objDR3("kkundenavn") & " (" & objDR3("kkundenr") & ") Job: " & objDR3("jobnavn") & " (" & objDR3("jobnr") & ") Hours: " & FormatNumber(objDR4("timer"), 2) & "<br>" ' Employee: " & objDR2.Item("mnavn") & " [" & objDR2.Item("init") & "] hours: " & objDR4("timer") & "<br>"
+                                writer.WriteLine(objDR4("tknavn") & ";" & objDR4("tjobnavn") & ";" & objDR4("tjobnr") & ";" & objDR4("taktivitetnavn") & ";" & objDR4("tmnavn") & ";" & objDR4("init") & ";" & objDR4("timer") & ";" & objDR4("tdato") & ";" & objDR4("godkendtstatus") & ";" & InitLM)
+                            End If
+
+                        End While
+                        objDR4.Close()
+
+
+
+
+                    End Using 'Writer
+
+
+
+                    'If lastPid <> objDR2("pid") Or CInt(lastPid) = 0 Then
+                    dd = Date.Now
+
+                    Dim strSQLTeamleder As String = "SELECT m.mid, m.mnavn, init, m.email FROM medarbejdere m "
+                    strSQLTeamleder += " WHERE " & jobansSQLkkr & " AND mansat = 1 GROUP BY mid"
+                    strSQLTeamleder += " ORDER BY mid LIMIT 500"
+                    objCmd = New OdbcCommand(strSQLTeamleder, objConn)
+                    objDR4 = objCmd.ExecuteReader
+
+                    While objDR4.Read() = True
+
+
+
+
+                        If Len(Trim(objDR4("email"))) <> 0 Then
+                            teamlederemail = objDR4("email")
+                            teamlederId = 0
+                        Else
+                            teamlederemail = "SNI@tiatechnology.com"
+                            teamlederId = 0
+
+                        End If
+
+
+                        projektgruppeid = 0
+
+
+                        If Len(Trim(teamlederemail)) > 0 Then
+
+                            Dim dgs As Date = Date.Now
+                            Dim strSQKkundeins As String = "INSERT INTO abonner_file_email Set afe_email = '" + teamlederemail + "', afe_file = '" + fileNameUseForManuel + "', afe_sent = 0, afe_date = '" & DatePart("yyyy", dd) & "-" & DatePart("m", dd) & "-" & DatePart("d", dd) & "', afe_progrp = " & projektgruppeid & ", afe_init = '" & objDR4("init") & "'"
+                            objCmd = New OdbcCommand(strSQKkundeins, objConn)
+                            objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                            objDR2.Close()
+
+                        End If
+
+
+
+                    End While
+                    objDR4.Close()
+
+
+
+
+
+
+
+
+                Case 200 'WWF max flex - remiders
+
+
+
+
+                    fileNameUseForManuel = ""
+
+                    Dim teamlederemail As String = ""
+                    Dim dd As Date = Date.Now
+
+                    Dim projektgruppeid As Integer = 200
+                    Dim flname9 As String = ""
+
+                    Dim format As String = "yyyyMd_hhmmss"
+                    Dim fnEnd As String = dd.ToString(format)
+
+
+                    Dim teamlederId As Integer = 0
+
+
+                    flname9 = "timeout_rapport_" & rapporttype & "_" & lto & "_" & fnEnd & "_" & teamlederId & ".csv"
+                    fileNameUseForManuel = flname9
+
+                    'Dim dgs As Date = Date.Now
+                    'Dim strSQKkundeinst As String = "INSERT INTO  abonner_file_email Set afe_email = '" + teamlederemail + "', afe_file = '" + fileNameUseForManuel + "', afe_sent = 0, afe_date = '" & DatePart("yyyy", dd) & "-" & DatePart("m", dd) & "-" & DatePart("d", dd) & "', afe_progrp = " & projektgruppeid & ", afe_init = 'TSUU'"
+                    'objCmd = New OdbcCommand(strSQKkundeinst, objConn)
+                    'objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                    'objDR2.Close()
+
+
+
+
+
+                    Dim strSQLprogrp As String = ""
+                    Select Case rapporttype
+                        Case 200
+                            Select Case lto
+                                Case "wwf"
+                                    strSQLprogrp = "(p.id <> 10)"
+                                Case Else
+                                    strSQLprogrp = "(p.id <> 10 AND p.orgvir = 2)" 'SKAL KUN være HR grupperne
+                            End Select
+
+
+
+                    End Select
+
+
+
+                    Dim strSQLTeamleder As String = "SELECT m.mid, m.mnavn, init, m.email, teamleder, pr.projektgruppeid AS pid, notificer FROM projektgrupper p "
+                    strSQLTeamleder += " LEFT JOIN progrupperelationer pr ON (pr.projektgruppeid = p.id) "
+                    strSQLTeamleder += " LEFT JOIN medarbejdere m ON (m.mid = pr.medarbejderid AND mansat = 1) "
+                    strSQLTeamleder += " WHERE " & strSQLprogrp & " And teamleder = 1 AND mnavn IS NOT NULL AND notificer = 1"
+                    strSQLTeamleder += " ORDER BY mid LIMIT 1000"
+                    objCmd = New OdbcCommand(strSQLTeamleder, objConn)
+                    objDR4 = objCmd.ExecuteReader
+
+                    While objDR4.Read() = True
+
+
+
+                        If CInt(objDR4("teamleder")) = 1 Then
+
+                            If Len(Trim(objDR4("email"))) <> 0 Then
+                                teamlederemail = objDR4("email")
+                                teamlederId = objDR4("pid")
+                            Else
+                                teamlederemail = "support@outzource.dk"
+                                teamlederId = objDR4("pid")
+
+                            End If
+
+
+                            projektgruppeid = objDR4("pid")
+
+
+
+                            flname9 = "timeout_rapport_" & rapporttype & "_" & lto & "_" & fnEnd & "_" & teamlederId & ".csv"
+                            fileNameUseForManuel = flname9
+
+                            If Len(Trim(teamlederemail)) > 0 Then
+
+                                Dim dgs As Date = Date.Now
+                                Dim strSQKkundeins As String = "INSERT INTO abonner_file_email Set afe_email = '" + teamlederemail + "', afe_file = '" + fileNameUseForManuel + "', afe_sent = 0, afe_date = '" & DatePart("yyyy", dd) & "-" & DatePart("m", dd) & "-" & DatePart("d", dd) & "', afe_progrp = " & projektgruppeid & ", afe_init = '" & objDR4("init") & "'"
+                                objCmd = New OdbcCommand(strSQKkundeins, objConn)
+                                objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                                objDR2.Close()
+
+
+                            End If
+
+
+                        End If
+
+
+                    End While
+                    objDR4.Close()
+
+
+
+
+
+
+
+
+
+                    '*******************************************************************************************************************************************
+                    '*******************************************************************************************************************************************
+                    '*******************************************************************************************************************************************
+
+
+                Case Else 'Rapporttype 0 og 1 + 21 (HR rap pr. måned) 'skal være else 
 
 
 
                     Dim dDato As Date = Date.Now 'tirsdag morgen 07:00
+                    'dDato = dDato.AddDays(-21)  '- 2
 
                     Dim DayOfWeekNo As Integer = dDato.DayOfWeek
                     Dim stDatoKri As Integer = 0
@@ -1168,19 +2016,45 @@ Public Class ozreportws_lto
                     stDatoKri = slDatoKri + 6
 
                     '** Tir = -2 og -8
-                    Dim slutDato As Date = dDato.AddDays(-slDatoKri)  '- 2
+                    Dim slutDato As Date = dDato.AddDays(-slDatoKri)  '-2
                     Dim startDato As Date = dDato.AddDays(-stDatoKri) '-8
-
                     Dim format As String = "yyyyMd_hhmmss"
                     Dim fnEnd As String = slutDato.ToString(format) & "_" & medid
-
+                    Dim millisecond As String = slutDato.Millisecond
+                    Dim filename_end As String = millisecond & "_" & fnEnd
 
                     Dim datSQLformat As String = "yyyy-M-d"
+
+
                     Dim startDatoSQL As String = startDato.ToString(datSQLformat)
                     Dim slutDatoSQL As String = slutDato.ToString(datSQLformat)
 
-                    'slutDatoSQL = "2012-5-30" 'slutDato.ToString '.Day(slutDato) & "-" & Month(slutDato) & "-" & Year(slutDato)
-                    'startDatoSQL = "2012-4-30" 'startDato.ToString 'Day(slutDato) & "-" & Month(slutDato) & "-" & Year(slutDato)
+                    'Dim startDatoSQL As String = "2019-10-01"
+                    'Dim slutDatoSQL As String = "2019-10-31" 'slutDato.ToString(datSQLformat)
+
+                    Dim lastMonth As Date = dDato.AddMonths(-1)
+                    Dim lastDayInlastMonth As Date = "1-" & Month(dDato) & "-" & Year(dDato)
+
+                    'Dencker måendsrapport
+                    If rapporttype = "21" Then 'HR pr. md
+
+                        'Sidste fulde måned
+                        lastDayInlastMonth = lastDayInlastMonth.AddDays(-1)
+
+                        'startDatoSQL = "1-" & Month(lastMonth) & "-" & Year(lastMonth)
+                        'slutDatoSQL = Day(lastDayInlastMonth) & "-" & Month(lastMonth) & "-" & Year(lastMonth)
+
+
+                        startDatoSQL = Year(lastMonth) & "-" & Month(lastMonth) & "-1"
+                        slutDatoSQL = Year(lastDayInlastMonth) & "-" & Month(lastDayInlastMonth) & "-" & Day(lastDayInlastMonth)
+
+                        startDato = "1-" & Month(lastMonth) & "-" & Year(lastMonth)
+                        slutDato = Day(lastDayInlastMonth) & "-" & Month(lastDayInlastMonth) & "-" & Year(lastDayInlastMonth)
+
+                        fnEnd = slutDato.ToString(format) & "_" & medid
+
+                    End If
+
 
                     Dim datoformatTxt As String = "d-M-yyyy"
                     Dim startDatoTxt As String = startDato.ToString(datoformatTxt)
@@ -1228,29 +2102,22 @@ Public Class ozreportws_lto
 
                     Dim ugeNrLastWeek As Integer = 0
 
+                    Dim faktbarudenE1 As String = 0
+                    Dim effektiv_proc_uden_E1 As String = 0
+                    Dim effektiv_proc_atd_uden_E1 As String = 0
+                    Dim e1Timer_atd As String = 0
+
 
                     Select Case lto
                         Case "bf", "epi2017" 'UK LANG
 
                             ExpTxtheader = "Employee;Employee No.;Initials;Rated hours;Office hours;Hours timerecording (Stated);(invoicable);"
-
-                            If lto = "dencker" Then
-                                ExpTxtheader = ExpTxtheader & "E1;"
-                            End If
-
                             ExpTxtheader = ExpTxtheader & "Sick/Child Sick;Vacation;Other absence;"
-
-                            Select Case lto
-                                Case "cst", "kejd_pb", "outz"
-                                    ExpTxtheader = ExpTxtheader & "Bal. (Reted/Office hours);"
-                                Case Else
-                                    ExpTxtheader = ExpTxtheader & "Bal. (Rated/Stated);"
-                            End Select
-
+                            ExpTxtheader = ExpTxtheader & "Bal. (Rated/Stated);"
 
 
                             If show_atd = "1" Then
-                                ExpTxtheader = ExpTxtheader & "Effective % (Office hours/Inv. hours);Effective % YTD - " & startDatoAtDSQL & " - (Office hours/Inv. hours);"
+                                ExpTxtheader = ExpTxtheader & "Effective % (Office hours/Inv. hours);Effective % YTD - " & Year(startDatoAtDSQL) & " - (Office hours/Inv. hours);"
                             End If
 
                             If show_atd = "2" Then
@@ -1275,7 +2142,7 @@ Public Class ozreportws_lto
                             ExpTxtheader = "Medarbejder;Medarb. Nr;Initialer;Norm. tid;Løntimer (komme/gå);Realiseret tid;(heraf fakturerbare);"
 
                             If lto = "dencker" Then
-                                ExpTxtheader = ExpTxtheader & "E1;"
+                                ExpTxtheader = ExpTxtheader & "E1; (heraf fakturerbare uden E1);"
                             End If
 
                             ExpTxtheader = ExpTxtheader & "Syg/barn syg;Ferie/Feriefri;Anden fravær;"
@@ -1290,7 +2157,10 @@ Public Class ozreportws_lto
 
 
                             If show_atd = "1" Then
-                                ExpTxtheader = ExpTxtheader & "Effektiv % (løntimer/fakturerbare timer real.);Effektiv % ÅTD - " & startDatoAtDSQL & " - (løntimer/fakturerbare timer real.);"
+                                ExpTxtheader = ExpTxtheader & "Effektiv % (løntimer/fakturerbare timer real.);Effektiv % ÅTD - " & Year(startDatoAtDSQL) & " - (løntimer/fakturerbare timer real.);"
+                                If lto = "dencker" Then
+                                    ExpTxtheader = ExpTxtheader & "Effektiv % (løntimer/faktbar. uden E1);" & "Effektiv % ÅTD (løntimer/faktbar. uden E1);"
+                                End If
                             End If
 
                             If show_atd = "2" Then
@@ -1310,12 +2180,24 @@ Public Class ozreportws_lto
 
                     End Select
 
-                    flname = "timeout_rapport_" & rapporttype & "_" & lto & "_" & fnEnd & ".csv"
+                    'flname = "timeout_rapport_" & rapporttype & "_" & lto & "_" & fnEnd & ".csv"
+                    flname = "to_rap_" & rapporttype & "_" & lto & "_" & filename_end & ".csv"
                     'Dim flname As String = "timeout_rapport_test2.csv"
                     'lto = "outz"
                     Using writer As StreamWriter = New StreamWriter("D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_14\inc\upload\" & lto & "\" & flname, False, Encoding.GetEncoding("iso-8859-1"))
 
-                        writer.WriteLine("Periode: " & startDatoTxt & " - " & slutDatoTxt & ", uge: " & DatePart("ww", slutDato, Microsoft.VisualBasic.FirstDayOfWeek.Monday, FirstWeekOfYear.FirstFourDays) & ";")
+                        If rapporttype = "21" Then 'HR pr. md
+                            writer.WriteLine("Måned: " & startDatoTxt & " - " & slutDatoTxt & ", afsendt: " & dDato & ";")
+                        Else
+
+                            Dim thisWeek As String = DatePart("ww", slutDato, Microsoft.VisualBasic.FirstDayOfWeek.Monday, FirstWeekOfYear.FirstFourDays)
+                            'If thisWeek = 53 And DatePart("ww", DateAdd("d", 7, thisWeek), Microsoft.VisualBasic.FirstDayOfWeek.Monday, FirstWeekOfYear.FirstFourDays) = 2 Then
+                            ' thisWeek = 1
+                            'End If
+
+                            writer.WriteLine("Periode: " & startDatoTxt & " - " & slutDatoTxt & ", uge: " & thisWeek & ", afsendt: " & dDato & ";")
+                        End If
+
                         writer.WriteLine(ExpTxtheader)
 
 
@@ -1350,7 +2232,7 @@ Public Class ozreportws_lto
 
 
 
-                                        Dim strSQLmtyp As String = "SELECT mid FROM medarbejdere WHERE (mansat = 1) And medarbejdertype = " & aboMtyperArr(t)
+                                        Dim strSQLmtyp As String = "Select mid FROM medarbejdere WHERE (mansat = 1) And medarbejdertype = " & aboMtyperArr(t)
 
                                         objCmd = New OdbcCommand(strSQLmtyp, objConn)
                                         objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
@@ -1400,7 +2282,7 @@ Public Class ozreportws_lto
 
 
 
-                                            Dim strSQLpgrp As String = "SELECT p.id AS pgrpid, pr.medarbejderId FROM projektgrupper AS p LEFT JOIN progrupperelationer AS pr ON (pr.projektgruppeId = p.id)  WHERE p.id  = " & aboPgrpArr(t) & " GROUP BY pr.medarbejderId"
+                                            Dim strSQLpgrp As String = "Select p.id As pgrpid, pr.medarbejderId FROM projektgrupper As p LEFT JOIN progrupperelationer As pr On (pr.projektgruppeId = p.id)  WHERE p.id  = " & aboPgrpArr(t) & " GROUP BY pr.medarbejderId"
 
 
 
@@ -1494,11 +2376,11 @@ Public Class ozreportws_lto
 
                         'employeeIDs = " And (mid = 0)"
 
-                        Dim strSQLm As String = "SELECT mid, mnavn, mnr, init, normtimer_man, normtimer_tir, normtimer_ons, normtimer_tor, normtimer_fre, normtimer_lor, normtimer_son "
-                        strSQLm = strSQLm & " FROM medarbejdere AS m "
-                        strSQLm = strSQLm & " LEFT JOIN medarbejdertyper AS mt ON (mt.id = m.medarbejdertype) WHERE mansat = 1 " & employeeIDs & " GROUP BY mid ORDER BY mnavn"
+                        Dim strSQLm As String = "Select mid, mnavn, mnr, init, normtimer_man, normtimer_tir, normtimer_ons, normtimer_tor, normtimer_fre, normtimer_lor, normtimer_son "
+                        strSQLm = strSQLm & " FROM medarbejdere As m "
+                        strSQLm = strSQLm & " LEFT JOIN medarbejdertyper As mt On (mt.id = m.medarbejdertype) WHERE mansat = 1 " & employeeIDs & " GROUP BY mid ORDER BY mnavn"
 
-
+                        'Return "strSQLm: " + strSQLm
 
                         objCmd = New OdbcCommand(strSQLm, objConn)
                         objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
@@ -1547,6 +2429,10 @@ Public Class ozreportws_lto
                                 Dim strSQLlt As String = "SELECT minutter AS minutter, faktor, minimum FROM login_historik AS lh "
                                 strSQLlt = strSQLlt & " LEFT JOIN stempelur AS s ON (s.id = lh.stempelurindstilling) "
                                 strSQLlt = strSQLlt & " WHERE mid = " & objDR2("mid") & " AND (lh.dato BETWEEN '" & startDatoSQL & "' AND '" & slutDatoSQL & "') AND stempelurindstilling <> -1"
+
+
+                                'Return strSQLlt
+
 
 
                                 objCmd = New OdbcCommand(strSQLlt, objConn)
@@ -1660,6 +2546,7 @@ Public Class ozreportws_lto
 
 
                                         lTim_atd = lTim_atd + (lTim_addThis / 1) 'Replace(Replace(FormatNumber(CType(objDR.Item("minutter") / 60, String), 2), ",", ""), ".", ",")
+                                        'lTim_atd = lTim_atd / 60
 
                                         lTim_atd_Wrt = 1
                                     End While
@@ -1700,7 +2587,7 @@ Public Class ozreportws_lto
 
                                     If lTim_atd_Wrt <> 0 Then
                                         'lTim_atd = 0
-                                        lTim_atd = Replace(Replace(FormatNumber(CType(lTim_atd / 60 - (lTim_atd_pau / 60), String), 2), ",", ""), ".", ",")
+                                        lTim_atd = Replace(Replace(FormatNumber(CType(lTim_atd / 60 - (lTim_atd_pau / 60), String), 0), ",", ""), ".", ",")
                                     Else
                                         lTim_atd = 0
                                     End If
@@ -1782,7 +2669,8 @@ Public Class ozreportws_lto
                                 End If
 
                                 effektiv_proc = 0
-                                If fakBareReal <> 0 And lTim <> 0 Then
+                                'fakBareReal <> 0 And 
+                                If lTim <> 0 Then
                                     effektiv_proc = (fakBareReal / lTim) * 100
                                     effektiv_proc = Replace(Replace(FormatNumber(CType(effektiv_proc, String), 0), ",", ""), ".", ",") 'fakBareReal &"/"& lTim & "="& 
                                 End If
@@ -1820,7 +2708,26 @@ Public Class ozreportws_lto
                                 End If
 
 
+                                If lto = "dencker" Then
 
+                                    faktbarudenE1 = 0
+                                    faktbarudenE1 = fakBareReal - e1Timer
+
+                                    effektiv_proc_uden_E1 = 0
+                                    If lTim <> 0 Then
+
+
+                                        effektiv_proc_uden_E1 = ((faktbarudenE1) / lTim) * 100
+
+
+
+                                        effektiv_proc_uden_E1 = Replace(Replace(FormatNumber(CType(effektiv_proc_uden_E1, String), 0), ",", ""), ".", ",")
+                                        'effektiv_proc_uden_E1 = faktbarudenE1 & "/" & lTim
+                                    End If
+
+                                    writer.Write(faktbarudenE1 & ";")
+
+                                End If
 
 
                                 If show_atd = "1" Then
@@ -1846,13 +2753,52 @@ Public Class ozreportws_lto
 
                                     objDR.Close()
 
-                                    effektiv_proc_atd = 0
-                                    If fakBareReal_atd <> 0 And lTim_atd <> 0 Then
-                                        effektiv_proc_atd = (fakBareReal_atd / lTim_atd) * 100
-                                        effektiv_proc_atd = Replace(Replace(FormatNumber(CType(effektiv_proc_atd, String), 0), ",", ""), ".", ",")
+                                    'Henter E1 timer over et år til hvis de skal trækkes fra.
+                                    Dim strSQE1Timer_atd As String = "SELECT sum(timer) AS sumtimerF, tmnavn FROM timer WHERE tmnr = " & objDR2("mid") & akttyper_invoiceable & " AND tfaktim = 90 "
+                                    strSQE1Timer_atd = strSQE1Timer_atd & "AND (tdato BETWEEN '" & Year(startDatoAtDSQL) & "/" & Month(startDatoAtDSQL) & "/" & Day(startDatoAtDSQL) & "' AND '" & slutDatoSQL & "') GROUP BY tmnr"
+
+
+                                    objCmd = New OdbcCommand(strSQE1Timer_atd, objConn)
+                                    objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                                    e1Timer_atd = 0
+                                    If objDR.Read() = True Then
+
+
+                                        'fakBareReal_atd = Replace(Replace(FormatNumber(CType(objDR.Item("sumtimerF"), String), 2), ",", ""), ".", ",")
+                                        e1Timer_atd = objDR.Item("sumtimerF")
+
+
                                     End If
 
-                                End If
+                                    objDR.Close()
+
+                                    effektiv_proc_atd = 0
+                                    effektiv_proc_atd_uden_E1 = 0
+
+                                    'fakBareReal_atd <> 0 
+                                    If lTim_atd <> 0 Then
+
+                                        effektiv_proc_atd = (fakBareReal_atd / lTim_atd) * 100
+                                        effektiv_proc_atd = Replace(Replace(FormatNumber(CType(effektiv_proc_atd, String), 0), ",", ""), ".", ",")
+
+                                        'If e1Timer_atd <> 0 Then
+                                        effektiv_proc_atd_uden_E1 = ((fakBareReal_atd - e1Timer_atd) / lTim_atd) * 100
+                                        effektiv_proc_atd_uden_E1 = Replace(Replace(FormatNumber(CType(effektiv_proc_atd_uden_E1, String), 0), ",", ""), ".", ",")
+                                        'End If
+
+                                        'effektiv_proc_atd = fakBareReal_atd & "/" & lTim_atd
+                                        'effektiv_proc_atd_uden_E1 = fakBareReal_atd &"-"& e1Timer_atd &"/"& lTim_atd
+
+                                    End If
+
+
+
+
+                                End If 'show_atd
+
+
+
 
 
                                 '*** Syg + Barn syg ***'
@@ -1946,9 +2892,12 @@ Public Class ozreportws_lto
 
                                 If show_atd = "1" Then
                                     writer.Write(effektiv_proc & " %;" & effektiv_proc_atd & " %;")
+
+                                    If lto = "dencker" Then
+                                        writer.Write(effektiv_proc_uden_E1 & " %;" & effektiv_proc_atd_uden_E1 & " %;")
+
+                                    End If
                                 End If
-
-
 
 
                                 '** ÅTD = 2 REAL timer ÅTD
@@ -1978,6 +2927,9 @@ Public Class ozreportws_lto
 
 
                                     ugeNrLastWeek = DatePart("ww", slutDato, Microsoft.VisualBasic.FirstDayOfWeek.Monday, FirstWeekOfYear.FirstFourDays)
+                                    'If ugeNrLastWeek = 53 And DatePart("ww", DateAdd("d", 7, ugeNrLastWeek), Microsoft.VisualBasic.FirstDayOfWeek.Monday, FirstWeekOfYear.FirstFourDays) = 2 Then
+                                    ' ugeNrLastWeek = 1
+                                    'End If
 
                                     'bal_norm_real = ((Replace(realTimer, ",", ".") / 1) - (normTimer / 100))
                                     bal_norm_realAtd = (realTimerAtd / 1) - (normTimer * ugeNrLastWeek / 1)
@@ -2144,12 +3096,14 @@ Public Class ozreportws_lto
 
 
             Select Case CInt(rapporttype)
-                Case 5, 6, 9, 10, 12, 13, 14 'TIA loop
+                Case 5, 6, 9, 10, 12, 13, 14, 105, 106, 116 'TIA loop
 
                     'Bliver tilføjet ovenfor i medarb LOO
                     objConn.Close()
 
                 Case Else
+
+
 
                     '*** Filnavn og modtager  **
                     Dim dgs As Date = Date.Now
@@ -2161,16 +3115,23 @@ Public Class ozreportws_lto
 
                     objConn.Close()
 
+
                     antalEmails = antalEmails + 1
 
+
+
             End Select
+
+            'objConn64.Close()
 
 
             'antalEmails = "OK"
             'Next
+
+
         End While
         'Loop
-
+        'Return "OK 30"
 
         objDR_admin.Close()
         objConn_admin.Close()
@@ -2180,9 +3141,10 @@ Public Class ozreportws_lto
         'Return flname + "HEJ"
         'If antalEmails > 0 Then
         Return antalEmails.ToString
-
-        'End If
-
+        ' Else
+        ' Return "0 Afsendte"
+        ' End If
+        'Return " OK - Emails afsendt"
 
     End Function
 

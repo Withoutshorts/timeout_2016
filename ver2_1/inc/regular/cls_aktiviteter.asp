@@ -37,6 +37,32 @@
                 jobid = 0
                 end if
 
+
+                if len(trim(request("searchmode"))) <> 0 then
+
+                    searchmode = request("searchmode")
+                    sogSort = request("sogSort")
+
+                    select case cint(sogSort)
+                    case 1
+                    strsogSort = "navn "
+                    case 2
+                    strsogSort = "navn DESC"
+                   end select          
+    
+                else
+
+                    searchmode = 0
+                    strsogSort = "navn"
+
+                end if
+
+
+
+
+
+
+
                  '*** Sales / tilbud kun Salgsaktiviteter
                 '(a.fakturerbar = 6 AND j.jobstatus = 3)
                 jobstatusTjk = 1
@@ -71,7 +97,7 @@
         
                 call positiv_aktivering_akt_fn()
                 pa = pa_aktlist
-                pa_only_specifikke_akt = positiv_aktivering_akt_val
+                positiv_aktivering_akt_val = positiv_aktivering_akt_val
             
                 varTjDatoUS_man = request("varTjDatoUS_man")
                 varTjDatoUS_son = dateAdd("d", 6, varTjDatoUS_man)
@@ -83,14 +109,16 @@
                 '*** Vis kun aktiviteter med forecast på
                 call aktBudgettjkOn_fn()
                 '*** Skal akt lukkes for timereg. hvis forecast budget er overskrddet..?
+
+
                 '** MAKS budget / Forecast incl. peridoe afgrænsning
                 call akt_maksbudget_treg_fn()
 
-                if cint(aktBudgettjkOnViskunmbgt) = 1 then
-                viskunForecast = 1
-                else
-                viskunForecast = 0
-                end if
+                'if cint(aktBudgettjkOnViskunmbgt) = 1 then
+                'viskunForecast = 1
+                'else
+                'viskunForecast = 0
+                'end if
 
 
                 timerTastet = 0 'request("timer_tastet")
@@ -109,7 +137,7 @@
                 end if
                 oRec5.close 
 
-                call allejobaktmedFC(viskunForecast, medid, jobid, risiko)
+                call allejobaktmedFC(aktBudgettjkOnViskunmbgt, medid, jobid, risiko)
 
                 
                 '*** Datospærring Vis først job når stdato er oprindet
@@ -138,6 +166,9 @@
                      '** Select eller søgeboks
                     call mobil_week_reg_dd_fn()
                     
+                    'if lto = "dencker" then
+                    '    mobil_week_reg_akt_dd = 1
+                    'end if
                     
                     if cint(mobil_week_reg_akt_dd) <> 1 then 'AND aktsog <> "-1" 
                     strSQlAktSog = "AND navn LIKE '%"& aktsog &"%'"
@@ -146,28 +177,30 @@
 
                             '** Forvalgt 1 aktivitet
                             if cint(mobil_week_reg_akt_dd_forvalgt) <> 1 AND cint(mobil_week_reg_akt_dd) = 1 then
-                            strAktTxt = strAktTxt & "<option value=""-1"">Choose..</option>" 
+                                if cint(searchmode) <> 1 then
+                                strAktTxt = strAktTxt & "<option value=""-1"">Choose..</option>" 
+                                end if
                             end if
 
                     end if
 
 
 
-                   if cint(pa) = 1 then '**Kun på Personlig aktliste
+                   if cint(pa) = 1 OR cint(positiv_aktivering_akt_val) = 1 then '**Kun på Personlig aktliste & Positiv Aktivitering
     
     
-                       'Positiv aktivering
-                       if cint(pa_only_specifikke_akt) then
+                       'Ydermere Positiv aktivering
+                       if cint(positiv_aktivering_akt_val) = 1 then
 
-                       strSQL = "SELECT a.id AS aid, navn AS aktnavn, fase "_
-                       &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.id = tu.aktid "& onlySalesact &") "_
-                       &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" "& onlySalesact &" ORDER BY fase, sortorder, navn LIMIT 250"   
+                       strSQL = "SELECT a.id AS aid, navn AS aktnavn, fase, forvalgt "_
+                       &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.id = tu.aktid) "_
+                       &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" "& onlySalesact &" ORDER BY fase, sortorder, "& strsogSort &" LIMIT 600"   
                        'AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &")
                        else 
 
-                       strSQL = "SELECT a.id AS aid, navn AS aktnavn, fase "_
+                       strSQL = "SELECT a.id AS aid, navn AS aktnavn, fase, forvalgt "_
                        &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.job = tu.jobid) "_
-                       &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid = 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" "& onlySalesact &" ORDER BY fase, sortorder, navn LIMIT 250"
+                       &" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid = 0 "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" "& onlySalesact &" ORDER BY fase, sortorder, "& strsogSort &" LIMIT 600"
                        'AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &")
                        end if
 
@@ -198,7 +231,7 @@
 
                    strSQL = "SELECT a.id AS aid, navn AS aktnavn, fase, projektgruppe1, projektgruppe2, projektgruppe3, "_
                    &" projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10 FROM aktiviteter AS a "_
-                   &" WHERE a.job = " & jobid & " "& strSQLDatoKri &" "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" "& onlySalesact &" ORDER BY fase, sortorder, navn LIMIT 250"      
+                   &" WHERE a.job = " & jobid & " "& strSQLDatoKri &" "& strSQlAktSog &" AND aktstatus = 1 AND ("& aty_sql_hide_on_treg &") "& forecastAktids &" "& onlySalesact &" ORDER BY fase, sortorder, "& strsogSort &" LIMIT 600"      
     
 
                
@@ -206,80 +239,156 @@
                 end if
 
                 'response.write "strSQL " & strSQL & ""
+                'response.End
                 'response.write "<option>strSQL " & strSQL & "</option>"
                 'response.flush
+
+                '*** PGA Cflow - Monitor IKONER
+
+                ' Tjekker hvor aktiviter jobbet har
+                antalAkt = 70
+                strSQLakttjk = "SELECT id, COUNT(id) as sumakt from aktiviteter WHERE job =" & jobid
+                oRec6.open strSQLakttjk, oConn, 3
+                if not oRec6.EOF then
+                    antalAkt = oRec6("sumakt")
+                end if
+                oRec6.close
+
+                antalAkt = cdbl(antalAkt) + 5
+
+                dim akttd            
+                redim akttd(antalAkt)
+
+
+                antalA = 0
+                antalB = 0
+                antalC = 0
+                antalD = 0
+                antalE = 0
+                antalF = 0
+                antalG = 0
+                antalH = 0
+                antalI = 0
+                antalJ = 0
+                antalK = 0
+                antalL = 0
+                antalM = 0
+                antalN = 0
+                antalO = 0
+                antalP = 0
+                antalQ = 0
+                antalR = 0
+                antalS = 0
+                antalT = 0
+                antalU = 0
+                antalV = 0
+                antalX = 0
+                antalY = 0
+                antalZ = 0
+                antalAE = 0
+                antalOO = 0
+                antalAA = 0
+                antalW = 0
+
+                alabetColor = ""
+                alabetDisplay = ""
+
 
                 afundet = 0
                 aa = 0
                 oRec.open strSQL, oConn, 3
                 while not oRec.EOF
         
-                if cint(pa) = 1 then 'Positiv aktivering
+                
+                         'response.write "strSQL " & strSQL & ""
+                         'response.write "<option>strSQL " & strSQL & "</option>"
+                         'response.flush
 
-                showAkt = 1
+                        if isNULL(oRec("aid")) <> true then
 
-                else
+
+
+                        if cint(pa) = 1 OR cint(positiv_aktivering_akt_val) = 1 then 'Personlig AKT liste eller Positiv aktivering
+
+                        showAkt = 1
+
+                        else
             
-                showAkt = 0
-                if instr(medarbPGrp, "#"& oRec("projektgruppe1") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe2") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe3") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe4") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe5") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe6") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe7") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe8") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe9") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe10") &"#") <> 0 then
-                showAkt = 1
-                end if 
+                                showAkt = 0
+                                if instr(medarbPGrp, "#"& oRec("projektgruppe1") &"#") <> 0 _
+                                OR instr(medarbPGrp, "#"& oRec("projektgruppe2") &"#") <> 0 _
+                                OR instr(medarbPGrp, "#"& oRec("projektgruppe3") &"#") <> 0 _
+                                OR instr(medarbPGrp, "#"& oRec("projektgruppe4") &"#") <> 0 _
+                                OR instr(medarbPGrp, "#"& oRec("projektgruppe5") &"#") <> 0 _
+                                OR instr(medarbPGrp, "#"& oRec("projektgruppe6") &"#") <> 0 _
+                                OR instr(medarbPGrp, "#"& oRec("projektgruppe7") &"#") <> 0 _
+                                OR instr(medarbPGrp, "#"& oRec("projektgruppe8") &"#") <> 0 _
+                                OR instr(medarbPGrp, "#"& oRec("projektgruppe9") &"#") <> 0 _
+                                OR instr(medarbPGrp, "#"& oRec("projektgruppe10") &"#") <> 0 then
+                                showAkt = 1
+                                end if 
 
-                end if
-
-
-                '** Forecast peridore afgrænsning
-                'if cint(akt_maksforecast_treg) = 1 then
-                if cint(aktBudgettjkOn) = 1 then
-                    call ressourcefc_tjk(ibudgetaar, ibudgetmd, aar, md, medid, oRec("aid"), timerTastet)
-                end if
-               
-                
-                
-                if cint(showAkt) = 1 then 
-                 
-                'strAktTxt = strAktTxt & "<input type=""hidden"" id=""hiddn_akt_"& oRec("aid") &""" value="""& oRec("aktnavn") &""">"
-                'strAktTxt = strAktTxt & "<a class=""chbox_akt"" id=""chbox_akt_"& oRec("aid") &""" value="& oRec("aid") &">"& oRec("aktnavn") &"</a><br>" 
-
-                if cint(aktBudgettjkOn) = 1 then
-
-
-                if len(trim(feltTxtValFc)) <> 0 then
-                fcsaldo_txt = " (fc. Saldo: "& formatnumber(feltTxtValFc, 2) & " / "& formatnumber(fctimer,2) &" t.)"
-                else
-                feltTxtValFc = 0
-                end if
-
-                    optionFcDis = ""
-                    if cint(akt_maksforecast_treg) = 1 then
-                        if feltTxtValFc <= 0 then
-                              optionFcDis = "DISABLED"
                         end if
+
+
+
+
+                '************************************************
+                '** Forecast periode afgrænsning
+                '************************************************
+
+                 
+                if cint(showAkt) = 1 then         
+
+
+
+                if cint(positiv_aktivering_akt_val) = 1 AND instr(forecastAktidsTxt, "#"& oRec("aid") &"#") = 0 then 
+                'Hvis Positivt tildelt / Der har aldrig har været forecast, skal der ikke tjekkes for forecast, da den så må være positivt tildelt.
+
+                     fcsaldo_txt = ""
+
+                else
+             
+                    if cint(aktBudgettjkOn) = 1 then 
+
+                       'KAN SE MEN IKKE TASTE
+                        call ressourcefc_tjk(ibudgetaar, ibudgetmd, aar, md, medid, oRec("aid"), timerTastet)
+                  
+            
+                    if len(trim(feltTxtValFc)) <> 0 then
+                    fcsaldo_txt = " (fc. Saldo: "& formatnumber(feltTxtValFc, 2) & " / "& formatnumber(fctimer,2) &" t.)"
+                    else
+                    feltTxtValFc = 0
                     end if
 
-                else
+                        optionFcDis = ""
+                        if cint(akt_maksforecast_treg) = 1 then
+                            if feltTxtValFc <= 0 then
+                                  optionFcDis = "DISABLED"
+                            end if
+                        end if
 
-                fcsaldo_txt = ""
+                    else
 
-                end if
+                    fcsaldo_txt = ""
 
+                    end if
+
+                 end if
+
+
+
+
+             
 
                 if lastFase <> oRec("fase") AND isNULL(oRec("fase")) <> true then
         
                  thisFase = replace(oRec("fase"), " ", "")
                  thisFase = replace(thisFase, "_", " ")
-
-                 strAktTxt = strAktTxt & "<option value=""0"" DISABLED></option>"
-                 strAktTxt = strAktTxt & "<option value=""0"" DISABLED>fase: "& thisFase &"</option>" 
+                    if cint(searchmode) <> 1 then
+                     strAktTxt = strAktTxt & "<option value=""0"" DISABLED></option>"
+                     strAktTxt = strAktTxt & "<option value=""0"" DISABLED>fase: "& thisFase &"</option>" 
+                    end if
                 end if
 
                 
@@ -296,22 +405,361 @@
                 end if
 
                 'strAktFcSaldoTxt = strAktFcSaldoTxt & "<input type=""text"" value="& feltTxtValFc &" id=""FM_fcs_"& oRec("aid") &">"
-                strAktTxt = strAktTxt & "<option value="& oRec("aid") &" "& optionFcDis &" "& aktidSEL &">"& oRec("aktnavn") &" "& fcsaldo_txt &" "& aidTxt &"</option>" 
-                
+                if cint(searchmode) <> 1 then
+                    strAktTxt = strAktTxt & "<option value="& oRec("aid") &" "& optionFcDis &" "& aktidSEL &">"& oRec("aktnavn") &" "& fcsaldo_txt &" "& aidTxt &"</option>" 
+                else
+
+                    straktnavn = oRec("aktnavn")
+                    if len(straktnavn) > 19 then
+                    straktnavn = left(straktnavn, 19) & "..."
+                    else
+                    straktnavn = straktnavn
+                    end if
+
+                    straktnavnFirstLetter = left(straktnavn,1)
+                    straktnavn = right(straktnavn, (len(straktnavn) - 1))
+
+                    select case straktnavnFirstLetter
+                            case "A", "a"
+                                if antalA < 1 then
+                                    alabetColor = "#db2b2b"
+                                    alabetDisplay = ""
+                                    antalA = antalA + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "B", "b"
+                                if antalB < 1 then
+                                    alabetColor = "#db2b2b"
+                                    alabetDisplay = ""
+                                    antalB = antalB + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "C", "c"
+                                if antalC < 1 then
+                                    alabetColor = "#db2b2b"
+                                    alabetDisplay = ""
+                                    antalC = antalC + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "D", "d"
+                                if antalD < 1 then
+                                    alabetColor = "#db2b2b"
+                                    alabetDisplay = ""
+                                    antalD = antalD + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "E", "e"
+                                if antalE < 1 then
+                                    alabetColor = "#db2b2b"
+                                    alabetDisplay = ""
+                                    antalE = antalE + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "F", "f"
+                                if antalF < 1 then
+                                    alabetColor = "#db2b2b"
+                                    alabetDisplay = ""
+                                    antalF = antalF + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "G", "g"
+                                if antalG < 1 then
+                                    alabetColor = "#db2b2b"
+                                    alabetDisplay = ""
+                                    antalG = antalG + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "H", "h"
+                                if antalH < 1 then
+                                    alabetColor = "#db2b2b"
+                                    alabetDisplay = ""
+                                    antalH = antalH + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "I", "i"
+                                if antalI < 1 then
+                                    alabetColor = "#db2b2b"
+                                    alabetDisplay = ""
+                                    antalI = antalI + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "J", "j"
+                                if antalJ < 1 then
+                                    alabetColor = "#db2b2b"
+                                    alabetDisplay = ""
+                                    antalJ = antalJ + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "K", "k"
+                                if antalK < 1 then
+                                    alabetColor = "#db2b2b"
+                                    alabetDisplay = ""
+                                    antalK = antalK + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "L", "l"
+                                if antalL < 1 then
+                                    alabetColor = "#db2b2b"
+                                    alabetDisplay = ""
+                                    antalL = antalL + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "M", "m"
+                                if antalM < 1 then
+                                    alabetColor = "#db2b2b"
+                                    alabetDisplay = ""
+                                    antalM = antalM + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "N", "n"
+                                if antalN < 1 then
+                                    alabetColor = "#ffa0a0"
+                                    alabetDisplay = ""
+                                    antalN = antalN + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "O", "o"
+                                if antalO < 1 then
+                                    alabetColor = "#ffa0a0"
+                                    alabetDisplay = ""
+                                    antalO = antalO + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "P", "p"
+                                if antalP < 1 then
+                                    alabetColor = "#ffa0a0"
+                                    alabetDisplay = ""
+                                    antalP = antalP + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "Q", "q"
+                                if antalQ < 1 then
+                                    alabetColor = "#ffa0a0"
+                                    alabetDisplay = ""
+                                    antalQ = antalQ + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "R", "r"
+                                if antalR < 1 then
+                                    alabetColor = "#ffa0a0"
+                                    alabetDisplay = ""
+                                    antalR = antalR + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "S", "s"
+                                if antalS < 1 then
+                                    alabetColor = "#ffa0a0"
+                                    alabetDisplay = ""
+                                    antalS = antalS + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "T", "t"
+                                if antalT < 1 then
+                                    alabetColor = "#ffa0a0"
+                                    alabetDisplay = ""
+                                    antalT = antalT + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "U", "u"
+                                if antalU < 1 then
+                                    alabetColor = "#ffa0a0"
+                                    alabetDisplay = ""
+                                    antalU = antalU + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "V", "u"
+                                if antalV < 1 then
+                                    alabetColor = "#ffa0a0"
+                                    alabetDisplay = ""
+                                    antalV = antalV + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "X", "x"
+                                if antalX < 1 then
+                                    alabetColor = "#ffa0a0"
+                                    alabetDisplay = ""
+                                    antalX = antalX + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "Y", "y"
+                                if antalY < 1 then
+                                    alabetColor = "#ffa0a0"
+                                    alabetDisplay = ""
+                                    antalY = antalY + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "Æ", "æ"
+                                if antalAE < 1 then
+                                    alabetColor = "#ffa0a0"
+                                    alabetDisplay = ""
+                                    antalAE = antalAE + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "Ø", "ø"
+                                if antalOO < 1 then
+                                    alabetColor = "#ffa0a0"
+                                    alabetDisplay = ""
+                                    antalOO = antalOO + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "Å", "å"
+                                if antalAA < 1 then
+                                    alabetColor = "#ffa0a0"
+                                    alabetDisplay = ""
+                                    antalAA = antalAA + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "W", "w"
+                                if antalW < 1 then
+                                    alabetColor = "#ffa0a0"
+                                    alabetDisplay = ""
+                                    antalW = antalW + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case else
+                                alabetColor = ""
+                                alabetDisplay = "hidden"
+                        end select
+
+                    akttd(aa) = "<td> <div style='display:inline-block;'> <span style='margin-left:15px; font-size:110%; width:35px; visibility:"&alabetDisplay&"; background-color:#db2b2b;' class='btn btn-default btn-sm'><b style='color:white'>"&straktnavnFirstLetter&"<b></span> <br> <span style='width:270px; margin-top:1px; margin-left:15px; font-size:200%; background-color:#f9f9f9;' class='btn btn-default aktsel' id="&oRec("aid")&"><b><span>"&straktnavnFirstLetter&"</span>"&straktnavn&" <br> <span style='font-size:17px;'>"&fcsaldo_txt&" "&aidTxt&"</span>"& "" &"</b></span> <input type='hidden' id='aktnavn_sel_"&oRec("aid")&"' value='"&oRec("aktnavn")&"' /></b></span> </div> </td>"
+                end if
+
                 end if
                 
                 lastFase = oRec("fase")
                 aa = aa + 1
                 afundet = afundet + 1
+
+
+                end if 'aid IS NULL
                 oRec.movenext
                 wend
                 oRec.close
 
                 
                 if afundet = 0 then
-                strAktTxt = strAktTxt & "<option value=""-1"" DISABLED>"& week_txt_011 &"</option>" 
+                    if cint(searchmode) <> 1 then
+                        strAktTxt = strAktTxt & "<option value=""-1"" DISABLED>"& week_txt_011 &"</option>" 
+                    end if
                 end if          
 
+
+                    if cint(searchmode) = 1 then
+                        strtd = ""
+                        totalakts = 0
+                        rowCount = 0
+                        row = 1
+                        for i = 0 TO UBOUND(akttd)
+
+                            if len(akttd(i)) <> 0 then
+
+                                if(row = 1) then
+                                    strtd = strtd & "<tr>"
+                                end if
+
+                                
+                                strtd = strtd & akttd(i)
+                                
+
+                                if (row = 4) then
+                                    strtd = strtd & "</tr>"
+                                    row = 0
+                                end if
+
+                                row = row + 1
+                                totalakts = totalakts + 1
+                                
+                            end if
+
+                            'if akttd(i) <> "" then
+                                'if i <> 0 then
+                                    'if rowCount = 4 then
+                                    'strtd = strtd & "</tr>"
+                                    'strtd = strtd & "<tr>"
+                                    'rowCount = 0 
+                                    'end if
+                                'else
+                                    'strtd = strtd & "<tr>"
+                                'end if
+                    
+                                'strtd = strtd & akttd(i)
+                                'rowCount = rowCount + 1
+
+                                'totalakt = totalakt + 1
+                            'end if
+                            
+                        next
+
+                        'strtd = strtd & "<td>HEJ</td>"
+                        if cint(totalakts) < 4 then                            
+                            td = totalakts
+                            for td = totalakts TO 3
+                                strtd = strtd & "<td style='display:none;'>&nbsp;</td>"
+                            next
+                        end if
+
+
+
+
+                        strAktTxt = strAktTxt & strtd
+
+                    end if
 
 
                     '*** ÆØÅ **'
@@ -839,7 +1287,7 @@
 			</tr>
 			
 			<tr bgcolor="#EFF3ff">
-			<td >
+			<td>
 			
 			<%
 			if instr(akttype_sel, "#-3#") <> 0 then
@@ -872,6 +1320,26 @@
 			</td>
 			</tr>
 		
+
+               <%if cint(traveldietexp_on) = 1 then%>
+
+           <%
+			if instr(akttype_sel, "#-70#") <> 0 then
+            akttypeCHK = "CHECKED"
+            else
+            akttypeCHK = ""
+            end if
+			%>
+
+            <tr>
+                <td>
+                 <input id="FM_akttype_id_0_70" name="FM_akttype" type="checkbox" <%=akttypeCHK %> value="#-70#" class="akt_afst" /></td>
+            <td>Diæter
+			</td>
+                </tr>    
+
+               <%end if%>
+
            <tr>
 			<td valign="top">
            <%
@@ -959,10 +1427,14 @@
 
 
 			
-	 <%
-	 v = 7 '5
+	         <%
+	         v = 7 '5
 	
 	    end if 'thisfile = "bal_real_norm_2007.asp"  
+
+
+
+
 	  
 	   if cint(left(oRec4("aty_sort"), 1)) <> cint(aty_lastsort) then ' AND cint(left(oRec4("aty_sort"), 1)) <> 2 then
 	   %>
@@ -1004,7 +1476,7 @@
 			    end select  
                 
                 
-                if (left(oRec4("aty_sort"), 1) <> 5) OR (level = 1) then 'sygdom kun admin %>
+                if (left(oRec4("aty_sort"), 1) = 1) OR (level = 1) then 'Fakturerbare / ikke fakbar ALLE ellers kun sygdom kun admin %>
 			<tr>
 			    <td><input id="chkalle_<%=left(oRec4("aty_sort"), 1) %>" type="checkbox" class=<%=aktcls %> /></td>
 			    <td><b><%=straktgrpnavn %></b></td>
@@ -1013,6 +1485,9 @@
 
 	 <%     end if 
      end if %>
+
+
+
 	 
 	  <%select case right(xi, 1)
 	  case 2,4,6,8,0
@@ -1030,13 +1505,26 @@
 	  %>
 	        
 	        <%
-	        '**** Sygdom og sundhed kun admin ***'
+	        '**** Alle andre ned  fakturerbare / ikke fakturerbar / Ferie, Overarb. Sygdom og sundhed kun admin ***'
+            select case lto
+            case "plan"
+                    if (oRec4("aty_id")) > 2 AND level <> 1 then
+                    hdflt = 1
+	                else
+	                hdflt = 0
+	                end if 
 
-	        if (oRec4("aty_id") = 20 OR oRec4("aty_id") = 21 OR oRec4("aty_id") = 22 OR oRec4("aty_id") = 23 OR oRec4("aty_id") = 24 OR oRec4("aty_id") = 8 OR oRec4("aty_id") = 81) AND level <> 1 then 'AND thisfile = "bal_real_norm_2007.asp" then 
-	        hdflt = 1
-	        else
-	        hdflt = 0
-	        end if 
+            case else
+
+                    if (oRec4("aty_id") = 20 OR oRec4("aty_id") = 21 OR oRec4("aty_id") = 22 OR oRec4("aty_id") = 23 OR oRec4("aty_id") = 24 OR oRec4("aty_id") = 8 OR oRec4("aty_id") = 81) AND level <> 1 then 'AND thisfile = "bal_real_norm_2007.asp" then 
+	                hdflt = 1
+	                else
+	                hdflt = 0
+	                end if 
+
+            end select
+
+	       
 	        
 	        if hdflt <> 1 then%>
 
@@ -1052,7 +1540,8 @@
 	        
 			<tr bgcolor="<%=bgthis%>">
 			<td >
-                <input id="FM_akttype_id_<%=left(oRec4("aty_sort"), 1)%>_<%=v%>" name="FM_akttype" type="checkbox" <%=akttypeCHK %> value="#<%=oRec4("aty_id")%>#" class=<%=aktcls %> /></td>
+                <input id="FM_akttype_id_<%=left(oRec4("aty_sort"), 1)%>_<%=v%>" name="FM_akttype" type="checkbox" <%=akttypeCHK %> value="#<%=oRec4("aty_id")%>#" class=<%=aktcls %> />
+              </td>
 			<td >
 			
 			<%call akttyper(oRec4("aty_id"), 1) %>
@@ -1645,9 +2134,56 @@ function hentaktiviterListe(jobid, func, vispasluk, sort)
                  strAktListe = strAktListe &"<input type='hidden' name='FM_avarenr' id='FM_avarenr_"& oRec6("id") &"' value='"& avarenr &"'>"
    
            case 2
+
+           select case lto
+           case "tia", "intranet - local"
+
+           'if session("mid") = 1 OR session("mid") = 8 Or session("mid") = 9 then
+           
+               if func = "red" then
+
+               
+
+               strAktListe = strAktListe &"<td><select style='font-family:arial; width:80px; font-size:9px;' name='FM_avarenr' id='FM_avarenr_"& oRec6("id") &"'>"
+               strAktListe = strAktListe &"<option selected>"& avarenr &"</option>"
+
+              
+         
+               strSQLtaskno = "SELECT avarenr FROM aktiviteter WHERE job = "& jobid &" AND fakturerbar = 90"
+               oRec10.open strSQLtaskno, oConn, 3
+               while not oRec10.EOF
+
+               avnrtxt = oRec10("avarenr")
+               strAktListe = strAktListe &"<option value="& oRec10("avarenr") &">"& avnrtxt &"</option>"
+               
+               oRec10.movenext
+               wend 
+               oRec10.close
+
+              
+            
+
+
+               strAktListe = strAktListe &"</select></td>" '<input type='text' style='font-family:arial; width:80px; font-size:9px;' name='FM_avarenr' id='FM_avarenr_"& oRec6("id") &"' value='"& avarenr &"'></td>"
+               else
+               strAktListe = strAktListe &"<td><input type='text' style='font-family:arial; width:80px; font-size:9px;' name='FM_avarenr' id='FM_avarenr_"& oRec6("id") &"' value='"& avarenr &"'></td>"
+               strAktListe = strAktListe &"<input type='hidden' name='FM_aktkonto' id='FM_aktkonto_"& oRec6("id") &"' value='"& oRec6("aktkonto") &"'>"
+               end if
+
+           'else
+           '  strAktListe = strAktListe &"<td><input type='text' style='font-family:arial; width:80px; font-size:9px;' name='FM_avarenr' id='FM_avarenr_"& oRec6("id") &"' value='"& avarenr &"'></td>"
+           '  strAktListe = strAktListe &"<input type='hidden' name='FM_aktkonto' id='FM_aktkonto_"& oRec6("id") &"' value='"& oRec6("aktkonto") &"'>"
+           
+           'end if
+
+
+           strAktListe = strAktListe &"<input type='hidden' name='FM_aktkonto' id='FM_aktkonto_"& oRec6("id") &"' value='"& oRec6("aktkonto") &"'>"
+           case else
            strAktListe = strAktListe &"<td><input type='text' style='font-family:arial; width:80px; font-size:9px;' name='FM_avarenr' id='FM_avarenr_"& oRec6("id") &"' value='"& avarenr &"'></td>"
            strAktListe = strAktListe &"<input type='hidden' name='FM_aktkonto' id='FM_aktkonto_"& oRec6("id") &"' value='"& oRec6("aktkonto") &"'>"
-               
+           end select
+
+
            case else
 
                    strAktListe = strAktListe &"<input type='hidden' name='FM_aktkonto' id='FM_aktkonto_"& oRec6("id") &"' value='"& oRec6("aktkonto") &"'>"
@@ -1726,7 +2262,7 @@ function hentaktiviterListe(jobid, func, vispasluk, sort)
     end if
 
     strAktListe = strAktListe &"<td align=right><a href='aktiv.asp?menu=job&func=red&id="&oRec6("id")&"&jobid="&jobid&"&jobnavn="&request("jobnavn")&"&rdir=job2&nomenu=1' target=""_blank"" style=""font-size:9px; color:#6CAE1C;"">"_
-    &"[R]</a></td>"_
+    &"&nbsp;..\</a></td>"_
     &"<td align=right style=""background-color:"& resBgColor &";""><a href="& fcLink &" target=""_blank"" style=""color:"& resAColor &"; font-size:9px; font-family:arial;"">"& formatnumber(resTimerThis, 0) &"</a>"_
     &"</td>"_
     &"<td align=right><input name='FM_slet_aid_"&c&"' id='af_sl_"&lcase(trim(thisFase))&"_"&fa&"' type=""checkbox"" value=""1"" />"_
@@ -1954,9 +2490,13 @@ function opdateraktliste(jobid, aktids, aktnavn, akttimer, aktantalstk, aktfaser
         strSQL = strSQL &" bgr = "& aktBgr(t) &", aktbudgetsum = "& akttotpris(t) &""_
 		&" WHERE id = "& aktids(t)
 		
+        'if session("mid") = 1 then
 		'Response.write strSQL & "<br>"
 		'Response.flush
+        'end if
+
 		oConn.execute(strSQL)
+
 
             '*** Opdaterer timereg. tabellen ***'
             oConn.execute("UPDATE timer SET "_
@@ -2575,8 +3115,19 @@ function tilknytstamakt(a, intAktfavgp, strAktFase, opretAlleAktiGrp, varjobId)
 
         case 124
 	    akttypenavn = global_txt_193 '"UlempeWUdb"
+
         case 125
 	    akttypenavn = global_txt_194 '"Rejse"
+
+        case 126
+	    akttypenavn = global_txt_196 '"Ferie korrektion"
+        case 127
+	    akttypenavn = global_txt_197 '"Omsorgsdage optjent"
+
+        case 128
+	    akttypenavn = global_txt_198 '"Ferie optjent til afh. 31.5.2020 - 31.8.2020"
+        case 129
+	    akttypenavn = global_txt_199 '"Ferie optjent indefrosset"
        
         case 92
 	    akttypenavn = global_txt_195 '"E3"

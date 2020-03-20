@@ -137,8 +137,10 @@ if len(session("user")) = 0 then
          slttxt = slttxt & "<b>Dag: "& oRec("dag") &" - "
          end select
 
+         call thisWeekNo53_fn(oRec("afsluttet"))
+
 		 slttxt = slttxt & oRec("mnavn") &", ("& oRec("mnr") &") - "& oRec("init") &"</b>" _
-		 & "<br>Afsluttet d. "& oRec("afsluttet") & " (uge "& datepart("ww",oRec("afsluttet"),2,2) &")"
+		 & "<br>Afsluttet d. "& oRec("afsluttet") & " (uge "& thisWeekNo53 &")"
 		 
 		 
 		 
@@ -164,8 +166,26 @@ if len(session("user")) = 0 then
                 end if
 
 
-      
-    oConn.execute("DELETE FROM ugestatus WHERE id = "& id &"")
+
+       '**** del hist
+       delNr = 0
+       delNavn = ""
+       strSQLsel = "SELECT uge, mid FROM ugestatus WHERE id = "& id 
+       oRec.open strSQLsel, oConn, 3
+       if not oRec.EOF then
+
+        delNr = oRec("mid")
+        delNavn = oRec("uge")
+
+       end if
+       oRec.close
+
+        '*** Indsætter i delete historik ****'
+	    call insertDelhist("uge", id, delNr, delNavn, session("mid"), session("user"))
+
+
+        '** Sletter
+        oConn.execute("DELETE FROM ugestatus WHERE id = "& id &"")
 	
 	Response.redirect "smileystatus.asp"
 	

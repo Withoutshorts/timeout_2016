@@ -465,12 +465,12 @@ if len(session("user")) = 0 then
             
             select case medarbfilter
             case 1
-            medarbSQLkri  = " m.mansat <> '2' "
+            medarbSQLkri  = " m.mansat <> '2' AND m.mansat <> '4' "
             mCHK1 = "CHECKED"
             mCHK2 = ""
             mCHK3 = ""
             case 2
-            medarbSQLkri  = " m.mansat <> '0' "
+            medarbSQLkri  = " m.mansat <> '0' AND m.mansat <> '4' "
             mCHK2 = "CHECKED"
             mCHK1 = ""
             mCHK3 = ""

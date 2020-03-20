@@ -8,8 +8,9 @@ Set objXmlHttp_funk = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp_funk.open "GET", "http://localhost/inc/xml/funktioner_sprog.xml", False
 'objXmlHttp_funk.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/funktioner_sprog.xml", False
 'objXmlHttp_funk.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/funktioner_sprog.xml", False
+objXmlHttp_funk.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver4_22/inc/xml/funktioner_sprog.xml", False
 'objXmlHttp_funk.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/funktioner_sprog.xml", False
-objXmlHttp_funk.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/funktioner_sprog.xml", False
+'objXmlHttp_funk.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/funktioner_sprog.xml", False
 
 objXmlHttp_funk.send
 
@@ -169,6 +170,9 @@ Set oNodes_funk = objXmlDom_funk.documentElement.selectNodes(sXPathQuery_funk)
             funk_txt_077 = oNode_funk.selectSingleNode("txt_77").Text
             funk_txt_078 = oNode_funk.selectSingleNode("txt_78").Text
             funk_txt_079 = oNode_funk.selectSingleNode("txt_79").Text
+
+        funk_txt_080 = oNode_funk.selectSingleNode("txt_80").Text
+        funk_txt_081 = oNode_funk.selectSingleNode("txt_81").Text
           
     next
 

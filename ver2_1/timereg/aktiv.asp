@@ -467,6 +467,31 @@ if len(session("user")) = 0 then
           aktEasyregval = 0
           end if
 
+           if cint(treg_uojb_ea_on) = 1 then
+
+                if len(trim(request("FM_easyreg_aid_max_"& aktEasyreg(t) &""))) <> 0 then
+                    easyreg_max = request("FM_easyreg_aid_max_"& aktEasyreg(t) &"")
+
+                        
+
+                        call erDetInt(easyreg_max)
+                        if isInt > 0 then
+                            easyreg_max = 0
+                        end if
+
+
+                        easyreg_max = replace(easyreg_max, ".", "")
+                        easyreg_max = replace(easyreg_max, ",", ".")
+            
+                else
+                    easyreg_max = 0
+                end if
+           
+            else
+            easyreg_max = 0
+           end if
+
+
          aktBesk = request("FM_beskrivelse_"& trim(aktids(t)))
            
          call htmlreplace(aktBesk)
@@ -474,7 +499,7 @@ if len(session("user")) = 0 then
          aktBesk = replace(aktBesk, "'", "''")
 		
 		strSQL = "UPDATE aktiviteter SET navn = '"& aktNavn(t) &"', aktstatus = " & aktstatus(t) & ", fakturerbar = "& aktType(t) &", "_
-		&" budgettimer = "& akttimer(t) &", aktbudget = "& aktpris(t) &", antalstk = "& aktantalstk(t) &", easyreg = "& aktEasyregval &", " _ 
+		&" budgettimer = "& akttimer(t) &", aktbudget = "& aktpris(t) &", antalstk = "& aktantalstk(t) &", easyreg = "& aktEasyregval &", easyreg_max = "& easyreg_max &", " _ 
         &" aktstartdato = '"& aktStDato(t) &"', aktslutdato = '"& aktSlDato(t) &"', "
 		
         if len(trim(aktFaser(t))) <> 0 then
@@ -869,6 +894,41 @@ if len(session("user")) = 0 then
 				end if	
 				isInt = 0
 
+                if len(trim(request("FM_easyreg"))) <> 0 then
+				easyreg = 1
+				else
+				easyreg = 0
+				end if
+
+                if len(trim(request("FM_easyreg_max"))) <> 0 then
+				easyreg_max = request("FM_easyreg_max")
+				else
+				easyreg_max = 0
+				end if
+
+                if len(trim(request("FM_easyreg_timer_proc"))) <> 0 then
+				 easyreg_timer_proc = 1
+				else
+				 easyreg_timer_proc = 0
+				end if
+
+
+                call showEasyreg_fn()    
+                 if cint(showEasyreg_val) = 1 then
+
+
+                call erDetInt(SQLBless3(trim(easyreg_max)))
+				if isInt > 0 then
+					antalErr = 1
+					errortype = 63
+					useleftdiv = "t"
+					%><!--#include file="../inc/regular/header_lysblaa_inc.asp"--><%
+					call showError(errortype)
+					response.end
+				end if	
+				isInt = 0
+                end if
+
 
                 '** Sortorder ***'
                 if len(request("SortOrder")) <> 0 then
@@ -972,11 +1032,10 @@ if len(session("user")) = 0 then
 				
 				intFomr = 0 'request("FM_fomr")
 				
-				if len(trim(request("FM_easyreg"))) <> 0 then
-				easyreg = 1
-				else
-				easyreg = 0
-				end if
+				
+
+                           
+                            
 
                 if len(trim(request("FM_avarenr"))) <> 0 then
                
@@ -1174,12 +1233,13 @@ if len(session("user")) = 0 then
 
                         if cint(aktfindes) = 0 then
 						
+                            
 						        strSQL = "INSERT INTO aktiviteter (navn, beskrivelse, job, fakturerbar, aktfavorit, aktstartdato, aktslutdato, "_
 						        &" editor, dato, projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, "_
 						        &" projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10, "_
 						        &" budgettimer, aktstatus, fomr, faktor, aktbudget, tidslaas, tidslaas_st, tidslaas_sl, antalstk, "_
 						        &" tidslaas_man, tidslaas_tir, tidslaas_ons, "_
-						        &" tidslaas_tor, tidslaas_fre, tidslaas_lor, tidslaas_son, fase, bgr, aktbudgetsum, easyreg, sortorder, fravalgt, brug_fasttp, "_
+						        &" tidslaas_tor, tidslaas_fre, tidslaas_lor, tidslaas_son, fase, bgr, aktbudgetsum, easyreg, easyreg_max, easyreg_timer_proc, sortorder, fravalgt, brug_fasttp, "_
                                 &" brug_fastkp, fasttp, fasttp_val, fastkp, fastkp_val, avarenr, kostpristarif, aktkonto, aktsttid, aktsltid "_
 						        &") VALUES "_
 						        &" ('"& strNavn &"', "_
@@ -1214,7 +1274,7 @@ if len(session("user")) = 0 then
 						        strSQL = strSQL & ", NULL , "
 						        end if
 						
-						        strSQL = strSQL & intBgr &", "& intBudgetTot &", "& easyreg &", "& sortorder &", "& fravalgt &", "& brug_fasttp &","_
+						        strSQL = strSQL & intBgr &", "& intBudgetTot &", "& easyreg &", "& easyreg_max &","&  easyreg_timer_proc &", "& sortorder &", "& fravalgt &", "& brug_fasttp &","_
                                 &""& brug_fastkp &", "& fasttp &", "& fasttp_val &", "& fastkp &", "& fastkp_val &", '"& avarenr &"', '"& kostpristarif &"', "& aktkonto &", '"& startDatoTid &"', '" & slutDatoTid &"')"
 						
 						
@@ -1261,7 +1321,7 @@ if len(session("user")) = 0 then
 						&" tidslaas_man = "& tidslaas_man &", tidslaas_tir = "& tidslaas_tir &", "_
 						&" tidslaas_ons = "& tidslaas_ons &", tidslaas_tor = "& tidslaas_tor &", "_
 						&" tidslaas_fre = "& tidslaas_fre &", tidslaas_lor = "& tidslaas_lor &", "_
-						&" tidslaas_son = "& tidslaas_son &", bgr = "& intBgr &", aktbudgetsum = "& intBudgetTot &", easyreg = "& easyreg &", sortorder = "& sortorder &", fravalgt = " & fravalgt &", "_
+						&" tidslaas_son = "& tidslaas_son &", bgr = "& intBgr &", aktbudgetsum = "& intBudgetTot &", easyreg = "& easyreg &", easyreg_max = "& easyreg_max &", easyreg_timer_proc = "& easyreg_timer_proc &", sortorder = "& sortorder &", fravalgt = " & fravalgt &", "_
                         &" brug_fasttp = "& brug_fasttp &", brug_fastkp = "& brug_fastkp &", fasttp = "& fasttp &", fasttp_val = "& fasttp_val &","_
                         &" fastkp = "& fastkp&", fastkp_val = "& fastkp_val &", avarenr = '"& avarenr &"', kostpristarif = '"& kostpristarif &"', aktkonto = "& aktkonto &", aktsttid = '"& startDatoTid &"', aktsltid = '"& slutDatoTid &"'" 
 						
@@ -1843,7 +1903,7 @@ if len(session("user")) = 0 then
 	&" faktor, aktbudget, tidslaas, tidslaas_st, tidslaas_sl, antalstk, "_
 	&" tidslaas_man, tidslaas_tir, tidslaas_ons, "_
 	&" tidslaas_tor, tidslaas_fre, tidslaas_lor, tidslaas_son, fase, bgr, easyreg, sortorder, fravalgt, "_
-    &" brug_fasttp, fasttp, fasttp_val, brug_fastkp, fastkp, fastkp_val, avarenr, kostpristarif, aktkonto, aktsttid, aktsltid "_
+    &" brug_fasttp, fasttp, fasttp_val, brug_fastkp, fastkp, fastkp_val, avarenr, kostpristarif, aktkonto, aktsttid, aktsltid, easyreg_timer_proc, easyreg_max "_
 	&" FROM aktiviteter WHERE id=" & id
 	oRec.open strSQL,oConn, 3
 	
@@ -1875,6 +1935,9 @@ if len(session("user")) = 0 then
 		intBudget = oRec("aktbudget")
 		tidslaas = oRec("tidslaas")
 		
+        easyreg_timer_proc = oRec("easyreg_timer_proc") 
+        easyreg_max = oRec("easyreg_max") 
+
 		if tidslaas = 1 then
 		tidslaas_st_Dis = ""
 		tidslaas_sl_Dis = ""
@@ -2292,8 +2355,47 @@ if len(session("user")) = 0 then
             varenrTxt = "Akt. nr / Varenr"
             end if
                 %>
-            <%=varenrTxt %>:&nbsp;<input type="text" name="FM_avarenr" value="<%=strAvarenr%>" style="width:150px;" maxlength=50><br />
+            <%=varenrTxt %>:&nbsp;
+            
+        <% select case lto
+           case "tia", "intranet - local"
+
+           'if session("mid") = 1 OR session("mid") = 8 Or session("mid") = 9 then
+           
+            
+               strAktListe = strAktListe &"<select style='width:200px; font-size:11px;' name='FM_avarenr'>"
+               strAktListe = strAktListe &"<option selected>"& strAvarenr &"</option>"
+
+              
+         
+               strSQLtaskno = "SELECT navn, avarenr FROM aktiviteter WHERE job = "& jobid &" AND fakturerbar = 90"
+               oRec10.open strSQLtaskno, oConn, 3
+               while not oRec10.EOF
+
+               avnrtxt = oRec10("navn") & " - " & oRec10("avarenr")
+               strAktListe = strAktListe &"<option value="& oRec10("avarenr") &">"& avnrtxt &"</option>"
+               
+               oRec10.movenext
+               wend 
+               oRec10.close
+
+              
+               strAktListe = strAktListe &"</select></td>" 
+
+               response.write strAktListe
+
+            'else%>
+            <!--
+            <input type="text" name="FM_avarenr" value="<%=strAvarenr%>" style="width:150px;" maxlength=50><br />
+		    <span style="color:#999999; font-size:9px;">(maks 100 karak. må ikke indeholde 'aprostrof eller "situations-tegn)</span>
+            -->
+            <%'end if
+
+        case else
+             %>    
+        <input type="text" name="FM_avarenr" value="<%=strAvarenr%>" style="width:150px;" maxlength=50><br />
 		<span style="color:#999999; font-size:9px;">(maks 100 karak. må ikke indeholde 'aprostrof eller "situations-tegn)</span>
+        <%end select %>
 
         
 
@@ -2395,6 +2497,8 @@ if len(session("user")) = 0 then
 		hgt = 60
 		jtxt = ""
 		end if
+
+        'whSQL = " jobnavn = 'Arbejdsmiljørådgivning FAR'"
 	
 	%>
 	<tr>
@@ -2563,7 +2667,9 @@ if len(session("user")) = 0 then
 		</td>
 	</tr>
 	<tr>
-	    <td style="padding:10px 0px 5px 40px;" colspan=2><b>Faktor:</b>&nbsp;<br />
+	    <td style="padding:20px 0px 5px 40px;"><b>Faktor:</b>
+            </td>
+        <td style="padding:20px 0px 5px 0px;">
              
 		<input type="text" name="FM_faktor" value="<%=formatnumber(dblfaktor, 2)%>" size="5"> (timer * faktor = enheder) <span style="color:#999999; font-size:10px;">Opdaterer ikke eksisterende timer på denne aktivitet.</span>
     </td>
@@ -2613,16 +2719,39 @@ if len(session("user")) = 0 then
     
     <%if cint(showEasyreg_val) = 1 then  %>
     <tr>
-      <%if easyreg <> 0 then
+                  <%if easyreg <> 0 then
 				  chkEasyreg = "CHECKED"
 				  else 
 				  chkEasyreg = ""
 				  end if%>
 				  
 
-		<td colspan=2 style="padding:5px 0px 10px 40px;">
-		
-                    <input id="FM_easyreg" name="FM_easyreg" type="checkbox" value="1" <%=chkEasyreg%> />&nbsp;Tilføj til Easyreg. (Indtastning af timer fordelt på flere job samtidig)</td>
+		<td style="padding:0px 0px 0px 40px; vertical-align:top;"><b>Easyreg:</b>
+            </td>
+            <td style="padding:0px 0px 0px 0px;">
+            <input id="FM_easyreg" name="FM_easyreg" type="checkbox" value="1" <%=chkEasyreg%> />&nbsp;Tilføj til Easyreg. (Indtastning af timer fordelt på flere job samtidig)
+            <br /><input type="text" name="FM_easyreg_max" value="<%=easyreg_max %>" />
+            <select name="FM_easyreg_timer_proc">
+
+                <%
+                easyreg_timer_procCHK0 = ""
+                easyreg_timer_procCHK1 = ""
+                select case easyreg_timer_proc 
+                case 0
+                    easyreg_timer_procCHK0 = "CHECKED"
+                case 1
+                    easyreg_timer_procCHK1 = "CHECKED"
+                end select%>
+
+                  <option value="0" <%=easyreg_timer_procCHK0 %>>Timer</option>
+                <!--
+                <option value="1" <%=easyreg_timer_procCHK1 %>>Procent</option>
+                -->
+            </select>
+                    
+            <br /><br />&nbsp;
+
+		</td>
 	</tr>
     <%end if %>
 
@@ -3145,7 +3274,7 @@ if len(session("user")) = 0 then
                             'Response.flush
 
                             %>
-                            <select name="FM_projektgruppe_<%=p%>">
+                            <select name="FM_projektgruppe_<%=p%>" style="width:320px;">
                                   <%select case func 
                                  case "red", "opret" %>
                                  <option value="1">Ingen</option>
@@ -3153,7 +3282,7 @@ if len(session("user")) = 0 then
 
                             
 
-							
+							projgrpfundet = 0
 							oRec.open strSQL, oConn, 3
 							While not oRec.EOF 
 							projgId = oRec("id")
@@ -3162,16 +3291,30 @@ if len(session("user")) = 0 then
 							if cint(strProj) = cint(projgId) then
 							varSelected = "SELECTED"
 							gp = strProj
+                            projgrpfundet = 1
 							else
 							varSelected = ""
 							gp = gp
-							end if
+                            end if
 							%>
 							<option value="<%=projgId%>" <%=varSelected%>><%=projgNavn%> </option>
 							<%
 							oRec.movenext
 							wend
 							oRec.close
+
+
+                            '*** hvis der findes en aktivitet der ikke er på jobbet ***'
+                            if cint(projgrpfundet) = 0 AND strProj <> 1 AND strProj <> 10 then
+                                strSQLpeksisterende = "SELECT navn FROM projektgrupper WHERE id = " & strProj
+                                oRec10.open strSQLpeksisterende, oConn, 3
+                                if not oRec10.EOF then
+                                 %>
+							    <option value="<%=strProj%>" SELECTED><%=oRec10("navn")%> (not part of proj.grps on job) </option>
+							    <%
+                                end if
+                                oRec10.close
+                            end if
 							%>
 				</select>
 				</td>
@@ -4074,7 +4217,7 @@ call sideinfoId(itop,ileft,iwdt,ihgt,iId,phDsp,phVzb,ibtop,ibleft,ibwdt,ibhgt,ib
     Forretningsomr.</td>
 	<td class='alt' style="padding-right:10px;">Fase</td>
     <%if cint(showEasyreg_val) = 1 then %>
-    <td class='alt' style="padding-right:10px;">Easyreg.</td>
+    <td class='alt' style="padding-right:10px; width:120px;">Easyreg. (max t.)</td>
     <%else %>
     <td class='alt' style="padding-right:10px;">&nbsp;</td>
     <%end if %>
@@ -4114,7 +4257,7 @@ call sideinfoId(itop,ileft,iwdt,ihgt,iId,phDsp,phVzb,ibtop,ibleft,ibwdt,ibhgt,ib
 	end if
 	
 	strSQL = "SELECT a.id, a.navn, job, beskrivelse, fakturerbar, aktstartdato, "_
-	&" aktslutdato, budgettimer, aktstatus, aktbudget, fomr.navn AS fomr, antalstk, tidslaas, a.fase, a.sortorder, a.bgr, easyreg, faktor, "_
+	&" aktslutdato, budgettimer, aktstatus, aktbudget, fomr.navn AS fomr, antalstk, tidslaas, a.fase, a.sortorder, a.bgr, easyreg, easyreg_max, faktor, "_
     &" projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10, fasttp, fasttp_val, fastkp, fastkp_val "_
 	&" FROM aktiviteter a LEFT JOIN fomr ON (fomr.id = a.fomr) "_
     &" WHERE job = "& jobid &" "& vispaslukKri &" ORDER BY "& orderBy 
@@ -4440,10 +4583,15 @@ call sideinfoId(itop,ileft,iwdt,ihgt,iId,phDsp,phVzb,ibtop,ibleft,ibwdt,ibhgt,ib
     easCHK = "CHECKED"
     else
     easCHK = ""
-    end if %>
+    end if 
+        
+    easyreg_max = oRec("easyreg_max")
+        
+    %>
 
-    <td valign=top style="padding:3px 3px 2px 3px;">
+    <td valign=top style="white-space:nowrap;">
 	<input name="FM_easyreg_aid_<%=c %>" type="checkbox" value="1" <%=easCHK %> />
+    <input type="text" name="FM_easyreg_aid_max_<%=c %>" value="<%=easyreg_max %>" style="width:30px; font-size:9px;" /> t.
     <input name="FM_easyreg_aid" type="hidden" value="<%=c %>" />
 
 	</td>
@@ -4451,6 +4599,7 @@ call sideinfoId(itop,ileft,iwdt,ihgt,iId,phDsp,phVzb,ibtop,ibleft,ibwdt,ibhgt,ib
     <td valign=top style="padding:3px 3px 2px 3px;">&nbsp;</td>
 
     <input name="FM_easyreg_aid_<%=c %>" type="hidden" value="0" />
+        <input type="hidden" name="FM_easyreg_aid_max_<%=c %>" value="0"/>
     <input name="FM_easyreg_aid" type="hidden" value="<%=c %>" />
     <%end if %>    
 	

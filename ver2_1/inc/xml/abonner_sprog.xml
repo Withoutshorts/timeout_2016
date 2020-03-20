@@ -38,7 +38,7 @@
     <txt_29 >Medarbejder</txt_29>
     <txt_30 >Rapporttype</txt_30>
 
-    <txt_31 >Medarbejdertyper tilvalgt (0=alle, -1=ingen, -2=sig selv)</txt_31>
+    <txt_31 >Medarbejdertyper tilvalgt (0=alle, -1=ingen, -2=sig selv, -3=Sys.)</txt_31>
     <txt_32 >Projekgrupper tilvalgt (0=alle)</txt_32>
     <txt_33 >Slet</txt_33>
     <txt_34 >Abonnér</txt_34>
@@ -82,7 +82,7 @@
     <txt_29 >Employee</txt_29>
     <txt_30 >Report type</txt_30>
 
-    <txt_31 >Employee types selected (0 = all, -1 = none, -2 = themselves)</txt_31>
+    <txt_31 >Employee types selected (0=all, -1=none, -2=self, -3=Sys.)</txt_31>
     <txt_32 >Project Groups selected (0 = All)</txt_32>
     <txt_33 >Delete</txt_33>
     <txt_34 >Subscribe</txt_34>
@@ -127,8 +127,8 @@
     <txt_29 >Employee</txt_29>
     <txt_30 >Report type</txt_30>
 
-    <txt_31 >Employee types selected (0 = all, -1 = none, -2 = themselves)</txt_31>
-    <txt_32 >Project Groups selected (0 = All)</txt_32>
+    <txt_31 >Employee types selected (0=all, -1=none, -2=self, -3=Sys.)</txt_31>
+    <txt_32 >Project Groups selected (0=All)</txt_32>
     <txt_33 >Delete</txt_33>
     <txt_34 >Subscribe</txt_34>
 
@@ -171,7 +171,7 @@
     <txt_29 >Employee</txt_29>
     <txt_30 >Report type</txt_30>
 
-    <txt_31 >Employee types selected (0 = all, -1 = none, -2 = themselves)</txt_31>
+    <txt_31 >Employee types selected (0=all, -1=none, -2=self, -3=Sys.)</txt_31>
     <txt_32 >Project Groups selected (0 = All)</txt_32>
     <txt_33 >Delete</txt_33>
     <txt_34 >Subscribe</txt_34>
@@ -215,7 +215,7 @@
     <txt_29 >Employee</txt_29>
     <txt_30 >Report type</txt_30>
 
-    <txt_31 >Employee types selected (0 = all, -1 = none, -2 = themselves)</txt_31>
+    <txt_31 >Employee types selected (0=all, -1=none, -2=self, -3=Sys.)</txt_31>
     <txt_32 >Project Groups selected (0 = All)</txt_32>
     <txt_33 >Delete</txt_33>
     <txt_34 >Subscribe</txt_34>
@@ -260,7 +260,7 @@
     <txt_29 >Employee</txt_29>
     <txt_30 >Report type</txt_30>
 
-    <txt_31 >Employee types selected (0 = all, -1 = none, -2 = themselves)</txt_31>
+    <txt_31 >Employee types selected (0=all, -1=none, -2=self, -3=Sys.)</txt_31>
     <txt_32 >Project Groups selected (0 = All)</txt_32>
     <txt_33 >Delete</txt_33>
     <txt_34 >Subscribe</txt_34>
@@ -304,7 +304,7 @@
     <txt_29 >Employee</txt_29>
     <txt_30 >Report type</txt_30>
 
-    <txt_31 >Employee types selected (0 = all, -1 = none, -2 = themselves)</txt_31>
+    <txt_31 >Employee types selected (0=all, -1=none, -2=self, -3=Sys.)</txt_31>
     <txt_32 >Project Groups selected (0 = All)</txt_32>
     <txt_33 >Delete</txt_33>
     <txt_34 >Subscribe</txt_34>

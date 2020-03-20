@@ -42,7 +42,7 @@
 
 	                        strSQL = "SELECT tdato, timer, timerkom, tjobnr, tjobnavn, "_
 	                        &" tknavn, TAktivitetId, Taktivitetnavn, tmnavn, tknr, k.kkundenr, offentlig, timepris, tmnr,"_
-	                        &" t.editor, tastedato, sttid, sltid, t.valuta, j.id AS jid, bopal FROM timer t "_
+	                        &" t.editor, tastedato, sttid, sltid, t.valuta, j.id AS jid, bopal, overfort FROM timer t "_
 	                        &" LEFT JOIN job j ON (j.jobnr = t.tjobnr) "_ 
 	                        &" LEFT JOIN kunder k ON (k.kid = tknr) WHERE Tid =" & id 
 	
@@ -70,6 +70,7 @@
 		                          medid = oRec("tmnr")
 		                          editor = oRec("editor")
 		                          tastedato = oRec("tastedato") 
+                                  overfort = oRec("overfort")
 		  
 		 	                         if len(trim(oRec("sttid"))) <> 0 then
 				                        if left(formatdatetime(oRec("sttid"), 3), 5) <> "00:00" then
@@ -259,24 +260,16 @@
 		                                <%else%>
 		                                <%=strAar%>
 		                                <%end if%></option>
-		                                <option value="02">2002</option>
-		                                <option value="03">2003</option>
-	   	                                <option value="04">2004</option>
-	   	                                <option value="05">2005</option>
-		                                <option value="06">2006</option>
-		                                <option value="07">2007</option>
-		                                <option value="08">2008</option>
-		                                <option value="09">2009</option>
-		                                <option value="10">2010</option>
-		                                <option value="11">2011</option>
-		                                <option value="12">2012</option>
-		                                <option value="13">2013</option>
-		                                <option value="14">2014</option>
-                                        <option value="15">2015</option>
-                                        <option value="16">2016</option>
-                                        <option value="17">2017</option>
-                                        <option value="18">2018</option>
-                                        <option value="19">2019</option></select>
+
+                                        <%for y = - 5 to 5
+                                            
+                                            yuse = cint(year(now)) + (y)%>
+
+		                                <option value="<%=right(yuse, 2) %>"><%=yuse %></option>
+
+                                            <%next %>
+
+		                              </select>
                                     </td>
 
  		
@@ -288,14 +281,15 @@
 
                                     <td><input type="Text" name="Timer" Value="<%=StrTimer%>" class="form-control input-small"></td>
                                 </tr>
+                                <tr><td colspan="4"> <b>Tidspunkt:</b> - beregnes antal timer udfra start og stop tid.</td></tr>
+
                                 <tr>
-                                    <td><b>Tidspunkt:</b></td>
+                                    <td>Start og Stop:</td>
                                     <td><input type="text" name="FM_sttid" value="<%=sttid%>" class="form-control input-small" placeholder="hh:mm"></td>
-                                    
                                     <td><input type="text" name="FM_sltid" value="<%=sltid%>" class="form-control input-small" placeholder="hh:mm"></td>
                                     <td style="text-align:center">&nbsp;</td>
                                 </tr>
-
+                              
 
                                   <%if session("rettigheder") <= 2 OR session("rettigheder") = 6 then %>
                                   <tr>
@@ -401,10 +395,17 @@
 
                             <div class="row">
                                 <div class="col-lg-2">
+                                    <% if cint(overfort) <> 2 OR (cint(overfort) = 2 AND session("rettigheder") = 1) then%> 
                                     <a href="../timereg/db_tastede_dage_2006.asp?func=slet&id=<%=id %>" class="btn btn-primary btn-sm pull-left"><b><%=medarb_txt_110 %></b></a>
+                                    <%end if %>
                                 </div>
                                 <div class="col-lg-2">
+                                    <%if cint(overfort) <> 2 then 'Det er ikke muligt at opdatere timer der har været forsøgt overført til f.eks NAV, me ner fejlet. De kan kun slettes %>
                                     <button type="submit" class="btn btn-success btn-sm pull-right"><b><%=medarb_txt_020 %></b></button>
+                                    <%else %>
+                                    <br /><br />Det er ikke muligt at opdatere timer der har været forsøgt overført til f.eks NAV, men er fejlet.<br />
+                                    Disse timer kan kun slettes og kun af administrator.
+                                    <%end if %>
                                 </div>
                             </div>
 

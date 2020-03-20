@@ -166,7 +166,24 @@
     <txt_150 >Afventer</txt_150>
     <txt_151 >Afvist</txt_151>
     <txt_152 >Komme/Gå tid Sum</txt_152>
-    
+
+    <txt_153 >Vis de-aktiverede medarbejdere</txt_153>
+    <txt_154 >Vis kun De-akt. opsagt indenfor seneste 12 md</txt_154>
+    <txt_155 >Grandtotal</txt_155>
+    <txt_156 >Beregner</txt_156>
+
+    <txt_157 >Januar</txt_157>
+    <txt_158 >Februar</txt_158>
+    <txt_159 >Marts</txt_159>
+    <txt_160 >April</txt_160>
+    <txt_161 >Maj</txt_161>
+    <txt_162 >Juni</txt_162>
+    <txt_163 >Juli</txt_163>
+    <txt_164 >August</txt_164>
+    <txt_165 >September</txt_165>
+    <txt_166 >Oktober</txt_166>
+    <txt_167 >November</txt_167>
+    <txt_168 >December</txt_168>
     
   </dk>
 
@@ -336,6 +353,24 @@
     <txt_151 >Rejected</txt_151>
     <txt_152 >Come/Go Time Sum</txt_152>
 
+    <txt_153 >Show disabled employees</txt_153>
+    <txt_154 >Only show disa. Terminated within the last 12 months</txt_154>
+    <txt_155 >Grandtotal</txt_155>
+    <txt_156 >Calculating</txt_156>
+
+    <txt_157 >January</txt_157>
+    <txt_158 >February</txt_158>
+    <txt_159 >March</txt_159>
+    <txt_160 >April</txt_160>
+    <txt_161 >May</txt_161>
+    <txt_162 >June</txt_162>
+    <txt_163 >July</txt_163>
+    <txt_164 >August</txt_164>
+    <txt_165 >September</txt_165>
+    <txt_166 >October</txt_166>
+    <txt_167 >November</txt_167>
+    <txt_168 >December</txt_168>
+
   </no>
   
   
@@ -503,6 +538,25 @@
     <txt_150 >Pending</txt_150>
     <txt_151 >Rejected</txt_151>
     <txt_152 >Come/Go Time Sum</txt_152>
+    
+    <txt_153 >Show disabled employees</txt_153>
+    <txt_154 >Only show disa. Terminated within the last 12 months</txt_154>
+    <txt_155 >Grandtotal</txt_155>
+    <txt_156 >Calculating</txt_156>
+
+    <txt_157 >January</txt_157>
+    <txt_158 >February</txt_158>
+    <txt_159 >March</txt_159>
+    <txt_160 >April</txt_160>
+    <txt_161 >May</txt_161>
+    <txt_162 >June</txt_162>
+    <txt_163 >July</txt_163>
+    <txt_164 >August</txt_164>
+    <txt_165 >September</txt_165>
+    <txt_166 >October</txt_166>
+    <txt_167 >November</txt_167>
+    <txt_168 >December</txt_168>
+
 
   </so>
   
@@ -671,6 +725,24 @@
     <txt_150 >Pending</txt_150>
     <txt_151 >Rejected</txt_151>
     <txt_152 >Come/Go Time Sum</txt_152>
+    
+    <txt_153 >Show disabled employees</txt_153>
+    <txt_154 >Only show disa. Terminated within the last 12 months</txt_154>
+    <txt_155 >Grandtotal</txt_155>
+    <txt_156 >Calculating</txt_156>
+
+    <txt_157 >January</txt_157>
+    <txt_158 >February</txt_158>
+    <txt_159 >March</txt_159>
+    <txt_160 >April</txt_160>
+    <txt_161 >May</txt_161>
+    <txt_162 >June</txt_162>
+    <txt_163 >July</txt_163>
+    <txt_164 >August</txt_164>
+    <txt_165 >September</txt_165>
+    <txt_166 >October</txt_166>
+    <txt_167 >November</txt_167>
+    <txt_168 >December</txt_168>
 
   </de>
   
@@ -839,6 +911,24 @@
     <txt_150 >Pending</txt_150>
     <txt_151 >Rejected</txt_151>
     <txt_152 >Come/Go Time Sum</txt_152>
+
+    <txt_153 >Show disabled employees</txt_153>
+    <txt_154 >Only show disa. Terminated within the last 12 months</txt_154>
+    <txt_155 >Grandtotal</txt_155>
+    <txt_156 >Calculating</txt_156>
+
+    <txt_157 >January</txt_157>
+    <txt_158 >February</txt_158>
+    <txt_159 >March</txt_159>
+    <txt_160 >April</txt_160>
+    <txt_161 >May</txt_161>
+    <txt_162 >June</txt_162>
+    <txt_163 >July</txt_163>
+    <txt_164 >August</txt_164>
+    <txt_165 >September</txt_165>
+    <txt_166 >October</txt_166>
+    <txt_167 >November</txt_167>
+    <txt_168 >December</txt_168>
 
   </fr>
   
@@ -1009,6 +1099,24 @@
     <txt_151 >Rejected</txt_151>
     <txt_152 >Come/Go Time Sum</txt_152>
 
+    <txt_153 >Show disabled employees</txt_153>
+    <txt_154 >Only show disa. Terminated within the last 12 months</txt_154>
+    <txt_155 >Grandtotal</txt_155>
+    <txt_156 >Calculating</txt_156>
+
+    <txt_157 >January</txt_157>
+    <txt_158 >February</txt_158>
+    <txt_159 >March</txt_159>
+    <txt_160 >April</txt_160>
+    <txt_161 >May</txt_161>
+    <txt_162 >June</txt_162>
+    <txt_163 >July</txt_163>
+    <txt_164 >August</txt_164>
+    <txt_165 >September</txt_165>
+    <txt_166 >October</txt_166>
+    <txt_167 >November</txt_167>
+    <txt_168 >December</txt_168>
+
   </uk>
 
 
@@ -1176,6 +1284,24 @@
     <txt_150 >Pending</txt_150>
     <txt_151 >Rejected</txt_151>
     <txt_152 >Come/Go Time Sum</txt_152>
+
+    <txt_153 >Show disabled employees</txt_153>
+    <txt_154 >Only show disa. Terminated within the last 12 months</txt_154>
+    <txt_155 >Grandtotal</txt_155>
+    <txt_156 >Calculating</txt_156>
+
+    <txt_157 >January</txt_157>
+    <txt_158 >February</txt_158>
+    <txt_159 >March</txt_159>
+    <txt_160 >April</txt_160>
+    <txt_161 >May</txt_161>
+    <txt_162 >June</txt_162>
+    <txt_163 >July</txt_163>
+    <txt_164 >August</txt_164>
+    <txt_165 >September</txt_165>
+    <txt_166 >October</txt_166>
+    <txt_167 >November</txt_167>
+    <txt_168 >December</txt_168>
 
   </es>
 

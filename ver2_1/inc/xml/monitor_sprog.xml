@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Åbn denne side med det link du har fået fra Timeout, eller åbn den fra menuen</txt_1>
+    <txt_2 >Vil du logge</txt_2>
+    <txt_3 >ud</txt_3>
+    <txt_4 >Ja</txt_4>
+    <txt_5 >Nej</txt_5>
+    <txt_6 >Log ind</txt_6>
+    <txt_7 >Log på som gæst</txt_7>
+    <txt_8 >Angiv virksomhed</txt_8>
+    <txt_9 >Angiv dit navn og efternavn</txt_9>
+    <txt_10 >Henter</txt_10>
+
+    <txt_11 >Angiv tlf. nr.</txt_11>
+    <txt_12 >Angiv hvem du skal besøge</txt_12>
+    <txt_13 >Jeg giver samtykke til at</txt_13>
+    <txt_14 >indeholder mine oplysninger i 7 dage</txt_14>
+    <txt_15 >Log ind</txt_15>
+    <txt_16 >Luk</txt_16>
+    <txt_17 >Gæsteliste</txt_17>
+    <txt_18 >Gæst</txt_18>
+    <txt_19 >Firma</txt_19>
+    <txt_20 >Tjekkede ind</txt_20>
+
+    <txt_21 >Log ud</txt_21>
+    <txt_22 >Ingen gæster loggede ind</txt_22>
+    <txt_23 >Hej</txt_23>
+    <txt_24 >Bekræft venligst en af nedenstående</txt_24>
+    <txt_25 >Går hjem</txt_25>
+    <txt_26 >Tager til møde</txt_26>
+    <txt_27 >Velkommen</txt_27>
+    <txt_28 >Du er logget ind</txt_28>
+    <txt_29 >Projekt</txt_29>
+    <txt_30 >Tak for i dag</txt_30>
+
+    <txt_31 >Bruger findes ikke</txt_31>
+    <txt_32 >Velkommen tilbage</txt_32>
+    <txt_33 >Have a great meeting</txt_33>
+    <txt_34 >Overtid</txt_34>
+    <txt_35 >Logget på kl.</txt_35>
+    <txt_36 >Timebank/Flexsaldo</txt_36>
+    <txt_37 >Tilbage / Ny bruger</txt_37>
+    <txt_38 >Historik</txt_38>
+    <txt_39 >Scan kort</txt_39>
+    
+    <txt_40 >Godkend venligst samtykke</txt_40>
+    <txt_41 >Angiv venligst hvem du skal besøge</txt_41>
+    <txt_42 >Angiv venligst dit tlf. nr</txt_42>
+    <txt_43 >Angiv venligst dit navn</txt_43>
+    <txt_44 >Angiv venligst dit efternavn</txt_44>
+    <txt_45 >Angiv venligst virksomhed</txt_45>
+    <txt_46 >Du er ikke logget ind på et projekt</txt_46>
+    <txt_47 >Møde</txt_47>
+    <txt_48 >Forretningsrejse</txt_48>
+    <txt_49 >Arbejder hjemmefra</txt_49>
+    <txt_50 >Ferie</txt_50>
+    <txt_51 >Syg</txt_51>
+    <txt_52 >Vælg</txt_52>
+    <txt_53 >Andet</txt_53>
+    <txt_54 >Godkend</txt_54>
+    <txt_55 >Vælg hvornår du er hjemme igen</txt_55>
+    
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >Open this page with the link you've got from Timeout, or open it from the menu</txt_1>
+    <txt_2 >Do you want to sign</txt_2>
+    <txt_3 >out</txt_3>
+    <txt_4 >Yes</txt_4>
+    <txt_5 >No</txt_5>
+    <txt_6 >Check in</txt_6>
+    <txt_7 >Check in as guest</txt_7>
+    <txt_8 >Enter company</txt_8>
+    <txt_9 >Enter your name and surname</txt_9>
+    <txt_10 >Loading</txt_10>
+
+    <txt_11 >Enter phone no.</txt_11>
+    <txt_12 >Specify who to visit</txt_12>
+    <txt_13 >I consent to</txt_13>
+    <txt_14 >contains my information for 7 days</txt_14>
+    <txt_15 >Check in</txt_15>
+    <txt_16 >Close</txt_16>
+    <txt_17 >Guestlist</txt_17>
+    <txt_18 >Guest</txt_18>
+    <txt_19 >Company</txt_19>
+    <txt_20 >Checked in</txt_20>
+
+    <txt_21 >Check out</txt_21>
+    <txt_22 >No guests currently checked in</txt_22>
+    <txt_23 >Hey</txt_23>
+    <txt_24 >Please confirm one of the below</txt_24>
+    <txt_25 >Going home</txt_25>
+    <txt_26 >Meeting</txt_26>
+    <txt_27 >Welcome</txt_27>
+    <txt_28 >You checked in at</txt_28>
+    <txt_29 >Project</txt_29>
+    <txt_30 >Thank you for today</txt_30>
+
+    <txt_31 >User does not exist</txt_31>
+    <txt_32 >Welcome back</txt_32>
+    <txt_33 >Have a great meeting</txt_33>
+    <txt_34 >overtime</txt_34>
+    <txt_35 >Checked in at</txt_35>
+    <txt_36 >Hour Bank / Flex Balance</txt_36>
+    <txt_37 >Back / New user</txt_37>
+    <txt_38 >History</txt_38>
+    <txt_39 >Scan key</txt_39>
+
+    <txt_40 >Please confirm consent</txt_40>
+    <txt_41 >Please specify who you are here to visit</txt_41>
+    <txt_42 >Please enter your phone no.</txt_42>
+    <txt_43 >Please enter your name</txt_43>
+    <txt_44 >Please enter your lastname</txt_44>
+    <txt_45 >Please specify you company</txt_45>
+    <txt_46 >You are not logged into a project</txt_46>
+    <txt_47 >Meeting</txt_47>
+    <txt_48 >Business trip</txt_48>
+    <txt_49 >Works from home</txt_49>
+    <txt_50 >Holiday</txt_50>
+    <txt_51 >Sick</txt_51>
+    <txt_52 >Other</txt_52>
+    <txt_53 >Select</txt_53>
+    <txt_54 >Aprove</txt_54>
+    <txt_55 >Choose when you're back home</txt_55>
+   
+  </no>
+
+
+  <!--- Svensk -->
+  <so>
+
+    <txt_1 >Open this page with the link you've got from Timeout, or open it from the menu</txt_1>
+    <txt_2 >Do you want to sign</txt_2>
+    <txt_3 >out</txt_3>
+    <txt_4 >Yes</txt_4>
+    <txt_5 >No</txt_5>
+    <txt_6 >Check in</txt_6>
+    <txt_7 >Check in as guest</txt_7>
+    <txt_8 >Enter company</txt_8>
+    <txt_9 >Enter your name and surname</txt_9>
+    <txt_10 >Loading</txt_10>
+
+    <txt_11 >Enter phone no.</txt_11>
+    <txt_12 >Specify who to visit</txt_12>
+    <txt_13 >I consent to</txt_13>
+    <txt_14 >contains my information for 7 days</txt_14>
+    <txt_15 >Check in</txt_15>
+    <txt_16 >Close</txt_16>
+    <txt_17 >Guestlist</txt_17>
+    <txt_18 >Guest</txt_18>
+    <txt_19 >Company</txt_19>
+    <txt_20 >Checked in</txt_20>
+
+    <txt_21 >Check out</txt_21>
+    <txt_22 >No guests currently checked in</txt_22>
+    <txt_23 >Hey</txt_23>
+    <txt_24 >Please confirm one of the below</txt_24>
+    <txt_25 >Going home</txt_25>
+    <txt_26 >Meeting</txt_26>
+    <txt_27 >Welcome</txt_27>
+    <txt_28 >You checked in at</txt_28>
+    <txt_29 >Project</txt_29>
+    <txt_30 >Thank you for today</txt_30>
+
+    <txt_31 >User does not exist</txt_31>
+    <txt_32 >Welcome back</txt_32>
+    <txt_33 >Have a great meeting</txt_33>
+    <txt_34 >overtime</txt_34>
+    <txt_35 >Checked in at</txt_35>
+    <txt_36 >Hour Bank / Flex Balance</txt_36>
+    <txt_37 >Back / New user</txt_37>
+    <txt_38 >History</txt_38>
+    <txt_39 >Scan key</txt_39>
+
+    <txt_40 >Please confirm consent</txt_40>
+    <txt_41 >Please specify who you are here to visit</txt_41>
+    <txt_42 >Please enter your phone no.</txt_42>
+    <txt_43 >Please enter your name</txt_43>
+    <txt_44 >Please enter your lastname</txt_44>
+    <txt_45 >Please specify you company</txt_45>
+    <txt_46 >You are not logged into a project</txt_46>
+    <txt_47 >Meeting</txt_47>
+    <txt_48 >Business trip</txt_48>
+    <txt_49 >Works from home</txt_49>
+    <txt_50 >Holiday</txt_50>
+    <txt_51 >Sick</txt_51>
+    <txt_52 >Other</txt_52>
+    <txt_53 >Select</txt_53>
+    <txt_54 >Aprove</txt_54>
+    <txt_55 >Choose when you're back home</txt_55>
+
+  </so>
+
+
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >Open this page with the link you've got from Timeout, or open it from the menu</txt_1>
+    <txt_2 >Do you want to sign</txt_2>
+    <txt_3 >out</txt_3>
+    <txt_4 >Yes</txt_4>
+    <txt_5 >No</txt_5>
+    <txt_6 >Check in</txt_6>
+    <txt_7 >Check in as guest</txt_7>
+    <txt_8 >Enter company</txt_8>
+    <txt_9 >Enter your name and surname</txt_9>
+    <txt_10 >Loading</txt_10>
+
+    <txt_11 >Enter phone no.</txt_11>
+    <txt_12 >Specify who to visit</txt_12>
+    <txt_13 >I consent to</txt_13>
+    <txt_14 >contains my information for 7 days</txt_14>
+    <txt_15 >Check in</txt_15>
+    <txt_16 >Close</txt_16>
+    <txt_17 >Guestlist</txt_17>
+    <txt_18 >Guest</txt_18>
+    <txt_19 >Company</txt_19>
+    <txt_20 >Checked in</txt_20>
+
+    <txt_21 >Check out</txt_21>
+    <txt_22 >No guests currently checked in</txt_22>
+    <txt_23 >Hey</txt_23>
+    <txt_24 >Please confirm one of the below</txt_24>
+    <txt_25 >Going home</txt_25>
+    <txt_26 >Meeting</txt_26>
+    <txt_27 >Welcome</txt_27>
+    <txt_28 >You checked in at</txt_28>
+    <txt_29 >Project</txt_29>
+    <txt_30 >Thank you for today</txt_30>
+
+    <txt_31 >User does not exist</txt_31>
+    <txt_32 >Welcome back</txt_32>
+    <txt_33 >Have a great meeting</txt_33>
+    <txt_34 >overtime</txt_34>
+    <txt_35 >Checked in at</txt_35>
+    <txt_36 >Hour Bank / Flex Balance</txt_36>
+    <txt_37 >Back / New user</txt_37>
+    <txt_38 >History</txt_38>
+    <txt_39 >Scan key</txt_39>
+
+    <txt_40 >Please confirm consent</txt_40>
+    <txt_41 >Please specify who you are here to visit</txt_41>
+    <txt_42 >Please enter your phone no.</txt_42>
+    <txt_43 >Please enter your name</txt_43>
+    <txt_44 >Please enter your lastname</txt_44>
+    <txt_45 >Please specify you company</txt_45>
+    <txt_46 >You are not logged into a project</txt_46>
+    <txt_47 >Meeting</txt_47>
+    <txt_48 >Business trip</txt_48>
+    <txt_49 >Works from home</txt_49>
+    <txt_50 >Holiday</txt_50>
+    <txt_51 >Sick</txt_51>
+    <txt_52 >Other</txt_52>
+    <txt_53 >Select</txt_53>
+    <txt_54 >Aprove</txt_54>
+    <txt_55 >Choose when you're back home</txt_55>
+
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >Open this page with the link you've got from Timeout, or open it from the menu</txt_1>
+    <txt_2 >Do you want to sign</txt_2>
+    <txt_3 >out</txt_3>
+    <txt_4 >Yes</txt_4>
+    <txt_5 >No</txt_5>
+    <txt_6 >Check in</txt_6>
+    <txt_7 >Check in as guest</txt_7>
+    <txt_8 >Enter company</txt_8>
+    <txt_9 >Enter your name and surname</txt_9>
+    <txt_10 >Loading</txt_10>
+
+    <txt_11 >Enter phone no.</txt_11>
+    <txt_12 >Specify who to visit</txt_12>
+    <txt_13 >I consent to</txt_13>
+    <txt_14 >contains my information for 7 days</txt_14>
+    <txt_15 >Check in</txt_15>
+    <txt_16 >Close</txt_16>
+    <txt_17 >Guestlist</txt_17>
+    <txt_18 >Guest</txt_18>
+    <txt_19 >Company</txt_19>
+    <txt_20 >Checked in</txt_20>
+
+    <txt_21 >Check out</txt_21>
+    <txt_22 >No guests currently checked in</txt_22>
+    <txt_23 >Hey</txt_23>
+    <txt_24 >Please confirm one of the below</txt_24>
+    <txt_25 >Going home</txt_25>
+    <txt_26 >Meeting</txt_26>
+    <txt_27 >Welcome</txt_27>
+    <txt_28 >You checked in at</txt_28>
+    <txt_29 >Project</txt_29>
+    <txt_30 >Thank you for today</txt_30>
+
+    <txt_31 >User does not exist</txt_31>
+    <txt_32 >Welcome back</txt_32>
+    <txt_33 >Have a great meeting</txt_33>
+    <txt_34 >overtime</txt_34>
+    <txt_35 >Checked in at</txt_35>
+    <txt_36 >Hour Bank / Flex Balance</txt_36>
+    <txt_37 >Back / New user</txt_37>
+    <txt_38 >History</txt_38>
+    <txt_39 >Scan key</txt_39>
+
+    <txt_40 >Please confirm consent</txt_40>
+    <txt_41 >Please specify who you are here to visit</txt_41>
+    <txt_42 >Please enter your phone no.</txt_42>
+    <txt_43 >Please enter your name</txt_43>
+    <txt_44 >Please enter your lastname</txt_44>
+    <txt_45 >Please specify you company</txt_45>
+    <txt_46 >You are not logged into a project</txt_46>
+    <txt_47 >Meeting</txt_47>
+    <txt_48 >Business trip</txt_48>
+    <txt_49 >Works from home</txt_49>
+    <txt_50 >Holiday</txt_50>
+    <txt_51 >Sick</txt_51>
+    <txt_52 >Other</txt_52>
+    <txt_53 >Select</txt_53>
+    <txt_54 >Aprove</txt_54>
+    <txt_55 >Choose when you're back home</txt_55>
+
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Open this page with the link you've got from Timeout, or open it from the menu</txt_1>
+    <txt_2 >Do you want to sign</txt_2>
+    <txt_3 >out</txt_3>
+    <txt_4 >Yes</txt_4>
+    <txt_5 >No</txt_5>
+    <txt_6 >Check in</txt_6>
+    <txt_7 >Check in as guest</txt_7>
+    <txt_8 >Enter company</txt_8>
+    <txt_9 >Enter your name and surname</txt_9>
+    <txt_10 >Loading</txt_10>
+
+    <txt_11 >Enter phone no.</txt_11>
+    <txt_12 >Specify who to visit</txt_12>
+    <txt_13 >I consent to</txt_13>
+    <txt_14 >contains my information for 7 days</txt_14>
+    <txt_15 >Check in</txt_15>
+    <txt_16 >Close</txt_16>
+    <txt_17 >Guestlist</txt_17>
+    <txt_18 >Guest</txt_18>
+    <txt_19 >Company</txt_19>
+    <txt_20 >Checked in</txt_20>
+
+    <txt_21 >Check out</txt_21>
+    <txt_22 >No guests currently checked in</txt_22>
+    <txt_23 >Hey</txt_23>
+    <txt_24 >Please confirm one of the below</txt_24>
+    <txt_25 >Going home</txt_25>
+    <txt_26 >Meeting</txt_26>
+    <txt_27 >Welcome</txt_27>
+    <txt_28 >You checked in at</txt_28>
+    <txt_29 >Project</txt_29>
+    <txt_30 >Thank you for today</txt_30>
+
+    <txt_31 >User does not exist</txt_31>
+    <txt_32 >Welcome back</txt_32>
+    <txt_33 >Have a great meeting</txt_33>
+    <txt_34 >overtime</txt_34>
+    <txt_35 >Checked in at</txt_35>
+    <txt_36 >Hour Bank / Flex Balance</txt_36>
+    <txt_37 >Back / New user</txt_37>
+    <txt_38 >History</txt_38>
+    <txt_39 >Scan key</txt_39>
+
+    <txt_40 >Please confirm consent</txt_40>
+    <txt_41 >Please specify who you are here to visit</txt_41>
+    <txt_42 >Please enter your phone no.</txt_42>
+    <txt_43 >Please enter your name</txt_43>
+    <txt_44 >Please enter your lastname</txt_44>
+    <txt_45 >Please specify you company</txt_45>
+    <txt_46 >You are not logged into a project</txt_46>
+    <txt_47 >Meeting</txt_47>
+    <txt_48 >Business trip</txt_48>
+    <txt_49 >Works from home</txt_49>
+    <txt_50 >Holiday</txt_50>
+    <txt_51 >Sick</txt_51>
+    <txt_52 >Other</txt_52>
+    <txt_53 >Select</txt_53>
+    <txt_54 >Aprove</txt_54>
+    <txt_55 >Choose when you're back home</txt_55>
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+    <txt_1 >Open this page with the link you've got from Timeout, or open it from the menu</txt_1>
+    <txt_2 >Do you want to sign</txt_2>
+    <txt_3 >out</txt_3>
+    <txt_4 >Yes</txt_4>
+    <txt_5 >No</txt_5>
+    <txt_6 >Check in</txt_6>
+    <txt_7 >Check in as guest</txt_7>
+    <txt_8 >Enter company</txt_8>
+    <txt_9 >Enter your name and surname</txt_9>
+    <txt_10 >Loading</txt_10>
+
+    <txt_11 >Enter phone no.</txt_11>
+    <txt_12 >Specify who to visit</txt_12>
+    <txt_13 >I consent to</txt_13>
+    <txt_14 >contains my information for 7 days</txt_14>
+    <txt_15 >Check in</txt_15>
+    <txt_16 >Close</txt_16>
+    <txt_17 >Guestlist</txt_17>
+    <txt_18 >Guest</txt_18>
+    <txt_19 >Company</txt_19>
+    <txt_20 >Checked in</txt_20>
+
+    <txt_21 >Check out</txt_21>
+    <txt_22 >No guests currently checked in</txt_22>
+    <txt_23 >Hey</txt_23>
+    <txt_24 >Please confirm one of the below</txt_24>
+    <txt_25 >Going home</txt_25>
+    <txt_26 >Meeting</txt_26>
+    <txt_27 >Welcome</txt_27>
+    <txt_28 >You checked in at</txt_28>
+    <txt_29 >Project</txt_29>
+    <txt_30 >Thank you for today</txt_30>
+
+    <txt_31 >User does not exist</txt_31>
+    <txt_32 >Welcome back</txt_32>
+    <txt_33 >Have a great meeting</txt_33>
+    <txt_34 >overtime</txt_34>
+    <txt_35 >Checked in at</txt_35>
+    <txt_36 >Hour Bank / Flex Balance</txt_36>
+    <txt_37 >Back / New user</txt_37>
+    <txt_38 >History</txt_38>
+    <txt_39 >Scan key</txt_39>
+
+    <txt_40 >Please confirm consent</txt_40>
+    <txt_41 >Please specify who you are here to visit</txt_41>
+    <txt_42 >Please enter your phone no.</txt_42>
+    <txt_43 >Please enter your name</txt_43>
+    <txt_44 >Please enter your lastname</txt_44>
+    <txt_45 >Please specify you company</txt_45>
+    <txt_46 >You are not logged into a project</txt_46>
+    <txt_47 >Meeting</txt_47>
+    <txt_48 >Business trip</txt_48>
+    <txt_49 >Works from home</txt_49>
+    <txt_50 >Holiday</txt_50>
+    <txt_51 >Sick</txt_51>
+    <txt_52 >Other</txt_52>
+    <txt_53 >Select</txt_53>
+    <txt_54 >Aprove</txt_54>
+    <txt_55 >Choose when you're back home</txt_55>
+    
+  </es>
+
+
+</sprog>

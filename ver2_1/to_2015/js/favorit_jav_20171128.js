@@ -41,6 +41,12 @@ $(document).ready(function () {
     });
 
 
+    $('#sp_tr_jobid').mouseover(function () {
+
+        $(this).css("cursor", "pointer");
+
+    });
+
     $('#jq_hideKpersdiv').mouseover(function () {
 
         $(this).css("cursor", "pointer");
@@ -501,6 +507,7 @@ $(document).ready(function () {
 
         //var modalidtxt = $("#myModal_" + idtrim);
         var modal = document.getElementById('kommentarmodal_' + idtrim);
+        $("#FM_kom_" + idtrim).focus();
 
         modal.style.display = "block";
 

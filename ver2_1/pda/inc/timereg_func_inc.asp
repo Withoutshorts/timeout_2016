@@ -114,6 +114,13 @@ end function
 	Public fmbg_lor
 	
 	
+
+
+'*********************************************************************************************************************
+'*** Felter på timereg. siden 
+'*** Farver og lukket hvis godkendt, faktueret, forecast mm.
+'*********************************************************************************************************************
+
 function fakfarver()
 if len(sonTimerVal(iRowLoop)) <> 0 then
 dtimeTtidspkt_son_this = dtimeTtidspkt_son(sonRLoop)
@@ -426,6 +433,8 @@ if len(lastfakdato) <> 0 AND diff <= 0 then
 			fmbg_fre = "#cccccc"  
 			end select
 		end if
+
+
 else
 	'** nofakfarver ***
 	fakbgcol_son = "#cd853f"

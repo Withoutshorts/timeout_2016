@@ -63,6 +63,15 @@ if len(session("user")) = 0 then
 			stempelur_hidelogin = 0
 			end if
 
+
+            if len(request("FM_stempelur_hidelogin_onlymonitor")) <> 0 then
+			stempelur_hidelogin_onlymonitor = request("FM_stempelur_hidelogin_onlymonitor")
+			else
+			stempelur_hidelogin_onlymonitor = 0
+			end if
+
+            
+
         
             if len(request("FM_stempelur_igno_komkrav")) <> 0 then
 			stempelur_igno_komkrav = request("FM_stempelur_igno_komkrav")
@@ -397,19 +406,30 @@ if len(session("user")) = 0 then
 			'*** Ignorer Stempelur Periode ***
 			ignorer_st = request("FM_stempel_ignorerper_st_t") &":"& request("FM_stempel_ignorerper_st_m") &":00"
 			ignorer_sl = request("FM_stempel_ignorerper_sl_t") &":"& request("FM_stempel_ignorerper_sl_m") &":00"
+
+            ignorertid_st_logud = request("FM_stempel_ignorerper_st_t_logud") &":"& request("FM_stempel_ignorerper_st_m_logud") &":00"
+			ignorertid_sl_logud = request("FM_stempel_ignorerper_sl_t_logud") &":"& request("FM_stempel_ignorerper_sl_m_logud") &":00"
+
+            ignorertid_st_2 = request("FM_stempel_ignorerper_st_t_2") &":"& request("FM_stempel_ignorerper_st_m_2") &":00"
+			ignorertid_sl_2 = request("FM_stempel_ignorerper_sl_t_2") &":"& request("FM_stempel_ignorerper_sl_m_2") &":00"
+
+            ignorertid_st_logud_2 = request("FM_stempel_ignorerper_st_t_logud_2") &":"& request("FM_stempel_ignorerper_st_m_logud_2") &":00"
+			ignorertid_sl_logud_2 = request("FM_stempel_ignorerper_sl_t_logud_2") &":"& request("FM_stempel_ignorerper_sl_m_logud_2") &":00"
+
+
+         'response.write ignorer_st &" #"& ignorer_sl &" #"& ignorertid_st_logud &" #"& ignorertid_sl_logud &" #"& ignorertid_st_2 & " #" & ignorertid_sl_2 & " #" & ignorertid_st_logud_2 &" #"& ignorertid_sl_logud_2
+         'RESPONSE.Flush 
 			
-			        if IsDate(ignorer_st) then
+			        if IsDate(ignorer_st) AND IsDate(ignorer_sl)_
+                    AND IsDate(ignorertid_st_logud) AND IsDate(ignorertid_sl_logud) AND IsDate(ignorertid_st_2) AND IsDate(ignorertid_sl_2)_
+                    AND IsDate(ignorertid_st_logud_2) AND IsDate(ignorertid_sl_logud_2) then
 			        else
 			        errThis = 2
 			        end if
 			        
-			        if IsDate(ignorer_sl) then
-			        else
-			        errThis = 2
-			        end if
+			      
 			 
-			          
-			          
+                                
 			        if errThis = 2 then  %>
 					     <!--include file="../inc/regular/header_lysblaa_inc.asp"-->
 					     <!--include file="../inc/regular/topmenu_inc.asp"-->
@@ -642,6 +662,9 @@ if len(session("user")) = 0 then
             p3_grp = replace(request("FM_p3_grp"), "''", "")
             p2_grp = replace(request("FM_p2_grp"), "''", "")
             p1_grp = replace(request("FM_p1_grp"), "''", "")
+
+            sperretid_grp = replace(request("FM_sperretid_grp"), "''", "")
+            sperretid_grp2 = replace(request("FM_sperretid_grp2"), "''", "")
 			
 			%>
 			<!--#include file="inc/isint_func.asp"-->
@@ -1086,7 +1109,12 @@ if len(session("user")) = 0 then
             smiley_agg_lukhard = 0
             end if
 
-                           
+            if len(trim(request("FM_smiley_agg_lukhard_igngrp"))) <> 0 then
+            smiley_agg_lukhard_igngrp = request("FM_smiley_agg_lukhard_igngrp")
+            else
+            smiley_agg_lukhard_igngrp = ""
+            end if
+            
 
             if len(trim(request("FM_hidesmileyicon"))) <> 0 then
             hidesmileyicon = 1
@@ -1159,6 +1187,12 @@ if len(session("user")) = 0 then
             bdgmtypon = 0
             end if
 
+
+            if len(trim(request("showFordelpFinansaaron"))) <> 0 then
+            showFordelpFinansaaron = request("showFordelpFinansaaron")
+            else
+            showFordelpFinansaaron = 0
+            end if
 
             if len(trim(request("medarbtypligmedarb"))) <> 0 then
             medarbtypligmedarb = 1
@@ -1277,7 +1311,139 @@ if len(session("user")) = 0 then
             end if
 
             
+            if len(trim(request("vis_lager"))) <> 0 then
+            vis_lager = 1
+            else
+            vis_lager = 0
+            end if
+
+    
+            if len(trim(request("password_visning"))) <> 0 then
+            password_visning = request("password_visning")
+            else
+            password_visning = 0
+            end if
+
+
+            if len(trim(request("job_felt_fomr"))) <> 0 then
+            job_felt_fomr = request("job_felt_fomr")
+            else
+            job_felt_fomr = 0
+            end if
+
+            if len(trim(request("job_felt_salgsans"))) <> 0 then
+            job_felt_salgsans = request("job_felt_salgsans")
+            else
+            job_felt_salgsans = 0
+            end if
+
+            if len(trim(request("job_felt_rekno"))) <> 0 then
+            job_felt_rekno = request("job_felt_rekno")
+            else
+            job_felt_rekno = 0
+            end if
+
+            if len(trim(request("job_felt_intnote"))) <> 0 then
+            job_felt_intnote = request("job_felt_intnote")
+            else
+            job_felt_intnote = 0
+            end if
+
+                      
                            
+
+            'Simple job liste felter
+            if len(trim(request("simple_joblist_jobnavn"))) <> 0 then
+            simple_joblist_jobnavn = request("simple_joblist_jobnavn")
+            else
+            simple_joblist_jobnavn = 0
+            end if
+
+            if len(trim(request("simple_joblist_jobnr"))) <> 0 then
+            simple_joblist_jobnr = request("simple_joblist_jobnr")
+            else
+            simple_joblist_jobnr = 0
+            end if
+
+            if len(trim(request("simple_joblist_kunde"))) <> 0 then
+            simple_joblist_kunde = request("simple_joblist_kunde")
+            else
+            simple_joblist_kunde = 0
+            end if
+
+            if len(trim(request("simple_joblist_ans"))) <> 0 then
+            simple_joblist_ans = request("simple_joblist_ans")
+            else
+            simple_joblist_ans = 0
+            end if
+
+            if len(trim(request("simple_joblist_salgsans"))) <> 0 then
+            simple_joblist_salgsans = request("simple_joblist_salgsans")
+            else
+            simple_joblist_salgsans = 0
+            end if
+
+            if len(trim(request("simple_joblist_fomr"))) <> 0 then
+            simple_joblist_fomr = request("simple_joblist_fomr")
+            else
+            simple_joblist_fomr = 0
+            end if
+
+            if len(trim(request("simple_joblist_prg"))) <> 0 then
+            simple_joblist_prg = request("simple_joblist_prg")
+            else
+            simple_joblist_prg = 0
+            end if
+
+            if len(trim(request("simple_joblist_stdato"))) <> 0 then
+            simple_joblist_stdato = request("simple_joblist_stdato")
+            else
+            simple_joblist_stdato = 0
+            end if
+
+            if len(trim(request("simple_joblist_sldato"))) <> 0 then
+            simple_joblist_sldato = request("simple_joblist_sldato")
+            else
+            simple_joblist_sldato = 0
+            end if
+
+            if len(trim(request("simple_joblist_status"))) <> 0 then
+            simple_joblist_status = request("simple_joblist_status")
+            else
+            simple_joblist_status = 0
+            end if
+
+            if len(trim(request("simple_joblist_tidsforbrug"))) <> 0 then
+            simple_joblist_tidsforbrug = request("simple_joblist_tidsforbrug")
+            else
+            simple_joblist_tidsforbrug = 0
+            end if
+
+            if len(trim(request("simple_joblist_budgettid"))) <> 0 then
+            simple_joblist_budgettid = request("simple_joblist_budgettid")
+            else
+            simple_joblist_budgettid = 0
+            end if
+
+
+            if len(trim(request("FM_ferie_max"))) <> 0 then
+            ferie_max = request("FM_ferie_max")
+            else
+            ferie_max = 0
+            end if
+
+            if len(trim(request("FM_feriefri_max"))) <> 0 then
+            feriefri_max = request("FM_feriefri_max")
+            else
+            feriefri_max = 0
+            end if
+                           
+
+                           
+
+
+
+
             
             '**** Tømmer alle aktive jovblister ved ændring af Positiv indstilling ***'
             strSQLSel = "SELECT positiv_aktivering_akt FROM licens WHERE id = 1"
@@ -1395,10 +1561,18 @@ if len(session("user")) = 0 then
             &" kreditnr_10 = "& kreditnr_10 &", "_
             &" fakturanr_kladde_10  = "& fakturanr_kladde_10 &","_ 
             &" showeasyreg_per = "& showeasyreg_per &", smiweekormonth_hr = "& SmiWeekOrMonth_HR &","_
-            &" vis_resplanner = "& vis_resplanner &", vis_favorit = "& vis_favorit &", vis_projektgodkend = "& vis_projektgodkend &""
+            &" vis_resplanner = "& vis_resplanner &", vis_favorit = "& vis_favorit &", vis_projektgodkend = "& vis_projektgodkend &", stempelur_hidelogin_onlymonitor = "& stempelur_hidelogin_onlymonitor &", "_
+            &" ignorertid_st_logud = '"& ignorertid_st_logud &"', ignorertid_sl_logud = '"& ignorertid_sl_logud &"', ignorertid_st_2 = '"& ignorertid_st_2 &"', ignorertid_sl_2 = '"& ignorertid_sl_2 &"', "_
+            &" ignorertid_st_logud_2 = '"& ignorertid_st_logud_2 &"', ignorertid_sl_logud_2 = '"& ignorertid_sl_logud_2 &"', "_
+            &" sperretid_grp = '"& sperretid_grp &"', sperretid_grp2 = '"& sperretid_grp2 &"', vis_lager = "& vis_lager &", password_visning = "& password_visning &", job_felt_fomr = "& job_felt_fomr & ", job_felt_salgsans = "& job_felt_salgsans & ", job_felt_rekno = "& job_felt_rekno & ", job_felt_intnote = "& job_felt_intnote &"," _
+            &" simple_joblist_jobnavn = "& simple_joblist_jobnavn & ", simple_joblist_jobnr = "& simple_joblist_jobnr & ", simple_joblist_kunde = " & simple_joblist_kunde & ", simple_joblist_ans = " & simple_joblist_ans & ", simple_joblist_salgsans = " & simple_joblist_salgsans & ", simple_joblist_fomr = " & simple_joblist_fomr & ", simple_joblist_prg = " & simple_joblist_prg &"," _
+            &" simple_joblist_stdato =" & simple_joblist_stdato & ", simple_joblist_sldato = " & simple_joblist_sldato & ", "_
+            &" simple_joblist_status = " & simple_joblist_status & ", simple_joblist_tidsforbrug = " & simple_joblist_tidsforbrug & ", "_
+            &" simple_joblist_budgettid = "& simple_joblist_budgettid & ", smiley_agg_lukhard_igngrp = '" & smiley_agg_lukhard_igngrp & "', "_
+            &" showFordelpFinansaaron = "& showFordelpFinansaaron &", ferie_max = "& ferie_max &", feriefri_max = "& feriefri_max &""
 			strSQL = strSQL & strSQLat & " WHERE id = 1"
 			
-			'Response.Write strSQL
+			Response.Write strSQL
 			'Response.Flush
 			
 
@@ -1589,7 +1763,11 @@ if len(session("user")) = 0 then
         &" fakturanr_10, "_
         &" kreditnr_10, "_
         &" fakturanr_kladde_10, "_
-        &" showeasyreg_per, smiweekormonth_hr, vis_resplanner, vis_favorit, vis_projektgodkend "_
+        &" showeasyreg_per, smiweekormonth_hr, vis_resplanner, vis_favorit, vis_projektgodkend, stempelur_hidelogin_onlymonitor, "_
+        &" ignorertid_st_logud, ignorertid_sl_logud, ignorertid_st_2, ignorertid_sl_2, ignorertid_st_logud_2, ignorertid_sl_logud_2, sperretid_grp, sperretid_grp2, vis_lager, password_visning, job_felt_fomr, job_felt_salgsans, job_felt_rekno, job_felt_intnote, "_
+        &" simple_joblist_jobnavn, simple_joblist_jobnr, simple_joblist_kunde, simple_joblist_ans, simple_joblist_salgsans, simple_joblist_fomr, simple_joblist_prg, "_
+        &" simple_joblist_stdato, simple_joblist_sldato, simple_joblist_status, simple_joblist_tidsforbrug, simple_joblist_budgettid, "_
+        &" smiley_agg_lukhard_igngrp, showFordelpFinansaaron, ferie_max, feriefri_max " _
         &" FROM licens WHERE id = 1"
 		
 		'Response.Write strSQL
@@ -1846,6 +2024,8 @@ if len(session("user")) = 0 then
 
             bdgmtypon = oRec("bdgmtypon")
 
+            showFordelpFinansaaron = oRec("showFordelpFinansaaron")
+
 
             regnskabsaar_start = oRec("regnskabsaar_start")
 
@@ -1957,6 +2137,50 @@ if len(session("user")) = 0 then
             vis_favorit = oRec("vis_favorit")
             vis_projektgodkend = oRec("vis_projektgodkend")
 
+            stempelur_hidelogin_onlymonitor = oRec("stempelur_hidelogin_onlymonitor")
+
+            ignorertid_st_logud = left(formatdatetime(oRec("ignorertid_st_logud"), 3), 5)
+            ignorertid_sl_logud = left(formatdatetime(oRec("ignorertid_sl_logud"), 3), 5)
+            ignorertid_st_2 = left(formatdatetime(oRec("ignorertid_st_2"), 3), 5)
+            ignorertid_sl_2 = left(formatdatetime(oRec("ignorertid_sl_2"), 3), 5)
+            ignorertid_st_logud_2 = left(formatdatetime(oRec("ignorertid_st_logud_2"), 3), 5)
+            ignorertid_sl_logud_2 = left(formatdatetime(oRec("ignorertid_sl_logud_2"), 3), 5)
+
+
+            sperretid_grp = oRec("sperretid_grp") 
+            sperretid_grp2 = oRec("sperretid_grp2")
+
+            vis_lager = oRec("vis_lager")
+
+            password_visning = oRec("password_visning")
+
+            job_felt_fomr = oRec("job_felt_fomr")
+            job_felt_salgsans = oRec("job_felt_salgsans")
+            job_felt_rekno = oRec("job_felt_rekno")
+            job_felt_intnote = oRec("job_felt_intnote")
+
+
+
+            'Simple job lsite felter
+            simple_joblist_jobnavn = oRec("simple_joblist_jobnavn")
+            simple_joblist_jobnr = oRec("simple_joblist_jobnr")
+            simple_joblist_kunde = oRec("simple_joblist_kunde")
+            simple_joblist_ans = oRec("simple_joblist_ans")
+            simple_joblist_salgsans = oRec("simple_joblist_salgsans")
+            simple_joblist_fomr = oRec("simple_joblist_fomr")
+            simple_joblist_prg = oRec("simple_joblist_prg")
+            simple_joblist_stdato = oRec("simple_joblist_stdato")
+            simple_joblist_sldato = oRec("simple_joblist_sldato")
+            simple_joblist_status = oRec("simple_joblist_status")
+            simple_joblist_tidsforbrug = oRec("simple_joblist_tidsforbrug")
+            simple_joblist_budgettid = oRec("simple_joblist_budgettid")
+
+            smiley_agg_lukhard_igngrp = oRec("smiley_agg_lukhard_igngrp")
+
+
+            ferie_max = oRec("ferie_max")
+            feriefri_max = oRec("feriefri_max")
+
 		end if
 		oRec.close 
 
@@ -2011,15 +2235,37 @@ if len(session("user")) = 0 then
             
             ignorertid_st_t = left(ignorertid_st, 2)
             ignorertid_st_m = right(ignorertid_st, 2)
-            
             ignorertid_sl_t = left(ignorertid_sl, 2)
             ignorertid_sl_m = right(ignorertid_sl, 2)
+
+          
+            ignorertid_st_t_logud = left(ignorertid_st_logud, 2)
+            ignorertid_st_m_logud = right(ignorertid_st_logud, 2)
+            ignorertid_sl_t_logud = left(ignorertid_sl_logud, 2)
+            ignorertid_sl_m_logud = right(ignorertid_sl_logud, 2)
+
+
+            ignorertid_st_t_2 = left(ignorertid_st_2, 2)
+            ignorertid_st_m_2 = right(ignorertid_st_2, 2)
+            ignorertid_sl_t_2 = left(ignorertid_sl_2, 2)
+            ignorertid_sl_m_2 = right(ignorertid_sl_2, 2)
+
+
+            ignorertid_st_m_logud_2 = right(ignorertid_st_logud_2, 2)
+            ignorertid_st_t_logud_2 = left(ignorertid_st_logud_2, 2)
+            ignorertid_sl_m_logud_2 = right(ignorertid_sl_logud_2, 2)
+            ignorertid_sl_t_logud_2 = left(ignorertid_sl_logud_2, 2)
+
+
 
             if cint(timerround) = 1 then
             timerroundCHK = "CHECKED"
             else
             timerroundCHK = ""
             end if
+
+
+           
             
            %>
            <tr>
@@ -2138,14 +2384,55 @@ if len(session("user")) = 0 then
 
               <tr>
                      <td style="padding:15px; border-top:1px #5582d2 dashed;">
-                        <h3>Indstilllinger for joboprettesle:</h3></td>
+                        <h3>Indstilllinger for joboprettelse:</h3></td>
 
 
               </tr>
+
+
+                  <tr>
+                <td style="padding:15px;">
+                <b>Felter på jobsiden</b><br />
+           
+
+                    <%
+                        if cint(job_felt_fomr) = 1 then
+                        job_felt_fomr_CH = "CHECKED"
+                        else
+                        job_felt_fomr_CH = ""
+                        end if
+
+                        if cint(job_felt_salgsans) = 1 then
+                        job_felt_salgsans_CH = "CHECKED"
+                        else
+                        job_felt_salgsans_CH = ""
+                        end if
+
+                        if cint(job_felt_rekno) = 1 then
+                        job_felt_rekno_CH = "CHECKED"
+                        else
+                        job_felt_rekno_CH = ""
+                        end if
+
+                        if cint(job_felt_intnote) = 1 then
+                        job_felt_intnote_CH = "CHECKED"
+                        else
+                        job_felt_intnote_CH = ""
+                        end if
+                    %>
+
+                    <input type="checkbox" name="job_felt_fomr" value="1" <%=job_felt_fomr_CH %> /> Forretningsområder <br />
+                  
+                    <input type="checkbox" name="job_felt_rekno" value="1" <%=job_felt_rekno_CH %> /> Rekvisitions Nr. <br />
+                    <input type="checkbox" name="job_felt_intnote" value="1" <%=job_felt_intnote_CH %> /> Intern note
+              
+                </td>
+            </tr>
+
         
                <tr>
             <td style="padding:15px;">
-            <h3>Konto på budget på aktivitetslinjer og salgsomkostninger (job oprettelse)</h3>
+            <b>Konto på budget på aktivitetslinjer og salgsomkostninger (job oprettelse)</b><br />
            
           <%select case cint(budgetakt)
           case 0
@@ -2171,7 +2458,7 @@ if len(session("user")) = 0 then
               
             <tr>
             <td style="padding:15px;">
-            <h3>Budget på medarbejdertype</h3>
+            <b>Budget på medarbejdertype</b><br />
            
           <%if cint(bdgmtypon) = 1 then
           bdgmtyponCHK = "CHECKED"
@@ -2184,12 +2471,27 @@ if len(session("user")) = 0 then
              </td>
             </tr>
 
+                  <tr>
+            <td style="padding:15px;">
+            <b>Vis budget fordelt på FY</b><br />
+           
+          <%if cint(showFordelpFinansaaron) = 1 then
+          showFordelpFinansaarCHK = "CHECKED"
+          else
+          showFordelpFinansaarCHK = ""
+          end if
+          %>
+
+           <input type="checkbox" name="showFordelpFinansaaron" value="1" <%=showFordelpFinansaarCHK %> /> Aktiver mulighed for at angive budget på finansår. (på job)
+             </td>
+            </tr>
 
 
+                
 
                     <tr>
             <td style="padding:15px;">
-            <h3>Forretningsområde obligatorisk</h3>
+            <b>Forretningsområde obligatorisk</b><br />
            
           <%if cint(fomr_mandatory) = 1 then
           fomr_mandatoryCHK = "CHECKED"
@@ -2205,7 +2507,7 @@ if len(session("user")) = 0 then
 
               <tr>
             <td style="padding:15px;">
-            <h3>Budget obligatorisk</h3>
+            <b>Budget obligatorisk</b><br />
            
           <%if cint(budget_mandatory) = 1 then
           budget_mandatoryCHK = "CHECKED"
@@ -2220,7 +2522,7 @@ if len(session("user")) = 0 then
 
               <tr>
             <td style="padding:15px;">
-            <h3>Salgsomkostninger / ulev. som popup ved joboprettelse</h3>
+            <b>Salgsomkostninger / ulev. som popup ved joboprettelse</b><br />
            
           <%if cint(show_salgsomk_mandatory) = 1 then
           show_salgsomk_mandatoryCHK = "CHECKED"
@@ -2237,7 +2539,7 @@ if len(session("user")) = 0 then
 
               <tr>
             <td style="padding:15px;">
-            <h3>Job starter altid som et tilbud</h3>
+            <b>Job starter altid som et tilbud</b><br />
            
           <%if cint(tilbud_mandatory) = 1 then
           tilbud_mandatoryCHK = "CHECKED"
@@ -2252,7 +2554,7 @@ if len(session("user")) = 0 then
 
            <tr>
             <td style="padding:15px;">
-            <h3>Salgsansvarlige</h3>
+            <b>Salgsansvarlige</b><br />
            
           <%if cint(salgsans) = 1 then
           salgsansCHK = "CHECKED"
@@ -2261,9 +2563,156 @@ if len(session("user")) = 0 then
           end if
           %>
 
-           <input type="checkbox" name="FM_salgsans" value="1" <%=salgsansCHK %> /> Aktiver mulighed for at angive salgsansvarlige på job.
+           <input type="checkbox" name="FM_salgsans" value="1" <%=salgsansCHK %> /> Aktiver mulighed for at angive salgsansvarlige på job.<br />
+           <input type="checkbox" name="job_felt_salgsans" value="1" <%=job_felt_salgsans_CH %> /> Salgsansvarlige (vis felterne på jobsiden - denne skal fjernes, bestemmes ovenfor) <br />
              </td>
             </tr>
+
+
+
+                <tr>
+                    <td style="padding:15px;"><b>Felter på simple jobliste</b></td>
+                </tr>
+
+
+                <style>
+
+                    .simplejoblsite td, .simplejoblsite th {
+                      border: 1px solid #000000;
+                      padding: 8px;
+                    }
+
+                    .simplejoblsite td, .simplejoblsite th {
+                      border: 1px solid #000000;
+                      padding: 8px;
+                    }
+
+                    .simplejoblsite th {
+                      padding-top: 12px;
+                      padding-bottom: 12px;
+                      text-align: left;
+                      background-color: #4CAF50;
+                      color: white;
+                    }
+
+                    .simplejoblsite td {
+                        text-align:center;
+                    }
+
+                </style>
+
+                <%
+                    if cint(simple_joblist_jobnavn) = 1 then
+                        simple_joblist_jobnavn_CHB = "CHECKED"
+                    else
+                        simple_joblist_jobnavn_CHB = ""
+                    end if
+
+                    if cint(simple_joblist_jobnr) = 1 then
+                        simple_joblist_jobnr_CHB = "CHECKED"
+                    else
+                        simple_joblist_jobnr_CHB = ""
+                    end if
+
+                    if cint(simple_joblist_kunde) = 1 then
+                        simple_joblist_kunde_CHB = "CHECKED"
+                    else
+                        simple_joblist_kunde_CHB = ""
+                    end if
+
+                    if cint(simple_joblist_ans) = 1 then
+                        simple_joblist_ans_CHB = "CHECKED"
+                    else
+                        simple_joblist_ans_CHB = ""
+                    end if
+
+                    if cint(simple_joblist_salgsans) = 1 then
+                        simple_joblist_salgsans_CHB = "CHECKED"
+                    else
+                        simple_joblist_salgsans_CHB = ""
+                    end if
+
+                    if cint(simple_joblist_fomr) = 1 then
+                        simple_joblist_fomr_CHB = "CHECKED"
+                    else
+                        simple_joblist_fomr_CHB = ""
+                    end if
+
+                    if cint(simple_joblist_prg) = 1 then
+                        simple_joblist_prg_CHB = "CHECKED"
+                    else
+                        simple_joblist_prg_CHB = ""
+                    end if
+
+                    if cint(simple_joblist_stdato) = 1 then
+                        simple_joblist_stdato_CHB = "CHECKED"
+                    else
+                        simple_joblist_stdato_CHB = ""
+                    end if
+
+                    if cint(simple_joblist_sldato) = 1 then
+                        simple_joblist_sldato_CHB = "CHECKED"
+                    else
+                        simple_joblist_sldato_CHB = ""
+                    end if
+
+                    if cint(simple_joblist_status) = 1 then
+                        simple_joblist_status_CHB = "CHECKED"
+                    else
+                        simple_joblist_status_CHB = ""
+                    end if
+
+                    if cint(simple_joblist_tidsforbrug) = 1 then
+                        simple_joblist_tidsforbrug_CHB = "CHECKED"
+                    else
+                        simple_joblist_tidsforbrug_CHB = ""
+                    end if
+
+                    if cint(simple_joblist_budgettid) = 1 then
+                        simple_joblist_budgettid_CHB = "CHECKED"
+                    else
+                        simple_joblist_budgettid_CHB = ""
+                    end if
+
+                    
+                    
+                    
+                %>
+
+                <tr>
+                    <td>
+                        <table class="simplejoblsite">
+                            <tr>
+                                <td>Jobnavn</td>
+                                <td>Job nr</td>
+                                <td>Kunde</td>
+                                <td>Ansvarlig</td>
+                                <td>Salgsansvarlig</td>
+                                <td>Forretningsomr[de</td>
+                                <td>Projektgrupper</td>
+                                <td>Job start dato</td>
+                                <td>Job slut dato</td>
+                                <td>Status</td>
+                                <td>Samlet tidsforbrug</td>
+                                <td>Budget timer for job</td>                                
+                            </tr>
+                             <tr>
+                                <td><input type="checkbox" <%=simple_joblist_jobnavn_CHB %> value="1" name="simple_joblist_jobnavn" /></td>
+                                <td><input type="checkbox" <%=simple_joblist_jobnr_CHB %> value="1" name="simple_joblist_jobnr" /></td>
+                                <td><input type="checkbox" <%=simple_joblist_kunde_CHB %> value="1" name="simple_joblist_kunde" /></td>
+                                <td><input type="checkbox" <%=simple_joblist_ans_CHB %> value="1" name="simple_joblist_ans" /></td>
+                                <td><input type="checkbox" <%=simple_joblist_salgsans_CHB %> value="1" name="simple_joblist_salgsans" /></td>
+                                <td><input type="checkbox" <%=simple_joblist_fomr_CHB %> value="1" name="simple_joblist_fomr" /></td>
+                                <td><input type="checkbox" <%=simple_joblist_prg_CHB %> value="1" name="simple_joblist_prg" /></td>
+                                <td><input type="checkbox" <%=simple_joblist_stdato_CHB %> value="1" name="simple_joblist_stdato" /></td>
+                                <td><input type="checkbox" <%=simple_joblist_sldato_CHB %> value="1" name="simple_joblist_sldato" /></td>
+                                <td><input type="checkbox" <%=simple_joblist_status_CHB %> value="1" name="simple_joblist_status" /></td>
+                                <td><input type="checkbox" <%=simple_joblist_tidsforbrug_CHB %> value="1" name="simple_joblist_tidsforbrug" /></td>
+                                <td><input type="checkbox" <%=simple_joblist_budgettid_CHB %> value="1" name="simple_joblist_budgettid" /></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
 
 
 
@@ -2342,7 +2791,7 @@ if len(session("user")) = 0 then
 
             <tr>
             <td style="padding:15px; border-top:1px #5582d2 dashed;">
-            <h3>Benyt positiv aktivitering af aktiviteter</h3>
+            <h3>Benyt positiv aktivitering af aktiviteter / Søg kun i personlig aktiv jobliste PA = 1</h3>
            
           <%if cint(positiv_aktivering_akt) = 1 then
           positiv_aktivering_aktCHK = "CHECKED"
@@ -2351,7 +2800,7 @@ if len(session("user")) = 0 then
           end if
           %>
 
-           <input type="checkbox" name="positiv_aktivering_akt" value="1" <%=positiv_aktivering_aktCHK %> /> Brug positiv aktivitering af aktiviteter på timereg. siden.<br />
+           <input type="checkbox" name="positiv_aktivering_akt" value="1" <%=positiv_aktivering_aktCHK %> /> Brug positiv aktivitering af aktiviteter på Timereg. siden, Ugeseddel, Favorit og Mobil. + Interne (Priroitet < 0)<br />
 
            <%
            'uTxt = "<b>Bemærk:</b> ved ændring af denne indstilling tømmes alle personlige aktive joblister på timereg. siden."
@@ -2359,8 +2808,12 @@ if len(session("user")) = 0 then
            'call infoUnisport(uWdt, uTxt) %>
            
 
-           Der skal gives adgang til hver enkelt aktivitet for hver medarbejder før denne kan registrere timer på aktiviteten. Der gives adgang fra de personlige Job-bank indstillinger fra timereg. siden. Alle der har adgang til medarbejderen via timereg. siden kan give adgang.
-           <br /><br />Velegnet til virksomheder, med længerevarende job og mange medarbejdere, hvor arbejdsområder er meget opdelt.
+           Der skal gives adgang til hver enkelt aktivitet for hver medarbejder før denne kan registrere timer på aktiviteten. 
+           Der gives adgang fra de personlige Job-bank indstillinger fra timereg. siden. 
+           Alle der har adgang til medarbejderen via timereg. siden kan give adgang.
+           <b>Hvis "vis alle aktiviteter med forecast på" er slået til, vises de aktiveter fra det afsnit også.</b>
+           <br /><br />Velegnet til virksomheder, med længerevarende job og mange medarbejdere, hvor arbejdsområder er meget opdelt.<br />
+           
 
 
           <%if cint(pa_aktlist) = 1 then
@@ -2370,7 +2823,8 @@ if len(session("user")) = 0 then
           end if
           %>
             <br /><br />
-           <input type="checkbox" name="pa_aktlist" value="1" <%=pa_aktlistCHK %> />Mobil (timetag_web), samt ugeseddel og ressourceforecast kan KUN at søge i <b>Personlig aktivjobliste</b> PA=1.
+            Hvis positiv aktivering ikke er slået til:<br />
+           <input type="checkbox" name="pa_aktlist" value="1" <%=pa_aktlistCHK %> />Mobil (timetag_web), samt ugeseddel, favoritlisten og ressourceforecast kan KUN at søge i <b>Personlig aktivjobliste</b> PA=1.
            Ellers kan der søges i hele jobbanken PA=0. Forudsættes at man har adgang via sine projektgrupper. (TimeTag sættes i timetag config)<br />
 
 
@@ -2419,6 +2873,28 @@ if len(session("user")) = 0 then
           </td>
             </tr>
 
+
+
+            <tr>
+                <td style="padding:15px; border-top:1px #5582d2 dashed;">
+                    <h3>Glemt password</h3>
+                
+                        <%
+                        if cint(password_visning) = 1 then
+                        password_visning_CH = "CHECKED"
+                        else
+                        password_visning_CH = ""
+                        end if
+                        %>
+
+
+                     <input type="checkbox" name="password_visning" value="1" <%=password_visning_CH %> /> Brug link til fornyelse af password (sikker), ellers send password som text i mail (mindre sikkert) 
+                
+                </td>
+            </tr>
+
+
+
           <tr>
             <td style="padding:15px; border-top:1px #5582d2 dashed;">
             <h3>Mobil, Ugeseddel indstilling for dropdown/select felter</h3>
@@ -2457,12 +2933,19 @@ if len(session("user")) = 0 then
             </tr>
 
 
+
+
+
+          
+
+
+
             
                  
 
              <tr>
             <td style="padding:15px; border-top:1px #5582d2 dashed;">
-            <h3>Timebudget simulering</h3>
+            <h3>Timebudget simulering - Forecast</h3>
            
           <%if cint(timesimon) = 1 then
           timesimonCHK = "CHECKED"
@@ -2496,7 +2979,7 @@ if len(session("user")) = 0 then
 
           <tr>
             <td style="padding:15px; border-top:1px #5582d2 dashed;">
-            <h3>Vis Ressourceplanner</h3>
+            <h3>Vis Ressourceplanner - Forecast</h3>
            
           <%if cint(vis_resplanner) = 1 then
           vis_resplannerCHK = "CHECKED"
@@ -2614,7 +3097,7 @@ if len(session("user")) = 0 then
           end if
           %>
 
-           <input type="checkbox" name="vis_lager" value="1" <%=vis_lagerCHK %> disabled /> Vis materialelager i menu<br />
+           <input type="checkbox" name="vis_lager" value="1" <%=vis_lagerCHK %>  /> Vis materialelager i menu<br />
 
 
           <%if cint(minimumslageremail) = 1 then
@@ -2714,6 +3197,10 @@ if len(session("user")) = 0 then
                     SmiantaldageCountClock17SEL = ""
                     SmiantaldageCountClock24SEL = ""      
                        
+
+                    'Response.write "SmiantaldageCountClock: " & SmiantaldageCountClock
+
+
             select case SmiantaldageCountClock
                     case 7
                     SmiantaldageCountClock7SEL = "SELECTED"
@@ -2856,6 +3343,8 @@ if len(session("user")) = 0 then
             <input type="checkbox" name="FM_smileyAggressiv" id="Checkbox2" value="1" <%=smileyAggressivChk%>> <b>Vis smiley aggressiv</b> (altid åben) / diskret (lukket) på timreg. siden
             <br />
             <input type="checkbox" name="FM_smiley_agg_lukhard" id="Checkbox2" value="1" <%=smiley_agg_lukhardChk%>> <b>Hård</b> luk for registrering for medarbejder hvis perioder ikke afsluttet.
+            <br />Hård lukning skal ikke gælde følgende grupper:
+            <input type="text" name="FM_smiley_agg_lukhard_igngrp" size="10" value="<%=smiley_agg_lukhard_igngrp %>" /> Angiv gerne flere grupper 1,5,19 
             <br /><br />
                 
                      - Timereg. siden bliver lukket hvis der er mere end 3 uafsluttede uger. (ved afslut på ugebasis)<br />
@@ -3039,7 +3528,7 @@ if len(session("user")) = 0 then
 
                     <tr>
             <td style="padding:15px; border-top:1px #5582d2 dashed;">
-            <h4>Luk for timereg. på akt. hvis forecast/timebudget på akt./medarb. overskreddet</h4> 
+            <h4>Forecast - vis aktiviteter</h4> 
           
           <%if cint(forcebudget_onakttreg) = 1 then
           forcebudget_onakttregCHK = "CHECKED"
@@ -3068,15 +3557,40 @@ if len(session("user")) = 0 then
           end if
           %>
 
-           <input type="checkbox" name="forcebudget_onakttreg" value="1" <%=forcebudget_onakttregCHK %> /> <b>Adviser</b> (vejledende) 
-                 Markerer på timeregistrering, ugeseddel og evt. TimeTag (PA:2), hvis <b>forecast pr. medarb.</b> er overskreddet. 
-                 (Husk slå vis ressourcetimer til på akt. linje. - gælder kun type: Fakturerbare - og ikke interne HR -1, -2 job)
+
+            
+
+                 <input type="checkbox" name="forcebudget_onakttreg_filt_viskunmbgt" value="1" <%=forcebudget_onakttreg_filt_viskunmbgtCHK %> /> <b>Tilføj automatisk</b> de aktiviteter (job) med forecast pr. medarb. på til <b>Timereg. siden og Favoritlisten.</b> 
+                 <br /><br />På Ugeseddel, Mobil og TimeTag bliver de mulige at fremsøge. 
+                 <br />Gælder alle aktivitetstyper.
+
+                 <br /><br /> Hvis positiv aktivering er slået til vises KUN disse aktiviteter, samt dem med FORECAST.
+                 Der kan tastes i de aktiviteter der er tilføjet via "positiv aktivering" selvom der ikke er forecast. (medarbejdere kan ikke selv vælge via jobbanken)
+                 <br /><br /> Hvis positiv aktivering er slået IKKE er slået til GÆLDER alm. regler om projektgrupper (jobbanken PA=0 eller PA=1). <br />
+                 Der kan tastes på dem der er tilføjet fra jobbanken efter de regler der angives nedenfor.   
+                
                 <br /><br />
-                Kode 1: Forecast overskreddet, lyserød markering. Der kan stadigvæk tastes. (tjekker afgrænsning indenf. regnskabårs / md.)<br />
-                Kode 2: Ingen forecast angivet, grå markering. Aktivitet kan ses men lukket for indtastning<br />
-                 <span style="color:#999999;">
-                Timereg. variable: resforecastMedOverskreddet<br /></span>
-               <br />
+
+                  <b>Afgrænsning for forecast:</b> (gælder både Hård og Vejledende)
+                 <select name="forcebudget_onakttreg_afgr"> 
+                     <option value="0" <%=forcebudget_onakttreg_afgrSEL0 %>>Ingen afgrænsning</option>
+                     <option value="1" <%=forcebudget_onakttreg_afgrSEL1 %>>Afgræns indenfor regnskabsår (se regnskabsår)</option>
+                     <option value="2" <%=forcebudget_onakttreg_afgrSEL2 %>>Afgræns indenfor måned</option>
+                     </select>
+                     <br /><br /><br />
+
+
+                    <b>Luk for timereg. på akt. hvis forecast/timebudget på akt./medarb. overskreddet</b><br />
+                    <input type="checkbox" name="forcebudget_onakttreg" value="1" <%=forcebudget_onakttregCHK %> /> <b>Adviser - Vejledende</b><br />
+                    Angiv på Timeregistrering, Ugeseddel, Favoritlisten og evt. TimeTag (PA:2)<br />
+                    Hvis <b>forecast pr. medarb.</b> er overskreddet. 
+                    (Husk slå vis forecast på akt. linje til - gælder kun type: Fakturerbare - og ikke på interne HR -1, -2, -3 job. Her kan der altid tastes)
+                    <br /><br />
+                    Kode 1: Forecast overskreddet, lyserød markering. Der kan stadigvæk tastes. (tjekker afgrænsning indenf. regnskabårs / md.)<br />
+                    Kode 2: Ingen forecast angivet, grå markering. Aktivitet kan ses men lukket for indtastning<br />
+                     <span style="color:#999999;">
+                    Timereg. variable: resforecastMedOverskreddet<br /></span>
+                  <br />
                   <input type="checkbox" name="resforecastMedOverskreddet_tastok" value="1" <%=resforecastMedOverskreddettastokCHK %> DISABLED />Skal stadigvæk kunne taste i grå-felter.<br /><br />
                 
 
@@ -3089,26 +3603,12 @@ if len(session("user")) = 0 then
           %>
 
            <input type="checkbox" name="akt_maksforecast_treg" value="1" <%=akt_maksforecast_tregCHK %> /> <b>Adviser - Hård</b> (kræver adviser vejledende er slået til)<br />
-           Forecast pr. medarb. pr. aktivitet overskreddet. (kun fakturerbare)<br />
-           Forecast kan ikke overskriddes, hvis der ikke er lagt forecast ind på aktivitet kan der ikke tastes.<br />
-           Hvis hård: grå markering. Aktivitet kan ses men lukket for indtastning. (+ alert ved overskridelse)<br />
-           
-               <br /><br /><b>Afgrænsning:</b> (gælder både Hård og Vejledende)
-                 <select name="forcebudget_onakttreg_afgr"> 
-                     <option value="0" <%=forcebudget_onakttreg_afgrSEL0 %>>Ingen afgrænsning</option>
-                     <option value="1" <%=forcebudget_onakttreg_afgrSEL1 %>>Afgræns indenfor regnskabsår (se regnskabsår)</option>
-                     <option value="2" <%=forcebudget_onakttreg_afgrSEL2 %>>Afgræns indenfor måned</option>
-                     </select>
-                     <br /><br />
-
-                 <input type="checkbox" name="forcebudget_onakttreg_filt_viskunmbgt" value="1" <%=forcebudget_onakttreg_filt_viskunmbgtCHK %> /> <b>Vis</b> kun aktiviteter med forecast pr. medarb. på. - gælder alle aktivitetstyper (viser altid interne job -1, -2)
-                 <br /> Tjekker ikke periode - Ovenstående advisering vejl. / hård bestemmer om der kan tastes på aktiviteten. <br />
-                 
-                 <!--<br />(admin kan slå fra på timereg. + kræver "Adviser.." ovenfor er slået til)-->
-           
+           Forecast kan ikke overskriddes, hvis der ikke er lagt forecast ind på aktivitet kan der ikke tastes (+ alert ved overskridelse)<br />
+              
                 
           <br /><br />
           
+           <hr />
           
           <%if cint(akt_maksbudget_treg) = 1 then
           akt_maksbudget_tregCHK = "CHECKED"
@@ -3116,8 +3616,9 @@ if len(session("user")) = 0 then
           akt_maksbudget_tregCHK = ""
           end if
           %>
-
-           <input type="checkbox" name="akt_maksbudget_treg" value="1" <%=akt_maksbudget_tregCHK %> /> <b>Aktiver alert</b> på timereg. siden, ved <b>forkalkuleret timer overskreddet (budgetlinje på aktivitet) </b><br />Gælder alle aktivitetstyper med forkalk. på. <br />- IKKE MOBIL og Ugeseddel<br />
+          <h4>Budgetlinje på aktivitet</h4>
+           <input type="checkbox" name="akt_maksbudget_treg" value="1" <%=akt_maksbudget_tregCHK %> /> <b>Aktiver alert</b> på timereg. siden, ved <b>forkalkuleret timer overskreddet (budgetlinje på aktivitet) </b>
+                <br />Gælder alle aktivitetstyper med forkalk. på. Gælder IKKE på MOBIL og Ugeseddel<br />&nbsp;
                   
           </td>
             </tr>
@@ -3206,7 +3707,7 @@ if len(session("user")) = 0 then
                  <img src="../ill/blank.gif" width="20" height="1" /><input type="checkbox" name="FM_visAktlinjerSimpel_datoer" value="1" <%=visAktlinjerSimpel_datoerCHK %> /> Vis start og slutdato<br />
                 <img src="../ill/blank.gif" width="20" height="1" /><input type="checkbox" name="FM_visAktlinjerSimpel_timebudget" value="1" <%=visAktlinjerSimpel_timebudgetCHK %> /> Vis akt. forkalkulation (hvis findes) <br />
                 <img src="../ill/blank.gif" width="20" height="1" /><input type="checkbox" name="FM_visAktlinjerSimpel_realtimer" value="1" <%=visAktlinjerSimpel_realtimerCHK %> /> Vis real. timer<br />
-                <img src="../ill/blank.gif" width="20" height="1" /><input type="checkbox" name="FM_visAktlinjerSimpel_restimer" value="1" <%=visAktlinjerSimpel_restimerCHK %> /> Vis ressourcetimer (kræver markér akt. hvis forecast overskreddet)<br />
+                <img src="../ill/blank.gif" width="20" height="1" /><input type="checkbox" name="FM_visAktlinjerSimpel_restimer" value="1" <%=visAktlinjerSimpel_restimerCHK %> /> Vis ressourcetimer <!--(kræver <b>Adviser - Vejledende</b> på akt. hvis forecast overskreddet)--><br />
 
 
                 <img src="../ill/blank.gif" width="20" height="1" /><input type="checkbox" name="FM_visAktlinjerSimpel_medarbtimepriser" value="1" <%=visAktlinjerSimpel_medarbtimepriserCHK %> /> Medarb. timepriser<br />
@@ -3323,6 +3824,54 @@ if len(session("user")) = 0 then
                    
                     </td></tr>
 
+
+
+                <%  
+                    
+                    ferie_max0_SEL = ""
+                    ferie_max1_SEL = ""
+                    ferie_max2_SEL = ""
+
+                    select case ferie_max
+                    case 0
+                    ferie_max0_SEL = "SELECTED"
+                    case 1
+                    ferie_max1_SEL = "SELECTED"
+                    case 2
+                    ferie_max2_SEL = "SELECTED"
+                    end select
+
+                    feriefri_max0_SEL = ""
+                    feriefri_max1_SEL = ""
+                   
+                    select case feriefri_max
+                    case 0
+                    feriefri_max0_SEL = "SELECTED"
+                    case 1
+                    feriefri_max1_SEL = "SELECTED"
+                    end select
+           
+                 %>
+
+                 <tr>
+                    <td style="padding:15px; border-top:1px #5582d2 dashed;">
+                    <h3>Må Ferie og feriefri afholdt overskride optjent saldo?</h3> 
+
+                        Ferie:
+                        <select name="FM_ferie_max" DISABLED>
+                            <option value="0" <%=ferie_max0_SEL %>>Ferie kan overskride optjent saldo</option>
+                            <option value="1" <%=ferie_max1_SEL %>>Ferie må ikke overskride ferieoptjent saldo</option>
+                            <option value="2" <%=ferie_max2_SEL %>>Ferie afholdt over ferieoptjent saldo overføres til ferie afholdt uden løn</option>
+                        </select> (LTO styret)
+                        <br /><br />
+                        Feriefri:
+                           <select name="FM_feriefri_max">
+                            <option value="0" <%=feriefri_max0_SEL %>>Feriefri kan overskride optjent saldo</option>
+                            <option value="1" <%=feriefri_max1_SEL %>>Ferie må ikke overskride ferieoptjent saldo</option>
+                        </select>
+                   
+                    </td></tr>
+
                       <tr>
                     <td style="padding:15px; border-top:1px #5582d2 dashed;">
                     <h3>Faktor (global)</h3> 
@@ -3370,8 +3919,17 @@ if len(session("user")) = 0 then
                             end if %>
 
                         <br /><br />
-                           <input type="checkbox" name="FM_stempelur_hidelogin" id="FM_stempelur_hidelogin" value="1" <%=stempelur_hideloginCHK%>> Pre-udfyld <u>IKKE</u> Komme/Gå siden med den tid man faktisk logger ind. (intast komme/gå tid manuelt) 
+                        <input type="checkbox" name="FM_stempelur_hidelogin" id="FM_stempelur_hidelogin" value="1" <%=stempelur_hideloginCHK%>> Pre-udfyld <u>IKKE</u> indstemplinger på Komme/Gå siden med den tid man faktisk logger ind. (intast komme/gå tid manuelt) 
+                        <br /><br />
 
+                        <%  
+                            if cint(stempelur_hidelogin_onlymonitor) <> 0 then
+                            stempelur_hidelogin_onlymonitorCHK = "CHECKED"
+                            else
+                            stempelur_hidelogin_onlymonitorCHK = ""
+                            end if %>
+
+                        <input type="checkbox" name="FM_stempelur_hidelogin_onlymonitor" id="FM_stempelur_hidelogin_onlymonitor" value="1" <%=stempelur_hidelogin_onlymonitorCHK%>> Pre-udfyld KUN når der logges ind via Monitor. (Stempelur)
 
                         <%  
                             if cint(stempelur_igno_komkrav) <> 0 then
@@ -3388,18 +3946,58 @@ if len(session("user")) = 0 then
                         
                       <br /><br />
                         
-                       <b>Der skal ikke kunne logges ind mellem:</b><br /> 
-                       Hvis der logges ind i dette interval, hvil logind tidspunktet blive sat til sluttiden i nedenstående interval. (de røde kasser)<br /> 
-                       Der medregnes ikke minutter, for logind hvor logind tidspunkt ligger i det angivne interval. (gælder kun fremtidige logind)
+                       <b>Stempelur spærretid - Der skal ikke kunne logges ind/ud mellem:</b><br /> 
+                       Hvis der logges ind i dette interval, hvil logind tidspunktet blive sat til sluttiden i nedenstående interval.<br /> 
                        <br /> 
+
+                       Logind spærretid 1:
                         <input id="FM_stempel_ignorerper_st_t" name="FM_stempel_ignorerper_st_t" type="text" style="width: 23px;" style="border:1px silver solid;" value="<%= ignorertid_st_t%>" />:
                        <input id="FM_stempel_ignorerper_st_m" name="FM_stempel_ignorerper_st_m" type="text" style="width: 23px;" style="border:1px silver solid;" value="<%= ignorertid_st_m%>" />
                        -
                         <input id="FM_stempel_ignorerper_sl_t" name="FM_stempel_ignorerper_sl_t" type="text" style="width: 23px;" style="border:1px red solid;" value="<%= ignorertid_sl_t%>" />:
                        <input id="FM_stempel_ignorerper_sl_m" name="FM_stempel_ignorerper_sl_m" type="text" style="width: 23px;" style="border:1px red solid;" value="<%= ignorertid_sl_m%>" />
-                      <br />00:00 - 00:00 Ingen periode<br />
+
+
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        Logud spærretid 1:
+                        <input id="FM_stempel_ignorerper_st_t_logud" name="FM_stempel_ignorerper_st_t_logud" type="text" style="width: 23px;" style="border:1px silver solid;" value="<%= ignorertid_st_t_logud%>" />:
+                       <input id="FM_stempel_ignorerper_st_m_logud" name="FM_stempel_ignorerper_st_m_logud" type="text" style="width: 23px;" style="border:1px silver solid;" value="<%= ignorertid_st_m_logud%>" />
+                       -
+                        <input id="FM_stempel_ignorerper_sl_t_logud" name="FM_stempel_ignorerper_sl_t_logud" type="text" style="width: 23px;" style="border:1px red solid;" value="<%= ignorertid_sl_t_logud%>" />:
+                       <input id="FM_stempel_ignorerper_sl_m_logud" name="FM_stempel_ignorerper_sl_m_logud" type="text" style="width: 23px;" style="border:1px red solid;" value="<%= ignorertid_sl_m_logud%>" />
+
+
+                          <br /><br />
+                       Spærretid 1 skal kun gælde / ikke gælde (minus) for følgende projektgrupper: (blank = alle, ellers angiv projektgruppe id)<br />
+                       Det er ikke tilladt at kombinere minus-grupper med plus-grupper. <br /> <input type="text" name="FM_sperretid_grp" value="<%=sperretid_grp%>" size=10 /> Angiv gerne flere grupper 1,5,19 
+
+                        <br /><br />
+
+                        Logind spærretid 2:
+                        <input id="FM_stempel_ignorerper_st_t_2" name="FM_stempel_ignorerper_st_t_2" type="text" style="width: 23px;" style="border:1px silver solid;" value="<%= ignorertid_st_t_2%>" />:
+                       <input id="FM_stempel_ignorerper_st_m_2" name="FM_stempel_ignorerper_st_m_2" type="text" style="width: 23px;" style="border:1px silver solid;" value="<%= ignorertid_st_m_2%>" />
+                       -
+                        <input id="FM_stempel_ignorerper_sl_t_2" name="FM_stempel_ignorerper_sl_t_2" type="text" style="width: 23px;" style="border:1px red solid;" value="<%= ignorertid_sl_t_2%>" />:
+                       <input id="FM_stempel_ignorerper_sl_m_2" name="FM_stempel_ignorerper_sl_m_2" type="text" style="width: 23px;" style="border:1px red solid;" value="<%= ignorertid_sl_m_2%>" />
+
+
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        Logud spærretid 2:
+                        <input id="FM_stempel_ignorerper_st_t_logud_2" name="FM_stempel_ignorerper_st_t_logud_2" type="text" style="width: 23px;" style="border:1px silver solid;" value="<%= ignorertid_st_t_logud_2%>" />:
+                       <input id="FM_stempel_ignorerper_st_m_logud_2" name="FM_stempel_ignorerper_st_m_logud_2" type="text" style="width: 23px;" style="border:1px silver solid;" value="<%= ignorertid_st_m_2%>" />
+                       -
+                        <input id="FM_stempel_ignorerper_sl_t_logud_2" name="FM_stempel_ignorerper_sl_t_logud_2" type="text" style="width: 23px;" style="border:1px red solid;" value="<%= ignorertid_sl_t_logud_2%>" />:
+                       <input id="FM_stempel_ignorerper_sl_m_logud_2" name="FM_stempel_ignorerper_sl_m_logud_2" type="text" style="width: 23px;" style="border:1px red solid;" value="<%= ignorertid_sl_m_logud_2%>" />
+
+                       <br /><br />
+                       Spærretid 2 skal kun gælde / ikke gælde (minus) for følgende projektgrupper: (blank = alle, ellers angiv projektgruppe id)<br />
+                       Det er ikke tilladt at kombinere minus-grupper med plus-grupper. <br /> <input type="text" name="FM_sperretid_grp2" value="<%=sperretid_grp2%>" size=10 /> Angiv gerne flere grupper 1,5,19 
+
+                      <br /><br />00:00 - 00:00 Ingen periode<br />
                       06:45 - 07:00 Hvis der f.eks logges ind kl 06:50, bliver logind tidspunktet sat til kl 07:00.<br />
-                      Logges der derimod ind kl. 02:00, bi-beholdes logind tidspunket til kl. 02:00.
+                     
+
+
                       
                       <br /><br />
                       <b>Standard pause A pr. dag:</b><br />

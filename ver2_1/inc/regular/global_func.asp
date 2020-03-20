@@ -27,10 +27,27 @@
 <!--#include file="../xml/smileystatus_xml_inc.asp"-->
 <!--#include file="../xml/jobstatus_xml_inc.asp"-->
 
+<!--#include file="../xml/kontoplan_xml_inc.asp"-->
+<!--#include file="../xml/posteringer_xml_inc.asp"-->
+<!--#include file="../xml/mat_grp_xml_inc.asp"-->
+<!--#include file="../xml/leverand_xml_inc.asp"-->
+<!--#include file="../xml/forecast_kapacitet_xml_inc.asp"-->
+<!--#include file="../xml/diet_xml_inc.asp"-->
+<!--#include file="../xml/stat_korsel_xml_inc.asp"-->
+<!--#include file="../xml/ugetast_xml_inc.asp"-->
+<!--#include file="../xml/medarb_protid_xml_inc.asp"-->
+<!--#include file="../xml/infoscreen_xml_inc.asp"-->
+<!--#include file="../xml/udeafhuset_xml_inc.asp"-->
+<!--#include file="../xml/monitor_xml_inc.asp"-->
+<!--#include file="../xml/expence_xml_inc.asp"-->
+<!--#include file="../xml/feriekalender_xml_inc.asp"-->
+<!--#include file="../xml/fomr_xml_inc.asp"-->
+<!--#include file="../xml/momskoder_xml_inc.asp"-->
 
 
 <!--#include file="cls_aktiviteter.asp"-->
 <!--#include file="cls_afstem.asp"-->
+<!--#include file="cls_hr_listen.asp"-->
 <!--#include file="cls_afstem_akttyper.asp"-->
 
 <!--#include file="cls_dage.asp"-->
@@ -299,6 +316,20 @@ end function
 end function
 
 
+public job_felt_fomr, job_felt_salgsans, job_felt_rekno, job_felt_intnote
+function jobsidefelter
+            strSQL = "SELECT job_felt_fomr, job_felt_salgsans, job_felt_rekno, job_felt_intnote FROM licens"
+            oRec.open strSQL, oConn, 3
+            if not oRec.EOF then
+                job_felt_fomr = oRec("job_felt_fomr")
+                job_felt_salgsans = oRec("job_felt_salgsans")
+                job_felt_rekno = oRec("job_felt_rekno")
+                job_felt_intnote = oRec("job_felt_intnote")
+            end if
+            oRec.close
+end function
+
+
 
 
 public SmiWeekOrMonth, SmiantaldageCount, SmiantaldageCountClock, SmiTeamlederCount, SmiWeekOrMonth_HR
@@ -355,6 +386,24 @@ function vis_resplanner_fn()
 end function
 
 
+public ferieMaxOn, feriefriMaxOn
+function ferieMaxOn_fn()
+    
+    ferieMaxOn = 0
+    feriefriMaxOn = 0
+    strSQL6 = "SELECT ferie_max, feriefri_max FROM licens l WHERE id = 1"
+	oRec6.open strSQL6, oConn, 3
+	If not oRec6.EOF then
+	
+	ferieMaxOn = oRec6("ferie_max")
+    feriefriMaxOn = oRec6("feriefri_max")
+   
+	end if
+    oRec6.close
+
+end function
+
+
 '*** MANGLER AT Tilføje FELT i DB 20171114
 public vis_lager
 function vis_lager_fn()
@@ -385,6 +434,21 @@ function vis_favorit_fn()
 	end if
     oRec6.close
 
+end function
+
+public useTrainerlog
+function GetSytemSetup()
+    'strSQL = "SELECT systemsetup FROM licens WHERE id = 1"
+    'oRec.open strSQL, oConn, 3
+    'if not oRec.EOF then
+    '    if cint(oRec("systemsetup")) = 5 then
+        if lto = "a27" then
+            useTrainerlog = 1
+        else
+            useTrainerlog = 0
+        end if
+    'end if
+    'oRec.close
 end function
 
 
@@ -600,20 +664,22 @@ end function
       
 
 
-public smiley_agg, hidesmileyicon, smiley_agg_lukhard
+public smiley_agg, hidesmileyicon, smiley_agg_lukhard, smiley_agg_lukhard_igngrp
 function smiley_agg_fn()
     
     smiley_agg = 0
     hidesmileyicon = 0
+    smiley_agg_lukhard_igngrp = ""
 
-	strSQL6 = "SELECT smileyaggressiv, hidesmileyicon, smiley_agg_lukhard FROM licens l WHERE id = 1"
+	strSQL6 = "SELECT smileyaggressiv, hidesmileyicon, smiley_agg_lukhard, smiley_agg_lukhard_igngrp FROM licens l WHERE id = 1"
 	oRec6.open strSQL6, oConn, 3
 	If not oRec6.EOF then
 	
 	smiley_agg = oRec6("smileyaggressiv")
     hidesmileyicon = oRec6("hidesmileyicon")
     smiley_agg_lukhard = oRec6("smiley_agg_lukhard")
-	
+	smiley_agg_lukhard_igngrp = oRec6("smiley_agg_lukhard_igngrp")
+
 	end if
     oRec6.close
 
@@ -726,6 +792,22 @@ function salgsans_fn()
 	If not oRec6.EOF then
 	
 	showSalgsAnv = oRec6("salgsans")
+	
+	end if
+    oRec6.close
+
+end function
+
+
+public vis_lager2
+function vis_lager_fn()
+    
+    teamleder_flad = 0
+	strSQL6 = "SELECT vis_lager FROM licens l WHERE id = 1"
+	oRec6.open strSQL6, oConn, 3
+	If not oRec6.EOF then
+	
+	vis_lager2 = oRec6("vis_lager")
 	
 	end if
     oRec6.close
@@ -866,7 +948,7 @@ function browsertype()
     OR instr(lcase(userAgent), "android") <> 0 OR instr(lcase(userAgent), "mobile") <> 0 _ 
     OR inStr(1, userAgent, "iphone", 1) > 0 OR inStr(1, userAgent, "windows ce", 1) > 0 OR inStr(1, userAgent, "blackberry", 1) > 0 OR inStr(1, userAgent, "opera mini", 1) > 0 _
     OR inStr(1, userAgent, "mobile", 1) > 0 OR inStr(1, userAgent, "palm", 1) > 0 OR inStr(1, userAgent, "portable", 1) > 0) _
-    AND (instr(lcase(userAgent), "ipad") = 0 OR ((lto = "hestia" OR instr(lto, "epi") <> 0) AND instr(lcase(userAgent), "ipad") <> 0)) then
+    AND (instr(lcase(userAgent), "ipad") = 0 OR ((lto = "hestia" OR instr(lto, "epi") <> 0) AND (instr(lcase(userAgent), "ipad") <> 0) OR instr(lcase(userAgent), "10_15") <> 0)) then
 	'** Iphone **'
     
     browstype_client = "ip"
@@ -934,6 +1016,19 @@ function erERPaktiv()
 	oRec.close 
 end function
 
+
+public showFordelpFinansaaron 
+    function showFordelpFinansaaron_fn()
+     '** showFordelpFinansaaron fordel på finasår aktiv på joboprettelse
+	showFordelpFinansaaron = 0
+	strSQL = "SELECT showFordelpFinansaaron FROM licens WHERE id = 1"
+	oRec10.open strSQL, oConn, 3 
+	if not oRec10.EOF then
+	showFordelpFinansaaron = oRec10("showFordelpFinansaaron") 
+	end if
+	oRec10.close 
+    end function
+
 public crmOnOff
 function erCRMaktiv()
 '** CRM ordning aktiv 
@@ -958,13 +1053,14 @@ function erBGTaktiv()
 	oRec.close 
 end function
 
-public stempelurOn, stempelur_hideloginOn, stempelur_ignokomkravOn
+public stempelurOn, stempelur_hideloginOn, stempelur_ignokomkravOn, stempelur_hidelogin_onlymonitorOn
 function erStempelurOn()
 '** Stempelur ***'
 	stempelurOn = 0
     stempelur_hideloginOn = 0
     stempelur_ignokomkravOn = 0
-	strSQL = "SELECT stempelur, stempelur_hidelogin, stempelur_igno_komkrav FROM licens WHERE id = 1"
+    stempelur_hidelogin_onlymonitorOn = 0
+	strSQL = "SELECT stempelur, stempelur_hidelogin, stempelur_igno_komkrav, stempelur_hidelogin_onlymonitor FROM licens WHERE id = 1"
 	
     'response.write strSQL
     'response.flush
@@ -975,6 +1071,7 @@ function erStempelurOn()
     stempelurOn = oRec("stempelur") 
     stempelur_hideloginOn = oRec("stempelur_hidelogin")
     stempelur_ignokomkravOn = oRec("stempelur_igno_komkrav")
+    stempelur_hidelogin_onlymonitorOn = oRec("stempelur_hidelogin_onlymonitor")
 
 	end if
 	oRec.close 
@@ -1575,6 +1672,24 @@ function grafik(FM_id, strPic, pictype, txt)
 	end function
 	'*********************************************************************************************
 	
+
+
+	  public int_glemtpassword_visning
+    function glemtpassword_visning()
+
+            strSQL = "SELECT password_visning FROM licens"
+            oRec.open strSQL, oConn, 3
+            if not oRec.EOF then
+
+                int_glemtpassword_visning = oRec("password_visning")
+
+            end if
+            oRec.close
+
+    end function
+
+
+
 	public thoursTot, tminTot, tminProcent
 	function timerogminutberegning(totalmin)
 	
@@ -1625,9 +1740,12 @@ function grafik(FM_id, strPic, pictype, txt)
 			
 	    next
 		
+
+       
 		
 		
 		if len(tminTot) <> 0 then
+
 			tminTot = tminTot
 			
 			if instr(tminTot, "-") <> 0 then
@@ -1639,7 +1757,7 @@ function grafik(FM_id, strPic, pictype, txt)
 			end if
 			
             
-            if len(tminTot) = 1 then
+            if len(trim(tminTot)) = 1 OR tminTot < 10 then
 			tminTot = "0"&tminTot
 			end if
 			
@@ -1651,7 +1769,10 @@ function grafik(FM_id, strPic, pictype, txt)
 		
 	end if
 	
-	
+	    'if session("mid") = 1 then
+        'Response.write "["& tminTot &"]" & "<br>"
+        'end if
+
 	
 	end function
 	
@@ -1914,5 +2035,24 @@ function grafik(FM_id, strPic, pictype, txt)
         </div>
             <%
     end function
+
+
+
+public thisWeekNo53
+function thisWeekNo53_fn(thisWeekNo53Date)
+
+    thisWeekNo53 = 0
+    thisWeekNo53 = DatePart("ww", thisWeekNo53Date, 2, 2)
+    If thisWeekNo53 = 53 And DatePart("ww", DateAdd("d", 7, thisWeekNo53Date), 2, 2) = 2 Then
+       thisWeekNo53 = 1
+    End If
+
+    if len(trim(thisWeekNo53)) <> 0 then
+    thisWeekNo53 = thisWeekNo53
+    else
+    thisWeekNo53 = 1
+    end if
+
+end function
 %>
     

@@ -8,6 +8,7 @@ Set objXmlHttp_medarb = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp_medarb.open "GET", "http://localhost/inc/xml/medarb_sprog.xml", False
 'objXmlHttp_medarb.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/medarb_sprog.xml", False
 'objXmlHttp_medarb.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/medarb_sprog.xml", False
+'objXmlHttp_medarb.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver4_22/inc/xml/medarb_sprog.xml", False
 'objXmlHttp_medarb.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/medarb_sprog.xml", False
 objXmlHttp_medarb.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/medarb_sprog.xml", False
 
@@ -45,6 +46,9 @@ sXPathQuery_medarb = "//sprog/dk"
 'Session.LCID = 1030
 case 2
 sXPathQuery_medarb = "//sprog/uk"
+if lto = "a27" then
+    sXPathQuery_medarb = "//sprog/trainerlog_uk"
+end if
 'Session.LCID = 2057
 case 3
 sXPathQuery_medarb = "//sprog/se"
@@ -231,7 +235,31 @@ Set oNodes_medarb = objXmlDom_medarb.documentElement.selectNodes(sXPathQuery_med
         medarb_txt_132 = oNode_medarb.selectSingleNode("txt_132").Text
         medarb_txt_133 = oNode_medarb.selectSingleNode("txt_133").Text
         medarb_txt_134 = oNode_medarb.selectSingleNode("txt_134").Text
-          
+        medarb_txt_135 = oNode_medarb.selectSingleNode("txt_135").Text
+        medarb_txt_136 = oNode_medarb.selectSingleNode("txt_136").Text
+        medarb_txt_137 = oNode_medarb.selectSingleNode("txt_137").Text
+        medarb_txt_138 = oNode_medarb.selectSingleNode("txt_138").Text
+        medarb_txt_139 = oNode_medarb.selectSingleNode("txt_139").Text
+        medarb_txt_140 = oNode_medarb.selectSingleNode("txt_140").Text
+        medarb_txt_141 = oNode_medarb.selectSingleNode("txt_141").Text
+        medarb_txt_142 = oNode_medarb.selectSingleNode("txt_142").Text
+        medarb_txt_143 = oNode_medarb.selectSingleNode("txt_143").Text
+        medarb_txt_144 = oNode_medarb.selectSingleNode("txt_144").Text
+
+        medarb_txt_145 = oNode_medarb.selectSingleNode("txt_145").Text
+        medarb_txt_146 = oNode_medarb.selectSingleNode("txt_146").Text
+        medarb_txt_147 = oNode_medarb.selectSingleNode("txt_147").Text
+        medarb_txt_148 = oNode_medarb.selectSingleNode("txt_148").Text
+        medarb_txt_149 = oNode_medarb.selectSingleNode("txt_149").Text
+        medarb_txt_150 = oNode_medarb.selectSingleNode("txt_150").Text
+        medarb_txt_151 = oNode_medarb.selectSingleNode("txt_151").Text
+        medarb_txt_152 = oNode_medarb.selectSingleNode("txt_152").Text
+        medarb_txt_153 = oNode_medarb.selectSingleNode("txt_153").Text
+        medarb_txt_154 = oNode_medarb.selectSingleNode("txt_154").Text
+        medarb_txt_155 = oNode_medarb.selectSingleNode("txt_155").Text
+        medarb_txt_156 = oNode_medarb.selectSingleNode("txt_156").Text
+        medarb_txt_157 = oNode_medarb.selectSingleNode("txt_157").Text
+
     next
 
 

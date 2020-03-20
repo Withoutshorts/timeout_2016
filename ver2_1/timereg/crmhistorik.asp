@@ -1559,7 +1559,7 @@ if len(session("user")) = 0 then
 	</tr>
 	<%
 		
-		strSQL = "SELECT mid, mnavn FROM medarbejdere WHERE (Brugergruppe = 1 OR Brugergruppe = 3 OR Brugergruppe = 6 OR Brugergruppe = 8) AND mansat <> '2' ORDER BY mnavn"
+		strSQL = "SELECT mid, mnavn FROM medarbejdere WHERE (Brugergruppe = 1 OR Brugergruppe = 3 OR Brugergruppe = 6 OR Brugergruppe = 8) AND mansat <> '2' AND mansat <> '4' ORDER BY mnavn"
 		oRec.open strSQL, oConn, 0, 1
 		while not oRec.EOF
 		
@@ -1957,7 +1957,7 @@ if level <= 2 then
 <select name="medarb" size="1" style="font-size : 11px; width:200 px;" onchange="submit()";>
 <option value="0">Alle</option>
 <%
-		strSQL = "SELECT mnavn, mid FROM medarbejdere WHERE mansat <> '2' AND mansat <> '3' ORDER BY mnavn"
+		strSQL = "SELECT mnavn, mid FROM medarbejdere WHERE mansat <> '2' AND mansat <> '3' AND mansat <> '4' ORDER BY mnavn"
 		oRec.open strSQL, oConn, 3
 		while not oRec.EOF
 		

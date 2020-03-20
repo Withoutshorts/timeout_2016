@@ -1950,7 +1950,7 @@ if len(session("user")) = 0 then
                       
                       afundet = 0
                       strSQL = "SELECT mid, mnavn, mnr, init, k.kundeans1 FROM medarbejdere "_
-                      &" LEFT JOIN kunder k ON (k.kid = "& kid &") WHERE mansat <> 2 GROUP BY mid ORDER BY mnavn"
+                      &" LEFT JOIN kunder k ON (k.kid = "& kid &") WHERE mansat <> 2 AND mansat <> 4 GROUP BY mid ORDER BY mnavn"
                       oRec.open strSQL, oConn, 3
                       while not oRec.EOF
                       
@@ -1991,7 +1991,7 @@ if len(session("user")) = 0 then
                       <option value="0">Ingen</option>
                       <%
                       strSQL = "SELECT mid, mnavn, mnr, init FROM medarbejdere "_
-                      &" WHERE mansat <> 2 GROUP BY mid ORDER BY mnavn"
+                      &" WHERE mansat <> 2 AND mansat <> 4 GROUP BY mid ORDER BY mnavn"
                       oRec.open strSQL, oConn, 3
                       while not oRec.EOF
                       
@@ -3068,7 +3068,7 @@ if len(session("user")) = 0 then
                                                                             end if
                                                                             
                                                                             
-                                                                            strSQL = "SELECT mid, mnavn, mnr FROM medarbejdere WHERE mid <> 0 AND mansat <> 2 ORDER BY mnavn"
+                                                                            strSQL = "SELECT mid, mnavn, mnr FROM medarbejdere WHERE mid <> 0 AND mansat <> 2 AND mansat <> 4 ORDER BY mnavn"
                                                                             oRec.open strSQL, oConn, 3
                                                                             while not oRec.EOF
                                                                             if cint(ansSel) = cint(oRec("mid")) then

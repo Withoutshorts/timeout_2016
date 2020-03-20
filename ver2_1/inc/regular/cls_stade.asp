@@ -35,6 +35,7 @@ if datepart("d", now, 2,2) > 22 OR (datepart("m", now, 2,2) = 1 AND datepart("d"
 
 
 
+
 'call erERPaktiv()
 
 stexptxt = ""
@@ -133,8 +134,111 @@ end if
 
 
  %>
+
+
+
+
 <div id="jobstatusigv" style="position:absolute; top:<%=dvtp%>px; left:40px; <%=dv_wdt%> <%=dv_hgt%> display:; visibility:visible; border:<%=dv_bdr%>px #CCCCCC solid; padding:20px; overflow:auto; background-color:#FFFFFF; z-index:20000000000;">
 
+
+
+<h4>   
+    <%if visning = 1 then %>
+    <span style="color:red;" id="s_luk_igv">[X]</span>
+    <%end if %>
+    
+    <%
+    if lto = "epi2017" then
+        oskrift = "Invoice plan and proposition status"
+    else
+        oskrift = "Stade, igangværende- job og -tilbud"
+    end if
+    %>
+
+    
+    <%=oskrift %> <br /><span style="font-size:11px;">Job hvor <%=meTxt %> er <u>jobansvarlig</u> (max. 500 job. active and proposals)</span>
+</h4>
+
+<form action="stat_opdater_igv.asp?menu=stat&func=opdater" method="post">
+    <%
+        'dim prgids, prgnavn
+        'redim prgids(10), prgnavn(10)
+
+        'strSQL = "SELECT projektgruppeid, p.navn as prgnavn FROM progrupperelationer LEFT JOIN projektgrupper as p ON (projektgruppeid = p.id) WHERE medarbejderid = 2139 AND teamleder = 1"
+        'response.Write strSQL
+        'oRec.open strSQL, oConn, 3
+        'antalTeamPrg = 0
+        'while not oRec.EOF
+
+         '   prgids(antalTeamPrg) = oRec("projektgruppeid")
+          '  prgnavn(antalTeamPrg) = oRec("prgnavn")
+
+        'antalTeamPrg = antalTeamPrg + 1
+        'oRec.movenext
+        'wend
+        'oRec.close
+
+         'if session("mid") = 1 then
+         'useMid = 35
+         'else
+         'useMid = session("mid")
+         'end if
+
+        call fTeamleder(session("mid"), 0, 1)
+        
+        'if session("mid") = 1 then
+        'response.Write "useMid : "& useMid  &" strPrgids " & strPrgids
+        'end if
+
+        call selectMedarbPrProgrp(0, strPrgids, "usemrn", 1, 1)
+
+
+
+    %>
+
+    <%if antalTeamPrg > 0 then %>
+     <!-- <select name="usemrn" style="width:200px;" onchange="this.form.submit()">
+            <%
+                response.Write "usemrn " & usemrn
+                p = 0
+                lastPrgid = 0
+                for p = 0 TO UBOUND(prgids)
+
+                    if prgids(p) <> "" then
+
+                        'if prgids(p) <> lastPrgid then
+                        'response.Write "<option disabled>"&prgnavn(p)&"</option>"
+                        'end if
+
+                        strSQL = "SELECT medarbejderid, mnavn, init FROM progrupperelationer LEFT JOIN medarbejdere ON (mid = medarbejderid) WHERE projektgruppeid = "& prgids(p) & " ORDER BY mnavn" 
+                        response.Write "<br>" & strSQL
+                        oRec.open strSQL, oConn, 3
+                        lastPrgid = 0
+                        while not oRec.EOF
+
+                            if oRec("medarbejderid") = cdbl(usemrn) then
+                            medSEL = "SELECTED"
+                            else
+                            medSEL = ""
+                            end if
+
+                            response.Write "<option value='"&oRec("medarbejderid")&"' "&medSEL&">"&oRec("mnavn")&" ("&oRec("init")&")</option>"
+
+                        oRec.movenext
+                        wend
+                        oRec.close
+
+                        lastPrgid = prgids(p)
+
+                    end if
+                    
+
+                next
+            %>
+       </select> -->
+    <%end if %>
+</form>
+<br />
 <form action="<%=fmaction%>" method="post">
 <table cellspacing=0 cellpadding=1 border=0 width=100%>
 <tr><td colspan=19>
@@ -148,39 +252,41 @@ else
 meTxt = ".."
 end if
 
-mth_1 = dateAdd("m", 1, dtuse)
+
+
+mth_1 = dateAdd("m", 0, dtuse)
 mth_aar(1) = mth_1
-mth_2 = dateAdd("m", 2, dtuse)
+mth_2 = dateAdd("m", 1, dtuse)
 mth_aar(2) = mth_2
-mth_3 = dateAdd("m", 3, dtuse)
+mth_3 = dateAdd("m", 2, dtuse)
 mth_aar(3) = mth_3
-mth_4 = dateAdd("m", 4, dtuse)
+mth_4 = dateAdd("m", 3, dtuse)
 mth_aar(4) = mth_4
-mth_5 = dateAdd("m", 5, dtuse)
+mth_5 = dateAdd("m", 4, dtuse)
 mth_aar(5) = mth_5
-mth_6 = dateAdd("m", 6, dtuse)
+mth_6 = dateAdd("m", 5, dtuse)
 mth_aar(6) = mth_6
-mth_7 = dateAdd("m", 7, dtuse)
+mth_7 = dateAdd("m", 6, dtuse)
 mth_aar(7) = mth_7
-mth_8 = dateAdd("m", 8, dtuse)
+mth_8 = dateAdd("m", 7, dtuse)
 mth_aar(8) = mth_8
-mth_9 = dateAdd("m", 9, dtuse)
+mth_9 = dateAdd("m", 8, dtuse)
 mth_aar(9) = mth_9
-mth_10 = dateAdd("m", 10, dtuse)
+mth_10 = dateAdd("m", 9, dtuse)
 mth_aar(10) = mth_10
-mth_11 = dateAdd("m", 11, dtuse)
+mth_11 = dateAdd("m", 10, dtuse)
 mth_aar(11) = mth_11
-mth_12 = dateAdd("m", 12, dtuse)
+mth_12 = dateAdd("m", 11, dtuse)
 mth_aar(12) = mth_12
-mth_13 = dateAdd("m", 13, dtuse)
+mth_13 = dateAdd("m", 12, dtuse)
 mth_aar(13) = mth_13
-mth_14 = dateAdd("m", 14, dtuse)
+mth_14 = dateAdd("m", 13, dtuse)
 mth_aar(14) = mth_14
-mth_15 = dateAdd("m", 15, dtuse)
+mth_15 = dateAdd("m", 14, dtuse)
 mth_aar(15) = mth_15
 
 if usemrn <> 0 then
-lmt = 100
+lmt = 500
 mnavnfld = ""
 else
 lmt = 500
@@ -193,14 +299,6 @@ if media <> "export" then
 %>
 
 
-
-<h4>
-    
-    <%if visning = 1 then %>
-<span style="color:red;" id="s_luk_igv">[X]</span>
-<%end if %>
-    
-    Stade, igangværende- job og -tilbud<br /><span style="font-size:11px; color:#5C75AA;">Job hvor <%=meTxt %> er <u>jobansvarlig</u> (maks. <%=lmt%>)</span></h4>
 
 
 
@@ -218,8 +316,8 @@ if media <> "export" then
                 <%end if %>
 
         <%end if %>
-
-<input type="hidden" value="<%=usemrn %>" name="i_mid" />
+          
+       <input type="hidden" value="<%=usemrn %>" name="i_mid" />
 
 </td>
     
@@ -271,12 +369,13 @@ end if
 <tr>
 <td valign=bottom>Job</td>
 <td valign=bottom>Bruttooms <br /><b>NOK, EUR, DKK etc.</b><br />(I job valuta)</td>
-<td valign=bottom>Bruttooms <b><%=basisValISO%></b>
+<!--<td valign=bottom>Bruttooms <b><%=basisValISO%></b>
     <br />(basis valuta)
-</td>
+</td>-->
+<td valign=bottom align=center>Slutdato</td>
 <td valign=bottom>WIP<br /><span style="font-size:9px;">Job: Afslutt. %<br />Tilb.: Sandsy. %</span></td>
-<td valign=bottom align=center>Faktureret <b><%=basisValISO%></b> <br />(i faktura valuta)</td>
-<td valign=bottom align=center>Sikret Oms. <b><%=basisValISO%></b><br />(Bruttooms. - Fakt.)</td>
+<td valign=bottom align=center>Faktureret Job valuta<br /> Basis <%=basisValISO%> <br />Faktura valuta</td>
+<td valign=bottom align=center>Sikret Oms. <b><br />NOK, EUR etc.</b><br />(I job valuta)<br />(Bruttooms. - Fakt.)</td>
 <td valign=bottom align=right>Forv. fakturering <b><br />NOK, EUR etc.</b><br />(I job valuta)<br /><%=left(monthname(datepart("m", mth_1, 2,2)), 3) &" "& datepart("yyyy", mth_1, 2,2) %></td>
 
 <%for mththis = 2 to 15 
@@ -296,17 +395,17 @@ end if
 end if 'media
 
 '&" if(f.faktype <> 1, SUM(f.beloeb * (f.kurs / 100)), SUM(f.beloeb * -1 * (f.kurs / 100))) AS faktureret, "
-strSQLj = "SELECT j.id AS jid, jobstartdato, jobnavn, jobnr, kkundenavn, kkundenr, jobstatus, jo_bruttooms, jo_valuta, valutakode, jo_valuta_kurs, "
+strSQLj = "SELECT j.id AS jid, jobstartdato, jobnavn, jobnr, kkundenavn, kkundenr, jobstatus, jo_bruttooms, jo_valuta, valutakode, jo_valuta_kurs, serviceaft, jobslutdato, "
 
 strSQLj = strSQLj &" restestimat, stade_tim_proc, sandsynlighed "& mnavnfld &" FROM job AS j "_
 &" LEFT JOIN kunder AS k ON (k.kid = jobknr) "_
 &" LEFT JOIN valutaer AS v ON (v.id = jo_valuta) "
 
-if usemrn <> 0 then
-strSQLj = strSQLj & " WHERE (jobans1 = "& usemrn &" OR jobans2 = "& usemrn &") AND risiko >= 0 AND (jobstatus = 1 OR jobstatus = 3) GROUP BY j.id ORDER BY jobstartdato LIMIT "& lmt
+if cdbl(usemrn) <> 0 then
+strSQLj = strSQLj & " WHERE (jobans1 = "& usemrn &" OR jobans2 = "& usemrn &") AND risiko >= 0 AND (jobstatus = 1 OR jobstatus = 3) GROUP BY j.id ORDER BY jobstatus, kkundenavn, jobnavn LIMIT "& lmt
 else
 strSQLj = strSQLj & " LEFT JOIN medarbejdere AS m ON (m.mid = j.jobans1) "
-strSQLj = strSQLj & " WHERE risiko >= 0 AND (jobstatus = 1 OR jobstatus = 3) GROUP BY j.id ORDER BY jobnavn LIMIT "& lmt
+strSQLj = strSQLj & " WHERE risiko >= 0 AND (jobstatus = 1 OR jobstatus = 3) GROUP BY j.id ORDER BY jobstatus, kkundenavn, jobnavn LIMIT "& lmt
 end if
 
 'OR jobans2 = "& session("mid"
@@ -323,31 +422,7 @@ oRec.open strSQLj, oConn, 3
 while not oRec.EOF 
 
 
-'if level = 1 then
 
-    'for ii = 1 to 15
-
-    '    if oRec("faktureret_"& ii) <> null then
-    '    faktureret_md(ii) = oRec("faktureret_"& ii)
-    '    else
-    '    faktureret_md(ii) = 0
-    '    end if
-
-
-    'next
-
-
-
-'else
-
- '   for ii = 1 to 15
-
-  '    
- '       faktureret_md(ii) = 0
-       
- '   next
-
-'end if
 
 jo_valuta = oRec("jo_valuta")
 
@@ -374,10 +449,12 @@ if oRec("jo_bruttooms") <> 0 then
 btoms = formatnumber(oRec("jo_bruttooms"), 2)
 btomsBasisCur = formatnumber(oRec("jo_bruttooms")*(oRec("jo_valuta_kurs")/100), 2)
 btomsBasisCurSikret = btomsBasisCur 
+btomsSikret = btoms
 else
 btoms = ""
 btomsBasisCur = ""
 btomsBasisCurSikret = 0
+btomsSikret = 0
 end if
 
 
@@ -398,8 +475,17 @@ end if
         jobStatusTxt = jobstatus_fn_txt
 
     '*** INVOICED BASSIS CURRENCY ****
-    strSQlfaktot = "SELECT SUM(if (f.faktype = 0, f.beloeb * (f.kurs / 100), f.beloeb * -1 * (f.kurs / 100)) ) AS faktureret, SUM(if (f.faktype = 0, f.beloeb, f.beloeb * -1) ) AS faktureret_invval, f.valuta  "_
-    & "FROM fakturaer AS f WHERE (f.jobid = "& oRec("jid") &" AND f.shadowcopy <> 1 AND f.medregnikkeioms <> 1 AND f.medregnikkeioms <> 2) "
+    jobValSQL = replace(oRec("jo_valuta_kurs"), ",", ".")
+
+    strSQlfaktot = "SELECT SUM(if (f.faktype = 0, f.beloeb * (f.kurs / 100), f.beloeb * -1 * (f.kurs / 100)) ) AS faktureret, "_
+    &" SUM(if (f.faktype = 0, f.beloeb, f.beloeb * -1) ) AS faktureret_invval, f.valuta, "_
+    &" SUM(if (f.faktype = 0, "_
+    &" if(f.valuta <> "& jo_valuta &", f.beloeb * (f.kurs / "& jobValSQL &"), f.beloeb),"_
+    &" if(f.valuta <> "& jo_valuta &", f.beloeb * -1 * (f.kurs / "& jobValSQL &"), f.beloeb * -1)) ) AS faktureret_jobval "_
+    &" FROM fakturaer AS f WHERE (f.jobid = "& oRec("jid") &" AND f.shadowcopy <> 1 AND f.medregnikkeioms <> 1 AND f.medregnikkeioms <> 2) "
+
+    'response.write strSQlfaktot
+    'response.flush
 
     oRec3.open strSQlfaktot, oConn, 3
     if not oRec3.EOF then
@@ -407,21 +493,76 @@ end if
     if isNull(oRec3("faktureret")) <> true then
         erfaktureretBel = formatnumber(oRec3("faktureret"), 2) 
         faktureret_invval = formatnumber(oRec3("faktureret_invval"), 2)
+        faktureret_jobval = formatnumber(oRec3("faktureret_jobval"), 2)
         fakValuta = oRec3("valuta") 
       else
         erfaktureretBel = 0
         faktureret_invval = 0
+        faktureret_jobval = 0
         fakValuta = 1
     end if 
 
    
     end if
     oRec3.close
-   
-     call valutakode_fn(fakValuta)
+
+
+                                            if cint(oRec("serviceaft")) <> 0 then
+
+                            
+                                            '** Medtager hvis job er faktureret som en del af en aftale 20180625
+                                            strSQLFakaftale = "SELECT IF(faktype = 0, COALESCE(sum(fd.aktpris * (fd.kurs/100)),0), COALESCE(sum(fd.aktpris * -1 * (fd.kurs/100)),0)) AS fakbeloeb, "_
+                                            &" SUM(if (f.faktype = 0, fd.aktpris, fd.aktpris * -1) ) AS faktureret_invval, "_
+                                            &" SUM(if (f.faktype = 0, "_
+                                            &" if(f.valuta <> "& jo_valuta &", fd.aktpris * (fd.kurs / "& jobValSQL &"), fd.aktpris),"_
+                                            &" if(f.valuta <> "& jo_valuta &", fd.aktpris * -1 * (fd.kurs / "& jobValSQL &"), fd.aktpris * -1)) ) AS faktureret_jobval "_
+                                            &" FROM fakturaer f "_
+                                            &" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& oRec("jid") &") WHERE f.aftaleid = "& oRec("serviceaft") &" AND f.aftaleid <> 0 AND shadowcopy <> 1 GROUP BY fd.aktid, faktype"
+                                            '"& oRec4("jid") &"
+
+                                            'if session("mid") = 1 OR session("mid") = 32821 then
+                                            'Response.write strSQLFakaftale
+                                            'Response.flush
+                                            'end if
+
+                                            oRec8.open strSQLFakaftale, oConn, 3
+                                            while not oRec8.EOF
+
+                                                erfaktureretBel = erfaktureretBel + oRec8("fakbeloeb")
+
+                                                if oRec8("faktureret_invval") <> 0 then
+                                                faktureret_invvalBel = oRec8("faktureret_invval")
+                                                else
+                                                faktureret_invvalBel = 0
+                                                end if
+
+
+                                                faktureret_invval = faktureret_invval + (faktureret_invvalBel * 1)
+                                                faktureret_jobval = faktureret_jobval + (faktureret_invvalBel * 1)
+                            
+                                            oRec8.movenext
+                                            wend
+                                            oRec8.close
+
+
+                                            end if
+
+     erfaktureretBel = formatnumber(erfaktureretBel, 2)
+     faktureret_invval = formatnumber(faktureret_invval, 2)
+     faktureret_jobval = formatnumber(faktureret_jobval, 2)
+
+                                                                    
+
+    call valutakode_fn(fakValuta)
     fakValutaKode = valutaKode_CCC_f8 
+
+    call valutakode_fn(jo_valuta)
+    jobValutaKode = valutaKode_CCC_f8 
+
+    
          
     sikretOms = (btomsBasisCurSikret - erfaktureretBel)
+    sikretOms_jobval = (btomsSikret - faktureret_jobval)
     
 
 
@@ -430,7 +571,10 @@ if media <> "export" then
 %>
 
 <tr><td style="border-bottom:1px #CCCCCC solid; white-space:nowrap; padding-top:2px;" valign="top"><span style="font-size:11px; color:#5C75AA;"><%=left(oRec("kkundenavn"), 25) %></span><br />
-<b><%=left(oRec("jobnavn"), 20) &"</b> ("& oRec("jobnr") &")"%> 
+
+    <a href="jobs.asp?func=red&id=<%=oRec("jid") %>" target="_blank">
+    <%=left(oRec("jobnavn"), 20) &" ("& oRec("jobnr") &")"%> 
+    </a>
 
 <%if cdbl(usemrn) = 0 then
 
@@ -459,8 +603,10 @@ end if
 &nbsp;<%=btoms &" "& oRec("valutakode") %>
 <%end if %>
 </td>
-<td style="border-bottom:1px #CCCCCC solid; white-space:nowrap; padding-top:10px; padding-right:20px; text-align:right; vertical-align:top;">
-<%=btomsBasisCur%>
+<td style="border-bottom:1px #CCCCCC solid; white-space:nowrap; width:80px; padding-top:10px; padding-right:20px; text-align:right; vertical-align:top; ">
+    
+    <input type="text" name="i_startdato_<%=oRec("jid") %>" value="<%=formatdatetime(oRec("jobslutdato"), 2) %>" style="font-size:10px; text-align:right; width:60px;" />
+<!--<%=btomsBasisCur%>-->
 </td>
 
 <td style="border-bottom:1px #CCCCCC solid; white-space:nowrap; padding-top:10px;" valign="top">
@@ -536,16 +682,18 @@ end if
 
 
 
-<td style="border-bottom:1px #CCCCCC solid; white-space:nowrap; padding-top:10px;" valign="top" align=right><%=erfaktureretBel%>
+<td style="border-bottom:1px #CCCCCC solid; white-space:nowrap; padding-top:10px;" valign="top" align=right>
+    <%=faktureret_jobval &" <b>"& oRec("valutakode")%></b><br />
+    <span style="font-size:10px; color:#000000;"><%=erfaktureretBel & " " & basisValISO%></span>
     <%if cint(fakValuta) <> cint(jo_valuta) AND faktureret_invval <> 0 then  %>
     <br /><span style="font-size:10px; color:#999999;"><%=faktureret_invval & " "& fakValutaKode %></span>
     <%end if %>
 
 </td> 
-<td style="border-bottom:1px #CCCCCC solid; white-space:nowrap; padding-top:10px;" valign="top" align=right><%=formatnumber(sikretOms, 2)%></td>
+<td style="border-bottom:1px #CCCCCC solid; white-space:nowrap; padding-top:10px;" valign="top" align=right><%=formatnumber(sikretOms_jobval, 2) & " " & jobValutaKode%></td>
 <%
 
-sikretOmsTot = sikretOmsTot + (sikretOms) 
+sikretOmsTot = sikretOmsTot + (sikretOms_jobval) 
 faktureretTot = faktureretTot + (erfaktureretBel) 
 
 '** 1-15
@@ -627,8 +775,8 @@ oRec.close
 
 if media <> "export" then
  %>
- <tr><td colspan="4" align=right>Total stade (forv. fakt.) <b><%=basisValISO%></b>:</td>
-    <td align=right><%=formatnumber(stadeThisMthTot, 2) %></td>
+ <tr><td colspan="4" align=right>Total forv. fakt.) <b>DKK</b>:</td>
+    <td align=right><%=formatnumber(stadeThisMthTot, 2) & " " & jobValutaKode %></td>
     <td>&nbsp;</td>
     <td align=right><%=formatnumber(stadeThisMthTot_1, 2) %></td>
     <td align=right><%=formatnumber(stadeThisMthTot_2, 2) %></td>
@@ -647,9 +795,9 @@ if media <> "export" then
       <td align=right><%=formatnumber(stadeThisMthTot_15, 2) %></td>
     <td>&nbsp;</td>
  </tr>
- <tr><td colspan="4" align=right>Total faktureret <b><%=basisValISO%></b>:</td>
-    <td align=right><%=formatnumber(faktureretTot, 2) %></td>
-    <td align=right><%=formatnumber(sikretOmsTot, 2) %></td> 
+ <tr><td colspan="4" align=right>Total faktureret <b>DKK</b>:</td>
+    <td align=right><%=formatnumber(faktureretTot, 2) & " "& fakValutaKode %></td>
+    <td align=right><%=formatnumber(sikretOmsTot, 2) & " " & jobValutaKode %></td> 
     <td align=right><%=formatnumber(faktureretThisMthTot_1, 2) %></td>
     <td align=right><%=formatnumber(faktureretThisMthTot_2, 2) %></td>
     <td align=right><%=formatnumber(faktureretThisMthTot_3, 2) %></td>
@@ -698,15 +846,17 @@ function stadeopdater()
     iMedid = request("i_mid")
 
     for i = 0 to UBOUND(jobids)
+
     ibrutto = request("i_brutto_"& jobids(i)) 
     irest = request("i_restestimat_"& jobids(i))
     isand = request("i_sandsynlighed_"& jobids(i))
+    istartdato = request("i_startdato_"& jobids(i))
 
     call erDetInt(ibrutto)
     call erDetInt(irest)
     call erDetInt(isand)
 
-    if isInt = 0 then 
+    if isInt = 0 AND isdate(istartdato) = true then 
 
     if lto = "epi_uk" then 'US tegnsætning
     ibrutto = replace(ibrutto, ",","")
@@ -755,7 +905,11 @@ function stadeopdater()
     'strSQLjobst = ""
     'end if
 
-    strSQL = "UPDATE job SET editor = '"& session("user") &"', dato = '"& dddato &"', jo_bruttooms = "& ibrutto &", restestimat = "& irest &", stade_tim_proc = "& ist_tim_proc &", sandsynlighed = '"& isand &"' "& strSQLjobst &" WHERE id = "& jobids(i)
+    istartdato = year(istartdato) & "/" & month(istartdato) & "/" & day(istartdato)
+
+    strSQL = "UPDATE job SET editor = '"& session("user") &"', dato = '"& dddato &"', jo_bruttooms = "& ibrutto &", jobTpris = "& ibrutto &", "_
+    &" jo_gnsbelob = "& ibrutto &", restestimat = "& irest &", stade_tim_proc = "& ist_tim_proc &", jobslutdato = '"& istartdato &"', sandsynlighed = '"& isand &"' "& strSQLjobst &" WHERE id = "& jobids(i)
+    
     'if session("mid") = 1 then
     'Response.write strSQL & "<br><br>"
     'Response.flush
@@ -965,7 +1119,18 @@ for i = 1 to 15
 
 
   '***************** Faktureret ***********************
-    strSQLfak = "SELECT SUM( "_
+
+    'BASIS VAL
+    'strSQLfak = "SELECT SUM( "_
+    '& "if (f"&i&".faktype = 0, f"&i&".beloeb * (f"&i&".kurs / 100), f"&i&".beloeb * -1 * (f"&i&".kurs / 100)) "_
+    '& ") AS faktureret_"&i&" "_
+    '&" FROM fakturaer AS f"&i&" WHERE (f"&i&".jobid = "& oRec("jid") &") "_
+    '&" AND ((YEAR(f"&i&".fakdato) = '"& yUse &"' AND MONTH(f"&i&".fakdato) = '"& mUse &"' AND f"&i&".brugfakdatolabel = 0) "_
+    '&" OR (f"&i&".brugfakdatolabel = 1 AND YEAR(f"&i&".labeldato) = '"& yUse &"' AND MONTH(f"&i&".labeldato) = '"& mUse &"')) "_
+    '&" AND f"&i&".shadowcopy <> 1 AND f"&i&".medregnikkeioms <> 1 AND f"&i&".medregnikkeioms <> 2"
+
+    'FAK VAL
+     strSQLfak = "SELECT SUM( "_
     & "if (f"&i&".faktype = 0, f"&i&".beloeb * (f"&i&".kurs / 100), f"&i&".beloeb * -1 * (f"&i&".kurs / 100)) "_
     & ") AS faktureret_"&i&" "_
     &" FROM fakturaer AS f"&i&" WHERE (f"&i&".jobid = "& oRec("jid") &") "_
@@ -988,6 +1153,32 @@ for i = 1 to 15
   
   end if
   oRec3.close
+
+
+                                            '** Medtager hvis job er faktureret som en del af en aftale 20180625
+                                            strSQLFakaftale = "SELECT IF(faktype = 0, COALESCE(sum(fd.aktpris * (fd.kurs/100)),0), COALESCE(sum(fd.aktpris * -1 * (fd.kurs/100)),0)) AS fakbeloeb FROM fakturaer fa "_
+                                            &" LEFT JOIN faktura_det fd ON (fd.fakid = fa.fid AND fd.aktid = "& oRec("jid") &")" 
+    
+                                            strSQLFakaftale = strSQLFakaftale &" WHERE ((YEAR(fa.fakdato) = '"& yUse &"' AND MONTH(fa.fakdato) = '"& mUse &"' AND fa.brugfakdatolabel = 0) "
+                                            strSQLFakaftale = strSQLFakaftale &" OR (fa.brugfakdatolabel = 1 AND YEAR(fa.labeldato) = '"& yUse &"' AND MONTH(fa.labeldato) = '"& mUse &"')) "
+                                            strSQLFakaftale = strSQLFakaftale &" AND fa.shadowcopy <> 1 AND fa.medregnikkeioms <> 1 AND fa.medregnikkeioms <> 2"
+
+                                            strSQLFakaftale = strSQLFakaftale &" GROUP BY fd.aktid, faktype"
+                                            '"& oRec4("jid") &"
+
+                                            'if session("mid") = 1 then
+                                            'Response.write strSQLFakaftale & "<br><br>"
+                                            'Response.flush
+                                            'end if
+
+                                            oRec8.open strSQLFakaftale, oConn, 3
+                                            while not oRec8.EOF
+
+                                                faktureretThisMth = faktureretThisMth + oRec8("fakbeloeb") 
+                            
+                                            oRec8.movenext
+                                            wend
+                                            oRec8.close
 
 
     

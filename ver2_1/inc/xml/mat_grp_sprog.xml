@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+    
+
+    <txt_1 >Materialegruppe</txt_1>
+    <txt_2 >Du er ved at</txt_2>
+    <txt_3 >SLETTE</txt_3>
+    <txt_4 >en materiale-gruppe. Er dette korrekt?</txt_4>
+    <txt_5 >Opret</txt_5>
+    <txt_6 >Opret ny</txt_6>
+    <txt_7 >Rediger</txt_7>
+    <txt_8 >Opdater</txt_8>
+    <txt_9 >Materialegrupper</txt_9>
+    <txt_10 >Navn</txt_10>
+    <txt_11 >Gruppe nummer / betegnelse</txt_11>
+    <txt_12 >Kunde</txt_12>
+    <txt_13 >Ingen</txt_13>
+    <txt_14 >Avance</txt_14>
+    <txt_15 >Medarbejder ansvarlig</txt_15>
+    <txt_16 >Konto</txt_16>
+    <txt_17 >heltal</txt_17>
+    <txt_18 >Vælg medarbejder</txt_18>
+    <txt_19 >Vælg konto</txt_19>
+    <txt_20 >Opdater alle materialer i denne gruppe til at følge den valgte avance.</txt_20>
+    <txt_21 >Sidst opdateret den</txt_21>
+    <txt_22 >af</txt_22>
+    <txt_23 >Materiale / produktgrupper</txt_23>
+    <txt_24 >Gruppe og avance</txt_24>
+    <txt_25 >Grp. Betegnelse / nr.</txt_25>
+    <txt_26 >Medarbejder</txt_26>
+    <txt_27 >ansvarlig</txt_27>
+    <txt_28 >Antal varenr</txt_28>
+    <txt_29 >Slet</txt_29>
+
+    <txt_30 >januar</txt_30>
+    <txt_31 >februar</txt_31>
+    <txt_32 >marts</txt_32>
+    <txt_33 >april</txt_33>
+    <txt_34 >maj</txt_34>
+    <txt_35 >juni</txt_35>
+    <txt_36 >juli</txt_36>
+    <txt_37 >august</txt_37>
+    <txt_38 >september</txt_38>
+    <txt_39 >oktober</txt_39>
+    <txt_40 >november</txt_40>
+    <txt_41 >december</txt_41>
+    
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+    
+    <txt_1 >Material Group</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >a material group. Is this correct?</txt_4>
+    <txt_5 >Create</txt_5>
+    <txt_6 >Createt new</txt_6>
+    <txt_7 >Edit</txt_7>
+    <txt_8 >Update</txt_8>
+    <txt_9 >Material Groups</txt_9>
+    <txt_10 >Name</txt_10>
+    <txt_11 >Group number / designation</txt_11>
+    <txt_12 >Customer</txt_12>
+    <txt_13 >None</txt_13>
+    <txt_14 >Avance</txt_14>
+    <txt_15 >Employee responsible</txt_15>
+    <txt_16 >Account</txt_16>
+    <txt_17 >whole number</txt_17>
+    <txt_18 >Select employee</txt_18>
+    <txt_19 >Select Account</txt_19>
+    <txt_20 >Update all materials in this group to follow the selected profit.</txt_20>
+    <txt_21 >Last edited</txt_21>
+    <txt_22 >by</txt_22>
+    <txt_23 >Material / Product groups</txt_23>
+    <txt_24 >Group and profit</txt_24>
+    <txt_25 >Grp. Description / No.</txt_25>
+    <txt_26 >Employee</txt_26>
+    <txt_27 >responsible</txt_27>
+    <txt_28 >Quantity Item No</txt_28>
+    <txt_29 >Delete</txt_29>
+    
+    <txt_30 >january</txt_30>
+    <txt_31 >february</txt_31>
+    <txt_32 >march</txt_32>
+    <txt_33 >april</txt_33>
+    <txt_34 >may</txt_34>
+    <txt_35 >june</txt_35>
+    <txt_36 >july</txt_36>
+    <txt_37 >august</txt_37>
+    <txt_38 >september</txt_38>
+    <txt_39 >october</txt_39>
+    <txt_40 >november</txt_40>
+    <txt_41 >december</txt_41>
+
+    
+  </no>
+
+
+  <!--- Svensk -->
+  <so>
+    
+    <txt_1 >Material Group</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >a material group. Is this correct?</txt_4>
+    <txt_5 >Create</txt_5>
+    <txt_6 >Createt new</txt_6>
+    <txt_7 >Edit</txt_7>
+    <txt_8 >Update</txt_8>
+    <txt_9 >Material Groups</txt_9>
+    <txt_10 >Name</txt_10>
+    <txt_11 >Group number / designation</txt_11>
+    <txt_12 >Customer</txt_12>
+    <txt_13 >None</txt_13>
+    <txt_14 >Avance</txt_14>
+    <txt_15 >Employee responsible</txt_15>
+    <txt_16 >Account</txt_16>
+    <txt_17 >whole number</txt_17>
+    <txt_18 >Select employee</txt_18>
+    <txt_19 >Select Account</txt_19>
+    <txt_20 >Update all materials in this group to follow the selected profit.</txt_20>
+    <txt_21 >Last edited</txt_21>
+    <txt_22 >by</txt_22>
+    <txt_23 >Material / Product groups</txt_23>
+    <txt_24 >Group and profit</txt_24>
+    <txt_25 >Grp. Description / No.</txt_25>
+    <txt_26 >Employee</txt_26>
+    <txt_27 >responsible</txt_27>
+    <txt_28 >Quantity Item No</txt_28>
+    <txt_29 >Delete</txt_29>
+    
+    <txt_30 >january</txt_30>
+    <txt_31 >february</txt_31>
+    <txt_32 >march</txt_32>
+    <txt_33 >april</txt_33>
+    <txt_34 >may</txt_34>
+    <txt_35 >june</txt_35>
+    <txt_36 >july</txt_36>
+    <txt_37 >august</txt_37>
+    <txt_38 >september</txt_38>
+    <txt_39 >october</txt_39>
+    <txt_40 >november</txt_40>
+    <txt_41 >december</txt_41>
+
+  </so>
+
+
+  <!--- Tysk -->
+  <de>
+    
+  <txt_1 >Material Group</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >a material group. Is this correct?</txt_4>
+    <txt_5 >Create</txt_5>
+    <txt_6 >Createt new</txt_6>
+    <txt_7 >Edit</txt_7>
+    <txt_8 >Update</txt_8>
+    <txt_9 >Material Groups</txt_9>
+    <txt_10 >Name</txt_10>
+    <txt_11 >Group number / designation</txt_11>
+    <txt_12 >Customer</txt_12>
+    <txt_13 >None</txt_13>
+    <txt_14 >Avance</txt_14>
+    <txt_15 >Employee responsible</txt_15>
+    <txt_16 >Account</txt_16>
+    <txt_17 >whole number</txt_17>
+    <txt_18 >Select employee</txt_18>
+    <txt_19 >Select Account</txt_19>
+    <txt_20 >Update all materials in this group to follow the selected profit.</txt_20>
+    <txt_21 >Last edited</txt_21>
+    <txt_22 >by</txt_22>
+    <txt_23 >Material / Product groups</txt_23>
+    <txt_24 >Group and profit</txt_24>
+    <txt_25 >Grp. Description / No.</txt_25>
+    <txt_26 >Employee</txt_26>
+    <txt_27 >responsible</txt_27>
+    <txt_28 >Quantity Item No</txt_28>
+    <txt_29 >Delete</txt_29>
+    
+    <txt_30 >january</txt_30>
+    <txt_31 >february</txt_31>
+    <txt_32 >march</txt_32>
+    <txt_33 >april</txt_33>
+    <txt_34 >may</txt_34>
+    <txt_35 >june</txt_35>
+    <txt_36 >july</txt_36>
+    <txt_37 >august</txt_37>
+    <txt_38 >september</txt_38>
+    <txt_39 >october</txt_39>
+    <txt_40 >november</txt_40>
+    <txt_41 >december</txt_41>
+    
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>
+    
+    <txt_1 >Material Group</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >a material group. Is this correct?</txt_4>
+    <txt_5 >Create</txt_5>
+    <txt_6 >Createt new</txt_6>
+    <txt_7 >Edit</txt_7>
+    <txt_8 >Update</txt_8>
+    <txt_9 >Material Groups</txt_9>
+    <txt_10 >Name</txt_10>
+    <txt_11 >Group number / designation</txt_11>
+    <txt_12 >Customer</txt_12>
+    <txt_13 >None</txt_13>
+    <txt_14 >Avance</txt_14>
+    <txt_15 >Employee responsible</txt_15>
+    <txt_16 >Account</txt_16>
+    <txt_17 >whole number</txt_17>
+    <txt_18 >Select employee</txt_18>
+    <txt_19 >Select Account</txt_19>
+    <txt_20 >Update all materials in this group to follow the selected profit.</txt_20>
+    <txt_21 >Last edited</txt_21>
+    <txt_22 >by</txt_22>
+    <txt_23 >Material / Product groups</txt_23>
+    <txt_24 >Group and profit</txt_24>
+    <txt_25 >Grp. Description / No.</txt_25>
+    <txt_26 >Employee</txt_26>
+    <txt_27 >responsible</txt_27>
+    <txt_28 >Quantity Item No</txt_28>
+    <txt_29 >Delete</txt_29>
+    
+    <txt_30 >january</txt_30>
+    <txt_31 >february</txt_31>
+    <txt_32 >march</txt_32>
+    <txt_33 >april</txt_33>
+    <txt_34 >may</txt_34>
+    <txt_35 >june</txt_35>
+    <txt_36 >july</txt_36>
+    <txt_37 >august</txt_37>
+    <txt_38 >september</txt_38>
+    <txt_39 >october</txt_39>
+    <txt_40 >november</txt_40>
+    <txt_41 >december</txt_41>
+    
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+    
+  <txt_1 >Material Group</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >a material group. Is this correct?</txt_4>
+    <txt_5 >Create</txt_5>
+    <txt_6 >Createt new</txt_6>
+    <txt_7 >Edit</txt_7>
+    <txt_8 >Update</txt_8>
+    <txt_9 >Material Groups</txt_9>
+    <txt_10 >Name</txt_10>
+    <txt_11 >Group number / designation</txt_11>
+    <txt_12 >Customer</txt_12>
+    <txt_13 >None</txt_13>
+    <txt_14 >Avance</txt_14>
+    <txt_15 >Employee responsible</txt_15>
+    <txt_16 >Account</txt_16>
+    <txt_17 >whole number</txt_17>
+    <txt_18 >Select employee</txt_18>
+    <txt_19 >Select Account</txt_19>
+    <txt_20 >Update all materials in this group to follow the selected profit.</txt_20>
+    <txt_21 >Last edited</txt_21>
+    <txt_22 >by</txt_22>
+    <txt_23 >Material / Product groups</txt_23>
+    <txt_24 >Group and profit</txt_24>
+    <txt_25 >Grp. Description / No.</txt_25>
+    <txt_26 >Employee</txt_26>
+    <txt_27 >responsible</txt_27>
+    <txt_28 >Quantity Item No</txt_28>
+    <txt_29 >Delete</txt_29>
+    
+    <txt_30 >january</txt_30>
+    <txt_31 >february</txt_31>
+    <txt_32 >march</txt_32>
+    <txt_33 >april</txt_33>
+    <txt_34 >may</txt_34>
+    <txt_35 >june</txt_35>
+    <txt_36 >july</txt_36>
+    <txt_37 >august</txt_37>
+    <txt_38 >september</txt_38>
+    <txt_39 >october</txt_39>
+    <txt_40 >november</txt_40>
+    <txt_41 >december</txt_41>
+    
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+    
+  <txt_1 >Material Group</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >a material group. Is this correct?</txt_4>
+    <txt_5 >Create</txt_5>
+    <txt_6 >Createt new</txt_6>
+    <txt_7 >Edit</txt_7>
+    <txt_8 >Update</txt_8>
+    <txt_9 >Material Groups</txt_9>
+    <txt_10 >Name</txt_10>
+    <txt_11 >Group number / designation</txt_11>
+    <txt_12 >Customer</txt_12>
+    <txt_13 >None</txt_13>
+    <txt_14 >Avance</txt_14>
+    <txt_15 >Employee responsible</txt_15>
+    <txt_16 >Account</txt_16>
+    <txt_17 >whole number</txt_17>
+    <txt_18 >Select employee</txt_18>
+    <txt_19 >Select Account</txt_19>
+    <txt_20 >Update all materials in this group to follow the selected profit.</txt_20>
+    <txt_21 >Last edited</txt_21>
+    <txt_22 >by</txt_22>
+    <txt_23 >Material / Product groups</txt_23>
+    <txt_24 >Group and profit</txt_24>
+    <txt_25 >Grp. Description / No.</txt_25>
+    <txt_26 >Employee</txt_26>
+    <txt_27 >responsible</txt_27>
+    <txt_28 >Quantity Item No</txt_28>
+    <txt_29 >Delete</txt_29>
+    
+    <txt_30 >january</txt_30>
+    <txt_31 >february</txt_31>
+    <txt_32 >march</txt_32>
+    <txt_33 >april</txt_33>
+    <txt_34 >may</txt_34>
+    <txt_35 >june</txt_35>
+    <txt_36 >july</txt_36>
+    <txt_37 >august</txt_37>
+    <txt_38 >september</txt_38>
+    <txt_39 >october</txt_39>
+    <txt_40 >november</txt_40>
+    <txt_41 >december</txt_41>
+
+  </es>
+
+
+</sprog>

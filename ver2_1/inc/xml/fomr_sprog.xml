@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Forretningsområder</txt_1>
+    <txt_2 >Du er ved at</txt_2>
+    <txt_3 >SLETTE</txt_3>
+    <txt_4 >et forretningsområde. Er dette korrekt?</txt_4>
+    <txt_5 >Opdatér</txt_5>
+    <txt_6 >Forretningsområde</txt_6>
+    <txt_7 >Navn</txt_7>
+    <txt_8 >Label</txt_8>
+    <txt_9 >Unit/afdeling</txt_9>
+    <txt_10 >Afdelling</txt_10>
+    
+    <txt_11 >Indstillinger</txt_11>
+    <txt_12 >Kan bruges på jobniveau?</txt_12>
+    <txt_13 >Kan bruges på akts. niveau?</txt_13>
+    <txt_14 >Konto</txt_14>
+    <txt_15 >Ingen</txt_15>
+    <txt_16 >Dette forretningsområde skal være forvalgt på job oprettet på kunder i følgende segmenter</txt_16>
+    <txt_17 >Der er ikke oprettet nogen kundesegmenter.</txt_17>
+    <txt_18 >Sidst opdateret den</txt_18>
+    <txt_19 >af</txt_19>
+    <txt_20 >Vis forretingsområder fordelt på</txt_20>
+    
+    <txt_21 >Job</txt_21>
+    <txt_22 >Aktiviteter</txt_22>
+    <txt_23 >Periode</txt_23>
+    <txt_24 >Kør</txt_24>
+    <txt_25 >Indtastet i alt i den valgte periode, på de valgte medarbejdere og job,</txt_25>
+    <txt_26 >Timer</txt_26>
+    <txt_27 >del af total</txt_27>
+    <txt_28 >Forretningsområder fordelt på job</txt_28>
+    <txt_29 >Forretningsområder fordelt på aktiviteter</txt_29>
+    <txt_30 >Segment</txt_30>
+    
+    <txt_31 >Totaler</txt_31>
+    <txt_32 >Der er</txt_32>
+    <txt_33 >ikke</txt_33>
+    <txt_34 >oprettet nogen forretningsområder, eller der er ikke indtastet timer på de oprettede forretningsområder.</txt_34>
+    <txt_35 >Forretningsområder kan oprettes af admin brugere i kontrolpanelet.</txt_35>
+    <txt_36 >I alt</txt_36>
+    <txt_37 >Timer indtastet på aktiviteter uden forretningsområde tilknyttet</txt_37>
+    <txt_38 >Timeforbrug på forretningsområder er fordelt således at hvis et job eller en aktivitet dækker flere forretningsområder tæller timer 100% med i begge områder.</txt_38>
+    <txt_39 >Grundlag</txt_39>
+    <txt_40 >Opret ny</txt_40>
+    
+    <txt_41 >Id</txt_41>
+    <txt_42 >Unit/Afd.</txt_42>
+    <txt_43 >Job (bruges af antal job)</txt_43>
+    <txt_44 >Akt. (bruges af antal aktiviter)</txt_44>
+    <txt_45 >Slet</txt_45>
+    <txt_46 >uanset om aktivitet er tilknyttet et forretningsområde</txt_46>
+    <txt_47 >timer.</txt_47>
+    <txt_48 >timer</txt_48>
+
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >Business Areas</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >a business area. Is this correct?</txt_4>
+    <txt_5 >Update</txt_5>
+    <txt_6 >Business Area</txt_6>
+    <txt_7 >Name</txt_7>
+    <txt_8 >Label</txt_8>
+    <txt_9 >Unit / Department</txt_9>
+    <txt_10 >Department</txt_10>
+    
+    <txt_11 >Settings</txt_11>
+    <txt_12 >Can be used at job level?</txt_12>
+    <txt_13 >Can be used at activity level?</txt_13>
+    <txt_14 >Account</txt_14>
+    <txt_15 >None</txt_15>
+    <txt_16 >This business area must be pre-selected for jobs created by clients in the following segments</txt_16>
+    <txt_17 >No customer segments created.</txt_17>
+    <txt_18 >Last edited on</txt_18>
+    <txt_19 >by</txt_19>
+    <txt_20 >Show business areas spread over</txt_20>
+    
+    <txt_21 >Jobs</txt_21>
+    <txt_22 >Activities</txt_22>
+    <txt_23 >Period</txt_23>
+    <txt_24 >Show</txt_24>
+    <txt_25 >Entered in total in the period, on the selected employees and job,</txt_25>
+    <txt_26 >Hours</txt_26>
+    <txt_27 >of total</txt_27>
+    <txt_28 >Business areas spread over jobs</txt_28>
+    <txt_29 >Business areas spread over activities</txt_29>
+    <txt_30 >Segment</txt_30>
+    
+    <txt_31 >Totals</txt_31>
+    <txt_32 >There is</txt_32>
+    <txt_33 >not</txt_33>
+    <txt_34 >created any business areas or hours are not entered on the created business areas.</txt_34>
+    <txt_35 >Business areas can be created by admin users in the control panel.</txt_35>
+    <txt_36 >I total</txt_36>
+    <txt_37 >Hours entered on activities with no business area attached</txt_37>
+    <txt_38 >Hours spent on business areas are distributed so that if a job or activity covers several business areas, hours count 100% in both areas.</txt_38>
+    <txt_39 >Basis</txt_39>
+    <txt_40 >Create new</txt_40>
+    
+    <txt_41 >Id</txt_41>
+    <txt_42 >Unit/Dep.</txt_42>
+    <txt_43 >Job (used by number of jobs)</txt_43>
+    <txt_44 >Act. (used by number of activities)</txt_44>
+    <txt_45 >Delete</txt_45>
+    <txt_46 >regardless of whether activity is associated with a business area</txt_46>
+    <txt_47 >hours.</txt_47>
+    <txt_48 >hours</txt_48>
+
+
+  </no>
+
+
+  <!--- Svensk -->
+  <so>
+
+    <txt_1 >Business Areas</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >a business area. Is this correct?</txt_4>
+    <txt_5 >Update</txt_5>
+    <txt_6 >Business Area</txt_6>
+    <txt_7 >Name</txt_7>
+    <txt_8 >Label</txt_8>
+    <txt_9 >Unit / Department</txt_9>
+    <txt_10 >Department</txt_10>
+    
+    <txt_11 >Settings</txt_11>
+    <txt_12 >Can be used at job level?</txt_12>
+    <txt_13 >Can be used at activity level?</txt_13>
+    <txt_14 >Account</txt_14>
+    <txt_15 >None</txt_15>
+    <txt_16 >This business area must be pre-selected for jobs created by clients in the following segments</txt_16>
+    <txt_17 >No customer segments created.</txt_17>
+    <txt_18 >Last edited on</txt_18>
+    <txt_19 >by</txt_19>
+    <txt_20 >Show business areas spread over</txt_20>
+    
+    <txt_21 >Jobs</txt_21>
+    <txt_22 >Activities</txt_22>
+    <txt_23 >Period</txt_23>
+    <txt_24 >Show</txt_24>
+    <txt_25 >Entered in total in the period, on the selected employees and job,</txt_25>
+    <txt_26 >Hours</txt_26>
+    <txt_27 >of total</txt_27>
+    <txt_28 >Business areas spread over jobs</txt_28>
+    <txt_29 >Business areas spread over activities</txt_29>
+    <txt_30 >Segment</txt_30>
+    
+    <txt_31 >Totals</txt_31>
+    <txt_32 >There is</txt_32>
+    <txt_33 >not</txt_33>
+    <txt_34 >created any business areas or hours are not entered on the created business areas.</txt_34>
+    <txt_35 >Business areas can be created by admin users in the control panel.</txt_35>
+    <txt_36 >I total</txt_36>
+    <txt_37 >Hours entered on activities with no business area attached</txt_37>
+    <txt_38 >Hours spent on business areas are distributed so that if a job or activity covers several business areas, hours count 100% in both areas.</txt_38>
+    <txt_39 >Basis</txt_39>
+    <txt_40 >Create new</txt_40>
+    
+    <txt_41 >Id</txt_41>
+    <txt_42 >Unit/Dep.</txt_42>
+    <txt_43 >Job (used by number of jobs)</txt_43>
+    <txt_44 >Act. (used by number of activities)</txt_44>
+    <txt_45 >Delete</txt_45>
+    <txt_46 >regardless of whether activity is associated with a business area</txt_46>
+    <txt_47 >hours.</txt_47>
+    <txt_48 >hours</txt_48>
+
+
+  </so>
+
+
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >Business Areas</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >a business area. Is this correct?</txt_4>
+    <txt_5 >Update</txt_5>
+    <txt_6 >Business Area</txt_6>
+    <txt_7 >Name</txt_7>
+    <txt_8 >Label</txt_8>
+    <txt_9 >Unit / Department</txt_9>
+    <txt_10 >Department</txt_10>
+    
+    <txt_11 >Settings</txt_11>
+    <txt_12 >Can be used at job level?</txt_12>
+    <txt_13 >Can be used at activity level?</txt_13>
+    <txt_14 >Account</txt_14>
+    <txt_15 >None</txt_15>
+    <txt_16 >This business area must be pre-selected for jobs created by clients in the following segments</txt_16>
+    <txt_17 >No customer segments created.</txt_17>
+    <txt_18 >Last edited on</txt_18>
+    <txt_19 >by</txt_19>
+    <txt_20 >Show business areas spread over</txt_20>
+    
+    <txt_21 >Jobs</txt_21>
+    <txt_22 >Activities</txt_22>
+    <txt_23 >Period</txt_23>
+    <txt_24 >Show</txt_24>
+    <txt_25 >Entered in total in the period, on the selected employees and job,</txt_25>
+    <txt_26 >Hours</txt_26>
+    <txt_27 >of total</txt_27>
+    <txt_28 >Business areas spread over jobs</txt_28>
+    <txt_29 >Business areas spread over activities</txt_29>
+    <txt_30 >Segment</txt_30>
+    
+    <txt_31 >Totals</txt_31>
+    <txt_32 >There is</txt_32>
+    <txt_33 >not</txt_33>
+    <txt_34 >created any business areas or hours are not entered on the created business areas.</txt_34>
+    <txt_35 >Business areas can be created by admin users in the control panel.</txt_35>
+    <txt_36 >I total</txt_36>
+    <txt_37 >Hours entered on activities with no business area attached</txt_37>
+    <txt_38 >Hours spent on business areas are distributed so that if a job or activity covers several business areas, hours count 100% in both areas.</txt_38>
+    <txt_39 >Basis</txt_39>
+    <txt_40 >Create new</txt_40>
+    
+    <txt_41 >Id</txt_41>
+    <txt_42 >Unit/Dep.</txt_42>
+    <txt_43 >Job (used by number of jobs)</txt_43>
+    <txt_44 >Act. (used by number of activities)</txt_44>
+    <txt_45 >Delete</txt_45>
+    <txt_46 >regardless of whether activity is associated with a business area</txt_46>
+    <txt_47 >hours.</txt_47>
+    <txt_48 >hours</txt_48>
+    
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >Business Areas</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >a business area. Is this correct?</txt_4>
+    <txt_5 >Update</txt_5>
+    <txt_6 >Business Area</txt_6>
+    <txt_7 >Name</txt_7>
+    <txt_8 >Label</txt_8>
+    <txt_9 >Unit / Department</txt_9>
+    <txt_10 >Department</txt_10>
+    
+    <txt_11 >Settings</txt_11>
+    <txt_12 >Can be used at job level?</txt_12>
+    <txt_13 >Can be used at activity level?</txt_13>
+    <txt_14 >Account</txt_14>
+    <txt_15 >None</txt_15>
+    <txt_16 >This business area must be pre-selected for jobs created by clients in the following segments</txt_16>
+    <txt_17 >No customer segments created.</txt_17>
+    <txt_18 >Last edited on</txt_18>
+    <txt_19 >by</txt_19>
+    <txt_20 >Show business areas spread over</txt_20>
+    
+    <txt_21 >Jobs</txt_21>
+    <txt_22 >Activities</txt_22>
+    <txt_23 >Period</txt_23>
+    <txt_24 >Show</txt_24>
+    <txt_25 >Entered in total in the period, on the selected employees and job,</txt_25>
+    <txt_26 >Hours</txt_26>
+    <txt_27 >of total</txt_27>
+    <txt_28 >Business areas spread over jobs</txt_28>
+    <txt_29 >Business areas spread over activities</txt_29>
+    <txt_30 >Segment</txt_30>
+    
+    <txt_31 >Totals</txt_31>
+    <txt_32 >There is</txt_32>
+    <txt_33 >not</txt_33>
+    <txt_34 >created any business areas or hours are not entered on the created business areas.</txt_34>
+    <txt_35 >Business areas can be created by admin users in the control panel.</txt_35>
+    <txt_36 >I total</txt_36>
+    <txt_37 >Hours entered on activities with no business area attached</txt_37>
+    <txt_38 >Hours spent on business areas are distributed so that if a job or activity covers several business areas, hours count 100% in both areas.</txt_38>
+    <txt_39 >Basis</txt_39>
+    <txt_40 >Create new</txt_40>
+    
+    <txt_41 >Id</txt_41>
+    <txt_42 >Unit/Dep.</txt_42>
+    <txt_43 >Job (used by number of jobs)</txt_43>
+    <txt_44 >Act. (used by number of activities)</txt_44>
+    <txt_45 >Delete</txt_45>
+    <txt_46 >regardless of whether activity is associated with a business area</txt_46>
+    <txt_47 >hours.</txt_47>
+    <txt_48 >hours</txt_48>
+
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Business Areas</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >a business area. Is this correct?</txt_4>
+    <txt_5 >Update</txt_5>
+    <txt_6 >Business Area</txt_6>
+    <txt_7 >Name</txt_7>
+    <txt_8 >Label</txt_8>
+    <txt_9 >Unit / Department</txt_9>
+    <txt_10 >Department</txt_10>
+    
+    <txt_11 >Settings</txt_11>
+    <txt_12 >Can be used at job level?</txt_12>
+    <txt_13 >Can be used at activity level?</txt_13>
+    <txt_14 >Account</txt_14>
+    <txt_15 >None</txt_15>
+    <txt_16 >This business area must be pre-selected for jobs created by clients in the following segments</txt_16>
+    <txt_17 >No customer segments created.</txt_17>
+    <txt_18 >Last edited on</txt_18>
+    <txt_19 >by</txt_19>
+    <txt_20 >Show business areas spread over</txt_20>
+    
+    <txt_21 >Jobs</txt_21>
+    <txt_22 >Activities</txt_22>
+    <txt_23 >Period</txt_23>
+    <txt_24 >Show</txt_24>
+    <txt_25 >Entered in total in the period, on the selected employees and job,</txt_25>
+    <txt_26 >Hours</txt_26>
+    <txt_27 >of total</txt_27>
+    <txt_28 >Business areas spread over jobs</txt_28>
+    <txt_29 >Business areas spread over activities</txt_29>
+    <txt_30 >Segment</txt_30>
+    
+    <txt_31 >Totals</txt_31>
+    <txt_32 >There is</txt_32>
+    <txt_33 >not</txt_33>
+    <txt_34 >created any business areas or hours are not entered on the created business areas.</txt_34>
+    <txt_35 >Business areas can be created by admin users in the control panel.</txt_35>
+    <txt_36 >I total</txt_36>
+    <txt_37 >Hours entered on activities with no business area attached</txt_37>
+    <txt_38 >Hours spent on business areas are distributed so that if a job or activity covers several business areas, hours count 100% in both areas.</txt_38>
+    <txt_39 >Basis</txt_39>
+    <txt_40 >Create new</txt_40>
+    
+    <txt_41 >Id</txt_41>
+    <txt_42 >Unit/Dep.</txt_42>
+    <txt_43 >Job (used by number of jobs)</txt_43>
+    <txt_44 >Act. (used by number of activities)</txt_44>
+    <txt_45 >Delete</txt_45>
+    <txt_46 >regardless of whether activity is associated with a business area</txt_46>
+    <txt_47 >hours.</txt_47>
+    <txt_48 >hours</txt_48>
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+    <txt_1 >Business Areas</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >a business area. Is this correct?</txt_4>
+    <txt_5 >Update</txt_5>
+    <txt_6 >Business Area</txt_6>
+    <txt_7 >Name</txt_7>
+    <txt_8 >Label</txt_8>
+    <txt_9 >Unit / Department</txt_9>
+    <txt_10 >Department</txt_10>
+    
+    <txt_11 >Settings</txt_11>
+    <txt_12 >Can be used at job level?</txt_12>
+    <txt_13 >Can be used at activity level?</txt_13>
+    <txt_14 >Account</txt_14>
+    <txt_15 >None</txt_15>
+    <txt_16 >This business area must be pre-selected for jobs created by clients in the following segments</txt_16>
+    <txt_17 >No customer segments created.</txt_17>
+    <txt_18 >Last edited on</txt_18>
+    <txt_19 >by</txt_19>
+    <txt_20 >Show business areas spread over</txt_20>
+    
+    <txt_21 >Jobs</txt_21>
+    <txt_22 >Activities</txt_22>
+    <txt_23 >Period</txt_23>
+    <txt_24 >Show</txt_24>
+    <txt_25 >Entered in total in the period, on the selected employees and job,</txt_25>
+    <txt_26 >Hours</txt_26>
+    <txt_27 >of total</txt_27>
+    <txt_28 >Business areas spread over jobs</txt_28>
+    <txt_29 >Business areas spread over activities</txt_29>
+    <txt_30 >Segment</txt_30>
+    
+    <txt_31 >Totals</txt_31>
+    <txt_32 >There is</txt_32>
+    <txt_33 >not</txt_33>
+    <txt_34 >created any business areas or hours are not entered on the created business areas.</txt_34>
+    <txt_35 >Business areas can be created by admin users in the control panel.</txt_35>
+    <txt_36 >I total</txt_36>
+    <txt_37 >Hours entered on activities with no business area attached</txt_37>
+    <txt_38 >Hours spent on business areas are distributed so that if a job or activity covers several business areas, hours count 100% in both areas.</txt_38>
+    <txt_39 >Basis</txt_39>
+    <txt_40 >Create new</txt_40>
+    
+    <txt_41 >Id</txt_41>
+    <txt_42 >Unit/Dep.</txt_42>
+    <txt_43 >Job (used by number of jobs)</txt_43>
+    <txt_44 >Act. (used by number of activities)</txt_44>
+    <txt_45 >Delete</txt_45>
+    <txt_46 >regardless of whether activity is associated with a business area</txt_46>
+    <txt_47 >hours.</txt_47>
+    <txt_48 >hours</txt_48>
+    
+  </es>
+  
+  
+<!--- Trainer log -->
+  <trainerlog_uk>
+
+    <txt_1 >Themes</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >a theme Is this correct?</txt_4>
+    <txt_5 >Update</txt_5>
+    <txt_6 >Theme</txt_6>
+    <txt_7 >Theme name</txt_7>
+    <txt_8 >Label</txt_8>
+    <txt_9 >Unit / Department</txt_9>
+    <txt_10 >Department</txt_10>
+    
+    <txt_11 >Settings</txt_11>
+    <txt_12 >Can be used at job level?</txt_12>
+    <txt_13 >Can be used at activity level?</txt_13>
+    <txt_14 >Account</txt_14>
+    <txt_15 >None</txt_15>
+    <txt_16 >This Theme must be pre-selected for jobs created by clients in the following segments</txt_16>
+    <txt_17 >No customer segments created.</txt_17>
+    <txt_18 >Last edited on</txt_18>
+    <txt_19 >by</txt_19>
+    <txt_20 >Show themes spread over</txt_20>
+    
+    <txt_21 >Jobs</txt_21>
+    <txt_22 >Activities</txt_22>
+    <txt_23 >Period</txt_23>
+    <txt_24 >Show</txt_24>
+    <txt_25 >Entered in total in the period, on the selected employees and job,</txt_25>
+    <txt_26 >Hours</txt_26>
+    <txt_27 >of total</txt_27>
+    <txt_28 >Theme spread over jobs</txt_28>
+    <txt_29 >Theme spread over activities</txt_29>
+    <txt_30 >Segment</txt_30>
+    
+    <txt_31 >Totals</txt_31>
+    <txt_32 >There is</txt_32>
+    <txt_33 >not</txt_33>
+    <txt_34 >created any theme or hours are not entered on the created theme</txt_34>
+    <txt_35 >Themes can be created by admin users in the control panel.</txt_35>
+    <txt_36 >I total</txt_36>
+    <txt_37 >Hours entered on activities with no themes attached</txt_37>
+    <txt_38 >Hours spent on themes are distributed so that if a job or activity covers several themes, hours count 100% in both themes.</txt_38>
+    <txt_39 >Basis</txt_39>
+    <txt_40 >Create new</txt_40>
+    
+    <txt_41 >Id</txt_41>
+    <txt_42 >Unit/Dep.</txt_42>
+    <txt_43 >Job (used by number of jobs)</txt_43>
+    <txt_44 >Act. (used by number of activities)</txt_44>
+    <txt_45 >Delete</txt_45>
+    <txt_46 >regardless of whether activity is associated with a theme</txt_46>
+    <txt_47 >hours.</txt_47>
+    <txt_48 >hours</txt_48>
+    
+  </trainerlog_uk>
+  
+
+</sprog>

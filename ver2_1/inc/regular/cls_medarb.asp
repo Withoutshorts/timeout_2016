@@ -7,7 +7,7 @@
      'Public Shared Function meStamdata(medid)
     Function meStamdata(medid)  
 
-       if medid <> 0 then
+       if len(trim(medid)) <> 0 then
        medid = medid
        else
        medid = 0
@@ -110,11 +110,12 @@ end function
    '1 = aktiv
    '2 = de-aktiv
    '3 = passiv
+   '4 = Gæst
 
    if io = 2 then
-   medStatKri = "mansat <> '2'" '** Aktiv + passive
+   medStatKri = "mansat <> 2 AND mansat <> 4" '** Aktiv + passive, minus gæster
    else
-   medStatKri = "mansat <> '0'" 'Alle
+   medStatKri = "mansat <> 0 AND mansat <> 4" 'Alle
    end if
 
 
@@ -308,16 +309,16 @@ end function
 
 
                     if cint(visAlleMedarb_pas) = 1 then
-                        strSQLmpasKri  = " mansat <> 2"
+                        strSQLmpasKri  = " mansat <> 2 AND mansat <> 4 "
                     else
-                        strSQLmpasKri  = " mansat = 1"
+                        strSQLmpasKri  = " mansat = 1 "
                     end if
 
      
 					strSQL = "SELECT Mid, Mnavn, Mnr, Brugergruppe, init, mansat FROM medarbejdere WHERE "& strSQLmpasKri &" "& strSQLmids &" GROUP BY mid ORDER BY Mnavn"
 					
                     if thisfile = "ugeseddel_2011.asp" OR thisfile = "logindhist_2011.asp" then
-                    mSelWdth = "323"
+                    mSelWdth = "100%"
                     mSelcls = "form-control input-small"
                     else
                     mSelWdth = "250"
@@ -403,11 +404,13 @@ sub mstatus_lastlogin
         
             select case oRec("mansat") 
             case "1"
-            mstatus = ""
+            mstatus = medarb_txt_029
             case "2"
-            mstatus = "De-aktiveret"
+            mstatus = medarb_txt_030
             case "3"
-            mstatus = "Passiv"
+            mstatus = medarb_txt_031
+            case "4"
+            mstatus = medarb_txt_149
             case else
             mstatus = ""
             end select
@@ -455,7 +458,7 @@ Public alleMedIJurEnhedSQL
 function alleMedIJurEnhed(med_lincensindehaver, mansat)
 
         if cint(mansat) = 1 then 'ALLE
-        strSQLmansat = " AND mansat <> - 1"
+        strSQLmansat = " AND mansat <> - 1 AND mansat <> 4"
         else
         strSQLmansat = " AND (mansat = 1 OR mansat = 3)" 'Aktive og passvie
         end if
@@ -478,4 +481,149 @@ function alleMedIJurEnhed(med_lincensindehaver, mansat)
                    
 
 end function
+
+
+
+
+function selectMedarbPrProgrp(showAll, prgids, sel_name, onchangesubmit, io)
+
+        'if len(trim(prgids)) <> 0 then
+        'prgids = prgids
+        'else
+        'prgids = 0
+        'end if
+
+        select case cint(io)
+            case 0
+
+                projektgruppeKri = ""
+
+            case 1
+
+                if prgids <> "alle" AND prgids <> "ingen" then
+                    prgids_aar = split(prgids, ",")
+            
+                    p = 0
+                    for p = 0 TO UBOUND(prgids_aar)
+
+                        'response.Write "<br> p her " & prgids(p) 
+                        if p = 0 then
+                           prgidKri = prgids_aar(p)
+                        else
+                           prgidKri = prgidKri &" OR pg.id = "& prgids_aar(p)
+                        end if
+
+                    next
+
+                    projektgruppeKri = " AND pg.id = "& prgidKri
+                    'response.Write " projektgruppeKri " & projektgruppeKri
+                else
+                    'if prgids <> "ingen" then 'ADMIN
+                    projektgruppeKri = ""
+                    'else
+                    'projektgruppeKri = " mid = " & session("mid")
+                    'end if
+                end if
+
+        end select
+
+        if cint(onchangesubmit) = 1 then
+            STRonchangesubmit = "onchange='submit();'"
+        else
+            STRonchangesubmit = ""
+        end if
+
+        if thisfile = "stade" AND lto = "epi2017" then
+        orgvirKri = " AND (orgvir = 1)" 'OR orgvir = 2
+        else
+        orgvirKri = ""
+        end if
+
+                                            if prgids <> "ingen" then 'ADMIN / Teamleder
+                                            strSQLm = "SELECT pg.navn AS pgnavn, pg.id AS pgid, mnavn, mid, init FROM projektgrupper pg " 
+                                            strSQLm = strSQLm & " LEFT JOIN progrupperelationer pgl ON (pgl.projektgruppeid = pg.id)"
+                                            strSQLm = strSQLm & " LEFT JOIN medarbejdere m ON (m.mid = pgl.medarbejderid)"
+                                            strSQLm = strSQLm & " WHERE mansat = 1 "& orgvirKri &" AND pg.id <> 10 "& projektgruppeKri &" ORDER BY pg.navn, mnavn"
+                                            else                                    
+                                            strSQLm = "SELECT mnavn, mid, init FROM medarbejdere m WHERE mid = "& session("mid") 
+                                            end if
+                                        
+                                            'if session("mid") = 1 then
+                                            'response.Write strSQLm & "<br>prgids: " & prgids & "#"
+                                            'response.flush
+                                            'end if
+
+
+                                            if prgids <> "ingen" then
+                                            %>
+                                           
+
+                                                <%if cint(showAll) = 1 then %>
+                                                <select name="<%=sel_name %>" class="form-control input-small" <%=STRonchangesubmit %>>
+                                                <option value="0">Vis alle</option>
+                                                <% 
+                                                 else
+                                                    %>
+                                                      <select name="<%=sel_name %>" class="form-control input-small" <%=STRonchangesubmit %>>
+
+                                                    <%
+                                                 end if
+
+                                            else
+                                             %>
+                                                      <select name="<%=sel_name %>" class="form-control input-small" <%=STRonchangesubmit %>>
+
+                                                    <%
+
+                                            end if
+
+                                            oRec.open strSQLm, oConn, 3
+                                            While not oRec.EOF 
+                                            
+
+                                            if prgids <> "ingen" then
+
+                                            if lastpgid <> oRec("pgid") then %>
+                                                 <option DISABLED></option>
+                                                <option DISABLED><%=oRec("pgnavn") %></option>
+                                            <%end if
+
+                                            end if
+
+                                            if len(trim(oRec("init"))) <> 0 then
+                                            init = "["& oRec("init") &"]"
+                                            else
+                                            init = ""
+                                            end if
+
+                                            if cdbl(usemrn) = cdbl(oRec("mid")) then
+                                            mSEL = "SELECTED"
+                                            else
+                                            mSEL = ""
+                                            end if
+                                            %>
+                                          <option value="<%=oRec("mid") %>" <%=mSEL %>><%=oRec("mnavn") & " "& init %></option>
+                                           <%
+
+                                            
+                                           if prgids <> "ingen" then
+                                           lastpgid = oRec("pgid") 
+                                           end if
+
+
+
+                                            oRec.movenext
+                                            Wend
+                                            oRec.close
+                                            
+                                         %>
+
+                                    
+
+
+                                                 </select>
+
+<%
+end function
+
    %>

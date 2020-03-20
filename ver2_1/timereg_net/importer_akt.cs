@@ -43,6 +43,19 @@ public partial class importer_akt : System.Web.UI.Page
 
         }
 
+        if (importtype == "cflow_prima")
+        {
+            feltnr1navn.Text = "Project No.:";
+            feltnr2navn.Text = "Activity Id.:";
+            feltnr3navn.Text = "Activity/Komp. desc.:";
+            feltnr9navn.Text = "Start date:";
+            //feltnr5navn.Text = "Ress. chargeable:";
+            //feltnr6navn.Text = "Timer/Stk.:";
+            //feltnr7navn.Text = "Stk. pris:";
+            //feltnr8navn.Text = "Beløb:";
+
+        }
+
     }
 
 
@@ -295,9 +308,16 @@ public partial class importer_akt : System.Web.UI.Page
             String path = Server.MapPath(PATH2UPLOAD);
             List<string> header = service.ReadHeader(path, txtFileName.Text, Request["lto"], Request["editor"], Request["importtype"]);
 
-            if (importtype == "t2")
+            if (importtype == "t2" || importtype == "cflow_prima")
             {
-                clm = 5;
+
+                if (importtype == "t2")
+                {
+                    clm = 5;
+                } else
+                {
+                    clm = 4;
+                }
             }
             else
             {
@@ -311,13 +331,25 @@ public partial class importer_akt : System.Web.UI.Page
 
                  importtype = Request["importtype"];
 
-                if (importtype == "t2") {
+                if (importtype == "t2" || importtype == "cflow_prima") {
 
-                    SelectDDL(ddlLinjetype, "fakturerbar", header, lblLinjetype, "linjetype");
-                    SelectDDL(ddlJobId, "job/project", header, lblJobId, "jobid");
-                    SelectDDL(ddlAktnavn, "description", header, lblAktnavn, "aktnavn");
-                    SelectDDL(ddlAktnr, "jobnr", header, lblAktnr, "aktnr");
-                    SelectDDL(ddlKonto, "blocked", header, lblKonto, "konto");
+                    if (importtype == "t2")
+                    {
+                        SelectDDL(ddlLinjetype, "fakturerbar", header, lblLinjetype, "linjetype");
+                        SelectDDL(ddlJobId, "job/project", header, lblJobId, "jobid");
+                        SelectDDL(ddlAktnavn, "description", header, lblAktnavn, "aktnavn");
+                        SelectDDL(ddlAktnr, "jobnr", header, lblAktnr, "aktnr");
+                        SelectDDL(ddlKonto, "blocked", header, lblKonto, "konto");
+                    }
+                    else
+                    {
+                        
+                        SelectDDL(ddlJobId, "project id", header, lblJobId, "jobid");
+                        SelectDDL(ddlAktnr, "activity id", header, lblAktnr, "aktnr");
+                        SelectDDL(ddlAktnavn, "wbs name", header, lblAktnavn, "aktnavn");
+                        SelectDDL(ddlAktstDato, "actual start", header, lblAktstDato, "aktstdato");
+                    }
+
 
                 } else { 
 
@@ -327,6 +359,8 @@ public partial class importer_akt : System.Web.UI.Page
                     SelectDDL(ddlAktnr, "nummer", header, lblAktnr, "aktnr");
                     SelectDDL(ddlKonto, "sagsopgavenummer", header, lblKonto, "konto");
                 }
+
+
 
 
                 if (importtype != "t2")

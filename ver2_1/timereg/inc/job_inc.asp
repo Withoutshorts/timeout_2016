@@ -1355,7 +1355,7 @@ sub projektberegner
                      
                     '** Hidden timer felter nettoomsætning 
                     Select case lto
-                    case "epi2017", "xintranet - local"
+                    case "epi2017", "intranet - local"
                         txtFldHiddenHours = "hidden"
                         showFldHours = 0
                         nettoOmsTxtWdt = 460
@@ -1397,7 +1397,7 @@ sub projektberegner
 					strSQLgt = "SELECT (mt.kostpris * count(m.mid)) AS virkgnskostpris, (mt.timepris * count(m.mid)) AS virkgnssalgspris, count(m.mid) AS antalm"_
 					&" FROM medarbejdertyper mt "_
                     &" LEFT JOIN medarbejdere m ON "_
-                    &" (m.medarbejdertype = mt.id AND m.mansat <> 2)"_
+                    &" (m.medarbejdertype = mt.id AND m.mansat <> 2 AND m.mansat <> 4)"_
                     &" WHERE timepris <> 0 AND kostpris <> 0 GROUP BY mt.id"
 						    
 					'Response.Write strSQLgt
@@ -1423,73 +1423,76 @@ sub projektberegner
                     end if
                    
 
-
+                    '* <> EPI
                     if cint(showFldHours) = 1 then
                         
                         
-                    call valutakode_fn(jo_valuta)  
-                    %>
-                    <td id="xpb_jobnavn"><%=job_txt_374 %>: <span style="color:#999999; font-size:9px;"><%=gnsSalgsogKostprisTxt &" "& basisValISO %></span></td>
-				    <td style="padding:3px;"><input type="text" id="FM_budgettimer" name="FM_budgettimer" value="<%=replace(formatnumber(strBudgettimer, 2), ".", "")%>" style="width:60px;"" onkeyup="tjektimer('FM_budgettimer'), beregnintbelob()" class="nettooms"></td>
-					<td class=lille><input type="text" id="FM_gnsinttpris" name="FM_gnsinttpris" value="<%=replace(formatnumber(jo_gnstpris, 2), ".", "")%>" style="width:67px;" onkeyup="tjektimer('FM_gnsinttpris'), beregnintbelob()" class="nettooms">
-                    
-                     </td>
-					
-                        
-                    <td>x <input type="text" id="FM_intfaktor" name="FM_intfaktor" value="<%=replace(formatnumber(jo_gnsfaktor, 2), ".", "")%>" style="width:30px;" onkeyup="tjektimer('FM_intfaktor'), beregnintbelob()" class="nettooms"></td>
-					<td>= <input type="text" id="FM_interntbelob" name="FM_interntbelob" <%=interntbelobDIS %> value="<%=replace(formatnumber(jo_gnsbelob, 2), ".", "")%>" style="width:75px;" onkeyup="tjektimer('FM_interntbelob'), beregninttp()" class="nettooms">
+                                call valutakode_fn(jo_valuta)  
+                                %>
+                                <td id="xpb_jobnavn"><%=job_txt_374 %>: <span style="color:#999999; font-size:9px;"><%=gnsSalgsogKostprisTxt &" "& basisValISO %></span></td>
+				                <td style="padding:3px;"><input type="text" id="FM_budgettimer" name="FM_budgettimer" value="<%=replace(formatnumber(strBudgettimer, 2), ".", "")%>" style="width:60px;"" onkeyup="tjektimer('FM_budgettimer'), beregnintbelob()" class="nettooms"></td>
+					            <td class=lille><input type="text" id="FM_gnsinttpris" name="FM_gnsinttpris" value="<%=replace(formatnumber(jo_gnstpris, 2), ".", "")%>" style="width:67px;" onkeyup="tjektimer('FM_gnsinttpris'), beregnintbelob()" class="nettooms"></td>
+					            <td>x <input type="text" id="FM_intfaktor" name="FM_intfaktor" value="<%=replace(formatnumber(jo_gnsfaktor, 2), ".", "")%>" style="width:30px;" onkeyup="tjektimer('FM_intfaktor'), beregnintbelob()" class="nettooms"></td>
+					            <td>= <input type="text" id="FM_interntbelob" name="FM_interntbelob" <%=interntbelobDIS %> value="<%=replace(formatnumber(jo_gnsbelob, 2), ".", "")%>" style="width:75px;" onkeyup="tjektimer('FM_interntbelob'), beregninttp()" class="nettooms">
 
                         
 
-                    </td>
+                                </td>
 					
-                    <input id="FM_interntomkost" name="FM_interntomkost" value="<%=replace(formatnumber(jo_udgifter_intern, 2), ".", "")%>" type="hidden" />
+                                <input id="FM_interntomkost" name="FM_interntomkost" value="<%=replace(formatnumber(jo_udgifter_intern, 2), ".", "")%>" type="hidden" />
 					
                    
                              
-					<td >
-                         <%
-                             felt = "FM_jo_valuta"
-                             call valutaList(jo_valuta, felt)
-                             %>
-                    </td>
+					            <td >
+                                     <%
+                                         felt = "FM_jo_valuta"
+                                         call valutaList(jo_valuta, felt)
+                                         %>
+                                </td>
 
-                         <%
-                         '*** Salgstimepris     
-                         if strBudgettimer <> 0 then
-                        tgt_tp = (jo_gnsbelob / strBudgettimer)
-                        else
-                        tgt_tp = 0
-                        end if%>
-                        <input id="pb_tg_timepris" value="<%=tgt_tp%>" type="hidden" style="width:30px; font-size:9px; font-family:arial; border:0px;" maxlength="0"/>
+                                     <%
+                                     '*** Salgstimepris     
+                                     if strBudgettimer <> 0 then
+                                    tgt_tp = (jo_gnsbelob / strBudgettimer)
+                                    else
+                                    tgt_tp = 0
+                                    end if%>
+                                    <input id="pb_tg_timepris" value="<%=tgt_tp%>" type="hidden" style="width:30px; font-size:9px; font-family:arial; border:0px;" maxlength="0"/>
 					
                     
                     <%else
                         
-                         if (func = "opret" AND step = 2) AND (lto = "epi2017" OR lto = "intranet - local") then
-                            interntbelobDIS = "DISABLED"
-                         else
-                            interntbelobDIS = ""
-                         end if %>
+                                 if (func = "opret" AND step = 2) AND (lto = "epi2017" OR lto = "intranet - local") then
+                                    interntbelobDIS = "DISABLED"
+                                 else
+                                    interntbelobDIS = ""
+                                 end if %>
                         
                         
                        
                  
-                     <td style="padding:3px; width:80px;"><%=job_txt_463 %>:<br /><input type="text" id="FM_budgettimer" name="FM_budgettimer" value="<%=replace(formatnumber(strBudgettimer, 2), ".", "")%>" style="width:60px;"" onkeyup="tjektimer('FM_budgettimer')" class="nettooms"></td>
-					<td style="padding:3px; width:80px;"><font color=red size=2>*</font> <%=job_txt_345 %>:<br /> <input type="text" id="FM_interntbelob" name="FM_interntbelob" <%=interntbelobDIS %> value="<%=replace(formatnumber(jo_gnsbelob, 2), ".", "")%>" style="width:75px; border:1px solid red; padding:2px;" onkeyup="tjektimer('FM_interntbelob'), settotalbelob()" class="nettooms" />
+                             <td style="padding:3px; width:80px;"><%=job_txt_463 %>:<br /><input type="text" id="FM_budgettimer" name="FM_budgettimer" value="<%=replace(formatnumber(strBudgettimer, 2), ".", "")%>" style="width:60px;"" onkeyup="tjektimer('FM_budgettimer')" class="nettooms"></td>
+					        <td style="padding:3px; width:80px;"><font color=red size=2>*</font> <%=job_txt_345 %>:<br /> <input type="text" id="FM_interntbelob" name="FM_interntbelob" <%=interntbelobDIS %> value="<%=replace(formatnumber(jo_gnsbelob, 2), ".", "")%>" style="width:75px; border:1px solid red; padding:2px;" onkeyup="tjektimer('FM_interntbelob'), settotalbelob()" class="nettooms" />
+                              
 
-					</td>
-					<td style="padding:3px 3px 3px 12px; font-size:11px;"><br /> <%
-                             felt = "FM_jo_valuta"
-                             call valutaList(jo_valuta, felt)
-                             %></td>
-                    <input type="hidden" id="FM_gnsinttpris" name="FM_gnsinttpris" value="<%=replace(formatnumber(jo_gnstpris, 2), ".", "")%>" style="width:67px;" onkeyup="tjektimer('FM_gnsinttpris')"></td>
-					<input type="hidden" id="FM_intfaktor" name="FM_intfaktor" value="<%=replace(formatnumber(jo_gnsfaktor, 2), ".", "")%>" style="width:30px;" onkeyup="tjektimer('FM_intfaktor')"</td>
-					<input type="hidden" id="FM_interntomkost" name="FM_interntomkost" value="<%=replace(formatnumber(jo_udgifter_intern, 2), ".", "")%>" />
+					        </td>
+					        <td style="padding:3px 3px 3px 12px; font-size:11px;"><br /> <%
+                                     felt = "FM_jo_valuta"
+                                     call valutaList(jo_valuta, felt)
+
+                                    'if instr(lto, "epi") <> 0 then
+                                    'jo_gnstpris = 1
+                                    'jo_udgifter_intern = 100
+                                    'end if
+
+                                     %></td>
+                            <input type="hidden" id="FM_gnsinttpris" name="FM_gnsinttpris" value="<%=replace(formatnumber(jo_gnstpris, 2), ".", "")%>">
+					        <input type="hidden" id="FM_intfaktor" name="FM_intfaktor" value="<%=replace(formatnumber(jo_gnsfaktor, 2), ".", "")%>" />
+					       <input type="hidden" id="FM_interntomkost" name="FM_interntomkost" value="<%=replace(formatnumber(jo_udgifter_intern, 2), ".", "")%>"/>
 					
                    
                  
-                    <%end if %>
+                    <%end if 'if cint(showFldHours) = 1 then%>
 
 							
 					<!--&nbsp; antal fakturerbare timer.&nbsp;<br>-->
@@ -1497,18 +1500,24 @@ sub projektberegner
                     <input type="hidden" id="showFldHours" value="<%=showFldHours%>">
 														
 				</tr>
+
+                    
+
                   </table>
                 <!-- End Netto Table -->
 
 
 
-                        <%select case lto 
-                        case "intranet - local", "wwf", "bf", "oko", "cisu"
-                            showFordelpFinansaar = 1 
-                        case else 
-                            showFordelpFinansaar = 0
-                        end select 
+                        <%
+                        'select case lto 
+                        'case "intranet - local", "wwf", "bf", "oko", "cisu", "adra", "ddc", "care", "hidalgo"
+                        '    showFordelpFinansaar = 1 
+                        'case else 
+                        '    showFordelpFinansaar = 0
+                        'end select 
 
+                        call showFordelpFinansaaron_fn()
+                        showFordelpFinansaar = showFordelpFinansaaron
 
                         select case lto 
                         case "intranet - local", "cisu"
@@ -1963,7 +1972,7 @@ sub projektberegner
                      <%
                      '** Starter altid med at være utjekket med mindre:
                      select case lto
-                     case "synergi1", "xintranet - local", "mpt"
+                     case "synergi1", "xintranet - local", "mpt", "dencker"
                      syncCHK = "CHECKED"
                      case else
                      syncCHK = ""
@@ -2596,7 +2605,7 @@ sub projektberegner
 						
 				
                
-            
+        
 
 		        <tr bgcolor="#FFFFFF">
 					<td class=alt style="padding-top:10px; border:0px;" colspan=6>
@@ -2677,9 +2686,19 @@ sub projektberegner
 
                         
                        </td>
-					<td style="padding:2px 2px 2px 20px;">= <span style="padding:2px 2px 2px 2px; background-color:#FFFFFF; width:60px; border:0px; border-bottom:0px #CCCCCC solid; font-size:9px; font-family:arial;" id="SP_udgifter_intern"><%=replace(formatnumber(jo_udgifter_intern, 2), ".", "")%></span></td>
+					<td style="padding:2px 2px 2px 20px;">=
+                        <%'if cint(showFldHours) = 1 then%>
+                        <span style="padding:2px 2px 2px 2px; background-color:#FFFFFF; width:60px; border:0px; border-bottom:0px #CCCCCC solid; font-size:9px; font-family:arial;" id="SP_udgifter_intern"><%=replace(formatnumber(jo_udgifter_intern, 2), ".", "")%></span>
+                         <input id="FM_udgifter_intern" name="FM_udgifter_intern" value="<%=replace(formatnumber(jo_udgifter_intern, 2), ".", "")%>" type="hidden" />
+                        <%'else %>
+                          <!--<input id="FM_udgifter_intern" name="FM_udgifter_intern" value="<%=replace(formatnumber(jo_udgifter_intern, 2), ".", "")%>" type="text" style="width:60px; font-size:9px;" />-->
+
+                        <%'end if %>
+                       
+
+					</td>
 					<td>&nbsp;<%=jo_bgt_basisValISO %></td>
-                   <input id="FM_udgifter_intern" name="FM_udgifter_intern" value="<%=replace(formatnumber(jo_udgifter_intern, 2), ".", "")%>" type="hidden" />
+                   
 				</tr>
                 
                    
@@ -2910,7 +2929,7 @@ sub minioverblik
 
 
         <%if cint(sltjjobok) = 1 then %>
-        <a href="job_kopier.asp?func=kopier&id=<%=id%>&fm_kunde=<%=fm_kunde_sog%>&filt=<%=request("filt")%>" class=vmenu><%=job_txt_454 %> >></a>
+        <a href="job_kopier.asp?func=kopier&id=<%=id%>&fm_kunde=<%=strKundeId%>&filt=<%=request("filt")%>" class=vmenu><%=job_txt_454 %> >></a>
         <br /><a href="jobs.asp?menu=job&func=slet&id=<%=id %>" class=slet><%=job_txt_455 %>?</a><br />
         <%end if %>
 
@@ -2918,7 +2937,7 @@ sub minioverblik
         
             <% if thisfile <> "jobprintoverblik" then %>
        <tr bgcolor="#5582d2">
-						    <td colspan=6 class=alt style="padding:5px 5px 0px 5px; border:0px;"><h3 class="hv">TimeOut - <%=job_txt_456 %></h3></td>
+						    <td colspan=6 class=alt style="padding:5px 5px 0px 5px; border:0px;"><h3 class="hv">TimeOut - <%=job_txt_451 %></h3></td>
 						</tr>
             <%end if %>
 
@@ -3783,24 +3802,31 @@ sub minioverblik
 		</tr>
 		
 		<%
-		strSQLFak = "SELECT f.jobid, f.aftaleid, f.fid, f.fakdato, f.faknr, f.betalt, "_
-		&" f.faktype, f.beloeb, f.shadowcopy, f.valuta, f.kurs, v.valutakode, SUM(fd.aktpris) AS aktbel, f.medregnikkeioms, f.brugfakdatolabel, f.labeldato, f.fakadr"_
-		&" FROM fakturaer f LEFT JOIN valutaer v ON (v.id = f.valuta) "_
-		&" LEFT JOIN faktura_det AS fd ON (fd.fakid = f.fid AND fd.enhedsang <> 3)"_
-		&" WHERE f.jobid = "& id & ""_ 
-		&" GROUP BY f.fid ORDER BY f.faknr DESC"
+		'strSQLFak = "SELECT f.jobid, f.aftaleid, f.fid, f.fakdato, f.faknr, f.betalt, "_
+		'&" f.faktype, f.beloeb, f.shadowcopy, f.valuta, f.kurs, v.valutakode, SUM(fd.aktpris) AS aktbel, f.medregnikkeioms, f.brugfakdatolabel, f.labeldato, f.fakadr"_
+		'&" FROM fakturaer f LEFT JOIN valutaer v ON (v.id = f.valuta) "_
+		'&" LEFT JOIN faktura_det AS fd ON (fd.fakid = f.fid AND fd.enhedsang <> 3)"_
+		'&" WHERE f.jobid = "& id & ""_ 
+		'&" GROUP BY f.fid ORDER BY f.faknr DESC"
 		
         'AND fd.showonfak = 1 - 20180523
         'AND f.aftaleid = 0 AND f.shadowcopy = 0
 
+        strSQLffak = "SELECT f.fid, f.faknr, f.aftaleid, f.faktype, f.jobid, f.fakdato, f.beloeb, "_
+		&" f.faktype, f.kurs, brugfakdatolabel, labeldato, fakadr, shadowcopy, f.valuta, afsender, medregnikkeioms FROM fakturaer f "_
+		&" WHERE (jobid = " & id & " AND shadowcopy = 0) OR (aftaleid = "& intServiceaft &" AND aftaleid <> 0 AND shadowcopy = 0)"_
+		&" GROUP BY f.fid ORDER BY f.fakdato DESC"
+
+
+
         'if session("mid") = "1" then
-		'Response.Write strSQLfak
+		'Response.Write strSQLffak
 		'Response.Flush
         'end if
 		
 		totFakbel = 0
 		totFakbelKunTimer = 0
-	    oRec2.open strSQLFak, oConn, 3
+	    oRec2.open strSQLffak, oConn, 3
 	    while not oRec2.EOF 
 
         fakbeloeb = 0
@@ -3813,62 +3839,28 @@ sub minioverblik
 	    %>
 	    <tr>
 	        <td class=lille>
-            <%if thisfile <> "jobprintoverblik" then %>
+            <%if thisfile <> "jobprintoverblik" then
 
-               
-
-                <%if cint(useasfak) <= 2 then
-                    
-                    fidLink = 0
-                    if cint(oRec2("shadowcopy")) = 0 then
-                    
-                        fidLink = oRec2("fid")    
-
-                    else
-                        
-                        strSQLFakorg = "SELECT fid FROM fakturaer WHERE faknr = '"& oRec2("faknr") &"' AND shadowcopy <> 1"
-
-                        'if session("mid") = 1 then
-                        'Response.write "useasfak: " & useasfak & "<br>"
-                        'Response.write strSQLFakorg
-                        'end if
-
-                        oRec8.open strSQLFakorg, oConn, 3
-                        if not oRec8.EOF then
-
-                            fidLink = oRec8("fid")
-
-                        end if
-                        oRec8.close
-
-                    end if
-
-                    if cdbl(fidLink) <> 0 then
-                    %>
+                    fidLink = oRec2("fid")    
+            %>
                     <a href="erp_opr_faktura_fs.asp?visminihistorik=1&visfaktura=2&visjobogaftaler=1&id=<%=fidLink%>&FM_jobonoff=<%=FM_jobonoffval%>&FM_kunde=<%=oRec2("fakadr")%>&FM_job=<%=oRec2("jobid")%>&FM_aftale=<%=oRec2("aftaleid")%>&fromfakhist=1" class="lgron" target="_blank"><%=oRec2("faknr")%></a>
-                    <%else %>
-                    <i>deleted: <%=oRec2("faknr") %> </i>
-                    <%end if %>
-
-                <%else %>
-
-                <b><%=oRec2("faknr") %></b>
-                
-                <%end if %>
-
+                   
             <%else %>
-                <%=oRec2("faknr") %>
+
+                    <%=oRec2("faknr") %>
             <%end if 'thisfile <> "jobprintoverblik"
 
 
 
-            if oRec2("shadowcopy") = 1 then 'AND oRec2("aftaleid") <> 0 then
+            if oRec2("aftaleid") <> 0 then 'if oRec2("shadowcopy") = 1 then 'AND oRec2("aftaleid") <> 0 then
                
                    
 
-                    strSQLFakorg = "SELECT f.fid, f.beloeb, f.valuta, f.kurs, f.faktype, f.aftaleid, fd.aktpris FROM fakturaer f "_
-                    &" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& id &") WHERE faknr = '"& oRec2("faknr") &"' AND shadowcopy <> 1 "
+                    'strSQLFakorg = "SELECT f.fid, f.beloeb, f.valuta, f.kurs, f.faktype, f.aftaleid, fd.aktpris FROM fakturaer f "_
+                    '&" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& id &") WHERE faknr = '"& oRec2("faknr") &"' AND shadowcopy <> 1 "
 
+                    strSQLFakorg = "SELECT f.fid, f.beloeb, f.valuta, f.kurs, f.faktype, f.aftaleid, fd.aktpris FROM fakturaer f "_
+                    &" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& id &") WHERE fid = "& oRec2("fid") &" AND shadowcopy <> 1 "
 
                     'if session("mid") = 1 then
                     'Response.write strSQLFakorg
@@ -3909,7 +3901,7 @@ sub minioverblik
             fakKurs = oRec2("kurs")
             fakBeloeb = oRec2("beloeb")
             fakType = oRec2("faktype")
-            fakAktbel = oRec2("aktbel")%>
+            fakAktbel = 0 'oRec2("aktbel")%>
 
             <%if cint(oRec2("medregnikkeioms")) = 1 then %>
             (<%=job_txt_571 %>)
@@ -3966,17 +3958,7 @@ sub minioverblik
 	        <td class=lille align=right><%=formatnumber(belobGrundVal) &" "& jo_bgt_basisValISO %></td>
 	        
 	        <%
-	                    '** Kun aktiviteter timer, enh. stk. IKKE mateiler og KM
-                
-                        'if cDate(oRec2("fakdato")) < cDate("01-06-2010") AND (lto = "epi" OR lto = "epi_no" OR lto = "epi_sta" OR lto = "epi_ab" OR lto = "epi_cati") then
-                       
-                        'belobKunTimerStk = belobGrundVal
-                
-                        'else
-       
-
-	            
-
+	                    
                 if cint(jo_valuta) <> cint(fakValuta) then
                     call beregnValuta(minus&(fakAktbel),fakKurs,100)
                     fakBelob = valBelobBeregnet
@@ -4366,6 +4348,7 @@ sub minioverblik
 
                     end if
 
+                
 
                 case else
 
@@ -4961,12 +4944,16 @@ sub minioverblik
 
 
 
-        <%if (thisfile <> "jobprintoverblik" AND lto = "synergi1") OR (lto <> "synergi1" AND lto <> "oko" AND lto <> "sdeo" AND lto <> "xintranet - local") then%>
+        <%if (thisfile <> "jobprintoverblik" AND lto = "synergi1") OR (lto <> "synergi1" AND lto <> "xoko" AND lto <> "sdeo" AND lto <> "xintranet - local") then%>
         <tr><td>
 
 
 
-          <%if totReal <> 0 then 
+          <%
+            
+            '****** Nøgletal DB 
+              
+            if totReal <> 0 then 
 	        gnstpris = totFakbelKunTimer/totReal
 	        else 
 	        gnstpris = 0
@@ -4984,6 +4971,9 @@ sub minioverblik
                 case 1
                 stade_tim_proc_txt = " % "& job_txt_511
                 end select %>
+
+                <%'Budget %>
+
                 <%=restestimat &" "& stade_tim_proc_txt %></td></tr>
                 <tr><td> <b><%=job_txt_575 %>:</b> (job)</td><td align=right> <%=formatnumber(strBudgettimer, 2) %> <%=" "& job_txt_409 %></td><td>&nbsp;</td></tr>
                 <tr><td> <b><%=job_txt_576 %>:</b> (job)</td><td align=right> <%=formatnumber(totReal, 2) %> <%=" "& job_txt_409 %></td><td>&nbsp;</td></tr>
@@ -5000,7 +4990,7 @@ sub minioverblik
                <tr><td><b><%=job_txt_513 %>:</b></td><td align=right><%=formatnumber(jo_dbproc,0)%> %</td><td>&nbsp;</td></tr>
               
                     
-                     <%'dbreal
+                     <%'Realiseret
                     realOmsialt = (totRealbel+salgsomkostSalg)
                     realKostialt = (realtimerkost+salgsomkostKost)
                     
@@ -5030,7 +5020,7 @@ sub minioverblik
                     <tr><td colspan=3>&nbsp;</td></tr>
                 
 
-                     <%'dbfaktisk
+                     <%'Faktisk faktureret
                      
         
                          dbfaktisk = (totFakbel-(realKostialt))

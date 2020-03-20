@@ -75,7 +75,7 @@ function timerDenneUge(usemrn, lto, varTjDatoUS_man, aty_sql_typer, dothis, SmiW
             strSQLtim = "SELECT ROUND(SUM(timer),2) AS sumtimer, tjobnr, tjobnavn, Tknavn FROM timer WHERE ("& aty_sql_typer &") AND tdato = '"& tjkTimerTotDato &"' AND tmnr = "& usemrn & " GROUP BY "& timGrpBy
 
 
-            'if lto = "synergi1" AND session("mid") = 1 then
+            'if session("mid") = 1 then
             'Response.Write strSQLtim & "<br><br>"
             'Response.flush
             'end if
@@ -674,11 +674,12 @@ function timeRealOms(jobnr, sqlDatostart, sqlDatoslut, nettoomstimer, fastpris, 
         if realfakpertot <> 0 then
 		strSQL2 = strSQL2 &" AND tdato BETWEEN '"& sqlDatostart &"' AND '"& sqlDatoslut &"'"
 		end if
-
+        
+      
 	    strSQL2 = strSQL2 &" GROUP BY t.tjobnr"
 	    'end if	
 
-		'if session("mid") = 1 then
+		'if session("mid") = 21 then
         'Response.Write strSQL2 & "<br><br>"
         'end if
 
@@ -754,10 +755,18 @@ function timeRealOms(jobnr, sqlDatostart, sqlDatoslut, nettoomstimer, fastpris, 
 		strSQLmat = strSQLmat &" AND forbrugsdato BETWEEN '"& sqlDatostart &"' AND '"& sqlDatoslut &"'"
 		end if
 
+        select case lto
+        case "oko"
+        strSQLmat = strSQLmat &" AND (mf_konto > 14)" '** Ikke løn
+        end select
+
+
         strSQLmat = strSQLmat &" GROUP BY jobid "
 
         salgsOmkFaktisk = 0
-        
+        matKobsPrisReal = 0
+        matSalgsprisReal = 0    
+
         oRec2.open strSQLmat, oConn, 3
 		if not oRec2.EOF then
 		salgsOmkFaktisk = oRec2("udgifterfaktisk")
@@ -805,7 +814,7 @@ dateBeginSQL = year(dateBegin) &"/"& month(dateBegin) &"/1"
 
 strSQL = "SELECT tid, tmnr, tjobnr, taktivitetid, tdato, timer FROM timer WHERE timer < 0.5 AND tdato BETWEEN  '"& dateBeginSQL &"' AND '"& dateNowSQL &"' ORDER BY tmnr, tjobnr, taktivitetid, tdato" 'AND origin = 91
 
-case "epi", "epi_no", "epi_sta", "epi_ab"
+case "epi", "epi_no", "epi_sta", "epi_ab", "epi0217"
 dateNow = dateAdd("m", -2, now)
 dateNowSQL = year(dateNow) &"/"& month(dateNow) &"/31" 
 
@@ -1065,5 +1074,111 @@ function timerRound15_fn(timerthis15)
     end if
 
 end function
+
+
+
+
+
+
+function cflow_hl_timer(medarbSel, sqlDatoStart, sqlDatoSlut)
+
+%> 
+
+        <!--
+         <div class="panel-group accordion-panel" id="accordion-paneled">
+            <div class="panel panel-default">
+                <div class="panel-heading">        
+
+       
+        <h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" href="#hl">Huldt & Lillevik timer</a></h4>
+            </div>
+        <div class="panel-body">
+        <div id="hl" class="panel-collapse collapse">
+        -->
+        
+        
+        <div class="well">
+        <h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" href="#hl">Huldt & Lillevik timer</a></h4>
+        
+        <div class="panel-body">
+        <div id="hl" class="panel-collapse collapse in">
+        <table style="border-top:none; width:40%;">
+      
+        <%
+
+        sqlDatoSlutHL = year(sqlDatoSlut) & "/" & month(sqlDatoSlut) & "/" & day(sqlDatoSlut)
+        sqlDatoStartHL = year(sqlDatoStart) & "/" & month(sqlDatoStart) & "/" & day(sqlDatoStart)
+
+        h = 0
+        sqlTfaktim = " AND (tfaktim = 7 OR tfaktim = 10 OR tfaktim = 30 OR tfaktim = 51 OR tfaktim = 52 OR tfaktim = 54 OR tfaktim = 50 OR tfaktim = 53 OR tfaktim = 55 OR tfaktim = 60 OR tfaktim = 61 OR tfaktim = 90 OR tfaktim = 91 OR tfaktim = 92 OR tfaktim = 17 OR tfaktim = 123 OR tfaktim = 124 OR tfaktim = 125)"
+        strSQL6 = "SELECT tid, tmnr, tmnavn, if(tfaktim = 10, timer*-1, timer) AS timer, tdato, tid, tfaktim, taktivitetnavn, taktivitetid, godkendtstatus FROM timer WHERE tmnr =  "& medarbSel &" "& sqlTfaktim &" AND tdato BETWEEN '"& sqlDatoStartHL &"' AND '"& sqlDatoSlutHL &"' ORDER BY tdato, tfaktim" '"& usemrn &" AND tdato BETWEEN '"& sqlDatoStartATD &"' AND '"& sqlDatoEnd &"'
+        
+        'if session("mid") = 1 then
+        'Response.write strSQL6
+        'Response.Flush
+        'end if
+        
+        oRec5.open strSQL6, oConn, 3
+        while not oRec5.EOF 
+
+        if cDate(lastDate) <> cDate(oRec5("tdato")) then
+        %>
+            <tr><td style="text-align:left;"><b><%=weekdayname(datepart("w", oRec5("tdato"), 2,2), true, 2) & ". " & formatdatetime(oRec5("tdato"), 2)%></b></td><td style="text-align:right;">100 tals</td><td>&nbsp;</td>
+        <%
+        end if
+
+        %>
+            <tr><td><%=oRec5("taktivitetnavn") %></td><td style="text-align:right;"><%=formatnumber(oRec5("timer"), 2) %></td>
+                
+                <td style="text-align:left; padding-left:20px;">
+                <% 'if ((ugeerAfsl_og_autogk_smil = 0 AND showTot <> 1 AND len(oRec("logud")) <> 0) OR (level = 1 AND showTot <> 1)) AND media <> "print" then%>
+		                <a href="#" onclick="Javascript:window.open('../to_2015/rediger_tastede_dage_2006.asp?id=<%=oRec5("tid")%>', '', 'width=500,height=750,resizable=no')"><span style="color:darkgray;" class="fa fa-pencil"></span></a>
+		                <%'else %>
+		                &nbsp;
+		                <%'end if %>  
+                </td>
+
+
+            </tr>
+        <%
+        
+        lastDate = oRec5("tdato")
+        h = h + 1
+        oRec5.movenext
+        wend 
+        oRec5.close
+        
+        if h = 0 then
+        %>
+        <tr><td colspan=3><br />Der er ikke fundet H&L timer denne uke</td></tr>
+        <%
+        end if
+
+       %></table>
+            
+            
+         
+
+        </div>
+
+                
+            </div>
+                 </div>
+<!--
+            </div>-->
+            
+                
+              <br /><%  
+
+    end function
+
+
+
+
+
+
+
+
+
 
    %>

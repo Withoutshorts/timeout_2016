@@ -13,11 +13,11 @@
     <txt_6 >Alle</txt_6>
     <txt_7 >Vis</txt_7>
     <txt_8 >alle</txt_8>
-    <txt_9 >aktive job.</txt_9>
+    <txt_9 >aktive job</txt_9>
     <txt_10 >aktuelle</txt_10>
 
     <txt_11 >job (kun job, hvis slutdato ligger efter den valgte periode start)</txt_11>
-    <txt_12 >Søg på jobnavn ell. nr.</txt_12>
+    <txt_12 >Søg på jobnavn eller nr.</txt_12>
     <txt_13 >interval, eller</txt_13>
     <txt_14 >for specifikke job</txt_14>
     <txt_15 >Filter</txt_15>
@@ -47,9 +47,9 @@
     <txt_37 >12 Måneder frem</txt_37>
     <txt_38 >6 Måneder frem</txt_38>
     <txt_39 >Præsentation</txt_39>
-    <txt_40 >Vis ikke års-ramme og saldo kolonner</txt_40>
+    <txt_40 >Vis ikke års-ramme og saldo kol.</txt_40>
 
-    <txt_41 >Vis ikke aktivitets kolonner</txt_41>
+    <txt_41 >Vis ikke aktivitets kol.</txt_41>
     <txt_42 >Vis alle linier (standard)</txt_42>
     <txt_43 >Skjul alle sub-totaler (optimeret til indtastning)</txt_43>
     <txt_44 >Vis Grafisk (optimeret til overblik)</txt_44>
@@ -163,6 +163,69 @@
     <txt_143 >oktober</txt_143>
     <txt_144 >november</txt_144>
     <txt_145 >december</txt_145>
+    
+    <txt_146 >Søgefilter</txt_146>
+    <txt_147 >Eller vælg job her</txt_147>
+    <txt_148 >Vis fra</txt_148>
+    
+    <txt_149 >Jan</txt_149>
+    <txt_150 >Feb</txt_150>
+    <txt_151 >Mar</txt_151>
+    <txt_152 >Apr</txt_152>
+    <txt_153 >Maj</txt_153>
+    <txt_154 >Jun</txt_154>
+    <txt_155 >Jul</txt_155>
+    <txt_156 >Aug</txt_156>
+    <txt_157 >Sep</txt_157>
+    <txt_158 >Okt</txt_158>
+    <txt_159 >Nov</txt_159>
+    <txt_160 >Dec</txt_160>
+    
+    <txt_161 >Visning</txt_161>
+    <txt_162 >Skjul medarb. uden forecast</txt_162>
+    <txt_163 >Vis</txt_163>
+    <txt_164 >Passive/for billing.</txt_164>
+    <txt_165 >Proposal</txt_165>
+    <txt_166 >Reviewing</txt_166>
+    
+    <txt_167 >Initialer</txt_167>
+    <txt_168 >Sidst opd.</txt_168>
+    <txt_169 >Norm. timer pr. md</txt_169>
+    <txt_170 >Norm. timer pr. uge</txt_170>
+    <txt_171 >Årsramme år</txt_171>
+    <txt_172 >Årsramme Timer</txt_172>
+    <txt_173 >Job nr.</txt_173>
+    <txt_174 >Aktnavn</txt_174>
+    <txt_175 >Akt. id</txt_175>
+    <txt_176 >Jobansvarlig</txt_176>
+    <txt_177 >Init</txt_177>
+    <txt_178 >Jobejer</txt_178>
+    <txt_179 >Kunde</txt_179>
+    <txt_180 >Kunde nr.</txt_180>
+    <txt_181 >Uge</txt_181>
+    <txt_182 >Måned</txt_182>
+    <txt_183 >År</txt_183>
+    <txt_184 >Forecast</txt_184>
+    <txt_185 >Afvigelse</txt_185>
+    <txt_186 >Forecast/Real. %</txt_186>
+    <txt_187 >Norm. timer pr. uge (gns.)</txt_187>
+    
+    <txt_188 >Jobbudget timer</txt_188>
+    <txt_189 >Jobbudget beløb</txt_189>
+    <txt_190 >Forecast</txt_190>
+    <txt_191 >Forecast (total, uanset valgt periode)</txt_191>
+    <txt_192 >Realiseret (total, uanset valgt periode)</txt_192>
+    <txt_193 >Saldo (total, uanset valgt periode)</txt_193>
+    <txt_194 >Saldo</txt_194>
+    <txt_195 >Gælder for alle medarbejdere uanset viste</txt_195>
+    <txt_196 >Overfør fra uge</txt_196>
+    <txt_197 >til uge</txt_197>
+    <txt_198 >Overfør fra</txt_198>
+    <txt_199 >til følgende måned.</txt_199>
+    
+    <txt_200 >Vis ikke</txt_200>
+    <txt_201 >Års-ramme og saldo kol.</txt_201>
+    <txt_202 >Aktivitets kol.</txt_202>
 
   </dk>
 
@@ -178,11 +241,11 @@
     <txt_6 >All</txt_6>
     <txt_7 >Show</txt_7>
     <txt_8 >all</txt_8>
-    <txt_9 >Active jobs.</txt_9>
+    <txt_9 >Active jobs</txt_9>
     <txt_10 >current</txt_10>
 
     <txt_11 >Job (only jobs whose end date is after the selected period start)</txt_11>
-    <txt_12 >Search by job name or. no.</txt_12>
+    <txt_12 >Search by job name or no.</txt_12>
     <txt_13 >Interval, or</txt_13>
     <txt_14 >For specific jobs</txt_14>
     <txt_15 >Filter</txt_15>
@@ -207,7 +270,7 @@
     <txt_32 >Oct</txt_32>
     <txt_33 >Nov</txt_33>
     <txt_34 >Dec</txt_34>
-    <txt_35 >and</txt_35>
+    <txt_35 >And</txt_35>
     <txt_36 >3 months forward (week / week)</txt_36>
     <txt_37 >12 months forward</txt_37>
     <txt_38 >6 months forward</txt_38>
@@ -232,7 +295,7 @@
     <txt_55 >Real.</txt_55>
     <txt_56 >Rated hours are adjusted for vacation, maternity leave and other planned absence.</txt_56>
     <txt_57 >forecast</txt_57>
-    <txt_58 >Realized (entered on jobs / projects)</txt_58>
+    <txt_58 >Actual (entered on jobs / projects)</txt_58>
     <txt_59 >balance</txt_59>
     <txt_60 >rated.</txt_60>
 
@@ -280,7 +343,7 @@
     <txt_99 >Forecast</txt_99>
     <txt_100 >In total (regardless of the chosen period)</txt_100>
 
-    <txt_101 >Realized</txt_101>
+    <txt_101 >Actual</txt_101>
     <txt_102 >In total (regardless of the chosen period)</txt_102>
     <txt_103 >Balance forecast / real.</txt_103>
     <txt_104 >balance (regardless of period)</txt_104>
@@ -328,6 +391,69 @@
     <txt_143>october</txt_143>
     <txt_144>november</txt_144>
     <txt_145>december</txt_145>
+    
+    <txt_146 >Search filter</txt_146>
+    <txt_147 >Or select jobs here</txt_147>
+    <txt_148 >Show from</txt_148>
+    
+     <txt_149 >Jan</txt_149>
+     <txt_150 >Feb</txt_150>
+     <txt_151 >Mar</txt_151>
+     <txt_152 >Apr</txt_152>
+     <txt_153 >May</txt_153>
+     <txt_154 >Jun</txt_154>
+     <txt_155 >Jul</txt_155>
+     <txt_156 >Aug</txt_156>
+     <txt_157 >Sep</txt_157>
+     <txt_158 >Oct</txt_158>
+     <txt_159 >Nov</txt_159>
+     <txt_160 >Dec</txt_160>
+    
+    <txt_161 >View</txt_161>
+    <txt_162 >Hide empl. with no forecast</txt_162>
+    <txt_163 >Show</txt_163>
+    <txt_164 >Passive/for invoicing.</txt_164>
+    <txt_165 >Proposal</txt_165>
+    <txt_166 >Reviewing</txt_166>
+    
+    <txt_167 >Initials</txt_167>
+    <txt_168 >Last edited</txt_168>
+    <txt_169 >Rated hours pr. month</txt_169>
+    <txt_170 >Rated hours pr. week</txt_170>
+    <txt_171 >Year frame year</txt_171>
+    <txt_172 >Year frame Hours</txt_172>
+    <txt_173 >Job No.</txt_173>
+    <txt_174 >Act. name</txt_174>
+    <txt_175 >Act. id</txt_175>
+    <txt_176 >Job Responsible</txt_176>
+    <txt_177 >Init</txt_177>
+    <txt_178 >Job owner</txt_178>
+    <txt_179 >Customer</txt_179>
+    <txt_180 >Customer No.</txt_180>
+    <txt_181 >Week</txt_181>
+    <txt_182 >Month</txt_182>
+    <txt_183 >Year</txt_183>
+    <txt_184 >Forecast</txt_184>
+    <txt_185 >Deviation</txt_185>
+    <txt_186 >Forecast/Real. %</txt_186>
+    <txt_187 >Norm. hours per week (Avg.)</txt_187>
+    
+    <txt_188 >Job Budget hours</txt_188>
+    <txt_189 >Job Budget amount</txt_189>
+    <txt_190 >Forecast</txt_190>
+    <txt_191 >Forecast (total, regardless of period)</txt_191>
+    <txt_192 >Actual (total, regardless of period)</txt_192>
+    <txt_193 >Balance (total, regardless of period)</txt_193>
+    <txt_194 >Balance</txt_194>
+    <txt_195 >Applies to all employees regardless showed</txt_195>
+    <txt_196 >Transfer from week</txt_196>
+    <txt_197 >to week</txt_197>
+    <txt_198 >Transfer from</txt_198>
+    <txt_199 >to the following month.</txt_199>
+    
+    <txt_200 >Do not show</txt_200>
+    <txt_201 >Yearly and balance columns</txt_201>
+    <txt_202 >The activity's columns</txt_202>
 
   </no>
 
@@ -343,11 +469,11 @@
     <txt_6 >All</txt_6>
     <txt_7 >Show</txt_7>
     <txt_8 >all</txt_8>
-    <txt_9 >Active jobs.</txt_9>
+    <txt_9 >Active jobs</txt_9>
     <txt_10 >current</txt_10>
 
     <txt_11 >Job (only jobs whose end date is after the selected period start)</txt_11>
-    <txt_12 >Search by job name or. no.</txt_12>
+    <txt_12 >Search by job name or no.</txt_12>
     <txt_13 >Interval, or</txt_13>
     <txt_14 >For specific jobs</txt_14>
     <txt_15 >Filter</txt_15>
@@ -372,7 +498,7 @@
     <txt_32 >Oct</txt_32>
     <txt_33 >Nov</txt_33>
     <txt_34 >Dec</txt_34>
-    <txt_35 >and</txt_35>
+    <txt_35 >And</txt_35>
     <txt_36 >3 months forward (week / week)</txt_36>
     <txt_37 >12 months forward</txt_37>
     <txt_38 >6 months forward</txt_38>
@@ -397,7 +523,7 @@
     <txt_55 >Real.</txt_55>
     <txt_56 >Rated hours are adjusted for vacation, maternity leave and other planned absence.</txt_56>
     <txt_57 >forecast</txt_57>
-    <txt_58 >Realized (entered on jobs / projects)</txt_58>
+    <txt_58 >Actual (entered on jobs / projects)</txt_58>
     <txt_59 >balance</txt_59>
     <txt_60 >rated.</txt_60>
 
@@ -445,7 +571,7 @@
     <txt_99 >Forecast</txt_99>
     <txt_100 >In total (regardless of the chosen period)</txt_100>
 
-    <txt_101 >Realized</txt_101>
+    <txt_101 >Actual</txt_101>
     <txt_102 >In total (regardless of the chosen period)</txt_102>
     <txt_103 >Balance forecast / real.</txt_103>
     <txt_104 >balance (regardless of period)</txt_104>
@@ -465,19 +591,19 @@
     <txt_117 >Add forecast on job</txt_117>
     <txt_118 >Grandtotal</txt_118>
     <txt_119 >Real. hours</txt_119>
-
+    
     <txt_120>January</txt_120>
-    <txt_121>February</txt_121>
-    <txt_122>March</txt_122>
-    <txt_123>April</txt_123>
-    <txt_124>May</txt_124>
-    <txt_125>June</txt_125>
-    <txt_126>July</txt_126>
-    <txt_127>August</txt_127>
-    <txt_128>September</txt_128>
-    <txt_129>October</txt_129>
-    <txt_130>November</txt_130>
-    <txt_131>December</txt_131>
+    <txt_121>February</txt_121>
+    <txt_122>March</txt_122>
+    <txt_123>April</txt_123>
+    <txt_124>May</txt_124>
+    <txt_125>June</txt_125>
+    <txt_126>July</txt_126>
+    <txt_127>August</txt_127>
+    <txt_128>September</txt_128>
+    <txt_129>October</txt_129>
+    <txt_130>November</txt_130>
+    <txt_131>December</txt_131>
     <txt_132 >Hours have been transferred on all active jobs</txt_132>
     <txt_133 >Go</txt_133>
 
@@ -493,13 +619,76 @@
     <txt_143>october</txt_143>
     <txt_144>november</txt_144>
     <txt_145>december</txt_145>
+    
+    <txt_146 >Search filter</txt_146>
+    <txt_147 >Or select jobs here</txt_147>
+    <txt_148 >Show from</txt_148>
+    
+     <txt_149 >Jan</txt_149>
+     <txt_150 >Feb</txt_150>
+     <txt_151 >Mar</txt_151>
+     <txt_152 >Apr</txt_152>
+     <txt_153 >May</txt_153>
+     <txt_154 >Jun</txt_154>
+     <txt_155 >Jul</txt_155>
+     <txt_156 >Aug</txt_156>
+     <txt_157 >Sep</txt_157>
+     <txt_158 >Oct</txt_158>
+     <txt_159 >Nov</txt_159>
+     <txt_160 >Dec</txt_160>
+    
+    <txt_161 >View</txt_161>
+    <txt_162 >Hide empl. with no forecast</txt_162>
+    <txt_163 >Show</txt_163>
+    <txt_164 >Passive/for invoicing.</txt_164>
+    <txt_165 >Proposal</txt_165>
+    <txt_166 >Reviewing</txt_166>
+    
+    <txt_167 >Initials</txt_167>
+    <txt_168 >Last edited</txt_168>
+    <txt_169 >Rated hours pr. month</txt_169>
+    <txt_170 >Rated hours pr. week</txt_170>
+    <txt_171 >Year frame year</txt_171>
+    <txt_172 >Year frame Hours</txt_172>
+    <txt_173 >Job No.</txt_173>
+    <txt_174 >Act. name</txt_174>
+    <txt_175 >Act. id</txt_175>
+    <txt_176 >Job Responsible</txt_176>
+    <txt_177 >Init</txt_177>
+    <txt_178 >Job owner</txt_178>
+    <txt_179 >Customer</txt_179>
+    <txt_180 >Customer No.</txt_180>
+    <txt_181 >Week</txt_181>
+    <txt_182 >Month</txt_182>
+    <txt_183 >Year</txt_183>
+    <txt_184 >Forecast</txt_184>
+    <txt_185 >Deviation</txt_185>
+    <txt_186 >Forecast/Real. %</txt_186>
+    <txt_187 >Norm. hours per week (Avg.)</txt_187>
+    
+    <txt_188 >Job Budget hours</txt_188>
+    <txt_189 >Job Budget amount</txt_189>
+    <txt_190 >Forecast</txt_190>
+    <txt_191 >Forecast (total, regardless of period)</txt_191>
+    <txt_192 >Actual (total, regardless of period)</txt_192>
+    <txt_193 >Balance (total, regardless of period)</txt_193>
+    <txt_194 >Balance</txt_194>
+    <txt_195 >Applies to all employees regardless showed</txt_195>
+    <txt_196 >Transfer from week</txt_196>
+    <txt_197 >to week</txt_197>
+    <txt_198 >Transfer from</txt_198>
+    <txt_199 >to the following month.</txt_199>
+    
+    <txt_200 >Do not show</txt_200>
+    <txt_201 >Yearly and balance columns</txt_201>
+    <txt_202 >The activity's columns</txt_202>
     
   </so>
 
 
   <!--- Tysk -->
   <de>
-    <txt_1 >Please wait. Expected loading time: 3-25 sec.</txt_1>
+   <txt_1 >Please wait. Expected loading time: 3-25 sec.</txt_1>
     <txt_2 >Resource Forecast (timebudget)</txt_2>
     <txt_3 >Project groups</txt_3>
     <txt_4 >Employees</txt_4>
@@ -507,11 +696,11 @@
     <txt_6 >All</txt_6>
     <txt_7 >Show</txt_7>
     <txt_8 >all</txt_8>
-    <txt_9 >Active jobs.</txt_9>
+    <txt_9 >Active jobs</txt_9>
     <txt_10 >current</txt_10>
 
     <txt_11 >Job (only jobs whose end date is after the selected period start)</txt_11>
-    <txt_12 >Search by job name or. no.</txt_12>
+    <txt_12 >Search by job name or no.</txt_12>
     <txt_13 >Interval, or</txt_13>
     <txt_14 >For specific jobs</txt_14>
     <txt_15 >Filter</txt_15>
@@ -536,7 +725,7 @@
     <txt_32 >Oct</txt_32>
     <txt_33 >Nov</txt_33>
     <txt_34 >Dec</txt_34>
-    <txt_35 >and</txt_35>
+    <txt_35 >And</txt_35>
     <txt_36 >3 months forward (week / week)</txt_36>
     <txt_37 >12 months forward</txt_37>
     <txt_38 >6 months forward</txt_38>
@@ -561,7 +750,7 @@
     <txt_55 >Real.</txt_55>
     <txt_56 >Rated hours are adjusted for vacation, maternity leave and other planned absence.</txt_56>
     <txt_57 >forecast</txt_57>
-    <txt_58 >Realized (entered on jobs / projects)</txt_58>
+    <txt_58 >Actual (entered on jobs / projects)</txt_58>
     <txt_59 >balance</txt_59>
     <txt_60 >rated.</txt_60>
 
@@ -609,7 +798,7 @@
     <txt_99 >Forecast</txt_99>
     <txt_100 >In total (regardless of the chosen period)</txt_100>
 
-    <txt_101 >Realized</txt_101>
+    <txt_101 >Actual</txt_101>
     <txt_102 >In total (regardless of the chosen period)</txt_102>
     <txt_103 >Balance forecast / real.</txt_103>
     <txt_104 >balance (regardless of period)</txt_104>
@@ -629,19 +818,19 @@
     <txt_117 >Add forecast on job</txt_117>
     <txt_118 >Grandtotal</txt_118>
     <txt_119 >Real. hours</txt_119>
-
+    
     <txt_120>January</txt_120>
-    <txt_121>February</txt_121>
-    <txt_122>March</txt_122>
-    <txt_123>April</txt_123>
-    <txt_124>May</txt_124>
-    <txt_125>June</txt_125>
-    <txt_126>July</txt_126>
-    <txt_127>August</txt_127>
-    <txt_128>September</txt_128>
-    <txt_129>October</txt_129>
-    <txt_130>November</txt_130>
-    <txt_131>December</txt_131>
+    <txt_121>February</txt_121>
+    <txt_122>March</txt_122>
+    <txt_123>April</txt_123>
+    <txt_124>May</txt_124>
+    <txt_125>June</txt_125>
+    <txt_126>July</txt_126>
+    <txt_127>August</txt_127>
+    <txt_128>September</txt_128>
+    <txt_129>October</txt_129>
+    <txt_130>November</txt_130>
+    <txt_131>December</txt_131>
     <txt_132 >Hours have been transferred on all active jobs</txt_132>
     <txt_133 >Go</txt_133>
 
@@ -658,12 +847,75 @@
     <txt_144>november</txt_144>
     <txt_145>december</txt_145>
     
+    <txt_146 >Search filter</txt_146>
+    <txt_147 >Or select jobs here</txt_147>
+    <txt_148 >Show from</txt_148>
+    
+     <txt_149 >Jan</txt_149>
+     <txt_150 >Feb</txt_150>
+     <txt_151 >Mar</txt_151>
+     <txt_152 >Apr</txt_152>
+     <txt_153 >May</txt_153>
+     <txt_154 >Jun</txt_154>
+     <txt_155 >Jul</txt_155>
+     <txt_156 >Aug</txt_156>
+     <txt_157 >Sep</txt_157>
+     <txt_158 >Oct</txt_158>
+     <txt_159 >Nov</txt_159>
+     <txt_160 >Dec</txt_160>
+    
+    <txt_161 >View</txt_161>
+    <txt_162 >Hide empl. with no forecast</txt_162>
+    <txt_163 >Show</txt_163>
+    <txt_164 >Passive/for invoicing.</txt_164>
+    <txt_165 >Proposal</txt_165>
+    <txt_166 >Reviewing</txt_166>
+    
+    <txt_167 >Initials</txt_167>
+    <txt_168 >Last edited</txt_168>
+    <txt_169 >Rated hours pr. month</txt_169>
+    <txt_170 >Rated hours pr. week</txt_170>
+    <txt_171 >Year frame year</txt_171>
+    <txt_172 >Year frame Hours</txt_172>
+    <txt_173 >Job No.</txt_173>
+    <txt_174 >Act. name</txt_174>
+    <txt_175 >Act. id</txt_175>
+    <txt_176 >Job Responsible</txt_176>
+    <txt_177 >Init</txt_177>
+    <txt_178 >Job owner</txt_178>
+    <txt_179 >Customer</txt_179>
+    <txt_180 >Customer No.</txt_180>
+    <txt_181 >Week</txt_181>
+    <txt_182 >Month</txt_182>
+    <txt_183 >Year</txt_183>
+    <txt_184 >Forecast</txt_184>
+    <txt_185 >Deviation</txt_185>
+    <txt_186 >Forecast/Real. %</txt_186>
+    <txt_187 >Norm. hours per week (Avg.)</txt_187>
+    
+    <txt_188 >Job Budget hours</txt_188>
+    <txt_189 >Job Budget amount</txt_189>
+    <txt_190 >Forecast</txt_190>
+    <txt_191 >Forecast (total, regardless of period)</txt_191>
+    <txt_192 >Actual (total, regardless of period)</txt_192>
+    <txt_193 >Balance (total, regardless of period)</txt_193>
+    <txt_194 >Balance</txt_194>
+    <txt_195 >Applies to all employees regardless showed</txt_195>
+    <txt_196 >Transfer from week</txt_196>
+    <txt_197 >to week</txt_197>
+    <txt_198 >Transfer from</txt_198>
+    <txt_199 >to the following month.</txt_199>
+    
+    <txt_200 >Do not show</txt_200>
+    <txt_201 >Yearly and balance columns</txt_201>
+    <txt_202 >The activity's columns</txt_202>
+    
   </de>
 
 
   <!--- Fransk -->
   <fr>
-    <txt_1 >Please wait. Expected loading time: 3-25 sec.</txt_1>
+   <txt_1 >Please wait. Expected loading time: 3-25 sec.</txt_1>
     <txt_2 >Resource Forecast (timebudget)</txt_2>
     <txt_3 >Project groups</txt_3>
     <txt_4 >Employees</txt_4>
@@ -671,11 +923,11 @@
     <txt_6 >All</txt_6>
     <txt_7 >Show</txt_7>
     <txt_8 >all</txt_8>
-    <txt_9 >Active jobs.</txt_9>
+    <txt_9 >Active jobs</txt_9>
     <txt_10 >current</txt_10>
 
     <txt_11 >Job (only jobs whose end date is after the selected period start)</txt_11>
-    <txt_12 >Search by job name or. no.</txt_12>
+    <txt_12 >Search by job name or no.</txt_12>
     <txt_13 >Interval, or</txt_13>
     <txt_14 >For specific jobs</txt_14>
     <txt_15 >Filter</txt_15>
@@ -700,7 +952,7 @@
     <txt_32 >Oct</txt_32>
     <txt_33 >Nov</txt_33>
     <txt_34 >Dec</txt_34>
-    <txt_35 >and</txt_35>
+    <txt_35 >And</txt_35>
     <txt_36 >3 months forward (week / week)</txt_36>
     <txt_37 >12 months forward</txt_37>
     <txt_38 >6 months forward</txt_38>
@@ -725,7 +977,7 @@
     <txt_55 >Real.</txt_55>
     <txt_56 >Rated hours are adjusted for vacation, maternity leave and other planned absence.</txt_56>
     <txt_57 >forecast</txt_57>
-    <txt_58 >Realized (entered on jobs / projects)</txt_58>
+    <txt_58 >Actual (entered on jobs / projects)</txt_58>
     <txt_59 >balance</txt_59>
     <txt_60 >rated.</txt_60>
 
@@ -773,7 +1025,7 @@
     <txt_99 >Forecast</txt_99>
     <txt_100 >In total (regardless of the chosen period)</txt_100>
 
-    <txt_101 >Realized</txt_101>
+    <txt_101 >Actual</txt_101>
     <txt_102 >In total (regardless of the chosen period)</txt_102>
     <txt_103 >Balance forecast / real.</txt_103>
     <txt_104 >balance (regardless of period)</txt_104>
@@ -793,19 +1045,19 @@
     <txt_117 >Add forecast on job</txt_117>
     <txt_118 >Grandtotal</txt_118>
     <txt_119 >Real. hours</txt_119>
-
+    
     <txt_120>January</txt_120>
-    <txt_121>February</txt_121>
-    <txt_122>March</txt_122>
-    <txt_123>April</txt_123>
-    <txt_124>May</txt_124>
-    <txt_125>June</txt_125>
-    <txt_126>July</txt_126>
-    <txt_127>August</txt_127>
-    <txt_128>September</txt_128>
-    <txt_129>October</txt_129>
-    <txt_130>November</txt_130>
-    <txt_131>December</txt_131>
+    <txt_121>February</txt_121>
+    <txt_122>March</txt_122>
+    <txt_123>April</txt_123>
+    <txt_124>May</txt_124>
+    <txt_125>June</txt_125>
+    <txt_126>July</txt_126>
+    <txt_127>August</txt_127>
+    <txt_128>September</txt_128>
+    <txt_129>October</txt_129>
+    <txt_130>November</txt_130>
+    <txt_131>December</txt_131>
     <txt_132 >Hours have been transferred on all active jobs</txt_132>
     <txt_133 >Go</txt_133>
 
@@ -821,6 +1073,69 @@
     <txt_143>october</txt_143>
     <txt_144>november</txt_144>
     <txt_145>december</txt_145>
+    
+    <txt_146 >Search filter</txt_146>
+    <txt_147 >Or select jobs here</txt_147>
+    <txt_148 >Show from</txt_148>
+    
+     <txt_149 >Jan</txt_149>
+     <txt_150 >Feb</txt_150>
+     <txt_151 >Mar</txt_151>
+     <txt_152 >Apr</txt_152>
+     <txt_153 >May</txt_153>
+     <txt_154 >Jun</txt_154>
+     <txt_155 >Jul</txt_155>
+     <txt_156 >Aug</txt_156>
+     <txt_157 >Sep</txt_157>
+     <txt_158 >Oct</txt_158>
+     <txt_159 >Nov</txt_159>
+     <txt_160 >Dec</txt_160>
+    
+    <txt_161 >View</txt_161>
+    <txt_162 >Hide empl. with no forecast</txt_162>
+    <txt_163 >Show</txt_163>
+    <txt_164 >Passive/for invoicing.</txt_164>
+    <txt_165 >Proposal</txt_165>
+    <txt_166 >Reviewing</txt_166>
+    
+    <txt_167 >Initials</txt_167>
+    <txt_168 >Last edited</txt_168>
+    <txt_169 >Rated hours pr. month</txt_169>
+    <txt_170 >Rated hours pr. week</txt_170>
+    <txt_171 >Year frame year</txt_171>
+    <txt_172 >Year frame Hours</txt_172>
+    <txt_173 >Job No.</txt_173>
+    <txt_174 >Act. name</txt_174>
+    <txt_175 >Act. id</txt_175>
+    <txt_176 >Job Responsible</txt_176>
+    <txt_177 >Init</txt_177>
+    <txt_178 >Job owner</txt_178>
+    <txt_179 >Customer</txt_179>
+    <txt_180 >Customer No.</txt_180>
+    <txt_181 >Week</txt_181>
+    <txt_182 >Month</txt_182>
+    <txt_183 >Year</txt_183>
+    <txt_184 >Forecast</txt_184>
+    <txt_185 >Deviation</txt_185>
+    <txt_186 >Forecast/Real. %</txt_186>
+    <txt_187 >Norm. hours per week (Avg.)</txt_187>
+    
+    <txt_188 >Job Budget hours</txt_188>
+    <txt_189 >Job Budget amount</txt_189>
+    <txt_190 >Forecast</txt_190>
+    <txt_191 >Forecast (total, regardless of period)</txt_191>
+    <txt_192 >Actual (total, regardless of period)</txt_192>
+    <txt_193 >Balance (total, regardless of period)</txt_193>
+    <txt_194 >Balance</txt_194>
+    <txt_195 >Applies to all employees regardless showed</txt_195>
+    <txt_196 >Transfer from week</txt_196>
+    <txt_197 >to week</txt_197>
+    <txt_198 >Transfer from</txt_198>
+    <txt_199 >to the following month.</txt_199>
+    
+    <txt_200 >Do not show</txt_200>
+    <txt_201 >Yearly and balance columns</txt_201>
+    <txt_202 >The activity's columns</txt_202>
     
   </fr>
 
@@ -836,11 +1151,11 @@
     <txt_6 >All</txt_6>
     <txt_7 >Show</txt_7>
     <txt_8 >all</txt_8>
-    <txt_9 >Active jobs.</txt_9>
+    <txt_9 >Active jobs</txt_9>
     <txt_10 >current</txt_10>
 
     <txt_11 >Job (only jobs whose end date is after the selected period start)</txt_11>
-    <txt_12 >Search by job name or. no.</txt_12>
+    <txt_12 >Search by job name or no.</txt_12>
     <txt_13 >Interval, or</txt_13>
     <txt_14 >For specific jobs</txt_14>
     <txt_15 >Filter</txt_15>
@@ -865,7 +1180,7 @@
     <txt_32 >Oct</txt_32>
     <txt_33 >Nov</txt_33>
     <txt_34 >Dec</txt_34>
-    <txt_35 >and</txt_35>
+    <txt_35 >And</txt_35>
     <txt_36 >3 months forward (week / week)</txt_36>
     <txt_37 >12 months forward</txt_37>
     <txt_38 >6 months forward</txt_38>
@@ -890,7 +1205,7 @@
     <txt_55 >Real.</txt_55>
     <txt_56 >Rated hours are adjusted for vacation, maternity leave and other planned absence.</txt_56>
     <txt_57 >forecast</txt_57>
-    <txt_58 >Realized (entered on jobs / projects)</txt_58>
+    <txt_58 >Actual (entered on jobs / projects)</txt_58>
     <txt_59 >balance</txt_59>
     <txt_60 >rated.</txt_60>
 
@@ -938,7 +1253,7 @@
     <txt_99 >Forecast</txt_99>
     <txt_100 >In total (regardless of the chosen period)</txt_100>
 
-    <txt_101 >Realized</txt_101>
+    <txt_101 >Actual</txt_101>
     <txt_102 >In total (regardless of the chosen period)</txt_102>
     <txt_103 >Balance forecast / real.</txt_103>
     <txt_104 >balance (regardless of period)</txt_104>
@@ -958,19 +1273,19 @@
     <txt_117 >Add forecast on job</txt_117>
     <txt_118 >Grandtotal</txt_118>
     <txt_119 >Real. hours</txt_119>
-
+    
     <txt_120>January</txt_120>
-    <txt_121>February</txt_121>
-    <txt_122>March</txt_122>
-    <txt_123>April</txt_123>
-    <txt_124>May</txt_124>
-    <txt_125>June</txt_125>
-    <txt_126>July</txt_126>
-    <txt_127>August</txt_127>
-    <txt_128>September</txt_128>
-    <txt_129>October</txt_129>
-    <txt_130>November</txt_130>
-    <txt_131>December</txt_131>
+    <txt_121>February</txt_121>
+    <txt_122>March</txt_122>
+    <txt_123>April</txt_123>
+    <txt_124>May</txt_124>
+    <txt_125>June</txt_125>
+    <txt_126>July</txt_126>
+    <txt_127>August</txt_127>
+    <txt_128>September</txt_128>
+    <txt_129>October</txt_129>
+    <txt_130>November</txt_130>
+    <txt_131>December</txt_131>
     <txt_132 >Hours have been transferred on all active jobs</txt_132>
     <txt_133 >Go</txt_133>
 
@@ -986,13 +1301,76 @@
     <txt_143>october</txt_143>
     <txt_144>november</txt_144>
     <txt_145>december</txt_145>
+    
+    <txt_146 >Search filter</txt_146>
+    <txt_147 >Or select jobs here</txt_147>
+    <txt_148 >Show from</txt_148>
+    
+     <txt_149 >Jan</txt_149>
+     <txt_150 >Feb</txt_150>
+     <txt_151 >Mar</txt_151>
+     <txt_152 >Apr</txt_152>
+     <txt_153 >May</txt_153>
+     <txt_154 >Jun</txt_154>
+     <txt_155 >Jul</txt_155>
+     <txt_156 >Aug</txt_156>
+     <txt_157 >Sep</txt_157>
+     <txt_158 >Oct</txt_158>
+     <txt_159 >Nov</txt_159>
+     <txt_160 >Dec</txt_160>
+    
+    <txt_161 >View</txt_161>
+    <txt_162 >Hide empl. with no forecast</txt_162>
+    <txt_163 >Show</txt_163>
+    <txt_164 >Passive/for invoicing.</txt_164>
+    <txt_165 >Proposal</txt_165>
+    <txt_166 >Reviewing</txt_166>
+    
+    <txt_167 >Initials</txt_167>
+    <txt_168 >Last edited</txt_168>
+    <txt_169 >Rated hours pr. month</txt_169>
+    <txt_170 >Rated hours pr. week</txt_170>
+    <txt_171 >Year frame year</txt_171>
+    <txt_172 >Year frame Hours</txt_172>
+    <txt_173 >Job No.</txt_173>
+    <txt_174 >Act. name</txt_174>
+    <txt_175 >Act. id</txt_175>
+    <txt_176 >Job Responsible</txt_176>
+    <txt_177 >Init</txt_177>
+    <txt_178 >Job owner</txt_178>
+    <txt_179 >Customer</txt_179>
+    <txt_180 >Customer No.</txt_180>
+    <txt_181 >Week</txt_181>
+    <txt_182 >Month</txt_182>
+    <txt_183 >Year</txt_183>
+    <txt_184 >Forecast</txt_184>
+    <txt_185 >Deviation</txt_185>
+    <txt_186 >Forecast/Real. %</txt_186>
+    <txt_187 >Norm. hours per week (Avg.)</txt_187>
+    
+    <txt_188 >Job Budget hours</txt_188>
+    <txt_189 >Job Budget amount</txt_189>
+    <txt_190 >Forecast</txt_190>
+    <txt_191 >Forecast (total, regardless of period)</txt_191>
+    <txt_192 >Actual (total, regardless of period)</txt_192>
+    <txt_193 >Balance (total, regardless of period)</txt_193>
+    <txt_194 >Balance</txt_194>
+    <txt_195 >Applies to all employees regardless showed</txt_195>
+    <txt_196 >Transfer from week</txt_196>
+    <txt_197 >to week</txt_197>
+    <txt_198 >Transfer from</txt_198>
+    <txt_199 >to the following month.</txt_199>
+    
+    <txt_200 >Do not show</txt_200>
+    <txt_201 >Yearly and balance columns</txt_201>
+    <txt_202 >The activity's columns</txt_202>
 
   </uk>
 
 
   <!--- Spansk -->
   <es>
-    <txt_1 >Please wait. Expected loading time: 3-25 sec.</txt_1>
+   <txt_1 >Please wait. Expected loading time: 3-25 sec.</txt_1>
     <txt_2 >Resource Forecast (timebudget)</txt_2>
     <txt_3 >Project groups</txt_3>
     <txt_4 >Employees</txt_4>
@@ -1000,11 +1378,11 @@
     <txt_6 >All</txt_6>
     <txt_7 >Show</txt_7>
     <txt_8 >all</txt_8>
-    <txt_9 >Active jobs.</txt_9>
+    <txt_9 >Active jobs</txt_9>
     <txt_10 >current</txt_10>
 
     <txt_11 >Job (only jobs whose end date is after the selected period start)</txt_11>
-    <txt_12 >Search by job name or. no.</txt_12>
+    <txt_12 >Search by job name or no.</txt_12>
     <txt_13 >Interval, or</txt_13>
     <txt_14 >For specific jobs</txt_14>
     <txt_15 >Filter</txt_15>
@@ -1029,7 +1407,7 @@
     <txt_32 >Oct</txt_32>
     <txt_33 >Nov</txt_33>
     <txt_34 >Dec</txt_34>
-    <txt_35 >and</txt_35>
+    <txt_35 >And</txt_35>
     <txt_36 >3 months forward (week / week)</txt_36>
     <txt_37 >12 months forward</txt_37>
     <txt_38 >6 months forward</txt_38>
@@ -1054,7 +1432,7 @@
     <txt_55 >Real.</txt_55>
     <txt_56 >Rated hours are adjusted for vacation, maternity leave and other planned absence.</txt_56>
     <txt_57 >forecast</txt_57>
-    <txt_58 >Realized (entered on jobs / projects)</txt_58>
+    <txt_58 >Actual (entered on jobs / projects)</txt_58>
     <txt_59 >balance</txt_59>
     <txt_60 >rated.</txt_60>
 
@@ -1102,7 +1480,7 @@
     <txt_99 >Forecast</txt_99>
     <txt_100 >In total (regardless of the chosen period)</txt_100>
 
-    <txt_101 >Realized</txt_101>
+    <txt_101 >Actual</txt_101>
     <txt_102 >In total (regardless of the chosen period)</txt_102>
     <txt_103 >Balance forecast / real.</txt_103>
     <txt_104 >balance (regardless of period)</txt_104>
@@ -1122,19 +1500,19 @@
     <txt_117 >Add forecast on job</txt_117>
     <txt_118 >Grandtotal</txt_118>
     <txt_119 >Real. hours</txt_119>
-
+    
     <txt_120>January</txt_120>
-    <txt_121>February</txt_121>
-    <txt_122>March</txt_122>
-    <txt_123>April</txt_123>
-    <txt_124>May</txt_124>
-    <txt_125>June</txt_125>
-    <txt_126>July</txt_126>
-    <txt_127>August</txt_127>
-    <txt_128>September</txt_128>
-    <txt_129>October</txt_129>
-    <txt_130>November</txt_130>
-    <txt_131>December</txt_131>
+    <txt_121>February</txt_121>
+    <txt_122>March</txt_122>
+    <txt_123>April</txt_123>
+    <txt_124>May</txt_124>
+    <txt_125>June</txt_125>
+    <txt_126>July</txt_126>
+    <txt_127>August</txt_127>
+    <txt_128>September</txt_128>
+    <txt_129>October</txt_129>
+    <txt_130>November</txt_130>
+    <txt_131>December</txt_131>
     <txt_132 >Hours have been transferred on all active jobs</txt_132>
     <txt_133 >Go</txt_133>
 
@@ -1150,6 +1528,69 @@
     <txt_143>october</txt_143>
     <txt_144>november</txt_144>
     <txt_145>december</txt_145>
+    
+    <txt_146 >Search filter</txt_146>
+    <txt_147 >Or select jobs here</txt_147>
+    <txt_148 >Show from</txt_148>
+    
+     <txt_149 >Jan</txt_149>
+     <txt_150 >Feb</txt_150>
+     <txt_151 >Mar</txt_151>
+     <txt_152 >Apr</txt_152>
+     <txt_153 >May</txt_153>
+     <txt_154 >Jun</txt_154>
+     <txt_155 >Jul</txt_155>
+     <txt_156 >Aug</txt_156>
+     <txt_157 >Sep</txt_157>
+     <txt_158 >Oct</txt_158>
+     <txt_159 >Nov</txt_159>
+     <txt_160 >Dec</txt_160>
+    
+    <txt_161 >View</txt_161>
+    <txt_162 >Hide empl. with no forecast</txt_162>
+    <txt_163 >Show</txt_163>
+    <txt_164 >Passive/for invoicing.</txt_164>
+    <txt_165 >Proposal</txt_165>
+    <txt_166 >Reviewing</txt_166>
+    
+    <txt_167 >Initials</txt_167>
+    <txt_168 >Last edited</txt_168>
+    <txt_169 >Rated hours pr. month</txt_169>
+    <txt_170 >Rated hours pr. week</txt_170>
+    <txt_171 >Year frame year</txt_171>
+    <txt_172 >Year frame Hours</txt_172>
+    <txt_173 >Job No.</txt_173>
+    <txt_174 >Act. name</txt_174>
+    <txt_175 >Act. id</txt_175>
+    <txt_176 >Job Responsible</txt_176>
+    <txt_177 >Init</txt_177>
+    <txt_178 >Job owner</txt_178>
+    <txt_179 >Customer</txt_179>
+    <txt_180 >Customer No.</txt_180>
+    <txt_181 >Week</txt_181>
+    <txt_182 >Month</txt_182>
+    <txt_183 >Year</txt_183>
+    <txt_184 >Forecast</txt_184>
+    <txt_185 >Deviation</txt_185>
+    <txt_186 >Forecast/Real. %</txt_186>
+    <txt_187 >Norm. hours per week (Avg.)</txt_187>
+    
+    <txt_188 >Job Budget hours</txt_188>
+    <txt_189 >Job Budget amount</txt_189>
+    <txt_190 >Forecast</txt_190>
+    <txt_191 >Forecast (total, regardless of period)</txt_191>
+    <txt_192 >Actual (total, regardless of period)</txt_192>
+    <txt_193 >Balance (total, regardless of period)</txt_193>
+    <txt_194 >Balance</txt_194>
+    <txt_195 >Applies to all employees regardless showed</txt_195>
+    <txt_196 >Transfer from week</txt_196>
+    <txt_197 >to week</txt_197>
+    <txt_198 >Transfer from</txt_198>
+    <txt_199 >to the following month.</txt_199>
+    
+    <txt_200 >Do not show</txt_200>
+    <txt_201 >Yearly and balance columns</txt_201>
+    <txt_202 >The activity's columns</txt_202>
 
   </es>
 

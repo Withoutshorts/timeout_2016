@@ -117,7 +117,7 @@ if len(session("user")) = 0 then
 		<td colspan=2>&nbsp;</td>
 	</tr>
 	<%
-	strSQL = "SELECT mnavn, mid, mansat, init, mnr FROM medarbejdere WHERE medarbejdertype = "&id&" AND mansat <> 2 ORDER BY mansat, mnavn"
+	strSQL = "SELECT mnavn, mid, mansat, init, mnr FROM medarbejdere WHERE medarbejdertype = "&id&" AND mansat <> 2 AND mansat <> 4 ORDER BY mansat, mnavn"
 	oRec.open strSQL, oConn, 3
 	
     x = 0
@@ -1462,7 +1462,7 @@ if len(session("user")) = 0 then
 	ugetotal = formatnumber(oRec("normtimer_son") + oRec("normtimer_man") + oRec("normtimer_tir") + oRec("normtimer_ons") + oRec("normtimer_tor") + oRec("normtimer_fre") + oRec("normtimer_lor"), 2)
 	
 	'** Antal medab i type ***'
-	strSQL2 = "SELECT Mid FROM medarbejdere WHERE Medarbejdertype = "& oRec("id") & " AND mansat <> 2 "
+	strSQL2 = "SELECT Mid FROM medarbejdere WHERE Medarbejdertype = "& oRec("id") & " AND mansat <> 2 AND mansat <> 4 "
 	oRec2.open strSQL2, oConn, 3
 	while not oRec2.EOF 
 	x = x + 1

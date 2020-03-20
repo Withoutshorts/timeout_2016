@@ -333,7 +333,10 @@ Set oNodes_joblog = objXmlDom_joblog.documentElement.selectNodes(sXPathQuery_job
     joblog_txt_232 = oNode_joblog.selectSingleNode("txt_232").Text
     joblog_txt_233 = oNode_joblog.selectSingleNode("txt_233").Text
     joblog_txt_234 = oNode_joblog.selectSingleNode("txt_234").Text
-  
+    joblog_txt_235 = oNode_joblog.selectSingleNode("txt_235").Text
+    joblog_txt_236 = oNode_joblog.selectSingleNode("txt_236").Text
+    joblog_txt_237 = oNode_joblog.selectSingleNode("txt_237").Text
+    joblog_txt_238 = oNode_joblog.selectSingleNode("txt_238").Text
           
     next
 

@@ -11,25 +11,108 @@ response.buffer = true
         'section for ajax calls
         if Request.Form("AjaxUpdateField") = "true" then
         Select Case Request.Form("control")
+
+            case "FN_hentfragpris"
+                
+                if len(trim(request("matgrp"))) <> 0 then
+                matgrp = request("matgrp")
+                else
+                matgrp = 0
+                end if
+
+                if len(trim(request("valuta"))) <> 0 then
+                valuta = request("valuta")
+                else
+                valuta = 1
+                end if
+
+
+                '*** Del. term buyer <> FOB 
+                if len(trim(request("levbetint"))) <> 0 then
+                levbetint = request("levbetint")
+                else
+                levbetint = "0"
+                end if
+
+                
+                '*** Del. term sup = FOB 
+                if len(trim(request("levlevbetint"))) <> 0 then
+                levlevbetint = request("levlevbetint")
+                else
+                levlevbetint = "0"
+                end if
+
+                '*** Transport = SEA OR TRUCK
+                if len(trim(request("transport"))) <> 0 then
+                transport = request("transport")
+                else
+                transport = "0"
+                end if
+
+
+
+                if levbetint <> "1" AND levlevbetint = "1" AND (transport = "By Sea" OR transport = "By Truck") then
+
+
+                        vvalutakurs = "100"
+                        strSQLv = "SELECT kurs from valutaer WHERE id = "& valuta
+
+                        'response.write strSQLv
+                        'response.end
+
+                        oRec.open strSQLv, oConn, 3
+                        if not oRec.EOF then
+                           vvalutakurs = oRec("kurs")
+                        end if
+                        oRec.close
+
+                        fragtpris = 0
+                        strSQL = "SELECT fragtpris from materiale_grp WHERE id = "& matgrp
+                        oRec.open strSQL, oConn, 3
+                        if not oRec.EOF then
+                            fragtpris = oRec("fragtpris")
+                        end if
+                        oRec.close
+
+                        'if vvalutakurs > 100 then
+                        'vvalutakurs = vvalutakurs / 100
+                        'end if
+
+                        fragtprisBeregnet = "0"
+                        fragtprisBeregnet = ((fragtpris/1) * ((100/vvalutakurs)))
+            
+                        fragtprisBeregnet = formatnumber(fragtprisBeregnet, 3)
+                        fragtprisBeregnet = replace(fragtprisBeregnet, ".", "")
+
+                        'response.Write fragtprisBeregnet & " vvalutakurs : " & vvalutakurs & " fragtpris: " & fragtpris & " valuta: "& valuta
+                        response.Write fragtprisBeregnet
+
+                else
+
+                        response.Write "DONOTUPDATE"
+
+                end if
+
+
         case "FN_pic"
 
          
                 jobnr = request("jq_jobnr") 
 
-	                                strSQL = "SELECT id, filnavn FROM filer WHERE filertxt = "& jobnr
+	                                strSQL = "SELECT id, filnavn FROM filer WHERE filertxt = '"& jobnr & "' ORDER BY id DESC"
                                     
                                     filnavn = "Picture Not Found"
 	                                oRec.open strSQL, oConn, 3
 	                                j = 0
 	                                if not oRec.EOF then
-                                    if len(trim(oRec("filnavn"))) <> 0 then                       
+                                        if len(trim(oRec("filnavn"))) <> 0 then                       
 	            
                                           
-                                    filnavn = "<img src='../inc/upload/nt/"&oRec("filnavn")&"' alt='' border='0'>"                              
+                                        filnavn = "<img src='../inc/upload/nt/"&oRec("filnavn")&"' alt='' border='0'>"                              
 
 
-                                    j = j + 1                                    
-	                                end if
+                                        j = j + 1                                    
+	                                    end if
                                     end if	                                
 	                                oRec.close 
 
@@ -148,7 +231,7 @@ response.buffer = true
 
             strOptions = "<option value=0>Choose..</option>"
 
-            strSQL = "SELECT mid, mnavn, email FROM medarbejdere WHERE mansat <> 2 ORDER BY mnavn"
+            strSQL = "SELECT mid, mnavn, email FROM medarbejdere WHERE mansat <> 2 AND mansat <> 4 ORDER BY mnavn"
             
             oRec.open strSQL, oConn, 3
             while not oRec.EOF
@@ -197,9 +280,11 @@ response.buffer = true
 
 
 
-
-<script src="js/job_nt_jav_201802.js"></script>
-
+<%'if session("mid") = 19 OR session("mid") = 1 then  %>
+<script src="js/job_nt_jav_20200115.js"></script>
+<%'else %>
+<!--<script src="js/job_nt_jav_20200114.js"></script>-->
+<%'end if %>
 
 <%
 '*** Sætter lokal dato/kr format.
@@ -507,6 +592,7 @@ case "dbopr", "dbred"
    
     department = request("FM_department") 
     origin = request("FM_origin") 
+    
 
     if len(trim(request("FM_supplier"))) <> 0 then
     supplier = request("FM_supplier")
@@ -518,8 +604,15 @@ case "dbopr", "dbred"
 
     collection = replace(request("FM_collection"), "'", "")
     composition = replace(request("FM_composition"), "'", "") 
-
     product_group = request("FM_product_group")
+   
+    if len(trim(request("FM_gots"))) <> 0 then
+    gots = request("FM_gots")
+    else
+    gots = 0
+    end if
+
+
 
     scsq_note = replace(request("FM_scsq_note"), "'", "") 
     sample_note = replace(request("FM_sample_note"), "'", "") 
@@ -529,6 +622,7 @@ case "dbopr", "dbred"
     beskrivelse = replace(request("FM_beskrivelse"), "'", "") 'invoice note
 
     rekvnr = replace(request("FM_rekvnr"), "'", "")
+   
 
     if len(trim(request("FM_bruttooms"))) <> 0 then
     bruttooms = replace(request("FM_bruttooms"), ".","")
@@ -570,6 +664,9 @@ case "dbopr", "dbred"
     lev_betbetint =  request("FM_levbetbetint")
     lev_levbetint = request("FM_levlevbetint")
     'sup_betbetint = request("FM_betbetint")
+   
+
+
 
 
     '**** ETD Buyer ***'
@@ -595,9 +692,70 @@ case "dbopr", "dbred"
     '********* Requesred fields på ORDER jobstatus = 1 ***'
 
 
-    if cint(jobstatus) <> 3 then 'inquery
+    if cint(jobstatus) <> 3 AND cint(jobstatus) <> 4 then 'inquery + cancelled
+
+        '*** Nye fleter req på alle andre status en enquery
+        if kunde_betbetint = "0" OR kunde_levbetint = "0" OR lev_betbetint = "0" OR lev_levbetint = "0" then
+        errortype = 216
+        call showError(errortype)
+				
+        response.End
+        end if
+
+        if department = "0" then
+        errortype = 209
+        call showError(errortype)
+				
+        response.End
+        end if
+
+        if origin = "0" then
+        errortype = 222
+        call showError(errortype)
+				
+        response.End
+        end if
+
+        if len(collection) = 0 then
+        errortype = 211
+        call showError(errortype)
+				
+        response.End
+        end if
+
+         if len(composition) = 0 then
+        errortype = 213
+        call showError(errortype)
+				
+        response.End
+        end if
 
          
+        if product_group = "0" then
+        errortype = 212
+        call showError(errortype)
+				
+        response.End
+        end if
+
+        if len(rekvnr) = 0 then
+        errortype = 217
+        call showError(errortype)
+				
+        response.End
+        end if
+
+
+        if transport = "0" then
+        errortype = 219
+        call showError(errortype)
+				
+        response.End
+        end if
+
+
+
+
         if cint(jobstatus) = 1 then 'active
 
             if cdbl(supplier) = 0 OR cdbl(orderqty) = 0 OR len(orderqty) = 0 OR dt_confb_etd = "2010-01-01" OR (cint(kunde_levbetint) = 2 AND dt_confb_eta  = "2010-01-01") then
@@ -608,6 +766,48 @@ case "dbopr", "dbred"
             response.End
 
             end if
+
+
+            if cint(kpers) = 0 then
+                errortype = 210
+                call showError(errortype)
+				
+                response.End
+            end if
+
+            
+            strfilnavn = ""
+            strSQL = "SELECT id, filnavn FROM filer WHERE filertxt = "& jobnr
+            oRec.open strSQL, oConn, 3
+            if not oRec.EOF then
+                strfilnavn = oRec("filnavn")
+            end if
+            oRec.close
+
+            if strfilnavn = "" then
+                errortype = 223
+                call showError(errortype)
+				
+                response.End
+            end if
+
+            if isdate(request("FM_dt_confs_etd")) = false AND (kunde_levbetint = 1 OR lev_levbetint = 1) then
+                errortype = 220
+                call showError(errortype)
+				
+                response.End
+            end if
+
+            
+            if isdate(request("FM_dt_confb_eta")) = false AND (kunde_levbetint = 2 OR lev_levbetint = 2 OR kunde_levbetint = 3 OR lev_levbetint = 3) then
+                errortype = 224
+                call showError(errortype)
+				
+                response.End
+            end if
+            
+            
+
 
          end if
 
@@ -719,7 +919,11 @@ case "dbopr", "dbred"
     freight_pc = 0
     end if
 
-    autocal = request("FM_autocal")
+    if len(trim(request("FM_autocal"))) <> 0 AND request("FM_autocal") <> 0 then
+    autocal = 1
+    else
+    autocal = 0
+    end if
 
     if len(trim(request("FM_tax_pc"))) <> 0 then
     tax_pc = replace(request("FM_tax_pc"), ".","")
@@ -744,7 +948,12 @@ case "dbopr", "dbred"
     cost_price_pc = replace(cost_price_pc, ",",".")
     else
     cost_price_pc = 0
+        errortype = 214
+        call showError(errortype)
+				
+        response.End
     end if
+
 
 
     if len(trim(request("FM_cost_price_pc_base"))) <> 0 then
@@ -761,7 +970,16 @@ case "dbopr", "dbred"
     sales_price_pc = replace(sales_price_pc, ",",".")
     else
     sales_price_pc = 0
+
+    errortype = 215
+        call showError(errortype)
+				
+        response.End
+
     end if
+
+        
+
        
      if len(trim(request("FM_tgt_price_pc"))) <> 0 then
      tgt_price_pc = replace(request("FM_tgt_price_pc"), ".","")
@@ -824,7 +1042,11 @@ case "dbopr", "dbred"
 
     
    
-
+    if len(trim(request("FM_tarifcode"))) <> 0 then
+        tarifcode = request("FM_tarifcode")
+    else
+        tarifcode = ""
+    end if
         
         
     'freight_price_pc_valuta, tgt_price_pc_valuta
@@ -889,7 +1111,7 @@ case "dbopr", "dbred"
             end if
 
 
-        jobstatus = 1 'ALTID AKTIV
+        jobstatus = jobstatus 'De vil gern have status bliver kopieret med. 1 'ALTID AKTIV
 
          if cint(filfundet) = 1 then
          strSQLfilerKopy = replace(strSQLfilerKopy, "#NEWJOBID#", jobnr)
@@ -974,7 +1196,7 @@ case "dbopr", "dbred"
     &" dt_confb_etd, dt_confb_eta, dt_confs_etd, dt_confs_eta, dt_actual_etd, dt_actual_eta, rekvnr, jobstartdato, jobslutdato, "_
     &" dt_firstorderc, dt_ldapp, dt_sizeexp, dt_sizeapp, dt_ppexp, dt_ppapp, dt_shsexp, dt_shsapp, orderqty, shippedqty, supplier_invoiceno, transport, destination, jo_bruttooms, "_
     &" jo_udgifter_intern, dt_sup_photo_dead, dt_sup_sms_dead, freight_pc, tax_pc, comm_pc, cost_price_pc, sales_price_pc, tgt_price_pc, jo_dbproc, sales_price_pc_valuta, "_
-    &" cost_price_pc_valuta, tgt_price_pc_valuta, cost_price_pc_base, kunde_betbetint, kunde_levbetint, lev_betbetint, lev_levbetint, valuta, jfak_moms, jfak_sprog, alert, extracost, extracost_txt, cost_price_kurs_used, sales_price_kurs_used, autocal"_
+    &" cost_price_pc_valuta, tgt_price_pc_valuta, cost_price_pc_base, kunde_betbetint, kunde_levbetint, lev_betbetint, lev_levbetint, valuta, jfak_moms, jfak_sprog, alert, extracost, extracost_txt, cost_price_kurs_used, sales_price_kurs_used, autocal, tarifcode, gots"_
     &" ) "_
     &" VALUES "_
     &" ('"& dd_dato &"', '"& editor &"', "& kid &", '"& jobnavn &"', "& jobstatus & ", '"& jobnr &"', 10, "_
@@ -986,7 +1208,7 @@ case "dbopr", "dbred"
     &""& orderqty &","& shippedqty &",'"& supplier_invoiceno &"', '"& transport &"', '"& destination &"', "& bruttooms &", "_
     &" "& jo_udgifter_intern &", '"& dt_sup_photo_dead &"', '"& dt_sup_sms_dead &"', "_
     &" "& freight_pc &","& tax_pc &","& comm_pc &", "& cost_price_pc &","& sales_price_pc &","& tgt_price_pc &", "& jo_dbproc &", "& sales_price_pc_valuta &","_
-    &" "& cost_price_pc_valuta &", "& tgt_price_pc_valuta &", "& cost_price_pc_base &", "& kunde_betbetint &","& kunde_levbetint &","& lev_betbetint &","& lev_levbetint &", "& valuta &", "& jfak_moms &","& jfak_sprog &", "& alert &", "& extracost &", '"& extracost_txt &"', "& cost_price_kurs_used &", "& sales_price_kurs_used &", "& autocal &""_
+    &" "& cost_price_pc_valuta &", "& tgt_price_pc_valuta &", "& cost_price_pc_base &", "& kunde_betbetint &","& kunde_levbetint &","& lev_betbetint &","& lev_levbetint &", "& valuta &", "& jfak_moms &","& jfak_sprog &", "& alert &", "& extracost &", '"& extracost_txt &"', "& cost_price_kurs_used &", "& sales_price_kurs_used &", "& autocal &", '"& tarifcode &"', "& gots &""_
     &" )" 
 
 
@@ -1053,7 +1275,7 @@ case "dbopr", "dbred"
      &" sales_price_pc_valuta = "& sales_price_pc_valuta &", cost_price_pc_valuta = "& cost_price_pc_valuta &", tgt_price_pc_valuta = "& tgt_price_pc_valuta &", "_
      &" cost_price_pc_base = "& cost_price_pc_base &", "_
      &" kunde_betbetint = "& kunde_betbetint &", kunde_levbetint = "& kunde_levbetint &", lev_betbetint = "& lev_betbetint &", lev_levbetint = "& lev_levbetint &", valuta = "& valuta &", "_
-     &" jfak_moms= "& jfak_moms &", jfak_sprog = "& jfak_sprog &", alert = "& alert &", extracost = "& extracost &", extracost_txt = '"& extracost_txt &"', autocal = "& autocal
+     &" jfak_moms= "& jfak_moms &", jfak_sprog = "& jfak_sprog &", alert = "& alert &", extracost = "& extracost &", extracost_txt = '"& extracost_txt &"', autocal = "& autocal & ", tarifcode = '"& tarifcode &"', gots = "& gots &""
        
         if cint(update_currate) = 1 then
         strSQLjob = strSQLjob &", cost_price_kurs_used = "& cost_price_kurs_used &", sales_price_kurs_used = "& sales_price_kurs_used 
@@ -1363,6 +1585,9 @@ if func = "red" then
     id = 0
     end if
 
+    response.cookies("2015")("lastjobid") = id
+
+    tarifcode = ""
 
     strSQLjob = "SELECT jobnavn, jobnr, jobknr, jobstatus,"_
     &" department, jobans1, origin, supplier, fastpris, collection, composition, product_group, "_
@@ -1372,7 +1597,7 @@ if func = "red" then
     &" dt_firstorderc, dt_ldapp, dt_sizeexp, dt_sizeapp, dt_ppexp, dt_ppapp, dt_shsexp, dt_shsapp, orderqty, "_
     &" shippedqty, supplier_invoiceno, transport, destination, jo_bruttooms, jo_udgifter_intern, dt_sup_photo_dead, dt_sup_sms_dead, "_
     &" freight_pc, tax_pc, comm_pc, cost_price_pc, sales_price_pc, tgt_price_pc, jo_dbproc, sales_price_pc_valuta, cost_price_pc_valuta, tgt_price_pc_valuta, cost_price_pc_base, "_
-    &" kunde_betbetint, kunde_levbetint, lev_betbetint, lev_levbetint, alert, extracost, extracost_txt, cost_price_kurs_used, sales_price_kurs_used, autocal "_
+    &" kunde_betbetint, kunde_levbetint, lev_betbetint, lev_levbetint, alert, extracost, extracost_txt, cost_price_kurs_used, sales_price_kurs_used, autocal, tarifcode, gots "_
     &" FROM job WHERE id = "& id
 
     'response.write strSQLjob
@@ -1455,8 +1680,9 @@ if func = "red" then
     jo_udgifter_intern = oRec("jo_udgifter_intern")
 
 
-
     freight_pc = oRec("freight_pc")
+
+
     tax_pc = oRec("tax_pc") 
     comm_pc = oRec("comm_pc")
 
@@ -1500,6 +1726,9 @@ if func = "red" then
     else
     autocal = 0
     end if
+
+    tarifcode = oRec("tarifcode")
+    gots = oRec("gots")
 
 
     end if
@@ -1623,6 +1852,9 @@ else
 
     autocal = 0
 
+    tarifcode = ""
+    gots = 0
+
     '*** lev & betbet kunde 
     'strSQLlevbetkunde = "SELECT levbet, betbet, betbetint FROM kunder WHERE kid = " & jobknr
     'oRec.open strSQLlevbetkunde, oConn, 3
@@ -1707,7 +1939,7 @@ end if 'Opret / rediger
                        
                                <div class="col-lg-6">
                                     Buyer <span style="color:red;">*</span>
-                                   <select class="form-control input-small"id="FM_kunde" name="FM_kunde" class="form-control input-small"><%=strFil_Kon_Txt %></select>
+                                   <select class="form-control input-small" id="FM_kunde" name="FM_kunde" class="form-control input-small"><%=strFil_Kon_Txt %></select>
 
                                 </div>
 
@@ -1729,26 +1961,26 @@ end if 'Opret / rediger
                     <div class="row">
                        
                              <div class="col-lg-4 pad-t10">
-                             Place of origin
-                             <select class="form-control input-small"id="FM_origin" name="FM_origin"><option value="0">Choose..</option>
+                             Place of origin <span style="color:red;">(*)</span>
+                             <select class="form-control input-small" id="FM_origin" name="FM_origin"><option value="0">Choose..</option>
                                 <option value="Turkey" <%=originTurSel %>>Turkey</option>
                                 <option value="China" <%=originChiSel %>>China</option>
                                  <option value="India" <%=originIndSel %>>India</option>
                                 <option value="Bangladesh" <%=originBanSel %>>Bangladesh</option>
                                 <option value="Vietnam" <%=originVieSel %>>Vietnam</option>
-                                 <option value="Hongkong" <%=originHonSel %>>Hongkong</option>
+                                 <option value="Denmark" <%=originDenSel %>>Denmark</option>
                             </select>
                         </div>
 
 
                         
                         <div class="col-lg-4 pad-t10">
-                            Supplier <span style="color:red;">(*)</span>
+                            Supplier <span style="color:red;" class="active_obli">(*)</span>
                             <select class="form-control input-small"id="FM_supplier" name="FM_supplier"><%=strFil_Sup_Txt %></select>
                         </div>
 
                              <div class="col-lg-2 pad-t10">
-                                     Department
+                                     Department <span style="color:red;">(*)</span>
                                     <select class="form-control input-small"id="xFM_afd" name="FM_department"><option value="0">Choose..</option>
                                         <option value="Men" <%=departmentMenSEL %>>Men</option>
                                         <option value="Women" <%=departmentWomenSEL %>>Women</option>
@@ -1767,11 +1999,11 @@ end if 'Opret / rediger
                     <div class="row">
 
                          <div class="col-lg-4 pad-t10">
-                            Sales Rep. <span style="color:red;">(*)</span>
+                            Sales Rep. <span style="color:red;" class="active_obli">(*)</span>
 
                             <%call salesreplist(kpers) %>
 
-                             <select class="form-control input-small"id="FM_kpers" name="FM_kpers"><%=strFil_Kpers_Txt %></select>
+                             <select class="form-control input-small" id="FM_kpers" name="FM_kpers"><%=strFil_Kpers_Txt %></select>
                         </div>
                        
                          <div class="col-lg-2 pad-t10">
@@ -1860,7 +2092,7 @@ end if 'Opret / rediger
                                         <input class="form-control input-small" type="text" name="FM_jobnavn" value="<%=jobnavn %>" />
                                     </td>
 
-                                    <td>Collection <br />
+                                    <td>Collection <span style="color:red;">(*)</span> <br />
                                         <input class="form-control input-small" type="text" name="FM_collection" value="<%=collection %>" />
                                     </td>
                                                                                                         
@@ -1884,17 +2116,27 @@ end if 'Opret / rediger
                                             </span>
                                         </div>
                                     </td>
+                                    <td>Tarif kode <br />
+                                        <input type="text" name="FM_tarifcode" class="form-control input-small" value="<%=tarifcode %>" />
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2">Product group <br />
-                                        <select class="form-control input-small" name="FM_product_group"><%=strFil_PG_Txt %></select>
+                                    <td colspan="2">Product group <span style="color:red;">(*)</span> <span style="background-color:yellow;"> (Adds Freight Price PC if Dev. term B. <> FOB AND Dev. term. Sup = FOB AND transport = SEA or Truck )</span> <br />
+                                        <select class="form-control input-small" name="FM_product_group" id="FM_product_group"><%=strFil_PG_Txt %></select>
                                     </td>
                                     <td>
-                                        Composition <br />
+                                        Composition <span style="color:red;" class=active_obli">(*)</span> <br />
                                         <input class="form-control input-small" type="text" name="FM_composition" value="<%=composition %>" />
                                     </td>
                                 </tr>
 
+                                <%if cint(gots) = 1 then
+                                    gotsCHK = "CHECKED"
+                                    else
+                                    gotsCHK = ""
+                                   end if%>
+
+                                <tr><td colspan="3"><input type="checkbox" name="FM_gots" value="1" <%=gotsCHK %>/> GOTS certification</td></tr>
                                 <tr>
                                     <td>
                                         Sourcing deadline <br />
@@ -2013,7 +2255,7 @@ end if 'Opret / rediger
                         
                             <div class="col-lg-3">
                                 <table class="tablecolor">
-                                    <%
+                                    <%                                 
                                     jobid = request("jobid")
 	                                strSQL = "SELECT id, filnavn FROM filer WHERE filertxt = "& jobnr
                                     
@@ -2024,7 +2266,7 @@ end if 'Opret / rediger
 	                                %>
                                     <tr>
                                         <td>
-                                            Picture <br />
+                                            Picture <span style="color:red;" class=active_obli">(*)</span> <br />
                                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                                 <div class="fileinput-preview thumbnail" style="width: 250px; height: 300px;">
                                                     <img src="../inc/upload/<%=lto%>/<%=oRec("filnavn")%>" alt='' border='0'>                                                   
@@ -2043,7 +2285,7 @@ end if 'Opret / rediger
                                     %>
                                     <tr>
                                         <td>
-                                            Picture <br />
+                                            Picture <span style="color:red;" class="active_obli">(*)</span> <br />
                                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                                 <div class="fileinput-new thumbnail" style="width: 250px; height: 300px;" id="nt_file">                                                  
                                                 </div>
@@ -2104,7 +2346,7 @@ end if 'Opret / rediger
 
                        <div class="row">
                                <div class="col-lg-2 pad-t10">
-                                Order Qty. <span style="color:red;">(*)</span>
+                                Order Qty. <span style="color:red;" class="active_obli">(*)</span>
                                 <input class="form-control input-small" type="text" name="FM_orderqty" id="orderqty" value="<%=orderqty%>" />
                             </div>
                              <div class="col-lg-10 pad-t10">&nbsp;</div>
@@ -2121,7 +2363,7 @@ end if 'Opret / rediger
 
                         <div class="row">
                             <div class="col-lg-4 pad-t10">
-                            Cost price PC (<label id="cost_price_pc_label"><%=formatnumber(cost_price_pc_base, 4) %></label>) base amount here
+                            Cost price PC (<label id="cost_price_pc_label"><%=formatnumber(cost_price_pc_base, 4) %></label>) base amount here <span style="color:red;">*</span>
                           
                                 <input class="form-control input-small" type="text" name="FM_cost_price_pc" id="cost_price_pc" value="<%=formatnumber(cost_price_pc, 4) %>" /> 
                                 <input class="form-control input-small"type="hidden" name="FM_cost_price_pc_base" id="cost_price_pc_base" value="<%=formatnumber(cost_price_pc_base, 4) %>" />
@@ -2139,7 +2381,7 @@ end if 'Opret / rediger
                        <div class="row">
 
                               <div class="col-lg-4 pad-t10">
-                                Sales price PC <span style="color:#999999;">(invoice currency)</span>
+                                Sales price PC <span style="color:#999999;">(invoice currency)</span> <span style="color:red;">*</span>
                                     <input class="form-control input-small" type="text" name="" id="sales_price_pc_label" value="<%=formatnumber(sales_price_pc, 4) %>" DISABLED/>
                                     <input class="form-control input-small" type="text" name="FM_sales_price_pc" id="sales_price_pc" value="<%=formatnumber(sales_price_pc, 4) %>"/>
                               </div>
@@ -2181,7 +2423,7 @@ end if 'Opret / rediger
                           
 
                                 <%
-                                    if autocal <> 0 then
+                                    if cint(autocal) = 1 then
                                     freight_writeable = "READONLY"
                                     autocalCHB = "CHECKED"
                                     else
@@ -2200,11 +2442,14 @@ end if 'Opret / rediger
                              <%call valutakoder("freight_price_pc_valuta", freight_price_pc_valuta, 1) %>
                                 </div>
 
+                                <%if cint(autocal) = 1 then %>
                                 <div class="col-lg-2 pad-t10"><br /> 
-                                    Auto calculate <input type="checkbox" name="auto_cal" id="auto_cal" <%=autocalCHB %> />
-                                    <input type="hidden" name="FM_autocal" id="FM_autocal" value="<%=autocal %>" />
+                                    Auto calculate <input type="checkbox" value="1" name="FM_autocal" id="auto_cal" <%=autocalCHB %> />
+                                    <input type="hidden" name="xFM_autocal" id="FM_autocal" value="<%=autocal %>" />
                                 </div>
-                                
+                                <%else %>
+                                       <input type="hidden" name="FM_autocal" id="FM_autocal" value="0" />
+                                <%end if %>
                                
                         </div>
 
@@ -2222,13 +2467,16 @@ end if 'Opret / rediger
 
 
                          <div class="row">
-                          <div class="col-lg-3 pad-t10">Total cost price DKK <span style="color:#999999;">(Order Qty. * Cost. PC * TAX PC) + (Freight PC * Order Qty.)</span>
+                          <div class="col-lg-4 pad-t10">Total cost price DKK 
+                              
+                              <br /><span style="color:#999999; font-size:10px;">New 12.12.2019: ((cost. PC + Freight PC)*Order Qty.) * TAX</span>
                           
                                 <input class="form-control input-small" type="text" id="udgifter_intern_label" value="<%=formatnumber(jo_udgifter_intern, 2) %>" DISABLED/>
                                 <input class="form-control input-small"type="hidden" name="FM_jo_udgifter_intern" id="udgifter_intern" value="<%=formatnumber(jo_udgifter_intern, 2) %>"/>
+                               <span style="color:#CCCCCC; font-size:10px;">Old: (Order Qty. * Cost. PC * TAX PC) + (Freight PC * Order Qty.)</span>
                            </div>
 
-                          <div class="col-lg-3 pad-t10">Total sales price DKK <span style="color:#999999;">(Order Qty. * Sales PC)</span>
+                          <div class="col-lg-2 pad-t10">Total sales price DKK <span style="color:#999999;">(Order Qty. * Sales PC)</span>
                           
                                 <input class="form-control input-small" type="text" id="bruttooms_label" value="<%=formatnumber(bruttooms, 2) %>" DISABLED/>
                                 <input class="form-control input-small"type="hidden" name="FM_bruttooms" id="bruttooms" value="<%=formatnumber(bruttooms, 2) %>"/>
@@ -2278,7 +2526,7 @@ end if 'Opret / rediger
 
                         <div class="row">
                               <div class="col-lg-6 pad-t10"><input type="hidden" id="FM_t5" value="0" />
-                            Payment Term Buyer
+                            Payment Term Buyer <span style="color:red;">(*)</span>
                              <%
                             disa = 0
                             lang = 1
@@ -2288,11 +2536,17 @@ end if 'Opret / rediger
 
                         
                                  <div class="col-lg-6 pad-t10 pad-r30">
-                                Delivery Term Buyer 
-                                <select class="form-control input-small" name="FM_levbetint">
+                                Delivery Term Buyer  <span style="color:red;" class="active_obli">(*)</span>
+                                <select class="form-control input-small" id="FM_levbetint" name="FM_levbetint">
                                     <option value="0" <%=kunde_levbetint0SEL %>>Choose..</option>
                                     <option value="1" <%=kunde_levbetint1SEL %>>FOB</option>
-                                    <option value="2" <%=kunde_levbetint2SEL %>>DDP</option>
+                                    
+                                    <%'if session("mid") = 19 OR session("mid") = 1 then %>
+                                    <option value="2" <%=kunde_levbetint2SEL %>>DDP EU</option>
+                                    <option value="22" <%=kunde_levbetint22SEL %>>DDP T1</option>
+                                    <%'else %>
+                                    <!--<option value="2" <%=kunde_levbetint2SEL %>>DDP</option>-->
+                                    <%'end if %>
                                     <option value="3" <%=kunde_levbetint3SEL %>>CIF</option>
 
                                 </select></div>
@@ -2303,7 +2557,7 @@ end if 'Opret / rediger
                         
                          <div class="row">
                                    <div class="col-lg-6 pad-t10">
-                                Payment Term Supplier
+                                Payment Term Supplier <span style="color:red;" class="active_obli">(*)</span>
                                 <%
                                 disa = 0
                                 lang = 1
@@ -2312,9 +2566,9 @@ end if 'Opret / rediger
                                     </div>
                                
                                    <div class="col-lg-6 pad-t10 pad-r30"">
-                            Delivery Term Supplier
+                            Delivery Term Supplier <span style="color:red;">(*)</span>
                          
-                              <select class="form-control input-small" name="FM_levlevbetint">
+                              <select class="form-control input-small" id="FM_levlevbetint" name="FM_levlevbetint">
                                 <option value="0" <%=levlevbetint0SEL %>>Choose..</option>
                                 <option value="1" <%=levlevbetint1SEL %>>FOB</option>
                                 <option value="2" <%=levlevbetint2SEL %>>DDP</option>
@@ -2365,7 +2619,7 @@ end if 'Opret / rediger
           
                        <div class="row">
                             <div class="col-lg-3 pad-t10">
-                            Buyers Order No. (PO no.)
+                            Buyers Order No. (PO no.) <span style="color:red;">*</span>
                             <input class="form-control input-small" type="text" name="FM_rekvnr" value="<%=rekvnr %>" />
                         </div>
 
@@ -2376,7 +2630,7 @@ end if 'Opret / rediger
                         </div>
 
                        <div class="col-lg-3 pad-t10">
-                            Destination
+                            Destination <span style="color:red;">*</span>
                             <select class="form-control input-small"name="FM_destination">
                                 <option>Denmark</option>
                                  <option disabled>------------------------</option>
@@ -2391,8 +2645,8 @@ end if 'Opret / rediger
                         </div>
 
                        <div class="col-lg-3 pad-t10 pad-r30">
-                            Transport
-                            <select class="form-control input-small"name="FM_transport">
+                            Transport <span style="color:red;">*</span>
+                            <select class="form-control input-small" id="FM_transport" name="FM_transport">
                                 <option value="0">Choose transport</option>
                                 <option value="By Air" <%=transportFlSel %>>By Air</option>
                                 <option value="By Sea" <%=transportShSel %>>By Sea (payment terms +5 weeks)</option>
@@ -2421,7 +2675,7 @@ end if 'Opret / rediger
                         </div>
 
                             <div class="col-lg-2 pad-t10">
-                            Confirmed supplier ETD
+                            Confirmed supplier ETD <span style="color:red;">*</span>
                                <div class='input-group date'>
                                  <input class="form-control input-small" type="text" name="FM_dt_confs_etd" value="<%=dt_confs_etd%>" placeholder="dd-mm-yyyy" />
                             
@@ -2456,7 +2710,7 @@ end if 'Opret / rediger
                         </div>
                        
                           <div class="col-lg-2 pad-t10">
-                            Actual ETD <span style="color:red;">(*)</span> <span style="font-size:10px;">(= invoice date)</span>
+                            Actual ETD <span style="color:red;" class="shipped_obli">*</span> <span style="font-size:10px;">(= invoice date)</span>
                             
                                <div class='input-group date'>
                                  <input class="form-control input-small" type="text" name="FM_dt_actual_etd" value="<%=dt_actual_etd%>" placeholder="dd-mm-yyyy" />
@@ -2467,7 +2721,7 @@ end if 'Opret / rediger
                               </div>
                         </div>
                          <div class="col-lg-2 pad-t10 pad-r30">
-                            Act. ETA <span style="font-size:10px;">(= inv.date DDP)</span>
+                            Act. ETA <span style="color:red;" class="shipped_obli">*</span> <span style="font-size:10px;">(= inv.date DDP)</span>
                               <div class='input-group date'>
                                  <input class="form-control input-small" type="text"  name="FM_dt_actual_eta" value="<%=dt_actual_eta%>" placeholder="dd-mm-yyyy" />
                                         <span class="input-group-addon input-small">
@@ -2483,7 +2737,7 @@ end if 'Opret / rediger
 
                         <div class="row">
                         <div class="col-lg-3 pad-t10">
-                            Shipped Qty. <span style="color:red;">(*)</span>
+                            Shipped Qty. <span style="color:red;" class="active_obli">(*)</span>
                             <input class="form-control input-small" type="text" id="shippedqty" name="FM_shippedqty" value="<%=shippedqty%>" />
                         </div>
                             <div class="col-lg-5 pad-t10 pad-r30">
@@ -2879,6 +3133,8 @@ end if 'Opret / rediger
             end if
         end if
     end if
+
+
        if len(trim(request("FM_status0"))) <> 0 then
     strStatusSQL = strStatusSQL & " OR jobstatus = 0"
     statusCHK0 = "CHECKED"
@@ -2898,6 +3154,30 @@ end if 'Opret / rediger
     end if
     
     strStatusSQL = strStatusSQL & ")"
+
+
+    if len(trim(request("FM_gots"))) <> 0 then
+    gotsCHK = "CHECKED"
+    response.cookies("orders")("gots") = "1" 
+    strGotsSQL = strGotsSQL & " AND gots = 1"
+    else
+        if cint(post) = 1 then
+        gotsCHK = ""
+        response.cookies("orders")("gots") = ""
+        else
+            if request.cookies("orders")("gots") <> "" then
+            strGotsSQL = strGotsSQL & " AND gots = 1"
+            gotsCHK = "CHECKED"
+            else
+            gotsCHK = ""
+            end if
+        end if
+    end if
+    
+    
+    
+
+
     if len(trim(request("sort"))) <> 0 then
     sort = request("sort")
     response.cookies("orders")("orderby") = sort
@@ -3273,6 +3553,8 @@ end if 'Opret / rediger
                                <input type="checkbox" name="FM_status0" value="0" class="checkbox-inline" <%=statusCHK0 %>> Invoiced/closed
                                <input type="checkbox" name="FM_status4" value="4"  class="checkbox-inline" <%=statusCHK4 %>> Cancelled
 
+                                <br /><br />
+                                   <input type="checkbox" name="FM_gots" value="1"  <%=gotsCHK %>> GOTS
 
                                </div>
 
@@ -3456,7 +3738,7 @@ if len(trim(sogVal)) <> 0 then
 		end if				
     sogValSQL = strsogValKri 
     '******************************************************
-strSQLjobsel = "SELECT j.id, jobnavn, jobnr, k.kkundenavn, k.kid, k2.kkundenavn AS suppliername, jobstatus, supplier, mg.navn AS mgruppenavn, rekvnr, supplier_invoiceno, fastpris, collection, kunde_levbetint, "
+strSQLjobsel = "SELECT j.id, jobnavn, jobnr, k.kkundenavn, k.kid, k2.kkundenavn AS suppliername, jobstatus, supplier, mg.navn AS mgruppenavn, rekvnr, supplier_invoiceno, fastpris, collection, kunde_levbetint, gots, "
 if cint(rapporttype) = 0 OR cint(rapporttype) = 3 then
 strSQLjobsel = strSQLjobsel &" jobstartdato, orderqty, shippedqty, product_group, kundekpers, m.mnavn AS salesrep, m.init,"
 strSQLjobsel = strSQLjobsel &" comm_pc, jo_dbproc, destination, dt_confb_etd, dt_confb_eta, dt_confs_etd, dt_actual_etd, sales_price_pc, sales_price_pc_valuta, cost_price_pc, cost_price_pc_valuta, freight_pc, tax_pc,"
@@ -3475,10 +3757,11 @@ if cint(rapporttype) = 0 OR cint(rapporttype) = 3 then
 strSQLjobsel = strSQLjobsel &" LEFT JOIN medarbejdere AS m ON (m.mid = j.jobans1)"
 end if
 if post <> 0 OR lastid <> 0 OR media = "exp" then
-strSQLjobsel = strSQLjobsel &" WHERE j.id <> 0 "& sogValSQL &" "& strStatusSQL &" "& strSQLdtKri &" "& salesrepSQL &" "& supplierSQL &" "& buyerSQL &" ORDER BY "& strSQLOdrBy &" LIMIT 2000" 
+strSQLjobsel = strSQLjobsel &" WHERE j.id <> 0 "& sogValSQL &" "& strStatusSQL &" "& strSQLdtKri &" "& salesrepSQL &" "& supplierSQL &" "& buyerSQL &" "& strGotsSQL &" ORDER BY "& strSQLOdrBy &" LIMIT 2000" 
 else
 strSQLjobsel = strSQLjobsel &" WHERE j.id = -1" 
 end if
+
 'if session("mid") = 1 then
 'response.write strSQLjobsel
 'response.Flush    
@@ -3821,7 +4104,13 @@ while not oRec.EOF
                                      <%else %>
                                     <%=oRec("jobnavn") %>
                                     <%end if %>
-                                     <br /><span style="font-size:9px; color:#999999;"><%=left(oRec("mgruppenavn"),15) %></span> 
+
+                                    <%if cint(oRec("gots")) = 1 then %>
+                                    &nbsp;<span style="color:orangered">GOTS</span>
+                                    <%end if %>
+                                     
+                                    <br /><span style="font-size:9px; color:#999999;"><%=left(oRec("mgruppenavn"),15) %></span> 
+                                    
                                     
 
                                 </td>

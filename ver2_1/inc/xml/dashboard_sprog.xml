@@ -84,7 +84,58 @@
     <txt_49>Klokkeslet angives således</txt_49>
 
     <txt_50>9:45, 12:23, 23:55 etc. </txt_50>
-   
+
+    
+    <txt_51 >FC</txt_51>
+    <txt_52 >RL</txt_52>
+    <txt_53 >Timer i forhold til norm</txt_53>
+
+    <txt_54>Din .CSV fil er klar</txt_54>
+    <txt_55 >Jan</txt_55>
+    <txt_56 >Feb</txt_56>
+    <txt_57 >Mar</txt_57>
+    <txt_58 >Apr</txt_58>
+    <txt_59 >Maj</txt_59>
+    <txt_60 >Jun</txt_60>
+    <txt_61 >Jul</txt_61>
+    <txt_62 >Aug</txt_62>
+    <txt_63 >Sep</txt_63>
+    <txt_64 >Okt</txt_64>
+    <txt_65 >Nov</txt_65>
+    <txt_66 >Dec</txt_66>
+
+    <txt_67 >Kvt.</txt_67>
+    <txt_68 >Alle medarbejdere i valgt periode</txt_68>
+    <txt_69 >Medarbejder</txt_69>
+    <txt_70 >Forecast</txt_70>
+    <txt_71 >Realiseret</txt_71>
+    <txt_72 >Rest</txt_72>
+    <txt_73 >Rest ialt</txt_73>
+    <txt_74 >ingen</txt_74>
+    <txt_75 >t.</txt_75>
+    <txt_76 >Flere medarbejdere valgt</txt_76>
+    <txt_77 >Timer</txt_77>
+    <txt_78 >timepris - Kost.</txt_78>
+    <txt_79 >Fravær timer</txt_79>
+    <txt_80 >Heraf fakturerbare</txt_80>
+    <txt_81 >Forecasttimer</txt_81>
+    <txt_82 >Forecast på projekter med lev. dato i valgt periode.</txt_82>
+    <txt_83 >Jobnavn</txt_83>
+    <txt_84 >Forretningsområde</txt_84>
+    <txt_85 >Business Unit</txt_85>
+    <txt_86 >Realiseret</txt_86>
+    <txt_87 >Dine job med forecast på</txt_87>
+    <txt_88 >Lev. dato</txt_88>
+    <txt_89 >Kunder top 10</txt_89>
+    <txt_90 >Kunder (kundenr</txt_90>
+    <txt_91 >Budget</txt_91>
+    <txt_92 >Omsætning</txt_92>
+    <txt_93 >Rest Budget</txt_93>
+    <txt_94 >Rest FC</txt_94>
+    <txt_95 >Kr.</txt_95>
+    <txt_96 >Job</txt_96>
+    <txt_97 >Timefordeling fra donut</txt_97>
+    <txt_98 >Projektansvarlig</txt_98>
     
   </dk>
 
@@ -106,7 +157,7 @@
     <txt_10>Jobname/No.</txt_10>
     
     
-    <txt_11>Timesplit - Businessarea %</txt_11>
+    <txt_11>Timesplit - Bus.area %</txt_11>
     <txt_12>Invoice index</txt_12>
     
     <txt_13>real. Invoicable hours</txt_13>
@@ -175,7 +226,57 @@
     <txt_49>Timeformat</txt_49>
 
     <txt_50>9:45, 12:23, 23:55 etc. </txt_50>
-    
+
+    <txt_51 >FC</txt_51>
+    <txt_52 >AC</txt_52>
+    <txt_53 >Hours compared to rated</txt_53>
+
+    <txt_54>Your .CSV file is ready</txt_54>
+    <txt_55 >Jan</txt_55>
+    <txt_56 >Feb</txt_56>
+    <txt_57 >Mar</txt_57>
+    <txt_58 >Apr</txt_58>
+    <txt_59 >May</txt_59>
+    <txt_60 >Jun</txt_60>
+    <txt_61 >Jul</txt_61>
+    <txt_62 >Aug</txt_62>
+    <txt_63 >Sep</txt_63>
+    <txt_64 >Oct</txt_64>
+    <txt_65 >Nov</txt_65>
+    <txt_66 >Dec</txt_66>
+
+    <txt_67 >qtr.</txt_67>
+    <txt_68 >All employees during the selected period</txt_68>
+    <txt_69 >Employee</txt_69>
+    <txt_70 >Forecast</txt_70>
+    <txt_71 >Actual</txt_71>
+    <txt_72 >Remain</txt_72>
+    <txt_73 >Remain total</txt_73>
+    <txt_74 >none</txt_74>
+    <txt_75 >h.</txt_75>
+    <txt_76 >Multiple employees selected (peers)</txt_76>
+    <txt_77 >Hours</txt_77>
+    <txt_78 >hourly rate - cost.</txt_78>
+    <txt_79 >Absence hours</txt_79>
+    <txt_80 >Billable hours</txt_80>
+    <txt_81 >Forecast Hours</txt_81>
+    <txt_82 >Forecast on projects with delivery in the selected period.</txt_82>
+    <txt_83 >Job name</txt_83>
+    <txt_84 >Business area</txt_84>
+    <txt_85 >Business Unit</txt_85>
+    <txt_86 >Actual</txt_86>
+    <txt_87 >Your jobs with forecast</txt_87>
+    <txt_88 >Delivery date</txt_88>
+    <txt_89 >Customers top 10</txt_89>
+    <txt_90 >Customers (customer no)</txt_90>
+    <txt_91 >Budget</txt_91>
+    <txt_92 >Revenue</txt_92>
+    <txt_93 >Remain Budget</txt_93>
+    <txt_94 >Remain FC</txt_94>
+    <txt_95 >Kr.</txt_95>
+    <txt_96 >Job</txt_96>
+    <txt_97 >Hours from donut</txt_97>
+    <txt_98 >Project responsible</txt_98>
 
 
   </uk>

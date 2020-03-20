@@ -615,6 +615,8 @@ if len(session("user")) = 0 then
     redim stadesum_prmdGT(seomsfor_antalmdHigend)
     stadesum_prGT = 0
 
+            
+
 
     for m = 0 to seomsfor_antalmdHigend
 
@@ -744,7 +746,7 @@ if len(session("user")) = 0 then
   
 
 	strSQL = "SELECT job.id AS jobid, jobnr, jobnavn, jobstartdato, jobslutdato, lukkedato, jo_bruttooms, jobTpris, fakturerbart, budgettimer, fastpris, jobstatus, sandsynlighed, jo_udgifter_ulev, jo_valuta, jo_valuta_kurs, "_
-    &" jobans1, jobans2, jobans3, jobans4, jobans5, jobans_proc_1, jobans_proc_2, jobans_proc_3, jobans_proc_4, jobans_proc_5, "
+    &" jobans1, jobans2, jobans3, jobans4, jobans5, jobans_proc_1, jobans_proc_2, jobans_proc_3, jobans_proc_4, jobans_proc_5, serviceaft, "
 
 
     if cint(showSalgsAnv) = 1 then
@@ -1006,6 +1008,33 @@ if len(session("user")) = 0 then
     end if 
     oRec6.close
 
+
+                                            if cint(oRec("serviceaft")) <> 0 then
+
+
+                                           '** Medtager hvis job er faktureret som en del af en aftale 20180625
+                                            strSQLFakaftale = "SELECT IF(faktype = 0, COALESCE(sum(fd.aktpris * (fd.kurs/100)),0), COALESCE(sum(fd.aktpris * -1 * (fd.kurs/100)),0)) AS fakbeloeb FROM fakturaer f "_
+                                            &" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& oRec("jobid") &") WHERE f.aftaleid = "& oRec("serviceaft") &" AND f.aftaleid <> 0 AND shadowcopy <> 1 GROUP BY fd.aktid, faktype"
+                                            '"& oRec4("jid") &"
+
+                                            'if session("mid") = 1 then
+                                            'Response.write strSQLFakaftale
+                                            'Response.flush
+                                            'end if
+
+                                            oRec8.open strSQLFakaftale, oConn, 3
+                                            while not oRec8.EOF
+
+                                                fakturasum = fakturasum + oRec8("fakbeloeb") 
+                            
+                                            oRec8.movenext
+                                            wend
+                                            oRec8.close
+
+                                            end if
+                                            
+
+
     if fakturasum <> 0 then
     fakturasumTxt = formatnumber(fakturasum, 2)
     fakturasumExp = formatnumber(fakturasum, 2)
@@ -1036,6 +1065,28 @@ if len(session("user")) = 0 then
 
     end if 
     oRec6.close
+
+
+                        
+                                           '** Medtager hvis job er faktureret som en del af en aftale 20180625
+                                            strSQLFakaftale = "SELECT IF(faktype = 0, COALESCE(sum(fd.aktpris * (fd.kurs/100)),0), COALESCE(sum(fd.aktpris * -1 * (fd.kurs/100)),0)) AS fakbeloeb FROM fakturaer f "_
+                                            &" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& oRec("jobid") &") "& strSQLperFak &" WHERE shadowcopy <> 1  GROUP BY fd.aktid, faktype"
+                                            '"& oRec4("jid") &"
+
+                                            'if session("mid") = 1 then
+                                            'Response.write strSQLFakaftale
+                                            'Response.flush
+                                            'end if
+
+                                            oRec8.open strSQLFakaftale, oConn, 3
+                                            while not oRec8.EOF
+
+                                                fakturasumFY = fakturasumFY + oRec8("fakbeloeb") 
+                            
+                                            oRec8.movenext
+                                            wend
+                                            oRec8.close
+
 
     if fakturasumFY <> 0 then
     fakturasumFYTxt = formatnumber(fakturasumFY, 2)
@@ -1068,7 +1119,7 @@ if len(session("user")) = 0 then
         for m = 0 to seomsfor_antalmdHigend
     
         stadesum_prmd(m) = 0
-        strSQLmilepale = "SELECT SUM(belob) AS stadesum FROM milepale WHERE type = 1 AND jid = "& oRec("jobid") &" AND (MONTH(milepal_dato) = "& strMrdno(m) &" AND YEAR(milepal_dato) = "& strYearno(m) &") GROUP BY jid"
+        strSQLmilepale = "SELECT COALESCE(SUM(belob), NULL, 0) AS stadesum FROM milepale WHERE type = 1 AND jid = "& oRec("jobid") &" AND (MONTH(milepal_dato) = "& strMrdno(m) &" AND YEAR(milepal_dato) = "& strYearno(m) &") GROUP BY jid"
     
             'response.write strSQLmilepale & "<br>"
             'response.flush
@@ -1084,9 +1135,11 @@ if len(session("user")) = 0 then
         end if 
         oRec6.close
 
-        
-       stadesum_prmdGT(m) = stadesum_prmdGT(m) + stadesum_prmd(m)
-
+        if stadesum_prmd(m) <> 0 AND isNULL(stadesum_prmd(m)) <> true then
+        stadesum_prmdGT(m) = (stadesum_prmdGT(m)*1) + (stadesum_prmd(m)/1)
+        else
+        stadesum_prmdGT(m) = stadesum_prmdGT(m) 
+        end if
 
        if cint(directexcel) <> 1 then
 
@@ -1324,7 +1377,15 @@ if len(session("user")) = 0 then
         if seomsfor_antalmdHigend = 11 then
             for m = 0 TO seomsfor_antalmdHigend
 
-             strJob = strJob & "<td align=right style='padding:2px 10px 2px 2px; font-size:10px;'>"& left(monthname(strMrdno(m)), 3) &" "& right(strYearno(m), 2) &"<br>"& formatnumber(stadesum_prmdGT(m), 2) &"</td>"
+              stadesum_prmdGTTxt = 0
+
+              if len(trim(stadesum_prmdGT(m))) <> 0 AND isNull(stadesum_prmdGTTxt) <> true then
+              stadesum_prmdGTTxt = stadesum_prmdGT(m) 'formatnumber(stadesum_prmdGT(m), 2)
+              else
+              stadesum_prmdGTTxt = 0
+              end if
+
+             strJob = strJob & "<td align=right style='padding:2px 10px 2px 2px; font-size:10px;'>"& left(monthname(strMrdno(m)), 3) &" "& right(strYearno(m), 2) &"<br>"& stadesum_prmdGTTxt &"</td>"
 
             next
         end if

@@ -8,6 +8,7 @@ Set objXmlHttp_job = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp_job.open "GET", "http://localhost/inc/xml/job_sprog.xml", False
 'objXmlHttp_job.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/job_sprog.xml", False
 'objXmlHttp_job.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/job_sprog.xml", False
+'objXmlHttp_job.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver4_22/inc/xml/job_sprog.xml", False
 'objXmlHttp_job.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/job_sprog.xml", False
 objXmlHttp_job.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/job_sprog.xml", False
 
@@ -775,6 +776,11 @@ Set oNodes_job = objXmlDom_job.documentElement.selectNodes(sXPathQuery_job)
     job_txt_623 = oNode_job.selectSingleNode("txt_623").Text
     job_txt_624 = oNode_job.selectSingleNode("txt_624").Text
     job_txt_625 = oNode_job.selectSingleNode("txt_625").Text
+    job_txt_626 = oNode_job.selectSingleNode("txt_626").Text
+    job_txt_627 = oNode_job.selectSingleNode("txt_627").Text
+    job_txt_628 = oNode_job.selectSingleNode("txt_628").Text
+    job_txt_629 = oNode_job.selectSingleNode("txt_629").Text
+    job_txt_630 = oNode_job.selectSingleNode("txt_630").Text
 
           
     next
@@ -784,6 +790,7 @@ Set oNodes_job = objXmlDom_job.documentElement.selectNodes(sXPathQuery_job)
     select case lto
     case "dencker", "intranet - local"
     job_txt_063 = "Pre-work"
+    job_txt_223 = "Pre-work"
     job_txt_056 = replace(job_txt_056, "Proposal", "Pre-work") 
     job_txt_062 = replace(job_txt_062, "Proposal", "Pre-work") 
     job_txt_064 = replace(job_txt_064, "Proposal", "Pre-work") 

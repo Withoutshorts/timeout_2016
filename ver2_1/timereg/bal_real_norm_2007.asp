@@ -57,16 +57,44 @@ if len(session("user")) = 0 then
 
         afspadudb_mids = split(request("FM_afspadudb_mids"), ", ")
         afspadudb_timer = split(request("FM_afspadudb"), ", ")
-
+       
         for t = 0 TO UBOUND(afspadudb_mids)
 
             afspadudb_mids(t) = trim(afspadudb_mids(t))
             afspadudb_timer(t) = trim(afspadudb_timer(t))
+            akttyp = 32
 
-            call indlasTimertilUdbetaling(lto, afspadudb_mids(t), afspadudb_timer(t))
+            call indlasTimertilUdbetaling(lto, afspadudb_mids(t), afspadudb_timer(t), akttyp)
 
         next
 
+        frokostudb_mids = split(request("FM_frokostudb_mids"), ", ")
+        frokostudb_timer = split(request("FM_frokostudb"), ", ")
+       
+        for t = 0 TO UBOUND(afspadudb_mids)
+
+            afspadudb_mids(t) = trim(afspadudb_mids(t))
+            afspadudb_timer(t) = trim(afspadudb_timer(t))
+            akttyp = 10
+
+            call indlasTimertilUdbetaling(lto, frokostudb_mids(t), frokostudb_timer(t), akttyp)
+
+        next
+
+        kobtviaudb_mids = split(request("FM_kobtviaudb_mids"), ", ")
+        kobtviaudb_timer = split(request("FM_kobtviaudb"), ", ")
+       
+        for t = 0 TO UBOUND(afspadudb_mids)
+
+            kobtviaudb_mids(t) = trim(kobtviaudb_mids(t))
+            kobtviaudb_timer(t) = trim(kobtviaudb_timer(t))
+            akttyp = 124
+
+            call indlasTimertilUdbetaling(lto, kobtviaudb_mids(t), kobtviaudb_timer(t), akttyp)
+
+        next
+
+         
 
         Response.write "HR listen er opdateret. <a href='bal_real_norm_2007.asp'>Videre til oversigten.</a>" 
         'Response.redirect "bal_real_norm_2007.asp"
@@ -90,11 +118,19 @@ if len(session("user")) = 0 then
     end if
 
     if len(trim(request("FM_lukproj"))) <> 0 AND request("FM_lukproj") <> 0 then
-    lukproj = 1
+    lukproj = request("FM_lukproj") '1
     else
     lukproj = 0
     end if
+
+    if len(trim(request("FM_lukmtyper"))) <> 0 AND request("FM_lukmtyper") <> 0 then
+    lukmtyper = request("FM_lukmtyper") 
+    else
+    lukmtyper = "0"
+    end if
     
+    
+
 
     '** Er det første loop **'
     if request("lmt") <> "" then
@@ -188,7 +224,7 @@ if len(session("user")) = 0 then
 
 
               if func = "lukper" then 'kun føste gang, da den ellers tjekker op med sin egen lønperide afslutning
-             call lonKorsel_lukketPer(now, -2)
+             call lonKorsel_lukketPer(now, -2, lastMid)
              else
              lonKorsel_lukketPerDt = lastLkDato
              end if
@@ -210,7 +246,7 @@ if len(session("user")) = 0 then
 
                   
                       '**** Lukker periode
-                     strSQLluk = "INSERT INTO lon_korsel (lk_dato, lk_editor, lk_correction_on, lk_close_projects) VALUES ('"& lukDato &"', '"& session("user") &"', 0, "& lukproj &")"
+                     strSQLluk = "INSERT INTO lon_korsel (lk_dato, lk_editor, lk_correction_on, lk_close_projects, lk_medarbtype) VALUES ('"& lukDato &"', '"& session("user") &"', 0, "& lukproj &", '"& lukmtyper &"')"
 	                 oConn.execute(strSQLluk)
                   
           
@@ -251,14 +287,19 @@ if len(session("user")) = 0 then
 
 
     <%      
-
-
             response.flush
 
-             if func = "lukper_ok" then
-             strSQL = "SELECT mid FROM medarbejdere WHERE mansat = 1 AND ansatdato <= '"& lukDato &"' AND mid > "& lastMid &" ORDER BY mid LIMIT 7" '(mid <> 1 AND mid <> 12 AND mid <> 21 AND mid <> 5 AND mid <> 7 AND mid <> 8) 'AND mid = 7 AND (mid <> 1 AND mid <> 12 AND mid <> 21)
+
+             if lukmtyper <> "0" then
+             lukmtyperSQL = " AND medarbejdertype = " & lukmtyper
              else
-             strSQL = "SELECT mid FROM medarbejdere WHERE mansat = 1 AND ansatdato <= '"& lukDato &"' ORDER BY mid"
+             lukmtyperSQL = ""
+             end if
+
+             if func = "lukper_ok" then
+             strSQL = "SELECT mid FROM medarbejdere WHERE mansat = 1 AND ansatdato <= '"& lukDato &"' AND mid > "& lastMid &" "& lukmtyperSQL &" ORDER BY mid LIMIT 7" '(mid <> 1 AND mid <> 12 AND mid <> 21 AND mid <> 5 AND mid <> 7 AND mid <> 8) 'AND mid = 7 AND (mid <> 1 AND mid <> 12 AND mid <> 21)
+             else
+             strSQL = "SELECT mid FROM medarbejdere WHERE mansat = 1 AND ansatdato <= '"& lukDato &"' "& lukmtyperSQL &" ORDER BY mid"
              end if
              
              m = 0
@@ -679,27 +720,34 @@ if len(session("user")) = 0 then
 
 
     if trim(request("FM_viskunGodkendte")) <> "" OR len(request("FM_usedatokri")) <> 0 then
+
 	viskunGodkendte = request("FM_viskunGodkendte")
+
         if viskunGodkendte <> "" then
         viskunGodkendte = 1
         else
         viskunGodkendte = 0
         end if
+
 	else
 
-        if lto = "intranet - local" OR lto = "cflow" then
-
-            viskunGodkendte = 1
-
-        else
+        
 
 	        if request.cookies("tsa")("viskunGodkendte") <> "" then
 	        viskunGodkendte = request.cookies("tsa")("viskunGodkendte")
 	        else
-	        viskunGodkendte = 0
+
+            
+                    if lto = "intranet - local" OR lto = "cflow" then
+                    viskunGodkendte = 1
+                    else
+                    viskunGodkendte = 0
+                    end if
+
+	        
 	        end if
 
-        end if
+        
 
 	end if
 	
@@ -737,7 +785,7 @@ if len(session("user")) = 0 then
 	
 	
 	
-	<script src="inc/bal_real_norm_jav_1.js"></script>
+	<script src="inc/bal_real_norm_jav_20180914.js"></script>
 	
 
  
@@ -912,12 +960,22 @@ if len(session("user")) = 0 then
             	<tr><td style="border-bottom:1px #999999 solid;"><a href="#" id="rap_fk_sdlon" class=vmenu>FK lønrap. SD løn</a></td></tr>
             <%end if %>
 
-             <%if instr(lto, "epi") <> 0 OR lto = "intranet - local" OR lto = "plan" then %>
+             <%if instr(lto, "epi") <> 0 OR lto = "intranet - local" OR lto = "xplan" then %>
             	<tr><td style="border-bottom:1px #999999 solid;"><a href="#" id="rap_epi_blueg" class=vmenu>Bluegaarden</a></td></tr>
             <%end if %>
 
             <%if lto = "cflow" OR lto = "intranet - local" then %>
             	<tr><td style="border-bottom:1px #999999 solid;"><a href="#" id="rap_cflow_huldt" class=vmenu>Huldt & Lillevik løn</a></td></tr>
+            <%end if %>
+
+            <%if lto = "dencker" OR lto = "intranet - local" OR lto = "foa" OR lto = "lm" OR lto = "plan" then
+                
+                if lto = "intranet - local" then
+                ltorapval = "intr" 
+                else
+                ltorapval = lto
+                end if%>
+            	<tr><td style="border-bottom:1px #999999 solid;"><a href="#" id="rap_<%=ltorapval%>_datalon" class=vmenu>Dataløn</a></td></tr>
             <%end if %>
 
          <!--
@@ -984,7 +1042,7 @@ if len(session("user")) = 0 then
     end if 'print
     
     
-    
+    'Response.write "useErpCookie: " & useErpCookie
 			
 
 if media <> "print" AND media <> "export" then
@@ -1029,6 +1087,16 @@ pwdt = 200
                 if level = 1 then %>
                  <tr><td colspan=2 valign=top>
                 <input type="checkbox" name="huldt_lillevik_lon_fil" value="1" /> Tilknyt Huldt & Lillevik lønfil.
+                </td></tr>
+                <% end if
+                case else
+                end select %>
+
+                <%select case lto
+                case "intranet - local", "dencker", "foa", "lm", "plan"
+                if level = 1 then %>
+                 <tr><td colspan=2 valign=top>
+                <input type="checkbox" name="datalon_lon_fil" value="1" /> Tilknyt Dataløn lønfil.
                 </td></tr>
                 <% end if
                 case else
@@ -1188,25 +1256,77 @@ pwdt = 200
                             <input id="FM_lk_md" name="FM_lk_md" type="text" value="<%=month(now) %>" style="width:20px; font-size:9px; font-family:arial;" /> - 
                             <input id="FM_lk_aar" name="FM_lk_aar" type="text" value="<%=year(now) %>" style="width:30px; font-size:9px; font-family:arial;" />   dd - mm - åååå 
 
-                            <%if instr(lto, "epi") <> 0 OR lto = "tia" OR lto = "mpt" then
+                            <%if instr(lto, "epi") <> 0 OR lto = "tia" OR lto = "mpt" OR lto = "plan" then
                                 nulstilCHK = "CHECKED"
                             else
                                 nulstilCHK = ""
                             end if
                                 
+
+                            lukprojSEL0 = ""
+                            lukprojSEL1 = ""
+                            lukprojSEL2 = ""
+
                             if lto = "mpt" then
-                                lukprojCHK = "CHECKED"
-                            else
-                                lukprojCHK = ""
+                                lukprojSEL1 = "SELECTED"
+                            end if
+
+                             if lto = "plan" then
+                                lukprojSEL2 = "SELECTED"
                             end if
                                 
                             %>
 
 
-                            <br /><input type="checkbox" value="1" name="FM_nulstil" <%=nulstilCHK%> /> Nulstil <span style="color:#999999;">(overfør ikke fleks-saldi)</span><br />
-                           <input type="checkbox" value="1" name="FM_lukproj" <%=lukprojCHK%> /> Luk også for registrering på proj.<br />
+                            <br /><input type="checkbox" value="1" name="FM_nulstil" <%=nulstilCHK%> /> Nulstil - overfør ikke fleks-saldi (alle starter på nul i fleks)<br /><br />
+                            
+                            
+                            Luk for registrering af timer på: 
+                            <select name="FM_lukproj" style="width:200px;">
+                                <option value="0" <%=lukprojSEL0 %>>Interne job og fravær (prioritet < 0 vil blive lukket)</option>
+                                <option value="1" <%=lukprojSEL1 %>>Interne job og fravær samt registrering på projekter</option>
+                                <option value="2" <%=lukprojSEL2 %>>Kun for registrering på projekter (prioritet >= 0) </option>
 
+                            </select><br />
+                            
+                            <br />
+                            Luk periode for medarbejdertyper:
+                            <select name="FM_lukmtyper" style="width:200px;">
+                                <option value="0">Alle</option>
+
+                                <%strSQlmt = "SELECT id, type FROM medarbejdertyper WHERE mtype_passiv = 0" 
+                                    
+                                    oRec10.open strSQLmt, oConn, 3
+                                    while not oRec10.EOF 
+
+                                    %><option value="<%=oRec10("id")%>"><%=oRec10("type")%></option><%
+                                    
+                                    oRec10.movenext
+                                    wend 
+                                    oRec10.close
+
+                                    %>
+
+                              
+
+                            </select><br />
+
+                          <!--
+                           <input type="checkbox" value="1" name="FM_lukproj" <%=lukprojCHK%> /> Luk også for registrering på proj (prioritet >= 0).<br /><br />
+                          
+                         -->
+                           <br />
                             <input id="Submit2" type="submit" value="Afslut periode >>" />
+
+
+                            <%select case lto
+                                case "dencker", "intranet - local", "lm", "plan"
+                            %>
+                            <br /><br /><br /><br />
+                            <a href="../to_2015/tillag_lon_beregn.asp" target="_blank">Kør Tillæg og Afspadsering >></a>
+                            <br /><br />
+                            <%end select%>
+
                           
                            <br /><br />
                             <b>Historik</b> (seneste 12)<br />
@@ -1220,7 +1340,8 @@ pwdt = 200
                                 <td>&nbsp;</td>
                             </tr>
                             <%
-                            strSQLlukper = "SELECT lk_id, lk_dato, lk_editor, lk_close_projects, lk_correction_on FROM lon_korsel WHERE lk_id <> 0 ORDER BY lk_dato DESC LIMIT 12"
+                            strSQLlukper = "SELECT lk_id, lk_dato, lk_editor, lk_close_projects, lk_correction_on, lk_medarbtype, mt.type As mtype FROM lon_korsel "_
+                            &"LEFT JOIN medarbejdertyper mt ON (mt.id = lk_medarbtype) WHERE lk_id <> 0 ORDER BY lk_dato DESC LIMIT 12"
                             oRec.open strSQLlukper, oConn, 3
                             h = 0
                             while not oRec.EOF 
@@ -1237,10 +1358,21 @@ pwdt = 200
                                 <td class=lille><%=oRec("lk_correction_on") %></td>
                                 <td class=lille><%=oRec("lk_close_projects") %></td>
                                 <td class=lille><i><%=left(oRec("lk_editor"), 10) %></i></td>
+                                
                                 <td><a href="bal_real_norm_2007.asp?func=slet_lukper&lk_id=<%=oRec("lk_id") %>" class=red>[x]</a></td>
 
             
                             </tr>
+                                <%if oRec("lk_medarbtype") <> "0" then %>
+                                <tr>
+                                    <td class=lille colspan="4">Mtyper:
+
+                                        
+                                        <%=oRec("mtype") %>
+                                      
+                                    </td>
+                                </tr>
+                                <%end if %>
                             <%
         
                             h = h + 1
@@ -1450,7 +1582,7 @@ pwdt = 200
         Response.write  "<br><b><span style=""font-size:10px;"">Periode afgrænsning:</span><br> "& formatdatetime(startdato, 1) & " - "&  formatdatetime(slutdato, 1) & "</b>"
         end if
 
-            if media = "export" AND request("sd_lon_fil") <> "1" AND request("huldt_lillevik_lon_fil") <> "1" AND cint(exporttype) <> 200 AND cint(exporttype) <> 201 AND cint(exporttype) <> 220 then 'Bluegaarden/Huldt & Lillevik then
+            if media = "export" AND request("sd_lon_fil") <> "1" AND request("huldt_lillevik_lon_fil") <> "1" AND request("datalon_lon_fil") <> "1" AND cint(exporttype) <> 200 AND cint(exporttype) <> 201 AND cint(exporttype) <> 220 then 'Bluegaarden/Huldt & Lillevik then
             strEksportTxtMd = "xx99123sy#z xx99123sy#zPeriode afgrænsning: "& formatdatetime(startdato, 1) & " - "&  formatdatetime(slutdato, 1)
             strEksportTxt = strEksportTxt & strEksportTxtMd
             end if
@@ -1475,6 +1607,8 @@ pwdt = 200
 	'else
 	'Response.Write "<tr><td><b>Medarbjeder afstemning</b><br>Vælg de ønskede medarbejdere i listen ovenfor...</td></tr>"
 	'end if
+
+    call hr_list_grandtotal
 
     if level = 1 then
     %>
@@ -1579,7 +1713,44 @@ pwdt = 200
                     'response.flush
                     Response.redirect hlt_OutputFileName
                     else
-                    Response.redirect "../inc/log/data/"& file &""	
+
+
+                                if len(trim(request("datalon_lon_fil"))) <> 0 then
+
+                                select case lto
+                                case "dencker"
+                                %>
+                                <!--#include file="eksport_timeout_dencker_datalon.asp"-->
+                                <%
+                                    Response.redirect datalon_dencker_OutputFileName
+                                case "plan"
+                                 %>
+                                <!--#include file="eksport_timeout_plan_datalon.asp"-->
+                                <%
+                                    Response.redirect datalon_plan_OutputFileName
+                                 case "lm"
+                                 %>
+                                <!--#include file="eksport_timeout_lm_datalon.asp"-->
+                                <%
+                                    Response.redirect datalon_lm_OutputFileName
+                                case else
+                                 %>
+                                <!--#include file="eksport_timeout_datalon.asp"-->
+                                <%
+                                    Response.redirect datalon_OutputFileName
+                                end select
+                
+                                'Response.write "Din fil er klar på c:\ drevet"
+
+                                'Response.write "hlt_OutputFileName: " & hlt_OutputFileName
+                                'response.flush
+                                
+                                else
+                                Response.redirect "../inc/log/data/"& file &""	
+                                end if 
+
+
+                    'Response.redirect "../inc/log/data/"& file &""	
                     end if 
 				
 				end if 

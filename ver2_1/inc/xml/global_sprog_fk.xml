@@ -83,6 +83,9 @@
     <txt_190>Omsorgsdag 10 planlagt</txt_190>
     <txt_191>Omsorgsdag Konverteret planlagt</txt_191>
 
+    <txt_198>Ferie optjent til afh. 1.5.2019-31.8.2019</txt_198>
+    <txt_199>Ferie optjent indefrosset</txt_199>
+
       <!-- End typer -->
     
     
@@ -173,7 +176,8 @@
     <txt_177 >Rettelse Komme / Gå</txt_177>
 
     <txt_196>Ferie korrektion</txt_196>
-
+    <txt_198>Ferie optjent til afh. 1.5.2019-31.8.2019</txt_198>
+    <txt_199>Ferie optjent indefrosset</txt_199>
 
   </no>
 
@@ -246,6 +250,8 @@
     <txt_177 >Korrigering Kom / Gå</txt_177>
 
     <txt_196>Ferie korrektion</txt_196>
+    <txt_198>Ferie optjent til afh. 1.5.2019-31.8.2019</txt_198>
+    <txt_199>Ferie optjent indefrosset</txt_199>
 
   </se>
 
@@ -318,6 +324,8 @@
     <txt_177 >Korrektur Kommen / Gehen</txt_177>
 
     <txt_196>Ferie korrektion</txt_196>
+    <txt_198>Ferie optjent til afh. 1.5.2019-31.8.2019</txt_198>
+    <txt_199>Ferie optjent indefrosset</txt_199>
 
   </de>
 
@@ -389,6 +397,8 @@
     <txt_177 >Correction Come / Go</txt_177>
 
     <txt_196>Ferie korrektion</txt_196>
+    <txt_198>Ferie optjent til afh. 1.5.2019-31.8.2019</txt_198>
+    <txt_199>Ferie optjent indefrosset</txt_199>
 
   </fr>
   
@@ -497,6 +507,8 @@
       <txt_177>Time Clock Adjustment</txt_177>
 
     <txt_196>Ferie korrektion</txt_196>
+    <txt_198>Ferie optjent til afh. 1.5.2019-31.8.2019</txt_198>
+    <txt_199>Ferie optjent indefrosset</txt_199>
 
   </uk>
 
@@ -569,6 +581,8 @@
     <txt_177 >Corrección Ven / Go</txt_177>
 
     <txt_196>Ferie korrektion</txt_196>
+    <txt_198>Ferie optjent til afh. 1.5.2019-31.8.2019</txt_198>
+    <txt_199>Ferie optjent indefrosset</txt_199>
 
   </es>
 

@@ -335,11 +335,11 @@ if len(session("user")) = 0 then
                             &")")
 							
                         'if session("mid") = 1 then
-					'		Response.write strFakturerbart & "<br><br>"
-					'		Response.write strSQLjob & "<hr>"
-					'		'Response.flush
-					'		Response.end
-                     '   end if
+					    'Response.write strFakturerbart & "<br><br>"
+						'Response.write strSQLjob & "<hr>"
+					    'Response.flush
+						'	Response.end
+                        'end if
 
 							oConn.execute(strSQLjob)	
 							
@@ -760,7 +760,7 @@ if len(session("user")) = 0 then
 				if showaspopup <> "y" then '*** Jobsiden eller res-kalenderopr. siden
 				    
 				   
-				    Response.redirect "jobs.asp?menu=job&shokselector=1&id="&varJobIdThis&"&jobnr_sog="&jobsog&"&filt="&filt&"&fm_kunde="&vmenukundefilt
+				    Response.redirect "../to_2015/job_list.asp?id="&varJobIdThis&"&jobnr_sog="&jobsog&"&filt="&filt&"&fm_kunde="&vmenukundefilt
 				   
 				   
 				else
@@ -959,8 +959,16 @@ if len(session("user")) = 0 then
 			<select name="FM_kunde" id="Select1" size=10 multiple style="font-size:9px; width:500px;">
 			<%
 			
-			
-			strSQL = "SELECT Kkundenavn, Kkundenr, Kid, kundeans1, kundeans2 FROM kunder WHERE ketype <> 'e' ORDER BY Kkundenavn"
+		
+           select case lto
+           case "lm"
+                strSQlkekstrakri = " AND kkundenavn LIKE '%Distriktsforening%'"
+           case else
+                strSQlkekstrakri = "" 
+           end select
+
+
+			strSQL = "SELECT Kkundenavn, Kkundenr, Kid, kundeans1, kundeans2 FROM kunder WHERE ketype <> 'e' "& strSQlkekstrakri &" ORDER BY Kkundenavn" 'AND kkundenavn LIKE '%Arbejdsmiljørådgivning FAR%' 
 			oRec.open strSQL, oConn, 3
 			kans1 = ""
 			kans2 = ""
@@ -972,7 +980,7 @@ if len(session("user")) = 0 then
 				kSel = ""
 				end if
 				
-				strSQL2 = "SELECT mnavn, mnr FROM medarbejdere WHERE mid = "&oRec("kundeans1")
+				strSQL2 = "SELECT mnavn, mnr FROM medarbejdere WHERE mid = "& oRec("kundeans1")
 				oRec2.open strSQL2, oConn, 3 
 				if not oRec2.EOF then
 				kans1 = oRec2("mnavn")

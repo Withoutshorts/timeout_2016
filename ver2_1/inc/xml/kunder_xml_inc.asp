@@ -5,9 +5,10 @@ Dim objXMLHTTP_kunder, objXMLDOM_kunder, i_kunder, strHTML_kunder
 Set objXMLDom_kunder = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp_kunder = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp_kunder.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/kunder_sprog.xml", False
-'objXmlHttp_kunder.open "GET", "http://localhost/inc/xml/kunder_sprog.xml", False
+'objXmlHttp_kunder.open "GET", "http://localhost/inc/xml/favorit_sprog.xml", False
 'objXmlHttp_kunder.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/kunder_sprog.xml", False
 'objXmlHttp_kunder.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/kunder_sprog.xml", False
+'objXmlHttp_kunder.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver4_22/inc/xml/kunder_sprog.xml", False
 'objXmlHttp_kunder.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/kunder_sprog.xml", False
 objXmlHttp_kunder.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/kunder_sprog.xml", False
 
@@ -206,6 +207,18 @@ Set oNodes_kunder = objXmlDom_kunder.documentElement.selectNodes(sXPathQuery_kun
         kunder_txt_116 = oNode_kunder.selectSingleNode("txt_116").Text
         kunder_txt_117 = oNode_kunder.selectSingleNode("txt_117").Text
         kunder_txt_118 = oNode_kunder.selectSingleNode("txt_118").Text
+
+        kunder_txt_119 = oNode_kunder.selectSingleNode("txt_119").Text
+        kunder_txt_120 = oNode_kunder.selectSingleNode("txt_120").Text
+        kunder_txt_121 = oNode_kunder.selectSingleNode("txt_121").Text
+        kunder_txt_122 = oNode_kunder.selectSingleNode("txt_122").Text
+        kunder_txt_123 = oNode_kunder.selectSingleNode("txt_123").Text
+        kunder_txt_124 = oNode_kunder.selectSingleNode("txt_124").Text
+        kunder_txt_125 = oNode_kunder.selectSingleNode("txt_125").Text
+        kunder_txt_126 = oNode_kunder.selectSingleNode("txt_126").Text
+        kunder_txt_127 = oNode_kunder.selectSingleNode("txt_127").Text
+        kunder_txt_128 = oNode_kunder.selectSingleNode("txt_128").Text
+        kunder_txt_129 = oNode_kunder.selectSingleNode("txt_129").Text
 
 
 

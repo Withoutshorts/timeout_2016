@@ -58,7 +58,7 @@ a = 0
 					Response.write strSQL(b) & "<br>"
 					Response.flush
 					x = 1
-					numberoflicens = 175
+					numberoflicens = 193
 					For x = 1 To numberoflicens  
 						
 						call aktivedb(x)
@@ -84,7 +84,8 @@ a = 0
 								Response.write x &"<br>"& strSQL(b) & "<br><br>"
 								Response.flush
 
-								if x > 0 then 'AND x <> 2 then 'AND x > 4 
+								'if x > 109 AND x <> 154 AND x <> 136 AND x <> 176 then
+                                if x <> 0 then
                                 oConn.open strConnect_aktiveDB
 							    
                                 '*** DENNE LINJE INDLÆSER // UDKOMMENTER NÅR FILEN IKKE ER AKTIV
@@ -337,13 +338,13 @@ else
 <br>
 <br><b>Eller brug en af disse faste SQL kald:</b><br>
 <input type="radio" name="brug_sql" id="brug_sql" value="1"> Brug "SELECT mnavn, mansat, mid FROM medarbejdere WHERE mansat <> 2"
-<input type="hidden" name="SQL1" id="SQL1" value="SELECT mnavn, mansat, mid FROM medarbejdere WHERE mansat <> 2"><!-- AND mansat <> 3 -->
+<input type="hidden" name="SQL1" id="SQL1" value="SELECT mnavn, mansat, mid FROM medarbejdere WHERE mansat <> 2 AND mansat <> 4"><!-- AND mansat <> 3 -->
 <br />
 <input type="radio" name="brug_sql" id="brug_sql" value="2"> Hent fakturaer og valuta
 <input type="hidden" name="SQL2" id="SQL2" value="SELECT * FROM fakturaer">
 <br />
 <input type="radio" name="brug_sql" id="Radio1" value="3"> Brug "SELECT email FROM medarbejdere WHERE (nyhedsbrev = 1 AND email <> '') AND mansat <> 2 AND mansat <> 3" / Eller alle admin (brugergrp 3)
-<input type="hidden" name="SQL3" id="sql3" value="SELECT email FROM medarbejdere WHERE (brugergruppe = 3 AND email <> '') AND mansat <> 2 AND mansat <> 3"> 'nyhedsbrev = 1 
+<input type="hidden" name="SQL3" id="sql3" value="SELECT email FROM medarbejdere WHERE (brugergruppe = 3 AND email <> '') AND mansat <> 2 AND mansat <> 3 AND mansat <> 4"> 'nyhedsbrev = 1 
 <br />
 <input type="radio" name="brug_sql" id="Radio2" value="4"> Brug "SELECT tid, tdato, tmnavn, tjobnavn, tjobnr, taktivitetnavn, taktivitetid, tfaktim FROM timer WHERE (tfaktim = 12 OR tfaktim = 13) "
 <input type="hidden" name="SQL4" id="SQL4" value="SELECT tid, tdato, tmnavn, tjobnavn, tjobnr, taktivitetnavn, taktivitetid, tfaktim FROM timer WHERE (tfaktim = 12 OR tfaktim = 13)" />
@@ -3418,6 +3419,456 @@ CREATE INDEX inx_eval_id2 ON eval (eval_id);
 CREATE INDEX inx_eval_jobid2 ON eval (eval_jobid);
 CREATE INDEX inx_for_jobid ON fomr_rel (for_jobid);
 INSERT INTO dbversion (dbversion) VALUES (20180620.1)
+
+<br /><br />20180627.1<br />
+ALTER TABLE materiale_forbrug Add 
+(filnavn varchar(250) NOT NULL default '');
+UPDATE dbversion SET dbversion = '20180627.1' WHERe id = 1
+
+<br /><br />20180801.1<br />
+ALTER TABLE licens Add 
+(stempelur_hidelogin_onlymonitor integer NOT NULL default 0);
+UPDATE dbversion SET dbversion = '20180801.1' WHERe id = 1
+
+<br /><br />20180822.1<br />
+ALTER TABLE licens Add 
+(
+ignorertid_st_logud time NOT NULL default '18:00:00',
+ignorertid_sl_logud time NOT NULL default '18:00:00',
+ignorertid_st_2 time NOT NULL default '09:00:00',
+ignorertid_sl_2 time NOT NULL default '09:00:00',
+ignorertid_st_logud_2 time NOT NULL default '21:00:00',
+ignorertid_sl_logud_2 time NOT NULL default '21:00:00'
+);
+UPDATE dbversion SET dbversion = '20180822.1' WHERe id = 1
+
+
+<br /><br />20180823.1<br />
+ALTER TABLE licens Add 
+(
+sperretid_grp varchar(50) default '',
+sperretid_grp2 varchar(50) default ''
+);
+UPDATE dbversion SET dbversion = '20180823.1' WHERe id = 1
+
+
+<br /><br />20180920.1<br />
+ALTER TABLE aktiviteter Add 
+(
+easyreg_max double(12,2) default 0,
+easyreg_timer_proc int default 0
+);
+UPDATE dbversion SET dbversion = '20180920.1' WHERe id = 1
+
+<br /><br />20181009.1<br />
+ALTER TABLE licens Add 
+(
+vis_lager int default 1
+);
+UPDATE dbversion SET dbversion = '20181009.1' WHERe id = 1
+
+<br /><br />20181012.1<br />
+ALTER TABLE job Add 
+(
+categories_process varchar(250) default '' NOT NULL, data_outside_eu int NOT NULL default 0, safeguard varchar(250) default '' NOT NULL
+
+);
+UPDATE dbversion SET dbversion = '20181012.1' WHERe id = 1
+
+<br /><br />20181020.1<br />
+ALTER TABLE job Add 
+(
+gdpr_projecttype int NOT NULL default 0, gdpr_personaldata int NOT NULL default 0, gdpr_safeguard_io int NOT NULL default 0
+);
+UPDATE dbversion SET dbversion = '20181020.1' WHERe id = 1
+
+<br /><br />20181031.1<br />
+alter table traveldietexp add (diet_dayprice_half double(12,2) NOT NULL default 0.00, diet_delvis int(11) NOT NULL default 0);
+UPDATE dbversion SET dbversion = '20181031.1' WHERe id = 1
+
+<br /><br />20181101.1<br />
+alter table licens add password_visning int(11) DEFAULT 0;
+UPDATE dbversion SET dbversion = '20181101.1' WHERe id = 1
+
+<br /><br />20181114.1<br />
+Create table chat (
+id INT(11) NOT NULL AUTO_INCREMENT,
+jobid int(11) default 0,
+message VARCHAR(255) default '',
+editor int(11) default 0,
+editdate DATE DEFAULT '2002-01-01' NOT NULL,
+edittime Time default '00:00',
+PRIMARY KEY (id)
+);
+UPDATE dbversion SET dbversion = '20181114.1' WHERE id = 1
+
+
+<br /><br />20181116.1<br />
+alter table info_screen add type int(11) DEFAULT 2, add vigtig int(11) DEFAULT 0, add filnavn varchar(255);
+UPDATE dbversion SET dbversion = '20181116.1' WHERE id = 1
+
+<br /><br />20181116.2<br />
+Create table news_rel (
+id INT(11) NOT NULL AUTO_INCREMENT,
+medarbid int(11) NOT NULL,
+newsid int(11) NOT NULL,
+newsread int(11) DEFAULT 0,
+PRIMARY KEY (id)
+);
+UPDATE dbversion SET dbversion = '20181116.2' WHERe id = 1
+
+<br /><br />20181120.2<br />
+alter table licens add job_felt_fomr int(11) DEFAULT 0, add job_felt_salgsans int(11) DEFAULT 0, add job_felt_rekno int(11) DEFAULT 0, add job_felt_intnote int(11) DEFAULT 0;
+UPDATE dbversion SET dbversion = '20181120.1' WHERe id = 1
+
+
+<br /><br />20190102.1<br />
+INSERT INTO akt_typer (aty_id,
+ aty_label, aty_desc,
+aty_on, aty_on_realhours, aty_on_invoiceble, aty_on_invoice, aty_on_invoice_chk 
+, aty_on_workhours, aty_pre, aty_sort, aty_on_recon, aty_enh, aty_on_adhoc, aty_hide_on_treg)
+VALUES (127, 'global_txt_197','Omsorgsdage optjent',1,0,0,0,0,0,0,5.44,0,0,0,1);
+UPDATE akt_typer SET aty_on = 0 WHERE aty_id = 127;
+INSERT INTO dbversion (dbversion) VALUES (20190102.1)
+
+
+<br /><br />20190115.1<br />
+Create table ressourcer_md_spor (
+id INT(11) NOT NULL AUTO_INCREMENT,
+jobid int(11) default 0 NOT NULL,
+aktid int(11) default 0 NOT NULL,
+medid int(11) default 0 NOT NULL,
+aar int(11) default 0 NOT NULL,
+md int(11) default 0 NOT NULL,
+uge int(11) default 0 NOT NULL,
+timer double(12,2) default 0 NOT NULL,
+editor int(11) default 0,
+editdate DATE DEFAULT '2002-01-01' NOT NULL,
+edittime Time default '00:00' NOT NULL,
+PRIMARY KEY (id)
+);
+UPDATE dbversion SET dbversion = '20190115.1' WHERE id = 1
+
+<br /><br />20190123.1<br />
+ALTER TABLE job_ulev_ju Add 
+(
+ju_date date NOT NULL default '2002-01-01',
+ju_editor varchar(250) NOT NULL default 'TO_sys'
+);
+UPDATE dbversion SET dbversion = '20190123.1' WHERe id = 1
+
+
+<br /><br />20190201.1<br />
+alter table licens add simple_joblist_jobnavn int(11) DEFAULT 1, add simple_joblist_jobnr int(11) default 1, 
+add simple_joblist_kunde int(11) default 1, add simple_joblist_ans int(11) default 1, add simple_joblist_salgsans int(11) 
+default 1, add simple_joblist_fomr int(11) default 0, add simple_joblist_prg int(11) default 0, add simple_joblist_stdato int(11) default 1, 
+add simple_joblist_sldato int(11) default 1, add simple_joblist_status int(11) default 1, 
+add simple_joblist_tidsforbrug int(11) default 0, add simple_joblist_budgettid int(11) default 0
+;
+UPDATE dbversion SET dbversion = '20190201.1' WHERe id = 1
+
+<br /><br />
+
+ALTER TABLE licens
+DROP COLUMN 
+simple_joblist_jobnavn, DROP COLUMN  simple_joblist_jobnr, 
+DROP COLUMN simple_joblist_kunde, DROP COLUMN  simple_joblist_ans, DROP COLUMN  simple_joblist_salgsans, 
+DROP COLUMN  simple_joblist_fomr, DROP COLUMN  simple_joblist_prg, DROP COLUMN  simple_joblist_stdato, 
+DROP COLUMN simple_joblist_sldato, DROP COLUMN simple_joblist_status, 
+DROP COLUMN simple_joblist_tidsforbrug , DROP COLUMN simple_joblist_budgettid 
+;
+
+<br /><br />
+UPDATE licens SET simple_joblist_jobnavn = 1, simple_joblist_jobnr = 1, 
+simple_joblist_kunde = 1, simple_joblist_ans = 1, simple_joblist_salgsans = 1,
+simple_joblist_fomr = 0,  simple_joblist_prg = 0, simple_joblist_stdato = 1, 
+simple_joblist_sldato = 1, simple_joblist_status = 1, 
+simple_joblist_tidsforbrug = 1, simple_joblist_budgettid = 1 WHERE id = 1
+
+
+<br /><br />
+Create table budget_kunder (
+id INT(11) NOT NULL AUTO_INCREMENT,
+kundeid int(11) NOT NULL default 0,
+salesgoal double(12,2) NOT NULL default 0,
+date_year int(11) NOT NULL default 2002,
+PRIMARY KEY (id)
+);
+UPDATE dbversion SET dbversion = '20190205.1' WHERE id = 1
+
+<br /><br />
+20190206.1<br />
+alter table materiale_grp add fragtpris double(12,2) default 0;
+UPDATE dbversion SET dbversion = '20190206.1' WHERE id = 1
+
+<br /><br />
+20190206.2<br />
+alter table materiale_grp add matgrp_type int(11) DEFAULT 0 NOT NULL;
+UPDATE dbversion SET dbversion = '20190206.2' WHERE id = 1
+
+<br /><br />
+20190212.1<br />
+alter table licens add smiley_agg_lukhard_igngrp varchar(250) DEFAULT '' NOT NULL; 
+UPDATE dbversion SET dbversion = '20190212.1' WHERE id = 1
+
+<br /><br />
+20190218.1<br />
+alter table akt_bookings add ab_heading int(11) DEFAULT 0;
+UPDATE dbversion SET dbversion = '20190218.1' WHERE id = 1
+
+<br /><br />
+20190219.1<br />
+alter table akt_bookings add ab_color int(11) DEFAULT 0;
+UPDATE dbversion SET dbversion = '20190219.1' WHERE id = 1 
+
+
+<br /><br />
+20190222.1<br />
+Create table travel_diet_tariff (
+id INT(11) NOT NULL AUTO_INCREMENT,
+tdf_diet_editor VARCHAR(255) NOT NULL default '', 
+tdf_diet_dato date DEFAULT '2002-01-01' NOT NULL,
+tdf_diet_name VARCHAR(255) NOT NULL default '',
+tdf_diet_current INT(11) NOT NULL default 0, 
+tdf_diet_dayprice double(12,2) default 0 NOT NULL,
+tdf_diet_dayprice_half double(12,2) default 0 NOT NULL,
+tdf_diet_morgenamount double(12,2) default 0 NOT NULL,
+tdf_diet_middagamount double(12,2) default 0 NOT NULL,
+tdf_diet_aftenamount double(12,2) default 0 NOT NULL,
+PRIMARY KEY (id)
+);
+UPDATE dbversion SET dbversion = '20190222.1' WHERe id = 1
+
+
+<br /><br />
+20190307.1<br />
+alter table akt_typer add aty_mobile_btn int(11) DEFAULT 0, add aty_mobile_btn_order int(11) default 0;
+UPDATE dbversion SET dbversion = '20190307.1' WHERE id = 1 
+
+<br /><br />
+201904012.1<br />
+alter table medarbejdertyper add mtype_passiv int(11) DEFAULT 0;
+UPDATE dbversion SET dbversion = '201904012.1' WHERE id = 1 
+
+<br /><br />
+20190501.1<br />
+alter table medarbejdertyper add mtype_maxflex double(12,2) DEFAULT 0;
+alter table medarbejdere add mfrokost int(11) DEFAULT 0;
+UPDATE dbversion SET dbversion = '20190501.1' WHERE id = 1 
+
+
+<br /><br />
+20190502.1<br />
+alter table udeafhuset add udeafhusettype int(11) DEFAULT 0;
+UPDATE dbversion SET dbversion = '20190502.1' WHERE id = 1 
+
+
+
+<br /><br />
+20190527.1<br />
+alter table medarbejdere add firma varchar(250);
+UPDATE dbversion SET dbversion = '20190527.1' WHERE id = 1 
+
+
+
+
+<br /><br />
+20190530.1<br />
+Create table medarbejder_flexsaldo (
+id INT(11) NOT NULL AUTO_INCREMENT,
+mf_dato date DEFAULT '2002-01-01' NOT NULL,
+mf_mid double(12,2) default 0 NOT NULL,
+mf_flex_norm_real double(12,2) default 0 NOT NULL,
+mf_flex_norm_kommegaa double(12,2) default 0 NOT NULL,
+PRIMARY KEY (id)
+);
+UPDATE dbversion SET dbversion = '20190530.1' WHERe id = 1
+
+<br /><br />
+20190614.1<br />
+alter table materiale_forbrug add mattype int(12) DEFAULT 0;
+UPDATE dbversion SET dbversion = '20190614.1' WHERE id = 1 
+
+<br /><br />
+20190628.1<br />
+alter table lon_korsel add lk_medarbtype VARCHAR(250) DEFAULT '0';
+UPDATE dbversion SET dbversion = '20190628.1' WHERE id = 1 
+
+
+<br /><br />
+20190807.2<br />
+alter table job add project_tier VARCHAR(250) DEFAULT '';
+UPDATE dbversion SET dbversion = '20190807.2' WHERE id = 1 
+
+<br /><br />
+20190815.1<br />
+alter table materiale_forbrug add basic_valuta varchar(255) DEFAULT 'NA', add basic_kurs double default 0, add basic_belob double default 0;
+UPDATE dbversion SET dbversion = '20190815.1' WHERE id = 1
+
+<br /><br />
+20190830.1<br />
+INSERT INTO akt_typer (aty_id,
+ aty_label, aty_desc,
+aty_on, aty_on_realhours, aty_on_invoiceble, aty_on_invoice, aty_on_invoice_chk 
+, aty_on_workhours, aty_pre, aty_sort, aty_on_recon, aty_enh, aty_on_adhoc, aty_hide_on_treg)
+VALUES (128, 'global_txt_198','Ferie optjent afh. 1.5.2019-31.8.2019',1,0,0,0,0,0,0,3.91,0,0,0,1);
+UPDATE akt_typer SET aty_on = 0 WHERE aty_id = 128;
+INSERT INTO akt_typer (aty_id,
+ aty_label, aty_desc,
+aty_on, aty_on_realhours, aty_on_invoiceble, aty_on_invoice, aty_on_invoice_chk 
+, aty_on_workhours, aty_pre, aty_sort, aty_on_recon, aty_enh, aty_on_adhoc, aty_hide_on_treg)
+VALUES (129, 'global_txt_199','Ferie optjent indefrosset',1,0,0,0,0,0,0,3.92,0,0,0,1);
+UPDATE akt_typer SET aty_on = 0 WHERE aty_id = 129;
+INSERT INTO dbversion (dbversion) VALUES (20190830.1)
+
+<br /><br />
+20191002.1<br />
+alter table job add gdpr_personaldatavendor varchar(255) DEFAULT '0', add gdpr_strippedforpersonal_data int default 0;
+UPDATE dbversion SET dbversion = '20191002.1' WHERE id = 1 
+
+<br /><br />
+20191210.1<br />
+alter table timer add koregnr VARCHAR(255) DEFAULT '';
+UPDATE dbversion SET dbversion = '20191210.1' WHERe id = 1
+
+<br /><br />
+20191210.2<br />
+alter table timer MODIFY koregnr VARCHAR(255) NOT NULL DEFAULT '';
+UPDATE dbversion SET dbversion = '20191210.2' WHERe id = 1
+
+<br /><br />
+20191210.3<br />
+alter table licens add showFordelpFinansaaron INT DEFAULT 0;
+UPDATE dbversion SET dbversion = '20191210.3' WHERe id = 1
+
+<br /><br />
+20191213.1<br />
+alter table materiale_forbrug add afdate DATE DEFAULT '2002-01-01' NOT NULL;
+UPDATE dbversion SET dbversion = '20191213.1' WHERe id = 1
+
+<br /><br />
+20191220.1<br />
+alter table job add (creator varchar(50) DEFAULT "", createdate DATE DEFAULT '2002-01-01' NOT NULL);
+UPDATE dbversion SET dbversion = '20191220.1' WHERe id = 1
+
+<br /><br />
+20191218.1<br />
+Create table systemmeddelelser_rel (
+id INT(11) NOT NULL AUTO_INCREMENT,
+sysmed int(11) default 0,
+medid int(11)DEFAULT 0,
+PRIMARY KEY (id)
+);
+UPDATE dbversion SET dbversion = '20191218.1' WHERe id = 1
+
+
+<br /><br />
+20200128.1<br />
+alter table licens add (ferie_max int(11) DEFAULT 0, feriefri_max int(11) DEFAULT 0);
+UPDATE dbversion SET dbversion = '20200128.1' WHERe id = 1
+
+
+<br /><br />
+20200129.1<br />
+UPDATE akt_typer SET aty_on_realhours = 1 WHERE aty_id = 30 OR aty_id = 31 OR aty_id = 11 OR aty_id = 7;
+UPDATE dbversion SET dbversion = '20200129.1' WHERe id = 1
+
+<br /><br />
+20200129.2<br />
+UPDATE akt_typer SET aty_on_realhours = 0 WHERE aty_id = 11;
+UPDATE dbversion SET dbversion = '20200129.2' WHERe id = 1
+
+<br /><br />
+20200129.3<br />
+UPDATE akt_typer SET aty_on_realhours = 0 WHERE aty_id = 7;
+UPDATE dbversion SET dbversion = '20200129.3' WHERe id = 1
+
+<br /><br />
+20200130.1<br />
+ALTER table traveldietexp add diet_approved int(11) DEFAULT 0, add diet_approvedby varchar(150) DEFAULT '', add diet_approveddate date DEFAULT '2002-01-01', add diet_settled int(11) DEFAULT 0, add diet_settleddate date DEFAULT '2002-01-01';
+alter table timer add afregnet int(11) DEFAULT 0, add afregnetdato date DEFAULT '2002-01-01';
+UPDATE dbversion SET dbversion = '20200130.1' WHERe id = 1
+
+<br /><br />
+20200218.1<br />
+ALTER TABLE medarbejdere ADD (salary double(12,2) DEFAULT 0 NOT NULL);
+ALTER TABLE medarbejdertyper ADD (maanedsnorm double(12,2) DEFAULT 0 NOT NULL);
+INSERT INTO dbversion (dbversion) VALUES (20200218.1)
+
+<br /><br />
+20200219.1<br />
+ALTER TABLE medarbejdere ADD (pension double(12,2) DEFAULT 0 NOT NULL);
+INSERT INTO dbversion (dbversion) VALUES (20200219.1)
+
+<br /><br />
+20200219.2<br />
+ALTER TABLE medarbejdere ADD (multimedieskat integer DEFAULT 0 NOT NULL, 
+personaleforening integer DEFAULT 0 NOT NULL,
+m1_longruppe integer DEFAULT 0 NOT NULL,
+m2_longruppe integer DEFAULT 0 NOT NULL);
+INSERT INTO dbversion (dbversion) VALUES (20200219.2)
+
+<br /><br />
+20200219.3<br />
+UPDATE akt_typer SET aty_on = 1 WHERE aty_id = 128;
+INSERT INTO dbversion (dbversion) VALUES (20200219.3)
+
+<br /><br />
+20200220.1<br />
+ALTER TABLE medarbejdere ADD (bruttolontraek double(12,2) DEFAULT 0 NOT NULL);
+INSERT INTO dbversion (dbversion) VALUES (20200220.1)
+
+
+<br /><br />
+20200223.2<br />
+ALTER TABLE job ADD (gdpr_personal varchar(255) DEFAULT '' NOT NULL, 
+gdpr_sensitive varchar(255) DEFAULT '' NOT NULL);
+INSERT INTO dbversion (dbversion) VALUES (20200223.2)
+
+
+
+<br /><br />
+20200313.1<br />
+ALTER TABLE medarbejdertyper ADD 
+(
+normtimer_rul int DEFAULT 0 NOT NULL,
+normtimer_man_modetid time DEFAULT '00:00:00' NOT NULL,
+normtimer_tir_modetid time DEFAULT '00:00:00' NOT NULL,
+normtimer_ons_modetid time DEFAULT '00:00:00' NOT NULL,
+normtimer_tor_modetid time DEFAULT '00:00:00' NOT NULL,
+normtimer_fre_modetid time DEFAULT '00:00:00' NOT NULL,
+normtimer_lor_modetid time DEFAULT '00:00:00' NOT NULL,
+normtimer_son_modetid time DEFAULT '00:00:00' NOT NULL,
+normtimer_man_lige double(12,2) DEFAULT 0 NOT NULL,
+normtimer_tir_lige double(12,2) DEFAULT 0 NOT NULL,
+normtimer_ons_lige double(12,2) DEFAULT 0 NOT NULL,
+normtimer_tor_lige double(12,2) DEFAULT 0 NOT NULL,
+normtimer_fre_lige double(12,2) DEFAULT 0 NOT NULL,
+normtimer_lor_lige double(12,2) DEFAULT 0 NOT NULL,
+normtimer_son_lige double(12,2) DEFAULT 0 NOT NULL,
+normtimer_man_modetid_lige time DEFAULT '00:00:00' NOT NULL,
+normtimer_tir_modetid_lige time DEFAULT '00:00:00' NOT NULL,
+normtimer_ons_modetid_lige time DEFAULT '00:00:00' NOT NULL,
+normtimer_tor_modetid_lige time DEFAULT '00:00:00' NOT NULL,
+normtimer_fre_modetid_lige time DEFAULT '00:00:00' NOT NULL,
+normtimer_lor_modetid_lige time DEFAULT '00:00:00' NOT NULL,
+normtimer_son_modetid_lige time DEFAULT '00:00:00' NOT NULL,
+normtimer_man_ulige2 double(12,2) DEFAULT 0 NOT NULL,
+normtimer_tir_ulige2 double(12,2) DEFAULT 0 NOT NULL,
+normtimer_ons_ulige2 double(12,2) DEFAULT 0 NOT NULL,
+normtimer_tor_ulige2 double(12,2) DEFAULT 0 NOT NULL,
+normtimer_fre_ulige2 double(12,2) DEFAULT 0 NOT NULL,
+normtimer_lor_ulige2 double(12,2) DEFAULT 0 NOT NULL,
+normtimer_son_ulige2 double(12,2) DEFAULT 0 NOT NULL,
+normtimer_man_modetid_ulige2 time DEFAULT '00:00:00' NOT NULL,
+normtimer_tir_modetid_ulige2 time DEFAULT '00:00:00' NOT NULL,
+normtimer_ons_modetid_ulige2 time DEFAULT '00:00:00' NOT NULL,
+normtimer_tor_modetid_ulige2 time DEFAULT '00:00:00' NOT NULL,
+normtimer_fre_modetid_ulige2 time DEFAULT '00:00:00' NOT NULL,
+normtimer_lor_modetid_ulige2 time DEFAULT '00:00:00' NOT NULL,
+normtimer_son_modetid_ulige2 time DEFAULT '00:00:00' NOT NULL
+ );
+INSERT INTO dbversion (dbversion) VALUES (20200313.1)
 
 <%
 

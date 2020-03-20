@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Vælg Job</txt_1>
+    <txt_2 >Intet valgt</txt_2>
+    <txt_3 >Tilføj flere job til Rejseplan/Diæt</txt_3>
+    <txt_4 >Job</txt_4>
+    <txt_5 >Procent (heltal)</txt_5>
+    <txt_6 >Opdateret</txt_6>
+    <txt_7 >Opdater</txt_7>
+    <txt_8 >Rejseplan/Diæt</txt_8>
+    <txt_9 >Du er ved at</txt_9>
+    <txt_10 >SLETTE</txt_10>
+
+    <txt_11 >en Rejseplan/Diæt. Er dette korrekt</txt_11>
+    <txt_12 >Ja</txt_12>
+    <txt_13 >Nej </txt_13>
+    <txt_14 >Rejseplan / Diæter</txt_14>
+    <txt_15 >Medarbejder</txt_15>
+    <txt_16 >Vis alle</txt_16>
+    <txt_17 >Søg</txt_17>
+    <txt_18 >Reduktion</txt_18>
+    <txt_19 >Navn</txt_19>
+    <txt_20 >Dato</txt_20>
+
+    <txt_21 >Afrejse</txt_21>
+    <txt_22 >Tid</txt_22>
+    <txt_23 >Retur</txt_23>
+    <txt_24 >Destination</txt_24>
+    <txt_25 >Job</txt_25>
+    <txt_26 >Aktiv jobliste</txt_26>
+    <txt_27 >Døgn</txt_27>
+    <txt_28 >Dagspris</txt_28>
+    <txt_29 >Maks. beløb</txt_29>
+    <txt_30 >Mor.</txt_30>
+
+    <txt_31 >Fro.</txt_31>
+    <txt_32 >Aft.</txt_32>
+    <txt_33 >Antal stk.</txt_33>
+    <txt_34 >Ialt</txt_34>
+    <txt_35 >Bilag</txt_35>
+    <txt_36 >Total</txt_36>
+    <txt_37 >Slet</txt_37>
+    <txt_38 >Tilføj job</txt_38>
+    <txt_39 >Funktioner</txt_39>
+    <txt_40 >Eksport til .csv</txt_40>
+    
+    <txt_41 >Fuld</txt_41>
+    <txt_42 >Delvis</txt_42>
+    <txt_43 >Vælg Konto</txt_43>
+    <txt_44 >Fra</txt_44>
+    
+    <txt_45 >Init</txt_45>
+    <txt_46 >Afrejsedato</txt_46>
+    <txt_47 >Hjemrejse</txt_47>
+    <txt_48 >Dage ialt</txt_48>
+    <txt_49 >Destination</txt_49>
+    <txt_50 >Job/Projekt</txt_50>
+    <txt_51 >Jobnr</txt_51>
+    <txt_52 >Procent</txt_52>
+    <txt_53 >Maks.kost</txt_53>
+    <txt_54 >Morgen</txt_54>
+    <txt_55 >Middag</txt_55>
+    <txt_56 >Aften</txt_56>
+    <txt_57 >Ialt/Rest.</txt_57>
+    <txt_58 >Priser taget fra tariff</txt_58>
+
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >Choose job</txt_1>
+    <txt_2 >No selection</txt_2>
+    <txt_3 >Add more jobs to itinerary / diet</txt_3>
+    <txt_4 >Job</txt_4>
+    <txt_5 >Percent (integer)</txt_5>
+    <txt_6 >Updated</txt_6>
+    <txt_7 >Update</txt_7>
+    <txt_8 >Itinerary / Diet</txt_8>
+    <txt_9 >You are about to</txt_9>
+    <txt_10 >DELETE</txt_10>
+
+    <txt_11 >a itinerary / diet Is this correct</txt_11>
+    <txt_12 >Yes</txt_12>
+    <txt_13 >No</txt_13>
+    <txt_14 >Itinerary / Diets</txt_14>
+    <txt_15 >Employee</txt_15>
+    <txt_16 >Show all</txt_16>
+    <txt_17 >Search</txt_17>
+    <txt_18 >Reduction</txt_18>
+    <txt_19 >Name</txt_19>
+    <txt_20 >Date</txt_20>
+
+    <txt_21 >Dep.</txt_21>
+    <txt_22 >Time</txt_22>
+    <txt_23 >Return</txt_23>
+    <txt_24 >Destination</txt_24>
+    <txt_25 >Job</txt_25>
+    <txt_26 >Active job list</txt_26>
+    <txt_27 >Days</txt_27>
+    <txt_28 >Daily price</txt_28>
+    <txt_29 >Max. amount</txt_29>
+    <txt_30 >Mor.</txt_30>
+
+    <txt_31 >Lunch</txt_31>
+    <txt_32 >Dinner</txt_32>
+    <txt_33 >Amount</txt_33>
+    <txt_34 >Tot.</txt_34>
+    <txt_35 >App.</txt_35>
+    <txt_36 >Total</txt_36>
+    <txt_37 >Delete</txt_37>
+    <txt_38 >Add job</txt_38>
+    <txt_39 >Functions</txt_39>
+    <txt_40 >Export to .csv</txt_40>
+    
+    <txt_41 >Full</txt_41>
+    <txt_42 >Parti.</txt_42>
+    <txt_43 >Select Account</txt_43>
+    <txt_44 >From</txt_44>
+
+    <txt_45 >Init</txt_45>
+    <txt_46 >Departure</txt_46>
+    <txt_47 >Return</txt_47>
+    <txt_48 >Days total</txt_48>
+    <txt_49 >Destination</txt_49>
+    <txt_50 >Job/Project</txt_50>
+    <txt_51 >Job No.</txt_51>
+    <txt_52 >Percentage</txt_52>
+    <txt_53 >Max.cost</txt_53>
+    <txt_54 >Morning</txt_54>
+    <txt_55 >Lunch</txt_55>
+    <txt_56 >Dinner</txt_56>
+    <txt_57 >Total / Rest.</txt_57>
+    <txt_58 >Prices taken from tariff</txt_58>
+
+
+  </no>
+
+
+  <!--- Svensk -->
+  <so>
+    <txt_1 >Choose job</txt_1>
+    <txt_2 >No selection</txt_2>
+    <txt_3 >Add more jobs to itinerary / diet</txt_3>
+    <txt_4 >Job</txt_4>
+    <txt_5 >Percent (integer)</txt_5>
+    <txt_6 >Updated</txt_6>
+    <txt_7 >Update</txt_7>
+    <txt_8 >Itinerary / Diet</txt_8>
+    <txt_9 >You are about to</txt_9>
+    <txt_10 >DELETE</txt_10>
+
+    <txt_11 >a itinerary / diet Is this correct</txt_11>
+    <txt_12 >Yes</txt_12>
+    <txt_13 >No</txt_13>
+    <txt_14 >Itinerary / Diets</txt_14>
+    <txt_15 >Employee</txt_15>
+    <txt_16 >Show all</txt_16>
+    <txt_17 >Search</txt_17>
+    <txt_18 >Reduction</txt_18>
+    <txt_19 >Name</txt_19>
+    <txt_20 >Date</txt_20>
+
+    <txt_21 >Dep.</txt_21>
+    <txt_22 >Time</txt_22>
+    <txt_23 >Return</txt_23>
+    <txt_24 >Destination</txt_24>
+    <txt_25 >Job</txt_25>
+    <txt_26 >Active job list</txt_26>
+    <txt_27 >Days</txt_27>
+    <txt_28 >Daily price</txt_28>
+    <txt_29 >Max. amount</txt_29>
+    <txt_30 >Mor.</txt_30>
+
+    <txt_31 >Lunch</txt_31>
+    <txt_32 >Dinner</txt_32>
+    <txt_33 >Amount</txt_33>
+    <txt_34 >Tot.</txt_34>
+    <txt_35 >App.</txt_35>
+    <txt_36 >Total</txt_36>
+    <txt_37 >Delete</txt_37>
+    <txt_38 >Add job</txt_38>
+    <txt_39 >Functions</txt_39>
+    <txt_40 >Export to .csv</txt_40>
+
+    <txt_41 >Full</txt_41>
+    <txt_42 >Parti.</txt_42>
+    <txt_43 >Select Account</txt_43>
+    <txt_44 >From</txt_44>
+
+    <txt_45 >Init</txt_45>
+    <txt_46 >Departure</txt_46>
+    <txt_47 >Return</txt_47>
+    <txt_48 >Days total</txt_48>
+    <txt_49 >Destination</txt_49>
+    <txt_50 >Job/Project</txt_50>
+    <txt_51 >Job No.</txt_51>
+    <txt_52 >Percentage</txt_52>
+    <txt_53 >Max.cost</txt_53>
+    <txt_54 >Morning</txt_54>
+    <txt_55 >Lunch</txt_55>
+    <txt_56 >Dinner</txt_56>
+    <txt_57 >Total / Rest.</txt_57>
+    <txt_58 >Prices taken from tariff</txt_58>
+
+
+  </so>
+
+
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >Choose job</txt_1>
+    <txt_2 >No selection</txt_2>
+    <txt_3 >Add more jobs to itinerary / diet</txt_3>
+    <txt_4 >Job</txt_4>
+    <txt_5 >Percent (integer)</txt_5>
+    <txt_6 >Updated</txt_6>
+    <txt_7 >Update</txt_7>
+    <txt_8 >Itinerary / Diet</txt_8>
+    <txt_9 >You are about to</txt_9>
+    <txt_10 >DELETE</txt_10>
+
+    <txt_11 >a itinerary / diet Is this correct</txt_11>
+    <txt_12 >Yes</txt_12>
+    <txt_13 >No</txt_13>
+    <txt_14 >Itinerary / Diets</txt_14>
+    <txt_15 >Employee</txt_15>
+    <txt_16 >Show all</txt_16>
+    <txt_17 >Search</txt_17>
+    <txt_18 >Reduction</txt_18>
+    <txt_19 >Name</txt_19>
+    <txt_20 >Date</txt_20>
+
+    <txt_21 >Dep.</txt_21>
+    <txt_22 >Time</txt_22>
+    <txt_23 >Return</txt_23>
+    <txt_24 >Destination</txt_24>
+    <txt_25 >Job</txt_25>
+    <txt_26 >Active job list</txt_26>
+    <txt_27 >Days</txt_27>
+    <txt_28 >Daily price</txt_28>
+    <txt_29 >Max. amount</txt_29>
+    <txt_30 >Mor.</txt_30>
+
+    <txt_31 >Lunch</txt_31>
+    <txt_32 >Dinner</txt_32>
+    <txt_33 >Amount</txt_33>
+    <txt_34 >Tot.</txt_34>
+    <txt_35 >App.</txt_35>
+    <txt_36 >Total</txt_36>
+    <txt_37 >Delete</txt_37>
+    <txt_38 >Add job</txt_38>
+    <txt_39 >Functions</txt_39>
+    <txt_40 >Export to .csv</txt_40>
+
+    <txt_41 >Full</txt_41>
+    <txt_42 >Parti.</txt_42>
+    <txt_43 >Select Account</txt_43>
+    <txt_44 >From</txt_44>
+
+    <txt_45 >Init</txt_45>
+    <txt_46 >Departure</txt_46>
+    <txt_47 >Return</txt_47>
+    <txt_48 >Days total</txt_48>
+    <txt_49 >Destination</txt_49>
+    <txt_50 >Job/Project</txt_50>
+    <txt_51 >Job No.</txt_51>
+    <txt_52 >Percentage</txt_52>
+    <txt_53 >Max.cost</txt_53>
+    <txt_54 >Morning</txt_54>
+    <txt_55 >Lunch</txt_55>
+    <txt_56 >Dinner</txt_56>
+    <txt_57 >Total / Rest.</txt_57>
+    <txt_58 >Prices taken from tariff</txt_58>
+    
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >Choose job</txt_1>
+    <txt_2 >No selection</txt_2>
+    <txt_3 >Add more jobs to itinerary / diet</txt_3>
+    <txt_4 >Job</txt_4>
+    <txt_5 >Percent (integer)</txt_5>
+    <txt_6 >Updated</txt_6>
+    <txt_7 >Update</txt_7>
+    <txt_8 >Itinerary / Diet</txt_8>
+    <txt_9 >You are about to</txt_9>
+    <txt_10 >DELETE</txt_10>
+
+    <txt_11 >a itinerary / diet Is this correct</txt_11>
+    <txt_12 >Yes</txt_12>
+    <txt_13 >No</txt_13>
+    <txt_14 >Itinerary / Diets</txt_14>
+    <txt_15 >Employee</txt_15>
+    <txt_16 >Show all</txt_16>
+    <txt_17 >Search</txt_17>
+    <txt_18 >Reduction</txt_18>
+    <txt_19 >Name</txt_19>
+    <txt_20 >Date</txt_20>
+
+    <txt_21 >Dep.</txt_21>
+    <txt_22 >Time</txt_22>
+    <txt_23 >Return</txt_23>
+    <txt_24 >Destination</txt_24>
+    <txt_25 >Job</txt_25>
+    <txt_26 >Active job list</txt_26>
+    <txt_27 >Days</txt_27>
+    <txt_28 >Daily price</txt_28>
+    <txt_29 >Max. amount</txt_29>
+    <txt_30 >Mor.</txt_30>
+
+    <txt_31 >Lunch</txt_31>
+    <txt_32 >Dinner</txt_32>
+    <txt_33 >Amount</txt_33>
+    <txt_34 >Tot.</txt_34>
+    <txt_35 >App.</txt_35>
+    <txt_36 >Total</txt_36>
+    <txt_37 >Delete</txt_37>
+    <txt_38 >Add job</txt_38>
+    <txt_39 >Functions</txt_39>
+    <txt_40 >Export to .csv</txt_40>
+
+    <txt_41 >Full</txt_41>
+    <txt_42 >Parti.</txt_42>
+    <txt_43 >Select Account</txt_43>
+    <txt_44 >From</txt_44>
+
+    <txt_45 >Init</txt_45>
+    <txt_46 >Departure</txt_46>
+    <txt_47 >Return</txt_47>
+    <txt_48 >Days total</txt_48>
+    <txt_49 >Destination</txt_49>
+    <txt_50 >Job/Project</txt_50>
+    <txt_51 >Job No.</txt_51>
+    <txt_52 >Percentage</txt_52>
+    <txt_53 >Max.cost</txt_53>
+    <txt_54 >Morning</txt_54>
+    <txt_55 >Lunch</txt_55>
+    <txt_56 >Dinner</txt_56>
+    <txt_57 >Total / Rest.</txt_57>
+    <txt_58 >Prices taken from tariff</txt_58>
+
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Choose job</txt_1>
+    <txt_2 >No selection</txt_2>
+    <txt_3 >Add more jobs to itinerary / diet</txt_3>
+    <txt_4 >Job</txt_4>
+    <txt_5 >Percent (integer)</txt_5>
+    <txt_6 >Updated</txt_6>
+    <txt_7 >Update</txt_7>
+    <txt_8 >Itinerary / Diet</txt_8>
+    <txt_9 >You are about to</txt_9>
+    <txt_10 >DELETE</txt_10>
+
+    <txt_11 >a itinerary / diet Is this correct</txt_11>
+    <txt_12 >Yes</txt_12>
+    <txt_13 >No</txt_13>
+    <txt_14 >Itinerary / Diets</txt_14>
+    <txt_15 >Employee</txt_15>
+    <txt_16 >Show all</txt_16>
+    <txt_17 >Search</txt_17>
+    <txt_18 >Reduction</txt_18>
+    <txt_19 >Name</txt_19>
+    <txt_20 >Date</txt_20>
+
+    <txt_21 >Dep.</txt_21>
+    <txt_22 >Time</txt_22>
+    <txt_23 >Return</txt_23>
+    <txt_24 >Destination</txt_24>
+    <txt_25 >Job</txt_25>
+    <txt_26 >Active job list</txt_26>
+    <txt_27 >Days</txt_27>
+    <txt_28 >Daily price</txt_28>
+    <txt_29 >Max. amount</txt_29>
+    <txt_30 >Mor.</txt_30>
+
+    <txt_31 >Lunch</txt_31>
+    <txt_32 >Dinner</txt_32>
+    <txt_33 >Amount</txt_33>
+    <txt_34 >Tot.</txt_34>
+    <txt_35 >App.</txt_35>
+    <txt_36 >Total</txt_36>
+    <txt_37 >Delete</txt_37>
+    <txt_38 >Add job</txt_38>
+    <txt_39 >Functions</txt_39>
+    <txt_40 >Export to .csv</txt_40>
+
+    <txt_41 >Full</txt_41>
+    <txt_42 >Parti.</txt_42>
+    <txt_43 >Select Account</txt_43>
+    <txt_44 >From</txt_44>
+
+    <txt_45 >Init</txt_45>
+    <txt_46 >Departure</txt_46>
+    <txt_47 >Return</txt_47>
+    <txt_48 >Days total</txt_48>
+    <txt_49 >Destination</txt_49>
+    <txt_50 >Job/Project</txt_50>
+    <txt_51 >Job No.</txt_51>
+    <txt_52 >Percentage</txt_52>
+    <txt_53 >Max.cost</txt_53>
+    <txt_54 >Morning</txt_54>
+    <txt_55 >Lunch</txt_55>
+    <txt_56 >Dinner</txt_56>
+    <txt_57 >Total / Rest.</txt_57>
+    <txt_58 >Prices taken from tariff</txt_58>
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+    <txt_1 >Choose job</txt_1>
+    <txt_2 >No selection</txt_2>
+    <txt_3 >Add more jobs to itinerary / diet</txt_3>
+    <txt_4 >Job</txt_4>
+    <txt_5 >Percent (integer)</txt_5>
+    <txt_6 >Updated</txt_6>
+    <txt_7 >Update</txt_7>
+    <txt_8 >Itinerary / Diet</txt_8>
+    <txt_9 >You are about to</txt_9>
+    <txt_10 >DELETE</txt_10>
+
+    <txt_11 >a itinerary / diet Is this correct</txt_11>
+    <txt_12 >Yes</txt_12>
+    <txt_13 >No</txt_13>
+    <txt_14 >Itinerary / Diets</txt_14>
+    <txt_15 >Employee</txt_15>
+    <txt_16 >Show all</txt_16>
+    <txt_17 >Search</txt_17>
+    <txt_18 >Reduction</txt_18>
+    <txt_19 >Name</txt_19>
+    <txt_20 >Date</txt_20>
+
+    <txt_21 >Dep.</txt_21>
+    <txt_22 >Time</txt_22>
+    <txt_23 >Return</txt_23>
+    <txt_24 >Destination</txt_24>
+    <txt_25 >Job</txt_25>
+    <txt_26 >Active job list</txt_26>
+    <txt_27 >Days</txt_27>
+    <txt_28 >Daily price</txt_28>
+    <txt_29 >Max. amount</txt_29>
+    <txt_30 >Mor.</txt_30>
+
+    <txt_31 >Lunch</txt_31>
+    <txt_32 >Dinner</txt_32>
+    <txt_33 >Amount</txt_33>
+    <txt_34 >Tot.</txt_34>
+    <txt_35 >App.</txt_35>
+    <txt_36 >Total</txt_36>
+    <txt_37 >Delete</txt_37>
+    <txt_38 >Add job</txt_38>
+    <txt_39 >Functions</txt_39>
+    <txt_40 >Export to .csv</txt_40>
+
+    <txt_41 >Full</txt_41>
+    <txt_42 >Parti.</txt_42>
+    <txt_43 >Select Account</txt_43>
+    <txt_44 >From</txt_44>
+
+    <txt_45 >Init</txt_45>
+    <txt_46 >Departure</txt_46>
+    <txt_47 >Return</txt_47>
+    <txt_48 >Days total</txt_48>
+    <txt_49 >Destination</txt_49>
+    <txt_50 >Job/Project</txt_50>
+    <txt_51 >Job No.</txt_51>
+    <txt_52 >Percentage</txt_52>
+    <txt_53 >Max.cost</txt_53>
+    <txt_54 >Morning</txt_54>
+    <txt_55 >Lunch</txt_55>
+    <txt_56 >Dinner</txt_56>
+    <txt_57 >Total / Rest.</txt_57>
+    <txt_58 >Prices taken from tariff</txt_58>
+    
+  </es>
+  
+  <!--- Dansk -->
+  <tia>
+
+    <txt_1 >Choose job</txt_1>
+    <txt_2 >No selection</txt_2>
+    <txt_3 >Add more jobs to itinerary / diet</txt_3>
+    <txt_4 >Job</txt_4>
+    <txt_5 >Percent (integer)</txt_5>
+    <txt_6 >Updated</txt_6>
+    <txt_7 >Update</txt_7>
+    <txt_8 >Itinerary</txt_8>
+    <txt_9 >You are about to</txt_9>
+    <txt_10 >DELETE</txt_10>
+
+    <txt_11 >a itinerary / diet Is this correct</txt_11>
+    <txt_12 >Yes</txt_12>
+    <txt_13 >No</txt_13>
+    <txt_14 >Itinerary</txt_14>
+    <txt_15 >Employee</txt_15>
+    <txt_16 >Show all</txt_16>
+    <txt_17 >Search</txt_17>
+    <txt_18 >Reduction</txt_18>
+    <txt_19 >Name</txt_19>
+    <txt_20 >Date</txt_20>
+
+    <txt_21 >Dep.</txt_21>
+    <txt_22 >Time</txt_22>
+    <txt_23 >Return</txt_23>
+    <txt_24 >Destination</txt_24>
+    <txt_25 >Job</txt_25>
+    <txt_26 >Active job list</txt_26>
+    <txt_27 >Days</txt_27>
+    <txt_28 >Daily price</txt_28>
+    <txt_29 >Max. amount</txt_29>
+    <txt_30 >Mor.</txt_30>
+
+    <txt_31 >Lunch</txt_31>
+    <txt_32 >Dinner</txt_32>
+    <txt_33 >Amount</txt_33>
+    <txt_34 >Tot.</txt_34>
+    <txt_35 >App.</txt_35>
+    <txt_36 >Total</txt_36>
+    <txt_37 >Delete</txt_37>
+    <txt_38 >Add job</txt_38>
+    <txt_39 >Functions</txt_39>
+    <txt_40 >Export to .csv</txt_40>
+
+    <txt_41 >Full</txt_41>
+    <txt_42 >Parti.</txt_42>
+    <txt_43 >Select Account</txt_43>
+    <txt_44 >From</txt_44>
+
+    <txt_45 >Init</txt_45>
+    <txt_46 >Departure</txt_46>
+    <txt_47 >Return</txt_47>
+    <txt_48 >Days total</txt_48>
+    <txt_49 >Destination</txt_49>
+    <txt_50 >Job/Project</txt_50>
+    <txt_51 >Job No.</txt_51>
+    <txt_52 >Percentage</txt_52>
+    <txt_53 >Max.cost</txt_53>
+    <txt_54 >Morning</txt_54>
+    <txt_55 >Lunch</txt_55>
+    <txt_56 >Dinner</txt_56>
+    <txt_57 >Total / Rest.</txt_57>
+    <txt_58 >Prices taken from tariff</txt_58>
+    
+  </tia>
+
+
+</sprog>

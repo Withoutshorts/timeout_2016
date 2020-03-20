@@ -18,7 +18,7 @@
             
 
             dim tfaktimTot
-            redim tfaktimTot(13)
+            redim tfaktimTot(200)
             sub subTotaler
 
 
@@ -57,6 +57,24 @@
                                         case 7
                                                 tfaktimTot(12) = tfaktimTot(12) + oRec5("overtidtimer_onsket")
 
+
+                                        case 28
+                                                tfaktimTot(28) = tfaktimTot(28) + oRec5("overtidtimer_onsket")
+
+                                        case 29
+                                                tfaktimTot(29) = tfaktimTot(29) + oRec5("overtidtimer_onsket")
+                                        case 120
+                                                tfaktimTot(120) = tfaktimTot(120) + oRec5("overtidtimer_onsket")
+                                        case 121
+                                                tfaktimTot(121) = tfaktimTot(121) + oRec5("overtidtimer_onsket")
+                                        case 123
+                                                tfaktimTot(123) = tfaktimTot(123) + oRec5("overtidtimer_onsket")
+
+                                        case 124
+                                                tfaktimTot(124) = tfaktimTot(124) + oRec5("overtidtimer_onsket")
+
+                                        case 125
+                                                tfaktimTot(125) = tfaktimTot(125) + oRec5("overtidtimer_onsket")
                                             
                                         case else
                                          tfaktimTot(13) = tfaktimTot(13) + oRec5("overtidtimer_onsket") 
@@ -84,12 +102,16 @@
 
                                         case "cflow"
 
-                                            strSQlFakturerbar = " (fakturerbar = 7 OR fakturerbar = 10 OR fakturerbar = 30 OR fakturerbar = 51 OR fakturerbar = 52 OR fakturerbar = 54 OR fakturerbar = 50 OR fakturerbar = 53 OR fakturerbar = 55 OR fakturerbar = 60 OR fakturerbar = 61 OR fakturerbar = 90)"
+                                            strSQlFakturerbar = " (fakturerbar = 7 OR fakturerbar = 10 OR fakturerbar = 30 OR fakturerbar = 32 OR fakturerbar = 50 OR fakturerbar = 51 OR fakturerbar = 52 OR fakturerbar = 54 OR fakturerbar = 50 OR fakturerbar = 53 OR fakturerbar = 55 OR fakturerbar = 60 OR fakturerbar = 61 OR fakturerbar = 90 OR fakturerbar = 91 OR fakturerbar = 92 OR fakturerbar = 93 OR fakturerbar = 17 OR fakturerbar = 20 OR fakturerbar = 21 OR fakturerbar = 120 OR fakturerbar = 121)"
                                             strSQLJjobnr = "j.risiko < 0 AND jobnr = 3"
 
+
+                                       
                                         case else
+
                                            strSQlFakturerbar = "fakturerbar <> 1 AND fakturerbar <> 2"
-                                           strSQLJjobnr = "j.risiko < 0 AND jobnr = 3"
+                                           strSQLJjobnr = "j.risiko < 0" 'AND jobnr = 3
+
                                         end select
 
                                     
@@ -160,7 +182,7 @@
                                        
 
                                         strSQLakttype = "SELECT a.id, a.navn FROM job j "_
-                                        &" LEFT JOIN aktiviteter a ON (a.job = j.id) WHERE ("& strSQlFakturerbar &") AND  ("& strSQLJjobnr &") AND a.id <> "& oRec5("taktivitetid") &""
+                                        &" LEFT JOIN aktiviteter a ON (a.job = j.id) WHERE ("& strSQlFakturerbar &") AND  ("& strSQLJjobnr &") AND a.id <> "& oRec5("taktivitetid") &" GROUP BY a.fakturerbar ORDER BY a.navn"
                                         oRec.open strSQLakttype, oConn, 3
                                         while not oRec.EOF
                                         
@@ -293,6 +315,9 @@
                                         overtidplusfaktorPrDagLunch = 0
                                         %>
                                         <%end select %>
+
+
+                                        <!--(<%=overtidplusfaktorTot %>)-->
                                      
                                      <td>
                                          <%
@@ -342,7 +367,7 @@
                                         'strSQLakttype = "SELECT a.id, a.navn FROM job j LEFT JOIN aktiviteter a ON (a.fakturerbar <> 0 AND a.job = j.id) WHERE (fakturerbar <> 0) AND j.risiko < 0 AND jobnr = 3 " '(fakturerbar = 7)
                                         
                                         strSQLakttype = "SELECT a.id, a.navn FROM job j "_
-                                        &" LEFT JOIN aktiviteter a ON (a.job = j.id) WHERE ("& strSQlFakturerbar &") AND ("& strSQLJjobnr &")"
+                                        &" LEFT JOIN aktiviteter a ON (a.job = j.id) WHERE ("& strSQlFakturerbar &") AND ("& strSQLJjobnr &") GROUP BY a.fakturerbar ORDER BY a.navn"
                                             
                                         'response.write strSQLakttype
 
@@ -500,8 +525,13 @@
                         timerThis = request("timer_gk_7_"& tids7_tmnr(t))
                         tids7_dato = request("FM_dato7_"& tids7_tmnr(t))   
                         tids_aktid = request("FM_aktids7_"& tids7_tmnr(t))
+                        extsysid = 0
+                        timerkom = "" 
+                        koregnr = ""
+                        destination = ""
+                        usebopal = 0
 
-                        call indlasTimerTfaktimAktid(lto, tids7_tmnr(t), timerThis, 7, tids_aktid, insertUpdate, tids7_dato)
+                        call indlasTimerTfaktimAktid(lto, tids7_tmnr(t), timerThis, 7, tids_aktid, insertUpdate, tids7_dato, extsysid, timerkom, koregnr, destination, usebopal)
 
                         else
 
@@ -569,7 +599,7 @@
         'useStDatoKri = licensstdato
         'end if
 
-        call lonKorsel_lukketPerPrDato(now)
+        call lonKorsel_lukketPerPrDato(now, usemrn)
         'if cDate(lonKorsel_lukketPerDt) > cDate(useStDatoKri) then
         'useStDatoKri = dateAdd("d", 1, day(lonKorsel_lukketPerDt) &"/"& month(lonKorsel_lukketPerDt) &"/"& year(lonKorsel_lukketPerDt))
         'else
@@ -608,8 +638,8 @@
 	            end if
 	    
                 'response.Write "tjkDato: " & tjkDato & "<br>"
-
-	            tjkDatoW = datepart("ww", tjkDato, 2,2)
+                call thisWeekNo53_fn(tjkDato)
+	            tjkDatoW = thisWeekNo53 'datepart("ww", tjkDato, 2,2)
 	    
 	            if cint(bruguge_week) = cint(tjkDatoW) then
 	    
@@ -658,8 +688,8 @@
     else
 
         response.cookies("2015")("bruguge") = ""
-
-        bruguge_week = datepart("ww", now, 2,2)
+        call thisWeekNo53_fn(now)
+        bruguge_week = thisWeekNo53 'datepart("ww", now, 2,2)
 
             if len(trim(request("aar"))) <> 0 then
             aar = request("aar")
@@ -704,51 +734,7 @@
 
 
 
-        'if len(trim(request("varTjDatoUS_man"))) <> 0 then
-
-         '   varTjDatoUS_man = request("varTjDatoUS_man")
-        
-        'else
-
-         '   varTjDatoUS_man = year(now)&"/"&month(now)&"/"&day(now)
-
-        'end if
-
-         
-         '   mandag = datePart("w", varTjDatoUS_man, 2,2) 
-           
-
-         '       if cint(mandag) > 1 then
-         '       varTjDatoUS_man = dateAdd("d", -(mandag - (mandag-1)), varTjDatoUS_man)
-         '       end if
-
-          
-
-         '   if cint(mandag) > 1 then
-         '   varTjDatoUS_man = dateAdd("d", -(mandag - (mandag-1)), varTjDatoUS_man)
-         '   end if
-
       
-
-        'varTjDatoUS_man_minus = dateAdd("d", -7, varTjDatoUS_man)
-        'varTjDatoUS_man_plus = dateAdd("d", 7, varTjDatoUS_man)
-        'varTjDatoUS_son = dateAdd("d", 6, varTjDatoUS_man)
-
-        'useStDatoKri = varTjDatoUS_man
-
-        'sqlDatoStart = year(useStDatoKri)&"/"&month(useStDatoKri)&"/"&day(useStDatoKri)
-        'sqlDatoStartATD =  year(now)&"/1/1"
-
-     
-        'ddNowMinusOne = dateAdd("d", -1, now)
-
-        'sqlDatoEnd = year(ddNowMinusOne)&"/"&month(ddNowMinusOne)&"/"&day(ddNowMinusOne)
-
-        'daysAnsat = dateDiff("d", sqlDatoStart, ddNowMinusOne)
-
-        'varTjDatoUS_manSQL = year(varTjDatoUS_man) & "/" & month(varTjDatoUS_man) & "/" & day(varTjDatoUS_man)
-        'varTjDatoUS_sonSQL = year(varTjDatoUS_son) & "/" & month(varTjDatoUS_son) & "/" & day(varTjDatoUS_son)
-
 
 
 
@@ -878,15 +864,53 @@
      
         end if
 
-          response.Cookies("tsa")("selmedreqviskunikkegk") = viskunikkegk
+        response.Cookies("tsa")("selmedreqviskunikkegk") = viskunikkegk
+
+
+
+
+        if len(trim(request("FM_medarb"))) <> 0 then
+
+                if len(trim(request("FM_viskunikkegk1"))) <> 0 then
+                viskunikkegk1 = 1
+                viskunikkegkCHK1 = "CHECKED"
+                else
+                viskunikkegk1 = 0
+                viskunikkegkCHK1 = ""
+                end if
+
+        else
+                  
+                        
+                 if request.Cookies("tsa")("selmedreqviskunikkegk1") = "1" then
+                    viskunikkegk1 = 1
+                    viskunikkegkCHK1 = "CHECKED"
+                 else
+                    viskunikkegk1 = 0
+                    viskunikkegkCHK1 = ""
+
+                end if
+
+     
+        end if
+
+        response.Cookies("tsa")("selmedreqviskunikkegk1") = viskunikkegk1
+
 
 
         if cint(viskunikkegk) = 1 then
-        gkSQLkri = " AND (godkendtstatus = 0 OR godkendtstatus = 1 OR godkendtstatus = 2 OR godkendtstatus = 3)"
+        gkSQLkri = " AND (godkendtstatus = 0 OR godkendtstatus = 1 OR godkendtstatus = 3"
         else
-        gkSQLkri = " AND (godkendtstatus = 0 OR godkendtstatus = 3)"
+        gkSQLkri = " AND (godkendtstatus = 0 OR godkendtstatus = 3"
         end if
 
+        if cint(viskunikkegk1) = 1 then
+        gkSQLkri1 = " OR godkendtstatus = 2"
+        else
+        gkSQLkri1 = ""
+        end if
+
+        gkSQLkri = gkSQLkri & gkSQLkri1 & ")"
         
       
 
@@ -930,38 +954,13 @@
                       <form action="godkend_request_timer.asp?sogsubmitted=1" method="post">
                         
                                 <div class="row">
-                                    <div class="col-lg-6">Medarbejder: <select name="FM_medarb" class="form-control input-small" onchange="submit();">
-                                        <option value="0">Vis alle</option>
+                                    <div class="col-lg-6">Medarbejder: 
 
-                                        <%strSQLm = "SELECT mnavn, mid, init FROM medarbejdere WHERE mansat = 1 ORDER BY mnavn"
-                                            
-                                            oRec.open strSQLm, oConn, 3
-                                            While not oRec.EOF 
-                                            
-                                            if len(trim(oRec("init"))) <> 0 then
-                                            init = "["& oRec("init") &"]"
-                                            else
-                                            init = ""
-                                            end if
+                                        <%
 
-                                            if cdbl(usemrn) = cdbl(oRec("mid")) then
-                                            mSEL = "SELECTED"
-                                            else
-                                            mSEL = ""
-                                            end if
+                                            call selectMedarbPrProgrp(1, 0, "FM_medarb", 1, 0)
+
                                             %>
-                                          <option value="<%=oRec("mid") %>" <%=mSEL %>><%=oRec("mnavn") & " "& init %></option>
-                                           <%
-                                            oRec.movenext
-                                            Wend
-                                            oRec.close
-                                            
-                                         %>
-
-                                    
-
-
-                                                 </select>
                                       </div>
 
 
@@ -974,7 +973,7 @@
 
                                     <%end if %>
 
-                                    <div class="col-lg-3"><br /><button type="submit" class="btn btn-sm"><b><%=medarb_txt_100 %> >></b></button></div>
+                                  
 
                                      </div>
 
@@ -1020,26 +1019,27 @@
                  
                   <div class="col-lg-1">
                     
+                      <%call thisWeekNo53_fn(now) %>
 
                 <input class="dateweeknum" id="bruguge" name="bruguge" type="checkbox" value="1" <%=brugugeCHK %> />  Week:
-                <input type="text" id="bruguge_selector_of" class="form-control input-small" value="<%=Datepart("ww",now) %>" readonly>
+                <input type="text" id="bruguge_selector_of" class="form-control input-small" value="<%=thisWeekNo53 %>" readonly>
 			<select name="bruguge_week" id="bruguge_selector" class="form-control input-small" onchange="submit();" style="display:none" >
 			<% for w = 1 to 52
 			
-			if w = 1 then
-			useWeek = 1
-			else
-			useWeek = dateadd("ww", 1, useWeek)
-			end if
+			'if w = 1 then
+			'useWeek = 1
+			'else
+			'useWeek = dateadd("ww", 1, useWeek)
+			'end if
 			
-			if cint(datepart("ww", useWeek, 2,2)) = cint(bruguge_week) then
+			if cint(w) = cint(bruguge_week) then
 			wSel = "SELECTED"
 			else
 			wSel = ""
 			end if
 			
 			%>
-			<option value="<%=datepart("ww", useWeek, 2,2) %>" <%=wSel%>><%=datepart("ww", useWeek, 2,2) %></option>
+			<option value="<%=w%>" <%=wSel%>><%=w %></option>
 			<%
 			next %>
 			
@@ -1055,6 +1055,7 @@
 
                                         
                                         viskunDIS = "DISABLED"
+                                        viskunDIS1 = "DISABLED"
 
                                     end if %>
 
@@ -1062,27 +1063,25 @@
 
                               
 
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-9">
                               
                                         <!--<input type="radio" value="0" name="FM_ignper" id="FM_ignper0" <%=ignper0CHK %> <%=ignper0Dis %> /> Vis uger<br />
                                         <span class="inline"><input type="radio" value="1" name="FM_ignper" id="FM_ignper" <%=ignperCHK %> <%=ignperDis %> /> Ignorer periode <input type="text" name="FM_fradato" value="<%=fraDato %>" class="form-control input-small" style="width:80px;" /> - <input type="text" name="FM_tildato" value="<%=tilDato %>" class="form-control input-small" style="width:80px;" /></span><br />
                                         <input type="radio" value="2" name="FM_ignper" id="FM_ignper2" <%=ignper2CHK %> <%=ignper2Dis %> /> Vis løn periode &nbsp;<br />-->
 
-                                    <input type="checkbox" value="1" name="FM_viskunikkegk" <%=viskunikkegkCHK %> <%=viskunDIS %> /> Vis også godkendte og afviste timer</div>
+                                    <input type="checkbox" value="1" name="FM_viskunikkegk" <%=viskunikkegkCHK %> <%=viskunDIS %> /> Vis godkendte timer<br />
+                                    <input type="checkbox" value="1" name="FM_viskunikkegk1" <%=viskunikkegkCHK1 %> <%=viskunDIS1 %> /> Vis afviste timer
+
+
+                                    </div>
                                     
-                                    
+                                      <div class="col-lg-3" style="text-align:right; padding-right:40px;"><button type="submit" class="btn btn-info"><%=medarb_txt_100 %> >> </button></div>
                                   
                                 </div>
                         
                     
                            
-                           <!--
-                           <div class="row">
-                                <div class="col-lg-4"><br /><h4> <a href="godkend_request_timer.asp?varTjDatoUS_man=<%=varTjDatoUS_man_minus %>&FM_visning=<%=visning %>"><</a>  Week <%=datePart("ww", varTjDatoUS_man, 2,2) %> <a href="godkend_request_timer.asp?varTjDatoUS_man=<%=varTjDatoUS_man_plus %>&FM_visning=<%=visning %>">></a></h4> </div>
-                                    
-                           </div>-->
-
-                  
+                         
                           </form>
                        </div>
               
@@ -1098,10 +1097,10 @@
                                  sqlTfaktim = " AND tfaktim <> 0 "
                                  timeKolTxt = "AFTALE-home ønsket"
                             case "cflow"
-                                 sqlTfaktim = " AND (tfaktim = 7 OR tfaktim = 10 OR tfaktim = 30 OR tfaktim = 51 OR tfaktim = 52 OR tfaktim = 54 OR tfaktim = 50 OR tfaktim = 53 OR tfaktim = 55 OR tfaktim = 60 OR tfaktim = 61 OR tfaktim = 90)"
+                                 sqlTfaktim = " AND (tfaktim = 7 OR tfaktim = 10 OR tfaktim = 30 OR tfaktim = 32 OR tfaktim = 50 OR tfaktim = 51 OR tfaktim = 52 OR tfaktim = 54 OR tfaktim = 50 OR tfaktim = 53 OR tfaktim = 55 OR tfaktim = 60 OR tfaktim = 61 OR tfaktim = 90 OR tfaktim = 91 OR tfaktim = 92 OR tfaktim = 17 OR tfaktim = 20 OR tfaktim = 21 OR tfaktim = 28 OR tfaktim = 29 OR tfaktim = 123 OR tfaktim = 124 OR tfaktim = 125 OR tfaktim = 120 OR tfaktim = 121)"
                                  timeKolTxt = "Timer ønsket"
                             case else
-                                 sqlTfaktim = " AND tfaktim = 51 "
+                                 sqlTfaktim = " AND (tfaktim <> 1 AND tfaktim <> 2 ANd tfaktim <> 5)"
                                  timeKolTxt = "Timer ønsket"
                             end select 
                             

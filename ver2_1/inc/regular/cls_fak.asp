@@ -390,23 +390,39 @@ function opdater_fakturanr_rakkefgl(opdFaknrSerie, intFaknumFindes, sqlfld, intF
 end function
 
 
-public faktureret, faktureretKre, faktureretTimerEnhStk, faktureretLastFakDato, faktureret_fakvaluta
+public faktureret, faktureretKre, faktureretTimerEnhStk, faktureretLastFakDato, faktureret_fakvaluta, aafaktureret, aafaktureret_fakvaluta
 function stat_faktureret_job(jobid, sqlDatostart, sqlDatoslut)
 
 
-  '*** Faktureret **'
+        '*** Faktureret **'
 		faktureret = 0
         faktureret_fakvaluta = 0
 		faktureretTimerEnhStk = 0
         faktureretLastFakDato = day(sqlDatostart) & "/"& month(sqlDatostart) &"/"& year(sqlDatostart) '"2002-01-01"
-		
+
+   
+		aafaktureret = 0
+        aafaktureret_fakvaluta = 0          
+
 		'*** Faktureret ***'
-		strSQL2 = "SELECT if(faktype = 0, f.beloeb * (f.kurs/100), f.beloeb * -1 * (f.kurs/100)) AS faktureret, if(faktype = 0, f.beloeb, f.beloeb * -1) AS faktureret_fakvaluta, if(faktype = 0, SUM(fd.aktpris * (fd.kurs/100)), SUM(fd.aktpris * -1 * (fd.kurs/100))) AS aktbel, fakdato " _
-		&" FROM fakturaer AS f "_
-        & "LEFT JOIN faktura_det AS fd ON (fd.fakid = f.fid AND fd.enhedsang <> 3)"_
-		&" WHERE jobid = "& jobid &" AND aftaleid = 0 AND shadowcopy = 0"
+		'strSQL2 = "SELECT if(faktype = 0, f.beloeb * (f.kurs/100), f.beloeb * -1 * (f.kurs/100)) AS faktureret, if(faktype = 0, f.beloeb, f.beloeb * -1) AS faktureret_fakvaluta, if(faktype = 0, SUM(fd.aktpris * (fd.kurs/100)), SUM(fd.aktpris * -1 * (fd.kurs/100))) AS aktbel, fakdato " _
+		'&" FROM fakturaer AS f "_
+        '& "LEFT JOIN faktura_det AS fd ON (fd.fakid = f.fid AND fd.enhedsang <> 3)"_
+		'&" WHERE jobid = "& jobid &" AND aftaleid = 0 AND shadowcopy = 0"
+		intServiceaft = 0
+        strSQLseraft = "SELECT serviceaft FROM job WHERE id = " & jobid
+        oRec2.open strSQLseraft, oConn, 3
+        if not oRec2.EOF then
+        intServiceaft = oRec2("serviceaft")
+        end if
+        oRec2.close
+
 		
+        strSQL2 = "SELECT f.fid, f.faknr, f.aftaleid, f.faktype, f.jobid, f.fakdato, if(faktype = 0, f.beloeb * (f.kurs/100), f.beloeb * -1 * (f.kurs/100)) AS faktureret, if(faktype = 0, f.beloeb, f.beloeb * -1) AS faktureret_fakvaluta, "_
+		&" f.faktype, f.kurs, brugfakdatolabel, labeldato, fakadr, shadowcopy, f.valuta, afsender, medregnikkeioms FROM fakturaer f "_
+		&" WHERE (jobid = " & jobid & " AND shadowcopy = 0) OR (aftaleid = "& intServiceaft &" AND aftaleid <> 0 AND shadowcopy = 0)"
 		
+
 		if realfakpertot <> 0 then
 		strSQL2 = strSQL2 &" AND ((brugfakdatolabel = 0 AND fakdato BETWEEN '"& sqlDatostart &"' AND '"& sqlDatoslut &"')"
         strSQL2 = strSQL2 &" OR (brugfakdatolabel = 1 AND f.labeldato BETWEEN '"& sqlDatostart &"' AND '"& sqlDatoslut &"'))"
@@ -415,20 +431,90 @@ function stat_faktureret_job(jobid, sqlDatostart, sqlDatoslut)
       
         strSQL2 = strSQL2 &" GROUP BY fid ORDER BY fakdato"
 
+        'if session("mid") = 1 then
         'Response.Write strSQL2
         'Response.end
-		oRec2.open strSQL2, oConn, 3
+        'end if
+		
+        oRec2.open strSQL2, oConn, 3
 		
 		while not oRec2.EOF
-		faktureret = faktureret + oRec2("faktureret")
-        faktureret_fakvaluta = faktureret_fakvaluta + oRec2("faktureret_fakvaluta")
-        
 
-        if cDate(oRec2("fakdato")) < cDate("01-06-2010") AND lto = "epi" then
-        faktureretTimerEnhStk = faktureretTimerEnhStk + oRec2("faktureret")
+                      
+                        aafaktureret = 0
+                        aafaktureret_fakvaluta = 0          
+
+                        
+                      if oRec2("aftaleid") <> 0 then 'if oRec2("shadowcopy") = 1 then 'AND oRec2("aftaleid") <> 0 then
+               
+                   
+
+                        'strSQLFakorg = "SELECT f.fid, f.beloeb, f.valuta, f.kurs, f.faktype, f.aftaleid, fd.aktpris FROM fakturaer f "_
+                        '&" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& id &") WHERE faknr = '"& oRec2("faknr") &"' AND shadowcopy <> 1 "
+
+                        strSQLFakorg = "SELECT f.fid, f.beloeb, f.valuta, f.kurs, f.faktype, f.aftaleid, f.faknr, "_
+                        &" if(faktype = 0, fd.aktpris * (fd.kurs/100), fd.aktpris * -1 * (fd.kurs/100)) AS aktfaktureret, if(faktype = 0, fd.aktpris, fd.aktpris * -1) AS aktfaktureret_fakvaluta "_
+                        &" FROM fakturaer f "_
+                        &" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& jobid &") WHERE fid = "& oRec2("fid") &" AND aktpris IS NOT NULL AND shadowcopy <> 1 GROUP BY fid"
+
+                        'if session("mid") = 1 then
+                        'Response.write "<br>"& strSQLFakorg
+                        'Response.flush
+                        'end if
+
+                             
+
+                        oRec8.open strSQLFakorg, oConn, 3
+                        if not oRec8.EOF then
+
+                        
+                            aafaktureret = (oRec8("aktfaktureret")*1)
+                            aafaktureret_fakvaluta = (oRec8("aktfaktureret_fakvaluta")*1)                  
+
+                            'if session("mid") = 1 then
+                            'Response.write "faknr: "& oRec8("faknr") &" faktureret A: " & aafaktureret_fakvaluta &" // "& aafaktureret &" = " & oRec8("aktfaktureret") &" # "& oRec8("aktfaktureret_fakvaluta") &"<br>"
+                            'end if
+
+                        end if
+                        oRec8.close
+
+
+                        'faktureret = faktureret*1 + afaktureret
+                        'faktureret_fakvaluta = faktureret_fakvaluta*1 + afaktureret_fakvaluta
+
+                           faktureret = faktureret*1 + aafaktureret*1
+                           faktureret_fakvaluta = faktureret_fakvaluta*1 + aafaktureret_fakvaluta*1
+
+                            'if session("mid") = 1 then
+                            'Response.write "<br>M faktureret: " & faktureret & "<br>" 
+                            'end if
+
         else
-        faktureretTimerEnhStk = faktureretTimerEnhStk + oRec2("aktbel")
-        end if
+		faktureret = faktureret*1 + oRec2("faktureret")
+        faktureret_fakvaluta = faktureret_fakvaluta*1 + oRec2("faktureret_fakvaluta")
+
+
+                    
+                        strSQLaktbel = "SELECT if(faktype = 0, SUM(fd.aktpris * (fd.kurs/100)), SUM(fd.aktpris * -1 * (fd.kurs/100))) AS aktbel " _
+	                    &" FROM fakturaer AS f "_
+                        & "LEFT JOIN faktura_det AS fd ON (fd.fakid = f.fid AND fd.enhedsang <> 3)"_
+                        & "WHERE fid = " & oRec2("fid")
+        
+                        oRec8.open strSQLaktbel, oConn, 3
+                        if not oRec8.EOF then
+
+
+                        faktureretTimerEnhStk = faktureretTimerEnhStk + oRec8("aktbel")
+
+                        end if
+                        oRec8.close   
+
+
+        end if 'aftalefak
+
+        
+     
+                       
 
         '*** Bruger altid system dato til beregneing af igangværende arbejde, da timer kan indtastes på job fra systemlukkedato = fakturadato
         faktureretLastFakDato = oRec2("fakdato")
@@ -436,36 +522,53 @@ function stat_faktureret_job(jobid, sqlDatostart, sqlDatoslut)
 	    oRec2.movenext
         wend
 		oRec2.close
-		
 
+       
+		
+        'if session("mid") = 1 then
+        'Response.Write "faktureret: " & faktureret & "<br>"
+        'end if
+
+        if faktureret <> 0 then
+        faktureret = faktureret
+        else
+        faktureret = 0
+        end if
+
+        if faktureret_fakvaluta <> 0 then
+        faktureret_fakvaluta = faktureret_fakvaluta
+        else
+        faktureret_fakvaluta = 0
+        end if
 
                     'if session("mid") = 1 then
 
                     '*** Fakureret på aftaler **'
-                    strSQLFakorg = "SELECT f.fid, f.valuta, f.kurs, f.faktype, f.aftaleid, fd.aktpris, f.faknr FROM fakturaer f "_
-                    &" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& jobid &") WHERE f.jobid = "& jobid &" AND shadowcopy = 1"
+                    'strSQLFakorg = "SELECT f.fid, f.valuta, f.kurs, f.faktype, f.aftaleid, fd.aktpris, f.faknr FROM fakturaer f "_
+                    '&" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& jobid &") WHERE f.jobid = "& jobid &" AND shadowcopy = 1"
 
-                    oRec9.open strSQLFakorg, oConn, 3
-                    While not oRec9.EOF
+                    'oRec9.open strSQLFakorg, oConn, 3
+                    'While not oRec9.EOF
 
-                         strSQLFakaft = "SELECT f.fid, if(faktype = 0, fd.aktpris * (f.kurs/100), fd.aktpris * -1 * (f.kurs/100)) AS faktureret, if(faktype = 0, fd.aktpris, fd.aktpris * -1) AS faktureret_fakvaluta, f.valuta, f.kurs, f.faktype, f.aftaleid, fd.aktpris FROM fakturaer f "_
-                         &" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& jobid &") WHERE faknr = "& oRec9("faknr") &" AND shadowcopy <> 1 GROUP BY f.fid "
+                        '*** Hvor meget udgør dette job af aftale fakturaen 
+                       'strSQLFakaft = "SELECT f.fid, if(faktype = 0, fd.aktpris * (f.kurs/100), fd.aktpris * -1 * (f.kurs/100)) AS faktureret, if(faktype = 0, fd.aktpris, fd.aktpris * -1) AS faktureret_fakvaluta, f.valuta, f.kurs, f.faktype, f.aftaleid, fd.aktpris FROM fakturaer f "_
+                       '  &" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& jobid &") WHERE faknr = '"& oRec9("faknr") &"' AND shadowcopy <> 1 GROUP BY f.fid "
                         
                         'response.write strSQLFakaft
                         'response.Flush
 
-                        oRec2.open strSQLFakaft, oConn, 3
-                        if not oRec2.EOF then    
+                       ' oRec2.open strSQLFakaft, oConn, 3
+                        'if not oRec2.EOF then    
 
-                        faktureret = faktureret + oRec2("faktureret")
-                        faktureret_fakvaluta = faktureret_fakvaluta + oRec2("faktureret_fakvaluta")
+                        'faktureret = faktureret + oRec2("faktureret")
+                        'faktureret_fakvaluta = faktureret_fakvaluta + oRec2("faktureret_fakvaluta")
                         
-                         end if
-                         oRec2.close
+                         'end if
+                         'oRec2.close
    
-                    oRec9.movenext
-                    wend
-                    oRec9.close
+                    'oRec9.movenext
+                    'wend
+                    'oRec9.close
 
                     'end if
 
@@ -517,6 +620,10 @@ function stat_faktureret_job(jobid, sqlDatostart, sqlDatoslut)
         else
         faktureretTimerEnhStk = 0
         end if
+
+                    'if session("mid") = 1 then
+                    'Response.end
+                    'end if
         
 
 end function

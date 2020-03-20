@@ -855,6 +855,79 @@ if len(strLicenskey) <> 0 then
     lto = "wap"
 	strConnThis = "timeout_wap64"
 
+    case "9K2018-2506-TO181"
+    lto = "miele"
+	strConnThis = "timeout_miele64"
+
+    case "9K2018-3007-TO182"
+    lto = "sduuas"
+	strConnThis = "timeout_sduuas64"
+
+    case "9K2018-2108-TO183"
+    lto = "ddc"
+	strConnThis = "timeout_ddc64"
+    
+    case "9K2018-3008-TO184"
+    lto = "trustgmp"
+	strConnThis = "timeout_trustgmp64"
+
+    case "9K2019-2101-TO185"
+    lto = "flash"
+	strConnThis = "timeout_flash64"
+
+    case "9K2019-1402-TO186"
+    lto = "sdumikjoh"
+	strConnThis = "timeout_sdumikjoh64"
+
+    case "9K2019-2702-TO187"
+    lto = "cool"
+	strConnThis = "timeout_cool64"
+
+    
+    case "9K2019-2303-TO187"
+    lto = "lm"
+	strConnThis = "timeout_lm64"
+
+    case "9K2019-3008-TO188"
+    lto = "rm"
+	strConnThis = "timeout_rm64"
+
+    case "9K2019-1509-TO189"
+    lto = "foa"
+	strConnThis = "timeout_foa64"
+
+    case "9K2019-2509-TO190"
+    lto = "care"
+	strConnThis = "timeout_care64"
+    
+    case "9K2019-1010-TO191"
+    lto = "db"
+	strConnThis = "timeout_db64"
+
+    case "9K2019-1510-TO192"
+    lto = "a27"
+	strConnThis = "timeout_a2764"
+
+    case "9K2019-2911-TO193"
+    lto = "sducei"
+	strConnThis = "timeout_sducei64"
+
+    case "9K2019-0612-TO193"
+    lto = "kongeaa"
+	strConnThis = "timeout_kongeaa64"
+
+    case "9K2020-0221-TO194"
+    lto = "herlev"
+	strConnThis = "timeout_herlev64"
+    
+    case "9K2020-0306-TO195"
+    lto = "sweco"
+	strConnThis = "timeout_sweco64"
+
+    case "9K2020-0316-TO196"
+    lto = "remakers"
+	strConnThis = "timeout_remakers64"
+    
 
     'ODBC 3.51 Driver
 	
@@ -1035,6 +1108,7 @@ if len(strConn) <> 0 then
 	Set oRec7 = Server.CreateObject ("ADODB.Recordset")
     Set oRec8 = Server.CreateObject ("ADODB.Recordset")
     Set oRec9 = Server.CreateObject ("ADODB.Recordset")
+    Set oRec10 = Server.CreateObject ("ADODB.Recordset")
     Set oCmd = Server.CreateObject ("ADODB.Command")
 	
 	oConn.open strConnect_DBConn

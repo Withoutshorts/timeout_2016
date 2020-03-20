@@ -138,7 +138,7 @@ if len(session("user")) = 0 then
 							<option value="0">Alle</option>
 							
 							<%
-							strSQL = "SELECT mid, mnavn FROM medarbejdere WHERE mid <> 0 AND mansat <> 2 ORDER BY mnavn"
+							strSQL = "SELECT mid, mnavn FROM medarbejdere WHERE mid <> 0 AND mansat <> 2 AND mansat <> 4 ORDER BY mnavn"
 							oRec.open strSQL, oConn, 3
 							while not oRec.EOF
 							if cint(ansSel) = cint(oRec("mid")) then

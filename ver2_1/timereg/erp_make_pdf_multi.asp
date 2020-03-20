@@ -104,7 +104,13 @@ call TimeOutVersion()
 
 
                         Set myMail=CreateObject("CDO.Message")
+                        select case lto
+                        case "epi2017"
+                        myMail.From="epinion_finance_no_reply@outzource.dk"
+                        case else
                         myMail.From="timeout_no_reply@outzource.dk"
+                        end select
+
 
                         if len(trim(emMo)) <> 0 then
                         myMail.To= ""& emMo &"<"& emMomail &">"
@@ -163,7 +169,7 @@ call TimeOutVersion()
          
              strknavnSQL = "SELECT k.kkundenavn, fid, f.faktype, f.jobid, f.aftaleid, f.fakadr, f.afsender, "_
              &" afs.betbet as afsbetbet, afs.kkundenavn AS afskkundenavn, afs.adresse As afsadresse, afs.postnr as afspostnr, "_
-             &" afs.city as afscity, afs.land AS afsland, afs.email As afsemail, afs.telefon AS afstelefon FROM fakturaer f"_ 
+             &" afs.city as afscity, afs.land AS afsland, afs.email As afsemail, afs.telefon AS afstelefon, f.sprog FROM fakturaer f"_ 
              &" LEFT JOIN kunder as k ON (k.kid = fakadr) "_
              &" LEFT JOIN kunder as afs ON (afs.kid = afsender) "_
              &" WHERE fid = " & fakids(f)
@@ -191,12 +197,24 @@ call TimeOutVersion()
                     aftid = oRec("aftaleid")
                     kid = oRec("fakadr")         
        
+                    sprog = oRec("sprog")
                  
 
-             afsenderTxt = "<br><br>Denne faktura er oprettet og afsendt fra timeOut (www.outzource.dk) på vegne af:<br><br>"_
+             select case sprog
+             case 2
+        
+             afsenderTxt = "<br><br>This Invoice are created from from TimeOut Timerecording (www.outzource.dk) on behalf of:<br><br>"_
              &""& oRec("afskkundenavn") &"<br>"& oRec("afsadresse") &"<br>"& oRec("afspostnr") &", "& oRec("afscity") &"<br>"& oRec("afsland") &"<br>"& oRec("afsemail") & ", tel: "& oRec("afstelefon") &""_
-             &"<br><br>Standard betalingsbetingelser:<br>"& oRec("afsbetbet") & "<br><br>"_ 
-             &"<br><br><br>Med venlig hilsen<br>"& oRec("afskkundenavn") &"<br>"& meNavn & "<" & meEmail& "><br><br>"& now
+             &"<br><br>Best regards<br>"& oRec("afskkundenavn") &"<br>"& meNavn & "<" & meEmail& "><br><br>"& now
+             '&"<br><br>Standard payment terms:<br>"& oRec("afsbetbet") & "<br><br>"_ 
+
+             case else
+
+             afsenderTxt = "<br><br>Denne faktura er oprettet og afsendt fra TimeOut Timeregistrering (www.outzource.dk) på vegne af:<br><br>"_
+             &""& oRec("afskkundenavn") &"<br>"& oRec("afsadresse") &"<br>"& oRec("afspostnr") &", "& oRec("afscity") &"<br>"& oRec("afsland") &"<br>"& oRec("afsemail") & ", tel: "& oRec("afstelefon") &""_
+             &"<br><br>Med venlig hilsen<br>"& oRec("afskkundenavn") &"<br>"& meNavn & "<" & meEmail& "><br><br>"& now
+             '&"<br><br>Standard betalingsbetingelser:<br>"& oRec("afsbetbet") & "<br><br>"_ 
+             end select
 
              end if
              oRec.close
@@ -316,8 +334,15 @@ call TimeOutVersion()
                         
                         'to_url = "https://timeout.cloud"
                         myMail.Subject=""& strFaktypeNavn &" " & faknr & ", " & strknavn
+                
+                        select case sprog
+                        case 2 'UK
+                        myMail.HTMLBody = "<HTML><HEAD></head><BODY>Dear Customer<br>By this encloses "& strFaktypeNavn &" " & faknr & ".<br>" & afsenderTxt & bodyTXT & "</Body></html>"
+                        case else
                         myMail.HTMLBody = "<HTML><HEAD></head><BODY>Kære kunde<br>Hermed fremsendes "& strFaktypeNavn &" " & faknr & ".<br>" & afsenderTxt & bodyTXT & "</Body></html>"
-            
+                        end select        
+
+
                         '"" & medarb_txt_009 &" " & strNavn & vbCrLf _ 
 					    '& medarb_txt_118 & vbCrLf _ 
 					    '& medarb_txt_012 &" "& strLogin &" "& medarb_txt_013 &" "& strPw & vbCrLf & vbCrLf _ 

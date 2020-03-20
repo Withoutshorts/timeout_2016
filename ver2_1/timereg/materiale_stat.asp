@@ -371,16 +371,8 @@ if len(session("user")) = 0 then
 	case else
 	
 	thisJobnr = 0
-	%>
 	
-	
-	
-	
-	
-	
-	
-	
-	<%if print <> "j"  then%>
+    if print <> "j"  then%>
 	
 	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
 	<script src="inc/matstat_jav.js"></script>
@@ -1183,14 +1175,14 @@ if len(session("user")) = 0 then
 	                </tr>
 	                <%
                 	
-	                strExport = "Jobnavn;Job Nr;Aktivitet;Kundennavn;Kunde Nr;Forbrugs dato;Medarbejder;Medarb. Nr;Initialer;Gruppe;Navn;Varenr;Antal;Enhed;Købspris pr. stk.;Salgspris pr. stk;Valuta; Kurs; Købspris ialt; Salgspris ialt; Valuta;"
+	                strExport = "Jobnavn;Job Nr;Aktivitet;Kundennavn;Kunde Nr;Forbrugs dato;Medarbejder;Medarb. Nr;Initialer;Gruppe;Navn;Varenr;Antal;Enhed;Købspris pr. stk.;Salgspris pr. stk;Valuta; Kurs; Købspris ialt; Salgspris ialt; Valuta;Kontonr;"
 	                
 	                strSQL = "SELECT m.mnavn AS medarbejdernavn, mf.id, mf.matvarenr AS varenr, mg.navn AS gnavn, mf.matenhed AS enhed, "_
 	                &" mf.matnavn AS navn, mf.matantal AS antal, mf.dato, mf.editor, mf.matid, "_
 	                & "mf.matkobspris, mf.matsalgspris, mf.jobid, mf.matgrp, mf.usrid, mf.forbrugsdato, mg.av, "_
 	                &" j.jobans1, j.jobans2, j.jobnavn, j.jobnr, k.kkundenavn, k.kkundenr, m.init, f.fakdato, "_
 	                &" m.mnr, ma.antal AS palager, ma.minlager, "_
-	                &" mf.valuta, mf.intkode, v.valutakode, mf.kurs AS mfkurs, j.risiko, a.navn AS aktnavn "_
+	                &" mf.valuta, mf.intkode, v.valutakode, mf.kurs AS mfkurs, j.risiko, a.navn AS aktnavn, mf_konto, kp.navn AS kontonavn, kp.kontonr "_
 	                &" FROM materiale_forbrug mf"_
 	                &" LEFT JOIN materiale_grp mg ON (mg.id = mf.matgrp) "_
 	                &" LEFT JOIN medarbejdere m ON (mid = mf.usrid) "_
@@ -1200,6 +1192,7 @@ if len(session("user")) = 0 then
 	                &" LEFT JOIN materialer ma ON (ma.id = mf.matid)"_
 	                &" LEFT JOIN fakturaer f ON (f.jobid = mf.jobid AND f.faktype = 0)"_
 	                &" LEFT JOIN valutaer v ON (v.id = mf.valuta) "_
+                    &" LEFT JOIN kontoplan kp ON (kp.id = mf_konto) "_    
 	                &" WHERE ("&jobKri&") AND ("& medarbSQlKri &") "& strDatoKri &" GROUP BY mf.id ORDER BY "& orderbyKri	
                 	
 	                'response.write strSQL
@@ -1231,14 +1224,15 @@ if len(session("user")) = 0 then
                 					
                 			    
 			                    '*** Er uge alfsuttet af medarb, er smiley og autogk slået til
-                                erugeafsluttet = instr(afslUgerMedab(oRec("usrid")), "#"&datepart("ww", oRec("forbrugsdato"),2,2)&"_"& datepart("yyyy", oRec("forbrugsdato")) &"#")
+                                call thisWeekNo53_fn(oRec("forbrugsdato"))
+                                erugeafsluttet = instr(afslUgerMedab(oRec("usrid")), "#"&thisWeekNo53&"_"& datepart("yyyy", oRec("forbrugsdato")) &"#")
                                 
                            
                               
                               
                                 strMrd_sm = datepart("m", oRec("forbrugsdato"), 2, 2)
                                 strAar_sm = datepart("yyyy", oRec("forbrugsdato"), 2, 2)
-                                strWeek = datepart("ww", oRec("forbrugsdato"), 2, 2)
+                                strWeek = thisWeekNo53 'datepart("ww", oRec("forbrugsdato"), 2, 2)
                                 strAar = datepart("yyyy", oRec("forbrugsdato"), 2, 2)
 
                                 if cint(SmiWeekOrMonth) = 0 then
@@ -1250,7 +1244,7 @@ if len(session("user")) = 0 then
                                 end if
 
                 
-                                call erugeAfslutte(useYear, usePeriod, oRec("usrid"), SmiWeekOrMonth, 0)
+                                call erugeAfslutte(useYear, usePeriod, oRec("usrid"), SmiWeekOrMonth, 0, oRec("forbrugsdato"))
 		        
 		                        'Response.Write "smilaktiv: "& smilaktiv & "<br>"
 		                        'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &"<br>"
@@ -1259,22 +1253,13 @@ if len(session("user")) = 0 then
 		                        'Response.Write "autolukvdato: "& autolukvdato & "<br>"
 		                        'Response.Write "erugeafsluttet:" & erugeafsluttet & "<br>"
 		        
-		                          call lonKorsel_lukketPer(oRec("forbrugsdato"), oRec("risiko"))
+		                          call lonKorsel_lukketPer(oRec("forbrugsdato"), oRec("risiko"), oRec("usrid"))
 		         
-                                'if ( (( datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0) OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 )) AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
-                                '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", oRec("forbrugsdato")) = year(now) AND DatePart("m", oRec("forbrugsdato")) < month(now)) OR _
-                                '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", oRec("forbrugsdato")) < year(now) AND DatePart("m", oRec("forbrugsdato")) = 12)) OR _
-                                '(smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", oRec("forbrugsdato")) < year(now) AND DatePart("m", oRec("forbrugsdato")) <> 12) OR _
-                                '(smilaktiv = 1 AND autolukvdato = 1 AND (year(now) - DatePart("yyyy", oRec("forbrugsdato")) > 1))) OR cint(lonKorsel_lukketIO) = 1 then
                               
-                                'ugeerAfsl_og_autogk_smil = 1
-                                'else
-                                'ugeerAfsl_og_autogk_smil = 0
-                                'end if 
 
 
                                  '*** tjekker om uge er afsluttet / lukket / lønkørsel
-                                call tjkClosedPeriodCriteria(oRec("forbrugsdato"), ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO)
+                                call tjkClosedPeriodCriteria(oRec("forbrugsdato"), ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO, ugegodkendt)
 
 
                 				
@@ -1327,7 +1312,17 @@ if len(session("user")) = 0 then
                             <%else %>
                             &nbsp;(<%=oRec("jobnr")%>)
                             <%end if %>
+                            
+                            <%if ISNULL(oRec("aktnavn")) <> true then %>
                             <br /><span style="color:#999999; font-size:9px;"><%=oRec("aktnavn") %></span>
+                            <%end if %>
+
+                            <%if oRec("kontonr") <> 0 AND len(trim(oRec("kontonr"))) <> 0 AND ISNULL(oRec("kontonr")) <> true then %>
+                            <br /><span style="color:#999999; font-size:9px;"><%=oRec("kontonavn") & " ("& oRec("kontonr") &")" %></span>
+                            <%kontonrTxt = oRec("kontonr")
+                            else
+                            kontonrTxt = 0%>
+                            <%end if %>
 		                </td>
                 		
 		                <%
@@ -1432,7 +1427,7 @@ if len(session("user")) = 0 then
 		                <%salgsprisialt = formatnumber(matsalgspris/1 * oRec("antal")/1 * oRec("mfkurs")/100 , 2) %>
 		                <%=salgsprisialt %>
 		                <%
-		                strExport = strExport & matsalgspris &";"& oRec("valutakode") & ";" & oRec("mfkurs") & ";"& kobsprisialt &";"&salgsprisialt&";"& basisValISO &";"
+		                strExport = strExport & matsalgspris &";"& oRec("valutakode") & ";" & oRec("mfkurs") & ";"& kobsprisialt &";"&salgsprisialt&";"& basisValISO &";"& Chr(34) & kontonrTxt & Chr(34) &";"
 		                sprisTot = sprisTot + (salgsprisialt/1)
 		                %>
 		                </td>
@@ -1841,7 +1836,7 @@ if len(session("user")) = 0 then
                         %>
 	                
 	                
-	                <td style="border-bottom:1px #cccccc solid; width:180px;"><%=oRec("kkundenavn") %> (<%=oRec("kkundenr") %>)<br />
+	                    <td style="border-bottom:1px #cccccc solid; width:180px;"><%=oRec("kkundenavn") %> (<%=oRec("kkundenr") %>)<br />
                         <b><%=oRec("jobnavn")%></b>&nbsp;(<%=oRec("jobnr")%>)<br />
                         <span style="color:#999999; font-size:9px;"><%=oRec("aktnavn") %></span>
 	                </td>
@@ -1941,7 +1936,8 @@ if len(session("user")) = 0 then
             	    
 	                <%
 	                   '*** Er uge alfsuttet af medarb, er smiley og autogk slået til
-                            erugeafsluttet = instr(afslUgerMedab(oRec("mid")), "#"&datepart("ww", oRec("forbrugsdato"),2,2)&"_"& datepart("yyyy", oRec("forbrugsdato")) &"#")
+                            call thisWeekNo53_fn(oRec("forbrugsdato"))
+                            erugeafsluttet = instr(afslUgerMedab(oRec("mid")), "#"&thisWeekNo53&"_"& datepart("yyyy", oRec("forbrugsdato")) &"#")
                             
                             'Response.Write "erugeafsluttet --" & erugeafsluttet  &"<br>"
                             'Response.flush
@@ -1950,7 +1946,7 @@ if len(session("user")) = 0 then
 
                                 strMrd_sm = datepart("m", oRec("forbrugsdato"), 2, 2)
                                 strAar_sm = datepart("yyyy", oRec("forbrugsdato"), 2, 2)
-                                strWeek = datepart("ww", oRec("forbrugsdato"), 2, 2)
+                                strWeek = thisWeekNo53 'datepart("ww", oRec("forbrugsdato"), 2, 2)
                                 strAar = datepart("yyyy", oRec("forbrugsdato"), 2, 2)
 
                                 if cint(SmiWeekOrMonth) = 0 then
@@ -1962,7 +1958,7 @@ if len(session("user")) = 0 then
                                 end if
 
                 
-                                call erugeAfslutte(useYear, usePeriod, oRec("mid"), SmiWeekOrMonth, 0)
+                                call erugeAfslutte(useYear, usePeriod, oRec("mid"), SmiWeekOrMonth, 0, oRec("forbrugsdato"))
 		        
 		                        'Response.Write "smilaktiv: "& smilaktiv & "<br>"
 		                        'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &"<br>"
@@ -1971,21 +1967,12 @@ if len(session("user")) = 0 then
 		                        'Response.Write "autolukvdato: "& autolukvdato & "<br>"
 		                        'Response.Write "erugeafsluttet:" & erugeafsluttet & "<br>"
 		        
-		                           call lonKorsel_lukketPer(regdato, oRec("risiko"))
+		                           call lonKorsel_lukketPer(regdato, oRec("risiko"), oRec("mid"))
 		         
-                            'if ( (( datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0) OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 )) AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
-                            '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", oRec("forbrugsdato")) = year(now) AND DatePart("m", oRec("forbrugsdato")) < month(now)) OR _
-                            '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", oRec("forbrugsdato")) < year(now) AND DatePart("m", oRec("forbrugsdato")) = 12)) OR _
-                            '(smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", oRec("forbrugsdato")) < year(now) AND DatePart("m", oRec("forbrugsdato")) <> 12) OR _
-                            '(smilaktiv = 1 AND autolukvdato = 1 AND (year(now) - DatePart("yyyy", oRec("forbrugsdato")) > 1))) OR cint(lonKorsel_lukketIO) = 1 then
-                          
-                            'ugeerAfsl_og_autogk_smil = 1
-                            'else
-                            'ugeerAfsl_og_autogk_smil = 0
-                            'end if 
+                            
             				
             			    '*** tjekker om uge er afsluttet / lukket / lønkørsel
-                            call tjkClosedPeriodCriteria(oRec("forbrugsdato"), ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO)
+                            call tjkClosedPeriodCriteria(oRec("forbrugsdato"), ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO, ugegodkendt)
 
             				
 				            if (ugeerAfsl_og_autogk_smil = 0 _

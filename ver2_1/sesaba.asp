@@ -1,9 +1,31 @@
-<%response.buffer = true%>
+<%response.buffer = true
+    
+    
+if session("mid") = "" AND len(trim(request("guestlogud"))) = 0 then
+
+      %>
+
+
+            <!--#include file="inc/regular/header_lysblaa_2015_inc.asp"-->
+            <script src="sesaba_jav_2017_0329.js" type="text/javascript"></script>
+            <body topmargin="0" leftmargin="0" class="login">
+            <%call takforidag() %>
+
+            <br /><br />
+            <div style="color:#999999; font-size:9px; padding:20px;">Session.abandoned</div>
+            
+            </body></html>
+
+
+
+    <%
+
+Response.end
+end if
+%>
+
 <!--#include file="inc/connection/conn_db_inc.asp"-->
 <!--#include file="inc/regular/global_func.asp"-->
-
-
-
 
 <%
 
@@ -52,68 +74,116 @@
 
             end select
             Response.end
-        end if
+  end if
 
 
 
-if len(trim(session("mid"))) <> 0 then
-uid = session("mid")
+
+
+
+
+
+if len(trim(request("frommonitor"))) <> 0 then
+frommonitor = request("frommonitor")
 else
-uid = 0
+frommonitor = 0
 end if
 
 
-call erStempelurOn()
-               
-        if cint(stempelur_hideloginOn) = 1 then 'skriv ikke login, men åben komme/gå tom ==> Opdater ikke logind historiken ved logud
 
-        'select case lcase(lto)
-        'case "kejd_pb", "kejd_pb2", "fk", "fk_bpm"
-
-        logudDone = 1
-
-        'case else
-        else
-
-        if len(request("logudDone")) then
-        logudDone = request("logudDone")
-        else
-        logudDone = 0
-        end if
-
-        end if
-
-
-if len(trim(request("fromweblogud"))) <> 0 then
-fromweblogud = request("fromweblogud")
-else
-fromweblogud = 0
-end if
-
-    if len(trim(request("rdir"))) <> 0 then
-    rdir = request("rdir")
+if len(trim(request("guestlogud"))) <> 0 then
+    if len(trim(request("medid"))) <> 0 then
+        uid = request("medid")
+        session("mid") = uid
     else
-    rdir = ""
+        uid = 0
     end if
+else
+    if len(trim(session("mid"))) <> 0 then
+    uid = session("mid")
+    else
+    uid = 0
+    end if
+end if
 
+
+logudDone = 0
+call erStempelurOn()
+
+'frommonitor
+               
+
+        'if lto = "miele" then
+        'Response.write "stempelur_hideloginOn = " & stempelur_hideloginOn
+        'Response.flush
+        'end if
+
+        if len(trim(request("fromweblogud"))) <> 0 then
+        fromweblogud = request("fromweblogud")
+        else
+        fromweblogud = 0
+        end if
+
+
+        if len(trim(request("rdir"))) <> 0 then
+          rdir = request("rdir")
+          else
+          rdir = ""
+          end if
+
+
+          varTjDatoUS_man = request("varTjDatoUS_man")
+
+
+          call browsertype()
+          if browstype_client = "ip" AND (lto = "esn") then
+          stempelur_hideloginOn = 0
+          end if
+
+          if cint(stempelur_hideloginOn) = 1 then 'skriv ikke login, men åben komme/gå tom ==> Opdater ikke logind historiken ved logud
+
+          'stempelur_hidelogin_onlymonitor
+          if cint(stempelur_hidelogin_onlymonitorOn) = 1 AND (cint(frommonitor) = 1 OR cint(fromweblogud) = 1)  then
+          logudDone = 0
+          else
+          logudDone = 1
+          end if
+
+
+
+          'case else
+          else
+
+          if len(request("logudDone")) then
+          logudDone = request("logudDone")
+          else
+          logudDone = 0
+          end if
+
+          end if
+
+
+
+       
     
-    varTjDatoUS_man = request("varTjDatoUS_man")
 
 
 '*** Opdater login_historik (Stempelur) hvis stempel ur er slået til ****
 if cint(logudDone) = 0 then
 
 
-
+    call meStamdata(uid)
+    if (cint(memansat) <> 4) then
 
 
         select case lto
         case "intranet - local", "cflow"
 
 
-         '** Er medarbejder med i Aumatisjon Eller Enginnering
+        '** Er medarbejder med i Aumatisjon Eller Enginnering
+        'AND instr(medariprogrpTxt, "#3#") = 0
         call medariprogrpFn(uid)
-        if instr(medariprogrpTxt, "#14#") = 0 AND instr(medariprogrpTxt, "#16#") = 0 then
+        if (instr(medariprogrpTxt, "#14#") = 0 AND instr(medariprogrpTxt, "#16#") = 0 AND instr(medariprogrpTxt, "#19#") = 0) OR instr(medariprogrpTxt, "#4#") <> 0 OR instr(medariprogrpTxt, "#2#") <> 0 then
 
         if cint(fromweblogud) <> 1 then
     
@@ -127,7 +197,7 @@ if cint(logudDone) = 0 then
             'response.Write "aktivitetid: " & aktivitetid
             'response.flush
 
-            if cstr(aktivitetid) = "0" then
+            if cstr(aktivitetid) = "0" OR cstr(aktivitetid) = "-1" then
 
             %>
             <!--#include file="inc/regular/header_lysblaa_2015_inc.asp"-->
@@ -162,6 +232,9 @@ if cint(logudDone) = 0 then
         end select
 
 
+    end if 'Guest
+
+
 
 
 '***********************************************************
@@ -170,8 +243,20 @@ if cint(logudDone) = 0 then
 '*** Projekttimer
 '***********************************************************
  dothis = 0
+ thisid = 0
  LogudDateTime = year(now)&"/"& month(now)&"/"&day(now)&" "& datepart("h", now) &":"& datepart("n", now) &":"& datepart("s", now) 
- call fordelStempelurstimer(uid, lto, dothis, logudDone, LogudDateTime) 
+
+'if session("mid") = "1" then
+'    Response.Write "HER: " & uid &","& lto &","& dothis &","& logudDone &","& LogudDateTime
+'    Response.end
+'end if
+
+call fordelStempelurstimer(uid, lto, dothis, logudDone, LogudDateTime, thisid)
+
+
+'if session("mid") = "1" then
+'Response.end
+'end if
 
 
 end if 'if cint(logudDone) = 0 then
@@ -183,14 +268,13 @@ end if 'if cint(logudDone) = 0 then
 
 
 
-			
-select case lto 
-case "tec", "xintranet - local", "dencker", "epi2017" 
+select case lto
+case "tec", "xintranet - local", "dencker", "epi2017", "miele", "xhidalgo", "hestia"
 
     %>
-        
 
-            <!--#include file="inc/regular/header_lysblaa_2015_inc.asp"-->
+
+<!--#include file="inc/regular/header_lysblaa_2015_inc.asp"-->
             <script src="sesaba_jav_2017_0329.js" type="text/javascript"></script>
             <body topmargin="0" leftmargin="0" class="login">
             <%call takforidag() %>
@@ -200,57 +284,81 @@ case "tec", "xintranet - local", "dencker", "epi2017"
 
     <%
 
-case "intranet - local", "cflow"
+case "intranet - local", "cflow", "outz", "cool", "hidalgo", "kongeaa"
 
-        'if len(trim(request("indlaspaajob"))) <> 0 then
-        'indlaspaajob = request("indlaspaajob")
-        'else
-        'indlaspaajob = 0
-        'end if
-
-        if request("fromstempelur") = "1" OR request("fromweblogud") = "1"  then 'fra PC / WEB
-
-
-        if rdir = "ugeseddel" then
-
-        response.redirect "to_2015/ugeseddel_2011.asp?usemrn="&session("mid")&"&varTjDatoUS_man="&varTjDatoUS_man
-
+        '** Ved afslut job og fortsæt -- aktiveret igen 20181207
+        if len(trim(request("indlaspaajob"))) <> 0 then
+        indlaspaajob = request("indlaspaajob")
         else
-        %>
+        indlaspaajob = 0
+        end if
+        
+        
+        call browsertype()
+    
+    
+       if browstype_client = "ip" AND cint(frommonitor) = 0 then
 
-        <!--#include file="inc/regular/header_lysblaa_2015_inc.asp"-->
-        <script src="sesaba_jav_2017_0329.js" type="text/javascript"></script>
+             %>
+
+            <!--#include file="inc/regular/header_lysblaa_2015_inc.asp"-->
+            <script src="sesaba_jav_2017_0329.js" type="text/javascript"></script>
        
 
-        <body topmargin="0" leftmargin="0" class="login">
-        <%call takforidag() %>
-        </body></html>
+            <body topmargin="0" leftmargin="0" class="login">
+            <%call takforidag() %>
+            </body></html>
 
 
-        <%end if
+            <%
 
 
-        else 'Fra terminalk
+        else
 
 
-                if cint(indlaspaajob) = 1 then
-                call meStamdata(session("mid"))
+                if request("fromstempelur") = "1" OR request("fromweblogud") = "1"  then 'fra PC / WEB
+
+
+                    if rdir = "ugeseddel" then
+
+                    response.redirect "to_2015/ugeseddel_2011.asp?usemrn="&session("mid")&"&varTjDatoUS_man="&varTjDatoUS_man
+
+                    else
+                    %>
+
+                    <!--#include file="inc/regular/header_lysblaa_2015_inc.asp"-->
+                    <script src="sesaba_jav_2017_0329.js" type="text/javascript"></script>
+       
+
+                    <body topmargin="0" leftmargin="0" class="login">
+                    <%call takforidag() %>
+                    </body></html>
+
+
+                    <%end if
+
+
+                else 'Fra terminal
+
+
+                        if cint(indlaspaajob) = 1 then
+                        call meStamdata(session("mid"))
         
-                    'if session("mid") <> 1 then
-                    response.redirect "to_2015/monitor.asp?func=scan&RFID_field="&meNr&"&skiftjob=1"
-                    'else
-                    'Response.write "to_2015/monitor.asp?func=scan&RFID_field="&meNr
-                    'end if
+                            'if session("mid") <> 1 then
+                            response.redirect "to_2015/monitor.asp?func=scan&RFID_field="&meNr&"&skiftjob=1"
+                            'else
+                            'Response.write "to_2015/monitor.asp?func=scan&RFID_field="&meNr
+                            'end if
 
-                else
-                response.redirect "to_2015/monitor.asp?func=startside"
+                        else
+                        response.redirect "to_2015/monitor.asp?func=startside"
+                        end if
+
+
                 end if
 
 
-        end if
-
-
-
+         end if 'ip
 case else
 
 
@@ -259,41 +367,53 @@ session("forste") = "j"
 session.abandon
 'Response.Write("<script language=""JavaScript"">window.opener.close();</script>")
 
-call browsertype()
-if browstype_client = "ch" then
-        %>
-         <br /><br />Tak for dine registreringer Du kan nu lukke browseren. 
-          <br /><br />Du bruger Chrome. Derfor lukker dette vindue ikke selv.
+            call browsertype()
+            if browstype_client = "ch" then
+                    %>
+                     <br /><br />Tak for dine registreringer Du kan nu lukke browseren. 
+                      <br /><br />Du bruger Chrome. Derfor lukker dette vindue ikke selv.
 
-        <%
-else
-Response.Write("<script language=""JavaScript"">window.open('', '_self', '');</script>")
-Response.Write("<script language=""JavaScript"">window.close();</script>")
-end if
+                    <%
+            else
+            Response.Write("<script language=""JavaScript"">window.open('', '_self', '');</script>")
+            Response.Write("<script language=""JavaScript"">window.close();</script>")
+            end if
 
-end select
-
-
+ end select
 
 
 
 
+          call browsertype()
+          if browstype_client = "ip" AND (lto = "miele" OR lto = "esn" OR lto = "hidalgo") then
+          'Log på timeOut igen her:<br />
+          response.Redirect "https://timeout.cloud/"&request.Cookies("loginlto")("lto")
+          end if
 
 
 
 
 
 
-function takforidag()
 
 
-session("forste") = "j"
-session.abandon
-
-            %>
 
 
-<form>
+
+
+
+
+
+  function takforidag()
+
+
+          session("forste") = "j"
+          session.abandon
+
+          %>
+
+
+          <form>
                 
                         <input type="hidden" id="jq_lto" name="" value="<%=lto %>"/>
                         <input type="hidden" id="jq_medid" name="" value="<%=uid %>"/>
@@ -330,10 +450,8 @@ session.abandon
         <img src="to_2015/img/outzource_logo_4c.jpg" width="200" />
 
                        <div class="well well-white">
-                      
-                        
-                                                    <div class="row">
-                                                        <div class="col-lg-6">
+                            <div class="row">
+                    <div class="col-lg-6">
                     <table cellspacing="0" cellpadding="10" border="0" bgcolor="#ffffff" width=100%>
 	
 	                    <tr>

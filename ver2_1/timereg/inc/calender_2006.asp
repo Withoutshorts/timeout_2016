@@ -243,7 +243,9 @@ acls = "class=vmenu"
 acls2 = "class=vmenu"
 '** ugenr **%>
 <tr><td height=25 class=lillegray valign=top align=right style="padding:0px 3px 0px 3px;">
-<%=datepart("ww", firstDayOfMonth,2,2)%></td>
+<%call thisWeekNo53_fn(firstDayOfMonth) %>
+
+<%=thisWeekNo53%></td>
 
 <%
 '** Mellemrum før første dag i første uge
@@ -410,7 +412,8 @@ for dayCount = startsecondWeek to numberofdaysinmonth
 	</tr>
 	<tr>
 		<td height=25 class=lillegray valign=top align=right style="padding:0px 3px 0px 3px;">
-		<%=datepart("ww", dayCount &"/" & strMrd & "/" & strAar,2,2)%>
+            <%call thisWeekNo53_fn(dayCount &"/" & strMrd & "/" & strAar)  %>
+		    <%=thisWeekNo53%>
 </td>
 	<%end if%>
 	

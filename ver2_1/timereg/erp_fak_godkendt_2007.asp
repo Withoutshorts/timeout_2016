@@ -78,7 +78,7 @@
         &" xmlns:main=""http://rep.oio.dk/ubl/xml/schemas/0p71/maindoc/"">"
         end if
 
-
+        
 
 	case else
 	
@@ -96,30 +96,128 @@
 
 	            $("#oioxml").click(function () {
 
-	                var xmlurl = $("#xmlurl").val()
-	                var showvans = $("#showvans").val()
-	                //alert(xmlurl)
 
-	                function show_confirm() {
-	                    var r = confirm("Ønsker du at afsende en OIO XML faktura til kunden via E-posthus (klik Ok), eller vil du blot gemme en ny kopi af OIO XML filen (klik Cancel)?");
-	                    if (r == true) {
-	                        window.open(xmlurl + "&vans=1", '_blank');
+
+                    // Tjekker Felter
+                    xml_cvr = $("#xml_cvr").val()
+                    xml_cvr_yours = $("#xml_cvr_yours").val()
+                    xml_ean = $("#xml_ean").val()
+                    xml_linjer = $("#xml_antalaktliner").val()
+                    xml_kontonr = $("#xml_kontonr").val()
+                    xml_enhed = $("#xml_enhed").val()
+                    xml_att = $("#xml_att").val()
+
+                    var fejlvisning = 0
+                   // fejlvisning = 1
+                                       
+                  //  alert(xml_cvr)
+                    if (xml_cvr.indexOf(" ") > -1 || xml_cvr == "") {
+                        // Contains a space or is empty
+                        fejlvisning = 1
+                        $("#xml_cvr_godkendt").hide();  
+                        $("#xml_cvr_afvist").show();  
+                    }
+
+                    if (xml_cvr_yours.indexOf(" ") > -1 || xml_cvr == "") {
+                        // Contains a space
+                        fejlvisning = 1
+                        $("#xml_cvr_yours_godkendt").hide(); 
+                        $("#xml_cvr_yours_afvist").show(); 
+                    }
+
+                    if (xml_ean.indexOf(" ") > -1 || xml_ean == "") {
+                        // Contains a space
+                        fejlvisning = 1
+                        $("#xml_ean_godkendt").hide();
+                        $("#xml_ean_afvist").show();  
+                    }
+                    
+                    if (parseInt(xml_linjer) < 1)
+                    {
+                        // Der skal være minimum en linje                        
+                        fejlvisning = 1                        
+                        $("#xml_antalaktliner_godkendt").hide();
+                        $("#xml_antalaktliner_afvist").show();  
+                    }
+                    
+                    if (xml_att == "")
+                    {
+                        fejlvisning = 1
+                        $("#xml_att_godkendt").hide();
+                        $("#xml_att_afvist").show(); 
+                    }
+
+                    if (xml_enhed == "3") {
+                        fejlvisning = 1
+                        $("#xml_km_godkendt").hide();
+                        $("#xml_km_afvist").show(); 
+                    }
+
+                    if (xml_kontonr.length > 10 || xml_kontonr == "") {
+                        fejlvisning = 1
+                        $("#xml_kontonr_godkendt").hide();
+                        $("#xml_kontonr_afvist").show(); 
+                        
+                    }
+
+                    if (fejlvisning == 1) {
+                        $("#modal_xmlerror").show();
+                        //$("#xml_error_luk").show();
+
+                        $("#xml_error_luk").click(function () {
+                            $("#modal_xmlerror").hide();
+                        });
+                    } else {
+
+                     $("#xml_error_luk").click(function () {
+                            $("#modal_xmlerror").hide();
+                        });
+
+                    }
+
+                    if (fejlvisning != 1) 
+                    {
+                        $("#modal_xmlerror").show();
+	                    var xmlurl = $("#xmlurl").val()
+	                    var showvans = $("#showvans").val()
+	                    //alert(xmlurl)
+
+	                    function show_confirm() {
+	                     /*   var r = confirm("Ønsker du at afsende en OIO XML faktura til kunden via E-posthus (klik Ok), eller vil du blot gemme en ny kopi af OIO XML filen (klik Cancel)?");
+	                        if (r == true) {
+	                            window.open(xmlurl + "&vans=1", '_blank');
+
+	                        }
+	                        else {
+	                            window.open(xmlurl + "&vans=0", '_blank');
+                            } */
+
+                            $("#xml_confirmtxt").show();
+                            $("#xml_ok").show();
+                            $("#xml_cancel").show();
+
+                            $("#xml_ok").click(function () {
+                                window.open(xmlurl + "&vans=1", '_blank');
+                            });
+
+                             $("#xml_cancel").click(function () {
+                                window.open(xmlurl + "&vans=0", '_blank');
+                            });
 
 	                    }
-	                    else {
+
+	                    if (showvans == 1) {
+
+	                        show_confirm()
+
+	                    } else {
+
 	                        window.open(xmlurl + "&vans=0", '_blank');
-	                    }
-	                }
 
-	                if (showvans == 1) {
+                        }
 
-	                    show_confirm()
-
-	                } else {
-
-	                    window.open(xmlurl + "&vans=0", '_blank');
-
-	                }
+                    }
+                    
 
 	                //confirm("Ønsker du at afsende en OIO XML faktura til kunden via E-posthus, eller vil du blot gemme en ny kopi af OIO XML filen?")
 	            });
@@ -132,6 +230,33 @@
 	        });
 
         </script>
+
+        <style>
+            /* The Modal (background) */
+            .modal {
+                display: none; /* Hidden by default */
+                position: fixed; /* Stay in place */
+                z-index: 1; /* Sit on top */
+                padding-top: 100px; /* Location of the box */
+                left: 0;
+                top: 0;
+                width: 100%; /* Full width */
+                height: 100%; /* Full height */
+                overflow: auto; /* Enable scroll if needed */
+                background-color: rgb(0,0,0); /* Fallback color */
+                background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            }
+
+            /* Modal Content */
+            .modal-content {
+                background-color: #fefefe;
+                margin: auto;
+                padding: 20px;
+                border: 1px solid #888;
+                width: 300px;
+                height: 350px;
+            }
+        </style>
 
 
       <%
@@ -708,6 +833,11 @@
             intTlf = oRec("telefon")
 			ean = trim(oRec("ean"))
 			
+            response.Write "<input type='hidden' value='"&ean&"' id='xml_ean' />"
+            response.Write "<input type='hidden' value='"&intCVR&"' id='xml_cvr' />"
+
+           ' response.End
+
 			if media = "xml" then
 			'*** XML format kan kun sendes til oprindelig kunde **'
 			
@@ -752,7 +882,13 @@
            'strXML = strXML & "<com:HouseNumber>0</com:HouseNumber>" 
            strXML = strXML & "<com:CityName><![CDATA["&EncodeUTF8(strBy)&"]]></com:CityName>"
           strXML = strXML & "<com:PostalZone>"& strKpostnr &"</com:PostalZone>" 
-          strXML = strXML &"<com:Country><com:Code listID=""ISO 3166-1"">DK</com:Code></com:Country>" 
+
+            if strLand = "Norge" OR strLand = "No" OR strLand = "Norway" then
+            strXML = strXML &"<com:Country><com:Code listID=""ISO 3166-1"">NO</com:Code></com:Country>"
+            else
+            strXML = strXML &"<com:Country><com:Code listID=""ISO 3166-1"">DK</com:Code></com:Country>"
+            end if
+
           strXML = strXML & "</com:Address>"
           end if
          
@@ -938,7 +1074,8 @@
 	end if
 	
 	end select	
-	      
+
+          response.Write "<input type='hidden' id='xml_att' value='"&showAtt&"' />"
 	      
 	      if media = "xml" then  
 	      
@@ -947,7 +1084,8 @@
 	      'else
 	      xmlAtt = showAtt
 	      'end if
-	      
+	                 
+
 	      'call utf_format(xmlAtt)
           'xmlAtt = utf_formatTxt
 	      
@@ -1009,8 +1147,12 @@
             yourIban = oRec("iban")
 			end select
             
+            response.Write "<input type='hidden' id='xml_kontonr' value='"&yourKontonr&"' />"
             
             yourCVR = oRec("cvr")
+
+            response.Write "<input type='hidden' id='xml_cvr_yours' value='"&yourCVR&"' />"
+
 			yourNavn = oRec("kkundenavn")
 			yourAdr = oRec("adresse")
 			yourPostnr = oRec("postnr")
@@ -1062,7 +1204,13 @@
               strXML = strXML &"<com:Street><![CDATA["&EncodeUTF8(yourAdr)&"]]></com:Street>" 
               strXML = strXML &"<com:CityName><![CDATA["&EncodeUTF8(yourCity)&"]]></com:CityName>" 
               strXML = strXML &"<com:PostalZone>"& yourPostnr &"</com:PostalZone>"
+
+              if yourLand = "Norge" OR yourLand = "NO" OR yourLand = "Norway" then
+              strXML = strXML &"<com:Country><com:Code listID=""ISO 3166-1"">NO</com:Code></com:Country>"
+              else
               strXML = strXML &"<com:Country><com:Code listID=""ISO 3166-1"">DK</com:Code></com:Country>" 
+              end if
+
               strXML = strXML &"</com:Address>"
               strXML = strXML &"<com:PartyTaxScheme>"
               strXML = strXML &"<com:CompanyTaxID schemeID=""CVR"">"& yourCVRXML &"</com:CompanyTaxID>" 
@@ -1213,6 +1361,18 @@
 	    end select
 		
 		
+
+        select case lto
+        case "synergi1"
+        %>
+        <span style="color:red">BEMÆRK vi har skiftet til Danske Bank. <br />
+        I skal derfor benytte nyt kontonummer: Reg. nr.: 3409 Kontonr.: 0012940025 til indbetaling.<br />
+        <br />&nbsp;
+        </span>
+        <%
+
+        end select
+
 												
 		'*** Vedr. (upspecificering top) ***
 		'*** Vise hvis der findes jobnavn (visjobnavn ikke er slået fra), jobbesk, reknr eller det er en aftale der faktureres
@@ -1252,6 +1412,7 @@
 					antalAktlinier = 0
 					fd_aktid = 0
                     fsno = 1
+                    antalTot = 0
 
 					strSQL = "SELECT antal, beskrivelse, aktpris, fakid, "_
 					&" enhedspris, aktid, showonfak, rabat, enhedsang, fd.valuta, fd.kurs, v.valutakode, momsfri, fase "_
@@ -1302,7 +1463,7 @@
 						    aktPris = -(formatnumber(aktPris, 2))
 						    aktEhpris = -(formatnumber(aktEhpris, 2))
 						end if
-						
+
 						rabat = oRec("rabat")
 						
                         
@@ -1325,6 +1486,8 @@
 						end select
 						
                        'end if
+
+                        response.Write "<input type='hidden' id='xml_enhed' value='"&oRec("enhedsang")&"' />"
 
 					   call jquery_repl_spec(enhedsang)
                        enhedsang = jquerystrTxt
@@ -1756,7 +1919,7 @@
                                 end if
 
 
-								
+					antalTot = (antalTot*1) + (oRec("antal")*1)		
 					antalAktlinier = antalAktlinier + 1				
 					lastaktid = oRec("aktid")			
 					oRec.movenext
@@ -1862,6 +2025,10 @@
         '*** Skriver faktura linjer ****'
 		'**** Aktiviteter / timer ***'
         %>
+
+        <input type="hidden" id="xml_antalaktliner" value="<%=antalAktlinier %>" />
+
+
         <table cellspacing="0" cellpadding="1" border="0" width="<%=gblWdt%>">
         <%
 		if len(trim(strFakdet)) <> 0 then
@@ -2119,8 +2286,70 @@
             <!-- &FM_start_dag_ival=<%=request("FM_start_dag_ival")%>&FM_start_mrd_ival=<%=request("FM_start_mrd_ival")%>&FM_start_aar_ival=<%=request("FM_start_aar_ival")%>&FM_slut_dag_ival=<%=request("FM_slut_dag_ival")%>&FM_slut_mrd_ival=<%=request("FM_slut_mrd_ival")%>&FM_slut_aar_ival=<%=request("FM_slut_aar_ival")%> -->
 		
 		&nbsp;&nbsp;|&nbsp;&nbsp;
+        <%if cint(intStatus) = 1 then %>
 		<a href="#" class=vmenu id="oioxml"><%=erp_txt_225 %></a> 
-        
+        <%else %>
+        <%=erp_txt_225 %> (only approved)
+        <%end if %>
+        <div id="modal_xmlerror" class="modal">            
+            <div class="modal-content" style="width:400px; height:600px;">
+              <h4>EAN - XML Validering.</br>
+           <span style="font-size:11px;"><b>TimeOut tjekker følgende felter inden faktura kan sendes:</b>
+           </span>
+              </h4>
+                <table style="border-collapse:separate; border-spacing:10px;">
+                    <tr>
+                        <td style="width:300px;">EAN udfyldt med nul mellemrum</td> 
+                        <td style="font-size:15px; text-align:center;"><span id="xml_ean_godkendt" style="color:green;">V</span> <span id="xml_ean_afvist" style="color:red; display:none;">!</span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:300px;">Modtager CVR udfylt med nul mellemrum</td>
+                        <td style="font-size:15px; text-align:center;"><span id="xml_cvr_godkendt" style="color:green;">V</span> <span id="xml_cvr_afvist" style="color:red; display:none;">!</span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:300px;">Afsender CVR udfylt med nul mellemrum</td>
+                        <td style="font-size:15px; text-align:center;"><span id="xml_cvr_yours_godkendt" style="color:green;">V</span> <span id="xml_cvr_yours_afvist" style="color:red; display:none;">!</span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:300px;">Minimum en faktura linje</td>
+                        <td style="font-size:15px; text-align:center;"><span id="xml_antalaktliner_godkendt" style="color:green;">V</span> <span id="xml_antalaktliner_afvist" style="color:red; display:none;">!</span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:300px;">Att. person udfyldt</td>    
+                        <td style="font-size:15px; text-align:center;"><span id="xml_att_godkendt" style="color:green;">V</span> <span id="xml_att_afvist" style="color:red; display:none;">!</span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:300px;">Ingen "KM" som enhed</td>
+                        <td style="font-size:15px; text-align:center;"><span id="xml_km_godkendt" style="color:green;">V</span> <span id="xml_km_afvist" style="color:red; display:none;">!</span></td>
+                    </tr>
+                    <tr>
+                        <td style="width:300px;">Kontonummer skal være udfyldt og må max være 10 anslag</td>
+                        <td style="font-size:15px; text-align:center;"><span id="xml_kontonr_godkendt" style="color:green;">V</span> <span id="xml_kontonr_afvist" style="color:red; display:none;">!</span></td>
+                    </tr>
+                </table>
+
+                <br /><br /><br />
+
+                <span id="xml_confirmtxt" style="display:none;">
+                    Ønsker du at afsende en OIO XML faktura til kunden via E-posthus klik "OK", eller vil du blot gemme en ny kopi af OIO XML filen klik "Luk" <br /><br />
+                </span>
+
+                <table style="width:100%">
+                    <tr>
+                        <td style="width:100%; text-align:center;">
+                         
+                            <input style="display:none;" type="button" value="Send faktura" id="xml_ok" />
+                          <br></br>
+                            <input style="display:none;" type="button" value="Gem XML fil" id="xml_cancel" />
+                            <input type="button" value="Luk" id="xml_error_luk" />
+                          
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+
         <%select case lto
 	    case "epi", "epi_no", "epi_sta", "outz", "intranet - local", "synergi1", "epi_ab", "rek", "epi2017"
         showvans = 1

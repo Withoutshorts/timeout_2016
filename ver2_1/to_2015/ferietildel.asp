@@ -120,65 +120,102 @@ call menu_2014 %>
             ferieKorrigering = 0
             ferieAFulonTimer = 0
 
+           datofraSQL = year(datofra) &"/"& month(datofra) &"/"& day(datofra)
+           call normtimerPer(mid, datofraSQL, 6, 0)
+           gnsPrDagTildelt = nTimerPerIgnHellig/antalDageMtimerIgnHellig
+
+            'if mid = 8 OR session("mid") = 1 then
+            'Response.Write "gnsPrDagTildelt: " & gnsPrDagTildelt & "<br>"
+            'end if
+
+            if gnsPrDagTildelt <> 0 then
+            gnsPrDagTildelt = gnsPrDagTildelt
+            else
+            gnsPrDagTildelt = 1
+            end if
+
             'response.Write "medidmedidmedid " & mid 
-            strSQLFerieOptjent = "SELECT tfaktim, sum(timer) as sumtimer FROM timer WHERE Tmnr = "& mid &" AND tdato between '" & datofra & "' AND '" & datotil & "'"_
+            strSQLFerieOptjent = "SELECT tfaktim, sum(timer) as sumtimer, tdato FROM timer WHERE Tmnr = "& mid &" AND tdato between '" & datofra & "' AND '" & datotil & "'"_
             &" AND (tfaktim = 15 OR tfaktim = 111 OR tfaktim = 16 OR tfaktim = 14 OR tfaktim = 112 OR tfaktim = 19 OR tfaktim = 126) "_
-            &" GROUP BY tfaktim"
+            &" GROUP BY tfaktim, tdato"
             'response.Write  "<br>" & strSQLFerieOptjent
             'response.flush
-            oRec2.open strSQLFerieOptjent, oConn, 3
-            while not oRec2.EOF
-                                            
-            select case oRec2("tfaktim")
-            case 15
-            ferieOptjtimer = ferieOptjtimer + oRec2("sumtimer")
-            case 111
-            ferieOptjOverforttimer = ferieOptjOverforttimer + oRec2("sumtimer")
-            case 16
-            ferieUdbTimer = ferieUdbTimer + oRec2("sumtimer")
-            case 14
-            ferieAFTimer = ferieAFTimer + oRec2("sumtimer")
-            case 112
-            ferieOptjUlontimer = ferieOptjUlontimer + oRec2("sumtimer")
-            case 19
-            ferieAFulonTimer = ferieAFulonTimer + oRec2("sumtimer")
-            case 126
-            ferieKorrigering = ferieKorrigering + oRec2("sumtimer")
+            oRec10.open strSQLFerieOptjent, oConn, 3
+            while not oRec10.EOF
 
-            end select
+            '** SKAL omregnes til DAGe.
+            datofraSQL = year(oRec10("tdato")) &"/"& month(oRec10("tdato")) &"/"& day(oRec10("tdato"))
+            call normtimerPer(mid, datofraSQL, 0, 0)
+
+
+            if ntimPer <> 0 then
+           
+                select case oRec10("tfaktim")
+                case 16
+                ferieUdbTimer = ferieUdbTimer + (oRec10("sumtimer")/ntimPer)
+                case 14
+                ferieAFTimer = ferieAFTimer + (oRec10("sumtimer")/ntimPer)   
+                case 19
+                ferieAFulonTimer = ferieAFulonTimer + (oRec10("sumtimer")/ntimPer)
+                end select
+
+                            'if mid = 8 then
+                            '    Response.write "<br>"& oRec10("tfaktim") &" - "& oRec10("sumtimer") &"/" & ntimPer & "<br>= "& ferieAFTimer
+                            'end if
+
+            end if
+
+           
+         
+            if gnsPrDagTildelt <> 0 then
+           
+                select case oRec10("tfaktim")
+                case 15
+                ferieOptjtimer = ferieOptjtimer + (oRec10("sumtimer")/gnsPrDagTildelt)
+                case 111
+                ferieOptjOverforttimer = ferieOptjOverforttimer + (oRec10("sumtimer")/gnsPrDagTildelt)
+                case 112
+                ferieOptjUlontimer = ferieOptjUlontimer + (oRec10("sumtimer")/gnsPrDagTildelt)
+                case 126
+                ferieKorrigering = ferieKorrigering + (oRec10("sumtimer")/gnsPrDagTildelt)
+                end select
+
+                            'if mid = 8 then
+                            '    Response.write "<br>"& oRec10("tfaktim") &" - "& oRec10("sumtimer") &"/" & ntimPer & "<br>= "& ferieKorrigering
+                            'end if
+
+            end if
                                           
-            oRec2.movenext
+            oRec10.movenext
             wend
-            oRec2.close
+            oRec10.close
+            
+      
+            
+             
+           
 
-
-            'response.Write "<br><br> herFO " & ferieOptjtimer
-            'response.Write "<br><br> her" & ferieOptjOverforttimer(x)
-            'response.Write "<br><br> her" & ferieUdbTimer(x)
-            'response.Write "<br><br> her" & ferieAFTimer(x)
-            'response.Write "<br><br> her" & ferieOptjUlontimer(x)
-            'response.Write "<br><br> her" & ferieAFulonTimer(x)
 
 
             ferieBal = 0
             call ferieBal_fn(ferieOptjtimer, ferieOptjOverforttimer, ferieOptjUlontimer, ferieAFTimer, ferieAFulonTimer, ferieUdbTimer)
-	 
 
+            if ferieBal = "9999" then
+            %><span style="font-size:9px;"><%
+            'response.Write "Optj: " & formatnumber(ferieOptjtimer, 2)
+            'response.Write "Optj. U løn: " & formatnumber(ferieOptjUlontimer, 2) & "&nbsp;"
+            'response.Write "Overf.: " & formatnumber(ferieOptjOverforttimer, 2) & "&nbsp;"
+            'response.Write "Udb.: " & formatnumber(ferieUdbTimer, 2) & "&nbsp;"
+            'response.Write "Afholdt: " & formatnumber(ferieAFTimer, 2) & "&nbsp;"
+            'response.Write "Afh. U. løn: " & formatnumber(ferieAFulonTimer, 2) & "<br>"
+            %></span><%
+            end if   
+	
+            'ferieBal  = ((ferieOptjtimer_X + ferieOptjOverforttimer_X + ferieOptjUlontimer_X) - (ferieAFTimer_X + ferieUdbTimer_X))
+            'Lægger feriekorrigering til saldeon. Hvorfor?? 20190522. Kamilla Mendel Hestia stemmer ikke så, når der skal tildeles i det nye år.
+            ferieBalVal = ferieBal '+ ferieKorrigering
 
-            ' Sker efter kaldelse af funktionen
-	        ' if normTimerDag(x) <> 0 then 
-	        'ferieBalVal = ferieBal/normTimerDag(x)
-	        ' else
-	        ' ferieBalVal = 0
-	        ' end if
-	 
-            'ferieBalVal = ferieBal
-
-            'Response.write "HER: " & ferieBal
-
-
-            'Lægger feriekorrigering til saldeon
-            ferieBalVal = ferieBal + ferieKorrigering
+           
 
             if ferieBalVal <> 0 then 
 	        ferieBalValTxt = formatnumber(ferieBalVal,2)
@@ -188,12 +225,14 @@ call menu_2014 %>
             ferieBalValTxtExp = 0
 	        end if
 
+
+
          end function
 
 
 
 
-         function getFerieFri (mid, datofra, datotil)
+         function getFerieFri(mid, datofra, datotil)
 
 
             fefriTimer = 0
@@ -201,29 +240,50 @@ call menu_2014 %>
             fefriTimerBr = 0
             fefriTimerUdb = 0
 
-            strSQLFeFri = "SELECT tfaktim, sum(timer) as sumtimer FROM timer WHERE Tmnr = "& mid &" AND tdato between '" & datofra & "' AND '" & datotil & "' AND (tfaktim = 12 OR tfaktim = 18 OR tfaktim = 13 OR tfaktim = 17) GROUP BY tfaktim"
+            datofraSQL = year(datofra) &"/"& month(datofra) &"/"& day(datofra)
+            call normtimerPer(mid, datofraSQL, 6, 0)
+            gnsPrDagTildelt = nTimerPerIgnHellig/antalDageMtimerIgnHellig
+
+            strSQLFeFri = "SELECT tfaktim, sum(timer) as sumtimer, tdato FROM timer WHERE Tmnr = "& mid &" AND tdato between '" & datofra & "' AND '" & datotil & "' AND (tfaktim = 12 OR tfaktim = 18 OR tfaktim = 13 OR tfaktim = 17) GROUP BY tfaktim, tdato"
             'response.Write strSQLFeFri 
-            oRec2.open strSQLFeFri, oConn, 3
-            while not oRec2.EOF
+            oRec10.open strSQLFeFri, oConn, 3
+            while not oRec10.EOF
 
-            select case oRec2("tfaktim")
-            case 12
-            fefriTimer = fefriTimer + oRec2("sumtimer")
-            case 18
-            fefriplTimer = fefriplTimer + oRec2("sumtimer")
-            case 13
-            fefriTimerBr = fefriTimerBr + oRec2("sumtimer")
-            case 17
-            fefriTimerUdb = fefriTimerUdb + oRec2("sumtimer")
+            '** SKAL omregnes til DAGe.
+            datofraSQL = year(oRec10("tdato")) &"/"& month(oRec10("tdato")) &"/"& day(oRec10("tdato"))
+            call normtimerPer(mid, datofraSQL, 0, 0)
 
-            end select
 
-            oRec2.movenext
+            if ntimPer <> 0 then
+
+                select case oRec10("tfaktim")
+                case 18
+                fefriplTimer = fefriplTimer + (oRec10("sumtimer")/ntimPer)
+                case 13
+                fefriTimerBr = fefriTimerBr + (oRec10("sumtimer")/ntimPer)
+                case 17
+                fefriTimerUdb = fefriTimerUdb + (oRec10("sumtimer")/ntimPer)
+
+                end select
+
+            end if
+
+
+            if gnsPrDagTildelt <> 0 then
+
+                select case oRec10("tfaktim")
+                case 12
+                fefriTimer = fefriTimer + (oRec10("sumtimer")/gnsPrDagTildelt)
+                end select
+
+            end if
+
+            oRec10.movenext
             wend
-            oRec2.close
+            oRec10.close
 
-            
-         
+       
+
 	  
 
 	        fefriBal = 0
@@ -578,7 +638,7 @@ call menu_2014 %>
                                 <th>Korrigering <br /><span style="font-size:9px;">+/- dage</span> <div style="padding-top:5px;"><input type="text" id="feriekorri_multi_val" style="width:60px;" class="form-control input-small"/></div></th>
                                 <th>Optjent u. løn <br /> <span style="font-size:9px;">dage</span><div style="padding-top:5px;"><input type="text" id="ferieulon_multi_val" style="width:60px;" class="form-control input-small"/></div></th>
                                 <th>Overført Ekstra<br /> <span style="font-size:9px;">Evt. rest-ferie</span> </th>
-                                <th>Ferie tildelt ialt <br /><span style="font-size:9px;"><%=ferieaar %></span></th>
+                                <th>Ferie tildelt ialt <br /><span style="font-size:9px;"><%=ferieaar %>/<%=ferieaar+1 %></span></th>
                                 <!--<th><%=FeriefridageTxt %> opt. <br /><span style="font-size:9px;">1.1.<%=((ferieaar)-1) %> - 31.12.<%=((ferieaar)-1) %></span></th>-->
                                 <th><%=FeriefridageTxt %> tildelt<br /><span style="font-size:9px;"><%=ferieaar %></span><br /> <div style="padding-top:5px;"><input type="text" id="feriefriOpt_multi_val" style="width:60px;" class="form-control input-small"/></div></th>
                                 <!--<th><%=FeriefridageTxt %> saldo <br /><span style="font-size:9px;"><%=ferieaar %></span></th>-->
@@ -678,10 +738,15 @@ call menu_2014 %>
                                             ' 112 = optjent uden løn
                                             ' 19 = ferie afholdt uden løn
 
+
+                                            'if session("mid") = 1 then
+                                            'Response.write oRec("Mid") & " nuFerieSaldoStartDato: " & nuFerieSaldoStartDato &" nuFerieSaldoSlutDato: "& nuFerieSaldoSlutDato
+                                            'end if
+
                                             call getFerieSaldo(oRec("Mid"),nuFerieSaldoStartDato,nuFerieSaldoSlutDato)
 
                                             if normTimerDag <> 0 then
-                                            ferieBalVal = ferieBalVal / normTimerDag
+                                            ferieBalVal = ferieBalVal '/ normTimerDag
                                             else
                                             ferieBalVal = 0
                                             end if
@@ -1132,9 +1197,9 @@ call menu_2014 %>
                                         -->
 
                                         <td>
-                                            <%if ntimper <> 0 then %>
+                                            <%'if nTimerPerIgnHellig <> 0 then 'ntimper Marie Tor Haven ser rigitg ud på plan Vi lader den stå åben 20190604 %>
                                             <input type="checkbox" name="godkend_<%=oRec("mid") %>" class="godkend_medarb" value="1" />
-                                            <%end if %>
+                                            <%'end if %>
                                         </td>
                                     </tr>
                                 <%

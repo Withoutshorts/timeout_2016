@@ -1,0 +1,1077 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+   
+
+
+
+    <!-- Global func -->
+    <txt_119>Søg | Sortér</txt_119>
+
+
+
+    <!-- Sek. menu - Global func -->
+    <txt_120>Timeregistrering</txt_120>
+    <txt_121>Projektplan | Ressourcer</txt_121>
+    <txt_122>Job</txt_122>
+    <txt_123>Ressourcer</txt_123>
+    <txt_124>Kunder</txt_124>
+    <txt_125>Medarbejdere</txt_125>
+    <txt_126>Statistik</txt_126>
+    <txt_127>Filarkiv</txt_127>
+    <txt_128>Lager</txt_128>
+
+
+    <!-- Global func akt. typer -->
+    <txt_129>Fakturerbar</txt_129>
+    <txt_130>Km</txt_130>
+    <txt_131>Ikke fakturerbar</txt_131>
+    <txt_132>Salg | NewBizz</txt_132>
+    <txt_133>Frokost</txt_133>
+    
+    <txt_134>Ferie planlagt</txt_134>
+    <txt_135>Ferie afholdt</txt_135>
+    <txt_143>Ferie optjent</txt_143>
+    <txt_156>Ferie udbetalt</txt_156>
+    
+    <txt_136>Feriefridage optjent</txt_136>
+    <txt_137>Feriefridage brugt</txt_137>
+    <txt_149>Feriefridage udbetalt</txt_149>
+
+      <txt_175>Ferie overført</txt_175>
+      <txt_176>Ferie optjent u. løn</txt_176>
+      
+   
+    <txt_138>Syg</txt_138>
+    <txt_139>Barn syg</txt_139>
+    
+    <txt_144>Overarbejde</txt_144>
+    <txt_145>Afspadsering</txt_145>
+    <txt_146>Overarbejde udbetalt</txt_146>
+
+    <txt_147>Flextid brugt</txt_147>
+    <txt_148>Sundhed</txt_148>
+
+    <txt_150>Pause</txt_150>
+    <txt_151>Nat</txt_151>
+    <txt_152>Weekend</txt_152>
+    <txt_153>Weekend Nat</txt_153>
+    <txt_154>Aften</txt_154>
+    <txt_155>Weekend Aften</txt_155>
+	<txt_157>Ad-hoc</txt_157>
+	<txt_158>Stk. Antal</txt_158>
+	
+	<txt_159>Overarbejde ønskes udb.</txt_159>
+	<txt_160>Læge</txt_160>
+	<txt_161>E1</txt_161>
+	<txt_162>E2</txt_162>
+	  
+	  
+	  <txt_164>Feriefridage planlagt</txt_164>
+	  <txt_165>Ferie afh. u. løn</txt_165>
+	  <txt_166>Dag</txt_166>
+
+      <txt_171>Barsel</txt_171>
+      
+      <txt_172>Omsorgsdage</txt_172>
+      <txt_173>Seniortimer</txt_173>
+      <txt_174>1 maj timer</txt_174>
+
+    <txt_179>Tjenestefri</txt_179>
+    
+    
+    <txt_185>Aldersreduktion optjent</txt_185>
+    <txt_186>Aldersreduktion brugt</txt_186>
+    <txt_187>Aldersreduktion udbetalt</txt_187>
+    
+    <txt_188>Aldersreduktion planlagt</txt_188>
+    <txt_189>Omsorgsdag 2 planlagt</txt_189>
+    <txt_190>Omsorgsdag 10 planlagt</txt_190>
+    <txt_191>Omsorgsdag Konverteret planlagt</txt_191>
+
+    <txt_192>Ulempe1706 udbetalt</txt_192>
+    <txt_193>UlempeWeekend udbetalt</txt_193>
+
+    <txt_194>Rejsedage</txt_194>
+    <txt_195>E3</txt_195>
+    <txt_196>Ferie korrektion</txt_196>
+    <txt_197>Omsorgsdage Optjent</txt_197>
+
+    <txt_198>Ferie optjent til afh. 1.5.2019-31.8.2019</txt_198>
+    <txt_199>Ferie optjent indefrosset</txt_199>
+
+      <!-- End typer -->
+    
+    
+    <txt_140>aktivitet</txt_140>
+    <txt_141>Timer</txt_141>
+    <txt_142>Aktiviteter</txt_142>
+
+	  <txt_163>Saldo</txt_163>
+	  <txt_167>Total</txt_167>
+	  <txt_168>Tillæg/Frad.</txt_168>
+	  <txt_169>Tillæg</txt_169>
+	  <txt_170>Fradrag</txt_170>
+
+
+      <txt_175>Ferie overført</txt_175>
+      <txt_176>Ferie optjent u. løn</txt_176>
+
+      <txt_177>Korrektion Komme/Gå</txt_177>
+      <txt_178>Korrektion Realiseret</txt_178>
+
+
+    <txt_180>Opret ny kunde</txt_180>
+    <txt_181>Aftaleoversigt</txt_181>
+    <txt_182>Kontaktpersoner</txt_182>
+
+    <txt_183>Opret medarbejder</txt_183>
+
+    <txt_184>Rediger medarbejder</txt_184>
+
+  </dk>
+
+
+  <!-- Norsk -->
+  <no>
+
+    <txt_119 >Søk | Sorter</txt_119>
+    <txt_120 >Timeregistrering</txt_120>
+    <txt_121 >Prosjektplan | Ressurser</txt_121>
+    <txt_122 >Jobb</txt_122>
+    <txt_123 >Ressurser</txt_123>
+    <txt_124 >Kunder</txt_124>
+    <txt_125 >Ansatte</txt_125>
+    <txt_126 >Statistikk</txt_126>
+    <txt_127 >File manager</txt_127>
+    <txt_128 >Lager</txt_128>
+    <txt_129 >Fakturerbare</txt_129>
+    <txt_130 >Km</txt_130>
+    <txt_131 >Ikke fakturerbare</txt_131>
+    <txt_132 >Salg | Newbizz</txt_132>
+    <txt_133 >Lunsj</txt_133>
+    <txt_134 >Ferie planlagt</txt_134>
+    <txt_135 >Ferie holdt</txt_135>
+    <txt_143 >Opparbeidet ferie</txt_143>
+    <txt_156 >Ferie betalt</txt_156>
+    <txt_136 >Ekstra ferie opptjent</txt_136>
+    <txt_137 >Fridag brukt</txt_137>
+    <txt_149 >Fridag betalt</txt_149>
+    <txt_138 >Syk</txt_138>
+    <txt_139 >Barnet syk</txt_139>
+    <txt_144 >Overtid</txt_144>
+    <txt_145 >Avspasering</txt_145>
+    <txt_146 >Overtid betales</txt_146>
+    <txt_147 >Flekstid brukt</txt_147>
+    <txt_148 >Helse</txt_148>
+    <txt_150 >Pause</txt_150>
+    <txt_151 >Natt</txt_151>
+    <txt_152 >Helg</txt_152>
+    <txt_153 >Helg natt</txt_153>
+    <txt_154 >Kveld</txt_154>
+    <txt_155 >Weekend Kveld</txt_155>
+    <txt_157 >Ad-hoc</txt_157>
+    <txt_158 >Ledd. Antal</txt_158>
+    <txt_159 >Overtid ønsket betalt</txt_159>
+    <txt_160 >Lege</txt_160>
+    <txt_161 >E1</txt_161>
+    <txt_162 >E2</txt_162>
+    <txt_164 >Flytende hellig planlagt</txt_164>
+    <txt_165 >Ferie afholdt u. lønn</txt_165>
+    <txt_166 >Dag</txt_166>
+    <txt_171 >Fødselspermisjon</txt_171>
+    <txt_172 >Vesenet dager</txt_172>
+    <txt_173 >Senior Timer</txt_173>
+    <txt_174 >1 mai timer</txt_174>
+    <txt_179 >Plikt</txt_179>
+    <txt_185 >Alder Reduksjon tjent</txt_185>
+    <txt_186 >Alder Reduksjon brukt</txt_186>
+    <txt_187 >Alder Reduksjon betalt</txt_187>
+    <txt_188 >Alder Reduksjon planlagt</txt_188>
+    <txt_189 >Omsorg dag 2 planlagt</txt_189>
+    <txt_190 >Omsorg dag 10 planlagt</txt_190>
+    <txt_191 >Omsorg dag Omregnet planlagt</txt_191>
+    <txt_192 >Ulempe1706 betalt</txt_192>
+    <txt_193 >Ulempe Weekend betalt</txt_193>
+    <txt_194 >Reisedager</txt_194>
+    <txt_195 >E3</txt_195>
+    <txt_140 >aktivitet</txt_140>
+    <txt_141 >Timer</txt_141>
+    <txt_142 >Aktiviteter</txt_142>
+    <txt_163 >Balanse</txt_163>
+    <txt_167 >Total</txt_167>
+    <txt_168 >Tillegg / Frad.</txt_168>
+    <txt_169 >Vedlegg</txt_169>
+    <txt_170 >Fradrag</txt_170>
+    <txt_175 >Ferie overføres</txt_175>
+    <txt_176 >Ferie optjent u. Lønn</txt_176>
+    <txt_177 >Rettelse Komme / Gå</txt_177>
+    <txt_178 >Rettelse Realisert</txt_178>
+    <txt_180 >Opprett ny kunde</txt_180>
+    <txt_181 >Avtale Oversikt</txt_181>
+    <txt_182 >Kontakter</txt_182>
+    <txt_183 >Opprett ansatt</txt_183>
+    <txt_184 >Rediger ansatt</txt_184>
+
+    <txt_196>Ferie korrektion</txt_196>
+    <txt_197>Omsorgsdage Optjent</txt_197>
+    <txt_198>Ferie optjent til afh. 1.5.2019-31.8.2019</txt_198>
+    <txt_199>Ferie optjent indefrosset</txt_199>
+
+  </no>
+
+  
+  <!-- Svensk -->
+  <se>
+
+    <txt_119 >Sök | sortera</txt_119>
+    <txt_120 >Tidrapporter</txt_120>
+    <txt_121 >Projektplan | Resurser</txt_121>
+    <txt_122 >Jobb</txt_122>
+    <txt_123 >Resurser</txt_123>
+    <txt_124 >Kunder</txt_124>
+    <txt_125 >Anställda</txt_125>
+    <txt_126 >Statistik</txt_126>
+    <txt_127 >Filarkiv</txt_127>
+    <txt_128 >Lager</txt_128>
+    <txt_129 >Fakturerbara</txt_129>
+    <txt_130 >Km</txt_130>
+    <txt_131 >Inte Fakturerbara</txt_131>
+    <txt_132 >Försäljning | Newbizz</txt_132>
+    <txt_133 >Lunch</txt_133>
+    <txt_134 >Semester planerade</txt_134>
+    <txt_135 >Semester hölls</txt_135>
+    <txt_143 >Semester tjänade</txt_143>
+    <txt_156 >Semester betalat</txt_156>
+    <txt_136 >Helgdagar intjänade</txt_136>
+    <txt_137 >Helgdagar spend</txt_137>
+    <txt_149 >Helgdagar betalda</txt_149>
+    <txt_138 >Sjuk</txt_138>
+    <txt_139 >Barn sjuk</txt_139>
+    <txt_144 >Overtid</txt_144>
+    <txt_145 >Ledighet</txt_145>
+    <txt_146 >Övertid betalda</txt_146>
+    <txt_147 >Flextid spend</txt_147>
+    <txt_148 >Hälsa</txt_148>
+    <txt_150 >Paus</txt_150>
+    <txt_151 >Natt</txt_151>
+    <txt_152 >Weekend</txt_152>
+    <txt_153 >Helgnatt</txt_153>
+    <txt_154 >Kväll</txt_154>
+    <txt_155 >Helg Kväll</txt_155>
+    <txt_157 >Ad-hoc</txt_157>
+    <txt_158 >Stk. Antal</txt_158>
+    <txt_159 >Övertid önskade betald</txt_159>
+    <txt_160 >läkare</txt_160>
+    <txt_161 >E1</txt_161>
+    <txt_162 >E2</txt_162>
+    <txt_164 >Flytande helgdagar planerade</txt_164>
+    <txt_165 >Semester beroende. u. löner</txt_165>
+    <txt_166 >Dag</txt_166>
+    <txt_171 >Mamma</txt_171>
+    <txt_172 >Omsorgdagar</txt_172>
+    <txt_173 >Ledande Timmar</txt_173>
+    <txt_174 >1 maj timmar</txt_174>
+    <txt_179 >Plikt</txt_179>
+    <txt_185 >Ålder Minskning tjänade</txt_185>
+    <txt_186 >Ålder Minskning spend</txt_186>
+    <txt_187 >Ålder Minskning betalas</txt_187>
+    <txt_188 >Ålder Minskning planerade</txt_188>
+    <txt_189 >Omsorg dag 2 planeras</txt_189>
+    <txt_190 >Omsorg dag 10 planerade</txt_190>
+    <txt_191 >Omsorg dag Konverterad planerade</txt_191>
+    <txt_192 >Ulempe1706 betalat</txt_192>
+    <txt_193 >UlempeHelgen betalade</txt_193>
+    <txt_194 >Resdagar</txt_194>
+    <txt_195 >E3</txt_195>
+    <txt_140 >Aktivitet</txt_140>
+    <txt_141 >Timmar</txt_141>
+    <txt_142 >Aktiviteter</txt_142>
+    <txt_163 >Balans</txt_163>
+    <txt_167 >Totalt</txt_167>
+    <txt_168 >Tillägg / Frad.</txt_168>
+    <txt_169 >Appendix</txt_169>
+    <txt_170 >Avdrag</txt_170>
+    <txt_175 >Semester överförs</txt_175>
+    <txt_176 >Semester tjänade u. Löner</txt_176>
+    <txt_177 >Korrigering Kom / Gå</txt_177>
+    <txt_178 >korrigering Realiserade</txt_178>
+    <txt_180 >Skapa ny kund</txt_180>
+    <txt_181 >Svtal Sammanfattning</txt_181>
+    <txt_182 >Kontakter</txt_182>
+    <txt_183 >Skapa anställd</txt_183>
+    <txt_184 >Redigera anställd</txt_184>
+
+    <txt_196>Ferie korrektion</txt_196>
+    <txt_197>Omsorgsdage Optjent</txt_197>
+    <txt_198>Ferie optjent til afh. 1.5.2019-31.8.2019</txt_198>
+    <txt_199>Ferie optjent indefrosset</txt_199>
+
+  </se>
+
+
+  <!-- Tysk -->
+  <de>
+
+    <txt_119 >Suche | sortieren</txt_119>
+    <txt_120 >Zeiterfassung</txt_120>
+    <txt_121 >Projektplan | Ressourcen</txt_121>
+    <txt_122 >Job</txt_122>
+    <txt_123 >Ressourcen</txt_123>
+    <txt_124 >Kundschaft</txt_124>
+    <txt_125 >Mitarbeiter</txt_125>
+    <txt_126 >Statistik</txt_126>
+    <txt_127 >Datei-Manager</txt_127>
+    <txt_128 >Lager</txt_128>
+    <txt_129 >Abrechenbaren</txt_129>
+    <txt_130 >KM</txt_130>
+    <txt_131 >Nicht abrechenbaren</txt_131>
+    <txt_132 >Umsatz | Newbizz</txt_132>
+    <txt_133 >Mittagessen</txt_133>
+    <txt_134 >Urlaub geplant</txt_134>
+    <txt_135 >Urlaub gehalten</txt_135>
+    <txt_143 >Urlaub verdient</txt_143>
+    <txt_156 >Urlaub bezahlt</txt_156>
+    <txt_136 >Ferien verdient</txt_136>
+    <txt_137 >Ferien verbrachte</txt_137>
+    <txt_149 >Ferien bezahlt</txt_149>
+    <txt_138 >Krank</txt_138>
+    <txt_139 >Kind krank</txt_139>
+    <txt_144 >Überstunden</txt_144>
+    <txt_145 >Freistellung</txt_145>
+    <txt_146 >Überstunden bezahlt</txt_146>
+    <txt_147 >Flexible Arbeitsz. verbrachte</txt_147>
+    <txt_148 >Gesundheit</txt_148>
+    <txt_150 >Pause</txt_150>
+    <txt_151 >Nacht</txt_151>
+    <txt_152 >Wochenende</txt_152>
+    <txt_153 >Wochenende Nacht</txt_153>
+    <txt_154 >Abend</txt_154>
+    <txt_155 >Wochenend-Abend</txt_155>
+    <txt_157 >Ad-hoc</txt_157>
+    <txt_158 >Stück Anzahl</txt_158>
+    <txt_159 >Überstunden erhalten möchten</txt_159>
+    <txt_160 >Arzt</txt_160>
+    <txt_161 >E1</txt_161>
+    <txt_162 >E2</txt_162>
+    <txt_164 >Ferien geplant</txt_164>
+    <txt_165 >Urlaub geh. u. Löhne</txt_165>
+    <txt_166 >Tag</txt_166>
+    <txt_171 >Mutterschaft</txt_171>
+    <txt_172 >Pflegetage</txt_172>
+    <txt_173 >Senior Stunden</txt_173>
+    <txt_174 >1. Mai stunden</txt_174>
+    <txt_179 >Pflicht</txt_179>
+    <txt_185 >Alter Reduktion verdient</txt_185>
+    <txt_186 >Alter Reduktion verwendet</txt_186>
+    <txt_187 >Alter Reduzierung bezahlt</txt_187>
+    <txt_188 >Alter Reduzierung geplant</txt_188>
+    <txt_189 >Pflege Tag 2 geplant</txt_189>
+    <txt_190 >Pflege Tag 10 geplant</txt_190>
+    <txt_191 >Pflege Tag Umbau geplant</txt_191>
+    <txt_192 >Ulempe1706 bezahlt</txt_192>
+    <txt_193 >Nachteil Wochenende bezahlt</txt_193>
+    <txt_194 >Reisetage</txt_194>
+    <txt_195 >E3</txt_195>
+    <txt_140 >Aktivität</txt_140>
+    <txt_141 >Stunden</txt_141>
+    <txt_142 >Aktivitäten</txt_142>
+    <txt_163 >Balance</txt_163>
+    <txt_167 >Gesamt</txt_167>
+    <txt_168 >Anhang / Abz.</txt_168>
+    <txt_169 >Anhang</txt_169>
+    <txt_170 >Abzüge</txt_170>
+    <txt_175 >Urlaub übertragen</txt_175>
+    <txt_176 >Urlaub verdient u. Löhne</txt_176>
+    <txt_177 >Korrektur Kommen / Gehen</txt_177>
+    <txt_178 >Korrektur Realisiert</txt_178>
+    <txt_180 >Erstellen Sie neue Kunden</txt_180>
+    <txt_181 >Vereinbarung Zusammenfassung</txt_181>
+    <txt_182 >Kontakte</txt_182>
+    <txt_183 >Mitarbeiter erstellen</txt_183>
+    <txt_184 >Mitarbeiter editieren</txt_184>
+
+    <txt_196>Ferie korrektion</txt_196>
+    <txt_197>Omsorgsdage Optjent</txt_197>
+
+    <txt_198>Ferie optjent til afh. 1.5.2019-31.8.2019</txt_198>
+    <txt_199>Ferie optjent indefrosset</txt_199>
+
+  </de>
+
+  <!-- Fransk -->
+  <fr>
+
+    <txt_119 >Recherche | trier</txt_119>
+    <txt_120 >Feuille de temps</txt_120>
+    <txt_121 >Plan de projet | ressources</txt_121>
+    <txt_122 >Emploi</txt_122>
+    <txt_123 >Ressources</txt_123>
+    <txt_124 >Clientèle</txt_124>
+    <txt_125 >Employés</txt_125>
+    <txt_126 >Statistiques</txt_126>
+    <txt_127 >Gestionnaire de fichiers</txt_127>
+    <txt_128 >Stock</txt_128>
+    <txt_129 >Facturable</txt_129>
+    <txt_130 >Km</txt_130>
+    <txt_131 >Pas facturable</txt_131>
+    <txt_132 >Ventes | Newbizz</txt_132>
+    <txt_133 >Déjeuner</txt_133>
+    <txt_134 >Vacances prévues</txt_134>
+    <txt_135 >Vacances tenue</txt_135>
+    <txt_143 >Vacances gagné</txt_143>
+    <txt_156 >Congés payés</txt_156>
+    <txt_136 >Vacances gagnés</txt_136>
+    <txt_137 >Vacances passé</txt_137>
+    <txt_149 >Vacances payés</txt_149>
+    <txt_138 >Malade</txt_138>
+    <txt_139 >Enfant malade</txt_139>
+    <txt_144 >Heures suppl.</txt_144>
+    <txt_145 >Temps libre</txt_145>
+    <txt_146 >Les heures suppl. payées</txt_146>
+    <txt_147 >Heures de flex. dépensés</txt_147>
+    <txt_148 >Santé</txt_148>
+    <txt_150 >Pause</txt_150>
+    <txt_151 >Nuit</txt_151>
+    <txt_152 >Weekend</txt_152>
+    <txt_153 >Week-end Nuit</txt_153>
+    <txt_154 >Soirée</txt_154>
+    <txt_155 >Week-end Soirée</txt_155>
+    <txt_157 >Ad-hoc</txt_157>
+    <txt_158 >Pièce no.</txt_158>
+    <txt_159 >Les heures sup. souhaitent recevoir</txt_159>
+    <txt_160 >Docteur</txt_160>
+    <txt_161 >E1</txt_161>
+    <txt_162 >E2</txt_162>
+    <txt_164 >Vacances prévues</txt_164>
+    <txt_165 >Vacances tenue s. salaire</txt_165>
+    <txt_166 >Jour</txt_166>
+    <txt_171 >Maternité</txt_171>
+    <txt_172 >jours de soins</txt_172>
+    <txt_173 >Heures supérieurs</txt_173>
+    <txt_174 >1 mai heures</txt_174>
+    <txt_179 >Du devoir</txt_179>
+    <txt_185 >Réduction de l'âge gagné</txt_185>
+    <txt_186 >Réduction de l'âge utilisé</txt_186>
+    <txt_187 >Réduction de l'âge payé</txt_187>
+    <txt_188 >Réduction de l'âge prévu</txt_188>
+    <txt_189 >Jour Soins 2 prévu</txt_189>
+    <txt_190 >Jour de soins 10 prévu</txt_190>
+    <txt_191 >Soins jour de conversion prévu</txt_191>
+    <txt_192 >Inconvénient en 1706 payé</txt_192>
+    <txt_193 >Inconvénient Weekend payé</txt_193>
+    <txt_194 >Jours voyage</txt_194>
+    <txt_195 >E3</txt_195>
+    <txt_140 >Activité</txt_140>
+    <txt_141 >Heures</txt_141>
+    <txt_142 >Activités</txt_142>
+    <txt_163 >Équilibre</txt_163>
+    <txt_167 >Total</txt_167>
+    <txt_168 >Annexe / Déductions</txt_168>
+    <txt_169 >Appendice</txt_169>
+    <txt_170 >Déductions</txt_170>
+    <txt_175 >Vacances transférés</txt_175>
+    <txt_176 >Holiday u gagné. Les salaires</txt_176>
+    <txt_177 >Correction Come / Go</txt_177>
+    <txt_178 >Correction réalisé</txt_178>
+    <txt_180 >Créer un nouveau client</txt_180>
+    <txt_181 >Résumé accord</txt_181>
+    <txt_182 >Contacts</txt_182>
+    <txt_183 >Créer employé</txt_183>
+    <txt_184 >Modifier employé</txt_184>
+
+    <txt_196>Ferie korrektion</txt_196>
+    <txt_197>Omsorgsdage Optjent</txt_197>
+
+    <txt_198>Ferie optjent til afh. 1.5.2019-31.8.2019</txt_198>
+    <txt_199>Ferie optjent indefrosset</txt_199>
+    
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <!-- Global func -->
+    <txt_119>Search | Order by</txt_119>
+
+
+
+    <!-- Sek. menu - Global func -->
+    <txt_120>Time recording</txt_120>
+    <txt_121>Pro. planning | Resources</txt_121>
+    <txt_122>Jobs</txt_122>
+    <txt_123>Resources</txt_123>
+    <txt_124>Customers</txt_124>
+    <txt_125>Employees</txt_125>
+    <txt_126>Statistic</txt_126>
+    <txt_127>File archive</txt_127>
+    <txt_128>Material consump./ Expences</txt_128>
+
+
+    <!-- Global func akt. typer -->
+    <txt_129>Invoicable</txt_129>
+    <txt_130>Km</txt_130>
+    <txt_131>None invoicable</txt_131>
+    <txt_132>Sale | NewBizz</txt_132>
+    <txt_133>Lunch</txt_133>
+    <txt_134>Vacation Planed</txt_134>
+    <txt_135>Vacation Conducted</txt_135>
+    
+    <txt_136>Extra days in lieu</txt_136>
+    <txt_137>Extra days conducted</txt_137>
+    
+    <txt_138>Sick</txt_138>
+    <txt_139>Child sick</txt_139>
+    
+    <txt_143>Holiday account</txt_143>
+    <txt_156>Holiday pay out</txt_156>
+    
+
+	  <txt_149>Extra days pay out</txt_149>
+
+
+	  <txt_144>Earned time</txt_144>
+	  <txt_145>Time in lieu </txt_145>
+	  <txt_146>Time in lieu pay out </txt_146>
+
+	  <txt_147>Flexitime conducted</txt_147>
+	  <txt_148>Health</txt_148>
+
+	  <txt_150>Break</txt_150>
+	  <txt_151>Night</txt_151>
+	  <txt_152>Weekend</txt_152>
+	  <txt_153>Weekend Night</txt_153>
+	  <txt_154>Evening</txt_154>
+	  <txt_155>Weekend Eve.</txt_155>
+	  <txt_157>Ad-hoc</txt_157>
+	  <txt_158>Pcs.</txt_158>
+
+	  <txt_159>Time in lieu wants pay out</txt_159>
+	  <txt_160>Doctor</txt_160>
+	  <txt_161>E1</txt_161>
+	  <txt_162>E2</txt_162>
+
+	  <txt_164>Extra days planned</txt_164>
+	  <txt_165>Holiday without pay</txt_165>
+	  <txt_166>Day</txt_166>
+
+      <txt_171>Maternity leave</txt_171>
+
+      <txt_172>Care day</txt_172>
+      <txt_173>Seniorhours</txt_173>
+      <txt_174>Misc. holliday hours</txt_174>
+
+    <txt_179>Leave</txt_179>
+
+
+    <txt_185>Age-reduction account</txt_185>
+    <txt_186>Age-reduction used</txt_186>
+    <txt_187>Age-reduction pay out</txt_187>
+
+    <txt_188>Age-reduction planned</txt_188>
+    <txt_189>Care day 2 planned</txt_189>
+    <txt_190>Care day 10 planned</txt_190>
+    <txt_191>Care day K planned</txt_191>
+
+    <txt_192>Disadvantage1706 payout</txt_192>
+    <txt_193>DisadvantageWeekend payout</txt_193>
+
+    <txt_194>Traveldays</txt_194>
+    <txt_195>E3</txt_195>
+
+    <txt_196>Ferie korrektion</txt_196>
+    <txt_197>Omsorgsdage Optjent</txt_197>
+
+    <txt_198>Ferie optjent til afh. 1.5.2019-31.8.2019</txt_198>
+    <txt_199>Ferie optjent indefrosset</txt_199>
+    
+    <!-- End typer -->
+
+
+
+	  <txt_140>Activity</txt_140>
+	  <txt_141>Hours</txt_141>
+	  <txt_142>Activities</txt_142>
+
+	  <txt_163>Balance</txt_163>
+	  <txt_167>Total</txt_167>
+	  <txt_168>Addition/deduc.</txt_168>
+	  <txt_169>Addition</txt_169>
+	  <txt_170>Deduction</txt_170>
+      
+      <txt_175>Holiday account transferred</txt_175>
+      <txt_176>Holiday account without pay</txt_176>
+
+      <txt_177>Time Clock Adjustment</txt_177>
+      <txt_178>Adjustment Real.</txt_178>
+
+
+
+    <txt_180>New Customer</txt_180>
+    <txt_181>Service Agreements</txt_181>
+    <txt_182>Contacts</txt_182>
+
+    <txt_183>New Employee</txt_183>
+
+    <txt_184>Edit Profile</txt_184>
+   
+
+
+  </uk>
+
+  
+<!--- Spansk -->
+  <es>
+
+    <txt_119 >Buscar | especie</txt_119>
+    <txt_120 >Hoja de tiempo</txt_120>
+    <txt_121 >Plan del Proyecto | recursos</txt_121>
+    <txt_122 >Trabajo</txt_122>
+    <txt_123 >Recursos</txt_123>
+    <txt_124 >Clientes</txt_124>
+    <txt_125 >Empleados</txt_125>
+    <txt_126 >Estadística</txt_126>
+    <txt_127 >Gestor de archivos</txt_127>
+    <txt_128 >Valores</txt_128>
+    <txt_129 >Facturable</txt_129>
+    <txt_130 >Km</txt_130>
+    <txt_131 >No facturable</txt_131>
+    <txt_132 >Ventas | Newbizz</txt_132>
+    <txt_133 >Almuerzo</txt_133>
+    <txt_134 >Vacaciones previstas</txt_134>
+    <txt_135 >Día de fiesta celebrado</txt_135>
+    <txt_143 >Vacaciones ganado</txt_143>
+    <txt_156 >Vacaciones pagadas</txt_156>
+    <txt_136 >Festivos adicionales ganadas</txt_136>
+    <txt_137 >Feriados móviles pasaron</txt_137>
+    <txt_149 >Feriados móviles pagados</txt_149>
+    <txt_138 >Enfermo</txt_138>
+    <txt_139 >Niño enfermo</txt_139>
+    <txt_144 >Horas extraordinarias</txt_144>
+    <txt_145 >Tiempo libre</txt_145>
+    <txt_146 >Las horas extra. pagadas</txt_146>
+    <txt_147 >Horarios de flex. pasaron</txt_147>
+    <txt_148 >Salud</txt_148>
+    <txt_150 >Rotura</txt_150>
+    <txt_151 >Noche</txt_151>
+    <txt_152 >Fin de semana</txt_152>
+    <txt_153 >Noche de fin de semana</txt_153>
+    <txt_154 >Noche</txt_154>
+    <txt_155 >Fin de semana de la tarde</txt_155>
+    <txt_157 >Ad-hoc</txt_157>
+    <txt_158 >pieza número</txt_158>
+    <txt_159 >Las horas extra desea recibir</txt_159>
+    <txt_160 >Médico</txt_160>
+    <txt_161 >E1</txt_161>
+    <txt_162 >E2</txt_162>
+    <txt_164 >Feriados móviles planeadas</txt_164>
+    <txt_165 >Holiday detenido sin pago</txt_165>
+    <txt_166 >Día</txt_166>
+    <txt_171 >Maternidad</txt_171>
+    <txt_172 >Días de atención</txt_172>
+    <txt_173 >Horas de alto nivel</txt_173>
+    <txt_174 >01 de mayo horas</txt_174>
+    <txt_179 >Del deber</txt_179>
+    <txt_185 >Reducción de edad ganó</txt_185>
+    <txt_186 >Reducción de la edad usa</txt_186>
+    <txt_187 >Reducción de la edad pagado</txt_187>
+    <txt_188 >Reducción de la edad previsto</txt_188>
+    <txt_189 >Cuidado de día 2 planificada</txt_189>
+    <txt_190 >Cuidado día 10 previsto</txt_190>
+    <txt_191 >Día cuidar de conversión previsto</txt_191>
+    <txt_192 >Ulempe1706 pagado</txt_192>
+    <txt_193 >Fin de semana desventaja pagado</txt_193>
+    <txt_194 >Los días de viaje</txt_194>
+    <txt_195 >E3</txt_195>
+    <txt_140 >Actividad</txt_140>
+    <txt_141 >Horas</txt_141>
+    <txt_142 >Actividades</txt_142>
+    <txt_163 >Equilibrio</txt_163>
+    <txt_167 >Total</txt_167>
+    <txt_168 >Apéndice / Deduc.</txt_168>
+    <txt_169 >Apéndice</txt_169>
+    <txt_170 >Deducciones</txt_170>
+    <txt_175 >Vacaciones transferido</txt_175>
+    <txt_176 >Holiday ganó sin pago</txt_176>
+    <txt_177 >Corrección Ven / Go</txt_177>
+    <txt_178 >Corrección Realizado</txt_178>
+    <txt_180 >Crear nuevo cliente</txt_180>
+    <txt_181 >Resumen acuerdo</txt_181>
+    <txt_182 >Contactos</txt_182>
+    <txt_183 >Crear empleado</txt_183>
+    <txt_184 >Editar empleado</txt_184>
+
+    <txt_196>Ferie korrektion</txt_196>
+    <txt_197>Omsorgsdage Optjent</txt_197>
+
+    <txt_198>Ferie optjent til afh. 1.5.2019-31.8.2019</txt_198>
+    <txt_199>Ferie optjent indefrosset</txt_199>
+    
+  </es>
+
+
+
+  <!-- Norsk -->
+  <cflow>
+
+    <txt_119 >Søk | Sorter</txt_119>
+    <txt_120 >Timeregistrering</txt_120>
+    <txt_121 >Prosjektplan | Ressurser</txt_121>
+    <txt_122 >Jobb</txt_122>
+    <txt_123 >Ressurser</txt_123>
+    <txt_124 >Kunder</txt_124>
+    <txt_125 >Ansatte</txt_125>
+    <txt_126 >Statistikk</txt_126>
+    <txt_127 >File manager</txt_127>
+    <txt_128 >Lager</txt_128>
+    <txt_129 >Fakturerbare</txt_129>
+    <txt_130 >Km</txt_130>
+    <txt_131 >Ikke fakturerbare</txt_131>
+    <txt_132 >Salg | Newbizz</txt_132>
+    <txt_133 >Lunsj</txt_133>
+    <txt_134 >Ferie planlagt</txt_134>
+    <txt_135 >Ferie holdt</txt_135>
+    <txt_143 >Opparbeidet ferie</txt_143>
+    <txt_156 >Ferie betalt</txt_156>
+    <txt_136 >Ekstra ferie opptjent</txt_136>
+    <txt_137 >Fridag brukt</txt_137>
+    <txt_149 >018 Fridag betalt</txt_149>
+    <txt_138 >013 Syk</txt_138>
+    <txt_139 >013 Barnet syk</txt_139>
+    <txt_144 >010 Ordinær</txt_144>
+    <txt_145 >401 Avspasering</txt_145>
+    <txt_146 >402 Overtid utbetalt</txt_146>
+    <txt_147 >400 Timebank</txt_147>
+    <txt_148 >Helse</txt_148>
+    <txt_150 >Pause</txt_150>
+    <txt_151 >026 Overtid 100%</txt_151>
+    <txt_152 >010 Reisetid</txt_152>
+    <txt_153 >026 Reisetid 100%</txt_153>
+    <txt_154 >025 Overtid 50%</txt_154>
+    <txt_155 >025 Reisetid 50%</txt_155>
+    <txt_157 >021 Utetillæg udland</txt_157>
+    <txt_158 >022 Teamleder tillæg</txt_158>
+    <txt_159 >Overtid ønsket betalt</txt_159>
+    <txt_160 >Lege</txt_160>
+    <txt_161 >026 Etter Midnatt</txt_161>
+    <txt_162 >025 Overtid 50% (fastlønn)</txt_162>
+    <txt_164 >Flytende hellig planlagt</txt_164>
+    <txt_165 >Ferie afholdt u. lønn</txt_165>
+    <txt_166 >020 Utetillæg innland</txt_166>
+    <txt_171 >018 Fødselspermisjon</txt_171>
+    <txt_172 >Vesenet dager</txt_172>
+    <txt_173 >Senior Timer</txt_173>
+    <txt_174 >048 Helligdage</txt_174>
+    <txt_179 >Plikt</txt_179>
+    <txt_185 >28-29 Timeb. tillæg</txt_185>
+    <txt_186 >400 Timebank + 028 50% tillegg</txt_186>
+    <txt_187 >400 Timebank + 029 100% tillegg</txt_187>
+    <txt_188 >Alder Reduksjon planlagt</txt_188>
+    <txt_189 >028 50% tillegg</txt_189>
+    <txt_190 >029 100% tillegg</txt_190>
+    <txt_191 >Omsorg dag Omregnet planlagt</txt_191>
+    <txt_192 >021 Sitetillegg Onshore Innland</txt_192>
+    <txt_193 >023 Sitetillegg Offshore</txt_193>
+    <txt_194 >022 Sitetillegg Onshore Utland</txt_194>
+    <txt_195 >026 Overtid 100% (fastlønn)</txt_195>
+    <txt_140 >aktivitet</txt_140>
+    <txt_141 >Timer</txt_141>
+    <txt_142 >Aktiviteter</txt_142>
+    <txt_163 >Balanse</txt_163>
+    <txt_167 >Total</txt_167>
+    <txt_168 >Tillegg / Frad.</txt_168>
+    <txt_169 >Vedlegg</txt_169>
+    <txt_170 >Fradrag</txt_170>
+    <txt_175 >Ferie overføres</txt_175>
+    <txt_176 >Ferie optjent u. Lønn</txt_176>
+    <txt_177 >Rettelse Komme / Gå</txt_177>
+    <txt_178 >Rettelse Realisert</txt_178>
+    <txt_180 >Opprett ny kunde</txt_180>
+    <txt_181 >Avtale Oversikt</txt_181>
+    <txt_182 >Kontakter</txt_182>
+    <txt_183 >Opprett ansatt</txt_183>
+    <txt_184 >Rediger ansatt</txt_184>
+
+    <txt_196>Ferie korrektion</txt_196>
+    <txt_197>Omsorgsdage Optjent</txt_197>
+
+    <txt_198>Ferie optjent til afh. 1.5.2019-31.8.2019</txt_198>
+    <txt_199>Ferie optjent indefrosset</txt_199>
+
+  </cflow>
+
+
+  <!--- Dansk -->
+  <miele>
+
+
+    <!-- Global func -->
+    <txt_119>Søg | Sortér</txt_119>
+
+
+
+    <!-- Sek. menu - Global func -->
+    <txt_120>Timeregistrering</txt_120>
+    <txt_121>Projektplan | Ressourcer</txt_121>
+    <txt_122>Job</txt_122>
+    <txt_123>Ressourcer</txt_123>
+    <txt_124>Kunder</txt_124>
+    <txt_125>Medarbejdere</txt_125>
+    <txt_126>Statistik</txt_126>
+    <txt_127>Filarkiv</txt_127>
+    <txt_128>Lager</txt_128>
+
+
+    <!-- Global func akt. typer -->
+    <txt_129>Fakturerbar</txt_129>
+    <txt_130>Km</txt_130>
+    <txt_131>Ikke fakturerbar</txt_131>
+    <txt_132>Salg | NewBizz</txt_132>
+    <txt_133>Frokost</txt_133>
+
+    <txt_134>Ferie planlagt</txt_134>
+    <txt_135>Ferie afholdt</txt_135>
+    <txt_143>Ferie optjent</txt_143>
+    <txt_156>Ferie udbetalt</txt_156>
+
+    <txt_136>Feriefridage optjent</txt_136>
+    <txt_137>Feriefridage brugt</txt_137>
+    <txt_149>Feriefridage udbetalt</txt_149>
+
+    <txt_175>Ferie overført</txt_175>
+    <txt_176>Ferie optjent u. løn</txt_176>
+
+
+    <txt_138>Syg</txt_138>
+    <txt_139>Barn syg</txt_139>
+
+    <txt_144>Overarbejde</txt_144>
+    <txt_145>Afspadsering</txt_145>
+    <txt_146>Overarbejde udbetalt</txt_146>
+
+    <txt_147>Flextid brugt</txt_147>
+    <txt_148>Sundhed</txt_148>
+
+    <txt_150>Pause</txt_150>
+    <txt_151>Nat</txt_151>
+    <txt_152>Weekend</txt_152>
+    <txt_153>Weekend Nat</txt_153>
+    <txt_154>Aften</txt_154>
+    <txt_155>Weekend Aften</txt_155>
+    <txt_157>Ad-hoc</txt_157>
+    <txt_158>Stk. Antal</txt_158>
+
+    <txt_159>Overarbejde ønskes udb.</txt_159>
+    <txt_160>Læge</txt_160>
+    <txt_161>Kursus</txt_161>
+    <txt_162>E2</txt_162>
+
+
+    <txt_164>Feriefridage planlagt</txt_164>
+    <txt_165>Ferie afh. u. løn</txt_165>
+    <txt_166>Dag</txt_166>
+
+    <txt_171>Barsel</txt_171>
+
+    <txt_172>Omsorgsdage</txt_172>
+    <txt_173>Seniortimer</txt_173>
+    <txt_174>1 maj timer</txt_174>
+
+    <txt_179>Tjenestefri</txt_179>
+
+
+    <txt_185>Aldersreduktion optjent</txt_185>
+    <txt_186>Aldersreduktion brugt</txt_186>
+    <txt_187>Aldersreduktion udbetalt</txt_187>
+
+    <txt_188>Aldersreduktion planlagt</txt_188>
+    <txt_189>Omsorgsdag 2 planlagt</txt_189>
+    <txt_190>Omsorgsdag 10 planlagt</txt_190>
+    <txt_191>Omsorgsdag Konverteret planlagt</txt_191>
+
+    <txt_192>Ulempe1706 udbetalt</txt_192>
+    <txt_193>UlempeWeekend udbetalt</txt_193>
+
+    <txt_194>Rejsedage</txt_194>
+    <txt_195>E3</txt_195>
+    <txt_196>Ferie korrektion</txt_196>
+    <txt_197>Omsorgsdage Optjent</txt_197>
+
+    <txt_198>Ferie optjent til afh. 1.5.2019-31.8.2019</txt_198>
+    <txt_199>Ferie optjent indefrosset</txt_199>
+
+    <!-- End typer -->
+
+
+    <txt_140>aktivitet</txt_140>
+    <txt_141>Timer</txt_141>
+    <txt_142>Aktiviteter</txt_142>
+
+    <txt_163>Saldo</txt_163>
+    <txt_167>Total</txt_167>
+    <txt_168>Tillæg/Frad.</txt_168>
+    <txt_169>Tillæg</txt_169>
+    <txt_170>Fradrag</txt_170>
+
+
+    <txt_175>Ferie overført</txt_175>
+    <txt_176>Ferie optjent u. løn</txt_176>
+
+    <txt_177>Korrektion Komme/Gå</txt_177>
+    <txt_178>Korrektion Realiseret</txt_178>
+
+
+    <txt_180>Opret ny kunde</txt_180>
+    <txt_181>Aftaleoversigt</txt_181>
+    <txt_182>Kontaktpersoner</txt_182>
+
+    <txt_183>Opret medarbejder</txt_183>
+
+    <txt_184>Rediger medarbejder</txt_184>
+
+  </miele>
+
+
+
+  <!--- Dansk -->
+  <dencker>
+
+
+
+
+
+    <!-- Global func -->
+    <txt_119>Søg | Sortér</txt_119>
+
+
+
+    <!-- Sek. menu - Global func -->
+    <txt_120>Timeregistrering</txt_120>
+    <txt_121>Projektplan | Ressourcer</txt_121>
+    <txt_122>Job</txt_122>
+    <txt_123>Ressourcer</txt_123>
+    <txt_124>Kunder</txt_124>
+    <txt_125>Medarbejdere</txt_125>
+    <txt_126>Statistik</txt_126>
+    <txt_127>Filarkiv</txt_127>
+    <txt_128>Lager</txt_128>
+
+
+    <!-- Global func akt. typer -->
+    <txt_129>Fakturerbar</txt_129>
+    <txt_130>Km</txt_130>
+    <txt_131>Ikke fakturerbar</txt_131>
+    <txt_132>Salg | NewBizz</txt_132>
+    <txt_133>Frokost</txt_133>
+
+    <txt_134>Ferie planlagt</txt_134>
+    <txt_135>Ferie afholdt</txt_135>
+    <txt_143>Ferie optjent</txt_143>
+    <txt_156>Ferie udbetalt</txt_156>
+
+    <txt_136>Feriefridage optjent</txt_136>
+    <txt_137>Feriefridage brugt</txt_137>
+    <txt_149>Feriefridage udbetalt</txt_149>
+
+    <txt_175>Ferie overført</txt_175>
+    <txt_176>Ferie optjent u. løn</txt_176>
+
+
+    <txt_138>Syg</txt_138>
+    <txt_139>Barn syg</txt_139>
+
+    <txt_144>Overarbejde</txt_144>
+    <txt_145>Afspadsering</txt_145>
+    <txt_146>Overarbejde udbetalt</txt_146>
+
+    <txt_147>Flextid brugt</txt_147>
+    <txt_148>Sundhed</txt_148>
+
+    <txt_150>Pause</txt_150>
+    <txt_151>Kørselstillæg</txt_151>
+    <txt_152>Befordring efter skat</txt_152>
+    <txt_153>Personalekasse</txt_153>
+    <txt_154>Aftenhold Genetillæg</txt_154>
+    <txt_155>Forældre Orlov</txt_155>
+    <txt_157>Ad-hoc</txt_157>
+    <txt_158>Stk. Antal</txt_158>
+
+    <txt_159>Overarbejde ønskes udb.</txt_159>
+    <txt_160>Læge</txt_160>
+    <txt_161>E1</txt_161>
+    <txt_162>E2</txt_162>
+
+
+    <txt_164>Feriefridage planlagt</txt_164>
+    <txt_165>Ferie afh. u. løn</txt_165>
+    <txt_166>Fædre Orlov</txt_166>
+
+    <txt_171>Barsel</txt_171>
+
+    <txt_172>Omsorgsdage</txt_172>
+    <txt_173>Seniortimer</txt_173>
+    <txt_174>Skole</txt_174>
+
+    <txt_179>Tjenestefri</txt_179>
+
+
+    <txt_185>Aldersreduktion optjent</txt_185>
+    <txt_186>Aldersreduktion brugt</txt_186>
+    <txt_187>Aldersreduktion udbetalt</txt_187>
+
+    <txt_188>Aldersreduktion planlagt</txt_188>
+    <txt_189>Omsorgsdag 2 planlagt</txt_189>
+    <txt_190>Omsorgsdag 10 planlagt</txt_190>
+    <txt_191>Omsorgsdag Konverteret planlagt</txt_191>
+
+    <txt_192>Ulempe1706 udbetalt</txt_192>
+    <txt_193>Køb via Dencker</txt_193>
+
+    <txt_194>Rejsedage</txt_194>
+    <txt_195>Tilsyn til maskiner</txt_195>
+    <txt_196>Ferie korrektion</txt_196>
+    <txt_197>Omsorgsdage Optjent</txt_197>
+
+    <txt_198>Ferie optjent til afh. 1.5.2019-31.8.2019</txt_198>
+    <txt_199>Ferie optjent indefrosset</txt_199>
+
+    <!-- End typer -->
+
+
+    <txt_140>aktivitet</txt_140>
+    <txt_141>Timer</txt_141>
+    <txt_142>Aktiviteter</txt_142>
+
+    <txt_163>Saldo</txt_163>
+    <txt_167>Total</txt_167>
+    <txt_168>Tillæg/Frad.</txt_168>
+    <txt_169>Tillæg</txt_169>
+    <txt_170>Fradrag</txt_170>
+
+
+    <txt_175>Ferie overført</txt_175>
+    <txt_176>Ferie optjent u. løn</txt_176>
+
+    <txt_177>Korrektion Komme/Gå</txt_177>
+    <txt_178>Korrektion Realiseret</txt_178>
+
+
+    <txt_180>Opret ny kunde</txt_180>
+    <txt_181>Aftaleoversigt</txt_181>
+    <txt_182>Kontaktpersoner</txt_182>
+
+    <txt_183>Opret medarbejder</txt_183>
+
+    <txt_184>Rediger medarbejder</txt_184>
+
+  </dencker>
+
+
+
+</sprog>

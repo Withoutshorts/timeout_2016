@@ -1,8 +1,12 @@
 {
   "ExpandedNodes": [
     "",
+    "\\inc",
+    "\\redirectfile\\a27",
+    "\\redirectfile\\remarkers",
+    "\\timereg",
     "\\to_2015"
   ],
-  "SelectedNode": "\\to_2015\\job_nt.asp(WC20180612)",
+  "SelectedNode": "\\timereg\\eksport_timeout_plan_datalon.asp",
   "PreviewInSolutionExplorer": false
 }

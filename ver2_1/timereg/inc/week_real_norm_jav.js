@@ -88,4 +88,14 @@ $(document).ready(function() {
 $(window).load(function() {
     // run code
     $("#loadbar").hide(1000);
+
+    $(".flexsaldo").each(function (index) {
+        thisid = this.id
+
+        ajaxFN = $.post("?medid=" + thisid, { control: "GetGrandFlexSaldo", AjaxUpdateField: "true" }, function (data) {
+            $("#flexsaldo_" + index).html(data)       
+        });
+          
+    });
+
 });

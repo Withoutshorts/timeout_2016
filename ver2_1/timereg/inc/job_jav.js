@@ -13,6 +13,8 @@ $(window).load(function () {
 
 $(document).ready(function () {
 
+  
+
     /*
     $('.fileupload').click(function (e) {
         $(this).find('input[type="file"]').click();
@@ -1460,7 +1462,7 @@ $(document).ready(function () {
 
 
 
-            //alert("her " + $("#FM_budgettimer").val() + "# " + varTotTim)
+            //alert("her " + $("#FM_budgettimer").val() + "# " + varTotTim & " " + $("#lto").val())
             $("#FM_fasersumtot").val(varTotSum)
             $("#FM_fasertimertot").val(varTotTim)
 

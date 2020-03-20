@@ -18,7 +18,8 @@ areJobPrinted = 0
 
 	'*** Henter dato og dag mv. fra calender.asp
 	'*** Finder den valgte uge **** 
-	strWeek = datepart("ww", useDate, 2, 2)
+    call thisWeekNo53_fn(useDate)
+	strWeek = thisWeekNo53 'datepart("ww", useDate, 2, 2)
 	'Response.Write useDate & " -- "
 	'Response.Write strWeek
 	strRegAar = strAar 'skal slettes og sættes til strAar
@@ -140,7 +141,9 @@ cspsThis = 4
 bdsThis = 1
 end if
 
-dageDatoerTxt = "<tr><td colspan=2 bgcolor=""#FFFFFF"" style=""padding:5px 5px 4px 5px; border-bottom:"&bdsThis&"px #cccccc solid;""><b>"&tsa_txt_005&": "& datepart("ww", tjekdag(1), 2,2) & "&nbsp;&nbsp;&nbsp;" & datepart("yyyy", tjekdag(1), 2,2) &"</b></td>"
+call thisWeekNo53_fn(tjekdag(1))
+
+dageDatoerTxt = "<tr><td colspan=2 bgcolor=""#FFFFFF"" style=""padding:5px 5px 4px 5px; border-bottom:"&bdsThis&"px #cccccc solid;""><b>"&tsa_txt_005&": "& thisWeekNo53 & "&nbsp;&nbsp;&nbsp;" & datepart("yyyy", tjekdag(1), 2,2) &"</b></td>"
 dageDatoerTxt = dageDatoerTxt & "<td colspan="&cspsThis+3&" bgcolor=""#FFFFFF"" align=right style=""padding:5px 5px 4px 5px; border-bottom:"&bdsThis&"px #cccccc solid; font-size:10px;""><i> "& meTxt &" - "& normTimerprUge &" t. pr. uge</i></td>"
 
 dageDatoerTxt = dageDatoerTxt & "</tr>"

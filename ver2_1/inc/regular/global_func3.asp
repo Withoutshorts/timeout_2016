@@ -9,6 +9,7 @@
     public usedMeTypes 
     public strEksport, strEksportTxt, strEksportEmailTxt, headerwrt, ekspTxtA, ekspTxtB, headerwrtExp
     public realNormBal, normLontBal, realLontBal
+    public AfspadBal
 
 	function medarbafstem(intMid, startDato, slutDato, visning, akttype_sel, m)
 
@@ -137,7 +138,7 @@
     strSQL = strSQL &")"
 
 	strSQL = strSQL &" AND t.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"') "_
-	&" WHERE "& medarbSQL &" AND mansat <> '2' "_
+	&" WHERE "& medarbSQL &" AND mansat <> '2' AND mansat <> '4' "_
 	&" GROUP BY m.mid ORDER BY m.mnavn"
 	
     'OR tfaktim = 114
@@ -293,9 +294,10 @@
 	    
 	    
 	    
-	  
-        'Response.Write "meType: " & meType & " normtimer: "& meNormTimer(meType) & " akttype_sel = "& akttype_sel &"<br>"
-	   
+	   'if session("mid") = 1 then
+       'Response.Write "visning: "& visning &" meType: " & meType & " normtimer: "& meNormTimer(meType) & " akttype_sel = "& akttype_sel &"<br>"
+	   'end if    
+
 	   '*********************************'
 	   '*** Kalder sum på samle-typer ***'
 	   '*********************************'
@@ -435,31 +437,33 @@
 	     if (instr(akttype_sel, "#-1#") <> 0 AND visning = 1) OR visning = 2 OR visning = 3 OR visning = 7 OR visning = 14 OR visning = 77 then
 	  
 	      
-	    '***  Fakturerbare TOTAL ***'
-	    strSQLf = "SELECT t.tid, sum(t.timer) AS faktimer,"_
-	    &" t.tdato FROM timer t WHERE t.tmnr = "& intMid &" AND ("& aty_sql_realHoursFakbar &")"_
-	    &" AND t.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' "& viskunGodkendteSQL &" GROUP BY t.tmnr "
+	        '***  Fakturerbare TOTAL ***'
+	        strSQLf = "SELECT t.tid, sum(t.timer) AS faktimer,"_
+	        &" t.tdato FROM timer t WHERE t.tmnr = "& intMid &" AND ("& aty_sql_realHoursFakbar &")"_
+	        &" AND t.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' "& viskunGodkendteSQL &" GROUP BY t.tmnr "
 	   
-	   'Response.Write strSQLf
-	   'Response.flush
+	       'Response.Write strSQLf
+	       'Response.flush
 	   
-	    oRec2.open strSQLf, oConn, 3
-	    while not oRec2.EOF
-	    realfTimer(x) = oRec2("faktimer")
-	    oRec2.movenext
-	    wend
-	    oRec2.close
+	        oRec2.open strSQLf, oConn, 3
+	        while not oRec2.EOF
+	        realfTimer(x) = oRec2("faktimer")
+	        oRec2.movenext
+	        wend
+	        oRec2.close
 	   
 	     
 	    
-	     if len(trim(realfTimer(x))) <> 0 AND realfTimer(x) <> 0 then
-         realfTimer(x) = realfTimer(x)
-         afstemnul(x) = 105
-         else
-         realfTimer(x) = 0
-         end if
-	    
-	    'if visning = 1 then
+	         if len(trim(realfTimer(x))) <> 0 AND realfTimer(x) <> 0 then
+             realfTimer(x) = realfTimer(x)
+             afstemnul(x) = 105
+             else
+             realfTimer(x) = 0
+             end if
+
+
+       
+    
 	   
         if lto = "tia" then
         strSQLAdminTimer = " OR tfaktim = 91"
@@ -473,9 +477,11 @@
 	    &" t.tdato FROM timer t WHERE t.tmnr = "& intMid &" AND ("& aty_sql_realHoursIkFakbar &" "& strSQLAdminTimer &")"_
 	    &" AND t.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' "& viskunGodkendteSQL &" GROUP BY t.tmnr "
 	   
-	   'Response.Write "<br>" & strSQLif
-	   'Response.flush
-	   
+        'if session("mid") = 1 then
+	    'Response.Write "<br>" & strSQLif
+	    'Response.flush
+	    'end if   
+
 	    oRec2.open strSQLif, oConn, 3
 	    while not oRec2.EOF
 	    realIfTimer(x) = oRec2("ikkefaktimer")
@@ -543,8 +549,56 @@
        
 
 	    
+	   '*** Diæter ***
+       if (instr(akttype_sel, "#-70#") <> 0 AND visning = 1) then
+	  
+	      
+	        '***  Diæter TOTAL skattefrie < 24 timer ***'
+            viskunGodkendteDiets = replace(viskunGodkendteSQL, "godkendtstatus", "diet_approved")
+	        strSQLf = "SELECT SUM(t.diet_rest) AS diet_rest, "_
+	        &" t.diet_sldato FROM traveldietexp t WHERE t.diet_mid = "& intMid & ""_
+	        &" AND t.diet_sldato BETWEEN '"& startdato &"' AND '"& slutdato &"' "& viskunGodkendteDiets &" AND diet_traveldays < 1 GROUP BY t.diet_mid"
+	   
+            'SUM((t.diet_dayprice*diet_traveldays) - (() + () + ()))
+	        'Response.Write strSQLf
+	        'Response.flush
+	        diet_maksamount_skattefri(x) = 0
+	        oRec2.open strSQLf, oConn, 3
+	        while not oRec2.EOF
+	            diet_maksamount_skattefri(x) = oRec2("diet_rest")
+	        oRec2.movenext
+	        wend
+	        oRec2.close
+
+             '***  Diæter TOTAL skat > 24 timer ***'
+            viskunGodkendteDiets = replace(viskunGodkendteSQL, "godkendtstatus", "diet_approved")
+	        strSQLf = "SELECT SUM(t.diet_rest) AS diet_rest, "_
+	        &" t.diet_sldato FROM traveldietexp t WHERE t.diet_mid = "& intMid & ""_
+	        &" AND t.diet_sldato BETWEEN '"& startdato &"' AND '"& slutdato &"' "& viskunGodkendteDiets &" AND diet_traveldays >= 1 GROUP BY t.diet_mid"
+	   
+            'SUM((t.diet_dayprice*diet_traveldays) - (() + () + ()))
+	        'Response.Write strSQLf
+	        'Response.flush
+	        diet_maksamount_skat(x) = 0
+	        oRec2.open strSQLf, oConn, 3
+	        while not oRec2.EOF
+	            diet_maksamount_skat(x) = oRec2("diet_rest")
+	        oRec2.movenext
+	        wend
+	        oRec2.close
 	   
 
+            diet_maksamount(x) = ((diet_maksamount_skattefri(x)*1) + (diet_maksamount_skat(x)*1))
+	     
+	    
+	         if len(trim(diet_maksamount(x))) <> 0 AND diet_maksamount(x) <> 0 then
+             diet_maksamount(x) = diet_maksamount(x)
+             afstemnul(x) = 258
+             else
+             diet_maksamount(x) = 0
+             end if
+
+        end if
        
 	
 	    
@@ -795,6 +849,7 @@
 	
 	
 	%>
+
     <table cellspacing=0 cellpadding=2 border=0><!-- #5C75AA -->
 	 <tr bgcolor="#5582d2">
 	 <td class=alt valign="bottom" style="border-right:1px  #D6DfF5 solid;"><b><%=tsa_txt_147%></b></td>
@@ -833,7 +888,10 @@
 
                                %>
 	                           <td class=alt valign="bottom" colspan=<%=cpsLt %> style="border-right:1px  #D6DfF5 solid;"><b>Komme / Gå tid</b> (løntimer)<br />Stempelur<br />I valgt periode</td>
-                               <%
+                               
+                              
+                                <%
+
                               end if
 
       
@@ -957,13 +1015,24 @@
 	 
 	 if instr(akttype_sel, "#17#") <> 0 then 
 	 copsff = copsff + 1
-     copsffPer = copsffPer + 2
+            
+         if instr(akttype_sel, "#13#") <> 0 then 
+         copsffPer = copsffPer + 2
+         else
+         copsffPer = copsffPer + 1
+         end if
+
 	 end if
 	 
 	 if instr(akttype_sel, "#12#") <> 0 OR instr(akttype_sel, "#18#") <> 0 OR instr(akttype_sel, "#13#") <> 0 OR instr(akttype_sel, "#17#") <> 0 then %>
 	<td class=alt valign=bottom colspan=<%=copsff %> style="border-right:1px  #D6DfF5 solid;"><b><%=tsa_txt_174%></b><br />
 	(Feriefriår: <%=ferieFriaarStart %>)<br />
-    <span style="color:#FFFFFF; font-size:10px;"><%=formatdatetime(startdatoFerieFriLabel, 2)%> til <%=formatdatetime(slutdatoFerieFriLabel, 2) %></span></td>
+    <span style="color:#FFFFFF; font-size:10px;"><%=formatdatetime(startdatoFerieFriLabel, 2)%> til <%=formatdatetime(slutdatoFerieFriLabel, 2) %></span>
+        <!--
+        copsff=<%=copsff %>
+        copsffPer=<%=copsffPer %>-->
+        <!--FRIDAG BETALT valgt alene fejler CP- FØRSTE dag i per-->
+	</td>
 
     <% if (instr(akttype_sel, "#13#") <> 0 OR instr(akttype_sel, "#17#") <> 0) AND cint(visikkeFerieogSygiPer) <> 1 then %>
     <td class=alt valign=bottom colspan=<%=copsffPer %> style="border-right:1px  #D6DfF5 solid;"><b><%=tsa_txt_174%></b><br />(Periode)<br />
@@ -1011,29 +1080,54 @@
 	 copsFe = copsFe + 1
      copsFePer = copsFePer + 2
 	 end if
+
+        if cint(visikkeFerieogSygiPer) <> 1 then
+            'copsFe = copsFe - 1
+            'copsFePer = copsFePer - 1
+        end if
 	 
 	 if instr(akttype_sel, "#11#") <> 0 OR instr(akttype_sel, "#14#") <> 0 OR instr(akttype_sel, "#19#") <> 0 OR _
 	 instr(akttype_sel, "#15#") <> 0 OR instr(akttype_sel, "#16#") <> 0 OR instr(akttype_sel, "#111#") <> 0 OR instr(akttype_sel, "#112#") <> 0 then %>
 	<td valign="bottom" class=alt colspan=<%=copsFe %> style="border-right:1px  #D6DfF5 solid;"><b><%=tsa_txt_152%></b><br />
 	(Ferieår: <%=ferieaarStart %>)<br />
     <span style="color:#FFFFFF; font-size:10px;"><%=formatdatetime(startdatoFerieLabel, 2)%> til <%=formatdatetime(slutdatoFerieLabel, 2) %></span> 
+        <!--
+         :copsFe=<%=copsFe %>
+      ::copsFePer =<%=copsFePer %>
+        -->
+
     </td>
 
-    <% if (instr(akttype_sel, "#14#") <> 0 OR instr(akttype_sel, "#16#") <> 0 OR instr(akttype_sel, "#19#") <> 0) AND cint(visikkeFerieogSygiPer) <> 1 then %>
+        <% if (instr(akttype_sel, "#14#") <> 0 OR instr(akttype_sel, "#16#") <> 0 OR instr(akttype_sel, "#19#") <> 0) AND cint(visikkeFerieogSygiPer) <> 1 then %>
 
-    <td valign="bottom" class=alt colspan=<%=copsFePer %> style="border-right:1px  #D6DfF5 solid;"><b><%=tsa_txt_152%></b><br /> (Periode)<br />
-	<span style="color:#FFFFFF; font-size:10px;"><%=formatdatetime(startdato, 2)%> til <%=formatdatetime(slutdato, 2) %></span></td>
-	<%end if %>
+        <td valign="bottom" class=alt colspan=<%=copsFePer %> style="border-right:1px  #D6DfF5 solid;"><b><%=tsa_txt_152%></b><br /> (Periode)<br />
+	    <span style="color:#FFFFFF; font-size:10px;"><%=formatdatetime(startdato, 2)%> til <%=formatdatetime(slutdato, 2) %></span></td>
+	    <%end if %>
+
     <%end if %>
 
 	  
 	 <%if instr(akttype_sel, "#25#") <> 0 then %>
-	 <td class=alt valign="bottom" style="border-right:1px  #D6DfF5 solid;"><b>Div. fri / 1 maj</b> timer</td>
+	 <td class=alt valign="bottom" style="border-right:1px  #D6DfF5 solid;">
+         <%if lto = "plan" then %>
+            <b><%=global_txt_194 %></b> 
+         <%else %>
+            <b>Div. fri / 1 maj</b> timer
+         <%end if %>
+	 </td>
+	 <%end if %>
+
+     <%if instr(akttype_sel, "#128#") <> 0 then %>
+	 <td class=alt valign="bottom" style="border-right:1px  #D6DfF5 solid;"><b><%=global_txt_198 %></b></td>
+	 <%end if %>
+
+     <%if instr(akttype_sel, "#129#") <> 0 then %>
+	 <td class=alt valign="bottom" style="border-right:1px  #D6DfF5 solid;"><b><%=global_txt_199 %></b></td>
 	 <%end if %>
 
 
     	 <%if instr(akttype_sel, "#125#") <> 0 then %>
-	 <td class=alt valign="bottom" style="border-right:1px  #D6DfF5 solid;"><b>Rejsedage</b></td>
+	 <td class=alt valign="bottom" style="border-right:1px  #D6DfF5 solid;"><b><%=global_txt_194 %></b></td>
 	 <%end if %>
 
 
@@ -1066,9 +1160,15 @@
 	 
 	 if instr(akttype_sel, "#30#") <> 0 OR instr(akttype_sel, "#31#") <> 0 OR _
 	 instr(akttype_sel, "#32#") <> 0 OR instr(akttype_sel, "#33#") <> 0 then %>
-	<td class=alt valign="bottom" colspan=<%=copsAf %> style="border-right:1px  #D6DfF5 solid;"><b><%=tsa_txt_151 %> / <%=global_txt_145 %></b>
+	<td class=alt valign="bottom" colspan=<%=copsAf %> style="border-right:1px #D6DfF5 solid;"><b><%=tsa_txt_151 %> / <%=global_txt_145 %></b>
+
+    <%select case lto 
+     case "cflow"
+     case else%>
     <span style="color:#FFFFFF; font-size:10px;">
 	<br /> Total fra licens-start d. <%=formatdatetime(lisStDato,2) %> (eller fra ansættelsesdato) - <%=formatdatetime(slutdato, 2) %></span>
+        <!--/:<%=visikkeFerieogSygiPer %>: <%=copsAf %>-->
+    <%end select %>
 	</td>
 	<%end if %>
 	 
@@ -1220,6 +1320,10 @@
 	  <td class=alt valign="bottom" style="border-right:1px  #D6DfF5 solid;"><b><%=tsa_txt_156%></b></td>
 	  <%end if %>
 
+       <%if instr(akttype_sel, "#-70#") <> 0 then %>
+	  <td class=alt valign="bottom" style="border-right:1px  #D6DfF5 solid;"><b>Diæter</b></td>
+	  <%end if %>
+
      <%if instr(akttype_sel, "#-30#") <> 0 then %>
 	  <td class=alt colspan="2" valign="bottom" style="border-right:1px  #D6DfF5 solid;"><b>Fak. Oms. jobansv.</b><br />I periode</td>
 	  <%end if %>
@@ -1267,7 +1371,7 @@
 
          <%   
          'if (instr(akttype_sel, "#-5#") <> 0 AND instr(akttype_sel, "#-10#") = 0) then
-         if instr(akttype_sel, "#-1#") <> 0 then%>
+         if instr(akttype_sel, "#-5#") <> 0 OR instr(akttype_sel, "#-1#") <> 0 then%>
              <td class=lille  valign=bottom bgcolor="#DCF5BD" style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;"><%=tsa_txt_158%></td>
 	        <td class=lille  valign=bottom bgcolor="#DCF5BD" style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;"><%=tsa_txt_259%></td> 
          <%
@@ -1301,7 +1405,7 @@
          %>
            Flekssaldo +/-
     
-         <%
+        <%
         case else
          %>
            Flekssaldo +/-<br />
@@ -1376,7 +1480,14 @@
 	 <td class=alt_lille  valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;">
 	 <%call akttyper(1, 1) %>
 	 <%=akttypenavn%>
-	  <%strEksportTxtHeader = strEksportTxtHeader & akttypenavn &";"%>
+	  <% 
+         select case cint(exporttype) 
+         case 200 'Bluegaarden EPI
+         strEksportTxtHeader = strEksportTxtHeader & akttypenavn &";"
+         case else
+         strEksportTxtHeader = strEksportTxtHeader & akttypenavn &";"
+         end select
+          %>
 	 </td>
 	 <%end if %>
 	 
@@ -1386,7 +1497,15 @@
 	 <%call akttyper(2, 1) %>
 	 <%=akttypenavn%>
 	 </td>
-	 <%strEksportTxtHeader = strEksportTxtHeader & akttypenavn &";"%>
+	 <%
+         
+         select case cint(exporttype) 
+         case 200 'Bluegaarden EPI
+         case else
+         strEksportTxtHeader = strEksportTxtHeader & akttypenavn &";"
+         end select
+         
+        %>
 	<%end if %>
 	
 	<%if instr(akttype_sel, "#50#") <> 0 then %>
@@ -1687,6 +1806,26 @@
 	  <%if instr(akttype_sel, "#25#") <> 0 then %>
 	     <td class=alt_lille  valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;">
 	     <%call akttyper(25, 1) %>
+	     <%=akttypenavn%> 
+	      <%strEksportTxtHeader = strEksportTxtHeader & akttypenavn &" timer;"%>
+	     </td>
+	  
+      <%end if %>
+
+           <!-- Ferie optjent til afholdelse 1.5.2020 - 31.8.2020 -->
+	  <%if instr(akttype_sel, "#128#") <> 0 then %>
+	     <td class=alt_lille  valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;">
+	     <%call akttyper(128, 1) %>
+	     <%=akttypenavn%> 
+	      <%strEksportTxtHeader = strEksportTxtHeader & akttypenavn &" timer;"%>
+	     </td>
+	  
+      <%end if %>
+
+            <!-- Ferie optjent indefrosset -->
+	  <%if instr(akttype_sel, "#129#") <> 0 then %>
+	     <td class=alt_lille  valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;">
+	     <%call akttyper(129, 1) %>
 	     <%=akttypenavn%> 
 	      <%strEksportTxtHeader = strEksportTxtHeader & akttypenavn &" timer;"%>
 	     </td>
@@ -1994,6 +2133,13 @@
 	  <%strEksportTxtHeader = strEksportTxtHeader & tsa_txt_171 &";"%>
 	  <%end if %>
 
+          <%if instr(akttype_sel, "#-70#") <> 0 then %>
+	  <td class=alt_lille valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;">Diæter</td>
+	  <%strEksportTxtHeader = strEksportTxtHeader & "Diæter Ialt;Diæter skattefri;Diæter skat (>24 t.);"%>
+	  <%end if %>
+
+         
+
      <%if instr(akttype_sel, "#-30#") <> 0 then %>
 	  <td class=alt_lille valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;">Fak. Oms Jobans.</td>
           <td class=alt_lille valign=bottom style="width:50px; border-right:1px #D6DfF5 solid; border-bottom:1px #D6DfF5 solid;">Ejerandel %</td>
@@ -2149,7 +2295,7 @@
 
          
          'if (instr(akttype_sel, "#-5#") <> 0 AND instr(akttype_sel, "#-10#") = 0) then
-         if instr(akttype_sel, "#-1#") <> 0 then
+         if instr(akttype_sel, "#-5#") <> 0  OR instr(akttype_sel, "#-1#") <> 0  then
          %>
          
          <td align=right style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;" class=lille><%=normTimerTxt%></td>
@@ -2427,7 +2573,13 @@
         end if%>
 
 	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=fTimerTxt%></td>
-	 <% strEksport(x) = strEksport(x) & fTimerTxtExp & ";"%>
+	 <% 
+          select case cint(exporttype) 
+         case 200 'Bluegaarden EPI
+     
+         case else
+         strEksport(x) = strEksport(x) & fTimerTxtExp & ";"
+         end select%>
 	 <%end if %>
 	 
 	 <%if instr(akttype_sel, "#2#") <> 0 then 
@@ -2442,7 +2594,17 @@
 
      %>
 	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=ifTimerTxt %></td>
-	 <%strEksport(x) = strEksport(x) & ifTimerTxtExp & ";"%>
+	 <%
+         
+         select case cint(exporttype) 
+         case 200 'Bluegaarden EPI
+         fTimerTxtExp =  fTimer(x)*1 + ifTimer(x)*1 
+         strEksport(x) = strEksport(x) & fTimerTxtExp & ";"
+         case else
+         strEksport(x) = strEksport(x) & ifTimerTxtExp & ";"
+         end select
+         %>
+
 	 <%end if %>
 	 
 	  <%if instr(akttype_sel, "#50#") <> 0 then
@@ -2506,13 +2668,14 @@
 	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=natTimerTxt%></td>
 
 
-	 <%
-     select case cint(exporttype) 
-     case 220 'Huldt & Lillevik
-     strEksport(x) = strEksport(x) & "xx99123sy#z00000000;00000000;00000003;00000000;00000000;00000000;00000000;00000000;" & medarbNr(x) &";25;" & ddDatoHult &";"& natTimerTxtExp &";250,50;1000,2;0;0;0;0;"
-     case else     
-     strEksport(x) = strEksport(x) & natTimerTxtExp & ";"
-     end select%>
+	     <%
+         select case cint(exporttype) 
+         case 220 'Huldt & Lillevik
+         strEksport(x) = strEksport(x) & "xx99123sy#z00000000;00000000;00000003;00000000;00000000;00000000;00000000;00000000;" & medarbNr(x) &";25;" & ddDatoHult &";"& natTimerTxtExp &";250,50;1000,2;0;0;0;0;"
+         case else     
+         strEksport(x) = strEksport(x) & natTimerTxtExp & ";"
+         end select%>
+
 	 <%end if %>
 	 
 	 
@@ -2589,13 +2752,13 @@
       
      %>
 	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=adhocTimerTxt %></td>
-	 <%
-      select case cint(exporttype) 
-     case 220 'Huldt & Lillevik
-     strEksport(x) = strEksport(x) & "xx99123sy#z00000000;00000000;00000003;00000000;00000000;00000000;00000000;00000000;" & medarbNr(x) &";25;" & ddDatoHult &";"& adhocTimerTxtExp &";250,50;1000,2;0;0;0;0;"
-     case else         
-     strEksport(x) = strEksport(x) & adhocTimerTxtExp & ";"
-     end select%>
+	     <%
+          select case cint(exporttype) 
+         case 220 'Huldt & Lillevik
+         strEksport(x) = strEksport(x) & "xx99123sy#z00000000;00000000;00000003;00000000;00000000;00000000;00000000;00000000;" & medarbNr(x) &";25;" & ddDatoHult &";"& adhocTimerTxtExp &";250,50;1000,2;0;0;0;0;"
+         case else         
+         strEksport(x) = strEksport(x) & adhocTimerTxtExp & ";"
+         end select%>
 	 <%end if %>
 	 
 	 
@@ -2633,7 +2796,16 @@
        
        %>
 	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=e2TimerTxt %></td>
-	 <%strEksport(x) = strEksport(x) & e2TimerTxtExp & ";"%>
+	 <%
+         
+         select case cint(exporttype) 
+         case 220 'Huldt & Lillevik
+         strEksport(x) = strEksport(x) & "xx99123sy#z00000000;00000000;00000003;00000000;00000000;00000000;00000000;00000000;" & medarbNr(x) &";25;" & ddDatoHult &";"& e2TimerTxtExp &";250,50;1000,2;0;0;0;0;"
+         case else     
+         strEksport(x) = strEksport(x) & e2TimerTxtExp & ";"
+         end select
+         
+         %>
 	 <%end if %>
 
       <%if instr(akttype_sel, "#92#") <> 0 then 
@@ -2648,7 +2820,17 @@
      
      %>
 	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=e3TimerTxt %></td>
-	 <%strEksport(x) = strEksport(x) & e3TimerTxtExp & ";"%>
+	 <%
+         
+         select case cint(exporttype) 
+         case 220 'Huldt & Lillevik
+         strEksport(x) = strEksport(x) & "xx99123sy#z00000000;00000000;00000003;00000000;00000000;00000000;00000000;00000000;" & medarbNr(x) &";25;" & ddDatoHult &";"& e3TimerTxtExp &";250,50;1000,2;0;0;0;0;"
+         case else     
+         strEksport(x) = strEksport(x) & e3TimerTxtExp & ";"
+         end select
+         
+         
+         %>
 	 <%end if %>
 
 	 
@@ -2709,8 +2891,18 @@
      end if
       
       %>
-	  <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=fpTimerTxt %></td>
-	  <%strEksport(x) = strEksport(x) & fpTimerTxtExp & ";"%>
+	  <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;">
+          <%=fpTimerTxt %>
+
+         <%if level = 1 then %>
+         &nbsp;<input type="text" name="FM_frokostudb" style="width:30px; height:12px; font-size:9px;" />
+            <input type="hidden" name="FM_frokostudb_mids" value="<%=intMid %>" />
+         <%end if %>
+
+	  </td>
+	  <%
+      strEksport(x) = strEksport(x) & fpTimerTxtExp & ";"
+      %>
 	  <%end if %>
 	  
 	  <%if instr(akttype_sel, "#9#") <> 0 then 
@@ -2743,6 +2935,7 @@
 
      if fefriVal <> 0 then
      fefriValTxt = formatnumber(fefriVal,2)
+     fefriValTxtGT = fefriValTxtGT + fefriValTxt
      fefriValTxtExp = fefriValTxt
      else
      fefriValTxt = ""
@@ -2769,6 +2962,7 @@
 
      if fefriplVal <> 0 then
      fefriplValTxt = formatnumber(fefriplVal,2)
+     fefriplValTxtGT = fefriplValTxtGT + fefriplValTxt
      fefriplValTxtExp = fefriplValTxt
      else
      fefriplValTxt = ""
@@ -2782,10 +2976,9 @@
 	 <%strEksport(x) = strEksport(x) & fefriplValTxtExp & ";"%>
 	 <%end if %>
 	 
-	 <%if instr(akttype_sel, "#13#") <> 0 then %>
-	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;">
-	 
-	  <%if normTimerDag(x) <> 0 then 
+	 <%if instr(akttype_sel, "#13#") <> 0 then 
+         
+         if normTimerDag(x) <> 0 then 
 	 fefribrVal = fefriTimerBr(x)/normTimerDag(x)
 	 else
 	 fefribrVal = 0
@@ -2793,17 +2986,19 @@
 
      if fefribrVal <> 0 then
      fefribrValTxt = formatnumber(fefribrVal,2)
+     fefribrValTxtGT = fefribrValTxtGT + fefribrValTxt
      fefribrValTxtExp = fefribrValTxt
      else
      fefribrValTxt = ""
      fefribrValTxtExp = 0
      end if
-	 %>
-	 
-	 <%=fefribrValTxt%> </td> 
+         
+     %>
+	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=fefribrValTxt%> </td> 
 	 
 	 <%strEksport(x) = strEksport(x) & fefribrValTxtExp & ";"%>
 	 <%end if %>
+
 	 
 	 <%if instr(akttype_sel, "#17#") <> 0 then %>
 	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;">
@@ -2816,6 +3011,7 @@
 
      if fefriudbVal <> 0 then
      fefriudbValTxt = formatnumber(fefriudbVal,2)
+     fefriudbValTxtGT = fefriudbValTxtGT + fefriudbValTxt 
      fefriudbValTxtExp = fefriudbValTxt
      else
      fefriudbValTxt = ""
@@ -2830,7 +3026,7 @@
 	 
 	 <%if instr(akttype_sel, "#12#") <> 0 OR instr(akttype_sel, "#18#") <> 0 OR instr(akttype_sel, "#13#") <> 0 OR instr(akttype_sel, "#17#") <> 0 then 
 	 fefriBal = 0
-	 fefriBal  = (fefriTimer(x) - (fefriTimerBr(x) + fefriTimerUdb(x)))
+	 fefriBal = (fefriTimer(x) - (fefriTimerBr(x) + fefriTimerUdb(x)))
 	 
 	 if normTimerDag(x) <> 0 then 
 	 fefriBalVal = fefriBal/normTimerDag(x)
@@ -2840,6 +3036,7 @@
 
      if fefriBalVal <> 0 then
      fefriBalValTxt = formatnumber(fefriBalVal,2)
+     fefriBalValTxtGT = fefriBalValTxtGT + fefriBalValTxt
      fefriBalValTxtExp = fefriBalValTxt
      else
      fefriBalValTxt = ""
@@ -2847,7 +3044,7 @@
      end if
 	 
 	 %>
-	 <td align=right class=lille style="  white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;">
+	 <td align=right class=lille style="white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;">
 	 <%=fefriBalValTxt%></td>
 	 <%strEksport(x) = strEksport(x) & fefriBalValTxtExp & ";"%>
 	 <%end if %>
@@ -2855,37 +3052,37 @@
 	 <%
      if cint(visikkeFerieogSygiPer) <> 1 then    
          
-     if instr(akttype_sel, "#13#") <> 0 then %>
-	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;">
-	 
-	 <%if normTimerDag(x) <> 0 then 
-	 fefriPerbrVal = fefriTimerPerBr(x)/normTimerDag(x)
-     fefriTimerPerBrTimerVal = fefriTimerPerBrTimer(x)
-	 else
-	 fefriPerbrVal = 0
-	 fefriTimerPerBrTimerVal = 0
-     end if
+     if instr(akttype_sel, "#13#") <> 0 then 
+         
+         
+         if normTimerDag(x) <> 0 then 
+	     fefriPerbrVal = fefriTimerPerBr(x)/normTimerDag(x)
+         fefriTimerPerBrTimerVal = fefriTimerPerBrTimer(x)
+	     else
+	     fefriPerbrVal = 0
+	     fefriTimerPerBrTimerVal = 0
+         end if
 
 
-     if fefriPerbrVal <> 0 then
-     fefriPerbrValTxt = formatnumber(fefriPerbrVal,2)
-     fefriPerbrValTxtExp = fefriPerbrValTxt
-     fefriTimerPerBrTimerValTxt = formatnumber(fefriTimerPerBrTimerVal, 2)
-     fefriTimerPerBrTimerValExp = fefriTimerPerBrTimerValTxt
-     else
-     fefriPerbrValTxt = ""
-     fefriPerbrValTxtExp = 0
-     fefriTimerPerBrTimerValTxt = ""
-     fefriTimerPerBrTimerValExp = 0 
-     end if
-	 %>
-	 
-	 <%=fefriPerbrValTxt%></td> 
+         if fefriPerbrVal <> 0 then
+         fefriPerbrValTxt = formatnumber(fefriPerbrVal,2)
+         fefriPerbrValTxtGT = fefriPerbrValTxtGT + fefriPerbrValTxt
+         fefriPerbrValTxtExp = fefriPerbrValTxt
+         fefriTimerPerBrTimerValTxt = formatnumber(fefriTimerPerBrTimerVal, 2)
+         fefriTimerPerBrTimerValTxtGT = fefriTimerPerBrTimerValTxtGT + fefriTimerPerBrTimerValTxt
+         fefriTimerPerBrTimerValExp = fefriTimerPerBrTimerValTxt
+         else
+         fefriPerbrValTxt = ""
+         fefriPerbrValTxtExp = 0
+         fefriTimerPerBrTimerValTxt = ""
+         fefriTimerPerBrTimerValExp = 0 
+         end if
+         
+         
+         %>
+	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=fefriPerbrValTxt%></td> 
      <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=fefriTimerPerBrTimerValTxt %></td>
-
-
-	 
-	 <%strEksport(x) = strEksport(x) & fefriPerbrValTxtExp & ";"&fefriTimerPerBrTimerValExp&";"%>
+     <%strEksport(x) = strEksport(x) & fefriPerbrValTxtExp & ";"&fefriTimerPerBrTimerValExp&";"%>
 	
 
 
@@ -2916,6 +3113,7 @@
 
      if fefriudbValPer <> 0 then
      fefriudbValPerTxt = formatnumber(fefriudbValPer,2)
+     fefriudbValPerTxtGT = fefriudbValPerTxtGT + fefriudbValPerTxt
      fefriudbValPerTxtExp = fefriudbValPerTxt
      else
      fefriudbValPerTxt = ""
@@ -2935,6 +3133,7 @@
 
      if fefriudbValPerTimer <> 0 then
      fefriudbValPerTimerTxt = formatnumber(fefriudbValPerTimer,2)
+     fefriudbValPerTimerTxtGT = fefriudbValPerTimerTxtGT + fefriudbValPerTimerTxt
      fefriudbValPerTimerTxtExp = fefriudbValPerTimerTxt
      else
      fefriudbValPerTimerTxt = ""
@@ -2956,10 +3155,11 @@
 	
 	 <!-- Ferie -->
 	 
-	  <%if instr(akttype_sel, "#15#") <> 0 then %>
-	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;">
-	 
-	 <%if normTimerDag(x) <> 0 then 
+	  <%if instr(akttype_sel, "#15#") <> 0 then
+          
+
+
+     if normTimerDag(x) <> 0 then 
 	 ferieVal = ferieOptjtimer(x)/normTimerDag(x)
 	 else
 	 ferieVal = 0
@@ -2968,66 +3168,69 @@
      
      if ferieVal <> 0 then
      ferieValTxt = formatnumber(ferieVal,2)
+     ferieValTxtGT = ferieValTxtGT + ferieValTxt
      ferieValTxtExp = ferieValTxt
+     ferieValTxtExpGT = ferieValTxtExpGT + ferieValTxtExp
      else
      ferieValTxt = ""
      ferieValTxtExp = 0
      end if
-	 %>
+          
+          %>
+	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=ferieValTxt %></td>
 	 
-	 <%=ferieValTxt %></td>
-	 
-	  <%strEksport(x) = strEksport(x) & ferieValTxtExp & ";"%>
+	 <%strEksport(x) = strEksport(x) & ferieValTxtExp & ";"%>
 	 <%end if %>
 
 
      <%'** Ferie overført ****'
-     if instr(akttype_sel, "#111#") <> 0 then %>
-	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;">
-	 
-	 <%if normTimerDag(x) <> 0 then 
-	 ferieValoverfort = ferieOptjOverforttimer(x)/normTimerDag(x)
-	 else
-	 ferieValoverfort = 0
-	 end if
+     if instr(akttype_sel, "#111#") <> 0 then
+         
+         
+             if normTimerDag(x) <> 0 then 
+	         ferieValoverfort = ferieOptjOverforttimer(x)/normTimerDag(x)
+	         else
+	         ferieValoverfort = 0
+	         end if
 
      
-     if ferieValoverfort <> 0 then
-     ferieValoverfortTxt = formatnumber(ferieValoverfort,2)
-     ferieValoverfortTxtExp = ferieValoverfortTxt
-     else
-     ferieValoverfortTxt = ""
-     ferieValoverfortTxtExp = 0
-     end if
-	 %>
-	 
-	 <%=ferieValoverfortTxt %></td>
+             if ferieValoverfort <> 0 then
+             ferieValoverfortTxt = formatnumber(ferieValoverfort,2)
+             ferieValoverfortTxtGT = ferieValoverfortTxtGT + ferieValoverfortTxt
+             ferieValoverfortTxtExp = ferieValoverfortTxt
+             else
+             ferieValoverfortTxt = ""
+             ferieValoverfortTxtExp = 0
+             end if
+         
+      %>
+	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=ferieValoverfortTxt %></td>
 	 
 	  <%strEksport(x) = strEksport(x) & ferieValoverfortTxtExp & ";"%>
 	 <%end if %>
 
     
       <%'** Ferie optjent u. løn **' 
-     if instr(akttype_sel, "#112#") <> 0 then %>
-	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;">
-	 
-	 <%if normTimerDag(x) <> 0 then 
-	 ferieValUlon = ferieOptjUlontimer(x)/normTimerDag(x)
-	 else
-	 ferieValUlon = 0
-	 end if
+     if instr(akttype_sel, "#112#") <> 0 then 
+          
+         if normTimerDag(x) <> 0 then 
+	     ferieValUlon = ferieOptjUlontimer(x)/normTimerDag(x)
+	     else
+	     ferieValUlon = 0
+	     end if
 
      
-     if ferieValUlon <> 0 then
-     ferieValUlonTxt = formatnumber(ferieValUlon,2)
-     ferieValUlonTxtExp = ferieValUlonTxt
-     else
-     ferieValUlonTxt = ""
-     ferieValUlonTxtExp = 0
-     end if
-	 %>
-	 
-	 <%=ferieValUlonTxt %></td>
+         if ferieValUlon <> 0 then
+         ferieValUlonTxt = formatnumber(ferieValUlon,2)
+         ferieValUlonTxtGT = ferieValUlonTxtGT + ferieValUlonTxt
+         ferieValUlonTxtExp = ferieValUlonTxt
+         else
+         ferieValUlonTxt = ""
+         ferieValUlonTxtExp = 0
+         end if
+          
+          %>
+	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=ferieValUlonTxt %></td>
 	 
 	  <%strEksport(x) = strEksport(x) & ferieValUlonTxtExp & ";"%>
 	 <%end if %>
@@ -3048,6 +3251,7 @@
      
          if feriePlVal <> 0 then
          feriePlValTxt = formatnumber(feriePlVal,2)
+         feriePlValTxtGT = feriePlValTxtGT + feriePlValTxt
          feriePlValTxtExp = feriePlValTxt
          else
          feriePlValTxt = ""
@@ -3074,6 +3278,7 @@
 
      if ferieAftVal <> 0 then
      ferieAftValTxt = formatnumber(ferieAftVal,2)
+     ferieAftValTxtGT = ferieAftValTxtGT + ferieAftValTxt
      ferieAftValTxtExp = ferieAftValTxt
      else
      ferieAftValTxt = ""
@@ -3098,6 +3303,7 @@
 
      if ferieAftulonVal <> 0 then
      ferieAftulonValTxt = formatnumber(ferieAftulonVal,2)
+     ferieAftulonValTxtGT = ferieAftulonValTxtGT + ferieAftulonValTxt
      ferieAftulonValTxtExp = ferieAftulonValTxt
      else
      ferieAftulonValTxt = ""
@@ -3123,6 +3329,7 @@
 
      if ferieUdbVal <> 0 then
      ferieUdbValTxt = formatnumber(ferieUdbVal,2)
+     ferieUdbValTxtGT = ferieUdbValTxtGT + ferieUdbValTxt
      ferieUdbValTxtExp = ferieUdbValTxt
      else
      ferieUdbValTxt = ""
@@ -3149,6 +3356,7 @@
 	 
      if ferieBalVal <> 0 then 
 	 ferieBalValTxt = formatnumber(ferieBalVal,2)
+     ferieBalValTxtGT = ferieBalValTxtGT + ferieBalValTxt
      ferieBalValTxtExp = ferieBalValTxt
 	 else
 	 ferieBalValTxt = ""
@@ -3168,10 +3376,9 @@
 	  <%
       if cint(visikkeFerieogSygiPer) <> 1 then    
           
-      if instr(akttype_sel, "#14#") <> 0 then %>
-	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;">
-	 
-	         <%if normTimerDag(x) <> 0 then 
+      if instr(akttype_sel, "#14#") <> 0 then 
+          
+             if normTimerDag(x) <> 0 then 
 	         ferieAftPerVal = ferieAFPerTimer(x)/normTimerDag(x)
              ferieAftPerValtim = formatnumber(ferieAFPerTimertimer(x),2)
 	         else
@@ -3183,9 +3390,11 @@
              if ferieAftPerVal <> 0 then 
 	            
                 ferieAftPerValTxt = formatnumber(ferieAftPerVal,2)
+                ferieAftPerValTxtGT = ferieAftPerValTxtGT + ferieAftPerValTxt
                 ferieAftPerValTxtExp = ferieAftPerValTxt
                 
                 ferieAftPerValtimTxt = ferieAftPerValtim
+                ferieAftPerValtimTxtGT = ferieAftPerValtimTxtGT + ferieAftPerValtim
                 ferieAftPerValtimTxtExp = ferieAftPerValtimTxt
 
 	         else
@@ -3194,23 +3403,18 @@
              ferieAftPerValtimTxt = ""
              ferieAftPerValtimTxtExp = 0
 	         end if
-	         %>
-	 
-	 <%=ferieAftPerValTxt%></td>
+          
 
+             if len(trim(ferieAFPerstDato(x))) AND ferieAFPerstDato(x) <> "2001/12/31" then
+             ferieforsteDagIPerDato = formatdatetime(ferieAFPerstDato(x), 2)
+             else
+             ferieforsteDagIPerDato = ""
+             end if
+          
+          %>
+	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=ferieAftPerValTxt%></td>
      <td align=right class=lille style="white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=ferieAftPerValtimTxt %></td>
-
-      <td align=right class=lille style="white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;">
-     <% 
-     if len(trim(ferieAFPerstDato(x))) AND ferieAFPerstDato(x) <> "2001/12/31" then
-     ferieforsteDagIPerDato = formatdatetime(ferieAFPerstDato(x), 2)
-     else
-     ferieforsteDagIPerDato = ""
-     end if
-     %>
-
-     <%=ferieforsteDagIPerDato %>
-    </td>
+    <td align=right class=lille style="white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=ferieforsteDagIPerDato %></td>
 	 
 	 <%strEksport(x) = strEksport(x) & ferieAftPerValTxtExp&";"&ferieAftPerValtimTxtExp&";"&ferieforsteDagIPerDato&";"%>
 	 <%end if %>
@@ -3218,10 +3422,9 @@
 
 
 
-      <%if instr(akttype_sel, "#19#") <> 0 then %>
-	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;">
-	 
-	         <%if normTimerDag(x) <> 0 then 
+      <%if instr(akttype_sel, "#19#") <> 0 then 
+          
+             if normTimerDag(x) <> 0 then 
 	         ferieAftulonPerVal = ferieAFulonPer(x)/normTimerDag(x)
              ferieAftulonPerValtim = formatnumber(ferieAFulonPerTimer(x),2)
 	         else
@@ -3233,9 +3436,11 @@
              if ferieAftulonPerVal <> 0 then 
 	            
                 ferieAftulonPerValTxt = formatnumber(ferieAftulonPerVal,2)
+                ferieAftulonPerValTxtGT = ferieAftulonPerValTxtGT + ferieAftulonPerValTxt
                 ferieAftulonPerValTxtExp = ferieAftulonPerValTxt
                 
                 ferieAftulonPerValtimTxt = ferieAftulonPerValtim
+                ferieAftulonPerValtimTxtGT = ferieAftulonPerValtimTxtGT + ferieAftulonPerValtimTxt
                 ferieAftulonPerValtimTxtExp = ferieAftPerValtimTxt
 
 	         else
@@ -3244,20 +3449,18 @@
              ferieAftulonPerValtimTxt = ""
              ferieAftulonPerValtimTxtExp = 0
 	         end if
-	         %>
-	 
-	 <%=ferieAftulonPerValTxt%></td>
-
+          
+     %>
+	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=ferieAftulonPerValTxt%></td>
      <td align=right class=lille style="white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=ferieAftulonPerValtimTxt %></td>
      <%strEksport(x) = strEksport(x) & ferieAftulonPerValTxtExp&";"&ferieAftulonPerValtimTxtExp&";"%>
      <%end if %>
 
 
 
-         <%if instr(akttype_sel, "#16#") <> 0 then %>
-	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;">
-	 
-	         <%if normTimerDag(x) <> 0 then 
+         <%if instr(akttype_sel, "#16#") <> 0 then 
+             
+             if normTimerDag(x) <> 0 then 
 	         ferieUdbPerVal = ferieUdbPer(x)/normTimerDag(x)
              ferieUdbPerValtim = formatnumber(ferieUdbPerTimer(x),2)
 	         else
@@ -3269,9 +3472,11 @@
              if ferieUdbPerVal <> 0 then 
 	            
                 ferieUdbPerValTxt = formatnumber(ferieUdbPerVal,2)
+                ferieUdbPerValTxtGT = ferieUdbPerValTxtGT + ferieUdbPerValTxt
                 ferieUdbPerValTxtExp = ferieUdbPerValTxt
                 
                 ferieUdbPerValtimTxt = ferieUdbPerValtim
+                ferieUdbPerValtimTxtGT = ferieUdbPerValtimTxtGT + ferieUdbPerValtimTxt
                 ferieUdbPerValtimTxtExp = ferieUdbPerValtimTxt
 
 	         else
@@ -3280,28 +3485,25 @@
              ferieUdbPerValtimTxt = ""
              ferieUdbPerValtimTxtExp = 0
 	         end if
-	         %>
-	 
-	 <%=ferieUdbPerValTxt%></td>
-
+             
+             
+             %>
+	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=ferieUdbPerValTxt%></td>
      <td align=right class=lille style="white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=ferieUdbPerValtimTxt %></td>
      <%strEksport(x) = strEksport(x) & ferieUdbPerValTxtExp&";"&ferieUdbPerValtimTxtExp&";"%>
      <%end if
-     end if %>
+     end if 
 
 
 
 
-   
-	 
-	 
 
-        <%
      '** Div fri timer / 1 maj timer ***'
      if instr(akttype_sel, "#25#") <> 0 then 
      
      if divfritimer(x) <> 0 then
-     divfritimerTxt = formatnumber(divfritimer(x),2) 
+     divfritimerTxt = formatnumber(divfritimer(x),2)
+     divfritimerTxtGT = divfritimerTxtGT + formatnumber(divfritimer(x),2)
      divfritimerTxtExp = divfritimerTxt
      else
      divfritimerTxt = ""
@@ -3309,16 +3511,73 @@
      end if
 
      %>
-	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=divfritimerTxt %></td>
-	 <%strEksport(x) = strEksport(x) & divfritimerTxtExp &";"%>
-	 <%end if %>
+	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px #D6DfF5 solid;"><%=divfritimerTxt %></td>
+	 <%
+         
+         select case cint(exporttype) 
+         case 220 'Huldt & Lillevik
+         strEksport(x) = strEksport(x) & "xx99123sy#z00000000;00000000;00000003;00000000;00000000;00000000;00000000;00000000;" & medarbNr(x) &";25;" & ddDatoHult &";"& divfritimerTxtExp &";250,50;1000,2;0;0;0;0;"
+         case else     
+         strEksport(x) = strEksport(x) & divfritimerTxtExp &";"
+         end select
+         
+        %>
+	 <%end if
+
+
+
+        '** Ferie optjent til afh. 1.5.2020 - 31.8.2020 ***'
+         if instr(akttype_sel, "#128#") <> 0 then 
+     
+         if ferieAfh152020timer(x) <> 0 then
+         ferieAfh152020timerTxt = formatnumber(ferieAfh152020timer(x),2)
+         ferieAfh152020timerTxtGT = ferieAfh152020timerTxtGT + formatnumber(ferieAfh152020timer(x),2)
+         ferieAfh152020timerTxtExp = ferieAfh152020timerTxt
+         else
+         ferieAfh152020timerTxt = ""
+         ferieAfh152020timerTxtExp = 0
+         end if
+
+         %>
+	     <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px #D6DfF5 solid;"><%=ferieAfh152020timerTxt %></td>
+	     <%
+         
+             strEksport(x) = strEksport(x) & ferieAfh152020timerTxtExp &";"
+         
+            %>
+	     <%end if %>
+
+
+           <%
+        '** Ferie optjent indefrosset ***'
+         if instr(akttype_sel, "#129#") <> 0 then 
+     
+         if ferieIndefrossettimer(x) <> 0 then
+         ferieIndefrossettimerTxt = formatnumber(ferieIndefrossettimer(x),2)
+         ferieIndefrossettimerTxtGT = ferieIndefrossettimerTxtGT + formatnumber(ferieIndefrossettimer(x),2)
+         ferieIndefrossettimerTxtExp = ferieIndefrossettimerTxt
+         else
+         ferieIndefrossettimerTxt = ""
+         ferieIndefrossettimerTxtExp = 0
+         end if
+
+         %>
+	     <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px #D6DfF5 solid;"><%=ferieIndefrossettimerTxt %></td>
+	     <%
+         
+             strEksport(x) = strEksport(x) & ferieIndefrossettimerTxtExp &";"
+         
+            %>
+	     <%end if %>
+
 
        <%
      '** Rejsedage ***'
      if instr(akttype_sel, "#125#") <> 0 then 
      
      if rejseDage(x) <> 0 then
-     rejseDageTxt = formatnumber(rejseDage(x),2) 
+     rejseDageTxt = formatnumber(rejseDage(x),2)
+     rejseDageTxtGT = rejseDageTxtGT + rejseDageTxt
      rejseDageTxtExp = rejseDageTxt
      else
      rejseDageTxt = ""
@@ -3356,6 +3615,14 @@
 	 <%
      select case cint(exporttype) 
      case 220 'Huldt & Lillevik
+
+     'ORDINÆRE TIMER er ORDINÆRE minus LUNCH på H&L filen - SKET i H&L eksport filen
+     'if afspTimerTim(x) <> 0 then
+     'afspTimerTimTxtExp = ((afspTimerTim(x)*1) - (fpTimer(x)*1))
+     'else
+     'afspTimerTimTxtExp = 0
+     'end if
+
      strEksport(x) = strEksport(x) & "xx99123sy#z00000000;00000000;00000003;00000000;00000000;00000000;00000000;00000000;" & medarbNr(x) &";25;" & ddDatoHult &";"& afspTimerTimTxtExp &";250,50;1000,2;0;0;0;0;"
      case else     
      strEksport(x) = strEksport(x) & afspTimerTimTxtExp &";"& afspTimerTxtExp &";"%>
@@ -3375,10 +3642,16 @@
      %>
 	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=afspTimerBrTxt%></td>
 
-    
-
-
-	 <%strEksport(x) = strEksport(x) & afspTimerBrTxtExp &";"%>
+   
+	 <%
+         select case cint(exporttype) 
+         case 220 'Huldt & Lillevik
+         strEksport(x) = strEksport(x) & "xx99123sy#z00000000;00000000;00000003;00000000;00000000;00000000;00000000;00000000;" & medarbNr(x) &";25;" & ddDatoHult &";"& afspTimerBrTxtExp &";250,50;1000,2;0;0;0;0;"
+         case else     
+          strEksport(x) = strEksport(x) & afspTimerBrTxtExp &";"
+         end select
+         
+        %>
 	 <%end if %>
 	 
 	 <%if instr(akttype_sel, "#32#") <> 0 then 
@@ -3398,7 +3671,16 @@
                <input type="hidden" name="FM_afspadudb_mids" value="<%=intMid %>" />
          <%end if %>
 	 </td>
-	 <%strEksport(x) = strEksport(x) & afspTimerUdbTxtExp &";"%>
+	 <%
+         
+         select case cint(exporttype) 
+         case 220 'Huldt & Lillevik
+         strEksport(x) = strEksport(x) & "xx99123sy#z00000000;00000000;00000003;00000000;00000000;00000000;00000000;00000000;" & medarbNr(x) &";25;" & ddDatoHult &";"& afspTimerUdbTxtExp &";250,50;1000,2;0;0;0;0;"
+         case else     
+         strEksport(x) = strEksport(x) & afspTimerUdbTxtExp &";"
+         end select
+         
+        %>
 	 <%end if %>
 
 	 
@@ -3433,7 +3715,10 @@
      end if
 	 %>
 	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=AfspadBalTxt%></td>
-	 <%strEksport(x) = strEksport(x) & AfspadBalTxtExp &";"%>
+	 <%
+           
+         strEksport(x) = strEksport(x) & AfspadBalTxtExp &";"
+      %>
 	 <%end if %>
 
 
@@ -3506,6 +3791,7 @@
       
       if sygTimer(x) <> 0 then
       sygTimerTxt = formatnumber(sygTimer(x),2)
+      sygTimerTxtGT = sygTimerTxtGT + sygTimerTxt
       sygTimerTxtExp = sygTimerTxt
       else
       sygTimerTxt = ""
@@ -3514,6 +3800,7 @@
       
       if sygDage(x) <> 0 then
       sygDageTxt = formatnumber(sygDage(x),2)
+      sygDageTxtGT = sygDageTxtGT + sygDageTxt
       sygDageTxtExp = sygDageTxt
       else
       sygDageTxt = ""
@@ -3523,6 +3810,7 @@
       
       if sygTimerPer(x) <> 0 then
       sygTimerPerTxt = formatnumber(sygTimerPer(x),2)
+      sygTimerPerTxtGT = sygTimerPerTxtGT + sygTimerPerTxt
       sygTimerPerTxtExp = sygTimerPerTxt
       else
       sygTimerPerTxt = ""
@@ -3531,6 +3819,7 @@
 
       if sygDagePer(x) <> 0 then
       sygDagePerTxt = formatnumber(sygDagePer(x),2)
+      sygDagePerTxtGT = sygDagePerTxtGT + sygDagePerTxt
       sygDagePerTxtExp = sygDagePerTxt
       else
       sygDagePerTxt = ""
@@ -3559,7 +3848,16 @@
 	         <td align=right class=lille  style="white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=sygforsteDagIPerDato %></td>
 
 	
-	 <%strEksport(x) = strEksport(x) & sygTimerPerTxtExp &";" & sygDagePerTxtExp & ";"& sygforsteDagIPerDato & ";"%>
+	 <%
+         
+         select case cint(exporttype) 
+         case 220 'Huldt & Lillevik
+         strEksport(x) = strEksport(x) & "xx99123sy#z00000000;00000000;00000003;00000000;00000000;00000000;00000000;00000000;" & medarbNr(x) &";25;" & ddDatoHult &";"& sygTimerPerTxtExp &";250,50;1000,2;0;0;0;0;"
+         case else     
+         strEksport(x) = strEksport(x) & sygTimerPerTxtExp &";" & sygDagePerTxtExp & ";"& sygforsteDagIPerDato & ";"
+         end select%>
+         
+       
 	 
 	 <%
      end if
@@ -3569,6 +3867,7 @@
      
       if barnsygTimer(x) <> 0 then
       barnsygTimerTxt = formatnumber(barnsygTimer(x),2)
+      barnsygTimerTxtGT = barnsygTimerTxtGT + barnsygTimerTxt
       barnsygTimerTxtExp = barnsygTimerTxt
       else
       barnsygTimerTxt = ""
@@ -3577,6 +3876,7 @@
 
       if barnSygDage(x) <> 0 then
       barnSygDageTxt = formatnumber(barnSygDage(x),2)
+      barnSygDageTxtGT = barnSygDageTxtGT + barnSygDageTxt
       barnSygDageTxtExp = barnSygDageTxt
       else
       barnSygDageTxt = ""
@@ -3586,6 +3886,7 @@
 
       if barnSygTimerPer(x) <> 0 then
       barnSygTimerPerTxt = formatnumber(barnSygTimerPer(x),2)
+      barnSygTimerPerTxtGT = barnSygTimerPerTxtGT + barnSygTimerPerTxt
       barnSygTimerPerTxtExp = barnSygTimerPerTxt
       else
       barnSygTimerPerTxt = ""
@@ -3595,6 +3896,7 @@
 
       if barnsygDagePer(x) <> 0 then
       barnsygDagePerTxt = formatnumber(barnsygDagePer(x),2)
+      barnsygDagePerTxtGT = barnsygDagePerTxtGT + barnsygDagePerTxt
       barnsygDagePerTxtExp = barnsygDagePerTxt
       else
       barnsygDagePerTxt = ""
@@ -3622,11 +3924,19 @@
 
 	         <td align=right class=lille  style="white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=barnsygforsteDagIPerDato %></td>
 	 
+	 <%
+         
+         select case cint(exporttype) 
+         case 220 'Huldt & Lillevik
+         strEksport(x) = strEksport(x) & "xx99123sy#z00000000;00000000;00000003;00000000;00000000;00000000;00000000;00000000;" & medarbNr(x) &";25;" & ddDatoHult &";"& barnSygTimerPerTxtExp &";250,50;1000,2;0;0;0;0;"
+         case else     
+         strEksport(x) = strEksport(x) & barnSygTimerPerTxtExp &";" & barnsygDagePerTxtExp &";"& barnsygforsteDagIPerDato &";"
+         end select
+         
+      end if 
 	 
-	 <%strEksport(x) = strEksport(x) & barnSygTimerPerTxtExp &";" & barnsygDagePerTxtExp &";"& barnsygforsteDagIPerDato &";"%>
-	 <%end if %>
-	 
-	 <%if (instr(akttype_sel, "#20#") <> 0 OR instr(akttype_sel, "#21#") <> 0) AND cint(visikkeFerieogSygiPer) <> 1 then 
+
+	 if (instr(akttype_sel, "#20#") <> 0 OR instr(akttype_sel, "#21#") <> 0) AND cint(visikkeFerieogSygiPer) <> 1 then 
 	 
      if cdbl(normTimer(x)) <> 0 then
      '** Fravær beregnes udfra normtid / ikke optjent fravær, dvs. sygdom.
@@ -3661,6 +3971,7 @@
      
      if barsel(x) <> 0 then
      barselTxt = formatnumber(barsel(x),2) 
+     barselTxtGT = barselTxtGT + barselTxt 
      barselTxtExp = barselTxt
      else
      barselTxt = ""
@@ -3682,7 +3993,15 @@
       <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=barselTxt %></td>
       <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=barselforsteDagIPerDato %></td>
        
-    <%strEksport(x) = strEksport(x) & barselTxtExp &";"& barselforsteDagIPerDato & ";"%>
+    <%
+        
+        select case cint(exporttype) 
+         case 220 'Huldt & Lillevik
+         strEksport(x) = strEksport(x) & "xx99123sy#z00000000;00000000;00000003;00000000;00000000;00000000;00000000;00000000;" & medarbNr(x) &";25;" & ddDatoHult &";"& barselTxtExp &";250,50;1000,2;0;0;0;0;"
+         case else     
+         strEksport(x) = strEksport(x) & barselTxtExp &";"& barselforsteDagIPerDato & ";"
+         end select
+        %>
 	 <%end if %>
 
 
@@ -3693,6 +4012,7 @@
      
      if omsorg(x) <> 0 then
      omsorgTxt = formatnumber(omsorg(x),2) 
+     omsorgTxtGT = omsorgTxtGT + omsorgTxt
      omsorgTxtExp = omsorgTxt
      else
      omsorgTxt = ""
@@ -3720,6 +4040,7 @@
      
      if senior(x) <> 0 then
      seniorTxt = formatnumber(senior(x),2) 
+     seniorTxtGT = seniorTxtGT + seniorTxt
      seniorTxtExp = seniorTxt
      else
      seniorTxt = ""
@@ -3888,7 +4209,15 @@
      ulempeWudbTxtExp = 0
      end if
       %>
-	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=ulempeWudbTxt %></td>
+	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=ulempeWudbTxt %>
+
+
+         <%if level = 1 then %>
+         &nbsp;<input type="text" name="FM_kobtviaudb" style="width:30px; height:12px; font-size:9px;" />
+            <input type="hidden" name="FM_kobtviaudb_mids" value="<%=intMid %>" />
+         <%end if %>
+
+	 </td>
 	 <%strEksport(x) = strEksport(x) & ulempeWudbTxtExp &";"%>
 	 <%end if %>
 
@@ -4037,6 +4366,23 @@
 	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=mfForbrugTxt%></td>
 	 <%strEksport(x) = strEksport(x) & mfForbrugTxtExp &";"%>
 	 <%end if %>
+
+
+       <%if instr(akttype_sel, "#-70#") <> 0 then 
+     
+     if diet_maksamount(x) <> 0 then
+     diet_maksamountTxt = formatnumber(diet_maksamount(x),2)
+     diet_maksamountTxtExp = diet_maksamountTxt &";"& formatnumber(diet_maksamount_skattefri(x), 2) & ";"& formatnumber(diet_maksamount_skat(x), 2)
+     else
+     diet_maksamountTxt = ""
+     diet_maksamountTxtExp = "0;0;0"
+     end if
+     
+     %>
+	 <td align=right class=lille style=" white-space: nowrap; border-bottom: 1px  #D6DfF5 solid; border-right: 1px  #D6DfF5 solid;"><%=diet_maksamountTxt%></td>
+	 <%strEksport(x) = strEksport(x) & diet_maksamountTxtExp &";"%>
+	 <%end if %>
+         
 
 
     
@@ -4256,8 +4602,10 @@
 	    <br /><%=tsa_txt_273%>
 	    <br />
 	    <br /><br />
+
+        <%call thisWeekNo53_fn(stdato) %>
 	    
-	    <h4>Uge <%=datepart("ww", stdato, 2, 2) %> - <%=datepart("yyyy", stdato, 2, 2) %></h4>
+	    <h4>Uge <%=thisWeekNo53%> - <%=datepart("yyyy", stdato, 2, 2) %></h4>
 	    <b><%=formatdatetime(startDato, 1) & " - " & formatdatetime(slutDato, 1) %></b> 
 	    <%if datepart("ww", stdato, 2, 2) = datepart("ww", now, 2, 2) AND datepart("yyyy", stdato, 2, 2) = datepart("yyyy", now, 2, 2) then%>
 	    (<%=tsa_txt_318 %>)
@@ -4620,6 +4968,10 @@
 	
 	     'call akttyper2009Prop(114) 'korrektion tælles med?
 
+          'if session("mid") = 1 then
+          'Response.write "HER: " & realTimer(x) &" - "& korrektionReal(x) &" - "& normTimer(x) &" = " & formatnumber(((realTimer(x) + (korrektionReal(x))) - normTimer(x)),2)
+          'end if
+
          'if cint(aty_real) = 1 then
 	     realNormBal = formatnumber(((realTimer(x) + (korrektionReal(x))) - normTimer(x)),2)
          'else
@@ -4631,6 +4983,11 @@
 	     call timerogminutberegning(normtime_lontime)
        
          normLontBal = thoursTot &":"& left(tminTot, 2) 
+
+            'if session("mid") = 1 then
+            'Response.write "n. "& normLontBal & "["& tminTot &"]" & "<br>"
+            'end if
+
          realLontBal = formatnumber((realTimer(x) - (ltimerKorFrad)),2)
         
          'if session("mid") = 1 AND lto = "esn" then
@@ -4639,6 +4996,8 @@
          'response.write "<br>normtime_lontime: "& normtime_lontime & "<br>"
          'end if
 	
+         AfspadBal = 0 
+	     AfspadBal = (afspTimer(x)*1 - (afspTimerBr(x)*1 + afspTimerUdb(x)*1))
       
       
       case 7, 14, 77 '**** afstem tot, år --> dato ***' / Ugesedlser 
@@ -4649,7 +5008,7 @@
 
      %>
      <!--#include file="global_func3_7_14_77_inc.asp" -->
-   <%
+     <%
 	  
 	  
 	  
@@ -4670,6 +5029,8 @@
 	end function
 	
 	
+
+
 	%>
 	
 	

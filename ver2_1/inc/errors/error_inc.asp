@@ -328,7 +328,7 @@ varErrorText = "<b>"&err_txt_343&"!</b><br>"_
 & err_txt_344
 
 case 89
-varErrorText = "<b>"&err_txt_345&"!</b><br>"_
+varErrorText = "<b>"&err_txt_345&"!</b> ("& intFaknum &")<br>"_
 & err_txt_346 &"<br>"_
 & err_txt_347 &"<br>"_
 &"<br>"& err_txt_348
@@ -735,6 +735,7 @@ varErrorText = "You are missing one or more of the following information: <br><b
 varErrorText = varErrorText & "<b>Required for active orders:</b><br><br> "
 varErrorText = varErrorText & "Customer, Style and <br> "
 varErrorText = varErrorText & "- Sales Rep.<br> "
+varErrorText = varErrorText & "- Order Qty.<br> "
 varErrorText = varErrorText & "- Supplier<br> "
 varErrorText = varErrorText & "- ETD Buyer<br> "
 varErrorText = varErrorText & "- Confirmed ETA on DDP orders<br> "
@@ -780,7 +781,7 @@ case 183
 varErrorText = err_txt_523 &"<br> "&err_txt_524&"<br><br>"&err_txt_525&": "& jobProcent100 &"<br>"&err_txt_526&": "& salgsProcent100
 
 case 184 
-varErrorText = err_txt_527 & " ("& slutDatoNum &") "&err_txt_528&" ("& startDatoNum &") "
+varErrorText = err_txt_527 & " ("& slutDatoNum &") "& err_txt_528 &" ("& startDatoNum &")<br><br><span style=font-size:9px;>"& jobstartdato &" - " & jobslutdato & "</span>"
 
 case 185 
 varErrorText = err_txt_529
@@ -834,6 +835,102 @@ varErrorText = err_txt_562 &"<br>"& err_txt_563
 case 200
 varErrorText = err_txt_564
 
+case 201
+varErrorText = "<b>GDPR information are missing</b>, or you are missing filepath link to contract.<br><br>"
+varErrorText = varErrorText & "If Dataprocessor and job is not active toy need to decide if job are <b>stripped for personal_data</b>"
+case 202
+varErrorText = "Rejected comment is too long. Maximun lenght is 50/250 caracters."
+
+case 203
+varErrorText = "Passwords dont match"
+
+case 204
+varErrorText = "Choose a password"
+
+case 205
+varErrorText = err_txt_567
+
+case 206
+varErrorText = err_txt_568
+
+case 207
+varErrorText = "Der mangler at blive indtastet et navn"
+
+case 208
+varErrorText = "Der mangler at valgt et billede"
+
+case 209
+varErrorText = "a Department need to be selected"
+
+case 210
+varErrorText = "Choose a sales rep."
+
+case 211
+varErrorText = "Collection need to be filled"
+
+case 212
+varErrorText = "Select a product group"
+
+case 213
+varErrorText = "Composition need to be filled"
+
+case 214
+varErrorText = "Cost price need to be filled"
+
+case 215
+varErrorText = "Sales price need to be filled"
+
+case 216
+varErrorText = "The following needs to be filled <br>"
+varErrorText = varErrorText & " - Payment Term Buyer <br>"
+varErrorText = varErrorText & " - Delivery Term Buyer <br>"
+varErrorText = varErrorText & " - Payment Term Supplier <br>"
+varErrorText = varErrorText & " - Delivery Term Suppiler"
+
+case 217
+varErrorText = "Buyers Order No. need to be filled"
+
+case 218
+varErrorText = "Choose a desitnation"
+
+case 219
+varErrorText = "Choose transport"
+
+case 220
+varErrorText = "Fill confirmed suppliver ETD"
+
+case 221
+varErrorText = "Fill Atual ETD"
+
+case 222
+varErrorText = "You need to choose origin"
+
+case 223
+varErrorText = "Select a picture"
+
+case 224
+varErrorText = "Fill conf. buyer ETA"
+
+case 225
+varErrorText = "Salgs budget " & err_txt_190 & "<br><br>You have Specified: " & budget_salesgoal
+
+case 226
+varErrorText = err_txt_569
+
+case 227
+varErrorText = "<b>"&err_txt_394&"</b><br>Der mangler et @ i email adressen."
+
+case 228
+varErrorText = "1) Feriefridage afholdt overstiger 5 dage<br><br>Du har afholdt: <b>"& afholdtDage &"</b> dage (inkl. den aktuelle indtasning)<br><br>2) Du forsøger at indtaste en feriefridag på en dag der i forvejen er en fridag / en dag uden normtid."
+
+case 229
+varErrorText = err_txt_570
+
+case 230
+varErrorText = "<b>Diæt tariffer</b><br><br>Du mangler at udfylde en eller flere obligatoriske felter."
+
+case 231
+varErrorText = "<b>Løn</b><br><br>Løn, Pension eller Bruttoløntræk er ikke angivet i et korrekt format."
 
 case else
 varErrorText = errortype

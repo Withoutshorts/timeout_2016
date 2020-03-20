@@ -720,7 +720,7 @@ if len(session("user")) = 0 then
 	
 	end if
 	
-	if cint(jobidsel) <> 0 then
+	if cdbl(jobidsel) <> 0 then
 	jobSQLkri = " j.id = " & jobidsel
 	else
 	jobSQLkri = " j.id <> 0 "
@@ -1127,7 +1127,8 @@ if len(session("user")) = 0 then
 												monththis = datepart("m", datoer(y), 2,2)
 												'monththis = datepart("m", datoer(y))
 												yearthis = datepart("yyyy", datoer(y))
-												weekThis = datepart("ww", datoer(y), 2,2)
+                                                call thisWeekNo53_fn(datoer(y))
+												weekThis = thisWeekNo53 'datepart("ww", datoer(y), 2,2)
 												
                                                 'Response.write "datoer(y): "& datoer(y) & " tTimertildelt(y) : "& tTimertildelt(y) &"<br>"
 												
@@ -1584,7 +1585,8 @@ if len(session("user")) = 0 then
                                                     mdtil = month(mdtil)
                                                     proctil = 0
                                                     case else 'md
-                                                    ugetil = datepart("ww", "15/"&overfortil&"/"&overfortilAar, 2,2) 'midt i måned
+                                                    call thisWeekNo53_fn("15/"&overfortil&"/"&overfortilAar)
+                                                    ugetil = thisWeekNo53 'datepart("ww", "15/"&overfortil&"/"&overfortilAar, 2,2) 'midt i måned
                                                     mdtil = overfortil            
                                                     proctil = 0
                                                     end select
@@ -1677,7 +1679,8 @@ if len(session("user")) = 0 then
 	    While not oRec.EOF
 	            
 	            thisdate = "1/"& oRec("md")&"/"&oRec("aar")
-	            thisWeek = datepart("ww", thisdate, 2,2)
+                call thisWeekNo53_fn(thisdate)
+	            thisWeek = thisWeekNo53 'datepart("ww", thisdate, 2,2)
 	            
 	            
 	            strSQLu = "UPDATE ressourcer_md SET uge = "& thisWeek & " WHERE id = "& oRec("id")
@@ -1900,7 +1903,7 @@ if len(session("user")) = 0 then
         
 		
 		<select name="FM_jobsel" id="FM_jobsel" style="width:960px; font-size:11px;" size=10>
-		<%if cint(jobidsel) = 0 then
+		<%if cdbl(jobidsel) = 0 then
         jallSel = "SELECTED"
         else
         jallSel = ""
@@ -1913,7 +1916,7 @@ if len(session("user")) = 0 then
                 k = 0
 				while not oRec.EOF
 				
-				if cint(jobidsel) = cint(oRec("id")) then
+				if cdbl(jobidsel) = cint(oRec("id")) then
 				isSelected = "SELECTED"
 				else
 				isSelected = ""
@@ -2672,6 +2675,7 @@ antalJobAktlinierGrand = 0
 thisMedarbJoblist = ""
 
 lastAktJidExpVis_1 = "0_0_0"
+lastAktJidExpVis_1Total = "0_0_0"
 dagsdato = now
 
 if media <> "eksport" AND media <> "chart" then
@@ -2699,6 +2703,7 @@ for x = 0 to antalxx - 1 'UBOUND(medarbKundeoplysX, 1) 'medarbKundeoplysX(x, 0)
 
     '**** Ny overksift for de linier er ligger timer på men der ikke ligger forecast på ***'
   
+    'Response.write "<br>lastxmid <> medarbKundeoplysX(x, 3): " & lastxmid & "<>" & medarbKundeoplysX(x, 3) 
 	
 	if lastxmid <> medarbKundeoplysX(x, 3) then	'xmid(x) 
 
@@ -2725,19 +2730,19 @@ for x = 0 to antalxx - 1 'UBOUND(medarbKundeoplysX, 1) 'medarbKundeoplysX(x, 0)
                                     call jobtotalprmedarb
                                
                            
-                        if cint(jobidsel) = 0 then
-                            'if cint(vis_simpel) <> 1 then
-                            mTotthisMid = lastxmid
-	                        call medarbtotal
-                            'end if
-	                    end if
+                                    if cdbl(jobidsel) = 0 then
+                                        'if cint(vis_simpel) <> 1 then
+                                        mTotthisMid = lastxmid
+	                                    call medarbtotal
+                                        'end if
+	                                end if
 	    
 	                end if
 	    
                     
                     
 
-                    if cint(jobidsel) = 0 AND cint(vis_job_fc_neg) <> 1 then
+                    if cdbl(jobidsel) = 0 AND cint(vis_job_fc_neg) <> 1 then
                     
                         if media = "chart" then
                                 
@@ -2811,7 +2816,12 @@ for x = 0 to antalxx - 1 'UBOUND(medarbKundeoplysX, 1) 'medarbKundeoplysX(x, 0)
         
         
         '*** Tjekker om linje på medarb er skrevet **'
-        if (lastJid_Aid <> medarbKundeoplysX(x, 0)&"_"& medarbKundeoplysX(x, 17) OR lastxmid <> medarbKundeoplysX(x, 3)) AND len(medarbKundeoplysX(x, 0)) <> 0 then
+        'Response.write "<br>(lastJid_Aid <> medarbKundeoplysX(x, 0) _ medarbKundeoplysX(x, 17) OR lastxmid <> medarbKundeoplysX(x, 3)) AND len(medarbKundeoplysX(x, 0)) <> 0"
+        'Response.write "<br>"& lastJid_Aid &" <> "& medarbKundeoplysX(x, 0)& "_" & medarbKundeoplysX(x, 17) & " OR " & lastxmid &" <> "& medarbKundeoplysX(x, 3) &" AND "& len(medarbKundeoplysX(x, 0)) &"<> 0"  
+
+        if (lastJid_Aid <> medarbKundeoplysX(x, 0)&"_"& medarbKundeoplysX(x, 17) OR cdbl(lastxmid) <> cdbl(medarbKundeoplysX(x, 3))) AND len(medarbKundeoplysX(x, 0)) <> 0 then
+
+        'Response.write "<br>(OK)<br>"
 		
         isArsNormWrtEksp = 0
 
@@ -2909,6 +2919,7 @@ for x = 0 to antalxx - 1 'UBOUND(medarbKundeoplysX, 1) 'medarbKundeoplysX(x, 0)
              
 		
         if media <> "eksport" AND media <> "chart" then
+
             
                         if media <> "print" then
                             
@@ -3024,25 +3035,25 @@ for x = 0 to antalxx - 1 'UBOUND(medarbKundeoplysX, 1) 'medarbKundeoplysX(x, 0)
                             '**** Aktivitet ***'
                             if cint(visAkt) = 0 then 'viser ikke kolonne, men viser alligevel aktnavn hvis ikke linjen er uspec 
 
-                            aktNavn = ""
-                            if medarbKundeoplysX(x, 17) <> 0 then
-                            strSQlAktnavn = "SELECT navn FROM aktiviteter WHERE id = "& medarbKundeoplysX(x, 17)
+                                    aktNavn = ""
+                                    if medarbKundeoplysX(x, 17) <> 0 then
+                                    strSQlAktnavn = "SELECT navn FROM aktiviteter WHERE id = "& medarbKundeoplysX(x, 17)
                             
                        
-                            oRec6.open strSQlAktnavn, oConn, 3
-                            if not oRec6.EOF then
-                            aktNavn = oRec6("navn")
-                            end if
-                            oRec6.close
+                                    oRec6.open strSQlAktnavn, oConn, 3
+                                    if not oRec6.EOF then
+                                    aktNavn = oRec6("navn")
+                                    end if
+                                    oRec6.close
 
 
                             
-                            %><br /><i><%=aktNavn %></i>
-                            <%else %>
-                            <i><%=resbelaeg_txt_050 %></i>
-                            <%end if %>                
+                                    %><br /><i><%=aktNavn %></i>
+                                    <%else %>
+                                    <i><%=resbelaeg_txt_050 %></i>
+                                    <%end if %>                
 
-                        <%end if %>
+                            <%end if %>
 
            
         
@@ -3078,16 +3089,7 @@ for x = 0 to antalxx - 1 'UBOUND(medarbKundeoplysX, 1) 'medarbKundeoplysX(x, 0)
          <%end if %>
 
 
-        <%'else %>
-       
-        <!--<td bgcolor="#FFFFFF" valign=top style="padding:2px 2px 2px 2px;">&nbsp;</!--td> -->
-      
-
-
-
-
-
-
+     
         
 		
         <%if len(trim(medarbKundeoplysX(x, 17))) <> 0 then
@@ -3102,75 +3104,81 @@ for x = 0 to antalxx - 1 'UBOUND(medarbKundeoplysX, 1) 'medarbKundeoplysX(x, 0)
 		  
          
 
-          <!-- Aktiviteter --->
+                  <!-- Aktiviteter --->
 
-            <%if cint(visAkt) = 1 then %>
-          <td bgcolor="#FFFFFF" valign=top style="padding:2px 2px 2px 2px;">
-                    <%
-                    'WWF: aktive via timereg_usejob og faktuerbare
-                    '*** PoSTIV aktivering af aktiviteter slået til
+                    <%if cint(visAkt) = 1 then %>
+                  <td bgcolor="#FFFFFF" valign=top style="padding:2px 2px 2px 2px;">
+                            <%
+                            'WWF: aktive via timereg_usejob og faktuerbare
+                            '*** PoSTIV aktivering af aktiviteter slået til
                   
 
                
                    
 
 
-                    call hentaktiviteter(positiv_aktivering_akt_val, medarbKundeoplysX(x, 0), medarbKundeoplysX(x, 3), aty_sql_realhoursAkt)
+                            call hentaktiviteter(positiv_aktivering_akt_val, medarbKundeoplysX(x, 0), medarbKundeoplysX(x, 3), aty_sql_realhoursAkt)
 
-                    'response.Write strSQLa & "<br>18:" & medarbKundeoplysX(x, 18)
-                    'response.flush 
-                    aSel = ""
-                    aktText = ""
+                            'response.Write strSQLa & "<br>18:" & medarbKundeoplysX(x, 18)
+                            'response.flush 
+                            aSel = ""
+                            aktText = ""
                     
-                        if media <> "print" then%>
-                    <select class="aaFM_jobid" id="aaFM_jobid_<%=x%>" name="sFM_aktid" style="width:100px;">
-                    <option value="0">(<%=resbelaeg_txt_051 %>)</option>
-                    <option value="0"><%=resbelaeg_txt_052 %>..?</option>
-                    <%
-                    end if
+                                if media <> "print" then%>
+                            <select class="aaFM_jobid" id="aaFM_jobid_<%=x%>" name="sFM_aktid" style="width:100px;">
+                            <option value="0">(<%=resbelaeg_txt_051 %>)</option>
+                            <option value="0"><%=resbelaeg_txt_052 %>..?</option>
+                            <%
+                            end if
 
-                    oRec4.open strSQLa, oConn, 3
-                    While not oRec4.EOF 
+                            oRec4.open strSQLa, oConn, 3
+                            While not oRec4.EOF 
 
-                     if ISNULL(oRec4("fase")) <> true AND len(trim(oRec4("fase"))) <> 0 then
-                     fsNavn = " | fase: "& oRec4("fase")
-                     else
-                     fsNavn = ""
-                     end if
+                             if ISNULL(oRec4("fase")) <> true AND len(trim(oRec4("fase"))) <> 0 then
+                             fsNavn = " | fase: "& oRec4("fase")
+                             else
+                             fsNavn = ""
+                             end if
                      
-                     if cdbl(medarbKundeoplysX(x, 17)) = cdbl(oRec4("aid")) then
-                     aSel = "SELECTED"
-                     aktText = oRec4("aktnavn") & fsNavn
-                     else
-                     aSel = ""
-                     end if
+                             if cdbl(medarbKundeoplysX(x, 17)) = cdbl(oRec4("aid")) then
+                             aSel = "SELECTED"
+                             aktText = oRec4("aktnavn") & fsNavn
+                             else
+                             aSel = ""
+                             end if
                      
                      
-                      if media <> "print" then%>
-                    <option value="<%=oRec4("aid")%>" <%=aSel %>><%=oRec4("aktnavn") &" "& fsNavn%></option>
-                    <%end if
+                              if media <> "print" then%>
+                            <option value="<%=oRec4("aid")%>" <%=aSel %>><%=oRec4("aktnavn") &" "& fsNavn%></option>
+                            <%end if
 
-                    oRec4.movenext
-                    wend
-                    oRec4.close 
+                            oRec4.movenext
+                            wend
+                            oRec4.close 
                     
-                      if media <> "print" then%>
+                              if media <> "print" then%>
         
-                    </select><br />
-                    <%else %>
-                    <%=aktText %>
-                    <%end if %>
+                            </select><br />
+                            <%else %>
+                            <%=aktText %>
+                            <%end if %>
                     
                     
                     
-                      <%if media <> "print" then 'AND cint(visAktiv) = 1 then %>
-	                    	<a href="#" id="anl_a_<%=medarbKundeoplysX(x, 0)%>_<%=medarbKundeoplysX(x, 3) %>" class="rodlille"><%=resbelaeg_txt_053&" " %>+</a> &nbsp; 
-		              <%end if%>
+                              <%if media <> "print" then 'AND cint(visAktiv) = 1 then %>
+	                    	        <a href="#" id="anl_a_<%=medarbKundeoplysX(x, 0)%>_<%=medarbKundeoplysX(x, 3) %>" class="rodlille"><%=resbelaeg_txt_053&" " %>+</a> &nbsp; 
+		                      <%end if%>
        
-                    </td>
+                            </td>
 		            <%end if 'visAkt %>
 		
 	    <%end if 'media
+
+
+
+
+
+
 		
          'if lto = "mmmi" then
          'Response.Write "numoffdaysorweeksinperiode" & numoffdaysorweeksinperiode & "<hr>"
@@ -3185,7 +3193,7 @@ for x = 0 to antalxx - 1 'UBOUND(medarbKundeoplysX, 1) 'medarbKundeoplysX(x, 0)
 		
 		'lastY = -1
         
-            
+        'Response.write "<br>----> FØR "
     
 		if y = 0 then
 	    forcastTimerJobtot = 0
@@ -3196,7 +3204,7 @@ for x = 0 to antalxx - 1 'UBOUND(medarbKundeoplysX, 1) 'medarbKundeoplysX(x, 0)
 					    
 
 					    'if lto = "mmmi" then
-					    'Response.Write periodeSel &","& y &","& startdato &","& monthUse & ""& numoffdaysorweeksinperiode  &"<br>"
+					    'Response.Write "<br>Y-------------------------:"& periodeSel &","& y &","& startdato &","& monthUse & ""& numoffdaysorweeksinperiode  &"<br>"
                         'end if
 						
 						call antaliperiode(periodeSel, y, startdato, monthUse)
@@ -3211,7 +3219,7 @@ for x = 0 to antalxx - 1 'UBOUND(medarbKundeoplysX, 1) 'medarbKundeoplysX(x, 0)
 									
 
 
-								    'Response.Write "n: "& n &" "& medarbKundeoplysX(x, 3) & "<br>"
+								    'Response.Write "<br>-->n: "& n &" og medarbKundeoplysX(x, 3): ("& x &") "& medarbKundeoplysX(x, 3) & " periodeSel: " & periodeSel
 									'***** Uge visning, tjkker ikke MD ****'
 									if periodeSel = 3 then
 									
@@ -3235,10 +3243,16 @@ for x = 0 to antalxx - 1 'UBOUND(medarbKundeoplysX, 1) 'medarbKundeoplysX(x, 0)
 								    '*** MD visning tjekker ikke om uge passer **'
 
                                   
-								    
+			                                    					    
+                                            'Response.Write "<br>midjiddato(medarbKundeoplysX(x, 3),n, 5) = medarbKundeoplysX(x, 17): " & midjiddato(medarbKundeoplysX(x, 3),n, 5) &"="& medarbKundeoplysX(x, 17)
+                                            'Response.Write "<br>midjiddato(medarbKundeoplysX(x, 3),n, 2) = medarbKundeoplysX(x, 3): "& midjiddato(medarbKundeoplysX(x, 3),n, 2) &"="& medarbKundeoplysX(x, 3) 
+                                            'Response.Write "<br>datepart(yyyy, midjiddato(medarbKundeoplysX(x, 3),n, 3)) = datepart(yyyy, nDay): " & datepart("yyyy", midjiddato(medarbKundeoplysX(x, 3),n, 3)) &"="& datepart("yyyy", nDay)
+                                            'Response.Write "<br>(datepart(m, midjiddato(medarbKundeoplysX(x, 3),n, 3), 2,2) = datepart(m, nDay, 2,2)):" & (datepart("m", midjiddato(medarbKundeoplysX(x, 3),n, 3), 2,2) &"="& datepart("m", nDay, 2,2))
+                    
+
 								            if (datepart("m", midjiddato(medarbKundeoplysX(x, 3),n, 3), 2,2) = datepart("m", nDay, 2,2)) AND _
 								                midjiddato(medarbKundeoplysX(x, 3),n, 1) = medarbKundeoplysX(x, 0) AND midjiddato(medarbKundeoplysX(x, 3),n, 5) = medarbKundeoplysX(x, 17) AND  _
-                                                midjiddato(medarbKundeoplysX(x, 3),n, 2) = medarbKundeoplysX(x, 3) AND _
+                                                cdbl(midjiddato(medarbKundeoplysX(x, 3),n, 2)) = cdbl(medarbKundeoplysX(x, 3)) AND _
 								                datepart("yyyy", midjiddato(medarbKundeoplysX(x, 3),n, 3)) = datepart("yyyy", nDay) then
 								        
 								                timerThis = midjiddato(medarbKundeoplysX(x, 3),n, 0)
@@ -3289,21 +3303,22 @@ for x = 0 to antalxx - 1 'UBOUND(medarbKundeoplysX, 1) 'medarbKundeoplysX(x, 0)
 
                    
 					
-					if media <> "eksport" AND media <> "chart" then
+					        if media <> "eksport" AND media <> "chart" then
 					
-					if timerThis = 0 then
-					bgTimer = "#ffffff"
-					else
-                    bgTimer = "#DCF5BD"
-                    end if
+					            if timerThis = 0 then
+					            bgTimer = "#ffffff"
+					            else
+                                bgTimer = "#DCF5BD"
+                                end if
 				
-					end if
+					        end if
 					
 					lastMonth = newMonth
 					dato = nday
 					stThisDato = dato
 					txtwidth = 60
 					
+                    showTimerThis = 0
                     if cint(showasproc) = 1 then 'vis som procent
 
                         if procThis = 0 then
@@ -3336,7 +3351,8 @@ for x = 0 to antalxx - 1 'UBOUND(medarbKundeoplysX, 1) 'medarbKundeoplysX(x, 0)
 					if periodeSel <> 3 then
 					mmwwSQLkri = " MONTH(tdato) = "& datepart("m", nday, 2, 2) 
 					else
-					mmwwSQLkri = " WEEK(tdato, 1) = "& datepart("ww", nday, 2, 2) 
+                    call thisWeekNo53_fn(nday)
+					mmwwSQLkri = " WEEK(tdato, 1) = "& thisWeekNo53 'datepart("ww", nday, 2, 2) 
 					end if
 
                     'nulstiller aktSQLkriExcludeAkOnUspec 
@@ -3573,9 +3589,12 @@ for x = 0 to antalxx - 1 'UBOUND(medarbKundeoplysX, 1) 'medarbKundeoplysX(x, 0)
 
                                         if (lastAktJidExpVis_1 <> medarbKundeoplysX(x, 0) &"_"& medarbKundeoplysX(x, 17) &"_"& medarbKundeoplysX(x, 3)) then
                                         
-                                        csvTxt = csvTxt & vbcrlf & medarbKundeoplysX(x, 5)&";"& medarbKundeoplysX(x, 6) &"" _
+                                        csvTxt = csvTxt & vbcrlf 
+                                        '**************** Kunde - Kundenr - Job - jobnr
+                                        csvTxt = csvTxt & medarbKundeoplysX(x, 5)&";"& medarbKundeoplysX(x, 6) &"" _
                                         &";" & medarbKundeoplysX(x, 2) & ";"& medarbKundeoplysX(x, 1) & ";"
                                         
+                                        '**************** Aktivititet - Akt id
                                         'if cint(visAktiv) = 1 then ALTID med da der kan væres flere linier på samme job ved uspec. Dette skal kunne ses i udtrækkket.
                                         csvTxt = csvTxt & medarbKundeoplysX(x, 18) & ";" & medarbKundeoplysX(x, 17) & ";" 
                                         'end if                
@@ -3587,24 +3606,24 @@ for x = 0 to antalxx - 1 'UBOUND(medarbKundeoplysX, 1) 'medarbKundeoplysX(x, 0)
 
 
                       
-
+                                        '0: Jobid, 3: Mid, 17: aktid
                                         lastAktJidExpVis_1 = medarbKundeoplysX(x, 0) &"_"& medarbKundeoplysX(x, 17) &"_"& medarbKundeoplysX(x, 3)
                                        
 
                                         end if
                                         
                                       
-                                         csvTxt = csvTxt &";"& showTimerThis 
+                                        csvTxt = csvTxt &";"& showTimerThis 
 
                                         if cint(expvisreal) = 1 then
                                         
-                                        if len(trim(sumTimer)) <> 0 then
-                                        sumTimerExp = formatnumber(sumTimer,2)
-                                        else
-                                        sumTimerExp = ""
-                                        end if
+                                            if len(trim(sumTimer)) <> 0 then
+                                            sumTimerExp = formatnumber(sumTimer,2)
+                                            else
+                                            sumTimerExp = ""
+                                            end if
 
-                                        csvTxt = csvTxt &";"& sumTimerExp
+                                            csvTxt = csvTxt &";"& sumTimerExp
 					                    end if
 
                             else 'PIVOT 
@@ -3788,6 +3807,8 @@ for x = 0 to antalxx - 1 'UBOUND(medarbKundeoplysX, 1) 'medarbKundeoplysX(x, 0)
 
                     if media = "eksport" AND vis = "1" then
                     
+
+
                         if forcastTimerJobtot <> 0 then
                         forcastTimerJobtotExpTxt = forcastTimerJobtot
                         else
@@ -3822,15 +3843,21 @@ for x = 0 to antalxx - 1 'UBOUND(medarbKundeoplysX, 1) 'medarbKundeoplysX(x, 0)
 
                                         if cint(visStatus) = 1 then 
 
-                                         csvTxt = csvTxt  &";"& formatnumber(medarbKundeoplysX(x, 20), 0)
-                                         csvTxt = csvTxt  &";"& formatnumber(medarbKundeoplysX(x, 19), 0)
+                                                 'if (lastAktJidExpVis_1 <> medarbKundeoplysX(x, 0) &"_"& medarbKundeoplysX(x, 17) &"_"& medarbKundeoplysX(x, 3)) then
+                                                 if lastAktJidExpVis_1Total <> lastAktJidExpVis_1 then
 
-                                         csvTxt = csvTxt & ";"& forcastTimerJobtotExpTxt
-                                         csvTxt = csvTxt & ";"& forcastTimerTotAktMedignPerExpTxt
-                                         csvTxt = csvTxt & ";"& realTimerJobtotExpTxt
-                                         csvTxt = csvTxt & ";"& realTimerTotAktMedignPerExpTxt
-                                         csvTxt = csvTxt & ";"& saldoJobTot
-                                         csvTxt = csvTxt & ";"& saldoJobTotIgnper
+                                                 csvTxt = csvTxt  &";"& formatnumber(medarbKundeoplysX(x, 20), 0)
+                                                 csvTxt = csvTxt  &";"& formatnumber(medarbKundeoplysX(x, 19), 0)
+
+                                                 csvTxt = csvTxt & ";"& forcastTimerJobtotExpTxt
+                                                 csvTxt = csvTxt & ";"& forcastTimerTotAktMedignPerExpTxt
+                                                 csvTxt = csvTxt & ";"& realTimerJobtotExpTxt
+                                                 csvTxt = csvTxt & ";"& realTimerTotAktMedignPerExpTxt
+                                                 csvTxt = csvTxt & ";"& saldoJobTot
+                                                 csvTxt = csvTxt & ";"& saldoJobTotIgnper
+
+                                                 lastAktJidExpVis_1Total = lastAktJidExpVis_1
+                                                 end if
                                     
                                          end if
 
@@ -3967,7 +3994,7 @@ for x = 0 to antalxx - 1 'UBOUND(medarbKundeoplysX, 1) 'medarbKundeoplysX(x, 0)
                            
                            
 				        
-                            if cint(jobidsel) = 0 then
+                            if cdbl(jobidsel) = 0 then
                                 '**** Medarb. total ***'
                                 'if cint(vis_simpel) <> 1 then
                                 mTotthisMid = lastxmid
@@ -3983,7 +4010,7 @@ for x = 0 to antalxx - 1 'UBOUND(medarbKundeoplysX, 1) 'medarbKundeoplysX(x, 0)
 
                         
 
-                        if cint(jobidsel) = 0 then
+                        if cdbl(jobidsel) = 0 then
 
                             if media = "chart" then
                             
@@ -4293,7 +4320,7 @@ n: <%=resbelaeg_txt_060 %><br /><br />
 	            </tr>
 	            <tr>
 	            <td valign=top bgcolor="#ffffff" style="padding:5px 5px 5px 15px;">
-	            <a href="../inc/log/data/<%=file%>" class=vmenu target="_blank" onClick="Javascript:window.close()"><%=resbelaeg_txt_062 %> >></a>
+	            <a href="../inc/log/data/<%=file%>" class=vmenu target="_blank"><%=resbelaeg_txt_062 %> >></a> <!-- onClick="Javascript:window.close()" -->
 	            </td></tr>
 	            </table>
 
@@ -4379,8 +4406,8 @@ n: <%=resbelaeg_txt_060 %><br /><br />
                     <%if periodeSel = 3 then %>
                     <%=resbelaeg_txt_069 %>: <select name="FM_overforfra">
                                     <%for u = 1 to 53 
-                                        
-                                        if  datepart("ww", "1/"& monththis & "/" & yearthis, 2,2) = u - 1 then 'datepart("ww", now, 2,2)
+                                        call thisWeekNo53_fn("1/"& monththis & "/" & yearthis)
+                                        if cint(thisWeekNo53) = u - 1 then 'datepart("ww", now, 2,2)
                                         uSEL = "SELECTED"
                                         else
                                         uSel = ""

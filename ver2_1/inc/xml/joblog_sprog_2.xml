@@ -5,7 +5,7 @@
   <!--- Dansk -->
   <dk>
 
-    <txt_1 >Vent veligst. Der kan gå op til 20 sek...</txt_1>
+    <txt_1 >Vent veligst. Der kan gå op til 2 min...</txt_1>
     <txt_2 >Joblog</txt_2>
     <txt_3 >Ugesedler</txt_3>
     <txt_4 >Periode</txt_4>
@@ -109,7 +109,7 @@
     <txt_93 >Enheder</txt_93>
     <txt_94 >Time / Stk. pris</txt_94>
     <txt_95 >Pris ialt</txt_95>
-    <txt_96 >Kostpris</txt_96>
+    <txt_96 >Kostpris stk.</txt_96>
     <txt_97 >Kostpris ialt</txt_97>
     <txt_98 >Tastedato</txt_98>
     <txt_99 >Indtastet af</txt_99>
@@ -201,7 +201,7 @@
   <!--- Norsk -->
   <no>
 
-    <txt_1 >Please wait. This may take up to 20 seconds ...</txt_1>
+    <txt_1 >Please wait. This may take up to 2 min...</txt_1>
     <txt_2 >Joblog</txt_2>
     <txt_3 >Weekly notes</txt_3>
     <txt_4 >Period</txt_4>
@@ -303,9 +303,9 @@
     <txt_91 >Km</txt_91>
     <txt_92 >Quantity</txt_92>
     <txt_93 >Units</txt_93>
-    <txt_94 >Hourly price</txt_94>
+    <txt_94 >Hourly rate</txt_94>
     <txt_95 >Price in total</txt_95>
-    <txt_96 >Cost</txt_96>
+    <txt_96 >Cost rate</txt_96>
     <txt_97 >Cost in total</txt_97>
     <txt_98 >Key Date</txt_98>
     <txt_99 >Entered by</txt_99>
@@ -395,7 +395,7 @@
   <!--- Svensk -->
   <so>
 
-    <txt_1 >Please wait. This may take up to 20 seconds ...</txt_1>
+    <txt_1 >Please wait. This may take up to 2 min...</txt_1>
     <txt_2 >Joblog</txt_2>
     <txt_3 >Weekly notes</txt_3>
     <txt_4 >Period</txt_4>
@@ -497,9 +497,9 @@
     <txt_91 >Km</txt_91>
     <txt_92 >Quantity</txt_92>
     <txt_93 >Units</txt_93>
-    <txt_94 >Hourly price</txt_94>
+    <txt_94 >Hourly rate</txt_94>
     <txt_95 >Price in total</txt_95>
-    <txt_96 >Cost</txt_96>
+    <txt_96 >Cost rate</txt_96>
     <txt_97 >Cost in total</txt_97>
     <txt_98 >Key Date</txt_98>
     <txt_99 >Entered by</txt_99>
@@ -590,7 +590,7 @@
   <!--- Tysk -->
   <de>
 
-    <txt_1 >Please wait. This may take up to 20 seconds ...</txt_1>
+    <txt_1 >Please wait. This may take up to 2 min...</txt_1>
     <txt_2 >Joblog</txt_2>
     <txt_3 >Weekly notes</txt_3>
     <txt_4 >Period</txt_4>
@@ -692,9 +692,9 @@
     <txt_91 >Km</txt_91>
     <txt_92 >Quantity</txt_92>
     <txt_93 >Units</txt_93>
-    <txt_94 >Hourly / price</txt_94>
+    <txt_94 >Hourly rate</txt_94>
     <txt_95 >Price in total</txt_95>
-    <txt_96 >Cost</txt_96>
+    <txt_96 >Cost rate</txt_96>
     <txt_97 >Cost in total</txt_97>
     <txt_98 >Key Date</txt_98>
     <txt_99 >Entered by</txt_99>
@@ -784,7 +784,7 @@
   <!--- Fransk -->
   <fr>
 
-    <txt_1 >Please wait. This may take up to 20 seconds ...</txt_1>
+    <txt_1 >Please wait. This may take up to 2 min...</txt_1>
     <txt_2 >Joblog</txt_2>
     <txt_3 >Weekly notes</txt_3>
     <txt_4 >Period</txt_4>
@@ -886,9 +886,9 @@
     <txt_91 >Km</txt_91>
     <txt_92 >Quantity</txt_92>
     <txt_93 >Units</txt_93>
-    <txt_94 >Hourly / price</txt_94>
+    <txt_94 >Hourly rate</txt_94>
     <txt_95 >Price in total</txt_95>
-    <txt_96 >Cost</txt_96>
+    <txt_96 >Cost rate</txt_96>
     <txt_97 >Cost in total</txt_97>
     <txt_98 >Key Date</txt_98>
     <txt_99 >Entered by</txt_99>
@@ -979,7 +979,7 @@
   <!-- Engelsk -->
   <uk>
 
-    <txt_1 >Please wait. This may take up to 20 seconds ...</txt_1>
+    <txt_1 >Please wait. This may take up to 2 min...</txt_1>
     <txt_2 >Joblog</txt_2>
     <txt_3 >Weekly notes</txt_3>
     <txt_4 >Period</txt_4>
@@ -1081,9 +1081,9 @@
     <txt_91 >Km</txt_91>
     <txt_92 >Quantity</txt_92>
     <txt_93 >Units</txt_93>
-    <txt_94 >Hourly price</txt_94>
+    <txt_94 >Hourly rate</txt_94>
     <txt_95 >Price in total</txt_95>
-    <txt_96 >Cost</txt_96>
+    <txt_96 >Cost rate</txt_96>
     <txt_97 >Cost in total</txt_97>
     <txt_98 >Key Date</txt_98>
     <txt_99 >Entered by</txt_99>
@@ -1173,7 +1173,7 @@
   <!--- Spansk -->
   <es>
 
-    <txt_1 >Please wait. This may take up to 20 seconds ...</txt_1>
+    <txt_1 >Please wait. This may take up to 2 min...</txt_1>
     <txt_2 >Joblog</txt_2>
     <txt_3 >Weekly notes</txt_3>
     <txt_4 >Period</txt_4>
@@ -1274,10 +1274,9 @@
 
     <txt_91 >Km</txt_91>
     <txt_92 >Quantity</txt_92>
-    <txt_93 >Units</txt_93>
-    <txt_94 >Hourly / price</txt_94>
+    <txt_94 >Hourly rate</txt_94>
     <txt_95 >Price in total</txt_95>
-    <txt_96 >Cost</txt_96>
+    <txt_96 >Cost rate</txt_96>
     <txt_97 >Cost in total</txt_97>
     <txt_98 >Key Date</txt_98>
     <txt_99 >Entered by</txt_99>

@@ -424,8 +424,10 @@ for x = 0 to x - 1
 				else
 				nday = dateadd("d", 1, nday)
 				end if
-				
-				weekthis = datepart("ww", nday,2,2)
+			
+                call thisWeekNo53_fn(nday)
+				weekthis = thisWeekNo53 'datepart("ww", nday,2,2)
+
 				
 				if weekthis <> lastweek AND y <> 0 AND lastxmid <> xmid(x) then
 				%>

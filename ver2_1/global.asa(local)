@@ -1,0 +1,20 @@
+<script language=VBSCRIPT RUNAT=SERVER>
+
+Sub Application_onStart()
+	
+End sub
+
+Sub Session_onStart()
+	session.timeout = 720 
+End Sub
+
+Sub Application_onEnd()
+	
+End Sub
+
+
+Sub Session_onEnd()
+    session.abandon
+end sub
+</script>
+

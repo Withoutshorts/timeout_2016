@@ -871,9 +871,10 @@ if session("user") = "" then
 	&" WHERE ("& kundeIdSQL &" "& jobIdSQL &" "& filerIdSQL &" "& folderIdSQL &") "& kundeseSQL &" GROUP BY foid, fiid ORDER BY "& filorderby
 	'"& gamleFilerKri &"
 	
-	
+	'if session("mid") = 1 then
 	'Response.write strSQL
 	'Response.flush
+    'end if
 	%>
 	
 	

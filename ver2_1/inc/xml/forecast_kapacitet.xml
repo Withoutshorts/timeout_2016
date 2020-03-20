@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Forecast </txt_1>
+    <txt_2 >Kapacitet grafisk</txt_2>
+    <txt_3 >Visning</txt_3>
+    <txt_4 >Forretningsområder</txt_4>
+    <txt_5 >Projektgrupper</txt_5>
+    <txt_6 >Medarbejdere</txt_6>
+    <txt_7 >År</txt_7>
+    <txt_8 >Halvårlig</txt_8>
+    <txt_9 >Kvartal</txt_9>
+    <txt_10 >Alle</txt_10>
+    <txt_11 >Farve betydninger</txt_11>
+    
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >Forecast </txt_1>
+    <txt_2 >Capacity graph</txt_2>
+    <txt_3 >Display</txt_3>
+    <txt_4 >Business areas</txt_4>
+    <txt_5 >Project groups</txt_5>
+    <txt_6 >Employees</txt_6>
+    <txt_7 >Year</txt_7>
+    <txt_8 >Biannual</txt_8>
+    <txt_9 >Quarterly</txt_9>
+    <txt_10 >All</txt_10>
+    <txt_11 >Color meanings</txt_11>
+    
+  </no>
+
+
+  <!--- Svensk -->
+  <so>
+
+    <txt_1 >Forecast </txt_1>
+    <txt_2 >Capacity graph</txt_2>
+    <txt_3 >Display</txt_3>
+    <txt_4 >Business areas</txt_4>
+    <txt_5 >Project groups</txt_5>
+    <txt_6 >Employees</txt_6>
+    <txt_7 >Year</txt_7>
+    <txt_8 >Biannual</txt_8>
+    <txt_9 >Quarterly</txt_9>
+    <txt_10 >All</txt_10>
+    <txt_11 >Color meanings</txt_11>
+    
+  </so>
+
+
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >Forecast </txt_1>
+    <txt_2 >Capacity graph</txt_2>
+    <txt_3 >Display</txt_3>
+    <txt_4 >Business areas</txt_4>
+    <txt_5 >Project groups</txt_5>
+    <txt_6 >Employees</txt_6>
+    <txt_7 >Year</txt_7>
+    <txt_8 >Biannual</txt_8>
+    <txt_9 >Quarterly</txt_9>
+    <txt_10 >All</txt_10>
+    <txt_11 >Color meanings</txt_11>
+
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >Forecast </txt_1>
+    <txt_2 >Capacity graph</txt_2>
+    <txt_3 >Display</txt_3>
+    <txt_4 >Business areas</txt_4>
+    <txt_5 >Project groups</txt_5>
+    <txt_6 >Employees</txt_6>
+    <txt_7 >Year</txt_7>
+    <txt_8 >Biannual</txt_8>
+    <txt_9 >Quarterly</txt_9>
+    <txt_10 >All</txt_10>
+    <txt_11 >Color meanings</txt_11>
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Forecast </txt_1>
+    <txt_2 >Capacity graph</txt_2>
+    <txt_3 >Display</txt_3>
+    <txt_4 >Business areas</txt_4>
+    <txt_5 >Project groups</txt_5>
+    <txt_6 >Employees</txt_6>
+    <txt_7 >Year</txt_7>
+    <txt_8 >Biannual</txt_8>
+    <txt_9 >Quarterly</txt_9>
+    <txt_10 >All</txt_10>
+    <txt_11 >Color meanings</txt_11>
+    
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+    <txt_1 >Forecast </txt_1>
+    <txt_2 >Capacity graph</txt_2>
+    <txt_3 >Display</txt_3>
+    <txt_4 >Business areas</txt_4>
+    <txt_5 >Project groups</txt_5>
+    <txt_6 >Employees</txt_6>
+    <txt_7 >Year</txt_7>
+    <txt_8 >Biannual</txt_8>
+    <txt_9 >Quarterly</txt_9>
+    <txt_10 >All</txt_10>
+    <txt_11 >Color meanings</txt_11>
+    
+  </es>
+
+
+</sprog>

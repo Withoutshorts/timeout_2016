@@ -211,8 +211,8 @@ if len(session("user")) = 0 then
 	        $("#fakhist").submit()
 
 	        });
-
-
+           
+            
          
 
              $("#alleerp").click(function() {
@@ -281,7 +281,29 @@ if len(session("user")) = 0 then
 
                   }
 
-              });
+            });
+
+
+            
+            $(".arg_mere_mindre").click(function () {
+
+                thisid = this.id
+
+                visning = $("#flere_" + thisid).val();
+
+                if (visning == "1") {
+                    $(".arg_job_" + thisid).hide();
+                    $("#arg_btn_text_" + thisid).html("Show more..");
+                    $("#flere_" + thisid).val("0");
+                    
+                }
+                else {
+                    $(".arg_job_" + thisid).show();
+                    $("#arg_btn_text_" + thisid).html("Close");
+                    $("#flere_" + thisid).val("1");
+                }
+                 
+            });
           
           
 
@@ -289,8 +311,7 @@ if len(session("user")) = 0 then
 	    });
 	
 	</script>
-	
-	
+
 	<!--include file="../inc/regular/topmenu_inc.asp"-->
 	
     <!--
@@ -1075,7 +1096,9 @@ if len(session("user")) = 0 then
          <td class=alt valign=bottom><b><%=erp_txt_261 %></b></td>
          <td class=alt valign=bottom><b><%=erp_txt_001 %><br /> <%=erp_txt_262 %><br /> <%=erp_txt_263 %></b> <input type="checkbox" id="alleerp" /></td>
          <td class=alt valign=bottom><b><%=erp_txt_264 %></b> <input type="checkbox" id="alleluk" /></td>
-         <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td class=alt valign=bottom align="right"><b>Copy / Move</b></td>
+         
         
     </tr>
 	<%  
@@ -1323,7 +1346,7 @@ if len(session("user")) = 0 then
 
              'if Null(oRec3("alert")) <> true then
 
-                     if cint(oRec3("alert")) = 1 AND len(trim(oRec3("job_internbesk"))) <> 0 then
+                     if oRec3("alert") = "1" AND len(trim(oRec3("job_internbesk"))) <> 0 then
                  
                
                    
@@ -1365,16 +1388,39 @@ if len(session("user")) = 0 then
              <%end if%>
             </font>
             
-            <%strSQLaftjob = "SELECT jobnavn, jobnr FROM job WHERE serviceaft = "& oRec3("aftaleid")
+            <%           
+            strSQLaftjob = "SELECT jobnavn, jobnr FROM job WHERE serviceaft = "& oRec3("aftaleid")
             oRec.open strSQLaftjob, oConn, 3
+            i = 0
             while not oRec.EOF 
+                        
+            if cint(i) < 3 then  
+            agrjobdisplay = "normal" 
+            arg_job_cls = ""
+            else
+            agrjobdisplay = "none"
+            arg_job_cls = "arg_job_" & oRec3("fid")
+            end if
             %>
-            <br /><font class=medlillesilver><%=oRec("jobnavn") %> (<%=oRec("jobnr") %>)</font>
+            <div class="<%=arg_job_cls %>" style="color:silver; font-size:10px; font-family:arial,sans-serif; display:<%=agrjobdisplay %>;"><%=oRec("jobnavn") %> (<%=oRec("jobnr") %>)</div>
             <%
+
+            i = i + 1
             oRec.movenext
             wend
-            oRec.close %>
-            <%end if %>
+            oRec.close
+                
+
+                if i > 3 then
+                    %>
+                    <input type="hidden" id="flere_<%=oRec3("fid") %>" />
+                    <span class="arg_mere_mindre" id="<%=oRec3("fid") %>"><a style="color:#5582d2; cursor:pointer;" id="arg_btn_text_<%=oRec3("fid") %>">Show moore..</a></span> <%
+                end if
+
+
+
+
+            end if %>
             
             
         
@@ -1886,12 +1932,23 @@ if len(session("user")) = 0 then
         </td>
 
         <td valign=top style="border-bottom:1px #C4C4C4 solid;">
+
+           
             <%if cint(oRec3("betalt")) = 0 AND (cdate(oRec3("fakdato")) > cdate("25/8/2007")) AND print <> "j" AND oRec3("fak_laast") = 0 then %>
             <a href="erp_opr_faktura_fs.asp?func=slet&rdir=hist&id=<%=oRec3("fid")%>&visminihistorik=0&visfaktura=0&visjobogaftaler=0&nomenu=1" target="_blank"><img src="../ill/slet_16.gif" border=0 /></a>
             <!-- javascript:popUp(' erp_fak.asp?func=slet&rdir=hist&id=<%=oRec3("fid")%> -->
             <%else %>
             &nbsp;
             <%end if %>
+            </td>
+
+
+            <td valign=top style="border-bottom:1px #C4C4C4 solid; white-space:nowrap;" align="right">
+            <%if cint(oRec3("faktype")) = 0 then 'AND lto = "outz" %>
+            <a href="../to_2015/erp_fak_kopier.asp?fakid=<%=oRec3("fid")%>" target="_blank" style="font-size:90%;">[Copy/Mo.]</a>
+            <%end if %>
+
+           
             </td>
         </tr>
       

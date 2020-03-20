@@ -207,7 +207,7 @@ end function
 function valutaList(valuta, felt)
 
      %>
-      <select name="<%=felt %>" id="<%=felt%>" class="s_valuta">
+      <select name="<%=felt %>" id="<%=felt%>" class="s_valuta form-control input-small" style="width:60px;">
             <%strSQL = "SELECT id, valutakode FROM valutaer WHERE id <> 0 ORDER BY valutakode"
         	oRec6.open strSQL, oConn, 3
         	while not oRec6.EOF
@@ -442,7 +442,7 @@ end function
         'Response.write lastFaknr & " belob: "& belob & "<br>"
         'Response.flush
 
-        if isNull(belob) <> true AND belob <> "-" AND isNull(frakurs) <> true AND len(trim(belob)) <> 0 then
+        if isNull(belob) <> true AND belob <> "-" AND isNull(frakurs) <> true AND isNull(tilkurs) <> true AND tilkurs <> 0 AND len(trim(belob)) <> 0 then
         valBelobBeregnet = belob * (frakurs/tilkurs)
         else
         valBelobBeregnet = 0

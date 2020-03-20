@@ -1566,14 +1566,14 @@
   font-size: 1.9rem;
 }
 *[class*='menu_logo'] {
-  background-color: transparent;
-  color: transparent;
-  border: 0;
-  font: 0/0 a;
-  text-shadow: none;
-  background: transparent url('../img/logo.png') no-repeat center;
-  height: inherit;
-  padding: 0 10px;
+    background-color: transparent;
+    color: transparent;
+    border: 0;
+    font: 0/0 a;
+    text-shadow: none;
+    background: transparent url('../img/Outzource_white_108x40_01.png') no-repeat center;
+    height: inherit;
+    padding: 0 10px;
 }
 *[class*='menu_logo'] a {
   display: block;

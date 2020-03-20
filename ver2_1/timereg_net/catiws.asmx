@@ -1099,7 +1099,7 @@ Public Class CATI :
                                                     If CInt(Weekdaynb) = 0 Then 'Or CInt(Weekdaynb) = 6
 
                                                         ''** Finder Bonus10 Aktivitet på job - Bonus 10 CATIindlaest **'
-                                                        Dim strSQLaktbo As String = "SELECT id, navn FROM aktiviteter WHERE fakturerbar = 54 AND navn LIKE 'Bonus 10 CATIindlaest%' AND job = " & jobId
+                                                        Dim strSQLaktbo As String = "SELECT id, navn FROM aktiviteter WHERE fakturerbar = 54 AND job = " & jobId 'AND navn LIKE 'Bonus 10 CATIindlaest%'
                                                         Dim baktnavn As String = ""
                                                         Dim baktid As Double = 0
 

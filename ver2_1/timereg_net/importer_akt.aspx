@@ -89,6 +89,8 @@
         </td>
         </tr>
 
+            <%if (importtype != "cflow_prima")
+              {  %>
 
         <tr>
         <td>
@@ -108,6 +110,8 @@
         </td>
         </tr>
 
+            
+
          <tr>
         <td>
          <asp:label runat="server" ID="feltnr5navn">Type:</asp:label>
@@ -126,7 +130,11 @@
         </td>
         </tr>
 
-          <%if (importtype != "t2")
+          
+         <%}; 
+
+
+              if (importtype != "t2" && importtype != "cflow_prima")
               {  %>
 
 
@@ -184,6 +192,12 @@
             <asp:Label ID="lblAktsum" runat="server" Text=""></asp:Label>
         </td>
         </tr>
+
+             <%}; 
+
+
+         if (importtype != "t2")
+              {  %>
 
                <tr>
         <td>

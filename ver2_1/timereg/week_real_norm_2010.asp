@@ -5,6 +5,7 @@
 <!--#include file="inc/isint_func.asp"-->
 <!--#include file="inc/convertDate.asp"-->
 <!--#include file="../inc/regular/global_func.asp"-->
+
 <!--#include file="../inc/regular/stat_func.asp"-->
 <!--#include file="inc/week_real_norm_inc.asp"-->
 
@@ -297,6 +298,11 @@ if len(session("user")) = 0 then
         dim afslutuge_medid_uge, afslutuge_medid_uge_str 
         dim afslutuge_medid, afslutuge_uge
 
+
+        'if session("mid") = 1 then
+	    '    Response.Write "HER: " & session("mid") & "<br>" & request("FM_afslutuge_medid_uge")
+        '    Response.end
+        'end if
         
         'Response.write "HER"
         afslutuge_medid_uge_str = split(request("FM_afslutuge_medid_uge"), ", ")
@@ -305,7 +311,7 @@ if len(session("user")) = 0 then
         
 
         for m = 0 TO UBOUND(afslutuge_medid_uge_str)
-
+        
         afslutuge_medid_uge = split(afslutuge_medid_uge_str(m), "_")
         redim afslutuge_medid(m) 
         afslutuge_medid(m) = afslutuge_medid_uge(0)
@@ -322,13 +328,13 @@ if len(session("user")) = 0 then
         '*** Godkender Timer i DB
         call godkenderTimeriUge(afslutuge_medid(m), varTjDatoUS_manSQL, varTjDatoUS_sonSQL, SmiWeekOrMonth)
 	    
-     
-	    
+       
+
        
         '*** Godkend uge status ****'
         call godekendugeseddel(thisfile, session("mid"), afslutuge_medid(m), afslutuge_uge(m))
 
-
+        'response.Write "<br> her " & afslutuge_medid(m) &" - "& varTjDatoUS_manSQL &" - "& varTjDatoUS_sonSQL &" - "& SmiWeekOrMonth
         next
 	    
     'Response.end
@@ -517,6 +523,7 @@ if len(session("user")) = 0 then
     <script src="inc/week_real_norm_jav.js"></script>
     <script src="../to_2015/js/modal_click2.js"></script>
     <link rel="stylesheet" type="text/css" href="../to_2015/css/modal_click.css">
+        
 
 
      <div id="loadbar" style="position:absolute; display:; visibility:visible; top:300px; left:300px; width:300px; background-color:#ffffff; border:10px #CCCCCC solid; padding:10px; z-index:10000;">
@@ -527,7 +534,7 @@ if len(session("user")) = 0 then
 	<img src="../inc/jquery/images/ajax-loader.gif" /><br />&nbsp;
   
 	</td></tr>
-    <tr><td colspan=2>  <div id="load_cdown"><%=godkendweek_txt_001 %>: <%=" " & forvloadtid %> <%=godkendweek_txt_002 %></div></td></tr>
+    <tr><td colspan=2>  <div id="load_cdown"><%=godkendweek_txt_001 %>: <%=" " & forvloadtid &" "& godkendweek_txt_002 %></div></td></tr>
     </table>
 
 	</div>
@@ -610,7 +617,7 @@ if len(session("user")) = 0 then
         <select id="Select2" name="yuse">
         <%
 	ysel = now
-	for y = 0 to 5 %>
+	for y = -1 to 5 %>
     <%yShow = dateAdd("yyyy", -y, ysel) 
         
         if year(yShow) = year(ugp) then
@@ -636,8 +643,35 @@ if len(session("user")) = 0 then
                 mSele = ""
                 end if 
                 
+                select case m
+                    case cint(1)
+                        strmonthName = godkendweek_txt_157
+                    case cint(2)
+                        strmonthName = godkendweek_txt_158
+                    case cint(3)
+                            strmonthName = godkendweek_txt_159
+                    case cint(4)
+                            strmonthName = godkendweek_txt_160
+                    case cint(5)
+                            strmonthName = godkendweek_txt_161
+                    case cint(6)
+                            strmonthName = godkendweek_txt_162
+                    case cint(7)
+                            strmonthName = godkendweek_txt_163
+                    case cint(8)
+                            strmonthName = godkendweek_txt_164
+                    case cint(9)
+                            strmonthName = godkendweek_txt_165
+                    case cint(10)
+                            strmonthName = godkendweek_txt_166
+                    case cint(11)
+                            strmonthName = godkendweek_txt_167
+                    case cint(12)
+                        strmonthName = godkendweek_txt_168
+                end select
+
             %>       
-            <option value="<%=m %>" <%=mSele %>><%=monthname(m) %></option>
+            <option value="<%=m %>" <%=mSele %>><%=strmonthName %></option>
             <%next %>
 
              <option value="13" <%=mSele13 %>><%=godkendweek_txt_005 %></option>
@@ -663,7 +697,7 @@ if len(session("user")) = 0 then
         <div id="div_filterava" style="display:none; visibility:hidden;">
         <table style="padding:10px; width:100%;">
 
-            <tr><td><br /><h3><%=godkendweek_txt_013 %></h3>
+            <tr><td><br /><%=godkendweek_txt_013 %><br />
         
         
 
@@ -697,10 +731,10 @@ if len(session("user")) = 0 then
         </div>
     </td>
 	</tr>
-    <tr>
+  <tr>
         <td valign="bottom" align=right colspan=3>
-	     <input id="Submit1" type="submit" value=" <%=godkendweek_txt_095 %> >> " />
-	</td>
+	     <input id="Submit1" type="submit" value=" <%=godkendweek_txt_095 %> >>" />
+       </td>
 	</tr>
 	
 	
@@ -739,7 +773,7 @@ if len(session("user")) = 0 then
     public ferieAfVal_md, sygDage_barnSyg, ferieAfVal_md_tot, ferieAfulonVal_md_tot, sygDage_barnSyg_tot, ferieFriAfVal_md, ferieFriAfVal_md_tot, normtime_lontimeAkk, balRealNormtimerAkk, korrektionRealTot, divfritimer_tot, omsorg_tot 
     public sygeDage_tot, barnSyg_tot, barsel_tot, lageTimer_tot, tjenestefri_tot, aldersreduktionBrTot
     public flexTimer_tot, sTimer_tot, adhocTimer_tot
-    public omsorg2afh_tot, omsorg2Saldo, sundTimer_tot, omsorgKAfh_tot
+    public omsorg2afh_tot, omsorg2Saldo, sundTimer_tot, omsorgKAfh_tot, dag_tot
     
     
     if media <> "print" AND media <> "export" then    		
@@ -774,11 +808,13 @@ if len(session("user")) = 0 then
 
     ddatoEndBeregn = dateAdd("m", 1, ddato)
     ddatoEndBeregn = dateAdd("d", -1, ddatoEndBeregn) 
-    weekThis = datePart("ww", ddatoEndBeregn, 2,2)
+    call thisWeekNo53_fn(ddatoEndBeregn)
+    weekThis = thisWeekNo53 'datePart("ww", ddatoEndBeregn, 2,2)
 
     if mnow <= 12 then
-    weekStMth = datePart("ww", "1-"& month(ddato)&"-"&year(ddato), 2,2)
-    'weekDiff_WeekReal_norm = dateDiff("ww", "1-"& month(ddato)&"-"&year(ddato), ddato, 2, 2)
+    call thisWeekNo53_fn("1-"& month(ddato)&"-"&year(ddato))
+    weekStMth = thisWeekNo53 'datePart("ww", ddatoEndBeregn, 2,2)
+    'weekStMth = datePart("ww", "1-"& month(ddato)&"-"&year(ddato), 2,2)
     weekDiff_WeekReal_norm = dateDiff("ww", "1-"& month(ddato)&"-"&year(ddato), ugp, 2, 2) 
     else
 
@@ -787,7 +823,8 @@ if len(session("user")) = 0 then
              '** Q1 
              startMd = "1-1-"&year(ddato)
              endMd = "31-3-"&year(ddato)
-             weekStMth = datePart("ww", "1-1-"&year(ddato), 2,2)
+             call thisWeekNo53_fn("1-1-"&year(ddato))
+             weekStMth = thisWeekNo53 'datePart("ww", "1-1-"&year(ddato), 2,2)
              weekDiff_WeekReal_norm = dateDiff("ww", "1-1-"&year(ddato), "31-3-"&year(ugp), 2, 2) 
 
         case 14
@@ -795,7 +832,8 @@ if len(session("user")) = 0 then
               '** Q2 
              startMd = "1-4-"&year(ddato)
              endMd = "30-6-"&year(ddato)
-             weekStMth = datePart("ww", "1-4-"&year(ddato), 2,2)
+             call thisWeekNo53_fn("1-4-"&year(ddato))
+             weekStMth = thisWeekNo53 'datePart("ww", "1-4-"&year(ddato), 2,2)
              weekDiff_WeekReal_norm = dateDiff("ww", "1-4-"&year(ddato), "30-6-"&year(ugp), 2, 2) 
 
         case 15
@@ -803,7 +841,8 @@ if len(session("user")) = 0 then
               '** Q3 
              startMd = "1-7-"&year(ddato)
              endMd = "31-10-"&year(ddato)
-             weekStMth = datePart("ww", "1-7-"&year(ddato), 2,2)
+             call thisWeekNo53_fn("1-7-"&year(ddato))
+             weekStMth = thisWeekNo53 'datePart("ww", "1-7-"&year(ddato), 2,2)
              weekDiff_WeekReal_norm = dateDiff("ww", "1-7-"&year(ddato), "30-9-"&year(ugp), 2, 2) 
 
         case 16
@@ -811,7 +850,8 @@ if len(session("user")) = 0 then
              '** Q4 
              startMd = "1-10-"&year(ddato)
              endMd = "31-12-"&year(ddato)
-             weekStMth = datePart("ww", "1-10-"&year(ddato), 2,2)
+             call thisWeekNo53_fn("1-10-"&year(ddato))
+             weekStMth = thisWeekNo53 'datePart("ww", "1-10-"&year(ddato), 2,2)
              weekDiff_WeekReal_norm = dateDiff("ww", "1-10-"&year(ddato), "31-12-"&year(ugp), 2, 2)    
 
         case 17
@@ -819,7 +859,8 @@ if len(session("user")) = 0 then
          '**ÅTD 
          startMd = "1-1-"&year(ddato)
          endMd = now
-         weekStMth = datePart("ww", "1-1-"&year(ddato), 2,2)
+         call thisWeekNo53_fn("1-1-"&year(ddato))
+         weekStMth = thisWeekNo53 'datePart("ww", "1-1-"&year(ddato), 2,2)
          weekDiff_WeekReal_norm = dateDiff("ww", "1-1-"&year(ddato), ugp, 2, 2) 
 
         end select
@@ -836,17 +877,104 @@ if len(session("user")) = 0 then
 	
 	<table cellpadding=0 cellspacing=0 border=0 width="100%">
     <form id="form_godkend_uger" method="post" action="week_real_norm_2010.asp?func=godkendugeseddel&usemrn=<%=usemrn %>&FM_progrp=<%=progrp%>&FM_medarb=<%=thisMiduse %>&muse=<%=mnow %>&yuse=<%=year(ugp)%>&FM_visdeakmed=<%=visdeakmed%>&FM_vispasmed=<%=vispasmed%>&FM_visdeakmed12=<%=visdeakmed12%>">
-        <input id="Hidden1" name="nomenu" value="<%=nomenu %>" type="hidden" />
+      <input id="Hidden1" name="nomenu" value="<%=nomenu %>" type="hidden" />
      <tr><td colspan="5" valign=top style="padding:0px;">
 
 
 
 
-
     <%if mnow <= 12 then %>
-	<h4><%=monthname(month(ddato)) &" "& year(ddato) %><br />
+
+        <%
+            select case month(ddato)
+                case cint(1)
+                    strmonthName = left(godkendweek_txt_157, 3)
+                case cint(2)
+                    strmonthName = left(godkendweek_txt_158, 3)
+                case cint(3)
+                    strmonthName = left(godkendweek_txt_159, 3)
+                case cint(4)
+                    strmonthName = left(godkendweek_txt_160, 3)
+                case cint(5)
+                    strmonthName = left(godkendweek_txt_161, 3)
+                case cint(6)
+                    strmonthName = left(godkendweek_txt_162, 3)
+                case cint(7)
+                    strmonthName = left(godkendweek_txt_163, 3)
+                case cint(8)
+                    strmonthName = left(godkendweek_txt_164, 3)
+                case cint(9)
+                    strmonthName = left(godkendweek_txt_165, 3)
+                case cint(10)
+                    strmonthName = left(godkendweek_txt_166, 3)
+                case cint(11)
+                    strmonthName = left(godkendweek_txt_167, 3)
+                case cint(12)
+                    strmonthName = left(godkendweek_txt_168, 3)
+            end select
+        %>
+
+	<h4><%=strmonthName &" "& year(ddato) %><br />
     <%else %>
-	<h4><%=monthname(month(startMd))%> - <%=monthname(month(endMd)) &" "& year(endMd) %><br />
+
+        <%
+        select case month(startMd)
+            case cint(1)
+                strmonthName = godkendweek_txt_157
+            case cint(2)
+                strmonthName = godkendweek_txt_158
+            case cint(3)
+                strmonthName = godkendweek_txt_159
+            case cint(4)
+                strmonthName = godkendweek_txt_160
+            case cint(5)
+                strmonthName = godkendweek_txt_161
+            case cint(6)
+                strmonthName = godkendweek_txt_162
+            case cint(7)
+                strmonthName = godkendweek_txt_163
+            case cint(8)
+                strmonthName = godkendweek_txt_164
+            case cint(9)
+                strmonthName = godkendweek_txt_165
+            case cint(10)
+                strmonthName = godkendweek_txt_166
+            case cint(11)
+                strmonthName = godkendweek_txt_167
+            case cint(12)
+                strmonthName = godkendweek_txt_168
+        end select
+
+        select case month(endMd)
+            case cint(1)
+                strmonthNameEnd = godkendweek_txt_157
+            case cint(2)
+                strmonthNameEnd = godkendweek_txt_158
+            case cint(3)
+                strmonthNameEnd = godkendweek_txt_159
+            case cint(4)
+                strmonthNameEnd = godkendweek_txt_160
+            case cint(5)
+                strmonthNameEnd = godkendweek_txt_161
+            case cint(6)
+                strmonthNameEnd = godkendweek_txt_162
+            case cint(7)
+                strmonthNameEnd = godkendweek_txt_163
+            case cint(8)
+                strmonthNameEnd = godkendweek_txt_164
+            case cint(9)
+                strmonthNameEnd = godkendweek_txt_165
+            case cint(10)
+                strmonthNameEnd = godkendweek_txt_166
+            case cint(11)
+                strmonthNameEnd = godkendweek_txt_167
+            case cint(12)
+                strmonthNameEnd = godkendweek_txt_168
+            end select
+
+        %>
+
+	<h4><%=strmonthName %> - <%=strmonthNameEnd &" "& year(endMd) %><br />
     <%end if %>
 
     <span style="color:darkred; font-size:9px;"><%=godkendweek_txt_028 %> <b><%=formatdatetime(opgjortprdato, 1) %></b> <%=showigartxt %></span></h4>
@@ -957,16 +1085,18 @@ if len(session("user")) = 0 then
 
     strEksportTxt = strEksportTxt & godkendweek_txt_138&";"&godkendweek_txt_139&";"& ferieFriTxt &";"
 
-         select case lto
+                
+                '1 maj timer
+                select case lto
                 case "xintranet - local", "fk" 
                  strEksportTxt = strEksportTxt &godkendweek_txt_140&";"
                 end select
                 
                
 
-
+                '*Omsorgsdage
                 select case lto
-                case "xintranet - local", "fk", "kejd_pb", "adra" 
+                case "xintranet - local", "fk", "kejd_pb", "adra", "ddc", "lm" 
                  strEksportTxt = strEksportTxt & godkendweek_txt_141 & ";"
                 end select
     
@@ -984,14 +1114,16 @@ if len(session("user")) = 0 then
                 
 
                  select case lto
-                case "xxintranet - local", "fk" 
-                 strEksportTxt = strEksportTxt &godkendweek_txt_144&";"
+                case "xxintranet - local", "fk"
+                strEksportTxt = strEksportTxt & godkendweek_txt_144&";"
+                case "plan"
+                strEksportTxt = strEksportTxt & "Rejsefri;"
                 end select
 
                 
                 'Rejsedage 
                 select case lto
-                case "intranet - local", "adra"
+                case "intranet - local", "adra", "plan"
                 strEksportTxt = strEksportTxt & global_txt_194 &";"
                 end select 
 
@@ -1141,12 +1273,12 @@ if len(session("user")) = 0 then
     <%end if %>
 
 
-      <%if cint(showkgtil) = 1 AND (lto <> "cst" AND lto <> "tec" AND lto <> "esn") then %>
+      <%if cint(showkgtil) = 1 AND (lto <> "cst" AND lto <> "tec" AND lto <> "esn" AND lto <> "lm") then %>
 	    <td class=lille valign=bottom style="border-bottom:1px silver solid;"><b><%=godkendweek_txt_053 %></b><br />(<%=godkendweek_txt_054 %><br /> <%=godkendweek_txt_055 %><br /> <%=godkendweek_txt_056 %>)</td>
         <%end if %>
 	
 
-        <%if lto <> "cst" AND lto <> "tec" AND lto <> "esn" AND lto <> "tia" then %>
+        <%if lto <> "cst" AND lto <> "tec" AND lto <> "esn" AND lto <> "tia" AND lto <> "lm" then %>
 	  <td align=right valign=bottom class=lille style=" border:1px pink solid; border-bottom:1px silver solid;"><b><%=tsa_txt_284%> +/-</b>
 
            <%select case lto
@@ -1170,7 +1302,7 @@ if len(session("user")) = 0 then
        </td>
         <%end if %>
 
-	        <%if session("stempelur") <> 0 AND (lto <> "kejd_pb" AND lto <> "cst" AND lto <> "tec" AND lto <> "esn") then %>
+	        <%if session("stempelur") <> 0 AND (lto <> "kejd_pb" AND lto <> "cst" AND lto <> "tec" AND lto <> "esn" AND lto <> "lm") then %>
 	        <td align=right valign=bottom class=lille style="border-bottom:1px silver solid;"><b><%=godkendweek_txt_061 %> +/-</b><br /><%=godkendweek_txt_059 %><br />/ <%=godkendweek_txt_034 %></td>
             <%end if %>
 
@@ -1190,12 +1322,14 @@ if len(session("user")) = 0 then
                 <%end if %>
 	                      <td align=right valign=bottom style="border-bottom:1px silver solid; white-space:nowrap;" class=lille><b><%=godkendweek_txt_062 %></b></td>
                            
-                           <%if lto <> "fk" AND lto <> "kejd_pb" AND lto <> "adra" AND lto <> "cisu" then 
+                           <%if lto <> "fk" AND lto <> "kejd_pb" AND lto <> "adra" AND lto <> "cisu"  then 
                                
-                               if lto <> "tec" AND lto <> "esn" then%>
+                               if lto <> "tec" AND lto <> "esn" AND lto <> "lm" then%>
 	                               <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=godkendweek_txt_063 %></b></td>
 	                               <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=godkendweek_txt_064 %></b></td>
 	                            <%end if %>
+
+                            <!-- Afspad. SALDO -->
                            <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=tsa_txt_283 &" "& tsa_txt_280 %></b></td>
                            <%end if %>
 	       
@@ -1292,19 +1426,27 @@ if len(session("user")) = 0 then
 
 
           <%select case lto
-            case "xintranet - local", "fk" %>
-         <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=godkendweek_txt_071 %></b></td>
+           case "xintranet - local", "fk"
+           %>
+            <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=godkendweek_txt_071 %></b></td>
+            <%
+           case "plan" 
+            %>
+            <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b>Feriefri</b></td>
+            <%
 
-         <%
-              if m = 0 then
-              globalWdt = globalWdt + 50
-              end if
-             end select
+
+                      if m = 0 then
+                      globalWdt = globalWdt + 50
+                      end if
+
+
+           end select
              
 
              'Rejsedage 
             select case lto
-            case "intranet - local", "adra"
+            case "intranet - local", "adra", "plan"
             %>
         	 <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=global_txt_194 %></b></td>
 
@@ -1315,8 +1457,9 @@ if len(session("user")) = 0 then
             end select 
 
              
+            '** Omsorgsdage
              select case lto
-            case "intranet - local", "fk", "kejd_pb", "adra" %>
+            case "intranet - local", "fk", "kejd_pb", "adra", "ddc", "lm" %>
         <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=godkendweek_txt_072 %><br /><%=godkendweek_txt_065 %></b><br />
 	 ~ <%=godkendweek_txt_065 %><br />
      </td>
@@ -1331,7 +1474,7 @@ if len(session("user")) = 0 then
           select case lto
             case "intranet - local", "fk", "kejd_pb" %>
         <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=global_txt_179 %></b><br />
-	 ~ <%=godkendweek_txt_066 %><br />
+	 ~ <%=godkendweek_txt_066 %>
      </td>
     <%      
 
@@ -1340,6 +1483,21 @@ if len(session("user")) = 0 then
          end if
         end select %>
 
+
+
+          <%'Paid Leave
+          select case lto
+            case "intranet - local", "tia" 
+             globalWdt = globalWdt + 50%>
+        <td valign=bottom style="border-bottom:1px silver solid;" class=lille><b><%=global_txt_166 %></b><br />
+	
+     </td>
+   
+    <%
+         if m = 0 then
+         globalWdt = globalWdt + 50
+         end if
+        end select %>
 
 
          <%
@@ -1383,7 +1541,7 @@ if len(session("user")) = 0 then
 
 
         select case lto
-        case "esn", "tec"
+        case "esn", "tec", "lm"
         case else
          
                     %>
@@ -1579,8 +1737,9 @@ if len(session("user")) = 0 then
 	        'end if
 
 
+        call thisWeekNo53_fn(slutDatoLastm_A)
 
-        lastWeek = datepart("ww", slutDatoLastm_A, 2,2)
+        lastWeek = thisWeekNo53 'datepart("ww", slutDatoLastm_A, 2,2)
         lastMth = datepart("m", slutDatoLastm_A, 2,2)
         lastslutDatoLastm_A = slutDatoLastm_A
 
@@ -1606,8 +1765,18 @@ if len(session("user")) = 0 then
         <%	if media <> "print" AND func <> "export" then %>
         <!--<tr><td colspan="20" align="right">Godkend uger: <input type="checkbox" value="1" id="" /></td></tr>-->
         <%end if %>
+        
+        <%
+             
+        %>
 
-    
+        <%if lto = "cisu" then %>
+        <tr>
+            <td><b><%=godkendweek_txt_155 %></b></td>
+            <td colspan="5" style="text-align:right;" class="flexsaldo" id="<%=intMids(m) %>"><b id="flexsaldo_<%=m %>"><%=godkendweek_txt_156 %></b></td>
+        </tr>
+        <%end if %>
+
     </table>
 	
 	<%
@@ -1678,7 +1847,7 @@ if len(session("user")) = 0 then
 	
 	
 	</td></tr>
-            <% if cint(SmiWeekOrMonth) = 0 then %>
+            <% if cint(SmiWeekOrMonth) = 0 OR cint(SmiWeekOrMonth) = 1 then %>
             <tr><td colspan="30" align="right"><br /><input type="submit" value="<%=godkendweek_txt_078 %> >> " /></td></tr>
             <%end if %>
     </table>

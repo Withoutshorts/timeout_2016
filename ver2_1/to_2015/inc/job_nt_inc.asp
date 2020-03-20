@@ -351,7 +351,7 @@
 
                         '*** materiale grupper / products groups 
                         strFil_PG_Txt = "<option value=0>Choose group..</option>" 
-                        strSQL = "SELECT navn, id FROM materiale_grp WHERE id <> 0 ORDER BY navn" 
+                        strSQL = "SELECT navn, id FROM materiale_grp WHERE id <> 0 AND matgrp_konto = 0 ORDER BY navn" 
                         
                             oRec.open strSQL, oConn, 3
                             while not oRec.EOF
@@ -438,6 +438,8 @@ case "Hongkong"
     originHonSel = "SELECTED"
 case "Hong kong"
     originHonSel = "SELECTED"
+case "Denmark"
+    originDenSel = "SELECTED"
 end select
 
 
@@ -470,6 +472,8 @@ end select
         kunde_levbetint2SEL = "SELECTED"
         case "3"
         kunde_levbetint3SEL = "SELECTED"
+        case "22"
+        kunde_levbetint22SEL = "SELECTED"
         case else
         kunde_levbetint0SEL = "SELECTED"
         end select

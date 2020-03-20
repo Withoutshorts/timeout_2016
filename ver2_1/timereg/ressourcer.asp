@@ -683,7 +683,8 @@ if len(session("user")) = 0 then
 				end if%>
 				
 				<%	
-					thisweek = datepart("ww", getnyDatoMrd)
+                    call thisWeekNo53_fn(getnyDatoMrd)
+					thisweek = thisWeekNo53 'datepart("ww", getnyDatoMrd)
 					thisDay = Weekday(getnyDatoMrd)
 					
 					select case thisDay

@@ -123,20 +123,23 @@ medarbnavn = request("FM_medarbnavn")
 	lastresdato = 0
 	lastweek = 0
 	while not oRec3.EOF 
+
+       call thisWeekNo53_fn(oRec3("rdato"))
+
 	if x = 0 then%>
 	</td></tr>
 	<tr>
-			<td valign=top colspan=7 style="border-bottom:1 #003399 solid;"><br><b>Uge: <%=datepart("ww", oRec3("rdato"),2,2)%></b></td>
+			<td valign=top colspan=7 style="border-bottom:1 #003399 solid;"><br><b>Uge: <%=thisWeekNo53%></b></td>
 	</tr>
 	<tr><td valign="top">
 	<%end if
 		
 		if x > 0 AND (lastresdato <> oRec3("rdato")) then%>
 		</table></td>
-			<%if lastweek <> datepart("ww", oRec3("rdato"),2,2) then%>
+			<%if cint(lastweek) <> cint(thisWeekNo53) then%>
 			</tr><tr>
-					<%if lastweek <> datepart("ww", oRec3("rdato"),2,2) OR y = 0 then%>
-					<td colspan=7 valign=top style="border-bottom:1 #003399 solid;"><br><b>Uge: <%=datepart("ww", oRec3("rdato"),2,2)%></b></td>
+					<%if cint(lastweek) <> cint(thisWeekNo53) OR y = 0 then%>
+					<td colspan=7 valign=top style="border-bottom:1 #003399 solid;"><br><b>Uge: <%=thisWeekNo53%></b></td>
 					</tr><tr>
 					<%end if%>
 			<%end if%>
@@ -168,7 +171,7 @@ medarbnavn = request("FM_medarbnavn")
 	timertottildelt = timertottildelt + oRec3("sumtimer")
 	lastjobid = oRec3("jid")
 	lastresdato = oRec3("rdato")
-	lastweek = datepart("ww", oRec3("rdato"),2,2)
+	lastweek = thisWeekNo53 'datepart("ww", oRec3("rdato"),2,2)
 	x = x + 1
 	oRec3.movenext
 	wend

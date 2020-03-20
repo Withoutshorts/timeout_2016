@@ -572,11 +572,15 @@ if len(session("user")) = 0 then
     lnk = "usemrn="&usemrn&"&varTjDatoUS_man="&varTjDatoUS_man&"&varTjDatoUS_son="&varTjDatoUS_son&"&rdir="&rdir&"&nomenu="&nomenu
 	
    
-	
+	'strUsrId = usemrn
 
 	
 	'*** Logind og logud tider ****'
+    'if session("mid") = "1" then
     'Response.write request("FM_login_hh") & "<hr>"
+    'Response.end
+    'end if
+
     login_hh = replace(request("FM_login_hh"), ",","")
 	login_mm = replace(request("FM_login_mm"), ",","")
     logud_hh = replace(request("FM_logud_hh"), ",","")
@@ -654,11 +658,11 @@ if len(session("user")) = 0 then
         'Response.Write "<br>request(p2) " & request("p2")
 	    'Response.end
         'end if
+
 	%>
 	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
 	<!--#include file="inc/isint_func.asp"-->
-    
-	<%
+    <%
 	
 	                function SQLBless2(s)
 				    dim tmp
@@ -680,6 +684,11 @@ if len(session("user")) = 0 then
 	
 	
 	for a = 0 to UBOUND(ids) 
+
+            'if session("mid") = 1 then
+            'response.write loginDato(a) & "<br>"
+            'end if
+               
 	
 	
 	        if len(trim(loginDato(a))) = 0 OR len(trim(login_hh(a))) = 0 OR len(trim(login_mm(a))) = 0 then '*** Spring over / Ignorer indtastning **'
@@ -704,7 +713,7 @@ if len(session("user")) = 0 then
             '**Tjekker om logud er indstastet korrekt, hvis de er tastet ****'
             if len(trim(logud_hh(a))) <> 0 then 
 			    call erDetInt(trim(logud_hh(a)))
-			    if cint(isInt) > 0 OR instr(logud_hh(a), ".") <> 0 then
+			    if cint(isInt) > 0 OR instr(logud_hh(a), ".") <> 0 OR instr(logud_hh(a), "-") <> 0 then
 				
 				    errortype = 60
 				    call showError(errortype)
@@ -716,7 +725,7 @@ if len(session("user")) = 0 then
 
             if len(trim(logud_mm(a))) <> 0 then 
 			    call erDetInt(trim(logud_mm(a)))
-			    if cint(isInt) > 0 OR instr(logud_mm(a), ".") <> 0 then
+			    if cint(isInt) > 0 OR instr(logud_mm(a), ".") <> 0 OR instr(logud_mm(a), "-") <> 0 then
 				
 				    errortype = 60
 				    call showError(errortype)
@@ -762,7 +771,7 @@ if len(session("user")) = 0 then
 
                          
 
-                             if cint(isInt) > 0 OR instr(login_hh(a), ".") <> 0 then
+                             if cint(isInt) > 0 OR instr(login_hh(a), ".") <> 0 OR instr(login_hh(a), "-") <> 0 then
 
                             	errortype = 59
 								call showError(errortype)
@@ -785,7 +794,7 @@ if len(session("user")) = 0 then
 							else
 							
 									call erDetInt(trim(login_mm(a))) 
-									if isInt > 0 OR instr(login_mm(a), ".") <> 0 OR login_mm(a) > 59 then
+									if isInt > 0 OR instr(login_mm(a), ".") <> 0 OR instr(login_mm(a), "-") <> 0 OR login_mm(a) > 59 then
 										
 										errortype = 59
 										call showError(errortype)
@@ -798,7 +807,11 @@ if len(session("user")) = 0 then
 					
 					loginHH = left(trim(login_hh(a)), 2)
 					loginMM = left(trim(login_mm(a)), 2)	
+
+                  
+
 	                
+
 	                '** Tjekker om der er angivet et logud tidspunkt ***'
 	                if len(trim(logud_hh(a))) <> 0 AND len(trim(logud_mm(a))) <> 0 then
 					logudHH = left(trim(logud_hh(a)), 2)
@@ -808,7 +821,6 @@ if len(session("user")) = 0 then
 					else
 					logudHH = "99" 'loginHH '"99"
 					logudMM = "99" 'loginMM '"99"
-
                     'Response.Write "her 6<br>"
 					end if
 					
@@ -821,6 +833,12 @@ if len(session("user")) = 0 then
 					
 					
 					'****** Kommentar **************'
+
+                    'if session("mid") = 1 then
+                    'response.write "HER: " & kommThis(a) & "<br>"
+                    'response.flush
+                    'end if
+
 					komm = SQLBless2(trim(kommThis(a)))
                     komm = replace(komm, "#", "")
 
@@ -831,7 +849,8 @@ if len(session("user")) = 0 then
 					
 					
 					'*** Tjekker logind om det ligger i ignorer periode ***'
-					call stpauser_ignorePer(loginDato(a),loginHH,loginMM)
+                   ' usemrn = 1
+					call stpauser_ignorePer(loginDato(a), loginHH, loginMM, useMid(a))
 					
 					loginTid = loginTid
 					logudTid = year(loginDato(a)) &"/"& month(loginDato(a))&"/"& day(loginDato(a)) & " " & logudHH &":"& logudMM & ":00"
@@ -1116,7 +1135,12 @@ if len(session("user")) = 0 then
                                 		    
                         		                    mnavn = oRec("mnavn") & " ["& oRec("init") &"]"
                                                     moNavn = mnavn
+                                                    
+                                                    if instr(oRec("email"), "@") <> 0 then
                                                     moEmail = oRec("email")
+                                                    else
+                                                    moEmail = "support@outzource.dk"
+                                                    end if
                                 		    
                         		                    end if
                         		                    oRec.close
@@ -1164,7 +1188,7 @@ if len(session("user")) = 0 then
                                                         'myMail.Bcc= "Anders Dencker<ad@dencker.net>"
                                                         'Mailer.AddBCC "Per Kristensen", "pk@dencker.net"
                                                         'myMail.Bcc= "Karen<krt@dencker.net>;Anders Dencker<ad@dencker.net>;Per Kristensen<pk@dencker.net>"
-                                                        myMail.Bcc= "Løn<lon@dencker.net>;"                                                
+                                                        myMail.Bcc= "Løn<lon@dencker.net>; Simon Frilund<sf@dencker.net>"                                               
 
                                                         'Mailer.AddBCC "OutZourCE", "support@outzource.dk"
 			                                            else
@@ -1173,7 +1197,7 @@ if len(session("user")) = 0 then
                                                         'Mailer.AddBCC "Per Kristensen", "pk@dencker.net"
                                                         'myMail.Bcc= "Anders Dencker<ad@dencker.net>;Per Kristensen<pk@dencker.net>"
                                                         'Mailer.AddBCC "OutZourCE", "support@outzource.dk"
-                                                         myMail.Bcc= "Løn<lon@dencker.net>;" 
+                                                         myMail.Bcc= "Løn<lon@dencker.net>; Simon Frilund<sf@dencker.net>" 
 			                                            end if
 			                                    
 			                                                                              
@@ -1255,7 +1279,7 @@ if len(session("user")) = 0 then
                                                             ("http://schemas.microsoft.com/cdo/configuration/smtpserverport")=25
                                                             myMail.Configuration.Fields.Update
 
-                                                            if len(trim(moEmail)) <> 0 then
+                                                            if len(trim(moEmail)) <> 0 AND instr(moEmail, "@") <> 0 then
 
                                                             select case lto
                                                             case "tec", "esn"
@@ -1267,6 +1291,11 @@ if len(session("user")) = 0 then
                                                             case else
                                                                 
                                                                 if len(trim(moNavn)) <> 0 then
+
+                                                                'if session("mid") = 1 then
+                                                                'Response.write "moNavn: " & moNavn
+                                                                'end if
+
                                                                 myMail.Send
                                                                 end if
         
@@ -1335,6 +1364,17 @@ if len(session("user")) = 0 then
 					'*******************************************************************'
 					'**** Opretter nyt / rediger / angiver slut tid på eksisterende ****'
 					'*******************************************************************'
+
+                    komm = replace(komm, "''", "")
+                    komm = replace(komm, "'", "")
+                    komm = replace(komm, "&#39;", "") 
+                    komm = replace(komm, chr(39), "")
+                    komm = replace(komm, "&#34;", "")
+                    komm = replace(komm, chr(34), "")
+
+                    komm = komm
+
+                    'Opdater
 					if ids(a) <> 0 then 
 					
 					    
@@ -1376,6 +1416,8 @@ if len(session("user")) = 0 then
 					    strSQL = strSQL &" manuelt_afsluttet = "& manuelt_afsluttet &","
 					    end if
 					    
+                        
+
 					    strSQL = strSQL & "kommentar = '"& komm &"'"
     					
 					    '*** Er det første logud ***?
@@ -1463,7 +1505,8 @@ if len(session("user")) = 0 then
 
 					            '** er periode godkendt ***'
 		                        tjkDag = thisDato
-		                        erugeafsluttet = instr(afslUgerMedab(useMid(a)), "#"&datepart("ww", tjkDag,2,2)&"_"& datepart("yyyy", tjkDag) &"#")
+                                call thisWeekNo53_fn(tjkDag)
+		                        erugeafsluttet = instr(afslUgerMedab(useMid(a)), "#"&thisWeekNo53&"_"& datepart("yyyy", tjkDag) &"#")
                                 
                 		        
 		                        'Response.Write "smilaktiv: "& smilaktiv & "<br>"
@@ -1473,21 +1516,11 @@ if len(session("user")) = 0 then
 		                        'Response.Write "autolukvdato: "& autolukvdato & "<br>"
 		                        'Response.Write "erugeafsluttet:" & erugeafsluttet & "<br>"
                 		        
-		                        call lonKorsel_lukketPer(tjkDag, -2)
+		                        call lonKorsel_lukketPer(tjkDag, -2, useMid(a))
                 		         
-                                'if (cint(erugeafsluttet) <> 0 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
-                                '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) = year(now) AND DatePart("m", tjkDag) < month(now)) OR _
-                                '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) < year(now) AND DatePart("m", tjkDag) = 12)) OR _
-                                '(smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", tjkDag) < year(now) AND DatePart("m", tjkDag) <> 12) OR _
-                                '(smilaktiv = 1 AND autolukvdato = 1 AND (year(now) - DatePart("yyyy", tjkDag) > 1))) OR cint(lonKorsel_lukketIO) = 1 then
-                              
-                                'ugeerAfsl_og_autogk_smil = 1
-                                'else
-                                'ugeerAfsl_og_autogk_smil = 0
-                                'end if 
-
+                            
                                 '*** tjekker om uge er afsluttet / lukket / lønkørsel
-                                call tjkClosedPeriodCriteria(tjkDag, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO)
+                                call tjkClosedPeriodCriteria(tjkDag, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO, ugegodkendt)
 
                 					
 				                if ugeerAfsl_og_autogk_smil = 1 AND level <> 1 then	'100? Er det korrekt eller et det en TEST 20170720
@@ -1521,10 +1554,11 @@ if len(session("user")) = 0 then
 					
 					strSQL = strSQL & ", 1, "& manuelt_afsluttet &", '"& komm &"', '"& ipn &"')"
 				    
-				    
-				    'Response.write strSQL & "<br>"
-					'Response.flush
-                                
+				    'if session("mid") = 1 then
+ 				    'Response.write "Stempelur: "& strSQL & "<br>"
+					'Response.end 
+                    'fo_oprettetnytlogin = 1
+                    'end if
                                 
                                 
                                                     
@@ -1644,8 +1678,20 @@ if len(session("user")) = 0 then
 					'Response.write strSQL & "<br>"
 					'Response.end
 				    oConn.execute(strSQL)
-				    idLast = ids(s)
+				    idLast = ids(a)
 		    
+                    if session("mid") = 1 then
+                    if ids(a) = 0 then 'Indlæs ny
+				   
+                        strSQLlastid = "SELECT id FROM login_historik WHERE id <> 0 ORDER BY id DESC limit 1"
+                        oRec9.open strSQLlastid, oConn, 3
+                        if not oRec9.EOF then
+                             ids(a) = oRec9("id")
+                        end if
+                        oRec9.close
+                        
+                    end if
+                    end if
 		    
 					
 					       
@@ -1661,9 +1707,72 @@ if len(session("user")) = 0 then
 	    
 	   next
 	                        
-	    
+	'*******************************************************************************************************************
+    'Clow H & L timer
+    if len(trim(request("FM_opdater_hl"))) <> 0 then 
+    opdater_hl = 1
+    else
+    opdater_hl = 0
+    end if
+
+
+        'if session("mid") = 1 then
+    
+        '    Response.write "opdater_hl: " & opdater_hl
+        '    Response.end
+
+        'end if
+  
+
+           if cint(opdater_hl) = 1 then 'Nulstiller uge og opretter nye H&L timer
+           varTjDatoUS_man_SQL = year(varTjDatoUS_man) &"/"& month(varTjDatoUS_man) & "/" & day(varTjDatoUS_man)
+           varTjDatoUS_son_SQL = year(varTjDatoUS_son) &"/"& month(varTjDatoUS_son) & "/" & day(varTjDatoUS_son)
+
+            '*** SLET kun Ordinær, Overtid 50, Overtid 100, Natt, Lunch
+            sqlTfaktim = " AND (tfaktim = 10 OR tfaktim = 30 OR tfaktim = 51 OR tfaktim = 54 OR tfaktim = 90 OR tfaktim = 91 OR tfaktim = 92)"
+       
+            strSQldelHL = "DELETE FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& varTjDatoUS_man_SQL &"' AND '"& varTjDatoUS_son_SQL &"'"& sqlTfaktim  
+            oConn.execute(strSQldelHL)    
+
+            'Response.write strSQldelHL
+            'Response.end
+
+            for a = 0 TO UBOUND(ids)
+
+             logudDone = 0
+             dothis = 2
+             thisid = ids(a)
+             'DET DER ER TASTET
+             LogudDateTime = year(now)&"/"& month(now)&"/"&day(now)&" "& datepart("h", now) &":"& datepart("n", now) &":"& datepart("s", now) 
+
+            'if session("mid") = "1" then
+            '    Response.Write "<br>Denne: a: "& a &" logudDone: "& logudDone &", LogudDateTime: "& LogudDateTime '& usemrn &","& lto &","& dothis &","&
+            '    Response.flush
+            'end if
+
+             
+
+             call fordelStempelurstimer(usemrn, lto, dothis, logudDone, LogudDateTime, thisid) 
+
+            next
+
+
+            'if session("mid") = "1" then
+            '   Response.write "<br><br>OK"
+            '    Response.end
+            'end if
+
+           end if
+
+
         
-                   
+
+   '***** END H & L Cflow 
+   
+   'end if
+    
+
+
 	   'Response.end                     
 	                        
 	                        
@@ -2511,7 +2620,9 @@ if len(session("user")) = 0 then
         dagiuge = datepart("w", ddDato, 2,2)
         varTjDatoUS_son = dateAdd("d", (7-dagiuge), ddDato)
 
-        if datepart("ww", varTjDatoUS_son, 2,2) = 53 then
+        call thisWeekNo53_fn(varTjDatoUS_son)
+
+        if cint(thisWeekNo53) = 53 then
         tjkAar = year(varTjDatoUS_son) + 1
         else
         tjkAar = year(varTjDatoUS_son)

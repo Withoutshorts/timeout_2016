@@ -335,7 +335,9 @@ end if
 	
 	v = 0
 	while not oRec.EOF
-		strWeekNum = datepart("ww", oRec("tdato"), 2, 2)
+
+        call thisWeekNo53_fn(oRec("Tdato"))
+		strWeekNum = thisWeekNo53 'datepart("ww", oRec("tdato"), 2, 2)
 		id = 1
 		%>
 		<!--include file="inc/dato2.asp"-->
@@ -414,14 +416,14 @@ end if
 				
 				<%
 				 '*** Er uge alfsuttet af medarb, er smiley og autogk slået til
-                erugeafsluttet = instr(medabAflugeId(oRec("mid")), "#"&datepart("ww", oRec("Tdato"), 2, 2)&"#")
+                erugeafsluttet = instr(medabAflugeId(oRec("mid")), "#"&thisWeekNo53&"#")
                 
                 
                
 
                  strMrd_sm = datepart("m", oRec("Tdato"), 2, 2)
                 strAar_sm = datepart("yyyy", oRec("Tdato"), 2, 2)
-                strWeek = datepart("ww", oRec("Tdato"), 2, 2)
+                strWeek = thisWeekNo53 'datepart("ww", oRec("Tdato"), 2, 2)
                 strAar = datepart("yyyy", oRec("Tdato"), 2, 2)
 
                 if cint(SmiWeekOrMonth) = 0 then
@@ -433,7 +435,7 @@ end if
                 end if
 
                 
-                call erugeAfslutte(useYear, usePeriod, oRec("mid"), SmiWeekOrMonth, 0)
+                call erugeAfslutte(useYear, usePeriod, oRec("mid"), SmiWeekOrMonth, 0, oRec("tdato"))
 		        
 		        'Response.Write "smilaktiv: "& smilaktiv & "<br>"
 		        'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &"<br>"
@@ -449,21 +451,12 @@ end if
 						end if
 						oRec2.close
                 
-                call lonKorsel_lukketPer(oRec("Tdato"), risiko)
+                call lonKorsel_lukketPer(oRec("Tdato"), risiko, oRec("mid"))
 		         
-                'if ( ( datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0) OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 ) AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
-                '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", oRec("Tdato")) = year(now) AND DatePart("m", oRec("Tdato")) < month(now)) OR _
-                '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", oRec("Tdato")) < year(now) AND DatePart("m", oRec("Tdato")) = 12)) OR _
-                '(smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", oRec("Tdato")) < year(now) AND DatePart("m", oRec("Tdato")) <> 12) OR _
-                '(smilaktiv = 1 AND autolukvdato = 1 AND (year(now) - DatePart("yyyy", oRec("Tdato")) > 1))) OR cint(lonKorsel_lukketIO) = 1 then
-               
-                'ugeerAfsl_og_autogk_smil = 1
-                'else
-                'ugeerAfsl_og_autogk_smil = 0
-                'end if 
+              
 				
                 '*** tjekker om uge er afsluttet / lukket / lønkørsel
-                call tjkClosedPeriodCriteria(oRec("tdato"), ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO)
+                call tjkClosedPeriodCriteria(oRec("tdato"), ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO, ugegodkendt)
 
 
 

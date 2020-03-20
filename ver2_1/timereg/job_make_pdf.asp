@@ -170,7 +170,7 @@ if id <> 0 then
             Doc.ImportFromUrl "http://timeout.cloud/timeout_xp/wwwroot/"&toVer&"/timereg/job_print.asp?media=pdf&nosession=9999&key="&session("lto")&"&func=print&lto="&lto&"&id="&id&"&kid="&kid&"&pdfvalid="&pdfvalid&"", "LeftMargin=-80, RightMargin=20, TopMargin=30, BottomMargin=20, PageWidth=595, PageHeight=840, DrawBackground=True" 'PageWidth=635, PageHeight=903,      
             case "mpt"
             'Doc.ImportFromUrl "https://outzource.dk/timeout_xp/wwwroot/"&toVer&"/timereg/job_print.asp?media=pdf&nosession=9999&key="&session("lto")&"&func=print&lto="&lto&"&id="&id&"&kid="&kid&"&pdfvalid="&pdfvalid&"", "LeftMargin=20, RightMargin=0, TopMargin=0, BottomMargin=0, DrawBackground=True,"
-            Doc.ImportFromUrl "https://timeout.cloud/timeout_xp/wwwroot/"&toVer&"/timereg/job_print.asp?media=pdf&nosession=9999&key="&session("lto")&"&func=print&lto="&lto&"&id="&id&"&kid="&kid&"&pdfvalid="&pdfvalid&"", "LeftMargin=40, RightMargin=0, TopMargin=0, BottomMargin=0, PageWidth=635, PageHeight=903"
+            Doc.ImportFromUrl "https://timeout.cloud/timeout_xp/wwwroot/"&toVer&"/timereg/job_print.asp?media=pdf&nosession=9999&key="&session("lto")&"&func=print&lto="&lto&"&id="&id&"&kid="&kid&"&pdfvalid="&pdfvalid&"", "LeftMargin=40, RightMargin=0, TopMargin=0, BottomMargin=0, PageWidth=665, PageHeight=903"
            
 
             case "dencker"
@@ -196,12 +196,119 @@ if id <> 0 then
          
         
       
+        if request("sendmail") = "1" then
 
 
+            select case lto 
+                case "dencker"
+                    strEmail = "osn@outzource.dk"
+                case else
+                    strEmail = request("FM_mailmodtager")
+            end select
+            
+
+            if len(trim(strEmail)) <> 0 then
+
+                Set myMail=CreateObject("CDO.Message")
+                        myMail.Subject="TimeOut - print og pdf"
+                        myMail.From="timeout_no_reply@outzource.dk"
+
+                        'strEmail = "osn@outzource.dk"
+                        'strNavn = "Oliver Storm"
+                        strNavn = ""
+
+                        if len(trim(strEmail)) <> 0 then
+                        myMail.To= ""& strNavn &"<"& strEmail &">"
+                        end if
+
+                        select case lto
+                        case "mi"
+                        myMail.AddAttachment "D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_10\help_and_faq\TimeOut_indtasttimer_rev_20120106.pdf"
+                        case "tia"
+                        myMail.AddAttachment "D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_14\help_and_faq\TimeOut-FAQ.PPTX" 
+                        case else
+                        'myMail.AddAttachment "D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_10\help_and_faq\TimeOut_indtasttimer_rev_20130102.pdf" 
+                        myMail.AddAttachment "D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_14\inc\upload\"&lto&"\"&filnavn
+                        end select
+                    
+                        if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
+                        to_url = "https://outzource.dk"
+                        else
+                        to_url = "https://timeout.cloud"
+                        end if
+
+                        to_help = "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/to_2015/help_faq.asp"
+                        
+
+                      '  strmailtekst = "" & medarb_txt_009 &" " & strNavn & vbCrLf
+                      '  strmailtekst = strmailtekst & medarb_txt_118 & vbCrLf & vbCrLf
+
+					   ' strmailtekst = strmailtekst & medarb_txt_119 &": "& to_url&"/"&lto&""& vbCrLf & vbCrLf
+                       ' strmailtekst = strmailtekst & medarb_txt_135 &": "& to_help & vbCrLf & vbCrLf
+					    
+                        strmailtekst = "Hermed PDF dokument fra Timeout - Print og pdf center " & vbCrLf
+        
+                        ' Henter job navn og jobnr til mail tekst
+                        strSQL = "SELECT jobnavn, jobnr FROM job WHERE id = "& id
+                        oRec.open strSQL, oConn, 3
+                        if not oRec.EOF then
+                            strmailtekst = strmailtekst & "Job - " & oRec("jobnavn") &" ("& oRec("jobnr") &")"
+                        end if
+                        oRec.close
+                        
+                        strmailtekst = strmailtekst & vbCrLf & vbCrLf & vbCrLf
+
+                        strmailtekst = strmailtekst & medarb_txt_120 & vbCrLf & strEditor & vbCrLf & "Timeout print og pdf center"
+
+                        myMail.TextBody = strmailtekst
+
+                        'myMail.TextBody= "" & medarb_txt_009 &" " & strNavn & vbCrLf _ 
+					    '& medarb_txt_118 & vbCrLf _ 
+					    '& medarb_txt_012 &" "& strLogin &" "& medarb_txt_013 &" "& strPw & vbCrLf & vbCrLf _ 
+					    '& medarb_txt_014  & vbCrLf _ 
+					    '& medarb_txt_015 & vbCrLf & vbCrLf _ 
+					    '& medarb_txt_119 &": "& to_url&"/"&lto&""& vbCrLf & vbCrLf _ 
+                        '& medarb_txt_135 &": "& to_help & vbCrLf & vbCrLf _ 
+					    '& medarb_txt_120 & vbCrLf & vbCrLf & strEditor & vbCrLf 
+
+                        
+                        myMail.Configuration.Fields.Item _
+                        ("http://schemas.microsoft.com/cdo/configuration/sendusing")=2
+                        'Name or IP of remote SMTP server
+                                    
+                                    if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
+                                       smtpServer = "webout.smtp.nu"
+                                    else
+                                       smtpServer = "formrelay.rackhosting.com" 
+                                    end if
+                    
+                                    myMail.Configuration.Fields.Item _
+                                    ("http://schemas.microsoft.com/cdo/configuration/smtpserver")= smtpServer
+
+                        'Server port
+                        myMail.Configuration.Fields.Item _
+                        ("http://schemas.microsoft.com/cdo/configuration/smtpserverport")=25
+                        myMail.Configuration.Fields.Update
+
+                        if len(trim(strEmail)) <> 0 then
+                        myMail.Send
+                        end if
+                        set myMail=nothing
+
+
+            'response.Write "Mail Sendt"
+
+            end if
+
+            if request("sendkunmail") = "1" then
+                Response.Write("<script language=""JavaScript"">window.close();</script>")                
+            else
+                response.Redirect "job_print.asp?id="&id&"&kid="&kid&"&printnow=1"
+            end if
       
-
-Response.redirect "../inc/upload/"&lto&"/"&filnavn
-
+        else
+            Response.redirect "../inc/upload/"&lto&"/"&filnavn
+        end if
 
 end if
 

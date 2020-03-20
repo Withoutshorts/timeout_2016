@@ -190,7 +190,7 @@
 						
 						'** Medarb 1 Row ***
 
-						strMedarbOskriftLinie = strMedarbOskriftLinie & "<td colspan="& md_split_cspan &" "&tdstyleTimOms1&" style='width:50px;'  bgcolor='"& bgthis &"'><img src='../ill/blank.gif' height=1 width=50><br><span style='color:#000000; font-size:9px;'>"& medarbnavnognr_short(v) &"</span>"
+						strMedarbOskriftLinie = strMedarbOskriftLinie & "<td colspan="& md_split_cspan &" "&tdstyleTimOms1&" style='width:50px;' bgcolor='"& bgthis &"'><img src='../ill/blank.gif' height=1 width=50><br><span style='color:#000000; font-size:9px;'>"& medarbnavnognr_short(v) &"</span>"
 						
 						end if 'if cint(directexp) <> 1 then 	
 

@@ -139,7 +139,7 @@ if len(session("user")) = 0 then
  
     rdir = request("rdir")
     select case rdir
-    case "logindhist"
+    case "logindhist", "logindhist_2018"
     rdirfile = "logindhist_2011.asp"
     case "godkenduge"
     rdirfile = "../timereg/godkenduge.asp"
@@ -307,6 +307,11 @@ if len(session("user")) = 0 then
         call godkenderTimeriUge(usemrn, varTjDatoUS_manSQL, varTjDatoUS_sonSQL, SmiWeekOrMonth)
        
 
+
+        'if session("mid") = 1 then 
+        'Response.write "HER og Der"
+        'end if
+
         '*** Godkend uge status ****'
         call godekendugeseddel(thisfile, session("mid"), usemrn, varTjDatoUS_man)
 	    
@@ -323,6 +328,20 @@ if len(session("user")) = 0 then
     else
     txt = ""
     end if
+
+
+    if (len(trim(txt)) > 50 AND lto <> "tia") OR (lto = "tia" AND len(trim(txt)) > 250) then
+
+                errortype = 202
+		        call showError(errortype)
+		        Response.end
+    end if
+
+   'if session("mid") = 1 then
+   '     Response.write "HEJ"
+   '     Response.end
+   'end if
+
 
 	call afviseugeseddel(thisfile, session("mid"), usemrn, varTjDatoUS_man, varTjDatoUS_son, txt)
 	    
@@ -548,10 +567,7 @@ if len(session("user")) = 0 then
     if media <> "print" AND len(trim(strSQLmids)) > 0 then 'Hvis man er level 1 eller teamleder vil len(trim(strSQLmids)) ALTID VÆRE > 16 %>
     <%
         
-        if browstype_client <> "ip" then
-    %>
-    <%
-    
+    if browstype_client <> "ip" then
     %>
     <div class="well well-white">
     
@@ -561,29 +577,104 @@ if len(session("user")) = 0 then
             
         case else%>
 
-        <%if cint(stempelurOn) = 1 then 
-            wdth = 225
-        else
-            wdth = 120
-        end if
+        <%  
+                            
+           
+                            select case lto 
+                            case "ddc"
+                            wdth = 140
+                            lft = 960  
+                            case else
+                            wdth = 240
+                            lft = 860  
+                            end select
+
+                            if cint(stempelurOn) = 1 then 
+                                wdth = wdth + 60
+                                lft = lft - 60
+                          
+                            end if
+
+                                if cint(vis_favorit) = 1 then
+                                wdth = wdth + 60
+                                lft = lft - 60
+                                end if
+
 
         %>
           
            
-            <div style="position:relative; background-color:#ffffff; border:1px #cccccc solid; border-bottom:0; padding:4px; width:<%=wdth%>px; top:-70px; left:880px; z-index:0; font-size:11px;">
+            <div style="position:relative; background-color:#ffffff; border:1px #cccccc solid; border-bottom:0; padding:4px; width:<%=wdth%>px; top:-70px; left:<%=lft%>px; z-index:0; font-size:11px;">
            
-            <a href="../timereg/<%=lnkTimeregside%>" class="vmenu"><%=replace(tsa_txt_031, " ", "")%> >></a>
+            <%select case lto
+            case "ddc", "cflow", "foa", "care", "kongeaa"
+            case else
+            %>
+            <a href="../timereg/<%=lnkTimeregside%>" class="vmenu"><%=replace(tsa_txt_031, " ", "")%></a>
+            &nbsp;&nbsp;|&nbsp;&nbsp;
+            <%end select %>
+
+           <%  
+                            select case lto
+                            case "cflow"
+                            call medariprogrpFn(session("mid"))
+
+                            if instr(medariprogrpTxt, "#14#") <> 0 OR instr(medariprogrpTxt, "#16#") <> 0 OR instr(medariprogrpTxt, "#3#") <> 0 OR instr(medariprogrpTxt, "#19#") <> 0 OR level = 1 then 
+                               %>
+                                 <a href="<%=lnkUgeseddel%>" class="vmenu" style="background-color:azure"><%=tsa_txt_337 %></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                <%
+                                end if
+                            case else
+                            %>
+                            <a href="<%=lnkUgeseddel%>" class="vmenu" style="background-color:azure"><%=tsa_txt_337 %></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                            <%end select %>
+
           
 
-            <%if cint(stempelurOn) = 1 then
+                            <%if cint(stempelurOn) = 1 then
                 
-                if lto = "cflow" OR lto = "dencker" OR lto = "intranet - local" then
-                %>
-                &nbsp;|&nbsp;<a href="<%=lnkLogind%>" class="vmenu"><%=tsa_txt_340 %> >></a>
-                <%else%>
-                &nbsp;|&nbsp;<a href="../timereg/<%=lnkLogind%>" class="vmenu"><%=tsa_txt_340 %> >></a>
-                <%end if%>
-            <%end if%>
+               
+                                            select case lto
+                                            case "cflow"
+                                            call medariprogrpFn(session("mid"))
+
+                                                if instr(medariprogrpTxt, "#14#") <> 0 OR instr(medariprogrpTxt, "#16#") <> 0 OR instr(medariprogrpTxt, "#3#") <> 0 OR instr(medariprogrpTxt, "#19#") <> 0 OR level = 1 then 
+                                                %>
+                                                <a href="<%=lnkLogind%>" class="vmenu"><%=tsa_txt_340 %></a> &nbsp;&nbsp;|&nbsp;&nbsp;
+                                                <%
+                                                end if
+                                            case else
+                                                    %>
+
+                                        <a href="<%=lnkLogind%>" class="vmenu"><%=tsa_txt_340 %></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                        <%end select %>
+               
+            
+                           <%end if
+
+                   if cint(vis_favorit) = 1 then
+                        select case lto
+                            case "cflow"
+                            call medariprogrpFn(session("mid"))
+
+                                if instr(medariprogrpTxt, "#14#") <> 0 OR instr(medariprogrpTxt, "#16#") <> 0 OR instr(medariprogrpTxt, "#3#") <> 0 OR instr(medariprogrpTxt, "#19#") <> 0 OR instr(medariprogrpTxt, "#21#") <> 0 then 
+                                   %>
+                                    <a href="<%=lnkFavorit%>"><%=favorit_txt_001 %></a>
+                                    <%
+                                end if
+
+                            case else
+                            %>
+                            <a href="<%=lnkFavorit%>"><%=favorit_txt_001 %></a>
+                            <%end select 
+                                
+                   end if %>
+
+
+                <%if lto = "foa" OR lto = "care" then %>
+                    &nbsp;&nbsp;|&nbsp;&nbsp;
+                    <a href="../timereg/<%=lnkAfstem%>"><%=afstem_txt_011 %></a>
+                <%end if %>
 
            
             </div>
@@ -703,6 +794,25 @@ if len(session("user")) = 0 then
         paddingTop = "10px"
         rdir_timereg = "ugeseddel_2011"
         end if
+
+
+        if cint(stempelurOn) = 1 then 
+            showStartstop = 1
+
+            select case lto
+            case "cflow", "intranet - local"
+            visTimerelTid = 2
+            case else
+            visTimerelTid = 0 '0, 1 eller 2 (optinal) altid = 0 da start og slut tid skal være optional
+            end select
+            'visTimerelTidoptinal = 1 'der kan indtastet klokkeslet eller bare timer. Det er optinal, så der kan nøjes med at blvie indtastet timer
+            
+        else
+        
+            visTimerelTid = 0
+            showStartstop = 0
+
+        end if
         %>
 
         
@@ -799,7 +909,7 @@ if len(session("user")) = 0 then
                             <input type="hidden" id="FM_medid" name="FM_medid" value="<%=usemrn %>"/>
                             
                             <input type="hidden" id="FM_medid_k" name="FM_medid_k" value="<%=usemrn%>"/>
-                            <input type="hidden" id="" name="FM_vistimereltid" value="0"/>
+                            <input type="hidden" id="" name="FM_vistimereltid" value="<%=visTimerelTid %>"/>
                             <input type="hidden" id="lcid_sprog" name="" value="<%=lcid_sprog_val %>"/>
 
                             <input type="hidden" id="mobil_week_reg_akt_dd" name="" value="<%=mobil_week_reg_akt_dd %>"/>
@@ -827,7 +937,7 @@ if len(session("user")) = 0 then
                             
                             <%if cint(mobil_week_reg_job_dd) = 1 then %>
 
-                          
+                           <!-- <textarea id="dv_job_0"></textarea>-->
                              <input type="hidden" id="FM_job_0" value="-1"/>
                              <select id="dv_job_0" name="FM_jobid" style="font-size:<%=inputFont %>; height:<%=inputHeight%>;" class="form-control input-<%=txtClass %> chbox_job">
                                  <option value="-1"><%=left(tsa_txt_145, 4) %>..</option>
@@ -835,11 +945,11 @@ if len(session("user")) = 0 then
                              </select>
 
                             <%else %>
-                            <input type="text" style="font-size:<%=inputFont%>; height:<%=inputHeight%>" id="FM_job_0" name="FM_job" placeholder="<%=tsa_txt_066 %>/<%=tsa_txt_236 %>" class="FM_job form-control input-<%=txtClass %>"/>
+                            <input type="text" style="font-size:<%=inputFont%>; height:<%=inputHeight%>" id="FM_job_0" autocomplete="off" name="FM_job" placeholder="<%=tsa_txt_066 %>/<%=tsa_txt_236 %>" class="FM_job form-control input-<%=txtClass %>"/>
                            <!-- <div id="dv_job_0" class="dv-closed dv_job" style="border:1px #cccccc solid; padding:10px; visibility:hidden; display:none;"></div>--> <!-- dv_job -->
 
                              <select id="dv_job_0" class="form-control input-small chbox_job" size="10" style="visibility:hidden; display:none;">
-                                 <option><%=tsa_txt_534%>..her</option>
+                                 <option><%=tsa_txt_534%>..</option>
                              </select>
 
                             <input type="hidden" id="FM_jobid_0" name="FM_jobid" value="0"/>
@@ -861,7 +971,7 @@ if len(session("user")) = 0 then
                                   </select>
 
                              <%else %>
-                              <input style="font-size:<%=inputFont%>; height:<%=inputHeight%>" type="text" id="FM_akt_0" name="activity" placeholder="<%=tsa_txt_068%>" class="FM_akt form-control input-<%=txtClass %>"/>
+                              <input style="font-size:<%=inputFont%>; height:<%=inputHeight%>" type="text" id="FM_akt_0" autocomplete="off" name="activity" placeholder="<%=tsa_txt_068%>" class="FM_akt form-control input-<%=txtClass %>"/>
                                 <!--<div id="dv_akt_0" class="dv-closed dv_akt" style="border:1px #cccccc solid; padding:10px; visibility:hidden; display:none;"></div>--> <!-- dv_akt -->
 
                                   <select id="dv_akt_0" class="form-control input-small chbox_akt" size="10" style="visibility:hidden; display:none;"> <!-- chbox_akt -->
@@ -877,10 +987,62 @@ if len(session("user")) = 0 then
                     <tr>
                         <!--<td style="padding-right:5px; padding-top:10px; vertical-align:text-top;"><b><%=tsa_txt_137%>:</b></td>-->
                          <td style="padding-top:<%=paddingTop%>; padding-left:10px">
+                             <%if cint(showStartstop) = 0 then %>
                              <input type="hidden" id="FM_sttid" name="FM_sttid" value="00:00"/>
                              <input type="hidden" id="FM_sltid" name="FM_sltid" value="00:00"/>
                              <input type="text" id="FM_timer" name="FM_timer" placeholder="<%=tsa_txt_137%>" class="form-control input-<%=txtClass %>" style="font-size:<%=inputFont%>; height:<%=inputHeight%>" /><!-- brug type number for numerisk tastatur -->
-                        </td>
+                    
+                             <%else 
+                             timeNow = left(formatdatetime(now, 3), 5)    
+                             %>
+                             <table width="100%">
+                                 <tr><td colspan="4" style="font-size:9px;">[Optional start and end time]</td></tr>
+                                 <tr>
+                                     <td style="width:70px;"><input type="text" id="FM_sttid" name="FM_sttid" placeholder="00:00" value="<%=timeNow %>" class="form-control input-<%=txtClass %>" style="font-size:<%=inputFont%>; height:<%=inputHeight%>; width:60px;" /></td>
+                                     <td style="width:70px;"><input type="text" id="FM_sltid" name="FM_sltid" placeholder="00:00" value="<%=timeNow %>" class="form-control input-<%=txtClass %>" style="font-size:<%=inputFont%>; height:<%=inputHeight%>; width:60px;" /></td>
+                                     <td style="width:30px; text-align:center;">=</td>
+                                     <td><input type="text" id="FM_timer" name="FM_timer" placeholder="<%=tsa_txt_137%>" class="form-control input-<%=txtClass %>" style="font-size:<%=inputFont%>; height:<%=inputHeight%>; width:160px; text-align:right;" /><!-- brug type number for numerisk tastatur --></td>
+                                 </tr>
+
+
+                                 <%select case lto
+                                  case "xcflow" %>
+                             
+                                 <tr><td colspan="4"><br /><br /><b>Add supplements:</b> (<span style="color:red;">*</span> add project above)</td></tr>
+                                  <tr>
+                                    <td colspan="3">Reisetid:</td>
+                                    <td style="padding:2px;"><input type="text" id="fm_rejsetid" name="FM_rejsetid" placeholder="<%=tsa_txt_137%>"  class="form-control input-<%=txtClass %>" style="font-size:<%=inputFont%>; height:<%=inputHeight%>; width:160px; text-align:right;" /></td>
+                                </tr>
+                                 <tr>
+                                <td colspan="3" valign="top">Arbejde ute:</td>
+                                <td style="padding:2px;">
+                                    <select name="FM_arbute_no" class="form-control input-<%=txtClass %>">
+                                        <option value="0">Vælg NO/Utland</option>
+                                        <option value="1">NO</option>
+                                        <option value="2">Utland</option>
+                                    </select>
+                                    <!--
+                                    <input type="checkbox" name="FM_arbute_no" value="1" /> NO &nbsp;&nbsp;&nbsp;
+                                    <input type="checkbox" name="FM_arbute_world" value="1" /> Utland--></td>
+                                    </tr>
+                                 <tr>
+                                      <td colspan="3">Teamleder:</td>
+                                        <td style="padding:2px;">
+                                    <input type="checkbox" name="FM_arbute_teamleder" value="1" /></td>
+                                </tr>
+
+                                <%end select %>
+
+                             
+                             </table>
+                            
+
+
+                             
+                           
+                    
+                             <%end if %>
+                                </td>
                         
                     </tr>
 
@@ -983,10 +1145,12 @@ if len(session("user")) = 0 then
         case "xdencker", "xintranet - local"
         aty_sql_realhours = " tfaktim = 1"
         case "cflow"
-        aty_sql_realhours = " tfaktim = 1"
+        'aty_sql_realhours = " tfaktim = 1"
+        aty_sql_realhours = " (tfaktim = 1 OR tfaktim = 2) "
         case else
-        aty_sql_realhours = aty_sql_realhours &""_
-		& " OR tfaktim = 30 OR tfaktim = 31 OR tfaktim = 7 OR tfaktim = 11"
+        aty_sql_realhours = aty_sql_realhours 
+        '&""_
+		'& " OR tfaktim = 30 OR tfaktim = 31 OR tfaktim = 7 OR tfaktim = 11"
         end select 
    
                                 
@@ -1006,7 +1170,7 @@ if len(session("user")) = 0 then
 
                 '*** NORM eller Komme/Gå som grundlag
                 select case lto
-                case "dencker", "intranet - local"
+                case "dencker", "cflow"
 
                     call fLonTimerPer(varTjDatoUS_man, 6, 21, usemrn)
                     ntimMan = ((manMin-manMinPause)/60)
@@ -1054,7 +1218,7 @@ if len(session("user")) = 0 then
             <input type="hidden" id="timerdaglor" value="<%=replace(lorTimer, ",", ".") %>" />
             <input type="hidden" id="timerdagson" value="<%=replace(sonTimer, ",", ".") %>" />
 
-
+            
             <input type="hidden" id="normdagman" value="<%=replace(ntimMan, ",", ".") %>" />
             <input type="hidden" id="normdagtir" value="<%=replace(ntimTir, ",", ".") %>" />
             <input type="hidden" id="normdagons" value="<%=replace(ntimOns, ",", ".") %>" />
@@ -1178,14 +1342,72 @@ if len(session("user")) = 0 then
 
         <%
         '** Tjekker for Uge 53. SKAL i virkeligheden være om søndag er i et andet år end mandag - da år så skifter.
-        if datepart("ww", varTjDatoUS_son, 2,2) = 53 then
-        tjkAar = year(varTjDatoUS_son) + 1
-        else
+
+        '*** PAS PÅ DENNE VED årsskift
+        select case year(varTjDatoUS_son)
+        case 2018
+            
+            varTjDatoUS_son = varTjDatoUS_son 'dateAdd("d", 7, varTjDatoUS_son) '** "0190107 --> Mystisk. Det burde være MAN + 7 dage
+
+              select case datepart("ww", varTjDatoUS_son, 2,2) 
+            case 52,53
+            varTjDatoUS_son = dateAdd("d", 7, varTjDatoUS_son)
+            tjkAar = year(varTjDatoUS_son) + 1
+            case 1
+           
+            varTjDatoUS_son = varTjDatoUS_son 'dateAdd("d", 7, varTjDatoUS_son)
+            tjkAar = datepart("yyyy", varTjDatoUS_son, 2,2) + 1
+            
+            case else
+            tjkAar = year(varTjDatoUS_son) 
+            end select   
+
+        case 2019
+
+            varTjDatoUS_son = varTjDatoUS_son 'dateAdd("d", 7, varTjDatoUS_son) '** "0190107 --> Mystisk. Det burde være MAN + 7 dage
+
+            select case datepart("ww", varTjDatoUS_son, 2,2) 
+            case 52,53
+            varTjDatoUS_son = dateAdd("d", 7, varTjDatoUS_son)
+            tjkAar = year(varTjDatoUS_son) + 1
+            'case 1
+           
+            'varTjDatoUS_son = dateAdd("d", 7, varTjDatoUS_son)
+            'tjkAar = datepart("yyyy", varTjDatoUS_son, 2,2) + 1 
+            
+            case else
+            tjkAar = year(varTjDatoUS_son) 
+            end select   
+
+        case else
+
+            tjkAar = year(varTjDatoUS_son)
+
+        end select
+
+
         tjkAar = year(varTjDatoUS_son)
-        end if    
+
+        call thisWeekNo53_fn(varTjDatoUS_man)
+        'thisWeekNoPeriod = thisWeekNo53 'datePart("ww", oRec3("uge"), 2,2)
+
+            'if session("mid") = 1 then
+            'Response.write "WEEK: "& datepart("ww", varTjDatoUS_son, 2,2) & " tjkAar: " & tjkAar
+            'end if
+
+        'if datepart("ww", varTjDatoUS_son, 2,2) = 53 then
+        'tjkAar = year(varTjDatoUS_son) + 1
+        'else
+      
+        'end if    
             
         '**
-        call erugeAfslutte(tjkAar, datepart("ww", varTjDatoUS_son, 2,2), usemrn, SmiWeekOrMonth, 0) 
+
+        'if session("mid") = 1 then
+        '    Response.Write "HER tjkAar:" & tjkAar  &" WW "& datepart("ww", varTjDatoUS_son, 2,2) & " varTjDatoUS_son: " & varTjDatoUS_son
+        'end if
+
+        call erugeAfslutte(tjkAar, thisWeekNo53, usemrn, SmiWeekOrMonth, 0, varTjDatoUS_son) 
         
         call godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir) %>
     

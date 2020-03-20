@@ -508,6 +508,8 @@
 
     $("#sync").click(function () {
 
+        //alert("HER")
+
         if ($("#sync").is(':checked') == true) {
             $.scrollTo('200px', 1200);
             syncjoga();
@@ -521,7 +523,14 @@
 
         if ($("#sync").is(':checked') == true) {
 
-            //alert("her")
+            //alert("her: " + $("#lto").val())
+            //Dette er en mulighed: 20180927 - Sync overfører normalt til brutto oms. Derfor slået fra og indtastets manuelt
+            if ($("#lto").val() == 'xepi2017' || $("#lto").val() == 'xintranet - local') {
+
+                var varFaseSumTot = $("#FM_fasersumtot").val()
+                $("#FM_interntomkost").val(varFaseSumTot)
+
+            } else {
 
             var varFaseSumTot = $("#FM_fasersumtot").val()
             //varFaseSumTot = String(Math.round(varFaseSumTot * 100) / 100).replace(".", ",")
@@ -566,8 +575,6 @@
 
             }
 
-
-
             //$.scrollTo('200px', 1200);
 
             //diff_timer_sum();
@@ -575,6 +582,9 @@
             beregninttp();
 
             //beregnintbelob()
+
+            } 
+
         }
 
     }

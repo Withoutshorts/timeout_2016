@@ -321,7 +321,7 @@ function sideoverskrift(oleft, otop, owdt, oimg, oskrift)
     
 
     public  betCHK9, betCHK8, betCHK7,  betCHK6,  betCHK5,  betCHK4,  betCHK3,  betCHK2,  betCHK1, betCHKu1
-    public betCHK10, betCHK11, betCHK12, betCHK13, betCHK14, betCHK15, betCHK16, betCHK20, betCHK21, betCHK22, betbetint_txt 
+    public betCHK10, betCHK11, betCHK12, betCHK13, betCHK14, betCHK15, betCHK16, betCHK20, betCHK21, betCHK22, betbetint_txt, betCHK23
 	function betalingsbetDage(betbetint,disa,lang,nameid)
 	
 	
@@ -349,6 +349,7 @@ function sideoverskrift(oleft, otop, owdt, oimg, oskrift)
         betTxt15 = "120 days net"
         betTxt16 = "Current month plus 62 days net"
         betTxt22 = "Current month plus 20 days net"
+        betTxt23 = "CAD"
 
         else
 
@@ -374,7 +375,7 @@ function sideoverskrift(oleft, otop, owdt, oimg, oskrift)
         betTxt15 = "120 dage"
         betTxt16 = "Lbn. månd + 62 dage"
         betTxt22 = "Lbn. månd + 20 dage"
-
+        betTxt23 = "CAD"
 
         end if
 
@@ -400,6 +401,7 @@ function sideoverskrift(oleft, otop, owdt, oimg, oskrift)
         betCHK16 = ""
         betCHK22 = ""
         betbetint_txt = ""
+        betCHK23 = ""
 	
 	select case betbetint
 	    case 20
@@ -411,6 +413,9 @@ function sideoverskrift(oleft, otop, owdt, oimg, oskrift)
         case 22
         betCHK22 = "SELECTED"
         betbetint_txt = betTxt22
+        case 23
+        betCHK23 = "SELECTED"
+        betbetint_txt = betTxt23
         case 1
 	    betCHK1 = "SELECTED"
 	    betbetint_txt = betTxt1
@@ -471,13 +476,14 @@ function sideoverskrift(oleft, otop, owdt, oimg, oskrift)
         end if
 	  
 	    %>
-        <select id="<%=nameid %>" name="<%=nameid %>" class="form-control input-small" <%=selFFdatoDis %>>
+        <select id="<%=nameid %>" name="<%=nameid %>" class="form-control input-small" <%=selFFdatoDis %> style="width:300px;">
 		
 
                 <option value="0"><%=betTxt0%></option>
             <option value="-1" <%=betCHKu1 %>><%=betTxtu1%></option>
                 <option value="20" <%=betCHK20 %>><%=betTxt20%></option>
                 <option value="21" <%=betCHK21 %>><%=betTxt21%></option>
+                <option value="23" <%=betCHK23 %>><%=betTxt23%></option>
                 <option value="1" <%=betCHK1 %>><%=betTxt1%></option>
                 <option value="2" <%=betCHK2 %>><%=betTxt2%></option>
                 <option value="5" <%=betCHK5 %>><%=betTxt5%></option>
@@ -1133,7 +1139,7 @@ end function
 	
 	function insertDelhist(deltype, delid, delnr, delnavn, mid, mnavn)
 	
-        dateTimeNow = year(now) & "/"& month(now) & "/"& day(now) &" "& formatdatetime(now, 3) 
+    dateTimeNow = year(now) & "/"& month(now) & "/"& day(now) &" "& formatdatetime(now, 3) 
 	
 	strSQLdelhist = "INSERT INTO delete_hist (deltype, delid, delnr, delnavn, mid, mnavn, dato) VALUES "_
 	&" ('"& deltype &"', "& delid &", '"& delnr &"', '"& delnavn &"', "& mid &", '"& mnavn &"', '"& dateTimeNow &"')"
@@ -1594,6 +1600,9 @@ function opdaterFeriePl(level, highV)
                         
 
 
+
+                                    
+
                             
 
                                            'if session("mid") = 1 then
@@ -1603,6 +1612,32 @@ function opdaterFeriePl(level, highV)
                                            ' response.write "<br>afholdetUlon: " & (fe_optjent - (fe_afholdtmlon + timerThis)) * -1 & "<br><br>"
                                            ' 'response.end
                                            'end if
+
+
+
+                                                                    
+                                                            '*****************************************************************************************************'
+                                                            '** Findes der en afholdet udenløn. SKLA funktionen bruges? f.eks WAP bruger IKKE afholdet uden løn***'
+                                                            '*****************************************************************************************************'
+		                                                    strSQLfeafn = "SELECT a.id, a.navn FROM job j"_
+		                                                    &" LEFT JOIN aktiviteter a ON (a.fakturerbar = "& afholdtulonVal &" AND a.aktstatus = 1 AND a.job = j.id) "_
+		                                                    &" WHERE j.jobstatus = 1 AND a.id <> 'NULL' GROUP BY a.id ORDER BY a.id DESC"
+		        
+		                                                    aulonFindes = 0
+		                                                    oRec3.open strSQLfeafn, oCOnn, 3
+		                                                    if not oRec3.EOF then
+		        
+		                                                        if oRec3("id") <> "" then
+		                                                        aulonFindes = 1 
+		                                                        end if
+		        
+		                                                    end if
+		                                                    oRec3.close
+
+
+
+                                                    if cint(aulonFindes) = 1 then
+
 
 
                                                     '*** Overfører til afholdt uden løn
@@ -1648,32 +1683,35 @@ function opdaterFeriePl(level, highV)
 		                                                    end if
 		                                                    oRec3.close
 
-                                                        if cint(aulonFundet) = 1 then
 
-                                                                    'if session("mid") = 1 then
-                                                                    'Response.write "<br>A<br>"
-                                                                    'end if
 
-                                                                    call insertAfholdtTimer
+                                                                if cint(aulonFundet) = 1 then
+
+                                                                            'if session("mid") = 1 then
+                                                                            'Response.write "<br>A<br>"
+                                                                            'end if
+
+                                                                            call insertAfholdtTimer
                     
-                                                                    '*** Sletter den planlagte **'
-		                                                            strSQLdel = "DELETE FROM timer WHERE tid = "& oRec4("tid")
-		                                                            oConn.execute(strSQLdel)
+                                                                            '*** Sletter den planlagte **'
+		                                                                    strSQLdel = "DELETE FROM timer WHERE tid = "& oRec4("tid")
+		                                                                    oConn.execute(strSQLdel)
 
 
-                                                                    '*** Nedskriver timer
-                                                                    timerThis = (TimerThisOpr - afholdetUlon)
-                                                                    afholdtVal = afholdtValOpr
+                                                                            '*** Nedskriver timer
+                                                                            timerThis = (TimerThisOpr - afholdetUlon)
+                                                                            afholdtVal = afholdtValOpr
 
-                                                                    aktid = aktidOpr
-		                                                            aktnavn = aktnavnOpr
+                                                                            aktid = aktidOpr
+		                                                                    aktnavn = aktnavnOpr
 
-                                                        end if
+                                                                end if
                            
 
 
                                                     end if 'Overfører til afholdt uden løn
 
+                                                end if 'findes afholdt uden løn type og er den aktiv
                         
                                             '** 
 

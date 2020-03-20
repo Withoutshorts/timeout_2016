@@ -168,6 +168,9 @@
 
         'Dim row As DataRow
         Dim t As Integer = 0
+        Dim Err As Integer = 0
+        Dim Suc As Integer = 0
+        Dim lastTid As String = ""
         Dim avarenr As String = ""
         Dim init As String = ""
         Dim timerKom As String = ""
@@ -233,6 +236,8 @@
 
         Dim slDatoSQLformat As String = "yyyy-M-d"
         slDatoSQLformat = slDate.ToString(slDatoSQLformat)
+        'slDatoSQLformat = "2020-03-01"
+
 
         ''AND jobnr BETWEEN 7000 AND 72000
 
@@ -240,8 +245,8 @@
         strSQLmedins += "FROM timer AS t "
         strSQLmedins += "LEFT JOIN medarbejdere AS m ON (m.mid = t.tmnr) "
         strSQLmedins += "LEFT JOIN aktiviteter AS a ON (a.id = t.taktivitetid) "
-        strSQLmedins += "WHERE tdato BETWEEN '" & stDatoSQLformat & "' AND '" & slDatoSQLformat & "' AND (overfort = 0 OR overfort = 2) AND (godkendtstatus = 1) AND tmnr <> 1 AND timer <> 0 AND tfaktim <> '90' ORDER BY tid"
-
+        strSQLmedins += "WHERE tdato BETWEEN '" & stDatoSQLformat & "' AND '" & slDatoSQLformat & "' AND (overfort = 0 OR overfort = 2) AND (godkendtstatus = 1) AND (tmnr <> 1) AND timer <> 0 AND tfaktim <> '90' ORDER BY tid"
+        '(overfort = 0 OR overfort = 2)
         'timer_dobbel_20180602
         'strSQLmedins += "WHERE (tid = 47634 OR tid = 47763)"
         'strSQLmedins += "WHERE tid = 47633 AND (overfort = 0 OR overfort = 2) AND (godkendtstatus = 1) AND tmnr <> 1 AND timer <> 0 AND tfaktim <> '90' ORDER BY tid"
@@ -251,6 +256,10 @@
         'strSQLmedins += "LIMIT 10"
         'AND init <> 'XXMAK'
         '_dobbel_20171004_3
+
+        Response.Write(strSQLmedins & "<hr>")
+        Response.Flush()
+
         objCmd = New OdbcCommand(strSQLmedins, objConn)
         objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
@@ -305,59 +314,66 @@
             Try
                 ' Cause a "Divide by Zero" exception.
 
+                CallWebService.SendJournalData(tdato, tjobnr, avarenr, init, Timerthis, timerKom, objDR("tid"))
 
-                If CallWebService.SendJournalData(tdato, tjobnr, avarenr, init, Timerthis, timerKom, objDR("tid")) = False Then
-                    Dim strSQLtimerOverfort As String = "UPDATE timer SET overfort = 2, overfortdt = '" & overfortDatoSQL & "' WHERE tid = " & objDR("tid")
-                    objCmd2 = New OdbcCommand(strSQLtimerOverfort, objConn)
-                    objDR2 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
 
-                    errorFound = 1
-                    errorFoundTxt += "<br>" & objDR("tjobnr") & "," & avarenr & ", " & init & ", " & objDR("tdato") & ", " & Timerthis & ""
-                Else
+                Dim strSQLtimerOverfort As String = "UPDATE timer SET overfort = 1, overfortdt = '" & overfortDatoSQL & "' WHERE tid = " & objDR("tid")
+                objCmd2 = New OdbcCommand(strSQLtimerOverfort, objConn)
+                objDR2 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
 
-                    'CallWebService.SendJournalData(tdato, tjobnr, avarenr, init, Timerthis, timerKom, objDR("tid"))
-                    Dim strSQLtimerOverfort As String = "UPDATE timer SET overfort = 1, overfortdt = '" & overfortDatoSQL & "' WHERE tid = " & objDR("tid")
-                    objCmd2 = New OdbcCommand(strSQLtimerOverfort, objConn)
-                    objDR2 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
-                End If
-
-                ' This statement does not execute because program
-                ' control passes to the Catch block when the
-                ' exception occurs.
+                Suc = Suc + 1
 
             Catch ex As Exception
 
-                ''Show the exception's message.
-                'CallWebService.SendJournalError("+ ex.Message + " jobnr i TO:  " & objDR("tjobnr") & " ID:"& objDR("tid"))
-                Response.Write("2 " + ex.Message + " jobnr i TO: " & objDR("tjobnr") & "<br>")
-
-
+                'If CallWebService.SendJournalData(tdato, tjobnr, avarenr, init, Timerthis, timerKom, objDR("tid")) = False Then
                 Dim strSQLtimerOverfort As String = "UPDATE timer SET overfort = 2, overfortdt = '" & overfortDatoSQL & "' WHERE tid = " & objDR("tid")
                 objCmd2 = New OdbcCommand(strSQLtimerOverfort, objConn)
                 objDR2 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
 
                 errorFound = 1
                 errorFoundTxt += "<br>" & objDR("tjobnr") & "," & avarenr & ", " & init & ", " & objDR("tdato") & ", " & Timerthis & ""
+                Err = Err + 1
+                'Else
 
-                'jobnr: " + err_jobnr + " errid:" + errThisTOnoStr
+                'CallWebService.SendJournalData(tdato, tjobnr, avarenr, init, Timerthis, timerKom, objDR("tid"))
+                'Dim strSQLtimerOverfort As String = "UPDATE timer SET overfort = 1, overfortdt = '" & overfortDatoSQL & "' WHERE tid = " & objDR("tid")
+                'objCmd2 = New OdbcCommand(strSQLtimerOverfort, objConn)
+                'objDR2 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
+
+                'Suc = Suc + 1
+                'End If
+
+                ' This statement does not execute because program
+                ' control passes to the Catch block when the
+                ' exception occurs.
+
+
+
+
+                'Catch ex As Exception
+
+                ''Show the exception's message.
+
+
+                'Response.Write("2 " + ex.Message + " jobnr i TO: " & objDR("tjobnr") & "<br>")
+
+
+                'Dim strSQLtimerOverfort As String = "UPDATE timer SET overfort = 2, overfortdt = '" & overfortDatoSQL & "' WHERE tid = " & objDR("tid")
+                'objCmd2 = New OdbcCommand(strSQLtimerOverfort, objConn)
+                'objDR2 = objCmd2.ExecuteReader '(CommandBehavior.closeConnection)
+
+                'errorFound = 1
+                'errorFoundTxt += "<br>" & objDR("tjobnr") & "," & avarenr & ", " & init & ", " & objDR("tdato") & ", " & Timerthis & ""
 
 
 
                 ' Show the stack trace, which is a list of methods
                 ' that are currently executing.
                 'MessageBox.Show("Stack Trace: " & vbCrLf & ex.StackTrace)
-                'Finally
+            Finally
                 ' This line executes whether or not the exception occurs.
-                'MessageBox.Show("in Finally block")
-                'End Try
-
-
-
-                'Catch ex As Exception
-
-                'Response.Write("FEJL" & ex.ToString())
-
-
+                ' MessageBox.Show("All work is done. You can close the window.")
+                datasrc.Text = "" + errorFoundTxt + "<br><br>Mail is sent with detailed errors (if any). All work is done. You can close the window."
 
             End Try
 
@@ -388,7 +404,7 @@
             t = t + 1
 
 
-
+            lastTid = objDR("tid")
 
         End While
 
@@ -431,13 +447,13 @@
         Else
 
             Response.Write("2")
-            datasrc.Text = "Der opstod en fejl"
+            'datasrc.Text = "Der opstod en fejl"
 
 
         End If
 
 
-        'Response.Write("<br>" & strSQLmedins)
+
 
 
 
@@ -458,7 +474,7 @@
 
             myMail.From = "timeout_no_reply@outzource.dk" 'TimeOut Email Service 
 
-            myMail.To = "SNI@tiatechnology.com; jok@tiatechnology.com"
+            myMail.To = "SNI@tiatechnology.com; jok@tiatechnology.com; aja@tiatechnology.com;"  'ruta.dorofejevaite@nordgain.com; xrdo@tiatechnology.com"
             myMail.CC = "sk@outzource.dk"
             'myMail.To = "sk@outzource.dk"
             myMail.Subject = "Record errors TimeOut >> NAV"
@@ -498,6 +514,17 @@
         End If
 
 
+        'Response.Write("<br>Done import - dont close the window. Mail sent with errors")
+        Response.Write("<br>Suc: " & Suc)
+        Response.Write("<br>Err: " & Err)
+        Response.Write("<br>Processed: " & t)
+        Response.Write("<br>Last recordid: " & lastTid)
+        'Response.Write("<br>Done import - dont close the window yet")
+        Response.Flush()
+
+        'datasrc.Text = "All good"
+
+        'Response.Write("<br>" & strSQLmedins)
 
 
 
@@ -524,8 +551,8 @@
     </div>
     <asp:Button runat="server" Text="Hent data" ID="bt" OnClick="hentData"  />
 
-    <h4>Reading Data from the connection
-    <asp:Label ID="datasrc" runat="server"></asp:Label> to the DataGrid</h4>
+    <h4>Reading Data from the connection to the DataGrid</h4>
+    Status: <asp:Label ID="datasrc" runat="server" Style="color:green;"></asp:Label> 
 
     <asp:DataGrid ID="dgNameList" runat="server" /><br />
     </form>

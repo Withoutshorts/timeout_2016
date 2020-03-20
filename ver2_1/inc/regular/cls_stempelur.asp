@@ -1,9 +1,9 @@
  
  <%
 	'******************************************************************************
-     public aabentLogudfindes
+     public aabentLogudfindes, lastDay
      function logindhistorik_week_60_100(usemrn, visning, varTjDatoUS_manSQL, varTjDatoUS_sonSQL)
-
+     lastDay = 0
      aabentLogudfindes = 0
      %>
 
@@ -11,7 +11,7 @@
                                            select case visning
                                             case 0,1
                                             tblWdt = 100
-                                            case 2
+                                            case 2, 3
                                             tblWdt = 100
                                             end select
                                                
@@ -29,7 +29,7 @@
                                                    <td>Medarbejder</td><td>Init</td>
                                                    <%end if %>
                                                   
-                                                  <%if cint(visning) = 0 OR cint(visning) = 1 then %>
+                                                  <%if cint(visning) = 0 OR cint(visning) = 1 OR cint(visning) = 3 then %>
                                                   <td colspan="2">Dato</td>
                                                   <%end if %>
                                                   
@@ -49,7 +49,7 @@
                                               'visning 1 godkend request timer, vis alle medarb. pr. uge
                                               'visning 2 ugeseddel pr. uge
 
-                                              if cint(visning) = 0 OR cint(visning) = 2 then
+                                              if cint(visning) = 0 OR cint(visning) = 2 OR cint(visning) = 3 then
 
                                                 logintjkDatoSql = " AND DATE(login) BETWEEN '"& varTjDatoUS_manSQL & "' AND '"& varTjDatoUS_sonSQL &"'"
                                                 'logintjkDatoSql = year(oRec5("tdato")) & "/" & month(oRec5("tdato")) &"/"& day(oRec5("tdato")) 
@@ -57,7 +57,7 @@
                                                 '******* Tjekker logindtid ********'
                                                 timerMin100Tot = 0
 
-                                                if cint(visning) = 2 then 'viser også nuværende dvs logud IS NULL 
+                                                if cint(visning) = 2 OR cint(visning) = 3 then 'viser også nuværende dvs logud IS NULL 
                                                 strSQL = "SELECT id, logud, login, minutter, stempelurindstilling FROM login_historik WHERE mid = "& usemrn &""_
                                                 &" AND stempelurindstilling <> -10 "& logintjkDatoSql &" ORDER BY login LIMIT 50"
                                                 else
@@ -97,9 +97,10 @@
                                             oRec.open strSQL, oConn, 3
                                             while not oRec.EOF 
                                             
-                                            thisDay = datepart("w", login, 2,2)
+                                          
 
                                             login = oRec("login")
+                                            thisDay = datepart("w", login, 2,2)
 
                                             timerThis = 0
                                             'ER DER LOGGET UD
@@ -156,13 +157,19 @@
 
                                             
 
-                                            if cint(visning) = 0 OR cint(visning) = 2 then
+                                            if cint(visning) = 0 OR cint(visning) = 2 OR cint(visning) = 3 then
 
                                             'Response.write "<tr><td>"& left(weekdayname(weekday(login)), 3) &".</td><td>"& formatdatetime(login, 2) &"</td><td>"& left(formatdatetime(login, 3), 5) & " - " & left(formatdatetime(logud, 3), 5) & "</td><td style=""width:100px;"">&nbsp;</td><td align=right>"& timerThis &":"& minutterThis &"</td><td align=right>"& timerThis &","& minutter100 &"</td></tr>" 
 
 
                                             
-                                                if cint(lastDay) <> cint(thisday) AND lcount > 0 AND thisDayC > 1 then
+                                                'if session("mid") = 1 then
+                                                'Response.Write "HER: "& thisfile &" lastDay: " & lastDay &"<> thisday: "& thisday & "AND lcount > 0: "& lcount &" AND thisDayC > 1: " & thisDayC &"<br>"
+                                                'end if
+                                                
+                                                
+
+                                                if cint(lastDay) <> cint(thisday) AND lcount > 0 then 'AND thisDayC > 1 then
                                                     call dagsTotal(timerThisDayTot, visning)
                                                 end if
 
@@ -171,10 +178,13 @@
                                                 thisDayC = 0
                                                 end if
                                              
-
+                                             if datepart("w", login, 2,2) > 5 then 'lørdag & søndag
+                                             trLinje = "<tr style=""background-color:silver;"">"
+                                             else
                                              trLinje = "<tr>"
+                                             end if
 
-                                             if cint(visning) = 0 OR cint(visning) = 1 then
+                                             if cint(visning) = 0 OR cint(visning) = 1 OR cint(visning) = 3 then
                                              trLinje = trLinje &"<td>"& left(weekdayname(weekday(login)), 3) &".</td>"
                                              trLinje = trLinje &"<td>"& formatdatetime(login, 2) &"</td>"
                                              end if
@@ -182,6 +192,7 @@
                                            
 
                                              if oRec("stempelurindstilling") <> -1 then
+                                             sign = ""
                                                 if isNull(oRec("logud")) = true AND visning = 2 then 'BLINK
                                                 trLinje = trLinje & "<td>"& left(formatdatetime(login, 3), 5) & " - <span class=blink style=""color:red;"">" & left(formatdatetime(logud, 3), 5) & "</span></td>"
                                                 else
@@ -189,24 +200,25 @@
                                                 end if
                                              else
                                              trLinje = trLinje & "<td>Pause</td>"
+                                             sign = "-"
                                              end if
                                              
                                              if visning = 0 then
                                              trLinje = trLinje & "<td style=""width:100px;"">&nbsp;</td>"
                                              end if
 
-                                             if visning = 2 then
+                                             if visning = 2 OR visning = 3 then
                                              trLinje = trLinje & "<td style=""width:20px;"">&nbsp;</td>"
                                              end if
 
 
-                                             if isNull(oRec("logud")) = true AND visning = 2 then 'BLINK
+                                             if isNull(oRec("logud")) = true AND (visning = 2 OR visning = 3) then 'BLINK
                                              trLinje = trLinje & "<td align=right class=blink style=""color:red;"">"& timerThis &":"& minutterThis &"</td>"_
                                              &"<td align=right class=blink style=""color:red;"">"& timerThis &","& minutter100 &"</td>"_
                                              &"</tr>" 
                                              else
-                                             trLinje = trLinje & "<td align=right>"& timerThis &":"& minutterThis &"</td>"_
-                                             &"<td align=right>"& timerThis &","& minutter100 &"</td>"_
+                                             trLinje = trLinje & "<td align=right>"&sign&""& timerThis &":"& minutterThis &"</td>"_
+                                             &"<td align=right>"&sign&""& timerThis &","& minutter100 &"</td>"_
                                              &"</tr>" 
                                              end if
 
@@ -331,11 +343,11 @@
                                                 
                                                       if visning <> 1 then
                                                 
-                                                        if thisDayC > 1 then
+                                                        'if thisDayC > 1 then
 
                                                             call dagsTotal(timerThisDayTot, visning)
                                                    
-                                                        end if
+                                                        'end if
                                                 
 
                                                               if visning = 0 or visning = 1 then 
@@ -367,7 +379,11 @@
         public timerThisDayTot, thisDayC, timerThisDayLontimerTotTxt
             function dagsTotal(timerThisDayTot, visning)
 
-                        
+                        timerThisDayLontimerTotTxt = 0
+
+                        'if session("mid") = 1 then
+                        'Response.Write "HER: " & timerThisDayTot
+                        'end if
 
                         'timerThisTot = 0
                         timerThisTot = formatnumber(timerThisDayTot/60, 2)
@@ -407,7 +423,7 @@
                 'style=""width:100px;""
                 trLinjeTot = "<tr>"
 
-                if visning = 0 Or visning = 1 then
+                if visning = 0 Or visning = 1 Or visning = 3 then
                 trLinjeTot = trLinjeTot &"<td>&nbsp;</td>"
                 trLinjeTot = trLinjeTot &"<td>&nbsp;</td>"
                 end if
@@ -432,22 +448,121 @@
 
 
 '***********************************************************
+'**** MAIN LOGUD FUNKTION. MONOTOR, LOGUD FUNTION fra HOVEDMENU.
+
+
 '*** Fordel stempleurs timer ud på aktiviteter
 '*** H&L timer CFLOW
 '*** Projekttimer
 '***********************************************************
-function fordelStempelurstimer(uid, lto, dothis, logudDone, LogudDateTime) 
+function fordelStempelurstimer(uid, lto, dothis, logudDone, LogudDateTime, thisid) 
 
 
 logudTid = LogudDateTime 'year(loginDato) &"/"& month(loginDato)&"/"& day(loginDato) & " " & logudHH &":"& logudMM & ":00"
-datoThis = day(now)&"/"& month(now)&"/"&year(now)
+logudTidafrundet = 0
 
-strSQL = "SELECT id, login, stempelurindstilling FROM login_historik WHERE mid = " & uid &" AND stempelurindstilling <> -1 ORDER BY id DESC"
+overtid50typ = 54
+overtid100typ = 51
+
+select case lto 
+case "cflow"
+
+        call medariprogrpFn(uid)
+        if (instr(medariprogrpTxt, "#4#") <> 0 OR instr(medariprogrpTxt, "#2#") <> 0) AND (instr(medariprogrpTxt, "#14#") = 0 AND instr(medariprogrpTxt, "#16#") = 0 AND instr(medariprogrpTxt, "#19#") = 0) then 'Produktion ONLY
+        'if session("mid") = 1 then
+
+
+          overtid50typ = 54
+          overtid100typ = 51
+
+             '* afrund mellen 15:30 og 15:45 til 15.30
+             if datepart("h", logudTid, 2,2) = 15 then
+
+                select case datepart("n", logudTid, 2,2)
+                case 31,32,33,34,35,36,37,38,39,40,41,42,43,44,45
+                
+                        logudTid = year(LogudDateTime) &"/"& month(LogudDateTime)&"/"& day(LogudDateTime) & " 15:30:00"
+                        logudTidafrundet = 1
+                        logudTidopr = LogudDateTime
+                end select
+            
+
+             end if
+
+         else
+
+        
+             '*** Andre projektgrupper end produktion **'
+             if instr(medariprogrpTxt, "#16#") <> 0 then 'Enginnering (fastlønn)
+             overtid50typ = 91
+             overtid100typ = 92
+             else
+             overtid50typ = 54
+             overtid100typ = 51
+             end if
+
+
+         end if
+
+         '**TEST
+         'if session("mid") = 1 then
+              '* afrund mellen 15:30 og 15:45 til 15.30
+         '    if datepart("h", logudTid, 2,2) = 11 then
+
+         '       select case datepart("n", logudTid, 2,2)
+         '       case 15,16,17,18,19,20,21,22,23,24,25
+                
+         '               logudTid = year(LogudDateTime) &"/"& month(LogudDateTime)&"/"& day(LogudDateTime) & " 15:30:00"
+         '               logudTidafrundet = 1
+         '               logudTidopr = LogudDateTime
+         '       end select
+            
+
+         '    end if
+         'end if
+
+end select
+
+datoThis = day(now)&"/"& month(now)&"/"&year(now) 'Sættes længere nede = Altid logindato
+
+if dothis = 2 then 'fra komme/gå side. Opdater alle
+strSQL = "SELECT logud, id, login, stempelurindstilling FROM login_historik WHERE logud IS NOT NULL AND id = " & thisid
+else
+strSQL = "SELECT id, login, stempelurindstilling FROM login_historik WHERE mid = " & uid &" AND stempelurindstilling <> -1 AND logud IS NULL ORDER BY id DESC LIMIT 1"
+end if
+
+'if session("mid") = 1 then
+'response.write "strSQL: " & strSQL
+'response.flush
+'end if
+
 oRec.open strSQL, oConn, 3 
 if not oRec.EOF then
 
+
+    if cint(dothis) = 2 then '** Opdater hele ugen fra komme/gå siden
+
+         logudHHthis = datepart("h", oRec("logud"), 2,2)
+         logudMMthis = datepart("n", oRec("logud"), 2,2)
+
+         if logudHHthis < 10 then
+         logudHHthis = "0"&logudHHthis
+         end if
+
+         if logudMMthis < 10 then
+         logudMMthis = "0"&logudMMthis
+         end if
+
+    logudTid = year(oRec("logud")) &"/"& month(oRec("logud"))&"/"& day(oRec("logud")) & " " & logudHHthis &":"& logudMMthis & ":00"
+    else
+    logudTid = logudTid
+    end if
+
+
     loginTid = oRec("login") 'year(loginDato) &"/"& month(loginDato)&"/"& day(loginDato) & " " & loginHH &":"& loginMM & ":00"
-	
+	datoThis = day(loginTid)&"/"& month(loginTid)&"/"&year(loginTid)
+
+
 	if len(loginTid) <> 0 AND len(logudTid) <> 0 then
 
 	loginTidAfr = left(formatdatetime(loginTid, 3), 5)
@@ -498,10 +613,30 @@ if not oRec.EOF then
 	
     if cint(ignoreLogout) = 0 then
 
-	strSQL2 = "UPDATE login_historik SET logud = '"& logudTid &"', logud_first = '"& logudTid &"', minutter = "& minThisDIFF &" WHERE id = " & oRec("id")
-	'Response.Write strSQL2
-    'Response.flush	
+    if dothis = 2 then 'FRA KOMME GÅ SIDEN behold opr.
+    strSQL2 = "UPDATE login_historik SET logud = '"& logudTid &"', minutter = "& minThisDIFF &" WHERE id = " & oRec("id")
+    else
+
+        if cint(logudTidafrundet) = 1 then
+        logudTidopr = logudTidopr
+        manuelt_afsluttetSQL = ", manuelt_afsluttet = 3" 'stempelur tilrettet pga. åbningstider
+        else
+        logudTidopr = logudTid
+        manuelt_afsluttetSQL = ""
+        end if
+
+	    strSQL2 = "UPDATE login_historik SET logud = '"& logudTid &"', logud_first = '"& logudTidopr &"', minutter = "& minThisDIFF &" "& manuelt_afsluttetSQL &" WHERE id = " & oRec("id")
+	end if
+        'if session("mid") = 1 then
+        'Response.Write strSQL2
+        'Response.end	
+        'end if
     oConn.execute(strSQL2)
+
+
+
+
+
 
     select case lto
     case "intranet - local", "cflow"
@@ -527,27 +662,43 @@ if not oRec.EOF then
         timerthis_mtx_tot = 0
 
         'if timertilindlasning <> 0 then
+            thisDayWeekday = datepart("w", datoThis, 2,2)
+
+            select case thisDayWeekday
+            case 6,7
+            ftaktim = overtid100typ 'overtid50typ 
+            'Overtid 50% = Husk SKAL VÆRE spiciel for Engineering og Automasjon
+            case else
             ftaktim = 30 'Ordinær
+            end select
+
+           
+
             loginTid = formatdatetime(oRec("login"), 3)
             logudTidmatrix = formatdatetime(logudTid, 3)
             loginDate = formatdatetime(oRec("login"), 2)
-            call matrixtimespan_2018(datoThis, 0, loginTid, logudTidmatrix, loginDate, lto)
+            call matrixtimespan_2018(uid, datoThis, 0, loginTid, logudTidmatrix, loginDate, lto)
 
-            call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, session("mid"), timerthis_mtx, ftaktim)
+            call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, uid, timerthis_mtx, ftaktim)
 
             timerthis_mtx_komma = replace(timerthis_mtx, ".", ",")
             timerthis_mtx_tot = (timerthis_mtx_tot * 1) + (timerthis_mtx_komma * 1)
 
-            'if session("mid") = 1 then
-            'Response.write "timerthis_mtx: "& timerthis_mtx_komma & "<br>"& timerthis_mtx_tot & "<br>"
-            'Response.flush
-            'end if
+          
 
             '*** Frokost / Pause
             if cdbl(timerthis_mtx) > 3 AND cint(indlaspaajob) = 0 then 'Kun når der stemples ud
 
                 pausefindes = 0
-                strSQLpausefindes = "SELECT tid FROM timer WHERE tdato = '"& datoThis &"' AND tmnr = "& session("mid") &" AND tfaktim = 10" 
+                strSQLpausefindes = "SELECT tid FROM timer WHERE tdato = '"& year(datoThis) & "/"& month(datoThis) & "/" & day(datoThis) &"' AND tmnr = "& uid &" AND tfaktim = 10" 
+
+                'If session("mid") = 1 then
+                '    Response.Write strSQLpausefindes & "<br>"
+                '    Response.flush
+
+                'end if
+
+
                 oRec4.open strSQLpausefindes, oConn, 2
                 if not oRec4.EOF then
                 pausefindes = 1
@@ -557,8 +708,8 @@ if not oRec.EOF then
                 '*** Kun 1 pause pr. dag.
                 if cint(pausefindes) = 0 then
 
-                    call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, session("mid"), "-0,5", ftaktim)
-                    call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, session("mid"), "0,5", 10)
+                    call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, uid, "-0,5", ftaktim)
+                    call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, uid, "0,5", 10)
 
                     haltimespause = (1/2) 
 
@@ -578,63 +729,97 @@ if not oRec.EOF then
         'end if
 
 
-        'if timertilindlasning <> 0 then
-            ftaktim = 54 'Overtid 50% type. Beregn om det skal være 50%
-            loginTid = formatdatetime(oRec("login"), 3)
-            logudTidmatrix = formatdatetime(logudTid, 3)
-            loginDate = formatdatetime(oRec("login"), 2)
-            call matrixtimespan_2018(datoThis, 1, loginTid, logudTidmatrix, loginDate, lto)
 
-            call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, session("mid"), timerthis_mtx, ftaktim)
-
-            timerthis_mtx_komma = replace(timerthis_mtx, ".", ",")
-            timerthis_mtx_tot = (timerthis_mtx_tot * 1) + (timerthis_mtx_komma * 1)
-            'timertilindlasning = 0
-        'end if
+       
+         '****** Overarbejde  / Overtid ************************************************
+         '*** Engineering ALDRIG overtid altid føres explicit ************** 20190308 **
+         '******************************************************************************
+         if instr(medariprogrpTxt, "#16#") = 0 then
 
 
-            'if session("mid") = 1 then
-            'Response.write timerthis_mtx_tot & "<br>"
-            'Response.flush
-            'end if
+                 select case thisDayWeekday
+                 case 6,7
+                 '** SKAL IKKE BEREGNE overtod 50 og 100% i weekenden da all timer skal på overtid 100% type 51
+
+                 case else
+                 '*** Hverdage *** Beregne overtid 50 og 100%
+
+                    ftaktim = overtid50typ  'Overtid 50% type. Beregn om det skal være 50%
+                    loginTid = formatdatetime(oRec("login"), 3)
+                    logudTidmatrix = formatdatetime(logudTid, 3)
+                    loginDate = formatdatetime(oRec("login"), 2)
+
+        
+                    call matrixtimespan_2018(uid, datoThis, 1, loginTid, logudTidmatrix, loginDate, lto)
+
+                    'Alrdirg overtid når der er arbejdet mindre end 8 timer 29101015
+                    arbejdsdagTimerIalt = dateDiff("h", loginDate &" "& loginTid, logudTid, 2,2)
+
+                    'if session("mid") = 1 then
+                    'Response.Write "arbejdsdagTimerIalt: "& arbejdsdagTimerIalt & "loginTid: "& loginTid & "logudTid: " & logudTid
+                    'Response.end
+                    'end if
+
+                    if cdbl(arbejdsdagTimerIalt) < 8 then
+                    'ftaktim sættes til ORDINÆR 
+                    ftaktim = 30 ' Ordinær 
+                    end if
+
+                    call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, uid, timerthis_mtx, ftaktim)
+
+                    timerthis_mtx_komma = replace(timerthis_mtx, ".", ",")
+                    timerthis_mtx_tot = (timerthis_mtx_tot * 1) + (timerthis_mtx_komma * 1)
+        
+
+                    'if session("mid") = 1 then
+                    'Response.write "medariprogrpTxt: "& medariprogrpTxt &"<hr> loginTid: "& loginTid &" logudTidmatrix: "& logudTidmatrix &" logudTid: "& logudTid &" timerthis_mtx: "& timerthis_mtx &" timerthis_mtx: "& timerthis_mtx_komma & "<br>"& timerthis_mtx_tot & "<br>"
+                    'Response.flush
+                    'end if
 
 
-        'if timertilindlasning <> 0 then
-            ftaktim = 51 'Overtid 100% type. Beregn om det skal være 100%
-            loginTid = formatdatetime(oRec("login"), 3)
-            logudTidmatrix = formatdatetime(logudTid, 3)
-            loginDate = formatdatetime(oRec("login"), 2)
-            call matrixtimespan_2018(datoThis, 2, loginTid, logudTidmatrix, loginDate, lto)
+                    ftaktim = overtid100typ 'Overtid 100% type. Beregn om det skal være 100%
+                    loginTid = formatdatetime(oRec("login"), 3)
+                    logudTidmatrix = formatdatetime(logudTid, 3)
+                    loginDate = formatdatetime(oRec("login"), 2)
+                    call matrixtimespan_2018(uid, datoThis, 2, loginTid, logudTidmatrix, loginDate, lto)
 
-            call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, session("mid"), timerthis_mtx, ftaktim)
+                    'Alrdirg overtid når der er arbejdet mindre end 8 timer 29101015
+                    arbejdsdagTimerIalt = dateDiff("h", loginDate &" "& loginTid, logudTid, 2,2)
+                    if cdbl(arbejdsdagTimerIalt) < 8 then
+                    'ftaktim sættes til ORDINÆR 
+                    ftaktim = 30 ' Ordinær 
+                    end if
+
+                    call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, uid, timerthis_mtx, ftaktim)
             
-            timerthis_mtx_komma = replace(timerthis_mtx, ".", ",")
-            timerthis_mtx_tot = (timerthis_mtx_tot * 1) + (timerthis_mtx_komma * 1)
+                    timerthis_mtx_komma = replace(timerthis_mtx, ".", ",")
+                    timerthis_mtx_tot = (timerthis_mtx_tot * 1) + (timerthis_mtx_komma * 1)
 
-            'if session("mid") = 1 then
-            'Response.write timerthis_mtx_tot & "<br>"
-            'Response.flush
-            'end if
-
-        'end if
 
       
 
-        '*** Timer efter midnat **'
-        ftaktim = 90 'Overtid 100% type. Beregn om det skal være 100%
-        loginTid = formatdatetime(oRec("login"), 3)
-        logudTidmatrix = formatdatetime(logudTid, 3)
-        loginDate = formatdatetime(oRec("login"), 2)
-        call matrixtimespan_2018(datoThis, 8, loginTid, logudTidmatrix, loginDate, lto)
+                        '*** Timer efter midnat **'
+                        ftaktim = 90 'Overtid 100% type. Beregn om det skal være 100%
+                        loginTid = formatdatetime(oRec("login"), 3)
+                        logudTidmatrix = formatdatetime(logudTid, 3)
+                        loginDate = formatdatetime(oRec("login"), 2)
+                        call matrixtimespan_2018(uid, datoThis, 8, loginTid, logudTidmatrix, loginDate, lto)
 
-        call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, session("mid"), timerthis_mtx, ftaktim)
-        timerthis_mtx_komma = replace(timerthis_mtx, ".", ",") 
-        timerthis_mtx_tot = (timerthis_mtx_tot * 1) + (timerthis_mtx_komma * 1)
+                        call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, uid, timerthis_mtx, ftaktim)
+                        timerthis_mtx_komma = replace(timerthis_mtx, ".", ",") 
+                        timerthis_mtx_tot = (timerthis_mtx_tot * 1) + (timerthis_mtx_komma * 1)
 
-        'if session("mid") = 1 then
-        '    Response.write timerthis_mtx_tot & "<br>"
-        '    Response.flush
-        '    end if
+      
+
+                 end select ' select case thisDayWeekday
+
+
+            
+         end if ' if instr(medariprogrpTxt, "#16#") <> 0 then = Engineering SKAL ikke have overtid, skal altid føres explixcit
+
+
+
+
 
 
          timertilindlasning = 0
@@ -648,7 +833,7 @@ if not oRec.EOF then
 
         if timertilindlasning <> 0 then
         ftaktim = 52 'Standard 50% type. Beregn om det skal være 100%
-        call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, session("mid"), timertilindlasning, ftaktim)
+        call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, uid, timertilindlasning, ftaktim)
         
         timerthis_mtx_komma = replace(timertilindlasning, ".", ",")
         timerthis_mtx_tot = (timerthis_mtx_tot * 1) - (timerthis_mtx_komma * 1)
@@ -677,7 +862,7 @@ if not oRec.EOF then
 
         if timertilindlasning <> 0 then
         ftaktim = 50 
-        call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, session("mid"), timerthis_mtx_tot, ftaktim)
+        call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, uid, timerthis_mtx_tot, ftaktim)
         timertilindlasning = 0
         end if
 
@@ -692,7 +877,7 @@ if not oRec.EOF then
 
         if timertilindlasning <> 0 then
         ftaktim = 60 
-        call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, session("mid"), timerthis_mtx_tot, ftaktim)
+        call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, uid, timerthis_mtx_tot, ftaktim)
         timertilindlasning = 0
         end if
 
@@ -705,12 +890,12 @@ if not oRec.EOF then
 
         if timertilindlasning <> 0 then
         ftaktim = 61 
-        call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, session("mid"), timerthis_mtx_tot, ftaktim)
+        call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, uid, timerthis_mtx_tot, ftaktim)
         timertilindlasning = 0
         end if
 
 
-        '*** Evt timer øsnkes udbetalt
+        '*** Evt timer ønskes udbetalt
         if len(trim(request("fm_overtidonskesudbetalt"))) <> 0 then
         timertilindlasning = request("fm_overtidonskesudbetalt")
         else
@@ -719,7 +904,7 @@ if not oRec.EOF then
         
         if timertilindlasning <> 0 then
         ftaktim = 33 
-        call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, session("mid"), timerthis_mtx_tot, ftaktim)
+        call overtidsTillaeg(oRec("stempelurindstilling"), lto, loginTid_opr, logudTid, uid, timerthis_mtx_tot, ftaktim)
         timertilindlasning = 0
         end if
 
@@ -727,12 +912,18 @@ if not oRec.EOF then
         '*** INDLÆS på projekter **'
         if cint(fromweblogud) <> 1 then
 
-             if instr(medariprogrpTxt, "#14#") = 0 AND instr(medariprogrpTxt, "#16#") = 0 then
+             'AND instr(medariprogrpTxt, "#3#") = 0
+             if (instr(medariprogrpTxt, "#14#") = 0 AND instr(medariprogrpTxt, "#16#") = 0 AND instr(medariprogrpTxt, "#19#") = 0) OR (instr(medariprogrpTxt, "#4#") <> 0 OR instr(medariprogrpTxt, "#2#") <> 0) then
 
             'if aktivitetid <> 0 AND cdbl(timerthis_mtx_tot) <> 0 then
             insertUpdate = 2 '2: FROM sesaba
             insUpdDate = loginTid
-            call indlasTimerTfaktimAktid(lto, session("mid"), timerthis_mtx_tot, 0, aktivitetid, insertUpdate, insUpdDate)
+            extsysid = 0
+            timerkom = ""
+            koregnr = "" 
+            destination = ""
+            usebopal = 0
+            call indlasTimerTfaktimAktid(lto, uid, timerthis_mtx_tot, 0, aktivitetid, insertUpdate, insUpdDate, extsysid, timerkom, koregnr, destination, usebopal)
 
             'end if
 
@@ -743,6 +934,9 @@ if not oRec.EOF then
         
 
     end select
+
+
+
 	
 
     end if     'cint(ignoreLogout) = 0
@@ -834,18 +1028,22 @@ end function
 
 
 public use_ig_sltid, loginTid, manuelt_afsluttet, stpause, stpause2
-function stpauser_ignorePer(lgi_dato,lgi_sttid_hh,lgi_sttid_mm)
+function stpauser_ignorePer(lgi_dato,lgi_sttid_hh,lgi_sttid_mm, medid)
 
 
-    strSQL = "SELECT ignorertid_st, ignorertid_sl, stpause, stpause2 FROM licens WHERE id = 1"
+    strSperretid_grp = ""
+    strSQL = "SELECT ignorertid_st, ignorertid_sl, stpause, stpause2, sperretid_grp FROM licens WHERE id = 1"
 	oRec.open strSQL, oConn, 3
     if not oRec.EOF then
-    
+    '*** sperretid_grp2 og ignorertid_st 2, ignorertid_sl 2 SKAL aktiveres her. De er lavet i DB og kontrolapanel. '20180823 
+
     ig_sttid = oRec("ignorertid_st")
     ig_sltid = oRec("ignorertid_sl")
     
     stpause = oRec("stpause")
     stpause2 = oRec("stpause2")
+
+    strSperretid_grp = oRec("sperretid_grp")
    
     end if
     oRec.close
@@ -869,15 +1067,60 @@ function stpauser_ignorePer(lgi_dato,lgi_sttid_hh,lgi_sttid_mm)
 					
 					use_ig_sltid = 0
 					
-					if cdate(testloginTid) > cdate(testig_sttid) AND cdate(testloginTid) < cdate(testig_sltid) then
-					use_ig_sltid = 1
-					loginTid = year(lgi_dato) &"/"& month(lgi_dato)&"/"& day(lgi_dato) & " " & ig_sltid
-					manuelt_afsluttet = 3
-					else
+                    '**** TEST er med i gruppe *** 'Cflow 20180823
+                    sperretid_grpMember = 1
+                    if len(trim(strSperretid_grp)) <> 0 then
+
+                        call medariprogrpFn(medid)
+
+                        if instr(strSperretid_grp, "-") = 0 then 'gælder kun for medlem af grupper
+                            sperretid_grpMember = 0
+                            strSperretid_grpArr = split(strSperretid_grp, ",")
+                            for pi = 0 to ubound(strSperretid_grpArr)
+                            
+                                    if instr(medariprogrpTxt, "#"& trim(strSperretid_grpArr(pi)) &"#") <> 0 then
+                                    sperretid_grpMember = 1
+                                    end if
+                            next
+                        else  'gælder kun for IKKE medlem af disse grupper (hvis minus i kontrolpanel)
+                    
+                            sperretid_grpMember = 1 
+                            strSperretid_grp = replace(strSperretid_grp, "-", "")
+                            strSperretid_grpArr = split(strSperretid_grp, ",")
+                            for pi = 0 to ubound(strSperretid_grpArr)
+                            
+                                    if instr(medariprogrpTxt, "#"& trim(strSperretid_grpArr(pi)) &"#") <> 0 then
+                                    sperretid_grpMember = 0
+                                    end if
+                            next
+
+                        end if
+
+
+                    end if           
+
+
+					if (cdate(testloginTid) > cdate(testig_sttid) AND cdate(testloginTid) < cdate(testig_sltid) AND sperretid_grpMember = 1) then
+
+
+                        if lto = "cflow" AND instr(medariprogrpTxt, "#22#") <> 0 then 'ignorer Alligevel sperretid for medarbejdere i denne projektgruppe 20191015
+                        use_ig_sltid = 0
+					    manuelt_afsluttet = 0
+					    loginTid = year(lgi_dato) &"/"& month(lgi_dato)&"/"& day(lgi_dato) & " " & lgi_sttid_hh &":"& lgi_sttid_mm & ":00"
+                        else
+		    			use_ig_sltid = 1
+			    		loginTid = year(lgi_dato) &"/"& month(lgi_dato)&"/"& day(lgi_dato) & " " & ig_sltid
+				    	manuelt_afsluttet = 3
+					    end if
+         
+                    else
 					use_ig_sltid = 0
 					manuelt_afsluttet = 0
 					loginTid = year(lgi_dato) &"/"& month(lgi_dato)&"/"& day(lgi_dato) & " " & lgi_sttid_hh &":"& lgi_sttid_mm & ":00"
 					end if
+
+
+
 					'Response.Write loginTid & "<hr>"
 
 
@@ -926,8 +1169,10 @@ function stempelur_tidskonflikt(thisId, thisMid, kloginTid, klogudTid, kthisDato
 		        &" OR (login < '"& klogudTid &"' AND logud > '"& klogudTid &"') "_
 		        &" OR (login >= '"& kloginTid &"' AND logud < '"& klogudTid &"')) " 'AND logud <= '"& klogudTid &"' 20180426
 		        
+                'if session("mid") = 1 then
 		        'Response.Write "<br>KOnflikt SQL: "& strSQL & "<br>"
 		        'Response.flush
+                'end if
 		        
 		        
 		        
@@ -949,9 +1194,10 @@ function stempelur_tidskonflikt(thisId, thisMid, kloginTid, klogudTid, kthisDato
 		        
 		        end if
 		        
+                'if session("mid") = 1 then
 		        'Response.Write "<br>errKn:" & errKonflikt & "<br>"
-
-                 'Response.write "<br>klogudTid: "& klogudTid &"<br>logudTid B:" & logudTid
+                'Response.write "<br>klogudTid: "& klogudTid &"<br>logudTid B:" & logudTid
+                'end if   
 
 
 end function
@@ -967,11 +1213,11 @@ end function
 '*** Tjekker logind status ved logind i TimeOut eller fra terminal
 '*************************************************************************
 
-public fo_logud, fo_oprettetnytlogin, fo_autoafsluttet, fo_afsluttetlogin
+public fo_logud, fo_oprettetnytlogin, fo_autoafsluttet, fo_afsluttetlogin, hoursDiff, lastfoid, fo_reentry
 function logindStatus(strUsrId, intStempelur, io, tid)
 
 'if session("mid") = 1 then
-'         Response.write "fo_oprettetnytlogin<br>"
+'Response.write "fo_oprettetnytlogin<br>"
 'end if
 
 fo_afsluttetlogin = 0
@@ -997,23 +1243,24 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
 
                     '*** Henter seneste login / logud ***
 				    strSQLlog = "SELECT id, dato, login, logud, mid, stempelurindstilling FROM login_historik WHERE "_
-				    &" mid = "& strUsrId &" AND stempelurindstilling > -1 AND logud IS NULL ORDER BY login DESC limit 0, 1" 
+				    &" mid = "& strUsrId &" AND stempelurindstilling > -1 AND logud IS NULL ORDER BY login DESC limit 1" 
 				    'id limit 0, 1"
                     '0, 10
     				
 				    fo_logud = 0
 				    
                     'if session("mid") = 1 then
-				    'Response.write strSQLlog
+				    'Response.write strSQLlog & "<br>"
 				    'Response.end
-                    'end if           
-
+                    'end if 
+                    hoursDiff = 0
+                    lastfoid = 0
 				    mailissentonce = 0
 				    oRec.open strSQLlog, oConn, 3
-                    while not oRec.EOF 
+                    if not oRec.EOF then
                                 
                                 
-                                
+                                lastfoid = oRec("id")        
                         
                        
                                 '*** Autologud = Firma lukketid på dagen  ***'
@@ -1031,6 +1278,8 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
                                 '** Hvis der er mere end 20 timer mellem 20 logind, må det betragtes som at  **'
                                 '** man har glemt at logge ind.                                              **'
                                 '** TimeOut afslutter seneste logind med lukketid - tilføjer pauser og opretter et nyt logind. **'
+                                '** AUTO LOGUD SKAL ALTID VÆRE SAMME DAG som LOGIN
+
                                 if cdbl(hoursDiff) > 20 then
                                 'logudDag = weekday(oRec("dato"), 2)
                                 logudDag = datepart("w", oRec("dato"), 2, 2)
@@ -1076,25 +1325,29 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
                                 'Response.Write "<br>Lukketid: "& formatdatetime(lukketid, 3)
                                 'Response.end
                                 
-                                LogudDateTime = year(oRec("dato"))&"/"& month(oRec("dato"))&"/"&day(oRec("dato"))&" "& formatdatetime(lukketid, 3)
+                                LogudDateTime = year(oRec("login"))&"/"& month(oRec("login"))&"/"&day(oRec("login"))&" "& formatdatetime(lukketid, 3)
                         
                                
+
+
+                               
+                                '** Er der logget ind efter lukketid og glemt at blive loggetud? 
+                                '** Logud tid = Logind tid 
+                                '** Minutter = 0
+                                'if cDate(loginTidAfr) > cDate(logudTidAfr) then
+                                hoursDiffTjkLukketid = 0
+                                hoursDiffTjkLukketid = datediff("n", LoginDateTime, oRec("login"), 2,2)
+                                if hoursDiffTjkLukketid < 0 AND session("mid") = 1 then
+                                LogudDateTime = year(oRec("login"))&"/"& month(oRec("login"))&"/"&day(oRec("login"))&" "& formatdatetime(oRec("login"), 3)
+                                end if
 
 
                                 '**** Minutter beregning ***
                                 loginTidAfr = formatdatetime(oRec("login"), 3)
                                 logudTidAfr = formatdatetime(LogudDateTime, 3)
                                
-                                '** Er der logget ind efter lukketid og glemt at blive loggetud? 
-                                '** Logud tid = Logind tid 
-                                '** Minutter = 0
-                                'if cDate(loginTidAfr) > cDate(logudTidAfr) then
-                                'LogudDateTime = year(oRec("login"))&"/"& month(oRec("login"))&"/"&day(oRec("login"))&" "& formatdatetime(oRec("login"), 3)
-                                'end if
 
-
-                                'Response.Write "<br>Tidspunkter: "& cDate(loginTidAfr) &">"& cDate(logudTidAfr)
-                                'Response.end
+                               
 
                                 minThisDIFF = datediff("s", loginTidAfr, logudTidAfr)/60
                                 minThisDIFF = replace(formatnumber(minThisDIFF, 0), ".", "")
@@ -1102,7 +1355,22 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
                                 minThisDIFF = abs(minThisDIFF)
 	                            
 	                            '*** Er der tidkonflikt med manulet oprettede loginds fra TO ???
+                                errKonflikt = 0
                                 call stempelur_tidskonflikt(oRec("id"), strUsrId, oRec("login"), LogudDateTime, oRec("dato"), io)
+
+                        
+                                
+                                'if session("mid") = 1 then 
+                                'Response.Write "<br>Tidspunkter: "& cDate(loginTidAfr) &">"& cDate(logudTidAfr) & " LogudDateTime:  " & LogudDateTime & " hoursDiffTjkLukketid: " & hoursDiffTjkLukketid
+                                'Response.end
+                                'end if
+         
+                                'if session("mid") = 1 then
+                                'Response.Write "<br> ================================= errKonflikt: "& errKonflikt &" logudDag dato:"& oRec("dato") &": wdn:"& weekdayname(datepart("w", oRec("dato"), 2, 2), 2,2) &"<br>"
+                                'Response.end
+                                'end if
+
+
 
                                 '*** Der er ikke tidskonfikt og logud oprettes *****'
                                 if cint(errKonflikt) <> 1 then 
@@ -1111,8 +1379,10 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
 	                                &" logud = '"& LogudDateTime &"', minutter = "& minThisDIFF &", "_
 	                                &" manuelt_afsluttet = 2, logud_first = '"& LogudDateTime &"' WHERE id = "& oRec("id")
     				                
+                                    'if session("mid") = 1 then
 				                    'Response.Write "<br>AUTO: "& strSQLupd & "<br>"
 				                    'Response.end
+                                    'end if
     				                
 				                    oConn.execute(strSQLupd)
     				                fo_afsluttetlogin = 1
@@ -1209,7 +1479,14 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
 
                                     'Response.end
                                                 
-				                                
+				                    '** Send ikke mail
+                                    ltotval = "xcflow"
+                                    select case ltotval
+                                    case "cflow"
+
+
+                                    case else 
+
 				                    '***** Oprettter Mail object ***
 			                        if cint(mailissentonce) = 0 AND (request.servervariables("PATH_TRANSLATED") <> "C:\www\timeout_xp\wwwroot\ver2_1\login.asp") _
 			                        AND (request.servervariables("PATH_TRANSLATED") <> "C:\www\timeout_xp\wwwroot\ver2_1\timereg\stempelur_terminal_ns.asp") then
@@ -1226,6 +1503,7 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
 
                                     'myMail.To= "Anders Dencker <dv@dencker.net>"
                                     myMail.To= "Lon <lon@dencker.net>"
+                                    myMail.Cc= "Timeout Support <support@outzource.dk>"
 
                                     'if len(trim(medarbEmail(x))) <> 0 then
                                     'myMail.To= ""& medarbNavn(x) &"<"& medarbEmail(x) &">"
@@ -1302,7 +1580,10 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
 
                         				
                         			mailissentonce = 1
+
+                               
 			                        end if ''** Mail
+                                    end select 'lto
 				                
 				                
 				                else
@@ -1316,33 +1597,40 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
 				                else ' cint(hoursDiff) <= 20 then
 				                
                                 '** Der findes et igangværende uafsluttet logind ***'
-				                '** Ikke hvis der er brugt Terminal, så skal alle logind overføres uanset interval
+				                '** CST Ekstern terminal, så skal alle logind overføres uanset interval --> login_historik_terminal
+                                '** CFLOW Ekstern terminal, så skal alle logind overføres uanset interval.
 				                '** Kun fra TimeOut, hvis f.eks browser er genstartet, eller CPU gået ned.
 				                '** Så skal der ikke oprettes et nyt logind. **'
 				                    
                                     '** IO settings ****
-                                    '** 1 fra TO logind siden 
-				                    '** 2 fra Terminal
+                                    '** 1 fra TO logind siden / Monitor (Cflow) 
+				                    '** 2 fra Ekstern Terminal fra DB tabel Login_historik_terminal (overførsel)
 				                    '** 3 fra Stempelurhistorik / komme / gå tider siden manuelt eller logiud (bruges ikke nov. 2012) Disse indlæases via stempelur.asp -> indlæs
                                     if io = 1 then 'fra login siden i TO 
 				                    '** Indlæser INGEN TING da man logger ind via TO, og er er et igangværende logind
 				                    
-                                    
+                                              
+                                    fo_reentry = 1
                                     fo_logud = 3
 
                                    
-				                    else 'Fra Terminal
+				                    else 'Fra LoginSide + Terminal
                                     '*** Opretter nyt eller afslutter eksisterende
 				                    
 				                            fo_autoafsluttet = 1
 				                            
                                             '*** ÆNDRET 20180517 CFLOW ***
-                                            '*** SKAL VÆRE DEN OPRINDELIGE DAG
+                                            '*** Der kan være logget ud efter 24. Derfor behøver logud dato ikke være den samme som logind dato. Autologud > 20 timer. SKAL ALTID VÆRE SAMEM DATO
                                             '*** = year(LogudDateTime) &"/"& month(LogudDateTime)&"/"& day(LogudDateTime)     
 
-
+                
+                                            'if cdbl(strUsrId) = 1 then
+                                            'LogudDateTimeDDMMYYY_TIME = "8-"& month(LoginDateTime)&"-"&year(LoginDateTime)&" 00:32:00" 
+                                            'LogudDateTime = "8-"& month(LoginDateTime)&"-"&year(LoginDateTime)&" 00:32:00"  'LoginDateTime    
+                                            'else
 				                            LogudDateTimeDDMMYYY_TIME = day(LoginDateTime)&"-"& month(LoginDateTime)&"-"&year(LoginDateTime)&" "& formatdatetime(LoginDateTime, 3)
                                             LogudDateTime = LoginDateTime                      
+                                            'end if
 
                                             '**** Minutter beregning ***
                                             loginTidAfr = oRec("login") 'formatdatetime(oRec("login"), 3)
@@ -1360,6 +1648,7 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
 	                                        if cDate(LogudDateTimeDDMMYYY_TIME) >= cDate(oRec("login")) then
 	                            
 	                                            '*** Er der tidkonflikt med manulet oprettede loginds fra TO ???
+                                                errKonflikt = 0
                                                 call stempelur_tidskonflikt(oRec("id"), strUsrId, oRec("login"), LogudDateTime, oRec("dato"), io)
                                     
                                                 if cint(errKonflikt) <> 1 then 
@@ -1449,7 +1738,7 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
 				                
 				                            end if 'LogudDateTimeDDMMYYY_TIME
 				                
-				                fo_logud = 3   
+				                    fo_logud = 3   
 				                    
 				                    end if 'io
 				                    
@@ -1457,8 +1746,8 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
                          
                         
                         
-                    oRec.movenext   
-                    wend
+                    'oRec.movenext   
+                    end if
                     oRec.close
 				
 				
@@ -1477,7 +1766,8 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
 				
 				lgi_sttid_hh = datepart("h", tid) 
 				lgi_sttid_mm = datepart("n", tid)
-				call stpauser_ignorePer(LoginDato,lgi_sttid_hh,lgi_sttid_mm)
+
+				call stpauser_ignorePer(LoginDato,lgi_sttid_hh,lgi_sttid_mm, strUsrId)
 			    
 			    
 			    if thisfile <> "stempelur_terminal_ns" then
@@ -1487,17 +1777,23 @@ LoginDato = year(tid)&"/"& month(tid)&"/"&day(tid)
 			    end if
 				
 				
-    				
-				    strSQL = "INSERT INTO login_historik "_
-				    &"(dato, login, mid, stempelurindstilling, login_first, ipn, manuelt_afsluttet) "_
-				    &" VALUES ('"& LoginDato &"', '"& LoginTid &"', "& strUsrId &", "_
-				    &" "& intStempelur &", '"& LoginDateTime &"', '"& ipn &"', "& manuelt_afsluttet &")"
-				    'Response.write "<br>ins SQL: "& strSQL & "<br>"
-				    'Response.flush
-				    oConn.execute(strSQL)
+    				'if session("mid") <> 1 then
+				            strSQL = "INSERT INTO login_historik "_
+				            &"(dato, login, mid, stempelurindstilling, login_first, ipn, manuelt_afsluttet) "_
+				            &" VALUES ('"& LoginDato &"', '"& LoginTid &"', "& strUsrId &", "_
+				            &" "& intStempelur &", '"& LoginDateTime &"', '"& ipn &"', "& manuelt_afsluttet &")"
 
-                    fo_oprettetnytlogin = 1
-				    
+                            'if session("mid") = 1 then
+				            'Response.write "<br>ins SQL: "& strSQL & "<br>"
+		                    'end if		    
+
+                            
+         
+                            oConn.execute(strSQL)
+                    'end if
+
+                 
+				    fo_oprettetnytlogin = 1 'fo_logud <> 3
                   
                   '** 2012 nov. 21
                   '** Der SKAL ALTID tilføjes PAUSER, de bliver slettet igen ved afslut logind, 
@@ -1656,6 +1952,16 @@ function stempelur_kolonne(lto, showextended)
     showkguds = 0
     showkgsaa = 1
 
+    case "cflow"
+
+    showkgtim = 1
+    showkgpau = 1
+    showkgtil = 1
+    showkgtot = 1
+    showkgnor = 1
+    showkgsal = 1
+    showkguds = 0
+    showkgsaa = 1
 
     case "cisu", "intranet - local"
 
@@ -1700,8 +2006,9 @@ end function
 
 
 public totaltimerPer, totalpausePer, totalTimerPer100, loginTimerTot
-public manMin, tirMin, onsMin, torMin, freMin, lorMin, sonMin
+public manMin, tirMin, onsMin, torMin, freMin, lorMin, sonMin, totMan, totTir, totOns, totTor, totFre, totLor, totSon
 public manMinPause, tirMinPause, onsMinPause, torMinPause, freMinPause, lorMinPause, sonMinPause
+Public manFraTimer, tirFraTimer, onsFraTimer, torFraTimer, freFraTimer, lorFraTimer, sonFraTimer
 function fLonTimerPer(stDato, periode, visning, medid)
 
 'Response.Write "////////her " & stDato & " Periode: " & periode & " visning: "& visning & " medid: "& medid & " rdir:"& rdir & "<hr>"
@@ -1721,6 +2028,16 @@ function fLonTimerPer(stDato, periode, visning, medid)
     lorMinPause = 0
           sonMin = 0
     sonMinPause = 0
+
+
+
+    totMan = 0
+	totTir = 0
+	totOns = 0
+	totTor = 0
+	totFre = 0
+	totLor = 0
+	totSon = 0
 
 
 totaltimerPer = 0
@@ -1958,8 +2275,11 @@ next
 		                tiltimer = 0
 		                strSQL2 = "SELECT sum(t.timer) AS tiltimer FROM timer t WHERE "_
 		                &" (tmnr = "& medid &" AND tdato = '"& useSQLd &"' AND ("& aty_sql_tilwhours &")) GROUP BY tmnr " 
-		                'Response.Write strSQL2
+		                
+                        'if session("mid") = 1 then
+                        'Response.Write strSQL2 & "<br>###<br>"
 		                'Response.flush
+                        'end if
                 		
 		                oRec2.open strSQL2, oConn, 3 
 		                if not oRec2.EOF then
@@ -1979,8 +2299,11 @@ next
                 		fradtimer = 0
 		                strSQL2 = "SELECT sum(timer) AS fratimer FROM timer t WHERE "_
 		                &" (tmnr = "& medid &" AND tdato = '"& useSQLd &"' AND ("& aty_sql_frawhours &")) GROUP BY tmnr "
-		                'Response.Write strSQL2
+		                
+                        'if session("mid") = 1 then
+                        'Response.Write strSQL2
 		                'Response.flush
+                        'end if
                 		
 		                oRec2.open strSQL2, oConn, 3 
 		                if not oRec2.EOF then
@@ -2351,7 +2674,13 @@ next
 	next
 	
 	   
-	totMan = manMin - (manMinPause - (manFraTimer))
+	
+
+    'if session("mid") = 1 then
+    'Response.write "HER: " & tirMin & " - ( " & tirMinPause & " - ( " & tirFraTimer  &"))"
+    'end if
+
+    totMan = manMin - (manMinPause - (manFraTimer))
 	totTir = tirMin - (tirMinPause - (tirFraTimer))
 	totOns = onsMin - (onsMinPause - (onsFraTimer))
 	totTor = torMin - (torMinPause - (torFraTimer))
@@ -2364,7 +2693,6 @@ next
     if cint(intEasyreg) <> 1 then
 	    call stempelur_kolonne(lto, showextended)
     end if
-	
 	
 
 
@@ -2391,6 +2719,12 @@ end function
 
 function fLonTimerPer_html(stDato, periode, visning, medid)
 
+         call thisWeekNo53_fn(stDato) 
+           thisWeekNo53_stDato = thisWeekNo53
+
+            call thisWeekNo53_fn(now) 
+           thisWeekNo53_now = thisWeekNo53
+
 
 select case visning 
 	case 0, 20%>
@@ -2406,15 +2740,17 @@ select case visning
             <%=meTxt%>
             <%end if %>
 
+        
+
 	    </span><br />Saldo <%=tsa_txt_340 %>&nbsp;- 
-		<%=tsa_txt_005 %>: <%=datepart("ww", stDato, 2, 2)%></h4>
+		<%=tsa_txt_005 %>: <%=thisWeekNo53_stDato%></h4>
 		
 		<!-- Denne uge, nuværende login -->
          <%call erStempelurOn() 
                
         if cint(stempelur_hideloginOn) = 0 then 'skriv ikke login, men åben komme/gå tom
 
-		if datepart("ww", stDato, 2, 2) = datepart("ww", now, 2, 2) then%>
+		if cint(thisWeekNo53_stDato) = cint(thisWeekNo53_now) then%>
 		<%=tsa_txt_134 %>:
 		<%
 		
@@ -2475,7 +2811,7 @@ select case visning
     else 
     cspsStur = 2%>
 
-    <tr bgcolor="#FFFFFF"><td colspan=10 style="border-bottom:1px #CCCCCC solid;"><br /><br /><b><%=tsa_txt_340 %></b> (akkumuleret)</td></tr>
+    <tr bgcolor="#FFFFFF"><td colspan=10 style="border-bottom:1px #CCCCCC solid;"><br /><br /><b><%=tsa_txt_340 %></b></td></tr>
 
     <%end if 'visning %>
 
@@ -2698,7 +3034,7 @@ select case visning
 	
     <%if cint(stempelur_hideloginOn) = 0 then 'skriv ikke login, men åben komme/gå tom
 	
-    if datepart("ww", stDato, 2, 2) =  datepart("ww", now, 2, 2) then%>
+    if cint(thisWeekNo53_stDato) = cint(thisWeekNo53_now) then%>
 	<!-- Denne uge incl. nuværende  -->
 	<%=tsa_txt_139 %>: <% 
 	call timerogminutberegning(logindiffSidste+(loginTimerTot))
@@ -3097,6 +3433,8 @@ function tilfojPauser(io,psMid,psDato,psloginTidp,pslogudTidp,psMin,psKomm)
 
                             end if
 
+                           
+
 end function
 
 
@@ -3200,7 +3538,7 @@ function stPauserProgrp(useMid, p1_grp, p2_grp, p3_grp, p4_grp)
         negativPauseGruppeFundet = 0
         tilfojikkepauserpagrp = 0
 
-        strSQLmansat = " mansat <> 0"
+        strSQLmansat = " mansat <> 0 AND mansat <> 4 "
 
 
         '*** Adgang til Pause 1 ****'
@@ -3619,12 +3957,13 @@ function tottimer(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDatoStar
     else 
         
         if vis <> 1 then%>
+
+               <%call thisWeekNo53_fn(ugeNummer)%>
+
         <tr bgcolor="<%=trBg%>">
 		        <td>&nbsp;</td>
-                <td colspan=<%=csp-4%> style="padding:2px 2px 2px 2px; height:30px;">Løntimer (komme/gå) uge: <%=datepart("ww", ugeNummer, 2,2) %>:</td>
-        
-
-		        <td align=right><b><%=thoursTot%>:<%=left(tminTot, 2)%></b></td>
+                <td colspan=<%=csp-4%> style="padding:2px 2px 2px 2px; height:30px;">Løntimer (komme/gå) uge: <%=thisWeekNo53%>:</td>
+                <td align=right><b><%=thoursTot%>:<%=left(tminTot, 2)%></b></td>
 
 		
 		        <td>&nbsp;</td>

@@ -1,22 +1,9 @@
 <!------ Flex saldo ----->
 
-    <script type ="text/javascript">
-        $(document).ready(function () {
 
-            
-           /* $("#bt_overtid").click(function () {
 
-                alert("HER" + $("#sp_overtid").html())
-               timerThis = $("#sp_overtid").html()
-               $("#fm_overtid").val(""+timerThis+"")
+<!--#include file="touchmonitor_picker.asp"-->
 
-            });
-            */
-
-        });
-    
-
-    </script>
 
     <%
            
@@ -45,7 +32,7 @@
         useStDatoKri = licensstdato
         end if
 
-        call lonKorsel_lukketPerPrDato(now)
+        call lonKorsel_lukketPerPrDato(now, usemrn)
         if lonKorsel_lukketPerDt > useStDatoKri then
         useStDatoKri = dateAdd("d", 1, day(lonKorsel_lukketPerDt) &"/"& month(lonKorsel_lukketPerDt) &"/"& year(lonKorsel_lukketPerDt))
         else
@@ -143,7 +130,7 @@
                 mobil_week_reg_akt_dd = 1
                 %>
 
-               <form action="../sesaba.asp" method="post" id="monitorform" name="monitorform">
+               <form action="../sesaba.asp?frommonitor=1" method="post" id="monitorform" name="monitorform">
                <input type="hidden" id="mobil_week_reg_akt_dd" name="" value="<%=mobil_week_reg_akt_dd %>"/>
                <input type="hidden" id="mobil_week_reg_job_dd" name="" value="<%=mobil_week_reg_job_dd %>"/>
 
@@ -156,6 +143,7 @@
                 'aktidC = request.Cookies("monitor_akt")(session("mid"))
                 'else
                 jobidC = "-1"
+                jobnavnC = ""
                 aktidC = "-1"
                 'end if
 
@@ -164,11 +152,11 @@
                 call medariprogrpFn(usemrn)
 
                 'Response.write "MED I PROGRP: "& medariprogrpTxt
-
-                if instr(medariprogrpTxt, "#14#") = 0 AND instr(medariprogrpTxt, "#16#") = 0 then
+                'AND instr(medariprogrpTxt, "#3#") = 0
+                if ((instr(medariprogrpTxt, "#14#") = 0 AND instr(medariprogrpTxt, "#16#") = 0 AND instr(medariprogrpTxt, "#19#") = 0) OR (instr(medariprogrpTxt, "#4#") <> 0 OR instr(medariprogrpTxt, "#2#") <> 0)) AND lto <> "miele" then
 
                 '** IKKE PÅ COOKIE DA DET SKAL GÆLDE ALLE TERMINALER
-                strSQLsel = "SELECT lha_jobid FROM login_historik_aktivejob_rel WHERE lha_mid = "& session("mid") & " AND lha_jobid <> 0"
+                strSQLsel = "SELECT lha_jobid, j.jobnavn, j.jobnr FROM login_historik_aktivejob_rel LEFT JOIN job j ON (lha_jobid = j.id) WHERE lha_mid = "& session("mid") & " AND lha_jobid <> 0"
 
                 'response.write strSQLsel
                 'response.flush
@@ -178,16 +166,31 @@
 
                     jobidC = oRec("lha_jobid")
 
+                    if len(oRec("jobnavn")) > 40 then
+                    jobnavnC = left(oRec("jobnavn"), 40) & ".. ("& oRec("jobnr") &")"
+                    else
+                    jobnavnC = oRec("jobnavn") &" ("& oRec("jobnr") &")"
+                    end if
+
                 end if
                 oRec.close
                 
 
                  '** IKKE PÅ COOKIE DA DET SKAL GÆLDE ALLE TERMINALER
-                strSQLsel = "SELECT lha_aktid FROM login_historik_aktivejob_rel WHERE lha_mid = "& session("mid") & " AND lha_aktid <> 0"
+                strSQLsel = "SELECT lha_aktid, a.navn as aktnavn FROM login_historik_aktivejob_rel LEFT JOIN aktiviteter a ON (lha_aktid = a.id) WHERE lha_mid = "& session("mid") & " AND lha_aktid <> 0"
+                'response.Write "strSQLsel " & strSQLsel
                 oRec.open strSQLsel, oConn, 3
                 if not oRec.EOF then
 
                     aktidC = oRec("lha_aktid")
+
+                    if len(oRec("aktnavn")) > 40 then
+                    aktnavnC = left(oRec("aktnavn"), 40) & ".."
+                    else
+                    aktnavnC = oRec("aktnavn")
+                    end if
+
+                    
 
                 end if
                 oRec.close
@@ -221,7 +224,7 @@
                         inputFont = "150%"
                         paddingTop = "30px"
                         txtboxWdt = "" 
-                        tblwdt = "450px"
+                        tblwdt = "550px"
                          paddingTop2 = "15px"
                         paddingTop3 = "40px"
 
@@ -244,11 +247,25 @@
 
                    <table style="font-size:80%; width:<%=tblwdt%>px; display:inline-table;" border="0">
 
-                       <%if instr(medariprogrpTxt, "#14#") = 0 AND instr(medariprogrpTxt, "#16#") = 0 then  %>
+                       <%
+                       'AND instr(medariprogrpTxt, "#3#") = 0
+                       if ((instr(medariprogrpTxt, "#14#") = 0 AND instr(medariprogrpTxt, "#16#") = 0 AND instr(medariprogrpTxt, "#19#") = 0) OR (instr(medariprogrpTxt, "#4#") <> 0 OR instr(medariprogrpTxt, "#2#") <> 0)) AND lto <> "miele" then  %>
 
-                     <tr><td colspan="2" style="padding-left:10px; padding-top:0px; font-size:15px; text-align:left;">Projekt</td></tr>
+
+                       <%if skiftjob = "100" then 'Denne knap skal ikke vises %>
+                       <tr>
+                           <td colspan="2" style="padding-top:25px;">
+                         
+                               <input type="button" id="xbt_indlaspaajob" class="btn btn-default btn-info" value="Velg Jobb">
+                               <input type="hidden" value="0" name="xindlaspaajob" id="xindlaspaajob" />
+                           </td>
+                       </tr>
+                        <%end if %>
+
+                     
+
                    <tr><td colspan="2">
-
+                       <input type="hidden" id="FM_jobid_valgt" value="<%=jobidC %>" />
                        <!--<span style="background-color:yellow; font-size:14px;">Hei <%=session("user") %> <br />- pga en nulstilling af projekter, er du nødt til at vælge projekt på nyt.</span>-->
 
                         <!--<input type="text" id="test" />-->
@@ -260,16 +277,30 @@
                               if cint(mobil_week_reg_job_dd) = 1 then %>
                             
                             <input type="hidden" id="FM_job_0" value="-1"/>
-                             <select id="dv_job_0" name="FM_jobid" style="font-size:<%=inputFont %>; height:<%=inputHeight%>; <%=txtboxWdt%>" class="form-control input-<%=txtClass %> chbox_job">
+                           <!-- <select id="dv_job_0" name="FM_jobid" style="font-size:<%=inputFont %>; height:<%=inputHeight%>; <%=txtboxWdt%>" class="form-control input-<%=txtClass %> chbox_job">
                                  <option value="-1"><%=left(tsa_txt_145, 4) %>..</option>
-                                 <!--<option value="0">..</option>-->
-                             </select>
+                                 <!--<option value="0">..</option>-,->
+                             </select> -->
+                          
+                              
+                            <!-- SPECIAL TILES PICKER PÅ TOUCH MONITOR SKÆRM -->
+                            <input type="hidden" value="0" name="indlaspaajob" id="indlaspaajob" />
+                            <input type="hidden" value="<%=skiftjob %>" name="" id="skiftjob" /> 
+
+                            <%if skiftjob = "1" OR aktidC = "-1" then %>
+                            <a id="modal_picker" class="btn btn-default picmodal loadjob" style="width:150px; font-size:150%;"><b>Velg jobb</b></a>&nbsp; 
+                            <%else %>
+                            <a id="bt_indlaspaajob" class="btn btn-default" style="width:150px; font-size:150%;"><b>Skift jobb</b></a>&nbsp;
+                            <!--<input type="button" id="bt_indlaspaajob" class="btn btn-default btn-info" value="Velg Jobb">-->
+                            <%end if %>
+                            
+                            <span style="font-size:15px;" id="FM_jobnavn" class="jobid_span"><%=jobnavnC %></span>
 
                             <%else %>
                             <input type="text" style="font-size:<%=inputFont%>; height:<%=inputHeight%>" id="FM_job_0" name="FM_job" placeholder="<%=tsa_txt_066 %>/<%=tsa_txt_236 %>" class="FM_job form-control input-<%=txtClass %>"/>
                            <!-- <div id="dv_job_0" class="dv-closed dv_job" style="border:1px #cccccc solid; padding:10px; visibility:hidden; display:none;"></div>--> <!-- dv_job -->
 
-                             <select id="dv_job_0" class="form-control input-small chbox_job" size="10" style="visibility:hidden; display:none;">
+                             <select id="dv_job_0" class="form-control input-small chbox_job" size="10" style="visibility:hidden; display:none;">-
                                  <option><%=tsa_txt_534%>..</option>
                              </select>
 
@@ -277,7 +308,7 @@
                             <%end if %>
 
                        </td></tr>
-                        <tr><td colspan="2" style="padding-left:10px; padding-top:10px; font-size:15px; text-align:left;">Komponent/Aktivitet</td></tr>
+                       
 
                             <tr><td colspan="2">
 
@@ -285,11 +316,16 @@
                                     
                               mobil_week_reg_akt_dd = 1      
                               if cint(mobil_week_reg_akt_dd) = 1 then %>
-                                 <input type="hidden" id="FM_akt_0" value="-1"/>
+                                 <input type="hidden" id="FM_akt_0" value="<%=aktidC %>"/>
+                                 <input type="hidden" id="FM_aktivitetid" name="FM_aktivitetid" value="<%=aktidC %>" />
                                  <!--<textarea id="dv_akt_test"></textarea>-->
-                                 <select id="dv_akt_0" name="FM_aktivitetid" class="form-control input-<%=txtClass %> chbox_akt" style="font-size:<%=inputFont%>; height:<%=inputHeight%>; <%=txtboxWdt%>" DISABLED>
+                               <!--  <select id="dv_akt_0" name="FM_aktivitetid" class="form-control input-<%=txtClass %> chbox_akt" style="font-size:<%=inputFont%>; height:<%=inputHeight%>; <%=txtboxWdt%>" DISABLED>
                                       <option>..</option>
-                                  </select>
+                                  </select> -->
+
+                                   <!-- SPECIAL TILES PICKER PÅ TOUCH MONITOR SKÆRM -->
+                                <a id="modal_picker" class="btn btn-default picmodal loadact" style="width:150px; font-size:150%;"><b>Velg aktivitet</b></a>&nbsp 
+                                <span style="font-size:15px;" id="FM_aktnavn" class="aktid_span"><%=aktnavnC %></span>
 
                              <%else %>
                               <input style="font-size:<%=inputFont%>; height:<%=inputHeight%>" type="text" id="FM_akt_0" name="activity" placeholder="<%=tsa_txt_068%>" class="FM_akt form-control input-<%=txtClass %>"/>
@@ -303,13 +339,7 @@
                            
                         </td></tr>
 
-                    <tr>
-                       <td colspan="2" style="padding-top:5px; padding-left:10px; text-align:right;">
-                         
-                           <input type="button" id="bt_indlaspaajob" class="btn btn-sm btn-info" value="Indlæs timer og vælg etterpå nyt projekt >>">
-                           <input type="hidden" value="0" name="indlaspaajob" id="indlaspaajob" />
-                       </td>
-                   </tr>
+                 
 
                    <%if browstype_client <> "xip" then %>
                    <tr><td colspan="2"><br />&nbsp;</td></tr>
@@ -387,7 +417,7 @@
                     </tr>
 
                     <tr>
-                        <td style="padding-top:<%=paddingTop2%>; padding-left:10px; font-size:15px;">Reisetid:<br /><span style="font-size:11px;">30 min = 0,5</span>
+                        <td style="padding-top:<%=paddingTop2%>; padding-left:10px; font-size:15px;">Reisetid:<br /><span style="font-size:11px;">30 min = 0,5</span></td>
                         <td style="padding-top:<%=paddingTop2%>; padding-left:60px; font-size:15px; text-align:right;" align="right"><input type="text" id="fm_rejsetid" name="FM_rejsetid" value="0" class="form-control input-lg" style="text-align:right;" /></td>
                     </tr>
                    
@@ -437,6 +467,11 @@
             <!--</div> -->
         <%
         end if
+
+
+
+
+
 
 
     end function

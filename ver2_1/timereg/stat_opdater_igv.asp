@@ -28,6 +28,7 @@ if len(session("user")) = 0 then
 	call showError(errortype)
 	else
 
+     thisfile = "stade"
      
      level = session("rettigheder")
 
@@ -66,12 +67,7 @@ if len(session("user")) = 0 then
    
      '**** Stade indmelding ****'
      call stadeindm(usemrn, 2, mthuse)
-
-
-
- 
-
-    call ekportogprint_fn()
+     call ekportogprint_fn()
                
    
 
@@ -85,6 +81,8 @@ if len(session("user")) = 0 then
        call ekportogprint_fn()
 
     case else
+
+    
 
 	%>
 

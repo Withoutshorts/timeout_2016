@@ -360,7 +360,8 @@ if len(session("user")) = 0 then
 	strSQL = "SELECT f.fid, f.faknr, f.fakdato, f.timer, f.beloeb, f.b_dato, f.fakadr, f.faktype, "_
 	&" f.konto, f.modkonto, f.moms, f.erfakbetalt, f.valuta, f.kurs, fak_ski, "_
 	&" k.kkundenr, k.kkundenavn, k.adresse, k.postnr, k.city, k.land, k.telefon, f.valuta, "_
-	&" f.kurs, k.ean, v.valutakode, k.cvr, medregnikkeioms, j.jobnr, s.aftalenr, brugfakdatolabel, labeldato, f.fak_fomr, k.ktype, momssats, f.afsender, f.editor AS oprettetaf, f.dato AS oprettetdato"_
+	&" f.kurs, k.ean, v.valutakode, k.cvr, medregnikkeioms, j.jobnr, s.aftalenr, brugfakdatolabel, labeldato, f.fak_fomr, k.ktype, "_
+    &" momssats, f.afsender, f.editor AS oprettetaf, f.dato AS oprettetdato, usealtadr"_
 	&" FROM fakturaer f "_
 	&" LEFT JOIN kunder k ON (k.kid = f.fakadr)"_
     &" LEFT JOIN job j ON (j.id = f.jobid)"_
@@ -1364,8 +1365,27 @@ if len(session("user")) = 0 then
 
     modKonto = oRec("modkonto")
 
-	strTxtExport = strTxtExport & konto &";"& modKonto &";"& oRec("b_dato") &";"&oRec("erfakbetalt")&";"& oRec("ean")&";"
-    
+	strTxtExport = strTxtExport & konto &";"& modKonto &";"& oRec("b_dato") &";"&oRec("erfakbetalt")&";"
+        
+    'ER EAN fra hovekudne eller ALTadr
+    if oRec("usealtadr") <> 0 then
+
+        kpean = 0
+        strSQLaltadr = "SELECT kpean FROM kontaktpers WHERE id = "& oRec("usealtadr")
+        oRec10.open strSQLaltadr, oConn, 3
+        if not oRec10.EOF then
+
+        kpean = oRec10("kpean")
+
+        end if
+        oRec10.close
+
+        strTxtExport = strTxtExport & kpean &";"
+
+    else
+    strTxtExport = strTxtExport & oRec("ean")&";"
+    end if
+
     
     if lto <> "acc" then
     fakbelobInklMoms = (belob/1)+(moms/1)

@@ -2106,6 +2106,7 @@ function LeiRotate() {
 
                         '** Ved valgt job i dd og vis udspec slået til, skal job ikke vises på job niveau
                         sqlJobKritemp0 = "j.id = 0 "
+                        
                         end if
 
                     else
@@ -2123,7 +2124,10 @@ function LeiRotate() {
                     aktidsSQLkriUse = ""
 			        sqlMedKriStrTjk = ""
                                
+                                         
+                                        '**** Hvis der IKKE er valgt udspecificering på aktiviteter
                                         
+                                        if sqlJobKritemp0 <> "j.id = 0 " then
            
 
 			                            strSQLj = "SELECT tmnr, j.id AS jid, jobnr, t.tmnr FROM timer t, job j "_
@@ -2132,13 +2136,15 @@ function LeiRotate() {
 					
                                     
                                         'if session("mid") = 1 then
-                                        'Response.write "<br><br>Finder Job: "& strSQLj
+                                        'Response.write "<br><br>Finder Job: "& strSQLj & "<br>sqlJobKritemp0: " & sqlJobKritemp0
 					                    'Response.flush
 		                                'end if
         			
+                                        
 					                    sqlMedKri = " m.mid = 0 "
 					                    sqlJobKri = " j.id = 0 "
-					
+		                                			
+
 					                    j = 0
 					                    oRec.open strSQLj, oConn, 3
 					                    while not oRec.EOF
@@ -2161,7 +2167,8 @@ function LeiRotate() {
 					                    sqlJobKri = sqlJobKri & " OR j.id = " & oRec("jid") & "#"
                                         end if
                                         
-                                        
+                                        'Response.write "<br>HER: " & sqlMedKriStrTjk                                
+
                                         if instr(sqlMedKriStrTjk, ",#"& oRec("tmnr") &"#") = 0 then
                                         sqlMedKri = sqlMedKri & " OR m.mid = " & oRec("tmnr")
                                         sqlMedKriStrTjk = sqlMedKriStrTjk & ",#"& oRec("tmnr") &"#" 
@@ -2178,60 +2185,79 @@ function LeiRotate() {
 					                    oRec.close
 
 
-                                    
-                                        '** Hvis Ressource timer er slået til skal de også vises. ********
-                                        if cint(vis_restimer) = 1 then
-                
-                                        sqlJobKritemp0res = replace(jidSQLkri, "id", "jobid")
-                                        ressourceFCper = " ((aar >= "& year(sqlDatoStart)&" AND md >= "& month(sqlDatoStart) &") AND (aar <= "& year(sqlDatoSlut) &" AND md <= "& month(sqlDatoSlut) &"))"
-                                        
-
-                                        strSQLjobMforecast = "SELECT timer, jobid, medid FROM ressourcer_md AS rs WHERE " & ressourceFCper & " AND "& replace(medarbSQlKri, "m.mid", "rs.medid") &" AND ("& sqlJobKritemp0res &") GROUP BY jobid, medid"
-
-                                        'response.write "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>"& strSQLjobMforecast
-                                        'response.Flush
-                                        
-
-                                        oRec.open strSQLjobMforecast, oConn, 3
-					                    while not oRec.EOF                
-                                        
-                                          '** ForretningsområdeKRI
-                                        foromrKriOK = 1
-                                        if strFomr_relaktids <> "0" then
-                                       
-                                            if instr(strFomr_relaktids, "#"& oRec("jobid") &"#") = 0 then 'IKKE EN DEL AF DE VALGTE FORRETNINGSOMRÅDER
-                                            foromrKriOK = 0
-                                            end if                        
-            
+                                        else
+                                             
+					                        sqlJobKri = " j.id = 0 "
+                                            sqlMedKri = replace(medarbSQlKri, "m.mid", "t.tmnr")
                                         end if
 
+                                        'if session("mid") = 1 then
+                                            '*** Hvis der er valgt udspecificering
+                                            'if cint(upSpec) = 1 AND j = 0 then
+                                            'sqlMedKri = replace(medarbSQlKri, "m.mid", "t.tmnr")
+                                            'end if
+                                        'end if
 
-                                        if cint(foromrKriOK) = 1 then	
+                                        'if session("mid") = 1 then
+                                        'Response.write "<br>ja0: sqlMedKri: " & sqlMedKri
+                                        'end if
+
+                                    
+                                                '** Hvis Ressource timer er slået til skal de også vises. ********
+                                                if cint(vis_restimer) = 1 then
+                
+                                                sqlJobKritemp0res = replace(jidSQLkri, "id", "jobid")
+                                                ressourceFCper = " ((aar >= "& year(sqlDatoStart)&" AND md >= "& month(sqlDatoStart) &") AND (aar <= "& year(sqlDatoSlut) &" AND md <= "& month(sqlDatoSlut) &"))"
+                                        
+
+                                                strSQLjobMforecast = "SELECT timer, jobid, medid FROM ressourcer_md AS rs WHERE " & ressourceFCper & " AND "& replace(medarbSQlKri, "m.mid", "rs.medid") &" AND ("& sqlJobKritemp0res &") GROUP BY jobid, medid"
+
+                                                'if session("mid") = "1" then
+                                                'response.write "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>"& strSQLjobMforecast
+                                                'response.Flush
+                                                'end if
+                                        
+
+                                                oRec.open strSQLjobMforecast, oConn, 3
+					                            while not oRec.EOF                
+                                        
+                                                          '** ForretningsområdeKRI
+                                                        foromrKriOK = 1
+                                                        if strFomr_relaktids <> "0" then
+                                       
+                                                            if instr(strFomr_relaktids, "#"& oRec("jobid") &"#") = 0 then 'IKKE EN DEL AF DE VALGTE FORRETNINGSOMRÅDER
+                                                            foromrKriOK = 0
+                                                            end if                        
+            
+                                                        end if
+
+
+                                                        if cint(foromrKriOK) = 1 then	
 
                             
-                                            if instr(sqlMedKriStrTjk, ",#"& oRec("medid") &"#") = 0 then
-                                            sqlMedKri = sqlMedKri & " OR m.mid = " & oRec("medid")
-                                            sqlMedKriStrTjk = sqlMedKriStrTjk & ",#"& oRec("medid") &"#"
-                                            end if
+                                                            if instr(sqlMedKriStrTjk, ",#"& oRec("medid") &"#") = 0 then
+                                                            sqlMedKri = sqlMedKri & " OR m.mid = " & oRec("medid")
+                                                            sqlMedKriStrTjk = sqlMedKriStrTjk & ",#"& oRec("medid") &"#"
+                                                            end if
                                         
                                              
-                                            'sqlMedKri = sqlMedKri & " OR m.mid = " & oRec("medid")
+                                                            'sqlMedKri = sqlMedKri & " OR m.mid = " & oRec("medid")
                                         
-                                            if instr(sqlJobKri, " OR j.id = " & oRec("jobid") & "#") = 0 then  
-					                        sqlJobKri = sqlJobKri & " OR j.id = " & oRec("jobid") & "#"
-                                            end if
+                                                            if instr(sqlJobKri, " OR j.id = " & oRec("jobid") & "#") = 0 then  
+					                                        sqlJobKri = sqlJobKri & " OR j.id = " & oRec("jobid") & "#"
+                                                            end if
 
                                         
-                                        end if
+                                                        end if
 
-                                        oRec.movenext
-					                    wend
+                                                oRec.movenext
+					                            wend
 					
-					                    oRec.close
-                                        end if 'vis resttimer
+					                            oRec.close
+                                                end if 'vis resttimer
 
 
-                                       '*****************************************************************
+                                                '*****************************************************************
 
                             
 			
@@ -2254,7 +2280,7 @@ function LeiRotate() {
 		                    'end if			
 
 					        aktidsSQLkriUse = " a.id = 0 "
-					        sqlMedKri = " m.mid = 0 "
+					        sqlAMedKri = " m.mid = 0 "
 					        sqlMedKriStrTjk = ""
 					
 					        j = 0
@@ -2277,7 +2303,7 @@ function LeiRotate() {
 
 
 					
-					                    sqlMedKri = sqlMedKri & " OR m.mid = " & oRec("tmnr")
+					                    sqlAMedKri = sqlAMedKri & " OR m.mid = " & oRec("tmnr")
                                         'sqlJobKri = sqlJobKri & " OR j.id = " & oRec("job")
 		                    
                                         if instr(sqlJobKri, " OR j.id = " & oRec("job") & "#") = 0 then  
@@ -2301,53 +2327,57 @@ function LeiRotate() {
 					        oRec.close
 
 
+
+
                                         '** Hvis Ressource timer er slået til skal de også vises. ********
                                         if cint(vis_restimer) = 1 then
                                         ressourceFCper = " ((aar >= "& year(sqlDatoStart)&" AND md >= "& month(sqlDatoStart) &") AND (aar <= "& year(sqlDatoSlut) &" AND md <= "& month(sqlDatoSlut) &"))"
                                         sqlJobKritemp0res = replace(jidSQLkri, "id", "jobid")
 
 
-                                        strSQLAktMforecast = "SELECT timer, jobid, aktid, medid FROM ressourcer_md AS rs WHERE " & ressourceFCper & " AND "& replace(medarbSQlKri, "m.mid", "rs.medid") &" AND ("& sqlJobKritemp0res &") GROUP BY jobid, aktid, medid"
+                                        strSQLAktMforecast = "SELECT timer, jobid, aktid, medid FROM ressourcer_md AS rs WHERE " & ressourceFCper & " AND "& replace(medarbSQlKri, "m.mid", "rs.medid") &" AND ("& sqlJobKritemp0res &") GROUP BY jobid, medid, aktid"
 
+                                        'if session("mid") = "1" then
                                         'response.write "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>"& strSQLAktMforecast
                                         'response.Flush
+                                        'end if
                                         
 
                                         oRec.open strSQLAktMforecast, oConn, 3
 					                    while not oRec.EOF                
 
-                                         '** ForretningsområdeKRI
-                                        foromrKriOK = 1
-                                        if strFomr_relaktids <> "0" then
+                                                 '** ForretningsområdeKRI
+                                                foromrKriOK = 1
+                                                if strFomr_relaktids <> "0" then
                                        
-                                            if instr(strFomr_relaktids, "#"& oRec("aktid") &"#") = 0 then 'IKKE EN DEL AF FORRETNINGSOMRÅDE
-                                            foromrKriOK = 0
-                                            end if                        
+                                                    if instr(strFomr_relaktids, "#"& oRec("aktid") &"#") = 0 then 'IKKE EN DEL AF FORRETNINGSOMRÅDE
+                                                    foromrKriOK = 0
+                                                    end if                        
             
-                                        end if
+                                                end if
 
                                            
 
-                                        if cint(foromrKriOK) = 1 then
+                                                if cint(foromrKriOK) = 1 then
         
-                                            if instr(sqlMedKriStrTjk, ",#"& oRec("medid") &"#") = 0 then
-                                            'response.write sqlMedKriStrTjk & "<br>"
-                                            sqlMedKri = sqlMedKri & " OR m.mid = " & oRec("medid")
-                                            sqlMedKriStrTjk = sqlMedKriStrTjk & ",#"& oRec("medid") &"#"
-                                            end if
+                                                    if instr(sqlMedKriStrTjk, ",#"& oRec("medid") &"#") = 0 then
+                                                    'response.write sqlMedKriStrTjk & "<br>"
+                                                    sqlAMedKri = sqlAMedKri & " OR m.mid = " & oRec("medid")
+                                                    sqlMedKriStrTjk = sqlMedKriStrTjk & ",#"& oRec("medid") &"#"
+                                                    end if
                                         
                                              
                                         
-                                        if instr(sqlJobKri, " OR j.id = " & oRec("jobid") & "#") = 0 then  
-					                    sqlJobKri = sqlJobKri & " OR j.id = " & oRec("jobid") & "#"
-                                        end if		
+                                                    if instr(sqlJobKri, " OR j.id = " & oRec("jobid") & "#") = 0 then  
+					                                sqlJobKri = sqlJobKri & " OR j.id = " & oRec("jobid") & "#"
+                                                    end if		
         			
                                         
-                                        if instr(aktidsSQLkriUse, " OR a.id = " & oRec("aktid") & "#") = 0 then  
-					                    aktidsSQLkriUse = aktidsSQLkriUse & " OR a.id = "& oRec("aktid") & "#"
-                                        end if
+                                                    if instr(aktidsSQLkriUse, " OR a.id = " & oRec("aktid") & "#") = 0 then  
+					                                aktidsSQLkriUse = aktidsSQLkriUse & " OR a.id = "& oRec("aktid") & "#"
+                                                    end if
                     
-                                        end if
+                                                end if
 
                                         
                                         oRec.movenext
@@ -2476,7 +2506,12 @@ function LeiRotate() {
             
 
 			if cint(visMedarbNullinier) = 0 then
-            strSQL = strSQL &" WHERE ("& sqlMedKri &") "
+            
+                    if cint(ja) <> 0 then 'Udspec Akti
+                    strSQL = strSQL &" WHERE ("& sqlAMedKri &") "
+                    else
+                    strSQL = strSQL &" WHERE ("& sqlMedKri &") "
+                    end if
             else 
 			strSQL = strSQL &" WHERE ("& medarbSQlKri &") "
 			end if
@@ -2486,8 +2521,12 @@ function LeiRotate() {
             '("& sqlJobKri &")
             'sqlMedKri
 			
+
+            'if session("mid") = 1 then
+
 			'Response.write "<br><br><hr>"
 			'Response.write "sqlMedKri: "& sqlMedKri &"<br>"
+            'Response.write "sqlAMedKri: "& sqlAMedKri &"<br>"
 			'Response.write " sqlJobKri: "& sqlJobKri &"<br>"
 			'Response.write "aktSQLFields: "& aktSQLFields &"<br>"
 			'Response.write " aktSQLTables: "& aktSQLTables &"<br>"
@@ -3069,9 +3108,12 @@ function LeiRotate() {
         end if'    if cint(directexp) <> 1 then 
 
 
-
-
+        '***************************************************************
+        '*** Medarbejder overskrift linje ******************************
+        '***************************************************************
         call medarboSkriftlinje
+
+
 	    
         if cint(directexp) <> 1 then 
         'if cint(upSpec) <> 1 then
@@ -4606,7 +4648,7 @@ function LeiRotate() {
                         case "mmmi", "xintranet - local"
                         expTxt = expTxt &"Grandtotal;;;;;;;;;;"
                         case else
-                        expTxt = expTxt &"Grandtotal;;;;;;;;;;;"
+                        expTxt = expTxt &"Grandtotal;;;;;;;;;;"
                         end select
                 end select
 				
@@ -4730,7 +4772,7 @@ function LeiRotate() {
 
 								expTxt = expTxt & formatnumber(totaltotaljboTimerIalt,2) &";"
 
-                                expTxt = expTxt & ""& valutaKode_CCC &";" 'valutakode
+                               
 
 
                                 select case lto
@@ -4740,6 +4782,10 @@ function LeiRotate() {
                                 '** Real. timer % GT
                                 expTxt = expTxt &";"
                                 end select
+
+                                
+                                expTxt = expTxt & ""& valutaKode_CCC &";" 'valutakode
+
 
                                 if cint(vis_restimer) = 1 then
                                 expTxt = expTxt & formatnumber(restimerTotalJob,0) &";"

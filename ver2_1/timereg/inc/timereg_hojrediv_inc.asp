@@ -1,5 +1,7 @@
 <%'GIT 20160811 - SK
 
+public seljobidSQLfc
+'public ferieAftVal, ferieBalValTxt
 function hojreDiv()
 
     '*************************************************************'
@@ -15,13 +17,139 @@ function hojreDiv()
       
       
       '**Vis ikke højremenu ofr disse '***
-      if (lto = "xintranet - local") OR (lto = "demo") OR (lto = "adra") OR (lto = "wwf") OR (lto = "ngf") OR (lto = "ascendis") OR (lto = "akelius") OR _
+      if (lto = "intranet - local") OR (lto = "demo") OR (lto = "adra") OR (lto = "wwf") OR (lto = "ngf") OR (lto = "ascendis") OR (lto = "akelius") OR _
       (lto = "hvk_bbb") OR (lto = "mmmi" AND meType = 10) OR (lto = "xdencker") OR (lto = "biofac") OR (lto = "epi_uk") OR (lto = "tec") OR (lto = "esn") OR _
       (lto = "micmatic") OR (lto = "aalund") OR (lto = "nonstop") OR (lto = "oko") OR (lto = "wilke") OR (lto = "cisu") OR (lto = "hidalgo") OR (lto = "bf") OR (lto = "cst") OR (lto = "plan") then
 
-            if lto = "wwf" OR lto = "xintranet - local" then 
+
+             extraToppx = 0
+            if lto = "wwf" OR lto = "intranet - local" then 
+            extraToppx = 100
+    
+    
+                        
+
+                         call licensStartDato()
+                         call lonKorsel_lukketPer(now, -2, usemrn)
+                         call meStamdata(usemrn)
+
+                         if cdate(meAnsatDato) > cdate(licensstdato) then
+                         listartDato_GT = meAnsatDato
+                         else
+                         listartDato_GT = licensstdato
+                         end if
+
+                         lic_mansat_dt = listartDato_GT
+
+                         if cdate(lonKorsel_lukketPerDt) > cdate(listartDato_GT) then
+                         lonKorsel_lukketPerDt = dateAdd("d", 1, lonKorsel_lukketPerDt)
+                         listartDato_GT = year(lonKorsel_lukketPerDt) &"/"& month(lonKorsel_lukketPerDt) &"/"& day(lonKorsel_lukketPerDt)
+                         else
+                         listartDato_GT = year(listartDato_GT) &"/"& month(listartDato_GT) &"/"& day(listartDato_GT)
+                         end if
+
+                        slutDato_GT = year(now) & "/" & month(now) & "/" & day(now)   
+
+                        call akttyper2009(6)
+	                    akttype_sel = "#-99#, " & aktiveTyper
+	                    akttype_sel_len = len(akttype_sel)
+	                    left_akttype_sel = left(akttype_sel, akttype_sel_len - 2)
+	                    akttype_sel = left_akttype_sel
+
+
+                        'Response.Write "usemrn: " & usemrn &", listartDato_GT: "& listartDato_GT &", slutDato_GT: "& slutDato_GT &", 5, akttype_sel:" & akttype_sel & "<br>"
+
+                        'if session("mid") = 1 then
+                        'slutDato_GT = "2019-04-30"
+                        'end if
+
+                        call medarbafstem(usemrn, listartDato_GT, slutDato_GT, 5, akttype_sel, 0) 
+    
+                        ferieBal = 0
+                        call ferieBal_fn(ferieOptjtimer(0), ferieOptjOverforttimer(0), ferieOptjUlontimer(0), ferieAFTimer(0), ferieAFulonTimer(0), ferieUdbTimer(0))
+	 
+	                     'if normTimerDag(x) <> 0 then 
+	                     'ferieBalVal = ferieBal/normTimerDag(0)
+	                     'else
+	                     'ferieBalVal = 0
+	                     'end if
+	                     ferieBalVal = ferieBal 
+
+                         if ferieBalVal <> 0 then 
+	                     ferieBalValTxt = formatnumber(ferieBalVal,2)
+                         ferieBalValTxtGT = ferieBalValTxtGT + ferieBalValTxt
+                         ferieBalValTxtExp = ferieBalValTxt
+	                     else
+	                     ferieBalValTxt = "0"
+                         ferieBalValTxtExp = 0
+	                     end if
+    
+    
             %>
-            <div id="favoritlinks" style="position:absolute; left:870px; top:378px; width:212px; visibility:visible; display:; z-index:2;">
+            <div id="nogletal" style="position:absolute; left:870px; top:378px; width:212px; padding:5px; background-color:#FFFFFF; visibility:visible; display:; z-index:2;">
+            <table cellpadding=0 cellspacing=0 border=0 width="100%">
+                <tr>
+                    <td colspan="2">Afstemning:</td>
+                </tr>
+                <tr>
+                    <td>Din fleks saldo er:</td>
+                    <td align="right"><b><%=formatnumber(realNormBal,2)%></b> t.</td>
+                </tr>
+                <tr>
+                    <td>Din ferie saldo er:</td>
+                    <td align="right"><b><%=ferieBalValTxt %></b> d.</td>
+                  </tr>
+                  <tr>
+                    <td>Din afspadserings saldo er:</td>
+                    <td align="right"><b><%=formatnumber(AfspadBal,2) %></b> t.</td>
+
+                  </tr></table>
+                </div>
+        
+        
+            <%
+            '**** 20190603 **************************'
+            '***** Indlæser til medarbejdersaldo ****'
+            '***** SKAL flyttes til eftertimeindlæsning ***
+                mf_flex_findes = 0
+                strSQLtjksaldo = "SELECT * FROM medarbejder_flexsaldo WHERE mf_mid = " & usemrn 
+                oRec10.open strSQLtjksaldo, oConn, 3
+                if not oRec10.EOF then
+                mf_flex_findes = 1
+                end if
+                oRec10.close
+
+                realNormBal = formatnumber(realNormBal, 2)
+                realNormBal = replace(realNormBal, ".", "")
+                realNormBal = replace(realNormBal, ",", ".")
+
+                if len(trim(realNormBal)) <> 0 then
+                realNormBal = realNormBal
+                else
+                realNormBal = 0
+                end if
+
+                mf_dato = year(now) & "/" & month(now) & "/" & day(now) 
+
+                if cint(mf_flex_findes) = 1 then
+                strSQLinssaldo = "UPDATE medarbejder_flexsaldo SET mf_flex_norm_real = "& realNormBal &", mf_dato = '"& mf_dato &"' WHERE mf_mid = " & usemrn 
+                else
+                strSQLinssaldo = "INSERT INTO medarbejder_flexsaldo (mf_mid, mf_flex_norm_real, mf_dato) VALUES ("& usemrn  &", "& realNormBal &", '"& mf_dato &"')"
+                end if
+
+
+                'if session("mid") = 1 then
+                'response.write "<br><br><br><br><br><br><br><br><br>" & strSQLinssaldo
+                'response.flush
+                'end if
+
+                oConn.execute(strSQLinssaldo)
+
+            end if
+
+            if lto = "wwf" OR lto = "intranet - local" then 
+            %>
+            <div id="favoritlinks" style="position:absolute; left:870px; top:<%=378+extraToppx%>px; width:212px; visibility:visible; display:; z-index:2;">
             <table cellpadding=0 cellspacing=0 border=0>
                 <tr><td>
 
@@ -35,34 +163,45 @@ function hojreDiv()
             <%end if
 
 
+           
+
+
             '** SKAL VISES FOR ALLE HVOR TIMEBUDGET SIM ER SLÅET TIL
-            if lto = "oko" OR lto = "wwf" OR lto = "intranet - local" OR lto = "wilke" OR lto = "hidalgo" OR lto = "bf" then 
+            call aktBudgettjkOn_fn()
+            if cint(aktBudgettjkOnViskunmbgt) = 1 then
+           ' if lto = "oko" OR lto = "wwf" OR lto = "intranet - local" OR lto = "wilke" OR lto = "hidalgo" OR lto = "bf" then 
+            datoKrionly = 1
+            useDateStSQL = tjekdag(1)
+            useDateSlSQL = tjekdag(7)
+            call ressourcetimerTildelt(useDateStSQL, 0, 0, usemrn, datoKrionly)
 
-            select case lto '** Bør kalde finasår statdato
-            case "wwf", "intranet - local"
+                              
 
-                if month(tjekdag(1)) >= 7 then
-                aarFinansSt = year(tjekdag(1)) & "-7-1"
-                aarFinansSl = year(tjekdag(1))+1 & "-6-30"
-                else
-                aarFinansSt = year(tjekdag(1))-1 & "-7-1"
-                aarFinansSl = year(tjekdag(1)) & "-6-30"
-                end if
+            'select case lto '** Bør kalde finasår statdato
+            'case "wwf", "xintranet - local"
 
-                strDatoRs = " AND ((md >= "& month(aarFinansSt) &" AND aar = "& year(aarFinansSt) &") OR (md <= "& month(aarFinansSl) &" AND aar = "& year(aarFinansSl) &") OR (aar > "& year(aarFinansSt) &"))"
+            '    if month(tjekdag(1)) >= 7 then
+            '    aarFinansSt = year(tjekdag(1)) & "-7-1"
+            '    aarFinansSl = year(tjekdag(1))+1 & "-6-30"
+            '    else
+            '    aarFinansSt = year(tjekdag(1))-1 & "-7-1"
+            '    aarFinansSl = year(tjekdag(1)) & "-6-30"
+            '    end if
+
+            '    strDatoRs = " AND ((md >= "& month(aarFinansSt) &" AND aar = "& year(aarFinansSt) &") OR (md <= "& month(aarFinansSl) &" AND aar = "& year(aarFinansSl) &") OR (aar > "& year(aarFinansSt) &"))"
                 
-            case else
-                 aarFinansSt = year(tjekdag(1)) & "-1-1"
-                 aarFinansSl = year(tjekdag(1)) & "-12-31"
+            'case else
+            '     aarFinansSt = year(tjekdag(1)) & "-1-1"
+            '     aarFinansSl = year(tjekdag(1)) & "-12-31"
 
-                 strDatoRs = " AND ((md >= "& month(aarFinansSt) &" AND aar = "& year(aarFinansSt) &") AND (md <= "& month(aarFinansSl) &" AND aar = "& year(aarFinansSl) &") OR (aar > "& year(aarFinansSt) &"))"
+            '     strDatoRs = " AND ((md >= "& month(aarFinansSt) &" AND aar = "& year(aarFinansSt) &") AND (md <= "& month(aarFinansSl) &" AND aar = "& year(aarFinansSl) &") OR (aar > "& year(aarFinansSt) &"))"
 
-            end select
+            'end select
 
                 
 
             %>
-            <div id="fctimer" style="position:absolute; left:870px; top:408px; width:212px; visibility:visible; display:; z-index:2;">
+            <div id="fctimer" style="position:absolute; left:870px; top:<%=408+extraToppx%>px; width:212px; visibility:visible; display:; z-index:2;">
             
             <table cellpadding=2 cellspacing=0 border=0 width="100%">
                 
@@ -70,14 +209,29 @@ function hojreDiv()
                 
                     
                     
-                    <%strSQLr = "SELECT r.jobid, SUM(r.timer) AS restimer, j.jobnavn, j.jobnr FROM ressourcer_md AS r "_
+                    <%
+                    seljobidSQLfc = " j.id = 0"    
+                    strSQLr = "SELECT r.jobid, SUM(r.timer) AS restimer, j.jobnavn, j.jobnr FROM ressourcer_md AS r "_
                     &" LEFT JOIN job AS j ON (j.id = r.jobid) "_
                     &" LEFT JOIN aktiviteter AS a ON (a.id = r.aktid) "_
-                    &" WHERE r.medid = "& usemrn & " AND r.aktid <> 0 AND a.navn IS NOT NULL AND jobstatus = 1 "& strDatoRs &" GROUP BY r.jobid ORDER BY jobnavn LIMIT 50" 
+                    &" WHERE r.medid = "& usemrn & " AND r.aktid <> 0 AND a.navn IS NOT NULL "& sqlBudgafg &" GROUP BY r.jobid ORDER BY jobnavn LIMIT 200" 
 
+                        'AND jobstatus = 1
+
+                        'if session("mid") = 1 AND lto = "oko" then
                         'response.write strSQLr
                         'response.flush
+                        'end if
+
+                               ' if session("mid") = 1 then
+                               ' Response.write "<br>"& strSQLres & " aktBudgettjkOnRegAarSt = "& aktBudgettjkOnRegAarSt &" : useDateStSQL : "& useDateStSQL  &" // useDateSlSQL "& useDateSlSQL & "<br>"
+                               ' Response.write  "MD: " & datepart("yyyy",useDateStSQL, 2,2) &"<>"& datepart("yyyy",useDateSlSQL, 2,2)
+                               ' Response.end 
+                               ' end if
+
+
                         re = 0
+                        rstimerTot = 0
                         oRec.open strSQLr, oConn, 3
                         While not oRec.EOF 
 
@@ -93,7 +247,8 @@ function hojreDiv()
                             <td class="lille" align="right"><%=oRec("restimer") %> t.</td>
                         </tr>
                         <%
-
+                        rstimerTot = rstimerTot*1 + oRec("restimer")*1
+                        seljobidSQLfc = seljobidSQLfc & " OR j.id = "& oRec("jobid") 
                         re = re + 1
                         oRec.movenext
                         wend
@@ -102,7 +257,11 @@ function hojreDiv()
                      
                     if re = 0 then   
                     %>
-                    <tr bgcolor="#FFFFFF"><td colspan="2">- <%=timereg_txt_155 %> </td></tr>
+                    <tr bgcolor="#FFFFFF"><td colspan="2" class="lille">- <%=timereg_txt_155 %> </td></tr>
+                    <%else %>
+                   <tr bgcolor="#FFFFFF"><td class="lille"><b>Total:</b></td>
+                   <td align="right" bgcolor="#FFFFFF" class="lille"><b><%=formatnumber(rstimerTot, 0) %> t.</b></td>
+                   </tr>
                     <%end if %>
 
                     </table>

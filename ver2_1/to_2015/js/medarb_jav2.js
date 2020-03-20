@@ -1,5 +1,19 @@
 ﻿$(document).ready(function () {
 
+
+    $("#FM_copy_follow_activejoblist1").click(function () {
+
+        $("#FM_copy_follow_activejoblist2").prop('checked', false);
+
+    });
+
+    $("#FM_copy_follow_activejoblist2").click(function () {
+
+        $("#FM_copy_follow_activejoblist1").prop('checked', false);
+
+    });
+
+
     $("#FM_medtype").change(function () {
 
 

@@ -433,11 +433,16 @@ if len(session("user")) = 0 then
 									
 									Response.Cookies("erp")("debkonto") = varKonto
 									
+                                    'response.write "MODKont0: " & request("FM_modkonto")
+                                    'response.end
+
 									if len(request("FM_modkonto")) <> 0 then
 									varModkonto = request("FM_modkonto")
 									else
 									varModkonto = 0
 									end if
+
+
 									Response.Cookies("erp")("krekonto") = varModKonto
 									
 									'** Momskonto **'
@@ -1165,7 +1170,7 @@ if len(session("user")) = 0 then
 													oRec3.open strSQL3, oConn, 3
 													oRec3.movelast
 													if not oRec3.EOF then
-													thisfakid = cint(oRec3("Fid")) 
+													thisfakid = oRec3("Fid") 
 													end if 
 													oRec3.close	
 													
@@ -1258,7 +1263,11 @@ if len(session("user")) = 0 then
 
                                for intcounter = 0 to antalAkt - 1
 								
+                                if len(trim(request("aktId_n_"&intcounter&""))) <> 0 then
 								thisAktId = request("aktId_n_"&intcounter&"")
+                                else
+                                thisAktId = 0
+                                end if
 									
 									'** antal aktiviter udskrevet pga. forskellige timepriser 
 									'antalsumaktprakt = request("antal_subtotal_akt_"&intcounter&"") 
@@ -2510,8 +2519,12 @@ if len(session("user")) = 0 then
                                         matregid = request("matregid")
 
                                         matava = matava
-
-                                        call indlaes_mat(matregid, otf, medid, jobid, aktid, aftid, matId, strEditor, strDato, intAntal, regdato, valuta, intkode, personlig, bilagsnr, pris, salgspris, navn, gruppe, varenr, opretlager, betegnelse, mat_func, matreg_opdaterpris, matava)
+                                        mattype = 0
+                                        'Denne skal rettes
+                                        basic_valuta = "NA"
+                                        basic_kurs = 100
+                                        basic_belob = 0
+                                        call indlaes_mat(matregid, otf, medid, jobid, aktid, aftid, matId, strEditor, strDato, intAntal, regdato, valuta, intkode, personlig, bilagsnr, pris, salgspris, navn, gruppe, varenr, opretlager, betegnelse, mat_func, matreg_opdaterpris, matava, mattype, basic_valuta, basic_kurs, basic_belob)
 	
 
 
@@ -2988,6 +3001,11 @@ if len(session("user")) = 0 then
         if lto = "adra" OR lto = "bf" then 'altid 0
         momssats = 0
         end if
+
+        if lto = "nt" AND (kid = 1448) AND func <> "red" then 'pomp 
+        preValgtModKonto = 35 'varesalg indland uden moms
+        end if
+        
        
 
 
@@ -3010,51 +3028,11 @@ if len(session("user")) = 0 then
 
         fak_laast = 0
 
-
-        '** Forvalgt bankkonto valgt pga af valuta ***' 
-        select case lto
-        case "epi" 'KUN DK til at starte med "epi_no", "epi_sta", "epi_ab", "epi_de", "epi_au"
-            
-            select case valuta
-            case 1 'DKK
-            kontonr_sel = 0
-            case 2 'NOK
-            kontonr_sel = 2
-            case 4 'EUR
-            kontonr_sel = 1
-            case 8 'SEK
-            kontonr_sel = 3
-            case 9 'USD
-            kontonr_sel = 4
-            case 10 'GBP
-            kontonr_sel = 5
-            case else 'DKK
-            kontonr_sel = 0
-            end select
-
-        case "nt"
-                
-            select case valuta 'valuta 0 findes ikke
-            case 1
-            kontonr_sel = 0
-            case 2
-            kontonr_sel = 1
-            case 3
-            kontonr_sel = 2
-            case 4 'RMD KINA
-            kontonr_sel = 3
-            case else
-            kontonr_sel = 0
-            end select
-
-        case else
-        kontonr_sel = 0
-        end select
         
 
 
         select case lto
-        case "epi", "epi_no", "epi_sta", "epi_ab", "epi_uk"
+        case "epi", "epi_no", "epi_sta", "epi_ab", "epi_uk", "xepi2017"
         hideantenh = 1
         case else
         hideantenh = 0
@@ -3349,7 +3327,15 @@ if len(session("user")) = 0 then
                      <table cellspacing=0 cellpadding=0 border=0 width=100%>
                      <tr><td colspan=2 class=lille><%=erp_txt_209 %></td></tr>
                      <tr>
-                        <td><a href="#" onclick="showdiv('matdiv')" class=vmenu><%=erp_txt_210 %><br /><%=erp_txt_211 %></a>
+                        <td>
+                            <%select case lto
+                            case "epi", "epi2017"
+                            
+                                %>
+                            <span style="color:#999999;"><%=erp_txt_210 %><br /><%=erp_txt_211 %></span>
+                            <%case else %>
+                            <a href="#" onclick="showdiv('matdiv')" class=vmenu><%=erp_txt_210 %><br /><%=erp_txt_211 %></a>
+                            <%end select %>
                         </td>
                         <td style="padding:3px 2px 0px 4px;"><img src="../ill/pil_fak.gif" border=0 /> </td></tr></table>
 	                </div>
@@ -3378,7 +3364,7 @@ if len(session("user")) = 0 then
          <div id="visikkefak" style="position:absolute; display:<%=sideDivDspAlt%>; visibility:<%=sideDivVzbAlt%>; top:105px; height:296px; width:670px; padding:20px; background-color:#FFFFFF; left:5px; z-index:2;"> 
              Your Invoice is now ready for rewiev. <br /><br />
              Click on the green botton in the upper right corner to review your invoice. <br /><br />
-             <%if level = 1 OR (lto = "bf" AND (level <= 2 OR level = 6)) then %>
+             <%if level = 1 OR (lto = "nt" AND session("mid") = 13) OR (lto = "bf" AND (level <= 2 OR level = 6)) then %>
              <span id="sp_editfak" style="color:#5582d2;"><u>Click here to edit</u></span>
              <%end if %>
             </div>
@@ -3421,6 +3407,18 @@ if len(session("user")) = 0 then
 	<%
 	'*** Bruger altid datointerval ****
 	usedt_ival = 1
+
+
+     if lto = "epi2017" AND level <> 1 then
+        readOnly = "readonly"
+        fntCol = "#999999"
+        readOnlyVal = 1
+        else
+        readOnly = ""
+        fntCol = "#000000"
+        readOnlyVal = 0
+        end if
+
 	%>
 	
 	
@@ -3450,7 +3448,7 @@ if len(session("user")) = 0 then
 
     <%
     'Job tilknyttet denne aftale     
-    strSQLjob = "SELECT jobnavn, jobnr, id FROM job WHERE serviceaft = "& aftid & " ORDER BY jobnavn"
+    strSQLjob = "SELECT jobnavn, jobnr, id FROM job WHERE serviceaft = "& aftid & " AND jobstatus <> 0 ORDER BY jobnavn"
 	jobtilkaft = 0
 	oRec.open strSQLjob, oConn, 3
 	j = 0
@@ -3617,18 +3615,36 @@ if len(session("user")) = 0 then
                             case "bf", "intranet - local"
                             modtageradr = "To:<br>"& strJobnavn & " ("& intjobnr &")" 
                             skiftModtagerDis = "DISABLED"
+                            case "epi2017"
+                                
+                                if level = 1 then
+                                skiftModtagerBlyantDis = ""
+                                else
+                                skiftModtagerBlyantDis = "DISABLED"
+                                end if
+
+                                modtageradr = modtageradr 
+                                skiftModtagerDis = ""
+                                
+
                             case else 
                             modtageradr = modtageradr 
                             skiftModtagerDis = ""
                             end select
 
-                           	                
+                           	if skiftModtagerBlyantDis = "DISABLED" then
+                            modtagerBgcol = "#CCCCCC"
+                            else
+                            modtagerBgcol = "#FFFFFF"
+                            end if
+                            
+
 		                %>
 		                <tr>
 		                <td valign=top style="height:110px;" align=left>
 		                <input type="hidden" id="momsland" value="<%=strLandShow %>" />
                         <input type="hidden" id="afsmomsland" value="<%=thisAfsenderLand %>" />
-                        <div id="DIV_modtageradr" style="width:310px; height:100px; padding:4px; border:1px #8CAAE6 solid; overflow:auto;">
+                        <div id="DIV_modtageradr" style="width:310px; height:100px; padding:4px; border:1px #8CAAE6 solid; overflow:auto; background-color:<%=modtagerBgcol%>;">
                            <%=modtageradr%> 
                             </div>
                             
@@ -3638,8 +3654,10 @@ if len(session("user")) = 0 then
                             <span style="font-size:9px; color:#999999; line-height:10px;"><%=erp_txt_217 %></span>
                             <input type="button" id="gem_adr" style="position:absolute; display:none; visibility:hidden; top:30px; left:320px;" value="luk" />
                             
-                            
+
+                            <%if skiftModtagerBlyantDis <> "DISABLED" then %>
                             <img src="../ill/blyant.gif" id="red_adr" border="0" style="position:absolute; display:; cursor:hand; visibility:visible; top:30px; left:320px;"/>
+                            <%end if %>
                             
 		                 <input type="hidden" name="FM_Kid" id="FM_kid" value="<%=kid%>">
                 		
@@ -3699,7 +3717,7 @@ if len(session("user")) = 0 then
                         <%
                         '** Att person skal kun være slået til hvis ikke alternativ fakadr er forvalgt på job
                         '** eller hvis rediger
-                        if (func <> "red" AND (cint(usealtadr) = 0 OR cint(forvalgtFakadr) <> 0) AND lto <> "hestia") OR (func = "red" AND cint(strAtt) <> 0) then
+                        if (func <> "red" AND (cdbl(usealtadr) = 0 OR cdbl(forvalgtFakadr) <> 0) AND lto <> "hestia") OR (func = "red" AND cdbl(strAtt) <> 0) then
 		                attCHK = "CHECKED"
 		                else
 		                attCHK = ""
@@ -3713,7 +3731,10 @@ if len(session("user")) = 0 then
                                 <br /><b><%=erp_txt_060 %></b> <%=erp_txt_061 %><br />
                                 <span style="font-size:9px; color:#999999;"><%=erp_txt_062 %></span><br /> 
                                 <input type="hidden" value="<%=func %>" id="altadrFunc" />
-                                <input id="FM_usealtadr" name="FM_usealtadr" type="checkbox" value="1" <%=skiftModtagerDis %> <%=usealtadrCHK %> /> Ja 
+                                <input id="FM_usealtadr" name="FM_usealtadr" type="checkbox" value="1" <%=skiftModtagerDis %> <%=usealtadrCHK %> /> Ja
+                                
+                                <!--<input id="FM_usealtadr_all" type="checkbox" value="1" /> Skift kunde-->
+                                
                                 <%if func = "red" then %> 
                                 <%=erp_txt_063 %><span style="font-size:9px; color:#999999;"><%=erp_txt_064 %></span> 
                                 <%end if %><br />
@@ -3878,6 +3899,75 @@ if len(session("user")) = 0 then
 		oRec.close
 		
 		
+
+        if func <> "red" then
+        '** Forvalgt bankkonto valgt pga af valuta ***' 
+        select case lto
+        case "epi2017" 'KUN DK til at starte med "epi_no", "epi_sta", "epi_ab", "epi_de", "epi_au"
+            
+            'select case valuta
+            'case 1 'DKK
+            'kontonr_sel = 0
+            'case 2 'NOK
+            'kontonr_sel = 2
+            'case 4 'EUR
+            'kontonr_sel = 1
+            'case 8 'SEK
+            'kontonr_sel = 3
+            'case 9 'USD
+            'kontonr_sel = 4
+            'case 10 'GBP
+            'kontonr_sel = 5
+            'case else 'DKK
+            'kontonr_sel = 0
+            'end select
+            select case afskid
+            case 1
+
+                    select case valuta
+                    case 1 'DKK
+                    kontonr_sel = 0
+                    case 5 'NOK
+                    kontonr_sel = 2
+                    case 7 'SEK
+                    kontonr_sel = 3
+                    case 8 'EUR
+                    kontonr_sel = 1
+                    case 9 'USD
+                    kontonr_sel = 4
+                    case 10 'SGD
+                    kontonr_sel = 5
+                    case else 'DKK
+                    kontonr_sel = 0
+                    end select
+
+            case else
+
+                  kontonr_sel = 0
+
+            end select
+
+        case "nt"
+                
+            select case valuta 'valuta 0 findes ikke
+            case 1
+            kontonr_sel = 0
+            case 2
+            kontonr_sel = 1
+            case 3
+            kontonr_sel = 2
+            case 4 'RMD KINA
+            kontonr_sel = 3
+            case else
+            kontonr_sel = 0
+            end select
+
+        case else
+        kontonr_sel = 0
+        end select
+
+        end if 'red
+
 		%>
         <!--
 		  <div id="DIV1" style="width:300px; height:100px; padding:4px; border:1px #8CAAE6 solid; overflow:auto;">
@@ -3956,9 +4046,12 @@ if len(session("user")) = 0 then
 		    oRec.open strSQlvorref, oConn, 3 
 		    while not oRec.EOF  
 		    
-		    if ( oRec("mid") = cdbl(jobans1) AND func <> "red" AND (instr(lto, "epi") <> 0) _
-            OR ( oRec("mid") = cdbl(session("mid") ) AND func <> "red" AND (lto <> "epi" AND lto <> "epi_no" AND lto <> "epi2017" AND lto <> "synergi1") OR (vorref = oRec("mnavn") AND func = "red"))) _
-            then 'OR (lto = "jttek" AND func = "red") 
+		    'if ( oRec("mid") = cdbl(jobans1) AND func <> "red" AND (instr(lto, "epi") <> 0) _
+            'OR ( oRec("mid") = cdbl(session("mid") ) AND func <> "red" AND (lto <> "epi" AND lto <> "epi_no" AND lto <> "epi2017" AND lto <> "synergi1") OR (vorref = oRec("mnavn") AND func = "red"))) _
+            'then
+                
+            if (cdbl(oRec("mid")) = cdbl(session("mid")) AND func <> "red") OR (vorref = oRec("mnavn") AND func = "red") _
+            then 
             vfSEL = "SELECTED"
 		    else
 		    vfSEL = ""
@@ -3998,7 +4091,14 @@ if len(session("user")) = 0 then
 		</tr>
 	
        
+        <%if readOnlyVal = "1" then
+            %>
+            
+			<input type="hidden" name="FM_yswift_vis" value="on">
+		    <input type="hidden" name="FM_yiban_vis" value="on">
+		    <input type="hidden" name="FM_ycvr_vis" value="on">
 
+        <%else%>
 		<tr>
 			<td><input type="checkbox" name="FM_yswift_vis" value="on" <%=visAfsSwiftCHK %>><%=erp_txt_010 %></td>
 		</tr>
@@ -4008,6 +4108,8 @@ if len(session("user")) = 0 then
 		<tr>
 			<td><input type="checkbox" name="FM_ycvr_vis" value="on" <%=visAfsCvrCHK %>><%=erp_txt_004 %></td>
 		</tr>
+        <%end if %>
+
         <tr>
         <%
         if len(trim(afskid)) <> 0 then
@@ -4086,7 +4188,10 @@ if len(session("user")) = 0 then
             <option value="3" <%=kontonr_sel3 %>><%=bank_d &": "& regnr_d &" "& kontonr_d %></option>
             <option value="4" <%=kontonr_sel4 %>><%=bank_e &": "& regnr_e &" "& kontonr_e %></option>
             <option value="5" <%=kontonr_sel5 %>><%=bank_f &": "& regnr_f &" "& kontonr_f %></option>
-            </select></td>
+            </select>
+
+            <!--<="afskid: "& afskid &" val: "& valuta &" kontonr_sel: "& kontonr_sel %>-->
+			</td>
 		</tr>
 
 		</table>
@@ -4272,15 +4377,20 @@ if len(session("user")) = 0 then
 
 		end if
 		
-		
-		
+		'*********************************
+		'**** Faktura dato ***************
+        '*********************************
+
 		'Response.write "<b>" & replace(formatdatetime(strDag &"/"& strMrd &"/"& strAar, 2),"-",".") & "</b>"
 		
 		'if lastFakdato <> "2001/1/1" then
 		'Response.Write "&nbsp;<font class=lillesort><i>(seneste faktura dato: " & replace(formatdatetime(lastFakdato, 2),"-",".") &")</i></font>" 
 		'end if 
+       
+
 		%>
-		<input type="text" name="FM_fakdato" id="FM_fakdato" value="<%=strDag%>.<%=strMrd%>.<%=strAar%>" style="display:none; margin-right:5px; width:80px;" />
+        <input id="FM_readonly" type="hidden" value="<%=readOnlyVal%>" />
+		<input type="text" name="FM_fakdato" id="FM_fakdato" value="<%=strDag%>.<%=strMrd%>.<%=strAar%>" style="display:none; margin-right:5px; width:80px; color:<%=fntCol%>;" <%=readOnly %> />
 
             	
 
@@ -4504,7 +4614,7 @@ if len(session("user")) = 0 then
 	   	
 	  	'*** Forfaldsdato **************
 	  	'if hideffdato <> 1 then%>
-	  	<input type="text" id="FM_forfaldsdato" name="FM_forfaldsdato" value="<%=reformatfordate(0)%>.<%=reformatfordate(1)%>.<%=reformatfordate(2)%>" style="margin-right:5px; width:80px;" DISABLED/>
+	  	<input type="text" id="FM_forfaldsdato" name="FM_forfaldsdato" value="<%=reformatfordate(0)%>.<%=reformatfordate(1)%>.<%=reformatfordate(2)%>" style="margin-right:5px; width:80px;" DISABLED />
         <input type="hidden" value="<%=hideffdato%>" id="hideffdato"/> 
         <%'else %>
        <!-- <input type="hidden" name="FM_forfaldsdato" value="<%=reformatfordate(0)%>.<%=reformatfordate(1)%>.<%=reformatfordate(2)%>" style="margin-right:5px; width:70px;"/> 
@@ -4521,7 +4631,8 @@ if len(session("user")) = 0 then
         'gkTjk = "CHECKED"
         'else
 
-        '** Hvis åben for Rediger, vil status altid være kladde
+        '** STATUS Godkendt / Kladde
+        '*** Hvis åben for Rediger, vil status altid være kladde
         klTjk = "CHECKED"
         gkTjk = ""
         'end if %>
@@ -4547,10 +4658,13 @@ if len(session("user")) = 0 then
                 else
                     approveInvoiceOkDis = ""
                 end if
-                    %>
 
-				<input type="radio" name="FM_betalt" value="1" <%=gkTjk %> <%=approveInvoiceOkDis %> /><span style="color:yellowgreen;"><b><%=erp_txt_095 %></b></span>
-                
+
+                '*** Skal man kunne sætte den til godkendt? 
+                if readOnlyVal <> "1" then
+                %>
+                <input type="radio" name="FM_betalt" value="1" <%=gkTjk %> <%=approveInvoiceOkDis %> /><span style="color:yellowgreen;"><b><%=erp_txt_095 %></b></span>
+                <%end if %>
 
 		
 		<input id="FM_type" name="FM_type" value="<%=intType%>" type="hidden" />
@@ -4558,9 +4672,15 @@ if len(session("user")) = 0 then
 		</td>
 		</tr>
 		
+
+        <%
+        '**** Rabart kolonne     
+        if readOnlyVal <> "1" then %>
 		<tr>
 		<td style="padding:4px 5px 0px 5px;"><b><%=erp_txt_096 %></b>
          </td>
+
+        
 		<td style="padding:4px 5px 0px 5px;">
            
            <%
@@ -4576,11 +4696,11 @@ if len(session("user")) = 0 then
                  
            </td>
 		</tr>
-
+        <%end if %>
      
 
 
-        <%if intType <> 1 then '1 = kreditnota (En kreditnota kan IKKE være intern.) %>
+        <%if intType <> 1 AND readOnlyVal <> "1" then '1 = kreditnota (En kreditnota kan IKKE være intern.) %>
          <tr>
 		<td style="padding:12px 5px 20px 5px;" valign=top><b><%=erp_txt_105 %></b>
 
@@ -4649,6 +4769,8 @@ if len(session("user")) = 0 then
                  
            </td>
 		</tr>
+        <%else %>
+        <input type="hidden" value="0" name="FM_medregnikkeioms" />
         <%end if %>
 
      
@@ -4676,9 +4798,8 @@ if len(session("user")) = 0 then
 		
 		call selectAllValuta(1, jftp) 
 		
-		%>
-							
-            
+	
+        %>        
 		</td></tr>
 		<tr><td style="padding:4px 5px 0px 5px;"><b><%=erp_txt_114 %></b>
 		
@@ -4745,7 +4866,11 @@ if len(session("user")) = 0 then
             </select> 
           
 
-		</td>
+		<%
+        	if readOnlyVal = "1" then%>
+		<br />&nbsp;
+        <%end if %>
+        </td>
 		</tr>
 		
 		<%if len(trim(sideskiftH)) <> 0 then 
@@ -4754,6 +4879,8 @@ if len(session("user")) = 0 then
 		sideskiftH = 0
 		end if%>
 		
+
+        <%if readOnlyVal <> "1" then %>
 		<tr><td style="padding:20px 5px 4px 5px;"><b><%=erp_txt_116 %></b></td>
 		<td style="padding:20px 5px 4px 5px;">
             <select name="FM_sideskiftlinier" id="Select1" style="width:300px;">
@@ -4813,13 +4940,26 @@ if len(session("user")) = 0 then
        
            </td>
 		</tr>
+        <%else %>
+        
+        <input type="hidden" value="0" name="FM_sideskiftlinier" />
+        <%end if %>
 		
     </table>
+       
     </div>
 
 
 <!-- KONTI KREDITOR (kunde) DEBITOR (Intern) -->
-<div id="kontodiv" style="position:absolute; display:<%=sideDivDsp%>; visibility:<%=sideDivVzb%>; width:720px; top:650px; left:5px; border:1px #8cAAE6 solid; z-index:20000000000; background-color:#FFFFFF;">
+
+<%
+if readOnlyVal <> 1 then    
+kontoDivTopPx = 650 
+else
+kontoDivTopPx = 480
+end if%>
+<div id="kontodiv" style="position:absolute; display:<%=sideDivDsp%>; visibility:<%=sideDivVzb%>; width:720px; top:<%=kontoDivTopPx%>px; left:5px; border:1px #8cAAE6 solid; z-index:20000000000; background-color:#FFFFFF;">
+
     <table cellspacing="0" cellpadding="5" border="0" width=100% bgcolor="#FFFFFF">
 
         <tr><td><br />
@@ -4882,7 +5022,7 @@ if len(session("user")) = 0 then
 	<tr><td valign=top style="padding:12px 5px 2px 5px;"><b><%=erp_txt_128 %></b><br />
 	 <span style="color:#999999;"><%=erp_txt_129 %></span></td></tr>-->
 	<tr>
-	<td valign=top style="padding:12px 5px 2px 5px;"><b><%=erp_txt_130 %></b> (<%=erp_txt_414 %>)<br />
+	<td valign=top width="50%" style="padding:12px 5px 2px 5px;"><b><%=erp_txt_130 %></b> (<%=erp_txt_414 %>)<br />
 	
 		<%
 		if func = "red" then
@@ -4894,14 +5034,21 @@ if len(session("user")) = 0 then
 		select case lto
 		case "execon", "immenso"
 		disa = "DISABLED"
+        case "intranet - local", "epi2017"
+            if readOnlyVal = "1" then
+            disa = "DISABLED"
+            end if
 		case else
 		disa = ""
 		end select
 		
+        if disa <> "DISABLED" then
 		%>
 	    <select name="FM_kundekonto" <%=disa %> style="width:325px;">
 		<option value="0">(0)&nbsp;&nbsp;<%=erp_txt_131 %></option>
 		<%
+        end if
+
 			strSQL = "SELECT k.kontonr, k.navn, k.id, k.kid, m.navn AS momskode FROM kontoplan k "_
 			&" LEFT JOIN momskoder m ON (m.id = k.momskode) "_
 			&" ORDER BY k.kontonr, k.navn"
@@ -4911,21 +5058,35 @@ if len(session("user")) = 0 then
 			
 				if (debKontouse = oRec("kid") AND func <> "red") OR _
 				(debKontouse = oRec("kontonr") AND func = "red") then
-				selkon = "SELECTED"
+				
+
+                if disa = "DISABLED" AND fod = 0 then
+                %>
+                <input type="hidden" name="FM_kundekonto" value="<%=oRec("kontonr")%>" /> (<%=oRec("kontonr")%>)&nbsp;&nbsp;<%=oRec("navn")%> - <%=oRec("momskode") %>
+                <%
+                end if
+
+                selkon = "SELECTED"
 				fod = 1
+
 				else
 				selkon = ""
 				end if
 		
-			
+			if disa <> "DISABLED" then
 			%>
 			<option value="<%=oRec("kontonr")%>" <%=selkon%>>(<%=oRec("kontonr")%>)&nbsp;&nbsp;<%=oRec("navn")%> - <%=oRec("momskode") %></option>
-			<%
+			<%end if
+			
+
+
 			oRec.movenext
 			Wend 
 			oRec.close
 		
 		
+        if disa <> "DISABLED" then
+
 		if fod = 0 then
 		    
 		    if request.Cookies("erp")("debkonto") <> "" then
@@ -4949,7 +5110,10 @@ if len(session("user")) = 0 then
 		    end if 
 		
 		end if%>
-		</select><br />
+		</select>
+
+        <%end if 'disabled %>
+        <br />
         &nbsp;
 		
 		
@@ -4969,11 +5133,17 @@ if len(session("user")) = 0 then
 				strSQL = "SELECT k.kontonr, k.navn, k.id, k.kid, m.navn AS momskode FROM kontoplan k "_
 			    &" LEFT JOIN momskoder m ON (m.id = k.momskode) "_
 			    &" ORDER BY k.kontonr, k.navn"
-				
+
+                'if session("mid") = 1 then
+                'Response.write strSQL
+                'end if
+				if disa <> "DISABLED" then
 				%>
 				<select name="FM_modkonto" <%=disa %> style="width:325px;">
 		        <option value="0">(0)&nbsp;&nbsp;<%=erp_txt_131 %></option>
 				<%
+                end if
+
 				oRec.open strSQL, oConn, 3 
 				while not oRec.EOF 
 
@@ -4983,23 +5153,34 @@ if len(session("user")) = 0 then
 				if ( ( ( (intModKonto = oRec("kid") OR cint(preValgtModKonto) = oRec("id")) AND fomrkonto = 0)_
                 OR (cint(fomrkonto) = oRec("id"))) AND func <> "red")_
                 OR ((intModKonto = oRec("kontonr") AND func = "red")) then
-				selkon = "SELECTED"
-				fok = 1
-				else
+				
+                        if disa = "DISABLED" AND fok = 0 then
+                        %>
+                        <input type="hidden" name="FM_modkonto" value="<%=oRec("kontonr")%>" /> (<%=oRec("kontonr")%>)&nbsp;&nbsp;<%=oRec("navn")%> - <%=oRec("momskode") %>
+                        <%
+                        end if    
+                    selkon = "SELECTED"
+				    fok = 1
+				
+                else
 				selkon = ""
 				end if
 
 
-
+                if disa <> "DISABLED" then
 				%>
 				<option value="<%=oRec("kontonr")%>" <%=selkon%>>(<%=oRec("kontonr")%>)&nbsp;&nbsp;<%=oRec("navn")%> - <%=oRec("momskode") %></option>
                      <!--/Modk: <%=intModKonto %> /Kid <%=oRec("kid") & " /Prevglt: " & cint(preValgtModKonto) &" /id: " & oRec("id") &" /fomr: "& fomrkonto %>-->
 				<%
+                end if
+
 				oRec.movenext
 				Wend 
 				oRec.close
 		
 		
+        if disa <> "DISABLED" then
+
 		if fok = 0 then
 		    if request.Cookies("erp")("krekonto") <> "" then ' <> "" then
 
@@ -5022,64 +5203,19 @@ if len(session("user")) = 0 then
 		    end if 
 		
 		end if%>
-		</select><br />
+		</select>
+            <br />
 		   <span style="color:#999999;"><%=erp_txt_413 %></span>
+        <%end if %>   
+         
 		
             &nbsp;
 		</td>
 		</tr>
-		<%
-		
-		'if func <> "red" then
-		
-		'if request.Cookies("erp")("momskonto") <> "" then
-	         
-	    '     if request.Cookies("erp")("momskonto") = "2" then
-		'     chk2 = "CHECKED"
-		'     chk1 = ""
-    '		 else
-    '		 chk1 = "CHECKED"
-	'	     chk2 = ""
-    '		 end if
-	'	
-	'	else
-	'	
-	'	    chk1 = "CHECKED"
-	'	    chk2 = "" 
-	'	 
-	'	end if
-	'	
-	'	else
-		     
-	'	     if cint(momskonto) = 2 then
-	'	     chk2 = "CHECKED"
-	'	     chk1 = ""
-    '		 else
-    '		 chk1 = "CHECKED"
-	'	     chk2 = ""
-    '		 end if
-	'	
-	'	end if
-		
-		
-		%>
-		
-        <input id="FM_momskonto" name="FM_momskonto" value="0" type="hidden" />
-		<!--
-		<tr><td colspan=2 valign=top style="padding:5px 5px 2px 20px;">
-		<b>Momsberegning</b><br />
-		Vælg hvilken konto's momsprocent der skal benyttes til momsberegning på faktura og tilhørende postering.<br />
-		
-		</td></tr>
-		<tr>
-		<td valign=top style="padding:2px 5px 5px 20px;"><input id="Radio1" type="radio" name="FM_momskonto" value="1" <%=chk1 %> /> Benyt debitkonto </td>
-		<td valign=top style="padding:2px 5px 5px 20px;"><input id="Radio1" type="radio" name="FM_momskonto" value="2" <%=chk2 %> /> Benyt kreditkonto </td>
-		</tr>
-		-->
 		
 		</table>
-
-
+       
+        <input id="FM_momskonto" name="FM_momskonto" value="0" type="hidden" />
 
         
 
@@ -5099,6 +5235,8 @@ if len(session("user")) = 0 then
             showNaesteDsp = ""
 
         end select
+
+
 
        %>
 		<div id="fidiv_2" style="position:absolute; visibility:<%=showNaesteVzb%>; display:<%=showNaesteDsp%>; top:840px; width:720px; left:5px; border:0px #8cAAe6 solid;">
@@ -5344,14 +5482,14 @@ if len(session("user")) = 0 then
         <tr><td  colspan=2>
         <b><%=erp_txt_155 %></b><br />
 
-        <%strSQLaftalejob = "SELECT jobnavn, jobnr, id AS jid, valuta FROM job WHERE serviceaft = "& aftid & " AND jobstatus <> 0 AND serviceaft <> 0"
+        <%strSQLaftalejob = "SELECT jobnavn, jobnr, id AS jid, valuta, jobstatus FROM job WHERE serviceaft = "& aftid & " AND serviceaft <> 0 AND jobstatus <> 0 ORDER BY jobstatus, jobnavn" 'AND jobstatus <> 0
 
 
         'if session("mid") = 1 then
         'Response.write "strSQLaftalejob " & strSQLaftalejob
         'end if
         'Response.end
-
+        lastjobstatus = -1
         ja = 0
         strJobPaaAft = ""
         oRec.open strSQLaftalejob, oConn, 3
@@ -5361,7 +5499,30 @@ if len(session("user")) = 0 then
         strJobPaaAft = strJobPaaAft & ", "
         end if
 
-        strJobPaaAft = strJobPaaAft & oRec("jobnavn") & " ("& oRec("jobnr") &")" 
+        if cint(lastjobstatus) <> cint(oRec("jobstatus")) then
+
+        select case oRec("jobstatus")
+        case 0
+        jobStatusTxt = "Closed"
+        case 1
+        jobStatusTxt = "Active"
+        case 2
+        jobStatusTxt = "Passive / For invoiceing"
+        case 3 
+        jobStatusTxt = "Proposal"
+        case 4 
+        jobStatusTxt = "Approval"
+        case 5 
+        jobStatusTxt = "Evaluation"
+        end select
+
+        strJobPaaAft = strJobPaaAft & "<br><br><b>"& jobStatusTxt &"</b><br>"
+
+        end if
+        
+        strJobPaaAft = strJobPaaAft & oRec("jobnavn") & " ("& oRec("jobnr") &") " 
+
+     
         
         fl_jobaktid(ja) = oRec("jid")
         fl_besk(ja) = oRec("jobnavn") & " ("& oRec("jobnr") &")"
@@ -5420,7 +5581,7 @@ if len(session("user")) = 0 then
                 end if
 
 
-                
+            lastjobstatus = oRec("jobstatus")
 
             ja = ja + 1
             oRec.movenext
@@ -5435,7 +5596,7 @@ if len(session("user")) = 0 then
         end if
         %>
 
-        <%=strJobPaaAft%><br />
+        <%=strJobPaaAft%><br /><br />
             (antal: <%=ja %>)
             </td></tr></table>
     </div>
@@ -5872,7 +6033,8 @@ if len(session("user")) = 0 then
 		<br /><br /><input type="checkbox" value="1" name="FM_totbel_afvige" <%=totbel_afvigeCHK %> /><span style="position:relative; width:20px; padding:4px; font-size:9px;" id="Span1"><%=erp_txt_181 %></span>
 		<input type="hidden" id="FM_beloeb_umoms" name="FM_beloeb_umoms" value="<%=thistotbel_Umoms%>">
 		<br /><br />
-		<div style="position:relative; width:120px; border-bottom:0px #86B5E4 dashed; font-family:arial; color:#999999; font-size:10px; padding-right:3px;" align="right" name="divbelobtot_umoms" id="divbelobtot_umoms"><%=erp_txt_182 %><br /> (<%=thistotbel_Umoms &" "& valutakodeSEL%>)</div>
+        <%=erp_txt_182 %><br />
+		<div style="position:relative; width:120px; border-bottom:0px #86B5E4 dashed; font-family:arial; color:#999999; font-size:10px; padding-right:3px;" align="right" name="divbelobtot_umoms" id="divbelobtot_umoms"> (<%=thistotbel_Umoms &" "& valutakodeSEL%>)</div>
 		
 		</td>
 	</tr>

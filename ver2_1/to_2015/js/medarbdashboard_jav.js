@@ -16,6 +16,11 @@ $(document).ready(function () {
 
     //alert("HEj")
 
+   
+    //$(".loader").hide("fast")
+    //$(".loader").css("visibility", "hidden")
+    //$(".loader").css("display", "none")
+
     $("#jq_medid").change(function () {
 
         //alert($("#jq_medid").val())
@@ -35,7 +40,18 @@ $(document).ready(function () {
 
         $("#dashboard_filter").submit();
     });
-      
+
+
+   
+
+        //$(".panel-heading").mouseover(function () {
+        //    alert("HER")
+        //    $(this).css('cursor', 'pointer');
+        //});
+
+    
+   
+
 });
       
  

@@ -1,6 +1,9 @@
 <%
 'call treg_medarb_afstem_saldo 'cls_afstem
 	  
+     
+    
+
 
        '7 =  Aftem. Måned afstem_tot
        '77 = Afstem dag/dag EXPAND 7
@@ -13,7 +16,7 @@
       '**** finder loginds på de valgta datoer ***'
       strlogin = ""
       strloginPauser = 0
-      strSQLloginds = "SELECT login, logud, stempelurindstilling, minutter FROM login_historik WHERE dato = '"& startDato & "' AND mid = "&  intMid 
+      strSQLloginds = "SELECT login, logud, stempelurindstilling, minutter FROM login_historik WHERE dato = '"& startDato & "' AND mid = "& intMid 
       
     'Response.write strSQLloginds 
     'Response.flush
@@ -129,7 +132,13 @@
 	   balRealNormtimer = 0
 	   end if
 	   
+       select case lto
+       case "wk", "mi", "wk_no", "akelius"
+       balRealNormtimerAkk = balRealNormtimerAkk + (balRealNormtimer) - afspTimerTim(x)
+       case else
        balRealNormtimerAkk = balRealNormtimerAkk + (balRealNormtimer) '+ korrektionReal(x)
+       end select
+
        normtime_lontimeAkk = normtime_lontimeAkk + (normtime_lontime)
         
 	   showthisMedarb = 1 
@@ -139,8 +148,10 @@
             
                 'Response.write "startDato: "& startDato &" intMid: "& intMid & "wth: "& wth
                 if cint(SmiWeekOrMonth) = 0 then
-                sidsteDag = year(dateadd("d", 6, startDato)) & "-"& month(dateadd("d", 6, startDato)) & "-"& day(dateadd("d", 6, startDato))
-	            sidsteDagKri = datepart("ww", sidsteDag, 2, 2)
+                sidsteDag = startDato 'sidsteDagKri 'year(dateadd("d", 6, startDato)) & "-"& month(dateadd("d", 6, startDato)) & "-"& day(dateadd("d", 6, startDato))
+	            
+                call thisWeekNo53_fn(sidsteDag)
+                sidsteDagKri = thisWeekNo53 'datepart("ww", sidsteDag, 2, 2)
                 else
                 sidsteDag = startDato
 	            sidsteDagKri = datepart("m", sidsteDag, 2, 2)
@@ -156,8 +167,8 @@
     
                 if cint(SmiWeekOrMonth) = 0 then 'UgeAflsutning
                 startDatoTor = dateAdd("d", 3, startDato) 'altid inde i uge, vistigt ved årsskifte
-        
-                         if datepart("ww", startDatoTor,2,2) = 53 then
+                call thisWeekNo53_fn(startDatoTor)
+                         if cint(thisWeekNo53) = 53 then
                             startDatoTor = dateAdd("d", 3, startDatoTor) 'ind i næste år
                          end if
 
@@ -166,12 +177,13 @@
                 end if
 
 
+                'if session("mid") = 1 then
                 'response.write "startDatoTor: "& startDatoTor &" sidsteDagKri: "& sidsteDagKri &" slutDatoLastm_A " & startDato & "<br>lastMth: " & lastMth & "<br>lastMidtjk: "& lastMidtjk  'slutDatoLastm_A
-
+                'end if
               
                 
                 '*** Tjekker om uge er afsluttet af medarbejder. Viser CHK boks og Godkendtstatus
-                call erugeAfslutte(datepart("yyyy", startDatoTor,2,2), sidsteDagKri, intMid, SmiWeekOrMonth, 0) 
+                call erugeAfslutte(datepart("yyyy", startDato,2,2), sidsteDagKri, intMid, SmiWeekOrMonth, 0, startDato) 'startDatoTor
                 
                 lastMidtjk = intMid
                 end if
@@ -271,50 +283,86 @@
 	    strEksportTxt = strEksportTxt & monthname(datepart("m", startDato,2,2)) &" "& year(startDato) &";"
         case 77 
         
-            if media <> "export" then%>
+             call thisWeekNo53_fn(startDato)
+
+            if media <> "export" then
+                
+                %>
             
                 <td style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap; padding-right:3px;" class=lille align=right>
-            <%if lastWeek <> datePart("ww", startDato, 2,2) then  %>
-                    <span style="color:#999999; font-size:8px;">uge: <%=datePart("ww", startDato, 2,2) %> </span>
+            <%if lastWeek <> thisWeekNo53 then  %>
+                    <span style="color:#999999; font-size:8px;">uge: <%=thisWeekNo53 %> </span>
                     <%
-                        lastWeek = datePart("ww", startDato, 2,2) 
+                        lastWeek = thisWeekNo53 'datePart("ww", startDato, 2,2) 
                         end if %>
                 </td>
 
 
 	        <td style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap; padding-left:3px; padding-right:3px;" class=lille align=right>
       
-             <%if media <> "print" then %>
-            <a href="../to_2015/ugeseddel_2011.asp?usemrn=<%=intMid %>&varTjDatoUS_man=<%=varTjDatoUS_man_use%>&nomenu=1" class=rmenu target="_blank"><%=left(weekdayname(datepart("w", startDato,1,2)), 2) %> d. <%=formatdatetime(startDato, 2) %></a>
-                <!-- weekpage_2010.asp?medarbid=<%=intMid %>&st_dato=<%=day(varTjDatoUS_man_use)&"/"&month(varTjDatoUS_man_use)&"/"&year(varTjDatoUS_man_use) %>&func=us -->
-            <%else %>
-            <b><%=left(weekdayname(datepart("w", startDato,1,2)), 2) %> d. <%=formatdatetime(startDato, 2) %></b>
-            <%end if %>
+                     <%if media <> "print" then %>
+                    <a href="../to_2015/ugeseddel_2011.asp?usemrn=<%=intMid %>&varTjDatoUS_man=<%=varTjDatoUS_man_use%>&nomenu=1" class=rmenu target="_blank"><%=left(weekdayname(datepart("w", startDato,1,2)), 2) %> d. <%=formatdatetime(startDato, 2) %></a>
+                        <!-- weekpage_2010.asp?medarbid=<%=intMid %>&st_dato=<%=day(varTjDatoUS_man_use)&"/"&month(varTjDatoUS_man_use)&"/"&year(varTjDatoUS_man_use) %>&func=us -->
+                    <%else %>
+                    <b><%=left(weekdayname(datepart("w", startDato,1,2)), 2) %> d. <%=formatdatetime(startDato, 2) %></b>
+                    <%end if %>
             </td>
 	        <%
             end if
 
 	        strEksportTxt = strEksportTxt & formatdatetime(startDato, 2) & ";"
-	    
+	     
 	    case else
+
+                call thisWeekNo53_fn(startDato)
         
         if media <> "export" then%>
 	    <td style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" class=lille>
 	         <%if media <> "print" then %>
-	        <a href="../to_2015/ugeseddel_2011.asp?usemrn=<%=intMid %>&varTjDatoUS_man=<%=varTjDatoUS_man_use%>&nomenu=1" class="rmenu" target="_blank"><%=datepart("ww", startDato,2,2) %></a>
+	        <a href="../to_2015/ugeseddel_2011.asp?usemrn=<%=intMid %>&varTjDatoUS_man=<%=varTjDatoUS_man_use%>&nomenu=1" class="rmenu" target="_blank"><%=thisWeekNo53%></a>
             <!-- weekpage_2010.asp?medarbid=<%=intMid %>&st_dato=<%=day(varTjDatoUS_man_use)&"/"&month(varTjDatoUS_man_use)&"/"&year(varTjDatoUS_man_use) %> -->
 	        <%else %>
-	        <%=datepart("ww", startDato,2,2) %>
+	        <%=thisWeekNo53%>
 	        <%end if %>
 	        
-	        - <%=datepart("d", startDato,2,2) & ". " & left(monthname(datepart("m", startDato,2,2)), 3) %>
+            <%
+            select case month(startdato)
+                case cint(1)
+                strMonthName = left(godkendweek_txt_157, 3)
+                case cint(2)
+                strMonthName = left(godkendweek_txt_158, 3)
+                case cint(3)
+                strMonthName = left(godkendweek_txt_159, 3)
+                case cint(4)
+                strMonthName = left(godkendweek_txt_160, 3)
+                case cint(5)
+                strMonthName = left(godkendweek_txt_161, 3)
+                case cint(6)
+                strMonthName = left(godkendweek_txt_162, 3)
+                case cint(7)
+                strMonthName = left(godkendweek_txt_163, 3)
+                case cint(8)
+                strMonthName = left(godkendweek_txt_164, 3)
+                case cint(9)
+                strMonthName = left(godkendweek_txt_165, 3)
+                case cint(10)
+                strMonthName = left(godkendweek_txt_166, 3)
+                case cint(11)
+                strMonthName = left(godkendweek_txt_167, 3)
+                case cint(12)
+                strMonthName = left(godkendweek_txt_168, 3)
+            end select
+            %>
+
+	        - <%=day(startDato) &". "& strMonthName %>
+            
 	        
 	        </td>
 	    
 	    <%
         end if
 
-	    strEksportTxt = strEksportTxt & datepart("yyyy", startDato,2,2) & ";"& datepart("m", startDato,2,2) & ";"& datepart("ww", startDato,2,2) & ";"
+	    strEksportTxt = strEksportTxt & datepart("yyyy", startDato,2,2) & ";"& datepart("m", startDato,2,2) & ";"& thisWeekNo53 & ";"
 	    end select
 	 
 	 
@@ -507,7 +555,7 @@
 	     
         
           
-         lontimeFlexAkk = (normtime_lontimeAkk + (akuPreNormLontBal * 60))
+         lontimeFlexAkk = (normtime_lontimeAkk * 1 + akuPreNormLontBal * 60 * 1) '(akuPreNormLontBal * 60))
          call timerogminutberegning(lontimeFlexAkk)  
          
          if media <> "export" then%> 
@@ -528,7 +576,15 @@
             %>
             
                  
-		    <b><%=thoursTot &":"& left(tminTot, 2) %></b>
+		    <b><%=thoursTot &":"& left(tminTot, 2) %></b> 
+              
+              <!--
+              <%if session("mid") = 1 then %>
+              (<%=lontimeFlexAkk %>)
+               <%=akuPreNormLontBal%> // * 60  =
+              <%=akuPreNormLontBal * 60%>
+              <%end if %>
+              -->
 
         
 	     </td>
@@ -613,7 +669,7 @@
 
         <%if cint(mtypNoflex) <> 1 then 'noflex %>
 
-               <%if cint(showkgtil) = 1 AND (lto <> "cst" AND lto <> "tec" AND lto <> "esn") then %>
+               <%if cint(showkgtil) = 1 AND (lto <> "cst" AND lto <> "tec" AND lto <> "esn" AND lto <> "wap" AND lto <> "lm") then %>
                 <td align=right style="border-bottom:1px silver solid; border-right:1px silver solid; font-size:9px; color:#999999; white-space:nowrap;">
                       <%if korrektionReal(x) <> 0 then %>
                      <%=formatnumber(korrektionReal(x),2)%>
@@ -627,6 +683,8 @@
          <%end if 'noflex %>
 
          <%end if 'exp %>
+
+
 
 	     
                   <%select case lto
@@ -667,7 +725,7 @@
              <%
 
 
-             if lto <> "cst" AND lto <> "tec" AND lto <> "esn" AND lto <> "tia" then 
+             if lto <> "cst" AND lto <> "tec" AND lto <> "esn" AND lto <> "tia" AND lto <> "lm" then 
 
                           if media <> "export" then
                          %>
@@ -679,13 +737,23 @@
                             <span style="color:#999999; font-size:9px;"><%=formatnumber(akuPreRealNormBal, 2) %> >> </span><br /> <!-- +(korrektionReal(x)) -->
                             <%
                             end if 
+
+
+                            select case lto
+                            case "wk", "wk_no", "wk_dk", "mi", "akelius", "mi_no"
+                                balRealNormtimerAkk_beregnet = formatnumber(balRealNormtimerAkk+(akuPreRealNormBal),2)
+                              
+                            case else
+                                balRealNormtimerAkk_beregnet = formatnumber(balRealNormtimerAkk+(akuPreRealNormBal),2)
+                               
+                            end select
                             %>
-         
-                         <b><%=formatnumber(balRealNormtimerAkk+(akuPreRealNormBal),2)%></b></td>
-                     <%end if %>
+                            <b><%=formatnumber(balRealNormtimerAkk_beregnet,2)%></b>
+                      </td>
+                <%end if %>
     
     
-             <%strEksportTxt = strEksportTxt & formatnumber(balRealNormtimer, 2) & ";" & formatnumber(balRealNormtimerAkk+(akuPreRealNormBal), 2) & ";" %>
+             <%strEksportTxt = strEksportTxt & formatnumber(balRealNormtimer, 2) & ";" & formatnumber(balRealNormtimerAkk_beregnet, 2) & ";" %>
 	 
 	          <%
 	         end if 'lto
@@ -695,7 +763,7 @@
      
         
                 '**BAL Real / Løntimer 
-                if lto <> "cst" AND lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn" then 
+                if lto <> "cst" AND lto <> "kejd_pb" AND lto <> "tec" AND lto <> "esn" AND lto <> "lm" then 
                   if media <> "export" then%>
 	           <td align=right style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" class=lille> <%=formatnumber(balRealLontimer,2)%></td>
 	            <%
@@ -711,7 +779,7 @@
 	 
 	 
 	     <!-- Afspad / Overarb --->
-	       <%if instr(akttype_sel, "#30#") <> 0 OR instr(akttype_sel, "#31#") <> 0 then 
+	       <%if (instr(akttype_sel, "#30#") <> 0 OR instr(akttype_sel, "#31#") <> 0) AND lto <> "cflow"  then 
            
                      if media <> "export" then
                      
@@ -720,6 +788,17 @@
 	                     <td align=right style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" class=lille>
                           
                          <%if afspTimer(x) <> 0 then %>
+
+                                <% 
+                                '*** Overarbejde optjent i timer Wolters WK, Magnus Informatik, WK_DK, MI, WK_NO  
+                                select case lto
+                                case "wk", "wk_no", "wk_dk", "mi", "akelius", "mi_no"
+                                 %>
+                                <span style="font-size:8px; color:#999999;"><%=formatnumber(afspTimerTim(x),2) %></span><br />
+                                <%
+                                end select%>
+
+                            
                          <%=formatnumber(afspTimer(x), 2)%>
                          <%else %>
                          &nbsp;
@@ -752,9 +831,9 @@
 
                                 
                   '***** Afspadsering udbetalt og Saldo **'
-                  if lto <> "lw" AND lto <> "kejd_pb" AND lto <> "fk" AND lto <> "adra" AND lto <> "cisu" then 
+                  if lto <> "lw" AND lto <> "kejd_pb" AND lto <> "fk" AND lto <> "adra" AND lto <> "cisu" AND lto <> "wap" then 
                   
-                            if lto <> "tec" AND lto <> "esn" then
+                            if lto <> "tec" AND lto <> "esn" AND lto <> "lm" then
 
                                  if media <> "export" then%>
 	                             <td align=right class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;">
@@ -779,7 +858,7 @@
 	          
 
                     '**** Afspadsering Udbetalt ***'   
-                 if lto <> "tec" AND lto <> "esn" then
+                 if lto <> "tec" AND lto <> "esn" AND lto <> "lm" then
 
 	                 afspadUdbBal = 0
 	                 afspadUdbBal = (afspTimerOUdb(x) - afspTimerUdb(x)) 
@@ -821,7 +900,55 @@
 	         <%end if '30/31 %>
 
 
-            <%  
+             <%
+
+        
+
+
+         
+	       
+                '****************************************************************************
+                'Clfow Special 
+                '90 / 91 - Overtid 50 / 100 fastlønn Cflow
+               '**************************************************************************** 
+               if (instr(akttype_sel, "#91#") <> 0 OR instr(akttype_sel, "#92#") <> 0) AND lto = "cflow" then 
+
+               e2TimerTot = e2TimerTot + e2Timer(x)
+               e3TimerTot = e3TimerTot + e3Timer(x)
+
+                  if media <> "export" then%>
+
+	                      <td align=right class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;">
+                          <%if e2Timer(x) <> 0 then %>
+                          <%=formatnumber(e2Timer(x), 2)%> 
+                          <%else %>
+                          &nbsp;
+                          <%end if %></td>
+
+                            <td align=right class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;">
+                          <%if e3Timer(x) <> 0 then %>
+                          <%=formatnumber(e3Timer(x), 2)%> 
+                          <%else %>
+                          &nbsp;
+                          <%end if %></td>
+
+        	             <%end if %>
+	         
+	             <% strEksportTxt = strEksportTxt & formatnumber(e2Timer(x), 2) &";" & formatnumber(e3Timer(x), 2) &";" %>
+           <%
+            end if
+               
+
+
+
+                 
+              
+
+             
+
+
+
+
                 '****************************************************************************
                 
                 'TEC / ESN special omsorgsdage beregning
@@ -981,7 +1108,7 @@
 
 
                          if media <> "export" and (lto = "tec" OR (lto = "esn" AND visning = 14)) then
-'Omsorgsdage2 afholdt %>
+                        'Omsorgsdage2 afholdt %>
                            <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right>
 
                         
@@ -1498,25 +1625,25 @@
 
                         '1 maj timer
                         select case lto
-                        case "xintranet - local", "fk"
+                        case "xintranet - local", "fk", "plan"
                         
-                         if media <> "export" then%>
-	                     <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right>
+                             if media <> "export" then%>
+	                         <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right>
 
                       
          
 
-                                     <%if divfritimer(x) <> 0 then %>
-                                     <%=formatnumber(divfritimer(x),2) %>
-                                     <%else %>
-                                     &nbsp;
-                                     <%end if 
-                                       
-                                         divfritimer_tot = divfritimer_tot + divfritimer(x)
-                                         
-                                         %></td>
+                                         <%if divfritimer(x) <> 0 then %>
+                                         <%=formatnumber(divfritimer(x),2) %>
+                                         <%else %>
+                                         &nbsp;
+                                         <%end if 
 
-                        <%end if 
+                                             %></td>
+
+                            <%end if 
+
+                                divfritimer_tot = divfritimer_tot + divfritimer(x)
 
                             strEksportTxt = strEksportTxt & formatnumber(divfritimer(x),2) &";"
 
@@ -1526,38 +1653,99 @@
 
                         '1 Rejsedage
                         select case lto
-                        case "intranet - local", "adra"
+                        case "intranet - local", "adra", "plan"
                         
-                         if media <> "export" then%>
-	                     <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right>
+                             if media <> "export" then%>
+	                         <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right>
 
                       
          
 
-                                     <%if rejseDage(x) <> 0 then %>
-                                     <%=formatnumber(rejseDage(x),2) %>
-                                     <%else %>
-                                     &nbsp;
-                                     <%end if 
+                                         <%if rejseDage(x) <> 0 then %>
+                                         <%=formatnumber(rejseDage(x),2) %>
+                                         <%else %>
+                                         &nbsp;
+                                         <%end if 
                                        
-                                         rejsedage_tot = rejsedage_tot + rejseDage(x)
-                                         
-                                         %></td>
+                                             %></td>
 
-                        <%end if 
+                            <%
+                            end if 
+
+                            rejsedage_tot = rejsedage_tot + rejseDage(x)
 
                             strEksportTxt = strEksportTxt & formatnumber(rejseDage(x),2) &";"
 
+                        end select            
+
+                        select case lto
+                            case "plan"
+
+                                if visning <> 14 then
+
+                                rejsedageBal = (rejsedage_tot + rejseDageOptjentLastYr) - (divfritimer_tot + rejseDageAfholdtLastYr)
+
+                                if media <> "export" then
+                                %>
+                                <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right>
+                                    <%=formatnumber(rejsedageBal, 2) %>
+                                </td>
+                                <%
+                                end if
+                                    strEksportTxt = strEksportTxt & formatnumber(rejsedageBal,2) &";"
+
+                                end if
+
                         end select
-             
-                        
+
+
+                     '***************************************************************
+                     '** Omsorg optjent
+                     '***************************************************************
+                     select case lto
+                     case "ddc", "intrant - local", "lm" 
+                 
+                             if visning = 7 OR visning = 77 then
+
+                                 omsorgOpt(x) = omsorgOpt(x) '/normTimerDag(x)
+
+                                 if omsorgOpt(x) <> 0 then
+                                 omsorgOptTxt = formatnumber(omsorgOpt(x), 2) 
+                                 else
+                                 omsorgOptTxt = ""
+                                 end if
+
+                                     if media <> "export" then
+                                     %>
+                                    <td align=right class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;"><%=omsorgOptTxt%></td>
+                                    <%
+                                
+                                    omsorgOptjTot = omsorgOptjTot + omsorgOpt(x)
+                                
+                             end if
+
+                            
+                            strEksportTxt = strEksportTxt & formatnumber(omsorgOpt(x), 2) &";"
+                            
+
+                            end if
+
+                            
+
+                     end select
+
+
+
                         'Omsorgsdage
                         select case lto
-                        case "xintranet - local", "fk", "kejd_pb", "adra"
+                        case "xintranet - local", "fk", "kejd_pb", "adra", "ddc", "wap", "lm"
                         
                          if media <> "export" then%>
 	                     <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right>
 
+                                  <% 
+                                  omsorg(x) = omsorg(x)    
+                                  %>
                        
 
                                      <%if omsorg(x) <> 0 then %>
@@ -1575,7 +1763,39 @@
                         end select
 
 
-                             'Tjenestefri 
+                        'Omsorgsdage Saldo
+                        select case lto
+                        case "lm", "intranet - local"
+                       
+                         omsorgSaldo = 0
+                         omsorgSaldo = omsorgOpt(x) - omsorg(x)
+                         omsorgSaldoGT = omsorgSaldoGT + omsorgSaldo
+
+                         if visning = 7 OR visning = 77 then
+
+                             if media <> "export" then%>
+	                         <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right>
+
+                       
+
+                                         <%if omsorgSaldo <> 0 then %>
+                                         <%=formatnumber(omsorgSaldo,2) %>
+                                         <%else %>
+                                         &nbsp;
+                                         <%end if 
+                                         
+                                       
+                                             %></td>
+
+                            <%end if 
+
+                        end if
+
+                            strEksportTxt = strEksportTxt & formatnumber(omsorgSaldo,2) &";"
+                        end select
+
+
+                        'Tjenestefri 
                         select case lto
                         case "xintranet - local", "fk", "kejd_pb"
                         
@@ -1601,8 +1821,33 @@
                         end select
 
 
+                         'Paid Leave / DAG: 50
+                        select case lto
+                        case "intranet - local", "tia"
+                        
+                         if media <> "export" then%>
+	                     <td class=lille style="border-bottom:1px silver solid; border-right:1px silver solid; white-space:nowrap;" align=right>
 
-                             'Barsel
+                       
+
+                                     <%if dagTimer(x) <> 0 then %>
+                                     <span style="background-color:#ffd800;"><%=formatnumber(dagTimer(x),2) %></span>
+                                     <%else %>
+                                     &nbsp;
+                                     <%end if 
+                                         
+                                         dag_tot = dag_tot + dagTimer(x)
+                                         %></td>
+                                
+
+                                  
+                        <%end if 
+
+                            strEksportTxt = strEksportTxt & formatnumber(dagTimer(x),2) &";"
+                        end select
+
+
+                        'Barsel
                         select case lto
                         case "intranet - local", "fk", "kejd_pb", "tia"
                         
@@ -1737,7 +1982,7 @@
                         end if
 
                         select case lto
-                        case "esn", "tec"
+                        case "esn", "tec", "lm"
                         case else
 
                         if media <> "export" AND visning = 14 then
@@ -1896,7 +2141,7 @@
                                         gkTxt = godkendweek_txt_111
                                         end select
 
-                                        if cint(SmiWeekOrMonth) = 0 then
+                                        if cint(SmiWeekOrMonth) = 0 AND cdbl(session("mid")) <> cdbl(intMid) then 'Må ikke kune godkende sig selv
                                         strCheckBoxGodkenduge = "<input type=""checkbox"" name=""FM_afslutuge_medid_uge"" value='"&intMid &"_"& varTjDatoUS_man_use&"' class='gkuge_"& intMid &"'>" 
                                         end if
 
@@ -1905,17 +2150,27 @@
                                     gkTxt = godkendweek_txt_103
 
                                         strCheckBoxGodkenduge = ""
+                                        strmonthgodkendCHB = ""
 
                                     end if
 
                                     btnstyle = 1
 
-                                    
-                                    ugegodkendtTxt = strCheckBoxGodkenduge &"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href=""godkenduge.asp?usemrn="&intMid&"&varTjDatoUS_man="&varTjDatoUS_man_use&""" target=""_blank"" style=""font-size:9px; font-weight:lighter;"">"& gkTxt &" >> </a>"
-                                    
-                               
+                                    if cdbl(session("mid")) <> cdbl(intMid) then
+                                    ugegodkendtTxt = strCheckBoxGodkenduge &"&nbsp;<a href=""godkenduge.asp?usemrn="&intMid&"&varTjDatoUS_man="&varTjDatoUS_man_use&""" target=""_blank"" style=""font-size:9px; font-weight:lighter;"">"& gkTxt &" >> </a>"
+                                    end if     
+
+                                    if cdbl(session("mid")) = cdbl(intMid) then
+                                    ugegodkendtTxt = strCheckBoxGodkenduge &"&nbsp;<span style=""font-size:9px;""><i>Not allowed</i></span>"
+                                    end if   
+
+
+                                    if cint(showAfsugeVisAfsluttetpaaGodkendUgesedler) = 0 AND cdbl(session("mid")) <> cdbl(intMid) then
+                                        strmonthgodkendCHB = "<input type='checkbox' name='FM_afslutuge_medid_uge' value='"&intMid&"_"&varTjDatoUS_man_use&"' /><br>" 
+                                    end if
                                 else
                                 ugegodkendtTxt = ""
+                                strmonthgodkendCHB = ""
                                 end if
 
                                
@@ -1923,14 +2178,38 @@
                            case 1
                            btnstyle = 0
                            call meStamdata(ugegodkendtaf)
-                           ugegodkendtTxt = "<a href=""godkenduge.asp?usemrn="&intMid&"&varTjDatoUS_man="&varTjDatoUS_man_use&""" target=""_blank"" style=""font-size:9px; color:yellowgreen;""><i>V</i></a> - "& meInit 
-                         
+
+                           'call fn_tia16closed()
+                
+                                   call lonKorsel_lukketPer(varTjDatoUS_man_use, -2, intMid)
+                                   if lonKorsel_lukketIO = 0 AND cint(level) = 1 then 'level 1 20190701 - TIA LM skal kunne åbne indtil mandag kl. 16.00
+                                   ugegodkendtTxt = "<a href=""godkenduge.asp?usemrn="&intMid&"&varTjDatoUS_man="&varTjDatoUS_man_use&""" target=""_blank"" style=""font-size:9px; color:yellowgreen;""><i>V</i></a> - "& meInit
+                                
+                                    'if session("mid") = 1 then
+                                    '   ugegodkendtTxt = ugegodkendtTxt & thisyearWeek &" = "& tjkyearWeek &" ("& thisDay &")" & " : " & thisyearWeekDay &" // "& datepart("h", now, 2,2) & " > " & klokkespr &" tia16closed: " & tia16closed
+                                    'end if
+                                    
+                                   else
+                                   ugegodkendtTxt = "<span style=""font-size:9px; color:yellowgreen;""><i>V</i></span> - "& meInit
+                                   end if
+
                            case 2
-                           btnstyle = 0
-                           call meStamdata(ugegodkendtaf)
-                           ugegodkendtTxt = "<a href=""godkenduge.asp?usemrn="&intMid&"&varTjDatoUS_man="&varTjDatoUS_man_use&""" target=""_blank"" style=""font-size:9px; color:red;""><b>!</b></a> - "& meInit 
+                               btnstyle = 0
+                               call meStamdata(ugegodkendtaf)
+
+                               call fn_tia16closed()
+                               
+                                    call lonKorsel_lukketPer(varTjDatoUS_man_use, -2, intMid)
+                                    if lonKorsel_lukketIO = 0 AND cint(tia16closed) = 0 then
+                                    ugegodkendtTxt = "<a href=""godkenduge.asp?usemrn="&intMid&"&varTjDatoUS_man="&varTjDatoUS_man_use&""" target=""_blank"" style=""font-size:9px; color:red;""><b>!</b></a> - "& meInit
+                                    else
+                                    ugegodkendtTxt = "<span style=""font-size:9px; color:red;""><b>!</b></span> - "& meInit
+                                    end if
                            case else
-                           ugegodkendtTxt = ""
+                            
+                                    ugegodkendtTxt = ""
+
+
                            end select 
 
 

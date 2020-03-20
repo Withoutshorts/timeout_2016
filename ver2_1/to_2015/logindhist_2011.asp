@@ -9,10 +9,10 @@
 <!--#include file="../inc/regular/topmenu_inc.asp"-->
 
 <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
+<!--#include file="../inc/regular/top_menu_mobile.asp"-->
 
 
-<div class="wrapper">
-    <div class="content">
+
 
 <%
     
@@ -189,19 +189,6 @@
 	
 	
 	if media <> "print" then
-	
-    if nomenu <> 1 then
-
-	leftPos = 90
-	topPos = 102
-
-    else
-
-    leftPos = 20
-	topPos = 48
-
-    end if
-	
 	%>
 
 	
@@ -216,30 +203,28 @@
 
       
 
-   
+ 
   
 
   <%
       if nomenu <> 1 then
 
-    if media <> "print" then
-    %>
+	 
+        if (browstype_client <> "ip") then
 
-    <!-- <div id="loadbar" style="position:absolute; display:; visibility:visible; top:260px; left:200px; width:300px; background-color:#ffffff; border:1px #cccccc solid; padding:2px; z-index:100000000;">
-
-	<table cellpadding=0 cellspacing=5 border=0 width=100%><tr><td>
-	<img src="../ill/outzource_logo_200.gif" />
-	</td><td align=right style="padding-right:40px;">
-	<img src="../inc/jquery/images/ajax-loader.gif" />
-	</td></tr></table>
-
-	</div> -->
-
-    <% end if
-	
-
-	
          call menu_2014() 
+
+        else
+
+            ddDato_ugedag = day(now) &"/"& month(now) &"/"& year(now)
+            ddDato_ugedag_w = datepart("w", ddDato_ugedag, 2, 2)
+            
+            varTjDatoUS_man_tt = dateAdd("d", -(ddDato_ugedag_w-1), ddDato_ugedag)
+        
+           call mobile_header 
+
+
+        end if
 
 
       end if
@@ -248,13 +233,12 @@
        
     else 
 	
-	leftPos = 0
-	topPos = 0
+	'leftPos = 0
+	'topPos = 0
 	
 	%>
 	
-   <!-- <SCRIPT language=javascript src="inc/logindhist_2011_jav.js"></script> -->
-	<%end if%>
+   <%end if%>
 	
 	<%end if%>
 	
@@ -277,6 +261,11 @@
     %>
 	
 	<!-------------------------------Sideindhold------------------------------------->
+       <%if (browstype_client <> "ip") then %>
+        <div class="wrapper">
+            <div class="content">   
+     <%end if %>
+
 
         <div class="container">
             <div class="portlet">
@@ -294,21 +283,108 @@
             
                     case else%>
 
-                    <%if cint(stempelurOn) = 1 then 
-                        wdth = 225
-                    else
-                        wdth = 120
-                    end if
+                    <%
+                            
+                      
+                            select case lto 
+                            case "ddc"
+                            wdth = 140
+                             lft = 960 
+                            case else
+                            wdth = 240
+                            lft = 860 
+                            end select
+                        
+                            if cint(stempelurOn) = 1 then 
+                                wdth = wdth + 60
+                                lft = lft - 60
+                          
+                            end if
+
+                                if cint(vis_favorit) = 1 then
+                                wdth = wdth + 60
+                                lft = lft - 60
+                                end if
 
                     %>
           
            
-                        <div style="position:relative; background-color:#ffffff; border:1px #cccccc solid; border-bottom:0; padding:4px; width:<%=wdth%>px; top:-60px; left:880px; z-index:0; font-size:11px;">
+                        <div style="position:relative; background-color:#ffffff; border:1px #cccccc solid; border-bottom:0; padding:4px; width:<%=wdth%>px; top:-60px; left:<%=lft%>px; z-index:0; font-size:11px;">
            
-                        <a href="../timereg/<%=lnkTimeregside%>" class="vmenu"><%=replace(tsa_txt_031, " ", "")%> >></a>
-                        &nbsp;&nbsp;|&nbsp;&nbsp;<a href="<%=lnkUgeseddel%>" class="vmenu"><%=tsa_txt_337 %> >></a>
+                              <%select case lto
+                                    case "ddc", "cflow", "foa", "care", "kongeaa"
+                                    case else
+                                    %>
+                                    <a href="../timereg/<%=lnkTimeregside%>" class="vmenu"><%=replace(tsa_txt_031, " ", "")%></a>
+                                    &nbsp;&nbsp;|&nbsp;&nbsp;
+                                    <%end select %>
+                    
+                             <%  
+                            select case lto
+                            case "cflow"
+                            call medariprogrpFn(session("mid"))
+
+                                if instr(medariprogrpTxt, "#14#") <> 0 OR instr(medariprogrpTxt, "#16#") <> 0 OR instr(medariprogrpTxt, "#3#") <> 0 OR instr(medariprogrpTxt, "#19#") <> 0 OR level = 1 then 
+                                %>
+                                 <a href="<%=lnkUgeseddel%>" class="vmenu"><%=tsa_txt_337 %></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                <%
+                                end if
+
+                            case else
+                            %>
+                            <a href="<%=lnkUgeseddel%>" class="vmenu"><%=tsa_txt_337 %></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                            <%end select %>
+
+                           
+                            
+                            
+                       <%if cint(stempelurOn) = 1 then
+                
+               
+                            select case lto
+                            case "cflow"
+                            call medariprogrpFn(session("mid"))
+
+                                if instr(medariprogrpTxt, "#14#") <> 0 OR instr(medariprogrpTxt, "#16#") <> 0 OR instr(medariprogrpTxt, "#3#") <> 0 OR instr(medariprogrpTxt, "#19#") <> 0 OR level = 1 then 
+                                %>
+                                <a href="<%=lnkLogind%>" class="vmenu" style="background-color:azure"><%=tsa_txt_340 %></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                                <%
+                                end if
+
+                            case else
+                                    %>
+
+                        <a href="<%=lnkLogind%>" class="vmenu" style="background-color:azure"><%=tsa_txt_340 %></a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                        <%end select %>
+               
+            
+                        <%end if
+            
+                         
+                        if cint(vis_favorit) = 1 then
+                    
+                            select case lto
+                            case "cflow"
+                            call medariprogrpFn(session("mid"))
+
+                                if instr(medariprogrpTxt, "#14#") <> 0 OR instr(medariprogrpTxt, "#16#") <> 0 OR instr(medariprogrpTxt, "#3#") <> 0 OR instr(medariprogrpTxt, "#19#") <> 0 OR instr(medariprogrpTxt, "#21#") <> 0 then
+
+                               %>
+                                  <a href="<%=lnkFavorit%>"><%=favorit_txt_001 %></a>
+                                <%
+                                end if
+                            case else
+                            %>
+                            <a href="<%=lnkFavorit%>"><%=favorit_txt_001 %></a>
+                            <%end select %>
+
+                        <%end if %>
                           
 
+                            <%if lto = "foa" OR lto = "care" then %>
+                            &nbsp;&nbsp;|&nbsp;&nbsp;
+                            <a href="../timereg/<%=lnkAfstem%>"><%=afstem_txt_011 %></a>
+                            <%end if %>
            
                         </div>
 
@@ -333,7 +409,7 @@
                         </div>  -->
 
                     <%
-                    if media <> "print" AND len(trim(strSQLmids)) > 0 then 'Hvis man er level 1 eller teamleder vil len(trim(strSQLmids)) ALTID VÆRE > 16
+                    if media <> "print" AND len(trim(strSQLmids)) > 0 AND browstype_client <> "ip" then 'Hvis man er level 1 eller teamleder vil len(trim(strSQLmids)) ALTID VÆRE > 16
                       %>
     
 	                <form id="filterkri" method="post" action="logindhist_2011.asp">
@@ -348,7 +424,7 @@
 				                call medarb_vaelgandre
                                 %>
                             </div>
-                            <div class="col-lg-4" style="padding-left:60px;"><input type="CHECKBOX" name="FM_visallemedarb" id="FM_visallemedarb" value="1" <%=visAlleMedarbCHK %> /> <%=tsa_txt_388 %> (<%=tsa_txt_357 %>)
+                            <div class="col-lg-4"><input type="CHECKBOX" name="FM_visallemedarb" id="FM_visallemedarb" value="1" <%=visAlleMedarbCHK %> /> <%=tsa_txt_388 %> (<%=tsa_txt_357 %>)
                             &nbsp
                             <input type="CHECKBOX" name="FM_visallemedarb_pas" id="FM_visallemedarb_pas" value="1" <%=visAlleMedarb_pasCHK %> onclick="submit();" /> <%=medarb_txt_031%></div>
                         </div>
@@ -359,6 +435,9 @@
                     %>
 
                   <!--  </div> -->
+
+                    <%if (browstype_client <> "ip") then %>
+
                     <br />&nbsp;
                     <div class="row">
                     
@@ -372,7 +451,8 @@
                             'Skal det være mandag for måned og søndag for uge??
                             select case cint(SmiWeekOrMonth) 
                             case 0 
-                            periodeTxt = tsa_txt_005 & " "& datepart("ww", tjkDato, 2 ,2)
+                            call thisWeekNo53_fn(tjkDato)
+                            periodeTxt = tsa_txt_005 & " "& thisWeekNo53 'datepart("ww", tjkDato, 2 ,2)
                             weekMonthDate = datepart("ww", varTjDatoUS_son,2,2)
                             case 1
                             periodeTxt = monthname(datepart("m", tjkDato, 2 ,2))
@@ -407,7 +487,8 @@
                             '** Periode aflsutning Dag / UGE / MD
                             select case cint(SmiWeekOrMonth) 
                             case 0
-                            weekMonthDate = datepart("ww", varTjDatoUS_son,2,2)
+                            call thisWeekNo53_fn(varTjDatoUS_son)
+                            weekMonthDate = thisWeekNo53 'datepart("ww", varTjDatoUS_son,2,2)
                             case 1
                             weekMonthDate = datepart("m", varTjDatoUS_son,2,2)
                             case 2
@@ -417,7 +498,7 @@
 
                             'Response.Write "Hej der<br>"
 
-                            call erugeAfslutte(datepart("yyyy", varTjDatoUS_son,2,2), weekMonthDate, usemrn, SmiWeekOrMonth, 0) 
+                            call erugeAfslutte(datepart("yyyy", varTjDatoUS_son,2,2), weekMonthDate, usemrn, SmiWeekOrMonth, 0, tjkDato) 
 
          
                             '** Faneblade med afslutnings status
@@ -445,7 +526,8 @@
                         call rettidigafsl(s0Show_sidstedagsidsteuge, 0)
 
                         if cint(SmiWeekOrMonth) = 0 then
-                            s0Show_weekMd = datePart("ww", s0Show_sidstedagsidsteuge, 2,2)
+                            call thisWeekNo53_fn(s0Show_sidstedagsidsteuge)
+                            s0Show_weekMd = thisWeekNo53 'datePart("ww", s0Show_sidstedagsidsteuge, 2,2)
                         else
                             s0Show_weekMd = datePart("m", s0Show_sidstedagsidsteuge, 2,2)
                         end if
@@ -453,7 +535,7 @@
         
                             '** HVORFOR DENNE IGEN?
                         '** tjekker om uge er afsluttet og viser afsluttet eller form til afslutning
-		                call erugeAfslutte(year(s0Show_sidstedagsidsteuge), s0Show_weekMd, usemrn, SmiWeekOrMonth, 0)
+		                call erugeAfslutte(year(s0Show_sidstedagsidsteuge), s0Show_weekMd, usemrn, SmiWeekOrMonth, 0, tjkDato)
       
       
       
@@ -522,7 +604,7 @@
                         <%if cint(smilaktiv) <> 0 AND media = "print" then 
 
            
-                            call erugeAfslutte(datepart("yyyy", varTjDatoUS_son,2,2) , weekMonthDate, usemrn, SmiWeekOrMonth, 0) 
+                            call erugeAfslutte(datepart("yyyy", varTjDatoUS_son,2,2) , weekMonthDate, usemrn, SmiWeekOrMonth, 0, tjkDato) 
 
                             call ugeAfsluttetStatus(varTjDatoUS_son, showAfsuge, ugegodkendt, ugegodkendtaf, SmiWeekOrMonth) 
 
@@ -535,6 +617,14 @@
                         </tr>
 
                     </table> </div> <!-- col-lg-6 -->
+
+                    <%end if 'if (browstype_client <> "ip") then
+                        
+                        
+                    if (browstype_client = "ip") then%>
+                    <div class="row">
+                    <%end if %>
+
                     <div class="col-lg-4"></div>
 
 
@@ -543,10 +633,14 @@
                     <%if media <> "print" then %>
 
                     <%
-                    prevWeek = datepart("ww", prev_varTjDatoUS_man, 2,2) 
-                    nextWeek = datepart("ww", next_varTjDatoUS_man, 2,2) 
+                    call thisWeekNo53_fn(prev_varTjDatoUS_man)
+                    prevWeek = thisWeekNo53 'datepart("ww", prev_varTjDatoUS_man, 2,2) 
+                    call thisWeekNo53_fn(next_varTjDatoUS_man)
+                    nextWeek = thisWeekNo53 'datepart("ww", next_varTjDatoUS_man, 2,2) 
 
-                    thisWeek = datepart("ww", varTjDatoUS_man, 2,2)
+                    call thisWeekNo53_fn(varTjDatoUS_man)
+                    thisWeek = thisWeekNo53 'datepart("ww", varTjDatoUS_man, 2,2)
+                   
                     %>
                     
                         <h4 class="col-lg-2">
@@ -564,16 +658,24 @@
                     </div> <!-- Row -->
 
 
+
+
+
+
                     <%call stempelurlist_2018(useMrn, 0, 1, varTjDatoUS_man, varTjDatoUS_son, 0, d_end, lnk) %>
 
 
-                    <%call fLonTimerPer(varTjDatoUS_man, 7, 0, useMrn) %>
+                    <%
+                    if browstype_client <> "ip" then  
+                    call fLonTimerPer(varTjDatoUS_man, 7, 0, useMrn)
+                        
+                    end if%>
 
 
 
                     <!---- Funktioner ---->
 
-                    <%if media <> "print" then %>
+                    <%if media <> "print" AND browstype_client <> "ip" then %>
                     <br /><br /><br /><br />
 
                     
@@ -600,9 +702,9 @@
 
                     'response.write "weekMonthDate: "& weekMonthDate
 
-                    call erugeAfslutte(sm_aar, weekMonthDate, sm_mid, SmiWeekOrMonth, 0)
+                    call erugeAfslutte(sm_aar, weekMonthDate, sm_mid, SmiWeekOrMonth, 0, tjkDato)
                      
-                    fmlink = "ugeseddel_2011.asp?usemrn="& usemrn &"&varTjDatoUS_man="& varTjDatoUS_man &"&varTjDatoUS_son= "& varTjDatoUS_son &"&nomenu="& nomenu &"&rdir=logindhist"
+                    fmlink = "ugeseddel_2011.asp?usemrn="& usemrn &"&varTjDatoUS_man="& varTjDatoUS_man &"&varTjDatoUS_son="& varTjDatoUS_son &"&nomenu="& nomenu &"&rdir=logindhist"
                     %>
            
                     <%call godkendugeseddel(fmlink, usemrn, varTjDatoUS_man, rdir) %>

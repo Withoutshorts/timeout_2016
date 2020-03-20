@@ -16,9 +16,37 @@ case "slet"
 
     id = request("id")
 
-        '*** Sletter timeregistrering ***
+    
+
+
+    deltype = "tim"
+    delid = id
+    thismid = session("mid")
+    mnavn = session("user")
+    delMedid = "0"
+    delnavn = "timer ikke fundet"
+
+
+    strSQLtim = "SELECT timer, taktivitetid, taktivitetnavn, tjobnr, tdato, tmnr FROM timer WHERE tid = " & id
+    oRec.open strSQLtim, oConn, 3
+    if not oRec.EOF then
+
+            delMedid = oRec("tmnr")
+            delnavn = "Timer: "& oRec("timer") &" aktnavn: "& oRec("taktivitetnavn") & " aid: "& oRec("taktivitetid") &" tjobnr: "& oRec("tjobnr") & " tdato: " & oRec("tdato") & " Tmnr: " & oRec("tmnr")
+
+    end if
+    oRec.close
+
+    '*** Sletter timeregistrering ***
 	strSQL = "DELETE FROM timer WHERE Tid = " & id
 	oConn.execute(strSQL) 
+
+    'if session("mid") = 1 then
+    '    Response.write delnavn 
+    '    Response.end
+    'end if
+
+    call insertDelhist(deltype, delid, delMedid, delnavn, thismid, mnavn)
 
 
     Response.Write("<script language=""JavaScript"">window.opener.location.reload();</script>")
@@ -200,7 +228,13 @@ idagErrTjek = day(now)&"/"&month(now)&"/"&year(now)
     intOff = 0
     end if
 
-	timerKom = replace(Request("Timerkom"), "'","''")
+   
+    timerKom = replace(Request("Timerkom"), "''", "")
+    timerKom = replace(timerKom, "'", "")
+    timerKom = replace(timerKom, "&#39;", "")
+    timerKom = replace(timerKom, "&#34;", "")   
+    timerKom = replace(timerKom, chr(39), "")
+    timerKom = replace(timerKom, chr(34), "")
 	
 	timepris = SQLBless(request.form("timepris"))
 	
@@ -298,9 +332,35 @@ idagErrTjek = day(now)&"/"&month(now)&"/"&year(now)
 	
 	else
 	
+
+    deltype = "tim"
+    delid = Request.Form("id")
+    thismid = session("mid")
+    mnavn = session("user")
+    delTmnr = "0"
+    delnavn = "timer ikke fundet"
+
+
+    strSQLtim = "SELECT timer, taktivitetid, taktivitetnavn, tjobnr, tdato, tmnr FROM timer WHERE tid = " & Request.Form("id")
+    oRec.open strSQLtim, oConn, 3
+    if not oRec.EOF then
+
+            delTmnr = oRec("tmnr")
+            delnavn = "Timer: "& oRec("timer") &" aktnavn: "& oRec("taktivitetnavn") & " aid: "& oRec("taktivitetid") &" tjobnr: "& oRec("tjobnr") & " tdato: " & oRec("tdato") & " Tmnr: " & oRec("tmnr")
+
+    end if
+    oRec.close
+
 	'*** Sletter timeregistrering ***
 	strSQL = "DELETE FROM timer WHERE Tid = " & Request.Form("id") 
 	oConn.execute(strSQL) 
+
+    'if session("mid") = 1 then
+    '    Response.write delnavn 
+    '    Response.end
+    'end if
+
+    call insertDelhist(deltype, delid, delTmnr, delnavn, thismid, mnavn)
 	
 	end if
 	

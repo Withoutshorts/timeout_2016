@@ -694,7 +694,13 @@ Public Class ozreportws
                 'lto = "outz"
                 Using writer As StreamWriter = New StreamWriter("D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_14\inc\upload\" & lto & "\" & flname, False, Encoding.GetEncoding("iso-8859-1"))
 
-                    writer.WriteLine("Periode: " & startDatoTxt & " - " & slutDatoTxt & ", uge: " & DatePart("ww", slutDato, Microsoft.VisualBasic.FirstDayOfWeek.Monday, FirstWeekOfYear.FirstFourDays) & ";")
+
+                    Dim thisWeek As String = DatePart("ww", slutDato, Microsoft.VisualBasic.FirstDayOfWeek.Monday, FirstWeekOfYear.FirstFourDays)
+                    If thisWeek = 53 And DatePart("ww", DateAdd("d", 7, thisWeek), Microsoft.VisualBasic.FirstDayOfWeek.Monday, FirstWeekOfYear.FirstFourDays) = 2 Then
+                        thisWeek = 1
+                    End If
+
+                    writer.WriteLine("Periode: " & startDatoTxt & " - " & slutDatoTxt & ", uge: " & thisWeek & ";")
                     writer.WriteLine(ExpTxtheader)
 
 
@@ -1331,7 +1337,12 @@ Public Class ozreportws
                                 End If
 
 
+                                'ugeNrLastWeek = DatePart("ww", slutDato, Microsoft.VisualBasic.FirstDayOfWeek.Monday, FirstWeekOfYear.FirstFourDays)
                                 ugeNrLastWeek = DatePart("ww", slutDato, Microsoft.VisualBasic.FirstDayOfWeek.Monday, FirstWeekOfYear.FirstFourDays)
+                                If ugeNrLastWeek = 53 And DatePart("ww", DateAdd("d", 7, ugeNrLastWeek), Microsoft.VisualBasic.FirstDayOfWeek.Monday, FirstWeekOfYear.FirstFourDays) = 2 Then
+                                    ugeNrLastWeek = 1
+                                End If
+
 
                                 'bal_norm_real = ((Replace(realTimer, ",", ".") / 1) - (normTimer / 100))
                                 bal_norm_realAtd = (realTimerAtd / 1) - (normTimer * ugeNrLastWeek / 1)

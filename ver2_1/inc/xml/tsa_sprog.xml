@@ -321,7 +321,7 @@
     <txt_246>Val.</txt_246>
     <txt_247>Kurs</txt_247>
     <txt_248>Ialt</txt_248>
-    <txt_249>Kundeid</txt_249>
+    <txt_249>Kundenr.</txt_249>
     <txt_250>Jobnr.</txt_250>
     <txt_251>Rediger</txt_251>
     <txt_252>Rediger "On the Fly"</txt_252>
@@ -571,7 +571,7 @@
     <txt_445>Ordre</txt_445>
     <txt_446>Ny Ordre</txt_446>
     <txt_447>Projekter</txt_447>
-    <txt_448>Job / Projekter</txt_448>
+    <txt_448>Jobliste / Projekter</txt_448>
     <txt_449>Opret Projekt</txt_449>
     <txt_450>Print / PDF center</txt_450>
     <txt_451>Filarkiv</txt_451>
@@ -792,7 +792,7 @@
     <txt_106>Det er ingen smiley poster i valgt år.</txt_106>
     <txt_116>Legge inn timer</txt_116>
     <txt_117>Se time poster (utvalgte uker)</txt_117>
-    <txt_118>Jobblogg og Ukentlig trening ark</txt_118>
+    <txt_118>Jobblogg og Ukesedler</txt_118>
     <txt_119>Grand Total, virkelig. timer</txt_119>
     <txt_120>Jobb info</txt_120>
     <txt_121>Stemmegivning - Md.</txt_121>
@@ -1031,7 +1031,7 @@
     <txt_353>her</txt_353>
     <txt_354>Vis passive, lukket avtaler og jobber for gjennomgang</txt_354>
     <txt_355>Passiv</txt_355>
-    <txt_356>Godkjenn Ukentlig trening ark</txt_356>
+    <txt_356>Godkjenn ukesedler</txt_356>
     <txt_357>Admin/TL</txt_357>
     <txt_358>Easyreg. - Alle jobber med easyreg. Akt.</txt_358>
     <txt_359>Søk blant alle kunder og kontakter. (% Wildcard )</txt_359>
@@ -1123,7 +1123,7 @@
     <txt_445>Order</txt_445>
     <txt_446>New Order</txt_446>
     <txt_447>Prosjekter</txt_447>
-    <txt_448>Jobb / Prosjekter</txt_448>
+    <txt_448>Jobb liste/ Prosjekter</txt_448>
     <txt_449>Opprett prosjekt</txt_449>
     <txt_450>Skriv ut / PDF sentrum</txt_450>
     <txt_451>File manager</txt_451>
@@ -3424,7 +3424,7 @@
     <txt_445>Orders</txt_445>
     <txt_446>New Order</txt_446>
     <txt_447>Projects</txt_447>
-    <txt_448>Jobs / Projects</txt_448>
+    <txt_448>Joblist / Projects</txt_448>
     <txt_449>Create Project</txt_449>
     <txt_450>Print / PDF center</txt_450>
     <txt_451>Filearchive</txt_451>

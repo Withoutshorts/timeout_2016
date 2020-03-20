@@ -27,6 +27,16 @@ Select Case Request.Form("control")
 case "FM_sortOrder"
 Call AjaxUpdate("job","risiko","")
 
+case "FN_updaterekvnrkom"
+
+        jobid = request("jobid") 
+        jobrekvnr = request("newRekvnr")
+        jobrekvnr = replace(jobrekvnr, "'", "''")
+        
+        '** Job Rekvnr ****'
+        strSQLUpdj = "UPDATE job SET rekvnr = '"& jobrekvnr &"' WHERE id = "& jobid 
+        oConn.Execute(strSQLUpdj)
+
 case "FN_updatejobkom"
         
                  jobid = request("jobid")   
@@ -579,7 +589,7 @@ if len(session("user")) = 0 then
 	
 	end if %>
 
-	<script src="inc/webblik_jav.js"></script>
+	<script src="inc/webblik_jav2.js"></script>
 	
 	
 	<%
@@ -1072,10 +1082,10 @@ if len(session("user")) = 0 then
        
         select case lto 
         case "epi", "epi_no", "epi_sta", "intranet - local", "epi_ab"
-        ltoLimit = "0,2500" '5000
+        ltoLimit = "0,5000" '5000
         ltoLimitTXT = 2500
         case else
-        ltoLimit = "0,1000" '1000
+        ltoLimit = "0,5000" '1000
         ltoLimitTXT = 1000
         end select
 	
@@ -1471,7 +1481,7 @@ if len(session("user")) = 0 then
     
      <% if print <> "j" then %>
         <br /><br />
-     <b>Søg på jobnavn ell. nr.:<br /><span style="font-size:9px; font-weight:lighter; line-height:14px;">(% wildcard, <b>231, 269</b> specifik, <b>201--225</b> (dobbelt bindestreg) interval, eller <b>< ></b>)</span></b>
+     <b>Søg på jobnavn ell. nr.:<br /><span style="font-size:9px; font-weight:lighter; line-height:14px;">(% wildcard, <b>231, 269</b> specifik, <b>201--225</b> (dobbelt bindestreg) interval, eller <b>< ></b> - MAX 5000 job)</span></b>
      <input type="text" name="jobnr_sog" id="jobnr_sog" value="<%=jobnrnavn%>" style="width:375px; border:2px #9ACD32 solid;">
 		<%
 		
@@ -2409,7 +2419,7 @@ if len(session("user")) = 0 then
 	if level = 1 then
 	editok = 1
 	else
-			if cint(session("mid")) = oRec("jobans1") OR cint(session("mid")) = oRec("jobans2") OR (cint(oRec("jobans1")) = 0 AND cint(oRec("jobans2")) = 0) then
+			if cdbl(session("mid")) = oRec("jobans1") OR cdbl(session("mid")) = oRec("jobans2") OR (cdbl(oRec("jobans1")) = 0 AND cdbl(oRec("jobans2")) = 0) then
 			editok = 1
 			end if
 	end if
@@ -2783,12 +2793,33 @@ if len(session("user")) = 0 then
         
 
 
-		if len(trim(oRec("rekvnr"))) <> 0 then
-	    Response.Write "Rekvnr.:  "& oRec("rekvnr") 
-	    end if
-		%>
+        select case lto
+        case "xdencker"
+
+        'if len(trim(oRec("rekvnr"))) <> 0 then
+        %>
+        Rekvnr.: <input type='text' id="aa_job_rekvnr_<%=oRec("id") %>" style='width:125px; font-size:10px;' value="<%=oRec("rekvnr")%>" /> 
+       
+        <span class='aa_job_rekvnr' id="<%=oRec("id")%>" style="background-color:#9ACD32; border:0px #999999 solid; font-size:10px; padding:2px; cursor:pointer;">Gem >></span>
+        <span id="rekvnrGemt_<%=oRec("id") %>" style="display:none;">Gemt!</span>
+        <%
+        'response.write "Rekvnr.:"
+        'end if
+
+      
+
+        case else
+
+                    
+		  if len(trim(oRec("rekvnr"))) <> 0 then
+            response.write "Rekvnr.: " & oRec("rekvnr")
+        end if
 		
-		<%
+
+        end select
+
+		
+		
 		
 		if len(trim(oRec("aftnavn"))) <> 0 then
 	    Response.Write "<br><span style=""background-color:#FFFFe1;"">Aft.: "& oRec("aftnavn") & "</span>" 
@@ -3006,7 +3037,7 @@ if len(session("user")) = 0 then
 
 
 
-		<%
+		<%'** Status
 		  select case visSimpel
             case 0,1
             %>
@@ -3058,16 +3089,51 @@ if len(session("user")) = 0 then
 		
 		if print <> "j" then
                     
-                   if visSimpel = 2 then%>
+        if visSimpel = 2 then%>
                 Status:<br />
                 <%end if %>
+
+            <%select case lto
+            case "mpt", "local - intranet"
+
+                if level = 1 then
+                wprotec = ""
+                else
+                
+                    if stCHK0 = "CHECKED" then 'Hvis job er lukket må kun admin ændre status
+                    wprotec = "readonly"
+                    else
+                    wprotec = ""
+                    end if
+
+                end if
+
+            case else
+
+                if level <= 2 OR level = 6 then
+                wprotec = ""
+                else
+
+                    if stCHK0 = "CHECKED" then
+                    wprotec = "readonly"
+                    else
+                    wprotec = ""
+                    end if
+
+                end if
+
+         end select  %> 
+
 		<select name="FM_jobstatus" id="FM_jobstatus_<%=c%>" class="s_jobstatus" style="width:122px;">
 		<option value="0" <%=stCHK0%>>Lukket <%=lkDatoThis%></option>
+
+        <%if wprotec <> "readonly" then %>
 		<option value="1" <%=stCHK1%>>Aktiv</option>
 		<option value="2" <%=stCHK2%>>Passiv / Til fak.</option>
         <option value="3" <%=stCHK3%>>Tilbud</option>
         <option value="4" <%=stCHK4%>>Gennemsyn</option>
         <option value="5" <%=stCHK5%>>Evaluering</option>
+        <%end if %>
 		</select>
 
                 <span id="sp_stopd_<%=c%>" style="color:green; font-size:12px; visibility:hidden;" ><i>V</i></span>

@@ -128,17 +128,17 @@
 	        <td align=right style="border-bottom:1px silver dashed; padding-bottom:20px; white-space:nowrap;" class=lille><%=formatnumber(arealifTimerTot,2)%></td>
               <%end if %>
 
-                        <%if cint(showkgtil) = 1 AND lto <> "tec" AND lto <> "esn" then %>
+                        <%if cint(showkgtil) = 1 AND lto <> "tec" AND lto <> "esn" AND lto <> "lm" then %>
                         <td align=right style="white-space:nowrap; border-bottom:1px silver dashed; padding-bottom:20px;" class=lille><%=formatnumber(korrektionRealTot,2)%></td>
                         <%end if %>
 	        
-            <%if lto <> "cst" AND lto <> "tec" AND lto <> "esn" AND lto <> "tia" then %>
+            <%if lto <> "cst" AND lto <> "tec" AND lto <> "esn" AND lto <> "tia" AND lto <> "lm" then %>
 	         <td align=right style="border-bottom:1px silver dashed; padding-bottom:20px; white-space:nowrap;" class=lille><b><%=formatnumber((arealTimerTot - anormTimerTot),2)%></b></td>
                <td align=right style="white-space:nowrap; border-bottom:1px silver dashed; padding-bottom:20px;" class=lille><b><%=formatnumber(balRealNormtimerAkk+(akuPreRealNormBal),2)%></b></td>
              <%end if %>
                 
 
-                 <%if session("stempelur") <> 0 AND (lto <> "kejd_pb" AND lto <> "cst" AND lto <> "tec" AND lto <> "esn") then %>
+                 <%if session("stempelur") <> 0 AND (lto <> "kejd_pb" AND lto <> "cst" AND lto <> "tec" AND lto <> "esn" AND lto <> "lm") then %>
                 <td align=right style="border-bottom:1px silver dashed; padding-bottom:20px; white-space:nowrap;" class=lille><b><%=formatnumber((arealTimerTot - (altimerKorFradTot)),2)%></b></td>
 	             <%end if %>
 
@@ -155,9 +155,9 @@
 
 	         <td align=right class=lille style="border-bottom:1px silver dashed; padding-bottom:20px; white-space:nowrap;"><b><%=formatnumber(aafspTimerBrTot, 2)%></b></td>
 
-         <%if lto <> "fk" AND lto <> "kejd_pb" AND lto <> "adra" AND lto <> "cisu" then 
+         <%if lto <> "fk" AND lto <> "kejd_pb" AND lto <> "adra" AND lto <> "cisu"  then 
              
-                         if lto <> "tec" AND lto <> "esn" then %>
+                         if lto <> "tec" AND lto <> "esn" AND lto <> "lm" then %>
 	                     <td align=right class=lille style="border-bottom:1px silver dashed; padding-bottom:20px; white-space:nowrap;"><b><%=formatnumber(aafspTimerUdbTot, 2)%></b></td>
 	                        <td align=right class=lille style="border-bottom:1px silver dashed; padding-bottom:20px; white-space:nowrap;"><b><%=formatnumber(aafspadUdbBalTot, 2)%></b></td>
 	                        <%end if %>     
@@ -202,17 +202,14 @@
         %>
 
 
-                 <td align=right class=lille style="border-bottom:1px silver dashed; padding-bottom:20px;">
-      
-       <b><%=formatnumber(ferieAfVal_md_tot, 2) %></b>
-    
-       </td>
+      <td align=right class=lille style="border-bottom:1px silver dashed; padding-bottom:20px;">
+      <b><%=formatnumber(ferieAfVal_md_tot, 2) %></b>
+      </td>
 
-           <td align=right  class=lille style="border-bottom:1px silver dashed; padding-bottom:20px;">
       
-       <b><%=formatnumber(ferieAfulonVal_md_tot, 2) %></b>
-    
-       </td>
+      <td align=right  class=lille style="border-bottom:1px silver dashed; padding-bottom:20px;">
+      <b><%=formatnumber(ferieAfulonVal_md_tot, 2) %></b>
+      </td>
 	
 	 <td align=right  class=lille style="border-bottom:1px silver dashed; padding-bottom:20px;"><b><%=formatnumber(ferieFriAfVal_md_tot, 2) %></b></td>
 
@@ -227,7 +224,7 @@
 
         
         <%   select case lto
-                        case "xintranet - local", "fk", "kejd_pb", "adra"
+                        case "xintranet - local", "fk", "kejd_pb", "adra", "ddc", "lm"
             %>
         	 <td align=right  class=lille style="border-bottom:1px silver dashed; padding-bottom:20px;"><b><%=formatnumber(omsorg_tot, 2) %></b></td>
 
@@ -244,6 +241,16 @@
         <%
             end select %>
 
+       <%   select case lto 'dag / padi leave
+                        case "xintranet - local", "tia"
+            %>
+        	 <td align=right  class=lille style="border-bottom:1px silver dashed; padding-bottom:20px;"><b><%=formatnumber(dag_tot, 2) %></b></td>
+      
+
+        <%
+            end select %>
+
+
 	 
 	   <%   select case lto
                         case "xintranet - local", "fk", "kejd_pb", "tia"
@@ -258,14 +265,14 @@
 
 
            <%select case lto
-        case "xxintranet - local", "fk"%>
+        case "xxintranet - local", "fk", "plan"%>
         	 
         <td align=right  class=lille style="border-bottom:1px silver dashed; padding-bottom:20px;"><b><%=formatnumber(lageTimer_tot, 2) %></b></td>
 
         <%end select
 
 	   select case lto
-        case "intranet - local", "adra"%>
+        case "intranet - local", "adra", "plan"%>
         	 
         <td align=right  class=lille style="border-bottom:1px silver dashed; padding-bottom:20px;"><b><%=formatnumber(rejsedage_tot, 2) %></b></td>
 
@@ -301,12 +308,22 @@
     <%end if %>
 
 	<td style="border-bottom:1px silver dashed; padding-bottom:20px; white-space:nowrap;" class="lille" align=center><%=showAfsugeTxt_tot%>&nbsp;</td>
-	<td style="border-bottom:1px silver dashed; padding-bottom:20px; padding-top:3px; white-space:nowrap;" align=center>
+	<td style="border-bottom:1px silver dashed; padding-bottom:20px; padding-top:3px; vertical-align:top; white-space:nowrap;" align=center>
         
         <%if len(trim(ugegodkendtTxt_tot)) <> 0 then %>
 
             <%if cint(btnstyle) = 1 then
-            %><span style="border:1px #5582d2 solid; background-color:#d6dff5; font-size:10px; padding:1px;"><%=ugegodkendtTxt_tot %></span><%
+
+                %>
+        
+                <%=strmonthgodkendCHB%>
+
+                <!--<span style="border:1px #5582d2 solid; background-color:#d6dff5; font-size:10px; padding:1px; float:right;"><%=ugegodkendtTxt_tot %></span>-->
+                <%=ugegodkendtTxt_tot %>
+                <%
+
+              
+
             else%>
             <%=ugegodkendtTxt_tot %>
             <%end if %>

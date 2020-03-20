@@ -106,6 +106,7 @@ Public Class oz_importjob2
     Public editor As String
     Public id As Integer = 0
     Public dato As Date
+    Public dDato As Date = Date.Now 'tirsdag morgen 07:00
     Public jobstartdato As Date
     Public jobslutdato As Date
     Public origin As String
@@ -168,6 +169,8 @@ Public Class oz_importjob2
     Public progrpId As Integer = 0
     Public progrp As String = "0"
 
+    Public returnstr As String = ";"
+
     <WebMethod()> Public Function createjob2(ByVal ds As DataSet) As String
 
 
@@ -202,6 +205,7 @@ Public Class oz_importjob2
             Next
 
         Next
+
 
 
 
@@ -676,6 +680,9 @@ Public Class oz_importjob2
             'Call DecodeUTF8(jobnavn)
             'jobnavn = 
 
+
+
+
             '********************************************************************************
             '*** Opretter Job ***'
             '********************************************************************************
@@ -710,6 +717,7 @@ Public Class oz_importjob2
                     End If
 
                 End If
+
 
 
 
@@ -764,7 +772,7 @@ Public Class oz_importjob2
 
                                     Dim strSQLjobUpd As String = ("Update job SET jobnavn = '" & jobnavn & "', jobnr = '" & jobnr & "', " _
                                     & " editor = '" & editor & "', " _
-                                    & " dato = '" & dato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', beskrivelse = '" & jobBesk & "' WHERE jobnr = '" & jobnr & "'")
+                                    & " dato = '" & dato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', beskrivelse = '" & jobBesk & "', rekvnr = '" & rekvisitionsnr & "' WHERE jobnr = '" & jobnr & "'")
 
                                     objCmd = New OdbcCommand(strSQLjobUpd, objConn)
                                     objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
@@ -1333,12 +1341,18 @@ Public Class oz_importjob2
 
                         End If
 
+                        'Return ("HER 4 lastID: " + lastID.ToString + " Jobnr: " + strjobnr + " opretJobOk: " + opretJobOk.ToString + " opdaterJob: " + opdaterJob.ToString + " importtype: " + importtype.ToString + " lto: " + lto.ToString)
+                        'returnstr = +"HER 4 opretJobOk: " + opretJobOk.ToString() + " opdaterJob: " + opdaterJob.ToString() + " importtype: " + importtype.ToString() + " lto: " + lto.ToString()
+
                         If (lastID <> 0) Then
 
+                            'Return "AKTfindes0 : "
 
                             '** ALM aktiviteter
                             Dim agforvalgtStamgrpKri As String = ""
                             Call opretStamAkt(lto, lastID, aktnavn, aktstdato, aktsldato, fomr, sort, aktvarenr, antalstk, agforvalgtStamgrpKri, objConn2, objConn, objCmd, objDR2, objDR3, objDR6, objDR4)
+
+                            'Return "AKTfindes20 : "
 
                         End If
 
@@ -1347,12 +1361,14 @@ Public Class oz_importjob2
             End Select
 
             intCountInserted += 1
-
             lastJobnr = strjobnr
 
 
         End While
         objDR.Close()
+
+        'Return (returnstr)
+
 
 
         'Catch ex As Exception
@@ -1435,8 +1451,15 @@ Public Class oz_importjob2
                 '*** Finder aktid ***
                 Dim fasttp As Double = 0
                 Dim easyreg As Integer = 0
-                Dim fakturerbar As Integer = 0
-                Dim strSQLakttp As String = "SELECT fasttp, easyreg, fakturerbar FROM aktiviteter WHERE navn = '" & aktnavn.Replace("'", "") & "' AND job = 0 AND aktfavorit = 72"
+                Dim easyreg_max As Double = 0
+                Dim fakturerbar As Integer = 1
+                Dim lastStamaktid As Double = 0
+                Dim progrppl As Integer = 10
+
+
+
+
+                Dim strSQLakttp As String = "SELECT id, fasttp, easyreg, easyreg_max, fakturerbar, navn FROM aktiviteter WHERE navn = '" & aktnavn.Replace("'", "") & "' AND job = 0 AND aktfavorit = 72"
                 objCmd = New OdbcCommand(strSQLakttp, objConn)
                 objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
 
@@ -1445,15 +1468,28 @@ Public Class oz_importjob2
                     fasttp = objDR2("fasttp") '.replace(".", ",")
                     easyreg = objDR2("easyreg")
                     fakturerbar = objDR2("fakturerbar")
+                    easyreg_max = objDR2("easyreg_max")
+                    lastStamaktid = objDR2("id")
+
 
                 End If
                 objDR2.Close()
 
+                If fakturerbar = 0 Then
+                    fakturerbar = 1
+                End If
                 'fasttp = fasttp.Replace(",", ".")
 
 
                 strAktFase = strAktFase.Replace(",", "")
                 strAktFase = strAktFase.Replace("'", "")
+                strAktFase = strAktFase.Replace("&", "og")
+                strAktFase = strAktFase.Replace(" ", "_")
+
+                'easyreg_max = easyreg_max.Replace(".", "")
+                'easyreg_max = easyreg_max.Replace(",", ".")
+
+                'Return "AKTfindes: " + aktFindes.ToString
 
                 '**** Findes aktivitet ***'
                 If CInt(aktFindes) = 0 Then '** INSERT
@@ -1474,11 +1510,11 @@ Public Class oz_importjob2
                     Dim strSQLaktins As String = ("INSERT INTO aktiviteter (navn, job, fakturerbar, " _
                     & "projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7," _
                     & "projektgruppe8, projektgruppe9, projektgruppe10, aktstatus, budgettimer, aktbudget, aktbudgetsum, aktstartdato, aktslutdato, aktkonto, fase, avarenr, fomr, sortorder, antalstk, bgr, " _
-                    & " brug_fasttp, fasttp, fasttp_val, easyreg) VALUES " _
+                    & " brug_fasttp, fasttp, fasttp_val, easyreg, easyreg_max) VALUES " _
                     & " ('" & aktnavn.Replace("'", "") & "', " & lastID & ", " & fakturerbar & "," _
                     & " 10,1,1,1,1,1,1,1,1,1," & aktStatus & ",0,0,0,'" & aktstdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " _
                     & "'" & aktsldato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', 0, '" & strAktFase & "', '" & aktvarenr & "', " & fomr & ", " & sort & ", " & antalstk & ", 2" _
-                    & ", 1, " & fasttp & ", 1, " & easyreg & ")")
+                    & ", 1, " & fasttp & ", 1, " & easyreg & ", " & easyreg_max & ")")
 
                     objCmd = New OdbcCommand(strSQLaktins, objConn)
                     objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
@@ -1509,29 +1545,227 @@ Public Class oz_importjob2
                     lastAktID = aktFindes
 
 
+
+
                 End If
 
 
-
-
+                '** Indsætter FOMR Hvis ikke findes ***
                 '** FOMR REL ***********
-                Dim strSQLaktfomr As String = ("SELECT for_fomr, for_aktid FROM fomr_rel WHERE for_aktid =  " & lastAktID)
+                Dim fomrF As Integer = 0
+                Dim strSQLaktfomrA As String = ("SELECT for_id, for_fomr, for_aktid FROM fomr_rel WHERE for_aktid =  " & lastAktID & "")
 
-                objCmd = New OdbcCommand(strSQLaktfomr, objConn)
+                objCmd = New OdbcCommand(strSQLaktfomrA, objConn)
                 objDR4 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
-                While objDR4.Read() = True
+                If objDR4.Read() = True Then
+
+                    fomrF = objDR4("for_id")
+
+                End If
+                objDR4.Close()
 
 
 
-                    Dim strSQLaktinsfomr As String = ("INSERT INTO fomr_rel (for_fomr, for_aktid, for_jobid, for_faktor) VALUES  (" & fomr & ", " & lastAktID & ", " & lastID & ", 100)")
 
-                    objCmd = New OdbcCommand(strSQLaktinsfomr, objConn)
+                If CInt(fomrF) = 0 Then
+
+
+                    '** FOMR REL ***********
+                    Dim fomrA As Integer = 0
+                    Dim strSQLaktfomrAA As String = ("SELECT for_fomr, for_aktid FROM fomr_rel WHERE for_aktid =  " & lastStamaktid & "")
+
+                    objCmd = New OdbcCommand(strSQLaktfomrAA, objConn)
+                    objDR4 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                    If objDR4.Read() = True Then
+
+                        fomrA = objDR4("for_fomr")
+
+                    End If
+                    objDR4.Close()
+
+                    Dim strSQLaktinsfomrF As String = ("INSERT INTO fomr_rel (for_fomr, for_aktid, for_jobid, for_faktor) VALUES  (" & fomrA & ", " & lastAktID & ", " & lastID & ", 100)")
+
+                    objCmd = New OdbcCommand(strSQLaktinsfomrF, objConn)
                     objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
                     objDR2.Close()
 
+                End If
 
-                End While
-                objDR4.Close()
+                '** Slut opret fomr **'
+
+
+
+
+                '**** Opretter Planlægnings-Delprocesser - HVIS akt ikke findes ***'
+
+                If importtype <> "d1" And lto = "dencker" Then
+
+
+                    '** FOMR REL ***********
+                    Dim fomrP As Integer = 0
+                    Dim strSQLaktfomrA1 As String = ("SELECT for_fomr, for_aktid FROM fomr_rel WHERE for_aktid =  " & lastStamaktid & "")
+
+                    objCmd = New OdbcCommand(strSQLaktfomrA1, objConn)
+                    objDR4 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                    If objDR4.Read() = True Then
+
+                        fomrP = objDR4("for_fomr")
+
+                    End If
+                    objDR4.Close()
+
+
+                    '** FOMR REL tjkker kun Planlæg ***********
+                    Dim fomrFindes As Integer = 0
+                    Dim strSQLaktfomrF As String = ("SELECT for_fomr, for_aktid FROM fomr_rel LEFT JOIN aktiviteter a ON (a.id = for_aktid AND fase = 'planlæg') WHERE for_jobid =  " & lastID & " AND for_fomr = " & fomrP & " AND fase = 'planlæg'")
+
+                    objCmd = New OdbcCommand(strSQLaktfomrF, objConn)
+                    objDR4 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                    If objDR4.Read() = True Then
+
+                        fomrFindes = 1
+
+                    End If
+                    objDR4.Close()
+
+
+
+
+
+
+
+                    Dim insUpd As Integer = 0
+                    '**** Opretter Planlægings aktiveter
+                    'fomrFindes = 0
+                    If CInt(fomrFindes) = 0 Then
+
+
+
+                        If fomrP <> 0 And IsDBNull(fomrP) <> True Then
+                            fomrP = fomrP
+                        Else
+                            fomrP = 0
+                        End If
+
+                        Dim lastStamaktNavn As String = "-"
+                        Dim strSQLaktfomrA2 As String = "SELECT a.navn FROM fomr_rel LEFT JOIN aktiviteter a ON (a.id = for_aktid AND aktfavorit = 75) WHERE for_fomr =  " & fomrP & " AND aktfavorit = 75"
+
+                        objCmd = New OdbcCommand(strSQLaktfomrA2, objConn)
+                        objDR4 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                        If objDR4.Read() = True Then
+
+                            lastStamaktNavn = objDR4("navn")
+
+                        End If
+                        objDR4.Close()
+
+
+
+                        Select Case fomrP
+                            Case 3 'T - Tool Værktøj Fremstilling bearbejde
+                                sort = 2
+                                aktnavn = lastStamaktNavn '"Fremstilling"
+                                'fomrP = 3
+                                insUpd = 1
+                                progrppl = 37
+                            Case 23 'Plast/ STØB
+                                sort = 5
+                                aktnavn = lastStamaktNavn '"Støbning"
+                                'fomrP = 23
+                                insUpd = 1
+                                progrppl = 48
+                            Case 33 'Konstruktion
+                                sort = 1
+                                aktnavn = lastStamaktNavn '"Konstruktion"
+                                'fomrP = 33
+                                insUpd = 1
+                                progrppl = 35
+                            Case 35 'Trim / Rettelser / Service
+                                sort = 4
+                                aktnavn = lastStamaktNavn '"Service & Montage" '"Trim"
+                                'fomrP = 35
+                                insUpd = 1
+                                progrppl = 49
+                            Case 36
+                                sort = 3
+                                aktnavn = lastStamaktNavn '"Elektrode og EDM" '"Trim"
+                                'fomrP = 35
+                                insUpd = 1
+                                progrppl = 50
+                            Case Else
+                                sort = 6
+                                aktnavn = "Andet"
+                                insUpd = 0
+                                progrppl = 1
+                                'fomrP = 31
+                        End Select
+
+                        '** Opretter planlægningsaktiviet
+
+                        If CInt(insUpd) = 1 And fomrP <> 0 Then
+
+
+                            strAktFase = "Planlæg"
+                            antalstk = 0
+                            aktvarenr = ""
+                            fasttp = 0
+                            easyreg = 0
+                            easyreg_max = 0
+                            fakturerbar = 91
+                            aktStatus = 2 'Altid passive
+                            Dim aktstdatoP As Date = "2002-01-01"
+                            Dim aktsldatoP As Date = "2044-12-31"
+
+                            Dim strSQLaktinsplan As String = ("INSERT INTO aktiviteter (navn, job, fakturerbar, " _
+                            & "projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7," _
+                            & "projektgruppe8, projektgruppe9, projektgruppe10, aktstatus, budgettimer, aktbudget, aktbudgetsum, aktstartdato, aktslutdato, aktkonto, fase, avarenr, fomr, sortorder, antalstk, bgr, " _
+                            & " brug_fasttp, fasttp, fasttp_val, easyreg, easyreg_max, editor, dato) VALUES " _
+                            & " ('" & aktnavn.Replace("'", "") & "', " & lastID & ", " & fakturerbar & "," _
+                            & " " & progrppl & ",1,1,1,1,1,1,1,1,1," & aktStatus & ",0,0,0,'" & aktstdatoP.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " _
+                            & "'" & aktsldatoP.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', 0, '" & strAktFase & "', '" & aktvarenr & "', " & fomrP & ", " & sort & ", " & antalstk & ", 2" _
+                            & ", 1, " & fasttp & ", 1, " & easyreg & ", " & easyreg_max & ",'Monitor', '" & dDato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "')")
+
+                            objCmd = New OdbcCommand(strSQLaktinsplan, objConn)
+                            objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                            objDR2.Close()
+
+
+                            '*** Finder aktid ***
+                            Dim strSQLlastAktID As String = "SELECT id FROM aktiviteter WHERE id <> 0 ORDER BY id DESC"
+                            objCmd = New OdbcCommand(strSQLlastAktID, objConn)
+                            objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                            If objDR2.Read() = True Then
+
+                                lastAktID = objDR2("id")
+
+                            End If
+                            objDR2.Close()
+
+
+
+                            Dim strSQLaktinsfomrF As String = ("INSERT INTO fomr_rel (for_fomr, for_aktid, for_jobid, for_faktor) VALUES  (" & fomrP & ", " & lastAktID & ", " & lastID & ", 100)")
+
+                            objCmd = New OdbcCommand(strSQLaktinsfomrF, objConn)
+                            objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+                            objDR2.Close()
+
+
+                        End If
+
+                    End If
+
+                End If 'importtype = "d1"
+
+
+
+
+
+
+
+
+
+
 
 
 

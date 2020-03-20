@@ -208,7 +208,7 @@
     <txt_201 >ved mere end 1000 job</txt_201>
     <txt_202 >Kunde</txt_202>
     <txt_203 >Kontaktperson</txt_203>
-    <txt_204 >vælg kontakt for at se kontaktpersoner</txt_204>
+    <txt_204 >vælg kunde for at se kontaktpersoner</txt_204>
     <txt_205 >ignorer</txt_205>
     <txt_206 >1 ell. 2</txt_206>
     <txt_207 >vis kun job hvor valgte projektgruppe er tilknyttet</txt_207>
@@ -287,7 +287,7 @@
     <txt_280 >Der betyder at der ikke blev fundet nogen job.</txt_280>
     <txt_281 >Multiopdater forretningsområder</txt_281>
     <txt_282 >fjern</txt_282>
-    <txt_283 >Opdater alle job på listen med ovenstående forretningsområder. (forvalgt konto på job skal ændres manuelt)</txt_283>
+    <txt_283 >Opdater forretningsområder på valgte job. (forvalgt konto på job skal ændres manuelt)</txt_283>
     <txt_284 >Opdater også alle tilhørende aktiviteter</txt_284>
     <txt_285 >Slutdato</txt_285>
     <txt_286 >Sæt slutdato på alle ovenstående job</txt_286>
@@ -464,7 +464,7 @@
     <txt_446 >Dækningsbidrag / Bruttofortjeneste</txt_446>
     <txt_447 >bruttooms. - udgifter</txt_447>
     <txt_448 >Dækningsbidrag</txt_448>
-    <txt_449 >Gem ændringer på job</txt_449>
+    <txt_449 >Gem ændringer</txt_449>
     <txt_450 >Videre</txt_450>
 
     <txt_451 >Joboverblik</txt_451>
@@ -472,7 +472,7 @@
     <txt_453 >Konsolider job</txt_453>
     <txt_454 >Kopier job</txt_454>
     <txt_455 >Slet / nulstil job</txt_455>
-    <txt_456 >Joboverblik</txt_456>
+    <txt_456 >Joblisten</txt_456>
     <txt_457 >Kontaktpers. hos kunde</txt_457>
     <txt_458 >Timeforbrug</txt_458>
     <txt_459 >overblik</txt_459>
@@ -655,7 +655,11 @@
     <txt_623 >L</txt_623>
     <txt_624 >Angiv fase</txt_624>
     <txt_625 >Joboversigt</txt_625>
-
+    <txt_626 >Salgsansvarlig</txt_626>
+    <txt_627 >Tidsforbrug</txt_627>
+    <txt_628 >Budget timer</txt_628>
+    <txt_629 >Evaluering</txt_629>
+    <txt_630 >Oprettet den</txt_630>
 
 
   </dk>
@@ -787,10 +791,10 @@
     <txt_121 >Rest estimate</txt_121>
     <txt_122 >remaining hours</txt_122>
     <txt_123 >ended</txt_123>
-    <txt_124 >Project and sales resposible</txt_124>
+    <txt_124 >Project and sales responsible</txt_124>
     <txt_125 >Project manager and owner</txt_125>
     <txt_126 >If Project manger or owner is stated. Only these (and Admin) can edit</txt_126>
-    <txt_127 >the project and create invoices. Co-resposible is used for sales and bonus etc.</txt_127>
+    <txt_127 >the project and create invoices. Co-responsible is used for sales and bonus etc.</txt_127>
     <txt_128 >Co-respos.</txt_128>
     <txt_129 >None</txt_129>
     <txt_130 >Company share of the sale</txt_130>
@@ -867,7 +871,7 @@
     <txt_201 >show more than 1000 projects</txt_201>
     <txt_202 >Customer</txt_202>
     <txt_203 >Contact</txt_203>
-    <txt_204 >choose contact to see contactnames</txt_204>
+    <txt_204 >choose customer to see contactnames</txt_204>
     <txt_205 >ignore</txt_205>
     <txt_206 >1 or 2</txt_206>
     <txt_207 >show projects for choosen project group</txt_207>
@@ -946,7 +950,7 @@
     <txt_280 >That means that no project were found.</txt_280>
     <txt_281 >Multi update business areas</txt_281>
     <txt_282 >remove</txt_282>
-    <txt_283 >Update all projects listed with the above business areas. (pre-set account on project to be changed manually)</txt_283>
+    <txt_283 >Update business areas on selected projects. (pre-set account changed manually)</txt_283>
     <txt_284 >Update all activities too</txt_284>
     <txt_285 >End date</txt_285>
     <txt_286 >Set end date for all the above projects</txt_286>
@@ -963,7 +967,7 @@
     <txt_297 >Base data</txt_297>
     <txt_298 >KPIs, stated, business areas, project gr. ect.</txt_298>
     <txt_299 >Milestones/Deadlines</txt_299>
-    <txt_300 >Project and sales resposible</txt_300>
+    <txt_300 >Project and sales responsible</txt_300>
     <txt_301 >State reg.</txt_301>
     <txt_302 >Export hourly rate</txt_302>
     <txt_303 >Print as workorder</txt_303>
@@ -1123,7 +1127,7 @@
     <txt_446 >Coverage / Gross profit</txt_446>
     <txt_447 >gross rev. - expenses</txt_447>
     <txt_448 >Margin</txt_448>
-    <txt_449 >Save changes to jobs</txt_449>
+    <txt_449 >Save changes</txt_449>
     <txt_450 >Next</txt_450>
 
     <txt_451 >Job Overview</txt_451>
@@ -1131,7 +1135,7 @@
     <txt_453 >Consolidate jobs</txt_453>
     <txt_454 >Copy jobs</txt_454>
     <txt_455 >Delete / Reset Job</txt_455>
-    <txt_456 >Job overview</txt_456>
+    <txt_456 >Job List</txt_456>
     <txt_457 >Contacts. At customer</txt_457>
     <txt_458 >Time Consumption</txt_458>
     <txt_459 >overview</txt_459>
@@ -1314,7 +1318,11 @@
     <txt_623 >L</txt_623>
     <txt_624 >Specify phase</txt_624>
     <txt_625 >Job view</txt_625>
-
+    <txt_626 >Sales responsible</txt_626>
+    <txt_627 >Time usage</txt_627>
+    <txt_628 >Budget time</txt_628>
+    <txt_629 >Evaluation</txt_629>
+    <txt_630 >Created</txt_630>
 
 
   </no>
@@ -1446,10 +1454,10 @@
     <txt_121 >Rest estimate</txt_121>
     <txt_122 >remaining hours</txt_122>
     <txt_123 >ended</txt_123>
-    <txt_124 >Project and sales resposible</txt_124>
+    <txt_124 >Project and sales responsible</txt_124>
     <txt_125 >Project manager and owner</txt_125>
     <txt_126 >If Project manger or owner is stated. Only these (and Admin) can edit</txt_126>
-    <txt_127 >the project and create invoices. Co-resposible is used for sales and bonus etc.</txt_127>
+    <txt_127 >the project and create invoices. Co-responsible is used for sales and bonus etc.</txt_127>
     <txt_128 >Co-respos.</txt_128>
     <txt_129 >None</txt_129>
     <txt_130 >Company share of the sale</txt_130>
@@ -1526,7 +1534,7 @@
     <txt_201 >show more than 1000 projects</txt_201>
     <txt_202 >Customer</txt_202>
     <txt_203 >Contact</txt_203>
-    <txt_204 >choose contact to see contactnames</txt_204>
+    <txt_204 >choose customer to see contactnames</txt_204>
     <txt_205 >ignore</txt_205>
     <txt_206 >1 or 2</txt_206>
     <txt_207 >show projects for choosen project group</txt_207>
@@ -1605,7 +1613,7 @@
     <txt_280 >That means that no project were found.</txt_280>
     <txt_281 >Multi update business areas</txt_281>
     <txt_282 >remove</txt_282>
-    <txt_283 >Update all projects listed with the above business areas. (pre-set account on project to be changed manually)</txt_283>
+    <txt_283 >Update business areas on selected projects. (pre-set account changed manually)</txt_283>
     <txt_284 >Update all activities too</txt_284>
     <txt_285 >End date</txt_285>
     <txt_286 >Set end date for all the above projects</txt_286>
@@ -1622,7 +1630,7 @@
     <txt_297 >Base data</txt_297>
     <txt_298 >KPIs, stated, business areas, project gr. ect.</txt_298>
     <txt_299 >Milestones/Deadlines</txt_299>
-    <txt_300 >Project and sales resposible</txt_300>
+    <txt_300 >Project and sales responsible</txt_300>
     <txt_301 >State reg.</txt_301>
     <txt_302 >Export hourly rate</txt_302>
     <txt_303 >Print as workorder</txt_303>
@@ -1781,7 +1789,7 @@
     <txt_446 >Coverage / Gross profit</txt_446>
     <txt_447 >gross rev. - expenses</txt_447>
     <txt_448 >Margin</txt_448>
-    <txt_449 >Save changes to jobs</txt_449>
+    <txt_449 >Save changes</txt_449>
     <txt_450 >Next</txt_450>
 
     <txt_451 >Job Overview</txt_451>
@@ -1789,7 +1797,7 @@
     <txt_453 >Consolidate jobs</txt_453>
     <txt_454 >Copy jobs</txt_454>
     <txt_455 >Delete / Reset Job</txt_455>
-    <txt_456 >Job overview</txt_456>
+    <txt_456 >Job List</txt_456>
     <txt_457 >Contacts. At customer</txt_457>
     <txt_458 >Time Consumption</txt_458>
     <txt_459 >overview</txt_459>
@@ -1972,6 +1980,11 @@
     <txt_623 >L</txt_623>
     <txt_624 >Specify phase</txt_624>
     <txt_625 >Job view</txt_625>
+    <txt_626 >Sales responsible</txt_626>
+    <txt_627 >Time usage</txt_627>
+    <txt_628 >Budget time</txt_628>
+    <txt_629 >Evaluation</txt_629>
+    <txt_630 >Created</txt_630>
 
 
   </so>
@@ -2103,10 +2116,10 @@
     <txt_121 >Rest estimate</txt_121>
     <txt_122 >remaining hours</txt_122>
     <txt_123 >ended</txt_123>
-    <txt_124 >Project and sales resposible</txt_124>
+    <txt_124 >Project and sales responsible</txt_124>
     <txt_125 >Project manager and owner</txt_125>
     <txt_126 >If Project manger or owner is stated. Only these (and Admin) can edit</txt_126>
-    <txt_127 >the project and create invoices. Co-resposible is used for sales and bonus etc.</txt_127>
+    <txt_127 >the project and create invoices. Co-responsible is used for sales and bonus etc.</txt_127>
     <txt_128 >Co-respos.</txt_128>
     <txt_129 >None</txt_129>
     <txt_130 >Company share of the sale</txt_130>
@@ -2183,7 +2196,7 @@
     <txt_201 >show more than 1000 projects</txt_201>
     <txt_202 >Customer</txt_202>
     <txt_203 >Contact</txt_203>
-    <txt_204 >choose contact to see contactnames</txt_204>
+    <txt_204 >choose customer to see contactnames</txt_204>
     <txt_205 >ignore</txt_205>
     <txt_206 >1 or 2</txt_206>
     <txt_207 >show projects for choosen project group</txt_207>
@@ -2262,7 +2275,7 @@
     <txt_280 >That means that no project were found.</txt_280>
     <txt_281 >Multi update business areas</txt_281>
     <txt_282 >remove</txt_282>
-    <txt_283 >Update all projects listed with the above business areas. (pre-set account on project to be changed manually)</txt_283>
+    <txt_283 >Update business areas on selected projects. (pre-set account changed manually)</txt_283>
     <txt_284 >Update all activities too</txt_284>
     <txt_285 >End date</txt_285>
     <txt_286 >Set end date for all the above projects</txt_286>
@@ -2279,7 +2292,7 @@
     <txt_297 >Base data</txt_297>
     <txt_298 >KPIs, stated, business areas, project gr. ect.</txt_298>
     <txt_299 >Milestones/Deadlines</txt_299>
-    <txt_300 >Project and sales resposible</txt_300>
+    <txt_300 >Project and sales responsible</txt_300>
     <txt_301 >State reg.</txt_301>
     <txt_302 >Export hourly rate</txt_302>
     <txt_303 >Print as workorder</txt_303>
@@ -2439,7 +2452,7 @@
     <txt_446 >Coverage / Gross profit</txt_446>
     <txt_447 >gross rev. - expenses</txt_447>
     <txt_448 >Margin</txt_448>
-    <txt_449 >Save changes to jobs</txt_449>
+    <txt_449 >Save changes</txt_449>
     <txt_450 >Next</txt_450>
 
     <txt_451 >Job Overview</txt_451>
@@ -2447,7 +2460,7 @@
     <txt_453 >Consolidate jobs</txt_453>
     <txt_454 >Copy jobs</txt_454>
     <txt_455 >Delete / Reset Job</txt_455>
-    <txt_456 >Job overview</txt_456>
+    <txt_456 >Job List</txt_456>
     <txt_457 >Contacts. At customer</txt_457>
     <txt_458 >Time Consumption</txt_458>
     <txt_459 >overview</txt_459>
@@ -2630,6 +2643,11 @@
     <txt_623 >L</txt_623>
     <txt_624 >Specify phase</txt_624>
     <txt_625 >Job view</txt_625>
+    <txt_626 >Sales responsible</txt_626>
+    <txt_627 >Time usage</txt_627>
+    <txt_628 >Budget time</txt_628>
+    <txt_629 >Evaluation</txt_629>
+    <txt_630 >Created</txt_630>
 
 
   </de>
@@ -2761,10 +2779,10 @@
     <txt_121 >Rest estimate</txt_121>
     <txt_122 >remaining hours</txt_122>
     <txt_123 >ended</txt_123>
-    <txt_124 >Project and sales resposible</txt_124>
+    <txt_124 >Project and sales responsible</txt_124>
     <txt_125 >Project manager and owner</txt_125>
     <txt_126 >If Project manger or owner is stated. Only these (and Admin) can edit</txt_126>
-    <txt_127 >the project and create invoices. Co-resposible is used for sales and bonus etc.</txt_127>
+    <txt_127 >the project and create invoices. Co-responsible is used for sales and bonus etc.</txt_127>
     <txt_128 >Co-respos.</txt_128>
     <txt_129 >None</txt_129>
     <txt_130 >Company share of the sale</txt_130>
@@ -2841,7 +2859,7 @@
     <txt_201 >show more than 1000 projects</txt_201>
     <txt_202 >Customer</txt_202>
     <txt_203 >Contact</txt_203>
-    <txt_204 >choose contact to see contactnames</txt_204>
+    <txt_204 >choose customer to see contactnames</txt_204>
     <txt_205 >ignore</txt_205>
     <txt_206 >1 or 2</txt_206>
     <txt_207 >show projects for choosen project group</txt_207>
@@ -2920,7 +2938,7 @@
     <txt_280 >That means that no project were found.</txt_280>
     <txt_281 >Multi update business areas</txt_281>
     <txt_282 >remove</txt_282>
-    <txt_283 >Update all projects listed with the above business areas. (pre-set account on project to be changed manually)</txt_283>
+    <txt_283 >Update business areas on selected projects. (pre-set account changed manually)</txt_283>
     <txt_284 >Update all activities too</txt_284>
     <txt_285 >End date</txt_285>
     <txt_286 >Set end date for all the above projects</txt_286>
@@ -2937,7 +2955,7 @@
     <txt_297 >Base data</txt_297>
     <txt_298 >KPIs, stated, business areas, project gr. ect.</txt_298>
     <txt_299 >Milestones/Deadlines</txt_299>
-    <txt_300 >Project and sales resposible</txt_300>
+    <txt_300 >Project and sales responsible</txt_300>
     <txt_301 >State reg.</txt_301>
     <txt_302 >Export hourly rate</txt_302>
     <txt_303 >Print as workorder</txt_303>
@@ -3097,7 +3115,7 @@
     <txt_446 >Coverage / Gross profit</txt_446>
     <txt_447 >gross rev. - expenses</txt_447>
     <txt_448 >Margin</txt_448>
-    <txt_449 >Save changes to jobs</txt_449>
+    <txt_449 >Save changes</txt_449>
     <txt_450 >Next</txt_450>
 
     <txt_451 >Job Overview</txt_451>
@@ -3105,7 +3123,7 @@
     <txt_453 >Consolidate jobs</txt_453>
     <txt_454 >Copy jobs</txt_454>
     <txt_455 >Delete / Reset Job</txt_455>
-    <txt_456 >Job overview</txt_456>
+    <txt_456 >Job List</txt_456>
     <txt_457 >Contacts. At customer</txt_457>
     <txt_458 >Time Consumption</txt_458>
     <txt_459 >overview</txt_459>
@@ -3288,6 +3306,11 @@
     <txt_623 >L</txt_623>
     <txt_624 >Specify phase</txt_624>
     <txt_625 >Job view</txt_625>
+    <txt_626 >Sales responsible</txt_626>
+    <txt_627 >Time usage</txt_627>
+    <txt_628 >Budget time</txt_628>
+    <txt_629 >Evaluation</txt_629>
+    <txt_630 >Created</txt_630>
 
 
   </fr>
@@ -3420,10 +3443,10 @@
     <txt_121 >Rest estimate</txt_121>
     <txt_122 >remaining hours</txt_122>
     <txt_123 >ended</txt_123>
-    <txt_124 >Project and sales resposible</txt_124>
+    <txt_124 >Project and sales responsible</txt_124>
     <txt_125 >Project manager and owner</txt_125>
     <txt_126 >If Project manger or owner is stated. Only these (and Admin) can edit</txt_126>
-    <txt_127 >the project and create invoices. Co-resposible is used for sales and bonus etc.</txt_127>
+    <txt_127 >the project and create invoices. Co-responsible is used for sales and bonus etc.</txt_127>
     <txt_128 >Co-respos.</txt_128>
     <txt_129 >None</txt_129>
     <txt_130 >Company share of the sale</txt_130>
@@ -3500,7 +3523,7 @@
     <txt_201 >show more than 1000 projects</txt_201>
     <txt_202 >Customer</txt_202>
     <txt_203 >Contact</txt_203>
-    <txt_204 >choose contact to see contactnames</txt_204>
+    <txt_204 >choose customer to see contactnames</txt_204>
     <txt_205 >ignore</txt_205>
     <txt_206 >1 or 2</txt_206>
     <txt_207 >show projects for choosen project group</txt_207>
@@ -3579,7 +3602,7 @@
     <txt_280 >That means that no project were found.</txt_280>
     <txt_281 >Multi update business areas</txt_281>
     <txt_282 >remove</txt_282>
-    <txt_283 >Update all projects listed with the above business areas. (pre-set account on project to be changed manually)</txt_283>
+    <txt_283 >Update business areas on selected projects. (pre-set account changed manually)</txt_283>
     <txt_284 >Update all activities too</txt_284>
     <txt_285 >End date</txt_285>
     <txt_286 >Set end date for all the above projects</txt_286>
@@ -3596,7 +3619,7 @@
     <txt_297 >Base data</txt_297>
     <txt_298 >KPIs, stated, business areas, project gr. ect.</txt_298>
     <txt_299 >Milestones/Deadlines</txt_299>
-    <txt_300 >Project and sales resposible</txt_300>
+    <txt_300 >Project and sales responsible</txt_300>
     <txt_301 >State reg.</txt_301>
     <txt_302 >Export hourly rate</txt_302>
     <txt_303 >Print as workorder</txt_303>
@@ -3756,7 +3779,7 @@
     <txt_446 >Coverage / Gross profit</txt_446>
     <txt_447 >gross rev. - expenses</txt_447>
     <txt_448 >Margin</txt_448>
-    <txt_449 >Save changes to jobs</txt_449>
+    <txt_449 >Save changes</txt_449>
     <txt_450 >Next</txt_450>
 
     <txt_451 >Job Overview</txt_451>
@@ -3764,7 +3787,7 @@
     <txt_453 >Consolidate jobs</txt_453>
     <txt_454 >Copy jobs</txt_454>
     <txt_455 >Delete / Reset Job</txt_455>
-    <txt_456 >Job overview</txt_456>
+    <txt_456 >Job List</txt_456>
     <txt_457 >Contacts. At customer</txt_457>
     <txt_458 >Time Consumption</txt_458>
     <txt_459 >overview</txt_459>
@@ -3947,6 +3970,11 @@
     <txt_623 >L</txt_623>
     <txt_624 >Specify phase</txt_624>
     <txt_625 >Job view</txt_625>
+    <txt_626 >Sales responsible</txt_626>
+    <txt_627 >Time usage</txt_627>
+    <txt_628 >Budget time</txt_628>
+    <txt_629 >Evaluation</txt_629>
+    <txt_630 >Created</txt_630>
 
 
   </uk>
@@ -4078,10 +4106,10 @@
     <txt_121 >Rest estimate</txt_121>
     <txt_122 >remaining hours</txt_122>
     <txt_123 >ended</txt_123>
-    <txt_124 >Project and sales resposible</txt_124>
+    <txt_124 >Project and sales responsible</txt_124>
     <txt_125 >Project manager and owner</txt_125>
     <txt_126 >If Project manger or owner is stated. Only these (and Admin) can edit</txt_126>
-    <txt_127 >the project and create invoices. Co-resposible is used for sales and bonus etc.</txt_127>
+    <txt_127 >the project and create invoices. Co-responsible is used for sales and bonus etc.</txt_127>
     <txt_128 >Co-respos.</txt_128>
     <txt_129 >None</txt_129>
     <txt_130 >Company share of the sale</txt_130>
@@ -4158,7 +4186,7 @@
     <txt_201 >show more than 1000 projects</txt_201>
     <txt_202 >Customer</txt_202>
     <txt_203 >Contact</txt_203>
-    <txt_204 >choose contact to see contactnames</txt_204>
+    <txt_204 >choose customer to see contactnames</txt_204>
     <txt_205 >ignore</txt_205>
     <txt_206 >1 or 2</txt_206>
     <txt_207 >show projects for choosen project group</txt_207>
@@ -4237,7 +4265,7 @@
     <txt_280 >That means that no project were found.</txt_280>
     <txt_281 >Multi update business areas</txt_281>
     <txt_282 >remove</txt_282>
-    <txt_283 >Update all projects listed with the above business areas. (pre-set account on project to be changed manually)</txt_283>
+    <txt_283 >Update business areas on selected projects. (pre-set account changed manually)</txt_283>
     <txt_284 >Update all activities too</txt_284>
     <txt_285 >End date</txt_285>
     <txt_286 >Set end date for all the above projects</txt_286>
@@ -4254,7 +4282,7 @@
     <txt_297 >Base data</txt_297>
     <txt_298 >KPIs, stated, business areas, project gr. ect.</txt_298>
     <txt_299 >Milestones/Deadlines</txt_299>
-    <txt_300 >Project and sales resposible</txt_300>
+    <txt_300 >Project and sales responsible</txt_300>
     <txt_301 >State reg.</txt_301>
     <txt_302 >Export hourly rate</txt_302>
     <txt_303 >Print as workorder</txt_303>
@@ -4414,7 +4442,7 @@
     <txt_446 >Coverage / Gross profit</txt_446>
     <txt_447 >gross rev. - expenses</txt_447>
     <txt_448 >Margin</txt_448>
-    <txt_449 >Save changes to jobs</txt_449>
+    <txt_449 >Save changes</txt_449>
     <txt_450 >Next</txt_450>
 
     <txt_451 >Job Overview</txt_451>
@@ -4422,7 +4450,7 @@
     <txt_453 >Consolidate jobs</txt_453>
     <txt_454 >Copy jobs</txt_454>
     <txt_455 >Delete / Reset Job</txt_455>
-    <txt_456 >Job overview</txt_456>
+    <txt_456 >Job List</txt_456>
     <txt_457 >Contacts. At customer</txt_457>
     <txt_458 >Time Consumption</txt_458>
     <txt_459 >overview</txt_459>
@@ -4605,6 +4633,11 @@
     <txt_623 >L</txt_623>
     <txt_624 >Specify phase</txt_624>
     <txt_625 >Job view</txt_625>
+    <txt_626 >Sales responsible</txt_626>
+    <txt_627 >Time usage</txt_627>
+    <txt_628 >Budget time</txt_628>
+    <txt_629 >Evaluation</txt_629>
+    <txt_630 >Created</txt_630>
 
 
   </es>
@@ -4736,10 +4769,10 @@
     <txt_121 >Rest estimate</txt_121>
     <txt_122 >remaining hours</txt_122>
     <txt_123 >ended</txt_123>
-    <txt_124 >Project and sales resposible</txt_124>
+    <txt_124 >Project and sales responsible</txt_124>
     <txt_125 >Project manager and owner</txt_125>
     <txt_126 >If Project manger or owner is stated. Only these (and Admin) can edit</txt_126>
-    <txt_127 >the project and create invoices. Co-resposible is used for sales and bonus etc.</txt_127>
+    <txt_127 >the project and create invoices. Co-responsible is used for sales and bonus etc.</txt_127>
     <txt_128 >Former PM</txt_128>
     <txt_129 >None</txt_129>
     <txt_130 >Company share of the sale</txt_130>
@@ -4816,7 +4849,7 @@
     <txt_201 >show more than 1000 projects</txt_201>
     <txt_202 >Customer</txt_202>
     <txt_203 >Contact</txt_203>
-    <txt_204 >choose contact to see contactnames</txt_204>
+    <txt_204 >choose customer to see contactnames</txt_204>
     <txt_205 >ignore</txt_205>
     <txt_206 >1 or 2</txt_206>
     <txt_207 >show projects for choosen project group</txt_207>
@@ -4895,7 +4928,7 @@
     <txt_280 >That means that no project were found.</txt_280>
     <txt_281 >Multi update business areas</txt_281>
     <txt_282 >remove</txt_282>
-    <txt_283 >Update all projects listed with the above business areas. (pre-set account on project to be changed manually)</txt_283>
+    <txt_283 >Update business areas on selected projects. (pre-set account changed manually)</txt_283>
     <txt_284 >Update all activities too</txt_284>
     <txt_285 >End date</txt_285>
     <txt_286 >Set end date for all the above projects</txt_286>
@@ -4912,7 +4945,7 @@
     <txt_297 >Base data</txt_297>
     <txt_298 >KPIs, stated, business areas, project gr. ect.</txt_298>
     <txt_299 >Milestones/Deadlines</txt_299>
-    <txt_300 >Project and sales resposible</txt_300>
+    <txt_300 >Project and sales responsible</txt_300>
     <txt_301 >State reg.</txt_301>
     <txt_302 >Export hourly rate</txt_302>
     <txt_303 >Print as workorder</txt_303>
@@ -5072,7 +5105,7 @@
     <txt_446 >Coverage / Gross profit</txt_446>
     <txt_447 >gross rev. - expenses</txt_447>
     <txt_448 >Margin</txt_448>
-    <txt_449 >Save changes to jobs</txt_449>
+    <txt_449 >Save changes</txt_449>
     <txt_450 >Next</txt_450>
 
     <txt_451 >Job Overview</txt_451>
@@ -5080,7 +5113,7 @@
     <txt_453 >Consolidate jobs</txt_453>
     <txt_454 >Copy jobs</txt_454>
     <txt_455 >Delete / Reset Job</txt_455>
-    <txt_456 >Job overview</txt_456>
+    <txt_456 >Job List</txt_456>
     <txt_457 >Contacts. At customer</txt_457>
     <txt_458 >Time Consumption</txt_458>
     <txt_459 >overview</txt_459>
@@ -5263,6 +5296,11 @@
     <txt_623 >L</txt_623>
     <txt_624 >Specify phase</txt_624>
     <txt_625 >Job view</txt_625>
+    <txt_626 >Sales responsible</txt_626>
+    <txt_627 >Time usage</txt_627>
+    <txt_628 >Budget time</txt_628>
+    <txt_629 >Evaluation</txt_629>
+    <txt_630 >Created</txt_630>
 
 
   </epi>

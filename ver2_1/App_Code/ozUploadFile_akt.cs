@@ -265,23 +265,45 @@ public class ozUploadFileAkt
             foreach (ozUploadFileAkt data in lstData)
             {
 
-                if (importtype == "t2")
+                if (importtype == "t2" || importtype == "cflow_prima")
                 {
 
-                    data.aktnavn = data.aktnavn.Replace("'", "");
-                    
+                    if (importtype == "t2")
+                    {
 
-                   string strInsert = "INSERT INTO akt_import_temp (dato, origin, jobnr, aktnavn, aktnr, beskrivelse, lto, editor, overfort, akttype, aktstatus) ";
-                    strInsert += " VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "',919,'" + data.jobid + "','" + data.aktnavn + "','"+ data.jobid +""+ data.aktnr + "',";
-                    strInsert += "'','tia','Timeout - ImportAktService ',0,'Posting',1)";
-                    OdbcCommand command = new OdbcCommand(strInsert, connection);
+                        data.aktnavn = data.aktnavn.Replace("'", "");
 
 
+                        string strInsert = "INSERT INTO akt_import_temp (dato, origin, jobnr, aktnavn, aktnr, beskrivelse, lto, editor, overfort, akttype, aktstatus) ";
+                        strInsert += " VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "',919,'" + data.jobid + "','" + data.aktnavn + "','" + data.jobid + "" + data.aktnr + "',";
+                        strInsert += "'','tia','Timeout - ImportAktService ',0,'Posting',1)";
+                        OdbcCommand command = new OdbcCommand(strInsert, connection);
 
-                    // Execute the DataReader and access the data.
-                    intRow = command.ExecuteNonQuery();
-                    //intRow = "";
-                    //command.ExecuteNonQuery();
+
+                        // Execute the DataReader and access the data.
+                        intRow = command.ExecuteNonQuery();
+                        //intRow = "";
+                        //command.ExecuteNonQuery();
+
+                    } else //Cflow Prima
+                    {
+
+
+                        data.aktnavn = data.aktnavn.Replace("'", "");
+                        data.aktstdato = DateTime.Now.ToString("yyyy-MM-dd");
+
+                        string strInsert = "INSERT INTO akt_import_temp (dato, origin, jobnr, aktnavn, aktnr, beskrivelse, lto, editor, overfort, akttype, aktstatus, aktstdato) ";
+                        strInsert += " VALUES ('" + DateTime.Now.ToString("yyyy-MM-dd") + "',921,'" + data.jobid + "','" + data.aktnavn + "','" + data.jobid + "" + data.aktnr + "',";
+                        strInsert += "'','cflow','Timeout - ImportAktService ',0,'Posting',1,'" + data.aktstdato + "')";
+                        OdbcCommand command = new OdbcCommand(strInsert, connection);
+
+
+                        // Execute the DataReader and access the data.
+                        intRow = command.ExecuteNonQuery();
+                        //intRow = "";
+                        //command.ExecuteNonQuery();
+                    }
+
 
 
                 }
@@ -291,7 +313,7 @@ public class ozUploadFileAkt
                     if  (data.linjetype == "Kontrakt") {
                         data.aktstdato = ConvertDate(data.aktstdato);  //.ToString("yyyy-MM-dd");  //ConvertDate(data.aktstdato);
                       } else {
-                    data.aktstdato = DateTime.Now.ToString("yyyy-MM-dd");
+                         data.aktstdato = DateTime.Now.ToString("yyyy-MM-dd");
                     };
 
                 data.akttimer = data.akttimer.Replace(".", "");
@@ -687,11 +709,16 @@ public class ozUploadFileAkt
 
                 ozUploadFileAkt fileRet = new ozUploadFileAkt();
                 string[] datas = allLines[i].Split(';');
-                fileRet.jobid = datas[headers[0]-1];
-                fileRet.aktnavn = datas[headers[1]-1];
-                fileRet.aktnr = datas[headers[2]-1];
 
-                if (importtype != "t2") { 
+                fileRet.jobid = datas[headers[0]-1];
+
+                if (importtype != "cflow_prima")
+                {
+                    fileRet.aktnavn = datas[headers[1] - 1];
+                    fileRet.aktnr = datas[headers[2] - 1];
+                }
+
+                if (importtype != "t2" && importtype != "cflow_prima") { 
                 fileRet.akttimer = datas[headers[3]-1];
                 fileRet.akttpris = datas[headers[4]-1];
                 fileRet.aktsum = datas[headers[5]-1];
@@ -699,6 +726,13 @@ public class ozUploadFileAkt
                 fileRet.konto = datas[headers[6]-1];
                 fileRet.linjetype = datas[headers[7]-1];
                 fileRet.aktstdato = datas[headers[8]-1];
+                }
+
+                if (importtype == "cflow_prima")
+                {
+                    fileRet.aktnr = datas[headers[1] - 1];
+                    fileRet.aktnavn = datas[headers[2] - 1];
+                    fileRet.aktstdato = datas[headers[8] - 1];
                 }
 
                 //if (fileRet.jobid == string.Empty)

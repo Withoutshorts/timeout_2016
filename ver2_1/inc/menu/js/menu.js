@@ -10,19 +10,6 @@
 
 $(document).ready(function () {
 
-    
-
-    //nulstiller filtre ved klik på yourreport fra hovedmenu
-    $(".a_yourrep").click(function () {
-
-        $.cookie('tr_medarb', '0')
-        $.cookie('tr_kun', '0')
-        $.cookie('tr_job', '0')
-        $.cookie('tr_ava', '0')
-        $.cookie('tr_pre', '0')
-
-    });
-
 
     $("#luk_menuslider").mouseover(function () {
 
@@ -35,7 +22,6 @@ $(document).ready(function () {
     $("#luk_menuslider").click(function () {
 
         $(".menu-slider").css("left", "-240px");
-        $("#FM_progrp").css("z-index", "1")
         
     });
     
@@ -59,18 +45,6 @@ $(document).ready(function () {
         $("#ul_menu-slider-" + menuid).css("visibility", "visible");
         $("#ul_menu-slider-" + menuid).show(100);
 
-        //$("#FM_progrp").css("z-index", "-1")
-        //$("#FM_progrp").css("display", "");
-        //$("#FM_progrp").css("visibility", "visible");
-        $("#FM_progrp").hide(10);
-
-        
-        $("#FM_progrp").css("display", "");
-        $("#FM_progrp").css("visibility", "visible");
-        $("#FM_progrp").show(10);
-        //$("#FM_progrp").css("z-index", "1")
-
-
         }
 
     });
@@ -81,12 +55,12 @@ $(document).ready(function () {
         $(".menupkt_n2").hide("fast");
         $(".menu-slider").css("left", "-240px");
 
-        $("#FM_progrp").css("z-index", "1")
+
 
     });
 
     
-   
+
 
 });
 

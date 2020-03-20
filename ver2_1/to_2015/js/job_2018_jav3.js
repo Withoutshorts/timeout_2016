@@ -14,12 +14,149 @@ $(window).load(function () {
 $(document).ready(function () {
 
 
+    /*
+    $('#ud_s_span').click(function () {
+
+        alert("HER")
+
+        $('#udvidet_sog').css('visibility', 'visible')
+        $('#udvidet_sog').css('display', '')
+
+    });
+
+
+    $('#ud_s_span').mouseover(function () {
+
+        $(this).css("cursor", "pointer");
+
+    });
+
+    */
+
     $('.date').datepicker({
 
     });
 
-    //alert("hepHep")
+    AktView1();
 
+
+
+    $(".picmodal").click(function () {
+
+        var modalid = this.id
+        var idlngt = modalid.length
+        var idtrim = modalid.slice(6, idlngt)
+
+        //var modalidtxt = $("#myModal_" + idtrim);
+        var modal = document.getElementById('myModal_' + idtrim);
+
+        modal.style.display = "block";
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+    });
+
+
+    getKpers();
+
+    $("#fornmrbtn").click(function () {
+
+        if ($("#forretningsomroderDropDown").is(":hidden")) {
+            $("#forretningsomroderDropDown").show();
+        } else {
+            $("#forretningsomroderDropDown").hide();
+        }
+               
+    });
+    
+
+    $("#FM_jobans_proc_1").keyup(function () {
+        jobandelmaksval(1)
+    });
+
+    $("#FM_jobans_proc_2").keyup(function () {
+        jobandelmaksval(2)
+    });
+
+    $("#FM_jobans_proc_3").keyup(function () {
+        jobandelmaksval(3)
+    });
+
+    $("#FM_jobans_proc_4").keyup(function () {
+        jobandelmaksval(4)
+    });
+
+    $("#FM_jobans_proc_5").keyup(function () {
+        jobandelmaksval(5)
+    });
+
+
+
+    function jobandelmaksval(id) {
+
+        var totalVal = 0;
+        totalVal = $("#FM_jobans_proc_1").val().replace(",", ".") / 1 + $("#FM_jobans_proc_2").val().replace(",", ".") / 1 + $("#FM_jobans_proc_3").val().replace(",", ".") / 1 + $("#FM_jobans_proc_4").val().replace(",", ".") / 1 + $("#FM_jobans_proc_5").val().replace(",", ".") / 1
+       
+        //alert(totalVal / 1)
+        if (totalVal / 1 > 100) {
+            alert("Den samlede % må ikke overstige 100")
+            $("#FM_jobans_proc_" + id).val('0')
+        }
+
+    }
+
+
+    $("#FM_salgsans_proc_1").keyup(function () {
+
+
+        salgsandelmaksval(1)
+
+    });
+
+    $("#FM_salgsans_proc_2").keyup(function () {
+
+        salgsandelmaksval(2)
+
+    });
+
+    $("#FM_salgsans_proc_3").keyup(function () {
+
+        salgsandelmaksval(3)
+
+    });
+
+    $("#FM_salgsans_proc_4").keyup(function () {
+
+        salgsandelmaksval(4)
+
+    });
+
+    $("#FM_salgsans_proc_5").keyup(function () {
+
+        salgsandelmaksval(5)
+
+    });
+
+    function salgsandelmaksval(id) {
+
+
+        var totalVal = 0;
+        totalVal = $("#FM_salgsans_proc_1").val().replace(",", ".") / 1 + $("#FM_salgsans_proc_2").val().replace(",", ".") / 1 + $("#FM_salgsans_proc_3").val().replace(",", ".") / 1 + $("#FM_salgsans_proc_4").val().replace(",", ".") / 1 + $("#FM_salgsans_proc_5").val().replace(",", ".") / 1
+
+        //alert(totalVal / 1)
+        if (totalVal / 1 >= 101) {
+            alert("Den samlede % må ikke overstige 100")
+            $("#FM_salgsans_proc_" + id).val('0')
+        }
+
+    }
+
+    
+    // Aktiviteter
     activitiesCreated = 0
 
     $("#newActivtyBtn").click(function () {
@@ -59,6 +196,7 @@ $(document).ready(function () {
 
         thisid = this.id
         //alert("click")
+        $("#FM_akt_navn_" + thisid).prop('disabled', false);
         $("#aktstatus_" + thisid).prop('disabled', false);
         $("#aktSTdate_" + thisid).addClass('date'); 
         $("#aktSLdate_" + thisid).addClass('date'); 
@@ -67,18 +205,23 @@ $(document).ready(function () {
         $("#aktbudget_" + thisid).prop('readonly', false);
         $("#aktEnhed_" + thisid).prop('disabled', false);
         $("#FM_fakturerbart_" + thisid).prop('disabled', false);
-
+        $("#FM_akt_prg_" + thisid).prop('disabled', false);
+        $("#FM_akt_prisenhed_" + thisid).prop('disabled', false);
+        
+        
         $('.date').datepicker({
 
         });
-        
+
+        // for at vide denne er blevet redigeret       
+        $("#updated_activities").append("<input type='hidden' value='"+ thisid + "' name='FM_updated_activity' />")
     });
 
     $("#FM_status").change(function () {
 
         valgtStatus = $("#FM_status").val();
 
-        if (valgtStatus == '5') {
+        if (valgtStatus == '3') {
 
             nxtTnr = $('#FM_nexttnr').val()
 
@@ -94,7 +237,7 @@ $(document).ready(function () {
 
     });
 
-    $("#aktView1_btn").click(function () {
+   /* $("#aktView1_btn").click(function () {
 
         $('.aktView2').css('display', 'none');
         $('.aktView3').css('display', 'none');
@@ -125,6 +268,106 @@ $(document).ready(function () {
         $('#aktView3_btn').addClass('active');
         $('.aktView3').show();
 
+    }); */
+
+    function AktView1 ()
+    {
+        $('#aktView3_btn').removeClass('active');
+        $('#aktView2_btn').removeClass('active');
+        $('#aktView1_btn').addClass('active');
+
+        $('.akttable').hide();
+
+        $('.akttable_navn').show();
+        $('.akttable_status').show();
+        $('.akttable_type').show();
+        $('.akttable_budget').show();
+        $('.akttable_enhed').show();
+        $('.akttable_stdato').show();
+        $('.akttable_sldato').show();
+        $('.akttable_medarb').show();
+        $('.akttable_alloker').show();
+        $('.akttable_actions').show();
+        $('.newActivtyBtn_div').show();
+    }
+
+    $("#aktView1_btn").click(function () {
+                
+        AktView1();
+
+    });
+
+    $("#aktView2_btn").click(function () {
+
+        $('#aktView1_btn').removeClass('active');
+        $('#aktView3_btn').removeClass('active');
+        $('#aktView2_btn').addClass('active');
+
+        $('.akttable').hide();
+
+       /* $('#aktheader_navn').show();
+        $('#aktheader_status').show();
+        $('#aktheader_type').show();
+        $('#aktheader_budget').show();
+        $('#aktheader_enhed').show();
+        $('#aktheader_prisenh').show();
+        $('#aktheader_ialt').show();
+        $('#aktheader_fctid').show();
+        $('#aktheader_fcdkk').show();
+        $('#aktheader_realtid').show();
+        $('#aktheader_realdkk').show(); */
+
+        $('.akttable_navn').show();
+        $('.akttable_status').show();
+        $('.akttable_type').show();
+        $('.akttable_budget').show();
+        $('.akttable_enhed').show();
+        $('.akttable_prisenh').show();
+        $('.akttable_ialt').show();
+        $('.akttable_fctid').show();
+        $('.akttable_fcdkk').show();
+        $('.akttable_realtid').show();
+        $('.akttable_realdkk').show();
+        $('.akttable_actions').show();
+
+        
+    });
+
+    $("#aktView3_btn").click(function () {
+
+        $('#aktView1_btn').removeClass('active');
+        $('#aktView2_btn').removeClass('active');
+        $('#aktView3_btn').addClass('active');
+
+        $('.akttable').hide();
+
+      /*  $('#aktheader_navn').show();
+        $('#aktheader_status').show();
+        $('#aktheader_type').show();
+        $('#aktheader_budget').show();
+        $('#aktheader_enhed').show();
+        $('#aktheader_prisenh').show();
+        $('#aktheader_fc').show();
+        $('#aktheader_real').show();
+        $('#aktheader_budgetfc').show();
+        $('#aktheader_budgetreal').show();
+        $('#aktheader_fcreal').show();
+        $('#aktheader_faktid').show(); */
+
+        $('.akttable_navn').show();
+       // $('.akttable_status').show();
+       // $('.akttable_type').show();
+        $('.akttable_budget').show();
+        $('.akttable_enhed').show();
+        $('.akttable_prisenh').show();
+        $('.akttable_fc').show();
+        $('.akttable_real').show();
+        $('.akttable_budgetfc').show();
+        $('.akttable_budgetreal').show();
+        $('.akttable_fcreal').show();
+        $('.akttable_faktid').show();
+        $('.akttable_actions').show();
+
     });
 
 
@@ -153,5 +396,7 @@ $(document).ready(function () {
 
     }
 
+
+    
 
 });

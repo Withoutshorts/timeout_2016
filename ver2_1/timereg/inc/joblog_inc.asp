@@ -11,10 +11,10 @@
                                 <div style="position:relative; padding:40px; width:800px;">
 
                                 <table width="100%" border="0" cellpadding="0" cellspacing="0"><tr><td>
-                                <%=joblog2_txt_072 &" "%>&<%=" "& joblog2_txt_073 %></td>
+                                <%=joblog2_txt_072 &" & "& joblog2_txt_073 %></td>
                                     <td style="width:200px; border-bottom:1px #000000 dashed;">&nbsp;</td>
                                     <td style="width:200px;">&nbsp;</td>
-                                    <td style=""><%=joblog2_txt_022 &" & "& joblog2_txt_075 &" "& joblog2_txt_074 %></td>
+                                    <td style=""><%=joblog2_txt_072 &" & "& joblog2_txt_075 &" "& joblog2_txt_074 %></td>
                                     <td style="width:200px; border-bottom:1px #000000 dashed;">&nbsp;</td>
 
                                        </tr></table>
@@ -392,13 +392,14 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
 	 <br />&nbsp;
 	 </td>
 	</tr>
-	</table>
-
+    </table>
+    
+    
+    <%if cint(vismat) <> 1 then %>
     </div>
     <!-- slut table DIV -->	
-    
     <br /><br /><br /><br />
-	
+	<%end if %>
 	
 	
 	<%
@@ -462,9 +463,13 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
 					
 	<%if visning <> 3 then
 	
+	    call thisWeekNo53_fn(oRec("tdato")) 
+        thisWeekNo53_tdato = thisWeekNo53
+
+        call thisWeekNo53_fn(lastdate) 
+        thisWeekNo53_lastdate = thisWeekNo53
 	
-	
-	    if (datepart("ww", oRec("tdato"), 2, 2) = datepart("ww", lastdate, 2, 2)) AND lastmedarb = oRec("Tmnr") then %>				
+	    if (cint(thisWeekNo53_tdato) = cint(thisWeekNo53_lastdate)) AND lastmedarb = oRec("Tmnr") then %>				
 	    <tr>
 						    <td bgcolor="#Eff3ff" colspan="16" style="height:20px; padding:5px 5px 5px 5px;">
 						    <!--<b><%=left(weekdayname(weekday(oRec("tdato"))), 3) %>. <%=day(oRec("tdato")) &" "&left(monthname(month(oRec("tdato"))), 3) &". "& right(oRec("tdato"), 2)%></b>-->
@@ -511,7 +516,7 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
                     <td><img src="ill/blank.gif" width="1" height="1" border="0" /></td>
                     <%end if %>
 
-					<td valign=bottom class='alt'><b><%=joblog2_txt_085 %></b> (<%=joblog2_txt_087 %>)<br />
+					<td valign=bottom class='alt'><b><%=joblog2_txt_086 %></b> (<%=joblog2_txt_087 %>)<br />
 					<%=joblog2_txt_088 %></td>
 					<%else %>
 					<td valign=bottom class='alt'>
@@ -574,7 +579,7 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
 					
 					
 					<%if cint(hidegkfakstat) <> 1 then  %>
-                    <td valign=bottom align="right" class='alt' style="padding-right:5px;">
+                    <td valign=bottom class='alt'>
 					<%=joblog2_txt_098 %><br /><%=joblog2_txt_099 %></td>
 					<td valign=bottom align="center" class='alt'><b><%=joblog2_txt_100 %></b><br /><%=joblog2_txt_053 %><br /><%=joblog2_txt_050 %></td>
 					<td valign=bottom class='alt' align="center" style="padding-right:1px;"><b><%=joblog2_txt_101 %></b></td>
@@ -589,6 +594,318 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
 	end function
 	
 	
+
+    function materialeforbrug(jobnr, medid)
+
+        thisJobid = 0
+        thisJobRisiko = 0
+        thisKid = 0
+        thisJobnr = 0
+        strSQljob = "SELECT id, risiko, jobknr, jobnr FROM job WHERE jobnr = '"& jobnr &"'"
+        oRec9.open strSQljob, oConn, 3
+        if not oREc9.EOF then
+
+        thisJobid = oRec9("id")
+        thisJobRisiko = oRec9("risiko")
+        thisKid = oRec9("jobknr")
+        thisJobnr = oRec9("jobnr")
+
+        end if
+        oRec9.close
+
+        JobRisiko = thisJobRisiko
+
+
+        'thisJObid = 77
+
+        %>
+        <h3>Materialeforbrug</h3>
+        <table cellpadding="2" cellspacing="0" style="background-color:#ffffff; width:100%;"><%
+
+
+            call tablematheader()
+
+    mf = 0
+    strSQLmat = "SELECT id, matnavn, matantal, forbrugsdato, godkendt, matkobspris, (matsalgspris*kurs/100) AS matsalgspris, valuta, godkendt, mf.dato, mf.editor, matvarenr, usrid, mnavn, init, matantal*(matsalgspris*kurs/100) AS salgsbeloeb, matantal*(matkobspris*kurs/100) AS kostbeloeb, (matkobspris*kurs/100) AS matkostpris FROM materiale_forbrug mf "_
+    &" LEFT JOIN medarbejdere m ON (m.mid = usrid) "_
+    &" WHERE jobid = "& thisJobid &" AND ("& replace(medarbSQlKri, "t.tmnr", "usrid") &") AND forbrugsdato BETWEEN '"& startDatoKriSQL &"' AND '"& slutDatoKriSQL &"' ORDER BY forbrugsdato "
+
+
+    'response.write strSQLmat
+    'response.flush
+
+    oRec9.open strSQLmat, oConn, 3
+    while not oRec9.EOF
+
+            select case right(mf,1)
+            case 0,2,4,6,8
+            tdbgM = "#FFFFFF"
+            case else
+            tdbgM = "#C4C4C4"
+            end select
+
+            matsalgsprisbeloeb = oRec9("salgsbeloeb")
+            v = v + 1
+
+            call thisWeekNo53_fn(oRec("forbrugsdato")) 
+            
+                            %>
+                            <tr style="background-color:<%=tdbgM%>;">
+                                <td></td>
+                                <td><%=thisWeekNo53%></td>
+                                <td><%=oRec9("forbrugsdato") %></td>
+                                <td><%=oRec9("matnavn") %></td>
+                                <td><%=oRec9("matvarenr") %></td>
+                                <td><%=oRec9("mnavn") & " ["& oRec9("init") &"]"%></td>
+
+                                <% 
+                                    tjkDag = oRec9("forbrugsdato")
+                                    erugeafsluttet = instr(afslUgerMedab(oRec9("usrid")), "#"&thisWeekNo53&"_"& datepart("yyyy", oRec9("forbrugsdato")) &"#")
+                                    strMrd_sm = datepart("m", oRec9("forbrugsdato"), 2, 2)
+                                    strAar_sm = datepart("yyyy", oRec9("forbrugsdato"), 2, 2)
+                                    strWeek = thisWeekNo53 'datepart("ww", oRec9("forbrugsdato"), 2, 2)
+                                    strAar = datepart("yyyy", oRec9("forbrugsdato"), 2, 2)
+
+                                    if cint(SmiWeekOrMonth) = 0 then
+                                    usePeriod = strWeek
+                                    useYear = strAar
+                                    else
+                                    usePeriod = strMrd_sm
+                                    useYear = strAar_sm
+                                    end if
+
+
+                                     call erugeAfslutte(useYear, usePeriod, oRec9("usrid"), SmiWeekOrMonth, 0, oRec9("forbrugsdato"))
+		        
+		                            'Response.Write "smilaktiv: "& smilaktiv & "<br>"
+		                            'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &"<br>"
+		                            'Response.Write "autolukvdatodato: "& autolukvdatodato & "<br>"
+		                            'Response.Write "tjkDag: "& tjkDag & "<br>"
+		                            'Response.Write "autolukvdato: "& autolukvdato & "<br>"
+		                            'Response.Write "erugeafsluttet:" & erugeafsluttet & "<br>"
+		        
+		                            call lonKorsel_lukketPer(oRec9("forbrugsdato"), jobRisiko, oRec9("usrid"))
+		         
+                          
+				
+                                 '*** tjekker om uge er afsluttet / lukket / lønkørsel
+                                call tjkClosedPeriodCriteria(oRec9("forbrugsdato"), ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO, ugegodkendt)
+
+
+                                if ((oRec9("godkendt") <> 1 AND request("print") <> "j" AND ugeerAfsl_og_autogk_smil = 0) _
+				                OR (oRec9("godkendt") <> 1 AND request("print") <> "j" AND ugeerAfsl_og_autogk_smil = 1 AND level = 1)) _
+				                AND (cdate(lastfakdato) < cdate(oRec9("forbrugsdato"))) then  
+                                    
+                                'if oRec("varenr") = "0" then	
+                                'matregid=<%=oRec9("id") &func=red
+                                    
+                                 %>
+
+                                
+
+                                <td align="right"><a href="materialer_indtast.asp?sogliste=<%=thisJobnr %>&vasallemed=1" target="_blank">
+                                    
+                                <%=oRec9("matantal") %></a></td>
+
+                                <%else %>
+
+                                <td align="right"><%=oRec9("matantal") %></td>
+                                <%end if %>
+
+                                <%if (level <= 2 OR level = 6) AND cint(hidetimepriser) = 0 then  %>
+                                <td align="right"><%=formatnumber(oRec9("matsalgspris"), 2) %></td>
+                                <td align="right"><b><%=formatnumber(oRec9("salgsbeloeb"), 2) & " " & basisValISO %></b></td>
+                                <%else %>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <%end if %>
+
+                                <%if level = 1 AND visKost = 1 then  %>
+					            <td align="right"><%=formatnumber(oRec9("matkostpris"), 2)%></td>
+                                <td align="right"><%=formatnumber(oRec9("kostbeloeb"), 2) & " " & basisValISO%></td>
+					            <%else %>
+					            <td>&nbsp;</td>
+				                <td>&nbsp;</td>
+					            <%end if %>
+
+
+
+                                <%if cint(hidegkfakstat) <> 1 then  %>
+                                <td><span style="color:#999999;"><%=oRec9("dato") %><br />
+                                    <%=left(oRec9("editor"), 15) %></span>
+                                </td>
+                                <td class=lille>
+                                     <%
+                                         
+                                     
+                                 erGk = 0
+                                 gkCHK0 = ""
+                                 gkCHK1 = ""
+                                 gkCHK2 = ""
+                                 'gkCHK3 = ""
+                                 'gk3bgcol = "#999999"
+                                 gk2bgcol = "#999999"
+                                 gk1bgcol = "#999999"
+                                 gk0bgcol = "#999999"
+
+                                     select case cint(oRec9("godkendt"))
+                                     case 2
+                                     gkCHK2 = "CHECKED"
+                                     erGk = 2
+                                     gk2bgcol = "red"
+                                     case 1
+                                     gkCHK1 = "CHECKED"
+                                     erGk = 1
+                                     gk1bgcol = "green"
+                                     'case 3
+                                     'gkCHK3 = "CHECKED"
+                                     'erGk = 3
+                                     'gk3bgcol = "orange"
+                                     case else
+                                     gkCHK0 = "CHECKED"
+                                     erGk = 0
+                                     gk0bgcol = "#000000"
+                                     end select
+                 
+                             erGkaf = ""
+                                         
+
+                                         
+                                     '*** Godkendelse ***'
+					                 if print <> "j" then%>
+    					
+					               <input name="matids" id="matids" value="<%=oRec9("id")%>" type="hidden" />
+					               <input type="radio" name="FM_godkendt_<%=oRec9("id")%>" id="FM_godkendt1_<%=v%>" class="FM_godkendt_1" value="1" <%=gkCHK1 %>><span style="color:<%=gk1bgcol%>;"><%=joblog2_txt_048 %></span><br />
+                                   <input type="radio" name="FM_godkendt_<%=oRec9("id")%>" id="FM_godkendt2_<%=v%>" class="FM_godkendt_2" value="2" <%=gkCHK2 %>><span style="color:<%=gk2bgcol%>;"><%=joblog2_txt_050 %></span><br />
+                                   <input type="radio" name="FM_godkendt_<%=oRec9("id")%>" id="FM_godkendt0_<%=v%>" class="FM_godkendt_0" value="0" <%=gkCHK0 %>><span style="color:<%=gk0bgcol%>;"><%=joblog2_txt_051 %></span>
+
+                                    
+					                <%
+					                else
+    					            %>
+					                &nbsp;
+    					            <%
+					                end if
+                                    %>
+                                    
+                                    </td>
+                                <td style="text-align:right; padding-right:20px;">
+
+                                    <%
+                                        erFak = 0
+                                        faknr = 0
+                                    strSQLermatfak = "SELECT id, matfakid, faknr FROM fak_mat_spec LEFT JOIN fakturaer f ON (f.fid = matfakid) WHERE matfrb_id = "& oRec9("id") & " AND shadowcopy = 0"
+                                    oRec8.open strSQLermatfak, oConn, 3
+                                    if not oRec8.EOF then
+
+                                        erFak = 1
+                                        faknr = oRec8("faknr")
+
+                                    end if
+                                    oRec8.close
+                                    
+                                        
+                                       if cint(erFak) = 1 then%>
+                                       <a href="erp_fakhist.asp?FM_kunde=<%=thisKid%>&FM_job=<%=thisJobId %>" target="_blank">Yes</a>  <!--(<%=faknr %>)-->
+                                       <%end if%>
+
+
+                                </td>
+                                <%else %>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <%end if %>
+
+                            </tr>
+                            <%
+
+        mf = mf + 1
+
+    oRec9.movenext
+	wend
+	oRec9.Close
+
+
+    %></table>
+
+
+  </div>
+    <!-- slut table DIV -->	
+    <br /><br /><br /><br />
+   <%
+
+
+    end function
+
+
+
+    function tablematheader()
+	%>
+	
+	<tr height="20" bgcolor="#8CAAe6">
+				       <td style="width:0px;">
+                           &nbsp;</td>
+				    <td valign=bottom class=alt><b><%=joblog2_txt_006 %></b></td>
+					<td valign=bottom class='alt'><b><%=joblog2_txt_072 %></b></td>
+				
+      
+					<td valign=bottom class='alt'><b>Name / desc.</b></td>
+                    <td valign=bottom class='alt'>Mat. No.</td>
+		
+
+                    <%if cint(showfor) = 1 then%>
+                    <td valign=bottom class='alt' style="padding-right:5px;"><b><%=joblog2_txt_089 %></b></td>
+					<%else %>
+					<!--<td>&nbsp;</td>-->
+					<%end if %>
+					
+					<td valign=bottom class='alt' style="padding-left:5px;"><b><%=joblog2_txt_115 %></b></td>
+					<td valign=bottom class='alt' align=right style="padding-right:5px;"><b><%=joblog2_txt_092 %></b></td>
+					
+					
+					
+					
+					<%if (level <= 2 OR level = 6) AND cint(hidetimepriser) = 0 then  %>
+					<td valign=bottom align="right" class='alt' style="padding-right:5px;">
+					<b><%=joblog2_txt_094 %>*</b></td>
+					<td valign=bottom align="right" class='alt' style="padding-right:5px;">
+					<b><%=joblog2_txt_095 %></b></td>
+					<%else %>
+					<td>&nbsp;</td>
+				    <td>&nbsp;</td>
+					<%end if %>
+					
+					<%if level = 1 AND visKost = 1 then  %>
+					<td valign=bottom align="right" class='alt' style="padding-right:5px;">
+					<b><%=joblog2_txt_096 %></b></td>
+                    <td valign=bottom align="right" class='alt' style="padding-right:5px;">
+					<b><%=joblog2_txt_097 %></b></td>
+					<%else %>
+					<td>&nbsp;</td>
+				    <td>&nbsp;</td>
+					<%end if %>
+					
+					
+					
+					<%if cint(hidegkfakstat) <> 1 then  %>
+                    <td valign=bottom  class='alt'>
+					<%=joblog2_txt_098 %><br /><%=joblog2_txt_099 %></td>
+					<td valign=bottom align="center" class='alt'><b><%=joblog2_txt_100 %></b><br /><%=joblog2_txt_053 %><br /><%=joblog2_txt_050 %></td>
+					<td valign=bottom class='alt' align="center" style="padding-right:1px;"><b><%=joblog2_txt_101 %></b></td>
+				    <%else %>
+                    <td><img src="ill/blank.gif" width="1" height="1" border="0" /></td>
+				    <td><img src="ill/blank.gif" width="1" height="1" border="0" /></td>
+                    <td><img src="ill/blank.gif" width="1" height="1" border="0" /></td>
+				    <%end if %>   
+				 </tr>
+	
+	<%
+	end function
+
+
+
+
 	public grgrTotal
 	sub grandTotal
 	
@@ -599,10 +916,10 @@ public lastmedarbnavn, medarbtimer, medarbEnheder, medarbFeriePlan
 	<table border="0" width=<%=globalWdt %> cellpadding="0" cellspacing="0">
     <tr>
      <td align=right style="padding:5px 20px 1px 1px;">
-        <b><%=joblog2_txt_102 %>:</b><br /><input id="chkalle1" type="radio" onclick="checkAllGK(1)" /><%=" "& joblog2_txt_103 %><br />
-        <input id="chkalle2" type="radio" onclick="checkAllGK(2)" /><%=" "& joblog2_txt_104 %>  <br /> 
-        <input id="chkalle3" type="radio" onclick="checkAllGK(3)" /><%=" "& joblog2_txt_105 &" " %><%=joblog2_txt_052 %>.<br />
-        <input id="chkalle0" type="radio" onclick="checkAllGK(0)" /><%=" "& joblog2_txt_105 %> = "" (<%=joblog2_txt_117 %>)
+        <b><%=joblog2_txt_102 %>:</b><br /><input name="gkall" id="chkalle1" type="radio" onclick="checkAllGK(1)" /><%=" "& joblog2_txt_103 %><br />
+        <input name="gkall" id="chkalle2" type="radio" onclick="checkAllGK(2)" /><%=" "& joblog2_txt_104 %>  <br /> 
+        <input name="gkall" id="chkalle3" type="radio" onclick="checkAllGK(3)" /><%=" "& joblog2_txt_105 &" " %><%=joblog2_txt_052 %>.<br />
+        <input name="gkall" id="chkalle0" type="radio" onclick="checkAllGK(0)" /><%=" "& joblog2_txt_105 %> = "" (<%=joblog2_txt_117 %>)
        <br />
        <input id="Submit1" type="submit" value="<%=joblog2_txt_107 %>!" /></td>
    

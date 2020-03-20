@@ -20,6 +20,7 @@ $(window).load(function () {
 
 $(document).ready(function () {
 
+    //alert("HER")
 
 
  //////// LUKKER ALLE AKTIVTETER HVIS DER VALGT MERE END 1 JOB 
@@ -59,7 +60,183 @@ $(document).ready(function () {
         }
 
     });
+
+
+    $("#fordeltimer").mouseover(function () {
+        $(this).css('cursor', 'pointer');
+    });
+
+    $("#fordeltimer").click(function () {
+        fordeltimerVal = $("#fc_1").val()
+        $(".fc_fordel").val(fordeltimerVal)
+    });
     
+    
+    $("#luk_fordelh1h2").click(function () {
+        $("#FC_h1h2_fordel").hide("slow")
+    });
+
+    $("#luk_fordelh1h2").mouseover(function () {
+        $(this).css('cursor', 'pointer');
+    });
+
+    $(".add_h1h").mouseover(function () {
+        $(this).css('cursor', 'pointer');
+    });
+
+
+    $(".add_h1h").click(function (e) {
+        //alert(this.id)
+        idtrim = this.id
+        var arr = idtrim.split('_');
+
+        //$("#fordel_aktid").val(arr[])
+        $("#fordel_jobid").val(arr[3])
+        $("#fordel_aktid").val(arr[4])
+        $("#fordel_medid").val(arr[5])
+        //$("#fordel_aar").val(arr[5])
+
+        //$(this).click(function (e) { //Default mouse Position 
+            //alert(e.pageX + ' , ' + e.pageY);
+        //});
+
+        $("#FC_h1h2_fordel").css('top', e.pageY-600 + "px");
+        $("#FC_h1h2_fordel").css('left', (e.pageX-300) + "px");
+
+        $("#FC_h1h2_fordel").css('display', "");
+        $("#FC_h1h2_fordel").css("visibility", "visible");
+
+
+        hent_timer();
+
+    });
+
+
+    
+    $("#sbm_fordelh1h2").click(function () {
+        indlas_timer();
+    });
+
+
+
+    function indlas_timer() {
+
+
+        jobid = $("#fordel_jobid").val()
+        aktid = $("#fordel_aktid").val()
+        medid = $("#fordel_medid").val()
+        aar = $("#fordel_aar").val()
+        stmd = $("#fordel_stmd").val()
+
+        fc_1 = $("#fc_1").val()
+        fc_2 = $("#fc_2").val()
+        fc_3 = $("#fc_3").val()
+        fc_4 = $("#fc_4").val()
+        fc_5 = $("#fc_5").val()
+        fc_6 = $("#fc_6").val()
+        fc_7 = $("#fc_7").val()
+        fc_8 = $("#fc_8").val()
+        fc_9 = $("#fc_9").val()
+        fc_10 = $("#fc_10").val()
+        fc_11 = $("#fc_11").val()
+        fc_12 = $("#fc_12").val()
+
+      
+       
+        //$("#FC_h1h2_fordel").hide("fast")
+
+        $.post("?fordel_jobid=" + jobid + "&fordel_aktid=" + aktid + "&fordel_medid=" + medid + "&fordel_aar=" + aar + "&fordel_stmd=" + stmd + "&fc_1=" + fc_1 + "&fc_2=" + fc_2 + "&fc_3=" + fc_3 + "&fc_4=" + fc_4 + "&fc_5=" + fc_5 + "&fc_6=" + fc_6 + "&fc_7=" + fc_7 + "&fc_8=" + fc_8 + "&fc_9=" + fc_9 + "&fc_10=" + fc_10 + "&fc_11=" + fc_11 + "&fc_12=" + fc_12, { control: "FN_tildeltimer", AjaxUpdateField: "true" }, function (data) {
+        //$.post("?jobid="+ fc_12, { control: "FN_tildeltimer", AjaxUpdateField: "true" }, function (data) {
+            //$("#fajl").val(data);
+            //alert("HER")
+            //$("#div_tildeljoblisten").html(data);
+
+            $("#FC_h1h2_fordel").hide("fast")
+
+            fc_tot = fc_1 * 1 + fc_2 * 1 + fc_3 * 1 + fc_4 * 1 + fc_5 * 1 + fc_6 * 1 + fc_7 * 1 + fc_8 * 1 + fc_9 * 1 + fc_10 * 1 + fc_11 * 1 + fc_12 * 1
+
+            // Refresh page
+            $("#sp_add_h1h_jobaktmid_" + jobid + "_" + aktid + "_" + medid).html(fc_tot)
+            $("#sp_add_h1h_jobaktmid_" + jobid + "_" + aktid + "_" + medid).css("background-color", "orange")
+
+        });
+    };
+
+
+    function hent_timer() {
+
+      
+        jobid = $("#fordel_jobid").val()
+        aktid = $("#fordel_aktid").val()
+        medid = $("#fordel_medid").val()
+        aar = $("#fordel_aar").val()
+        stmd = $("#fordel_stmd").val()
+        
+       
+
+        //$("#FC_h1h2_fordel").hide("fast")
+
+        $.post("?fordel_jobid=" + jobid + "&fordel_aktid=" + aktid + "&fordel_medid=" + medid + "&fordel_aar=" + aar +"&fordel_stmd=" + stmd, { control: "FN_henttimer", AjaxUpdateField: "true" }, function (data) {
+            //$.post("?jobid="+ fc_12, { control: "FN_tildeltimer", AjaxUpdateField: "true" }, function (data) {
+            //$("#fajl").val(data);
+
+            var fc_timer = data.split('_');
+
+            $("#fc_1").val(fc_timer[0])
+            $("#fc_2").val(fc_timer[1])
+            $("#fc_3").val(fc_timer[2])
+            $("#fc_4").val(fc_timer[3])
+            $("#fc_5").val(fc_timer[4])
+            $("#fc_6").val(fc_timer[5])
+            $("#fc_7").val(fc_timer[6])
+            $("#fc_8").val(fc_timer[7])
+            $("#fc_9").val(fc_timer[8])
+            $("#fc_10").val(fc_timer[9])
+            $("#fc_11").val(fc_timer[10])
+            $("#fc_12").val(fc_timer[11])
+
+            if ($("#fc_1").val() == '') {
+                $("#fc_1").val(0)
+            }
+            if ($("#fc_2").val() == '') {
+                $("#fc_2").val(0)
+            }
+            if ($("#fc_3").val() == '') {
+                $("#fc_3").val(0)
+            }
+            if ($("#fc_4").val() == '') {
+                $("#fc_4").val(0)
+            }
+            if ($("#fc_5").val() == '') {
+                $("#fc_5").val(0)
+            }
+            if ($("#fc_6").val() == '') {
+                $("#fc_6").val(0)
+            }
+            if ($("#fc_7").val() == '') {
+                $("#fc_7").val(0)
+            }
+            if ($("#fc_8").val() == '') {
+                $("#fc_8").val(0)
+            }
+            if ($("#fc_9").val() == '') {
+                $("#fc_9").val(0)
+            }
+            if ($("#fc_10").val() == '') {
+                $("#fc_10").val(0)
+            }
+            if ($("#fc_11").val() == '') {
+                $("#fc_11").val(0)
+            }
+            if ($("#fc_12").val() == '') {
+                $("#fc_12").val(0)
+            }
+
+
+        });
+    };
+
+
 
     $("#visKunFCFelter0").click(function () {
 

@@ -3,6 +3,12 @@
 <!--#include file="../inc/connection/conn_db_inc.asp"-->
 <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
 
+<%
+'Skal chart vises    
+if lto = "sduuas" OR lto = "sducei" then %>
+<script src="js/medarbdashboard_chart.js" type="text/javascript"></script>
+<%end if %>
+
 <% 
 func = request("func")
 media = request("media")
@@ -58,7 +64,7 @@ case "export"
 	                            </tr>
 	                            <tr>
 	                            <td valign=top bgcolor="#ffffff" style="padding:5px 5px 5px 15px;">
-	                            <a href="../inc/log/data/<%=file%>" class=vmenu target="_blank" onClick="Javascript:window.close()">Your .csv file is ready >></a>
+	                            <a href="../inc/log/data/<%=file%>" class=vmenu target="_blank">View file >></a> <!-- onClick="Javascript:window.close()" -->
 	                            </td></tr>
 	                            </table>
 	                            </div>
@@ -85,7 +91,7 @@ case else
 
 <script type="text/javascript" src="js/libs/excanvas.compiled.js"></script>
 <script type="text/javascript" src="js/plugins/flot/jquery.flot.js"></script>
-
+<script src="js/medarbdashboard_jav.js"></script>
 <!--
 <script type="text/javascript" src="js/plugins/flot/jquery.flot.orderBars.js"></script>
 <script type="text/javascript" src="js/plugins/flot/jquery.flot.resize.js"></script>
@@ -100,7 +106,7 @@ case else
 <script type="text/javascript" src="js/demos/flot/donut_saelger2.js"></script>
 -->
 
-<script src="js/medarbdashboard_jav.js"></script>
+
 <%select case lto
   case "epi2017"
     %>
@@ -368,6 +374,7 @@ case else
     antalMids = 0
     multipleMids = 0
     useMids = 0
+    strgradmedidvalgt = 0
     strSQLmids = " AND (mid = 0"
     if len(trim(request("FM_medarb"))) <> 0 AND request("FM_medarb") <> "0" AND request("sogsubmitted") = "1" then
 
@@ -376,11 +383,17 @@ case else
             multipleMids = 1
             useMids = split(request("FM_medarb"), ", ")
             usemrn = session("mid") 
-
+            strgradmedidvalgt = usemrn
 
             for m = 0 TO UBOUND(useMids)
             strSQLmids = strSQLmids & " OR mid = "& useMids(m) &""
-        
+
+            if m = 0 then
+            strgradmedidvalgt = useMids(m)
+            else
+            strgradmedidvalgt = strgradmedidvalgt &","& useMids(m)
+            end if
+
                 if m = 0 then
                 usemrn = useMids(m) 'først valgte
                 end if
@@ -392,6 +405,7 @@ case else
 
         else
         usemrn = request("FM_medarb")
+        strgradmedidvalgt = usemrn
         end if
     else
         if request("sogsubmitted") = "1" then
@@ -399,6 +413,8 @@ case else
         else
         usemrn = session("mid") 
         end if
+
+        strgradmedidvalgt = usemrn
     end if
 
    
@@ -451,6 +467,10 @@ case else
     end select
     %>
 
+
+
+
+
 <div class="wrapper">
     <div class="content">
     
@@ -475,7 +495,13 @@ case else
                     </div>
                   
                     <div class="row">
-                    <div class="col-lg-4"><%=dsb_txt_003 %>:</div>
+
+                    <%if lto <> "ddc" then %>
+                        <div class="col-lg-4"><%=dsb_txt_003 %>:</div>
+                    <%else %>
+                        <div class="col-lg-4"><%=session("user") %> <input type="hidden" name="FM_medarb" value="35" /></div>
+                    <%end if %>
+
                     <!--<div class="col-lg-2"><%=dsb_txt_004 %>:</div>-->
                     <div class="col-lg-2"><input type="radio" name="FM_periode" value="1" onchange="submit()" <%=usePeriodeSel1 %> /> <%=dsb_txt_005 %>:</div>
                     <div class="col-lg-2"><input type="radio" name="FM_periode" value="2" onchange="submit()" <%=usePeriodeSel2 %> /> <%=dsb_txt_006 %>:</div>
@@ -488,7 +514,7 @@ case else
             <div class="row">
 
                 
-
+                <%if lto <> "ddc" then %>
                 <div class="col-lg-4">
 
                                  <%
@@ -531,8 +557,25 @@ case else
                                     'response.write strSQLpgrp
                                    
                                 %>
-                                <select id="jq_progrp" name="FM_progrp" <%=progrpmedarbDisabled  %> class="form-control input-small"> <!-- onchange="submit();" -->
+                                <select id="jq_progrp" name="FM_progrp" <%=progrpmedarbDisabled  %> class="form-control input-small"> 
+                                    <option value="-1">Choose..</option><!-- onchange="submit();" -->
+
+
                                   <%
+
+                                        if level = 1 then
+
+                                            
+                                            if cint(pgrp) = cint(10) then
+                                            pSel10 = "SELECTED"
+                                            else
+                                            pSel10 = ""
+                                            end if
+
+                                       %>
+                                         <option value="10" <%=pSel10 %>>Alle-gruppen (system)</option>
+                                        <%
+                                        end if
 
                                     oRec3.open strSQLpgrp, oConn, 3
                                     while not oRec3.EOF 
@@ -577,6 +620,7 @@ case else
                                     meFound = 0
                                     if level <= 2 OR level = 6 then
                                     
+                                    medarbgrpIdSQLkri = ""
                                     call medarbiprojgrp(pgrp, session("mid"), 0, -1)
                                     
                                     strSQLm = "SELECT mid, mnavn, init FROM medarbejdere WHERE mansat = 1 AND (mid = 0 "& medarbgrpIdSQLkri &") ORDER BY mnavn"
@@ -600,7 +644,7 @@ case else
 
 
                                     
-
+                                    antalmed = 0
                                     oRec3.open strSQLm, oConn, 3
                                     while not oRec3.EOF 
 
@@ -614,6 +658,7 @@ case else
                                     %>
                                     <option value="<%=oRec3("mid") %>" <%=mSel %>><%=oRec3("mnavn")& " ["& oRec3("init") &"]" %></option>
                                     <%
+                                    antalmed = antalmed + 1 
                                     oRec3.movenext
                                     wend 
                                     oRec3.close
@@ -623,33 +668,40 @@ case else
                                            <option value="0" SELECTED>Choose..</option>
                                      <%end if %>
                                 </select>
+                                <span style="font-size:75%;">No. of empl. on list: <b><%=antalmed %></b></span>
                 
 
                       </div>
+                      <%else %>
+
+                        <div class="col-lg-4"></div>
+                       
+                      <%end if %>
+
                       <div class="col-lg-2">
                           <select name="FM_mth" class="form-control input-small" onchange="submit()">
-                          <option value="1" <%=mthSel1 %>>Jan</option>
-                          <option value="2" <%=mthSel2 %>>Feb</option>
-                          <option value="3" <%=mthSel3 %>>Mar</option>
-                          <option value="4" <%=mthSel4 %>>Apr</option>
-                          <option value="5" <%=mthSel5 %>>Maj</option>
-                          <option value="6" <%=mthSel6 %>>Jun</option>
-                          <option value="7" <%=mthSel7 %>>Jul</option>
-                          <option value="8" <%=mthSel8 %>>Aug</option>
-                          <option value="9" <%=mthSel9 %>>Sep</option>
-                          <option value="10" <%=mthSel10 %>>Okt</option>
-                          <option value="11" <%=mthSel11 %>>Nov</option>
-                          <option value="12" <%=mthSel12 %>>Dec</option>
+                          <option value="1" <%=mthSel1 %>><%=dsb_txt_055 %></option>
+                          <option value="2" <%=mthSel2 %>><%=dsb_txt_056 %></option>
+                          <option value="3" <%=mthSel3 %>><%=dsb_txt_057 %></option>
+                          <option value="4" <%=mthSel4 %>><%=dsb_txt_058 %></option>
+                          <option value="5" <%=mthSel5 %>><%=dsb_txt_059 %></option>
+                          <option value="6" <%=mthSel6 %>><%=dsb_txt_060 %></option>
+                          <option value="7" <%=mthSel7 %>><%=dsb_txt_061 %></option>
+                          <option value="8" <%=mthSel8 %>><%=dsb_txt_062 %></option>
+                          <option value="9" <%=mthSel9 %>><%=dsb_txt_063 %></option>
+                          <option value="10" <%=mthSel10 %>><%=dsb_txt_064 %></option>
+                          <option value="11" <%=mthSel11 %>><%=dsb_txt_065 %></option>
+                          <option value="12" <%=mthSel12 %>><%=dsb_txt_066 %></option>
                    
                         </select>
                       </div>
 
                      <div class="col-lg-2">
                 <select name="FM_kv" class="form-control input-small" onchange="submit()">
-                  <option value="1" <%=useQuaterSel1 %>>Kvt. 1</option>
-                  <option value="2" <%=useQuaterSel2 %>>Kvt. 2</option>
-                  <option value="3" <%=useQuaterSel3 %>>Kvt. 3</option>
-                  <option value="4" <%=useQuaterSel4 %>>Kvt. 4</option>
+                  <option value="1" <%=useQuaterSel1 %>><%=dsb_txt_067 %> 1</option>
+                  <option value="2" <%=useQuaterSel2 %>><%=dsb_txt_067 %> 2</option>
+                  <option value="3" <%=useQuaterSel3 %>><%=dsb_txt_067 %> 3</option>
+                  <option value="4" <%=useQuaterSel4 %>><%=dsb_txt_067 %> 4</option>
                 </select>
                  </div>
 
@@ -748,10 +800,260 @@ case else
             </div>
 
 
-            
+            <!-- Graf - søjle diagraf -->
+            <%
+                if lto = "sduuas" OR lto = "sducei" then
+                'response.Write "Per " & usePeriode
+                select case cint(usePeriode)
+                    case 3 'Year
+                        grafstartdato = useyear &"-1-1"
+                        grafslutdato = useyear &"-12-31"
 
+                        periodefilterSQL = " AND tdato BETWEEN '"& grafstartdato &"' AND '"& grafslutdato &"'"
+                        periodefilteForecastrSQL = " AND md BETWEEN 1 AND 12 AND aar =" & useYear
+                    case 2 'Quarter
+                        
+                        select case cint(useQuater)
+                            case 1
+                                grafstartdato = year(now) &"-1-1"
+                                grafslutdato = year(now) &"-3-31"
+                            case 2
+                                grafstartdato = year(now) &"-4-1"
+                                grafslutdato = year(now) &"-6-30"
+                            case 3
+                                grafstartdato = year(now) &"-7-1"
+                                grafslutdato = year(now) &"-9-30"
+                            case 4
+                                grafstartdato = year(now) &"-10-1"
+                                grafslutdato = year(now) &"-12-31"
+                        end select
+
+                        periodefilterSQL = " AND tdato BETWEEN '"& grafstartdato &"' AND '"& grafslutdato &"'"
+                        periodefilteForecastrSQL = " AND md BETWEEN "& month(grafstartdato) &" AND "& month(grafslutdato) &" AND aar =" & year(now)
+                    case 1 'Month
+                        
+                        grafstartdato = year(now) &"-"& useMonth &"-1"
+                        grafslutdato = DateAdd("m", 1, grafstartdato)
+                        grafslutdato = DateAdd("d", -1, grafslutdato)
+                        grafslutdato = year(grafslutdato) &"-"& month(grafslutdato) &"-"& day(grafslutdato)
+
+                        periodefilterSQL = " AND tdato BETWEEN '"& grafstartdato &"' AND '"& grafslutdato &"'"
+                        periodefilteForecastrSQL = " AND md = "& month(grafstartdato) &" AND aar =" & year(now)
+
+                end select
+
+                'response.Write "<br> START " & grafstartdato &" slut "& grafslutdato & "<br>"
+
+
+                dim fomr, aktSQLWHERE, aktFCSQLWHERE, fomrRegTimer, fomrFCTimer, fomrcolor, fomrRegProcent, fomrFCProcent
+                redim fomr(50), aktSQLWHERE(50), aktFCSQLWHERE(50), fomrRegTimer(50), fomrFCTimer(50), fomrcolor(50), fomrRegProcent(50), fomrFCProcent(50)
+
+                'response.Write "medids " & strgradmedidvalgt
+                'Henter forretingsområder der kan bruges i grafen
+                strSQL = "SELECT id, navn FROM fomr "& strfomrSQL &" ORDER BY id"
+
+                'if session("mid") = 1 then
+                'response.write strSQL
+                'response.flush
+                'end if
+
+                oRec3.open strSQL, oConn, 3
+                fo = 0
+                while not oRec3.EOF
+                    fomr(fo) = oRec3("id")
+                    response.Write "<input type='hidden' value='"&oRec3("navn")&"' id='fomrnavn_"&fo&"' />" 'Printer navnet ud til senere
+                fo = fo + 1
+                oRec3.movenext
+                wend
+                oRec3.close
+
+                'Henter aktiviteter der bruger hvert forretingsområde
+                for f = 0 TO fo - 1
+                    if fomr(f) <> "" then
+                        strSQLAkt = "SELECT for_aktid FROM fomr_rel WHERE for_fomr = "& fomr(f) & " AND for_aktid <> 0"
+                        'response.Write "<br>" & strSQLAkt
+                        oRec3.open strSQLAkt, oConn, 3
+                        a = 0
+                        while not oRec3.EOF
+                            if a = 0 then
+                            aktSQLWHERE(f) = " AND (taktivitetid = "& oRec3("for_aktid")
+                            aktFCSQLWHERE(f) = " AND (aktid = " & oRec3("for_aktid")
+                            else
+                            aktSQLWHERE(f) = aktSQLWHERE(f) & " OR taktivitetid = "& oRec3("for_aktid")
+                            aktFCSQLWHERE(f) = aktFCSQLWHERE(f) & " OR aktid = "& oRec3("for_aktid")
+                            end if
+                                    
+                        a = a + 1
+                        oRec3.movenext
+                        wend
+                        oRec3.close
+
+                        if a <> 0 then
+                            aktSQLWHERE(f) = aktSQLWHERE(f) & ")"
+                            aktFCSQLWHERE(f) = aktFCSQLWHERE(f) & ")"
+                        end if
+                    end if
+                next
+
+
+                'Henter timer på forretingsområder
+                for f2 = 0 TO fo
+
+                    'Realiseret timer
+                    fomrRegTimer(f2) = 0
+                    if aktSQLWHERE(f2) <> "" then
+                                
+                        strSQLTimer = "SELECT sum(timer) as sumtimer FROM timer WHERE tmnr in ("& strgradmedidvalgt &")" & periodefilterSQL & aktSQLWHERE(f2)
+                        oRec3.open strSQLTimer, oConn, 3
+                        if not oRec3.EOF then
+                            fomrRegTimer(f2) = oRec3("sumtimer")
+                            if isnull(oRec3("sumtimer")) = false then
+
+                                'totalReg(f2,i) = totalReg(f2,i) + oRec3("sumtimer")
+
+                                'select case cint(i)
+                                    'case 0
+                                        'totalReg_per1 = totalReg_per1 + oRec3("sumtimer")
+                                    'case 1
+                                        'totalReg_per2 = totalReg_per2 + oRec3("sumtimer")
+                                    'case 2
+                                        'totalReg_per3 = totalReg_per3 + oRec3("sumtimer")
+                                    'case 3
+                                        'totalReg_per4 = totalReg_per4 + oRec3("sumtimer")   
+                                'end select
+                            end if
+                        oRec3.close
+                        end if
+                    end if
+
+
+
+                    'Forecast timer
+                    fomrFCTimer(f2) = 0
+                    if aktFCSQLWHERE(f2) <> "" then
+                        strSQLFCTimer = "SELECT sum(timer) as sumtimer FROM ressourcer_md WHERE medid in ("& strgradmedidvalgt &")" & periodefilteForecastrSQL & aktFCSQLWHERE(f2)
+                        'response.Write strSQLFCTimer & "<br>"
+                        oRec3.open strSQLFCTimer, oConn, 3
+                        if not oRec3.EOF then
+                            fomrFCTimer(f2) = oRec3("sumtimer")
+
+                            'if isNull(oRec3("sumtimer")) = false then
+                                'totalFc(f2,i) = totalFc(f2,i) + oRec3("sumtimer")
+
+                                'select case cint(i)
+                                    'case 0
+                                        'totalFc_per1 = totalFc_per1 + oRec3("sumtimer")
+                                    'case 1
+                                        'totalFc_per2 = totalFc_per2 + oRec3("sumtimer")
+                                    'case 2
+                                        'totalFc_per3 = totalFc_per3 + oRec3("sumtimer")
+                                    'case 3
+                                        'totalFc_per4 = totalFc_per4 + oRec3("sumtimer")
+                                'end select
+                            'end if
+                        end if
+                        oRec3.close
+                    end if
+
+                next
+
+                strgradmedidvalgtSplit = split(strgradmedidvalgt,",")
+                totalNorm = 0
+
+                'grafstartdato = cdate(grafstartdato)
+                'grafslutdato = cdate(grafslutdato)
+
+                i = 10
+                dim  norm_ugetotalArr, intervalWeeksArr, intervalWMnavn
+                redim  norm_ugetotalArr(i), intervalWeeksArr(i), intervalWMnavn(i)
+
+                if strgradmedidvalgt <> -1 then
+                    for m = 0 TO UBOUND(strgradmedidvalgtSplit)
+
+                        ansat = "2002-01-01"
+                        opsagt = "2044-01-01"
+
+                        strSQL = "SELECT ansatdato, opsagtdato FROM medarbejdere WHERE mid = "& strgradmedidvalgtSplit(m)
+                        oRec.open strSQL, oConn, 3
+                        if not oRec.EOF then
+                            ansat = oRec("ansatdato")
+                            opsagtdato = oRec("opsagtdato")
+                        end if
+                        oRec.close
+
+                        'response.Write "ansat " & ansat
+                        'response.Write "opsagt " & opsagt
+
+                        totalMedarbNorm = 0
+                        call kapcitetsnorm(strgradmedidvalgtSplit(m), ansat, opsagt, grafstartdato, grafslutdato, 1)
+                        'response.Write "Udregner norm " & totalMedarbNorm
+                        totalNorm = totalNorm + cdbl(totalMedarbNorm)
+                    next
+                end if
+                
+                normIper = totalNorm
+
+                for f3 = 0 TO UBOUND(fomr)
+                    fomrRegProcent(f3) = 0
+                    if fomrRegTimer(f3) <> 0 AND normIper <> 0 then
+                        fomrRegProcent(f3) =  (fomrRegTimer(f3) / normIper) * 100
+                    end if
+
+                    fomrFCProcent(f3) = 0
+                    if fomrFCTimer(f3) <> 0 AND normIper <> 0 then
+                        fomrFCProcent(f3) =  (fomrFCTimer(f3) / normIper) * 100
+                    end if
+
+
+                    response.Write "<input type='hidden' id='fomrregprocent_"&f3&"' value='"& fomrRegProcent(f3) &"' />"
+                    response.Write "<input type='hidden' id='fomrfcprocent_"&f3&"' value='"& fomrFCProcent(f3) &"' />"
+                next
+            end if 'LTO
+            'response.Write "<br> Fomr1 timer "& fomrRegTimer(0) & " Procent " & fomrRegProcent(0)
+            'response.Write "<br> Fomr2 timer "& fomrRegTimer(1) & " Procent " & fomrRegProcent(1)
+            'response.Write "<br> Fomr3 timer "& fomrRegTimer(2) & " Procent " & fomrRegProcent(2)
+            'response.Write "<br> Fomr4 timer "& fomrRegTimer(3) & " Procent " & fomrRegProcent(3)
+            'response.Write "<br> Fomr5 timer "& fomrRegTimer(4) & " Procent " & fomrRegProcent(4)
+            'response.Write "<br> Fomr6 timer "& fomrRegTimer(5) & " Procent " & fomrRegProcent(5)
+            'response.Write "<br> Fomr7 timer "& fomrRegTimer(6) & " Procent " & fomrRegProcent(6)
+            'response.Write "<br> Fomr8 timer "& fomrRegTimer(7) & " Procent " & fomrRegProcent(7)
+            'response.Write "<br> Fomr9 timer "& fomrRegTimer(8) & " Procent " & fomrRegProcent(8)
+            'response.Write "<br> Fomr10 timer "& fomrRegTimer(9) & " Procent " & fomrRegProcent(9)
+            'response.Write "<br> Fomr11 timer "& fomrRegTimer(10) & " Procent " & fomrRegProcent(10)
+            'response.Write "<br> Fomr12 timer "& fomrRegTimer(11) & " Procent " & fomrRegProcent(11)
+            'response.Write "<br> Fomr13 timer "& fomrRegTimer(12) & " Procent " & fomrRegProcent(12)
+            'response.Write "<br> Fomr14 timer "& fomrRegTimer(13) & " Procent " & fomrRegProcent(13)
+            'response.Write "<br> Fomr15 timer "& fomrRegTimer(13) & " Procent " & fomrRegProcent(14)
+
+            'response.Write "<br> Fomr1 forecast "& fomrFCTimer(0) & " Procent " & fomrFCProcent(0)
+            'response.Write "<br> Fomr2 forecast "& fomrFCTimer(1) & " Procent " & fomrFCProcent(1)
+            'response.Write "<br> Fomr3 forecast "& fomrFCTimer(2) & " Procent " & fomrFCProcent(2)
+            'response.Write "<br> Fomr4 forecast "& fomrFCTimer(3) & " Procent " & fomrFCProcent(3)
+            'response.Write "<br> Fomr5 forecast "& fomrFCTimer(4) & " Procent " & fomrFCProcent(4)
+            'response.Write "<br> Fomr6 forecast "& fomrFCTimer(5) & " Procent " & fomrFCProcent(5)
+            'response.Write "<br> Fomr7 forecast "& fomrFCTimer(6) & " Procent " & fomrFCProcent(6)
+            'response.Write "<br> Fomr8 forecast "& fomrFCTimer(7) & " Procent " & fomrFCProcent(7)
+            'response.Write "<br> Fomr9 forecast "& fomrFCTimer(8) & " Procent " & fomrFCProcent(8)
+            'response.Write "<br> Fomr10 forecast "& fomrFCTimer(9) & " Procent " & fomrFCProcent(9)
+            'response.Write "<br> Fomr11 forecast "& fomrFCTimer(10) & " Procent " & fomrFCProcent(10)
+            'response.Write "<br> Fomr12 forecast "& fomrFCTimer(11) & " Procent " & fomrFCProcent(11)
+            'response.Write "<br> Fomr13 forecast "& fomrFCTimer(12) & " Procent " & fomrFCProcent(12)
+            'response.Write "<br> Fomr14 forecast "& fomrFCTimer(13) & " Procent " & fomrFCProcent(13)
+            'response.Write "<br> Fomr15 forecast "& fomrFCTimer(14) & " Procent " & fomrFCProcent(14)
+
+            %>
+
+            <input type="hidden" id="fc_translated" value="<%=dsb_txt_051 %>" />
+            <input type="hidden" id="ac_translated" value="<%=dsb_txt_052 %>" />
+
+          <!--  <div class="row">
+                <div class="col-lg-12" style="text-align:center">
+                    <h3>Total</h3> <br />
+                    <div id="totalChart" style="width:100%; height:300px"></div>
+                </div>
+            </div> -->
        
-
+ 
 
 
 
@@ -816,7 +1118,7 @@ case else
               <div class="panel panel-default">
                         <div class="panel-heading">
                           <h4 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseSix">Job <span style="font-size:12px; font-weight:lighter;">Alle medarbejdere i valgt periode</span></a>
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseSix">Job <span style="font-size:12px; font-weight:lighter;"><%=dsb_txt_068 %></span></a>
                           </h4>
                         </div> <!-- /.panel-heading -->
                         <div id="collapseSix" class="panel-collapse">
@@ -833,10 +1135,14 @@ case else
                   <table class="table table-stribed">
                             <thead>
                                 <tr>
-                                    <th>Medarbejder</th>
-                                    <th style="text-align:right;">Forecast</th>
-                                    <th style="text-align:right;">Realiseret</th>
+                                    <th><%=dsb_txt_069 %></th>
+                                    <th style="text-align:right;"><%=dsb_txt_070 %></th>
+                                    <th style="text-align:right;"><%=dsb_txt_071 %></th>
 
+                                    <%if lto = "ddc" OR lto = "care" OR lto = "sducei" then %>
+                                    <th style="text-align:right;"><%=dsb_txt_072 %></th>
+                                   <!-- <th style="text-align:right;"><%=dsb_txt_073 %></th> -->
+                                    <%end if %>
                                 </tr>
                             </thead>
 
@@ -866,7 +1172,7 @@ case else
                             <tr>
                                 <td colspan="3">
                                     <b><%=jobnavn & " ("& jobnr &")" %></b><br />
-                                    Lev. dato: <%=levDato %></td>
+                                    <%=dsb_txt_088 %>: <%=levDato %></td>
 
                             </tr>
 
@@ -879,35 +1185,62 @@ case else
                              while not oRec3.EOF 
                         
                             
-                                            strSQLrt = "SELECT tmnavn, tjobnavn, tjobnr, SUM(t.timer) AS sumtimer, tmnr FROM timer AS t "_
-                                            &" WHERE (tjobnr = '"& jobnr &"') AND (tmnr = "& oRec3("mid") &") AND ("& aty_sql_realhours &") "_
-                                            &" AND tdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"' GROUP BY t.tjobnr, tmnavn" 
-
-                        
-                                            realTimer = 0
-                                            oRec2.open strSQLrt, oConn, 3
-                                            if not oRec2.EOF then
-                                            
+                                    strSQLrt = "SELECT tmnavn, tjobnavn, tjobnr, SUM(t.timer) AS sumtimer, tmnr FROM timer AS t "_
+                                    &" WHERE (tjobnr = '"& jobnr &"') AND (tmnr = "& oRec3("mid") &") AND ("& aty_sql_realhours &") "_
+                                    &" AND tdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"' GROUP BY t.tjobnr, tmnavn" 
+                                    realTimer = 0
+                                    oRec2.open strSQLrt, oConn, 3
+                                        if not oRec2.EOF then                                            
                                             realTimer = oRec2("sumtimer")
-
-                                            end if
-                                            oRec2.close
+                                        end if
+                                    oRec2.close
                                  
                                  
-                                             '*** INDENFOR budgetår? 
-                                             fctimer = 0
-                                             strSQLfc = "SELECT sum(timer) AS fctimer FROM ressourcer_md WHERE jobid = "& jobid &" AND medid = " & oRec3("mid") & " GROUP BY medid, jobid"
-                                             oRec2.open strSQLfc, oConn, 3
-                                             if not oRec2.EOF then
-                        
-                                             fctimer = oRec2("fctimer")
-
-                                             end if 
-                                             oRec2.close
+                                    '*** INDENFOR interval man har valgt 
+                                    sqlDato = " AND md BETWEEN "& month(strDatoStartKri) &" AND aar = "& year(strDatoStartKri)
+ 
+                                    fctimer = 0
+                                    strSQLfc = "SELECT sum(timer) AS fctimer FROM ressourcer_md WHERE jobid = "& jobid &" AND medid = " & oRec3("mid") & sqlDato & " GROUP BY medid, jobid"
+                                    oRec2.open strSQLfc, oConn, 3
+                                        if not oRec2.EOF then                        
+                                        fctimer = oRec2("fctimer")
+                                        end if 
+                                    oRec2.close
                                         
+                                    perRest = fctimer - realTimer
+                                    if perRest > 0 OR perRest = 0 then
+                                        perRestColor = "yellowgreen"
+                                    else
+                                        perRestColor = "crimson"
+                                    end if
+
+                                    totalTimer = 0
+                                    strSQLtotTimer = "SELECT SUM(timer) as sumtimer FROM timer WHERE tjobnr = '"& jobnr & "'"
+                                    oRec2.open strSQLtotTimer, oConn, 3
+                                    if not oRec2.EOF then
+                                        totalTimer = oRec2("sumtimer")
+                                    end if
+                                    oRec2.close
+
+                                    totFc = 0
+                                    strSQLTotFc = "SELECT sum(timer) AS fctimer FROM ressourcer_md WHERE jobid = "& jobid &" AND medid = "& oRec3("mid")
+                                    'response.Write strSQLTotFc
+                                    oRec2.open strSQLTotFc, oConn, 3
+                                    if not oRec2.EOF then
+                                        if isnull(oRec2("fctimer")) = false then
+                                            totFc = oRec2("fctimer")
+                                        end if
+                                    end if
+                                    oRec2.close
                                  
-                                 
-                                    if realTimer <> 0 OR fctimer <> 0 then
+                                    totRest = totFc - totalTimer
+                                    if totRest > 0 OR totRest = 0 then
+                                        totRestColor = "yellowgreen"
+                                    else
+                                        totRestColor = "crimson"
+                                    end if
+
+                                    if realTimer <> 0 OR fctimer <> 0 OR totalTimer <> 0 OR totFc <> 0 then
                                      
 
                                     select case right(re, 1)
@@ -924,8 +1257,14 @@ case else
                                     <tr style="background-color:<%=bgcr%>;">
                                        
                                         <td><%=oRec3("mnavn") %></td>
-                                        <td align="right"><%=formatnumber(fctimer, 2) %> t.</td>
-                                        <td align="right"><%=formatnumber(realTimer, 2) %> t.</td>
+                                        <td align="right"><%=formatnumber(fctimer, 2) %> <%=" " & dsb_txt_075 %></td>
+                                        <td align="right"><%=formatnumber(realTimer, 2) %> <%=" " & dsb_txt_075 %></td>
+
+                                        <%if lto = "ddc" OR lto = "care" OR lto = "sducei" then %>
+                                        <td align="right"><span style="color:<%=perRestColor%>;"><%=perRest %> <%=" " & dsb_txt_075 %></span></td>
+                                       <!-- <td align="right">FC i alt <%=totFc %> <br /> Real i alt <%=totalTimer %> <br /> Rest i alt <%=totRest %></td> -->
+                                        <%end if %>
+
                                     </tr>
                                     <%
 
@@ -945,13 +1284,13 @@ case else
                      
                     if re = 0 then   
                     %>
-                    <tr bgcolor="#FFFFFF"><td colspan="3">- ingen </td></tr>
+                    <tr bgcolor="#FFFFFF"><td colspan="3">- <%=dsb_txt_074 %> </td></tr>
                     <%else %>
                        <tr bgcolor="#FFFFFF">
                            
                            <td>&nbsp;</td>
-                           <td align="right"><%=formatnumber(sumfcGT, 2) %> t.</td>
-                           <td align="right"><%=formatnumber(sumTimerGT, 2) %> t.</td></tr>    
+                           <td align="right"><%=formatnumber(sumfcGT, 2) %> <%=" " & dsb_txt_075 %></td>
+                           <td align="right"><%=formatnumber(sumTimerGT, 2) %> <%=" " & dsb_txt_075 %></td></tr>    
 
                     <%end if %>
                       </tbody>
@@ -1028,12 +1367,12 @@ case else
 
                 strSQLsel_mmff = "SELECT mmff_id, mmff_mal, fomr.navn AS fomrnavn, mmff_fomr, business_area_label, business_unit, fomr.id AS fomrid FROM fomr "_
                 &" LEFT JOIN mtype_mal_fordel_fomr ON (mmff_fomr = fomr.id AND mmff_mtype = "& meType & ") "_
-                &" WHERE fomr.id <> 0 "& strSQLbusiness_unit &" LIMIT 30"
+                &" WHERE fomr.id <> 0 "& strSQLbusiness_unit &" LIMIT 50"
 
         end select
 
     
-        'if session("mid") = 1 AND lto = "epi2017" then
+        'if session("mid") = 1 then
         'response.write strSQLsel_mmff
         'response.flush
         'end if
@@ -1196,8 +1535,11 @@ case else
 
                        end if
 
+                
+                    'if session("mid") = 1 then
                     'response.write strSQLsel_mmff
                     'response.flush
+                    'end if
 
                                     oRec4.open strSQLsel_mmff, oConn, 3
                                     while not oRec4.EOF
@@ -1591,8 +1933,10 @@ case else
                          hours(f) = 0
                          end if
 
+                        'if session("mid") = 1 then
                         'response.write strSQlmtimer & "<hr>"
                         'response.flush
+                        'end if
 
                          oRec.open strSQlmtimer, oConn, 3
                          if not oRec.EOF then
@@ -1772,7 +2116,7 @@ case else
                     end if
                 else
                     if ntimperytd <> 0 AND faktimerGTselmedarb <> 0 then
-                    medarbSelIndex = (ntimperytd/faktimerGTselmedarb)
+                    medarbSelIndex = (1 - (ntimperytd/faktimerGTselmedarb)) + 1
                     else
                     medarbSelIndex = 0
                     end if
@@ -1788,7 +2132,7 @@ case else
                     end if
                 else
                     if ntimper <> 0 AND faktimerGTselmedarb <> 0 then
-                    medarbSelIndex = (ntimper/faktimerGTselmedarb)
+                    medarbSelIndex = (1 - (ntimper/faktimerGTselmedarb)) + 1
                     else
                     medarbSelIndex = 0
                     end if
@@ -1826,7 +2170,7 @@ case else
                 jobansInvAllClosedPercentPrM = 0 
 
         '************************************************* 
-        '*** Job og salgsavrslig oms *********************
+        '*** MAIN Job og salgsavrslig oms *********************
         '*************************************************
 
             if len(trim(business_area_filter)) <> 0 then
@@ -1840,9 +2184,9 @@ case else
             'KID as mid for ikke at fejle. Bare Pseydo 20171120
             strSQLjobansv = "SELECT j.id AS mid, j.id AS jid, jobnavn, jobnr, "_
             &" jobans1, jobans2, jobans3, jobans4, jobans5, jobans_proc_1, jobans_proc_2, jobans_proc_3, jobans_proc_4, jobans_proc_5, "_
-            &" salgsans1, salgsans2, salgsans3, salgsans4, salgsans5, salgsans1_proc, salgsans2_proc, salgsans3_proc, salgsans4_proc, salgsans5_proc, jobstatus "_
+            &" salgsans1, salgsans2, salgsans3, salgsans4, salgsans5, salgsans1_proc, salgsans2_proc, salgsans3_proc, salgsans4_proc, salgsans5_proc, jobstatus, serviceaft "_
             &" FROM job j "_
-            &" LEFT JOIN fakturaer f ON (f.jobid = j.id)"_
+            &" LEFT JOIN fakturaer f ON (f.jobid = j.id OR (f.aftaleid = j.serviceaft AND j.serviceaft <> 0))"_
             &" WHERE "_
             &" ((jobans1 = "& usemrn &" OR "_ 
             &" jobans2 = "& usemrn &" OR "_
@@ -1854,11 +2198,12 @@ case else
             &" salgsans3 = "& usemrn &" OR "_
             &" salgsans4 = "& usemrn &" OR "_
             &" salgsans5 = "& usemrn &")) "_
-            &" AND jobstatus <> 3 AND (jobstartdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"'"_
+            &" AND jobstatus <> 3 AND (jobslutdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"'"_
             &" OR (((brugfakdatolabel = 0 AND f.fakdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"') "_
             &" OR (brugfakdatolabel = 1 AND f.labeldato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"')) AND shadowcopy = 0) "& fomr_jobidsOnlySQL &""_
             &") GROUP BY j.id ORDER BY jobstartdato, f.labeldato DESC" 
 
+            'jobstatus <> 3
             else 'Multibple Mids
 
                     jobansKrijobids = "mid <> 0 "& strSQLmids &" AND (jobstartdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"'"_ 
@@ -1868,12 +2213,12 @@ case else
                     strSQLjobansv = "SELECT mid, init, mnavn, "_
                     &" kkundenavn, kkundenr, jobnavn, jobnr, j.id AS jid, jobstartdato, jobslutdato, jo_bruttooms AS jo_bruttooms, jo_valuta, jo_valuta_kurs, "_
                     &" jobans1, jobans2, jobans3, jobans4, jobans5, jobans_proc_1, jobans_proc_2, jobans_proc_3, jobans_proc_4, jobans_proc_5, "_ 
-                    &" salgsans1, salgsans2, salgsans3, salgsans4, salgsans5, salgsans1_proc, salgsans2_proc, salgsans3_proc, salgsans4_proc, salgsans5_proc, f.labeldato, jobstatus "
+                    &" salgsans1, salgsans2, salgsans3, salgsans4, salgsans5, salgsans1_proc, salgsans2_proc, salgsans3_proc, salgsans4_proc, salgsans5_proc, f.labeldato, jobstatus, serviceaft "
                                          
                     strSQLjobansv = strSQLjobansv &" FROM medarbejdere "_
                     &" LEFT JOIN job AS j ON (jobans1 = mid OR jobans2 = mid OR jobans3 = mid OR jobans4 = mid OR jobans5 = mid OR salgsans1 = mid OR salgsans2 = mid OR salgsans3 = mid OR salgsans4 = mid OR salgsans5 = mid) "_
                     &" LEFT JOIN kunder AS k ON (k.kid = j.jobknr)"_
-                    &" LEFT JOIN fakturaer f ON (f.jobid = j.id)"
+                    &" LEFT JOIN fakturaer f ON (f.jobid = j.id OR (f.aftaleid = j.serviceaft AND j.serviceaft <> 0))"
                                          
                     strSQLjobansv = strSQLjobansv &" WHERE "& jobansKrijobids &" GROUP BY mid, jid ORDER BY mnavn"
 
@@ -1884,9 +2229,10 @@ case else
             'jobansInv = 0
             'salgsansInv = 0
             'if session("mid") = 1 then
-            'Response.write strSQLjobansv
+            'Response.write strSQLjobansv & "<br><br>"
             'Response.flush
             'end if
+
             fakbeloebThis = 0
             fakbeloeb = 0
             jobansInv = 0
@@ -1897,6 +2243,9 @@ case else
             jobansInvMinusKost = 0
             salgsansInvMinusKost = 0
 
+            sales_omkostningerIaltprJobClosedGTtjek = 0
+            job_omkostningerIaltprJobClosedGTtjek = 0
+
             oRec4.open strSQLjobansv, oConn, 3
             while not oRec4.EOF 
 
@@ -1905,6 +2254,11 @@ case else
 
 
                             '** Faktureret beløb ****************
+                             fakbeloeb = 0
+                             
+
+                            'if cint(oRec4("serviceaft")) = 0 then
+
                             strSQLjobansvInv = "SELECT IF(faktype = 0, COALESCE(sum(f.beloeb * (f.kurs/100)),0), COALESCE(sum(f.beloeb * -1 * (f.kurs/100)),0)) AS fakbeloeb FROM fakturaer f WHERE jobid = " & oRec4("jid") &""_
                             &" AND ((brugfakdatolabel = 0 AND f.fakdato BETWEEN '"& strDatoStartKri & "' AND '"& strDatoEndKri &"') "_
                             &" OR (brugfakdatolabel = 1 AND f.labeldato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"')) AND shadowcopy = 0 GROUP BY jobid, faktype"
@@ -1913,63 +2267,132 @@ case else
                             '&" AND ((brugfakdatolabel = 0 AND f.fakdato BETWEEN '"& year(strDatoStartKri) &"-01-01' AND '"& year(strDatoEndKri) &"-12-31') "_
                             '&" OR (brugfakdatolabel = 1 AND f.labeldato BETWEEN '"& year(strDatoStartKri) &"-01-01' AND '"& year(strDatoEndKri) &"-12-31')) AND shadowcopy = 0 GROUP BY jobid, faktype"
                             
-                            'if session("mid") = 1 then
+                            'if session("mid") = 1 AND oRec4("serviceaft") <> 0 then
                             'response.write strSQLjobansvInv
                             'response.flush
                             'end if
+
+
+                            
+
+                              'if session("mid") = 1 AND oRec4("jobnr") = "2018421" then
+                              'Response.Write "<br>"& strSQLjobansvInv & "<br>"
+                              'end if
+
                             'if cint(multipleMids) = 0 then
-                            fakbeloeb = 0
+                           
                             'end if            
 
                             oRec2.open strSQLjobansvInv, oConn, 3
                             while not oRec2.EOF
                                     
                                 fakbeloeb = fakbeloeb + oRec2("fakbeloeb")
+                                    
+                              'if session("mid") = 1 AND oRec4("jobnr") = "2018421" then
+                              'Response.Write "<br><b><u>"& oRec2("fakbeloeb") & "!</u></b><br>"
+                              'end if  
                             
                             oRec2.movenext
                             wend 
                             oRec2.close 
+
+                            'end if
+
+
+                              'if session("mid") = 1 AND oRec4("jobnr") = "2018421" then
+                              'Response.Write "<br><b>"& fakbeloeb & "!</b><br>"
+                              'end if
+
+                                'if cint(oRec4("serviceaft")) <> 0 then
+
+                               
+
+                                'if session("mid") = 1 then
+                                '** Medtager hvis job er faktureret som en del af en aftale
+                                strSQLFakaftale = "SELECT IF(faktype = 0, COALESCE(sum(fd.aktpris * (fd.kurs/100)),0), COALESCE(sum(fd.aktpris * -1 * (fd.kurs/100)),0)) AS fakbeloeb FROM fakturaer f "_
+                                &" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& oRec4("jid") &") WHERE f.aftaleid = "& oRec4("serviceaft") &""_
+                                &" AND ((brugfakdatolabel = 0 AND f.fakdato BETWEEN '"& strDatoStartKri & "' AND '"& strDatoEndKri &"') "_
+                                &" OR (brugfakdatolabel = 1 AND f.labeldato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"')) AND shadowcopy = 0 GROUP BY fd.aktid, faktype"
+                            
+                    
+                                    'if session("mid") = 1 AND oRec4("jobnr") = "2018421" then
+                                    'Response.Write "<br>"& strSQLFakaftale & "<br>"
+                                    'end if
+                                
+
+                                oRec8.open strSQLFakaftale, oConn, 3
+                                while not oRec8.EOF 
+
+                        
+                        
+                                    fakbeloeb = fakbeloeb + oRec8("fakbeloeb")
+
+                                    'if session("mid") = 1 AND oRec4("jobnr") = "2018421" then
+                                    'Response.Write "<br><b><u>"& oRec8("fakbeloeb") & "!</u></b><br>"
+                                    'end if  
+                       
+                                oRec8.movenext
+                                wend
+                                oRec8.close
+
+            
+                              'if session("mid") = 1 AND oRec4("jobnr") = "2018421" then
+                              'Response.Write "<br><b>"& fakbeloeb & "!</b><br>"
+                              'end if
+
+                                   'if session("mid") = 1 AND oRec4("serviceaft") <> 0 then
+                                
+                                    'Response.write "<br>Job: " & oRec4("jobnavn") & " ("& oRec4("jobnr") &")<br>"
+                                    'Response.write "Aftaleid: " & oRec4("serviceaft") & "<br>"
+            
+                                    'response.write strSQLFakaftale & "<br>Fakbeløb: " & fakbeloeb
+                                    ' response.flush
+                                    'end if
+                    
+
+                                'end if
+
+
+
                                      
 
 
-                          '** Faktureret beløb TOTal no periode ****************
-                            strSQLjobansvInv = "SELECT IF(faktype = 0, COALESCE(sum(f.beloeb * (f.kurs/100)),0), COALESCE(sum(f.beloeb * -1 * (f.kurs/100)),0)) AS fakbeloeb FROM fakturaer f WHERE jobid = " & oRec4("jid") &" AND shadowcopy = 0 GROUP BY jobid, faktype"
+                          '** Faktureret beløb TOTal uanset periode ****************
+                           'if cint(oRec4("serviceaft")) = 0 then
+                                strSQLjobansvInv = "SELECT IF(faktype = 0, COALESCE(sum(f.beloeb * (f.kurs/100)),0), COALESCE(sum(f.beloeb * -1 * (f.kurs/100)),0)) AS fakbeloeb FROM fakturaer f WHERE jobid = " & oRec4("jid") &" AND shadowcopy = 0 GROUP BY jobid, faktype"
                             
-                            fakbeloebTot = 0
+                                fakbeloebTot = 0
                            
-                            oRec2.open strSQLjobansvInv, oConn, 3
-                            while not oRec2.EOF
+                                oRec2.open strSQLjobansvInv, oConn, 3
+                                while not oRec2.EOF
                                     
-                                fakbeloebTot = fakbeloebTot + oRec2("fakbeloeb")
+                                    fakbeloebTot = fakbeloebTot + oRec2("fakbeloeb")
                             
-                            oRec2.movenext
-                            wend 
-                            oRec2.close 
-                               
-                            
-                            'if session("mid") = 1 then
-                            '** Medtager hvis job er faktureret som en del af en aftale
-                            strSQLFakaftale = "SELECT IF(faktype = 0, COALESCE(sum(fd.aktpris * (fd.kurs/100)),0), COALESCE(sum(fd.aktpris * -1 * (fd.kurs/100)),0)) AS fakbeloeb FROM fakturaer f "_
-                            &" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& oRec4("jid") &") WHERE shadowcopy <> 1 GROUP BY fd.aktid, faktype"
-                            
-
-                            'if session("mid") = 1 then
-                            'Response.write strSQLFakaftale
-                            'Response.flush
+                                oRec2.movenext
+                                wend 
+                                oRec2.close 
                             'end if
+                            
 
-                            oRec8.open strSQLFakaftale, oConn, 3
-                            if not oRec8.EOF then
+                                 'if cint(oRec4("serviceaft")) <> 0 then
+
+                                    'if session("mid") = 1 then
+                                    '** Medtager hvis job er faktureret som en del af en aftale
+                                    strSQLFakaftale = "SELECT IF(faktype = 0, COALESCE(sum(fd.aktpris * (fd.kurs/100)),0), COALESCE(sum(fd.aktpris * -1 * (fd.kurs/100)),0)) AS fakbeloeb FROM fakturaer f "_
+                                    &" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& oRec4("jid") &") WHERE f.aftaleid = "& oRec4("serviceaft") &" AND shadowcopy <> 1 GROUP BY fd.aktid, faktype"
+                           
+
+                                    oRec8.open strSQLFakaftale, oConn, 3
+                                    while not  oRec8.EOF
+
+                                    fakbeloebTot = fakbeloebTot + oRec8("fakbeloeb") 
+
+                                    oRec8.movenext
+                                    wend
+                                    oRec8.close
 
                         
-                                fakbeloebTot = fakbeloebTot + oRec8("fakbeloeb") 
-
-                       
-                            end if
-                            oRec8.close
-
-                        
-                            'end if
+                                'end if
 
 
 
@@ -2042,11 +2465,13 @@ case else
                                     'end if' iswrt
             
                             
-                                    'response.write "salgsomKostningerIntern: "& oRec4("jobnr") &": timer: "& stimThis &" kost: " & salgsomKostningerIntern & "<br>"
+                                 
 
                                     'if cint(multipleMids) = 0 then
                                     matforbrugsumPrJob(oRec4("jid")) = matforbrugsumPrJob(oRec4("jid")) + salgsomKostningerIntern
                                     omkostningerIaltprJob = matforbrugsum + salgsomKostningerIntern
+
+                                   
                                     'else
 
                                         'if instr(isJobWrt, ",#"& oRec4("jid") &"#") = 0 then
@@ -2079,10 +2504,13 @@ case else
 
                                 jobansvFundet = 0
                                 jobansvFundetFak = 0
+
+                              
+
                                 j = 1
                                 for j = 1 to 5
 
-                                    if isNull(oRec4("jobans"&j)) <> true then
+                                    if isNull(oRec4("jobans"&j)) <> true AND cdbl(oRec4("jobans_proc_"& j)) > 0 then
 
                                         if (cdbl(oRec4("jobans"&j)) = cdbl(usemrn) AND cint(multipleMids) = 0) OR (cdbl(oRec4("jobans"&j)) = cdbl(oRec4("mid")) AND cint(multipleMids) = 1) then
                                         jobansInv = jobansInv + ((fakbeloeb) * (oRec4("jobans_proc_"& j) / 100))
@@ -2091,20 +2519,32 @@ case else
 
                                         if (fakbeloebTot) <> 0 AND oRec4("jobstatus") = 0 AND cint(jobansvFundetFak) = 0 then
                                         jobansInvClosed = jobansInvClosed/1 + ((fakbeloebTot) * 1) '(oRec4("jobans_proc_"& j) / 100))
+                                        'Response.write oRec4("jobnavn") & "("& oRec4("jobnr") &") jobansInvClosed: " & jobansInvClosed & "<br>"
                                         jobansvFundetFak = 1
                                         else
                                         jobansInvClosed = jobansInvClosed
                                         end if
                                         
+
                                        
-                                        if (omkostningerIaltprJob) <> 0 AND oRec4("jobstatus") = 0 AND cint(jobansvFundet) = 0 then
-                                        jobansInvMinusKostClosed = jobansInvMinusKostClosed/1 + (omkostningerIaltprJob * 1)  '(oRec4("jobans_proc_"& j) / 100))
+                                       
+                                        if (fakbeloebTot <> 0 AND oRec4("jobstatus") = 0 AND cint(jobansvFundet) = 0) then 'omkostningerIaltprJob) <> 0 AND 
+                                        jobansInvMinusKostClosed = jobansInvMinusKostClosed/1 + (fakbeloebTot*1 - omkostningerIaltprJob*1)  '(oRec4("jobans_proc_"& j) / 100))
+
+                                        'if session("mid") = 1 then
+                                        '    Response.write "j: "& j &" Jobans: "& oRec4("jobans"&j) &" Jobnr: "& oRec4("jobnr")  &" This: "& (fakbeloebTot*1 - omkostningerIaltprJob*1) &" ==> jobansInvMinusKostClosed Tot: "& jobansInvMinusKostClosed/1 &"+"& "(" & fakbeloebTot*1 &" - "& omkostningerIaltprJob*1 &")<br>"
+                                        'end if
+                                       
+                                        job_omkostningerIaltprJobClosedGTtjek = job_omkostningerIaltprJobClosedGTtjek + (omkostningerIaltprJob*1) 
+                                        
+
                                         'Response.write oRec4("jobnavn") & "("& oRec4("jobnr") &") jobansInvMinusKostClosed: " & jobansInvMinusKostClosed & "<br>"
                                         jobansvFundet = 1
                                         else
                                         jobansInvMinusKostClosed = jobansInvMinusKostClosed
+                                        job_omkostningerIaltprJobClosedGTtjek = job_omkostningerIaltprJobClosedGTtjek
                                         end if
-
+            
                                                     
 
                                         end if
@@ -2113,27 +2553,66 @@ case else
             
                                     salgsansvFundet = 0
                                     salgsansvFundetFak = 0
-                                    if isNull(oRec4("salgsans"&j)) <> true then
+                                    if isNull(oRec4("salgsans"&j)) <> true AND cdbl(oRec4("salgsans"&j&"_proc")) > 0 then
 
+                                        
                                         if (cdbl(oRec4("salgsans"&j)) = cdbl(usemrn) ANd cint(multipleMids) = 0) OR (cdbl(oRec4("salgsans"&j)) = cdbl(oRec4("mid")) AND cint(multipleMids) = 1) then
                                         salgsansInv = salgsansInv + ((fakbeloeb) * (oRec4("salgsans"&j&"_proc") / 100))
-                                        salgsansInvMinusKost = salgsansInvMinusKost + ((omkostningerIaltprJob) * (oRec4("salgsans"&j&"_proc") / 100))
-
-
-                                        if (fakbeloebTot) <> 0 AND oRec4("jobstatus") = 0 AND cint(salgsansvFundetFak) = 0  then
-                                        salgsansInvClosed = salgsansInvClosed + ((fakbeloebTot) * 1) '(oRec4("salgsans"&j&"_proc")  / 100))
-                                        salgsansvFundetFak = 1
-                                        else
-                                        salgsansInvClosed = salgsansInvClosed
-                                        end if
-                                        
                                        
-                                        if (omkostningerIaltprJob) <> 0 AND oRec4("jobstatus") = 0 AND cint(salgsansvFundet) = 0 then
-                                        salgsansInvMinusKostClosed = salgsansInvMinusKostClosed/1 + (omkostningerIaltprJob * 1)  '(oRec4("salgsans"&j&"_proc") / 100))
-                                        salgsansvFundet = 1
-                                        else
-                                        salgsansInvMinusKostClosed = salgsansInvMinusKostClosed
-                                        end if
+            
+                                        'if session("mid") = 1 then
+                                        'Response.write "<br><br> salgsansInv + ((fakbeloeb) * (oRec4salgsansJ_proc / 100)):" & formatnumber(salgsansInv, 2) & "<br> " & formatnumber(fakbeloeb) & " * " & oRec4("salgsans"&j&"_proc") 
+                                        'end if
+ 
+                                        salgsansInvMinusKost = salgsansInvMinusKost + ((omkostningerIaltprJob) * (oRec4("salgsans"&j&"_proc") / 100))
+                                        
+
+                                            if (fakbeloebTot) <> 0 AND oRec4("jobstatus") = 0 AND cint(salgsansvFundetFak) = 0  then
+                                            salgsansInvClosed = salgsansInvClosed + ((fakbeloebTot) * 1) '(oRec4("salgsans"&j&"_proc")  / 100))
+                                            salgsansvFundetFak = 1
+                                            else
+                                            salgsansInvClosed = salgsansInvClosed
+                                            end if
+                                        
+
+                                                    'if oRec4("jobstatus") = 0 AND cint(salgsansvFundet) = 0 then
+
+                                                     '       sales_omkostningerIaltprJobClosedGTtjek = sales_omkostningerIaltprJobClosedGTtjek + (omkostningerIaltprJob*1) 
+
+                                                     '   if oRec4("jobstatus") = 0 then
+
+                                                     '    if session("mid") = 1 then
+                                                     '    response.write "("& a &") Fak: "& fakbeloebTot &" salgsomKostningerIntern; "& oRec4("jobnr") &"; Kostialt; " & formatnumber(omkostningerIaltprJob, 2) & "; Proc; "& oRec4("salgsans"&j&"_proc") &"<br>"
+                                                         'sales_omkostningerIaltprJobClosedGTtjek = sales_omkostningerIaltprJobClosedGTtjek*1 + omkostningerIaltprJob*1 
+                                                     '    end if
+
+                                                     '   end if
+
+                                                    'end if
+
+
+                                      
+                                            if cdbl(fakbeloebTot) <> 0 AND omkostningerIaltprJob <> 0 AND oRec4("jobstatus") = 0 AND cint(salgsansvFundet) = 0 then
+                                            salgsansInvMinusKostClosed = salgsansInvMinusKostClosed/1 + (fakbeloebTot*1 - omkostningerIaltprJob*1)  '(oRec4("salgsans"&j&"_proc") / 100))
+                                            salgsansvFundet = 1
+                                            'sales_omkostningerIaltprJobClosedGTtjek = sales_omkostningerIaltprJobClosedGTtjek + (omkostningerIaltprJob*1) 
+
+                                            sales_omkostningerIaltprJobClosedGTtjek = sales_omkostningerIaltprJobClosedGTtjek + (omkostningerIaltprJob*1)
+
+                                                         'if session("mid") = 1 then
+                                                         'response.write "("& a &") Fak: "& fakbeloebTot &" salgsomKostningerIntern; "& oRec4("jobnr") &"; Kostialt; " & formatnumber(omkostningerIaltprJob, 2) & ";"& formatnumber(sales_omkostningerIaltprJobClosedGTtjek, 2) &"; Proc; "& oRec4("salgsans"&j&"_proc") &"<br>"
+                                                         'sales_omkostningerIaltprJobClosedGTtjek = sales_omkostningerIaltprJobClosedGTtjek*1 + omkostningerIaltprJob*1 
+                                                         'end if
+
+                                             
+
+                                                     
+                                            else
+                                            salgsansInvMinusKostClosed = salgsansInvMinusKostClosed
+                                            sales_omkostningerIaltprJobClosedGTtjek = sales_omkostningerIaltprJobClosedGTtjek
+                                            end if
+
+                                            
 
                                         end if
 
@@ -2150,6 +2629,10 @@ case else
                             jobansInvAll = jobansInvAll + (jobansInv/1) '- (matforbrugsumPrJob(oRec4("jid")))/1
                             salgsansInvAll = salgsansInvAll + (salgsansInv/1) '- (matforbrugsumPrJob(oRec4("jid")))/1)
                 
+                            'if session("mid") = 1 then
+                            'Response.write "<br>" & oRec4("jobnr") &" salgsansInvAll: " & formatnumber(salgsansInvAll)
+                            'END IF
+
                             jobansInvMinusKostAll = jobansInvMinusKostAll + (jobansInvMinusKost/1)
                             salgsansInvMinusKostAll = salgsansInvMinusKostAll + (salgsansInvMinusKost/1)
 
@@ -2230,6 +2713,9 @@ case else
             oRec4.movenext
             wend
             oRec4.close
+            '** END MAIN
+
+
 
 
             if cint(multipleMids) = 1 then
@@ -2376,24 +2862,32 @@ case else
             '***********************************************************************************************************************************'
 
                 '*** PIE 1 ***
+                if session("mid") = 1 then
+                inputtypePie = "hidden"
+                else
+                inputtypePie = "hidden"
+                end if
+
+
                %>
                  <form>
-                <input type="hidden" id="timefordeling_proc_norm" value="<%=formatnumber(ntimPer, 0) %>" />
+                <input type="<%=inputtypePie %>" id="timefordeling_proc_norm" value="<%=formatnumber(ntimPer, 0) %>" />
                 <!--<input type="hidden" id="timefordeling_proc_fravar" value="<%=20 %>" />-->
                 <%for f = 0 TO fo - 1  %>
-
-              
-                <input type="hidden" id="timefordeling_proc_<%=f %>" value="<%=replace(formatnumber(utilzDB(f), 0), ".", "") %>" />
-                <input type="hidden" id="" value="<%=replace(formatnumber(utilz(f), 0), ".", "") %>" />
-                <input type="hidden" id="timefordeling_navn_<%=f %>" value="<%=fomrnavn(f)%>" />
+                <input type="<%=inputtypePie %>" id="timefordeling_navn_<%=f %>" value="<%=fomrnavn(f)%>" />
+                <input type="<%=inputtypePie %>" id="timefordeling_proc_<%=f %>" value="<%=replace(formatnumber(utilzDB(f), 0), ".", "") %>" />
+                <input type="<%=inputtypePie %>" id="" value="<%=replace(formatnumber(utilz(f), 0), ".", "") %>" />
+             
                 <%next %>
                 </form>
 
-              
 
-     
-
-
+                <!--
+               <%if lto = "sduuas" OR lto = "sducei" then %>
+                <script type="text/javascript" src="js/demos/flot/stacked-vertical_dashboard_sduuas.js"></script>
+                <div id="stacked-vertical-chart" class="chart-holder-200"></div>
+               <%end if %> -->
+       
         <div class="portlet-body">
             <br />
             <div class="row">
@@ -2402,7 +2896,7 @@ case else
                         <%if cint(multipleMids) = 0 then%>
                         <span style="font-size:12px; font-weight:lighter;"><%=meTxt %></span>
                         <%else %>
-                        <span style="font-size:12px; font-weight:lighter;">Multible employees selected (peers)</span>
+                        <span style="font-size:12px; font-weight:lighter;"><%=dsb_txt_076 %></span>
                         <%end if %>
                          </u>
                     </h4>
@@ -2415,7 +2909,7 @@ case else
                  <div class="col-lg-4">
 
 
-                    
+                    <%if lto <> "sduuas" AND lto <> "sducei" then %>
                       <div class="row-stat">
                        
                         <!--<span class="label label-succes row-stat-badge"><%=formatnumber(jo_db2_proc, 0)%> %</span> -->
@@ -2432,7 +2926,7 @@ case else
                              if cint(multipleMids) = 0 then
 
                             if jobansInvClosed <> 0 AND jobansInvClosedMinusKost <> 0 then
-                            dbJobprocClosedJob = ((jobansInvClosed - jobansInvClosedMinusKost)/jobansInvClosed)*100
+                            dbJobprocClosedJob = 100 - ((jobansInvClosed*1 - jobansInvClosedMinusKost*1)/jobansInvClosed*1)*100 'jobansInvClosedMinusKost/jobansInvClosed*100 '
                             else
                             dbJobprocClosedJob = 0
                             end if
@@ -2448,9 +2942,9 @@ case else
                             end if
                               
                               %>
-                           <h3 class="row-stat-value"><span style="font-size:14px;">Job resp. GM Closed job:</span> <%=formatnumber(dbJobprocClosedJob, 0)%> <span style="font-size:14px;">%</span></h3> 
-                          <!--(<%=jobansInvClosed & "  -" & jobansInvClosedMinusKost %>)-->
-                           <br /><span style="font-size:11px; color:#999999;">[total profit / invoiced tot.]</span> <!-- Invoiced tot. / sales & external cost -->
+                           <h3 class="row-stat-value"><span style="font-size:14px;">Job resp. GM <span style="background-color:yellow;">Closed</span> job:</span> <%=formatnumber(dbJobprocClosedJob, 0)%> <span style="font-size:14px;">% </span></h3> 
+                           <!-- (<%="jobansInvAllClosed: "& jobansInvAllClosed &"<br> " & jobansInvClosed & " - " & jobansInvClosedMinusKost %>)-->
+                           <br /><span style="font-size:11px; color:#999999;">[total profit: <%=formatnumber(jobansInvClosedMinusKost, 0) %> / invoiced tot.: <%=formatnumber(jobansInvAllClosed, 0) %>]</span> <!-- Invoiced tot. / sales & external cost -->
                           <br /><br />
                        
                         <h3 class="row-stat-value"><span style="font-size:14px;">Sales:</span> <%=formatnumber(salgsansInv, 2)%> <span style="font-size:14px;">DKK</span></h3>
@@ -2462,7 +2956,7 @@ case else
                              if cint(multipleMids) = 0 then
 
                             if salgsansInvClosed <> 0 AND salgsansInvClosedMinusKost <> 0 then
-                            dbSalgsprocClosedJob = ((salgsansInvClosed - salgsansInvClosedMinusKost)/salgsansInvClosed)*100
+                            dbSalgsprocClosedJob = 100 - ((salgsansInvClosed - salgsansInvClosedMinusKost)/salgsansInvClosed)*100
                             else
                             dbSalgsprocClosedJob = 0
                             end if
@@ -2477,14 +2971,12 @@ case else
                               
                             end if%>
 
-                           <h3 class="row-stat-value"><span style="font-size:14px;">Sales resp. GM Closed job:</span> <%=formatnumber(dbSalgsprocClosedJob, 0)%> <span style="font-size:14px;">%</span></h3>
-                             <br /><span style="font-size:11px; color:#999999;">[total profit / invoiced tot.]</span>
+                           <h3 class="row-stat-value"><span style="font-size:14px;">Sales resp. GM <span style="background-color:yellow;">Closed</span> job:</span> <%=formatnumber(dbSalgsprocClosedJob, 0)%> <span style="font-size:14px;">%</span></h3>
+                             <br /><span style="font-size:11px; color:#999999;">[total profit: <%=formatnumber(salgsansInvClosedMinusKost, 0) %> / invoiced tot.: <%=formatnumber(salgsansInvClosed, 0) %>]</span>
 
                           <!--<%="salgsansInvClosed: "& salgsansInvClosed &" - salgsansInvClosedMinusKost : "&salgsansInvClosedMinusKost %> HUSK kreditnotaer-->
 
                         
-
-                     
                          
 
                           <%
@@ -2495,20 +2987,24 @@ case else
                           <br /><br />
                         <p class="row-stat-label">GM2</p>
                         <h3 class="row-stat-value"><%=formatnumber(medarbSelDBindexGT, 2)%> <span style="font-size:14px;">DKK</span></h3>
-                          <br /> <span style="font-size:11px; color:#999999;"> [ Timer * (timepris - Kost.) * <%=dsb_txt_012 %> ]</span>
+                          <br /> <span style="font-size:11px; color:#999999;"> [<%=dsb_txt_077 %> * (<%=dsb_txt_078 %>) * <%=dsb_txt_012 %> ]</span>
                           <%
                           end select%>
                           
 
                      </div> <!-- /.row-stat -->
-         
+                    <%else %>
 
-                     
+                    <div style="width:100%; text-align:center;"><%=dsb_txt_053 %></div>
+                    <div id="totalChart" style="width:100%; height:300px"></div>
+
+                    <%end if %>
+
                  </div>
                      <div class="col-lg-3">
                          <%select case lto
                          case "epi2017"
-                             dsb_txt_012 = "Utilazation"
+                             dsb_txt_012 = "Utilization"
                          case else
                              dsb_txt_012 = dsb_txt_012
                          end select%>
@@ -2523,11 +3019,11 @@ case else
                              avgTxt = "Avg. "
                          end if%>
 
-                         <span style="font-size:9px; color:#999999;"><%=avgTxt%></span><%=dsb_txt_014 %>: <%=formatnumber(ntimper, 2) %> t. <br />
+                         <span style="font-size:9px; color:#999999;"><%=avgTxt%></span><%=dsb_txt_014 %>: <%=formatnumber(ntimper, 2) %> <%=" " & dsb_txt_075 %> <br />
 
                          <%if usePeriode = 3 AND year(now) = year(strDatoStartKri) AND lto <> "wilke" then 'ATD 
                              %>
-                             <span style="font-size:9px; color:#999999;"><%=avgTxt%></span>Norm. YTD: <%=formatnumber(ntimperytd, 2) %> t.<br />
+                             <span style="font-size:9px; color:#999999;"><%=avgTxt%></span>Norm. YTD: <%=formatnumber(ntimperytd, 2) %> <%=" " & dsb_txt_075 %><br />
                              <%
                          end if%>
 
@@ -2536,15 +3032,18 @@ case else
 
                          <%select case lto
                          case "epi2017" %>
-                         <span style="font-size:9px; color:#999999;"><%=avgTxt%></span>Absence Hours: <%=formatnumber(medarbSelNormFradragGT, 2) %> t.<br /> 
-                          <span style="font-size:9px; color:#999999;"><%=avgTxt%></span>Stated Hours: <%=formatnumber(medarbSelHoursGT, 2) %> t.<br />
-                         <span style="font-size:9px; color:#999999;"><%=avgTxt%></span>Hereby invoicable: <b><%=formatnumber(faktimerGTselmedarb, 2) %> t.</b><br />
+                         <span style="font-size:9px; color:#999999;"><%=avgTxt%></span>Absence Hours: <%=formatnumber(medarbSelNormFradragGT, 2) %> <%=" " & dsb_txt_075 %><br /> 
+                          <span style="font-size:9px; color:#999999;"><%=avgTxt%></span>Stated Hours: <%=formatnumber(medarbSelHoursGT, 2) %> <%=" " & dsb_txt_075 %><br />
+                         <span style="font-size:9px; color:#999999;"><%=avgTxt%></span>Hereby invoicable: <b><%=formatnumber(faktimerGTselmedarb, 2) %> <%=" " & dsb_txt_075 %></b><br />
                          <%case else %>
-                         <span style="font-size:9px; color:#999999;"><%=avgTxt%></span>Fravær timer: <%=formatnumber(medarbSelNormFradragGT, 2) %> t.<br /> 
-                          <span style="font-size:9px; color:#999999;"><%=avgTxt%></span>Timer: <%=formatnumber(medarbSelHoursGT, 2) %> t.<br />
-                         <span style="font-size:9px; color:#999999;"><%=avgTxt%></span>Heraf fakturerbare: <b><%=formatnumber(faktimerGTselmedarb, 2) %> t.</b><br />
-                         <span style="font-size:9px; color:#999999;"><%=avgTxt%></span>Forecasttimer: <%=formatnumber(indexFc, 2) %> t.<br />
-                         <span style="font-size:11px; color:#999999;">Forecast på projekter med lev. dato i valgt periode.</span>
+                         <span style="font-size:9px; color:#999999;"><%=avgTxt%></span><%=dsb_txt_079 %>: <%=formatnumber(medarbSelNormFradragGT, 2) %> <%=" " & dsb_txt_075 %><br /> 
+                          <span style="font-size:9px; color:#999999;"><%=avgTxt%></span><%=dsb_txt_077 %>: <%=formatnumber(medarbSelHoursGT, 2) %> <%=" " & dsb_txt_075 %><br />
+                         <span style="font-size:9px; color:#999999;"><%=avgTxt%></span><%=dsb_txt_080 %>: <b><%=formatnumber(faktimerGTselmedarb, 2) %> <%=" " & dsb_txt_075 %></b><br />
+
+                         <%if lto <> "sduuas" AND lto <> "sducei" then %>
+                         <span style="font-size:9px; color:#999999;"><%=avgTxt%></span><%=dsb_txt_081 %>: <%=formatnumber(indexFc, 2) %> <%=" " & dsb_txt_075 %><br />
+                         <span style="font-size:11px; color:#999999;"><%=dsb_txt_082 %></span>
+                         <%end if %>
                          <%end select %>
                          
                          <!-- <br /><br />
@@ -2558,7 +3057,7 @@ case else
                  </div>
                                            
                          <div class="col-lg-5">
-                        <%=dsb_txt_011 %> (<%=formatnumber(medarbSelHoursFomrGT, 2) %> t.)
+                        <%=dsb_txt_011 %> (<%=formatnumber(medarbSelHoursFomrGT, 2) %> <%=" " & dsb_txt_075 %>)
                         
                          <% if cint(multipleMids) = 0 then%>    
                         <br />
@@ -2584,7 +3083,7 @@ case else
 
 
 
-
+               <%response.Flush %>
 
 
 
@@ -2597,7 +3096,7 @@ case else
               case "epi2017"
                tfTxt = "Hour distribution from donut" 
               case else
-               tfTxt = "Timefordeling fra donut"
+               tfTxt = dsb_txt_097
               end select%>
 
             <br /><br />
@@ -2620,10 +3119,10 @@ case else
            
                   <table class="table table-stribed" style="width:80%;">
                             <thead>
-                                <tr><th style="width:30%;">Jobnavn</th>
-                                    <th>Forretningsområde</th>
-                                    <th>Business Unit</th>
-                                    <th style="text-align:right;">Realiseret</th>
+                                <tr><th style="width:30%;"><%=dsb_txt_083 %></th>
+                                    <th><%=dsb_txt_084 %></th>
+                                    <th><%=dsb_txt_085 %></th>
+                                    <th style="text-align:right;"><%=dsb_txt_086 %></th>
                                 </tr>
                             </thead>
 
@@ -2682,7 +3181,7 @@ case else
                             <td style="white-space:nowrap;"><%=left(oRec("tjobnavn"), 40) & " ("& oRec("tjobnr") &")" %></td>
                             <td><%=fomrNavn %></td>
                             <td><%=business_unit %></td>
-                            <td align="right"><%=formatnumber(oRec("sumtimer"), 2) %> t.</td>
+                            <td align="right"><%=formatnumber(oRec("sumtimer"), 2) %> <%=" " & dsb_txt_075 %></td>
                         </tr>
                         <%
 
@@ -2696,9 +3195,9 @@ case else
                      
                     if re = 0 then   
                     %>
-                    <tr bgcolor="#FFFFFF"><td colspan="3">- ingen </td></tr>
+                    <tr bgcolor="#FFFFFF"><td colspan="3">- <%=dsb_txt_074 %> </td></tr>
                     <%else %>
-                       <tr bgcolor="#FFFFFF"><td colspan="4" align="right"><%=formatnumber(sumTimerGT, 2) %> t.</td></tr>    
+                       <tr bgcolor="#FFFFFF"><td colspan="4" align="right"><%=formatnumber(sumTimerGT, 2) %> <%=" " & dsb_txt_075 %></td></tr>    
 
                     <%end if %>
                       </tbody>
@@ -2713,7 +3212,7 @@ case else
 
 
 
-
+            <%'response.Flush %>
 
            
 
@@ -2729,7 +3228,7 @@ case else
               <div class="panel panel-default">
                         <div class="panel-heading">
                           <h4 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseFour">Dine job med forecast på - <span style="font-size:12px; font-weight:lighter;"><%=meTxt %></span></a>
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseFour"><%=dsb_txt_087 %> - <span style="font-size:12px; font-weight:lighter;"><%=meTxt %></span></a>
                           </h4>
                         </div> <!-- /.panel-heading -->
                         <div id="collapseFour" class="panel-collapse collapse">
@@ -2745,10 +3244,10 @@ case else
            
                   <table class="table table-stribed">
                             <thead>
-                                <tr><th>Jobnavn</th>
-                                    <th style="text-align:right;">Forecast</th>
-                                    <th style="text-align:right;">Realiseret</th>
-                                    <th style="text-align:right;">Lev. dato</th>
+                                <tr><th><%=dsb_txt_083 %></th>
+                                    <th style="text-align:right;"><%=dsb_txt_070 %></th>
+                                    <th style="text-align:right;"><%=dsb_txt_071 %></th>
+                                    <th style="text-align:right;"><%=dsb_txt_088 %></th>
                                 </tr>
                             </thead>
 
@@ -2784,7 +3283,7 @@ case else
                         %>
                         <tr style="background-color:<%=bgcr%>;">
                             <td class="lille"><%=left(oRec("jobnavn"), 20) & " ("& oRec("jobnr") &")" %></td>
-                            <td class="lille" align="right"><%=oRec("restimer") %> t.</td>
+                            <td class="lille" align="right"><%=oRec("restimer") %> <%=" " & dsb_txt_075 %></td>
 
                             <%
                                sumRealtimer = 0
@@ -2805,7 +3304,7 @@ case else
 
                                  %>
 
-                            <td class="lille" align="right"><%=sumRealtimer%> t.</td>
+                            <td class="lille" align="right"><%=sumRealtimer%> <%=" " & dsb_txt_075 %></td>
                             <td class="lille" align="right"><%=oRec("jobslutdato")%></td>
                         </tr>
                         <%
@@ -2818,7 +3317,7 @@ case else
                      
                     if re = 0 then   
                     %>
-                    <tr bgcolor="#FFFFFF"><td colspan="3">- ingen </td></tr>
+                    <tr bgcolor="#FFFFFF"><td colspan="3">- <%=dsb_txt_074 %> </td></tr>
                     <%end if %>
                       </tbody>
                     </table>
@@ -2832,8 +3331,8 @@ case else
             <%end select %>
 
 
-
-
+              <!--<div class="loader">Loader..</div>-->
+             <%'response.Flush %>
 
 
             <!-- KUN SÆLGERE -->
@@ -2860,7 +3359,7 @@ case else
               <div class="panel panel-default">
                         <div class="panel-heading">
                           <h4 class="panel-title">
-                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseOne">Kunder top 10 - <span style="font-size:12px; font-weight:lighter;"><%=meTxt %></span></a>
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseOne"><%=dsb_txt_089 %> - <span style="font-size:12px; font-weight:lighter;"><%=meTxt %></span></a>
                           </h4>
                         </div> <!-- /.panel-heading -->
                         <div id="collapseOne" class="panel-collapse collapse">
@@ -2876,10 +3375,10 @@ case else
                         <table class="table table-stribed">
                             <thead>
                                 <tr>
-                                    <th style="width: 50%">Kunder (kundenr)</th>
-                                    <th style="width: 20%">Forecast</th>
+                                    <th style="width: 50%"><%=dsb_txt_090 %></th>
+                                    <th style="width: 20%"><%=dsb_txt_070 %></th>
 
-                                    <th style="width: 20%">Realiseret</th>
+                                    <th style="width: 20%"><%=dsb_txt_071 %></th>
                                     <th style="width: 10%"><!--Indikator--></th>
 
                                      <%for foBAc = 0 TO foBA - 1%>
@@ -2899,10 +3398,7 @@ case else
                                  &" LEFT JOIN kunder AS k ON (k.kid = t.tknr) "_
                                  &" WHERE t.tmnr = "& usemrn & " AND ("& aty_sql_realhours &") AND tdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"' GROUP BY tknr ORDER BY sumtimer DESC LIMIT 10"
             
-                                'if session("mid") = 1 then
-                                'response.write strSQlmtimer_k
-                                'response.flush
-                                'end if
+                              
                                 
                                  oRec.open strSQlmtimer_k, oConn, 3
                                  while not oRec.EOF 
@@ -3063,7 +3559,7 @@ case else
 
 
 
-
+          
 
 
            <%if cint(multipleMids) = 0 OR lto = "epi2017" then%>
@@ -3104,7 +3600,7 @@ case else
                  ' 20180606 Thomas
                  'jobansOskift = "Job & Sales Responsible % <span style=""font-size:12px; font-weight:lighter;"">(Job startdate in selected period OR invoice date in FY - Sales cost in period)</span>"
                  else
-                 jobansOskift = "Job & Sales Responsible CLOSED job % <span style=""font-size:12px; font-weight:lighter;"">(Job startdate OR invoice date in selected period - Total sales cost no period)</span>"
+                 jobansOskift = "Job & Sales Responsible CLOSED job % <span style=""font-size:12px; font-weight:lighter;"">(Job enddate OR invoice date in selected period - Total sales cost no period)</span>"
                  ' 20180606 Thomas
                  'jobansOskift = "Job & Sales Responsible CLOSED job % <span style=""font-size:12px; font-weight:lighter;"">(Job startdate in selected period OR invoice date in FY - Total sales cost no period)</span>"
                  end if
@@ -3124,13 +3620,15 @@ case else
                     &" salgsans5 = "& usemrn &"))"
 
                     if anloops = 0 then
-                     jobansKrijobids = jobansKrijobids & " AND jobstatus <> 3 " 
+                    jobansKrijobids = jobansKrijobids & " AND jobstatus <> 3 " 
+                    jobansKrijobids = jobansKrijobids & " AND (jobstartdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"'"
                     else
-                     jobansKrijobids = jobansKrijobids & " AND jobstatus = 0 " 
+                    jobansKrijobids = jobansKrijobids & " AND jobstatus = 0 " 
+                    jobansKrijobids = jobansKrijobids & " AND (jobslutdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"'"
                     end if
 
-                    jobansKrijobids = jobansKrijobids & " AND (jobstartdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"'"_ 
-                    &" OR (((brugfakdatolabel = 0 AND f.fakdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"') "_
+                    'jobansKrijobids = jobansKrijobids & " AND (jobslutdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"'"_ 
+                    jobansKrijobids = jobansKrijobids &" OR (((brugfakdatolabel = 0 AND f.fakdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"') "_
                     &" OR (brugfakdatolabel = 1 AND f.labeldato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"')) AND shadowcopy = 0)) "& fomr_jobidsOnlySQL &""
 
                     else
@@ -3138,7 +3636,7 @@ case else
                     jobansKrijobids = ""
 
                    
-                    jobansKrijobids = "mid <> 0 "& strSQLmids &" AND jobstatus <> 3 AND (jobstartdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"'"_ 
+                    jobansKrijobids = "mid <> 0 "& strSQLmids &" AND jobstatus <> 3 AND (jobslutdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"'"_ 
                     &" OR (((brugfakdatolabel = 0 AND f.fakdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"') "_
                     &" OR (brugfakdatolabel = 1 AND f.labeldato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"')) AND shadowcopy = 0)) "& fomr_jobidsOnlySQL &""
 
@@ -3154,7 +3652,7 @@ case else
                  case else   
 
                  jobansKrijobids = " AND (tjobnr = '0' "  
-                 jobansOskift = "Projektansvarlig"
+                 jobansOskift = dsb_txt_098
                  strSQKjobans = "SELECT jobnr FROM job WHERE (jobans1 = "& usemrn &" OR jobans2 = "& usemrn &") AND jobslutdato >= '"& strDatoStartKri &"'"
                     
                        'response.write strSQKjobans
@@ -3187,7 +3685,7 @@ case else
                  salgsansBgtGT = 0
                  matforbrugsumTot = 0
                  dbGT = 0
-
+                 GMbelobTot = 0
                  %>
 
              
@@ -3195,7 +3693,7 @@ case else
                         <div class="panel-heading">
                           <h4 class="panel-title">
                                <% if cint(multipleMids) = 0 then %>
-                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseTwo<%=anloops %>"><%=jobansOskift %></a> 
+                            <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseTwo<%=anloops %>"><%=jobansOskift %> </a> 
                               <%else %>
                                  <%=jobansOskift %>
                               <%end if %>
@@ -3214,7 +3712,7 @@ case else
             
                  <div class="col-lg-12">
                    
-                     <table class="table table-stribed">
+                     <table class="table table-stribed table-bordered">
                             <thead>
                                 <tr>
 
@@ -3267,6 +3765,7 @@ case else
                                     <%
                                     
                                         strEkspHeader = "Init;Customer;Customer No;Job;Job No.;Status;Startdate;Delevery date; "& Budget_GTxtExp &"; Invoiced Total;Latest Invoicedate; Sales & External Cost.; Job %; Job % value;Sales %;Sales % value;xx99123sy#z"
+                                        'Inv. Job resp. only;Inv. Sales resp. only;GM Job resp. only;GM Sales resp. only;xx99123sy#z"
                                         'To Be invoiced
                                     else 'TEAMLEDER matrix
 
@@ -3293,18 +3792,46 @@ case else
                                          
                                     case else %>
 
-                                     <th style="width: 25%">Kunder (kundenr)</th>
-                                    <th style="width: 25%">Job</th>
-                                    <th style="width: 10%">Lev. dato</th>
-                                    <th style="width: 10%">Forecast</th>
-                                    <th style="width: 10%">Realiseret</th>
-                                    <th style="width: 10%">Omsætning</th>
+                                    <th style="width: 25%"><%=dsb_txt_090 %></th>
+                                    <th style="width: 25%"><%=dsb_txt_096 %></th>
+                                    <th style="width: 10%"><%=dsb_txt_088 %></th>
+
+                                    <%if lto = "sducei" then %>
+                                    <th style="width:10%;"><%=dsb_txt_091 %></th>
+                                    <%end if %>
+
+                                    <th style="width: 10%"><%=dsb_txt_070 %></th>
+                                    <th style="width: 10%"><%=dsb_txt_071 %></th>
+
+                                    <%if lto <> "ddc" AND lto <> "sducei" then %>
+                                    <th style="width: 10%"><%=dsb_txt_092 %></th>
+                                    <%end if %>
+
+                                    <%
+                                    if lto = "ddc" OR lto = "care" then %>
+                                    <th style="width: 10%"><%=dsb_txt_072 %></th>
+                                    <th style="width: 10%"><%=dsb_txt_073 %></th>
+                                    <%end if %>
+
+                                    <%if lto = "sducei" then %>
+                                    <th style="width: 10%"><%=dsb_txt_093 %></th>
+                                    <th style="width: 10%"><%=dsb_txt_094 %></th>
+                                    <%end if %>
+
+                                    <%if lto <> "sducei" then %>
                                     <th style="width: 10%"><!--Indikator--></th>
+                                    <%end if %>
                                     <%end select %>
                                 </tr>
                             </thead>
                             <tbody>
                                 <%
+
+                                    '**********************************************************************************************
+                                    '** Jobansvarlig + Salgsansvarlig. ALle job Loop 1: kun lukkede job
+                                    '**********************************************************************************************
+
+
 
                                     select case lto
                                      case "epi2017"
@@ -3316,11 +3843,11 @@ case else
                                          strSQlmtimer_k = "SELECT kid AS mid, "_
                                          &" kkundenavn, kkundenr, jobnavn, jobnr, j.id AS jid, jobstartdato, jobslutdato, jo_bruttooms AS jo_bruttooms, jo_valuta, jo_valuta_kurs, "_
                                          &" jobans1, jobans2, jobans3, jobans4, jobans5, jobans_proc_1, jobans_proc_2, jobans_proc_3, jobans_proc_4, jobans_proc_5, "_ 
-                                         &" salgsans1, salgsans2, salgsans3, salgsans4, salgsans5, salgsans1_proc, salgsans2_proc, salgsans3_proc, salgsans4_proc, salgsans5_proc, f.labeldato, jobstatus "
+                                         &" salgsans1, salgsans2, salgsans3, salgsans4, salgsans5, salgsans1_proc, salgsans2_proc, salgsans3_proc, salgsans4_proc, salgsans5_proc, f.labeldato, jobstatus, serviceaft "
                                          
                                          strSQlmtimer_k = strSQlmtimer_k &" FROM job AS j "_
                                          &" LEFT JOIN kunder AS k ON (k.kid = j.jobknr) "_
-                                         &" LEFT JOIN fakturaer f ON (f.jobid = j.id)"
+                                         &" LEFT JOIN fakturaer f ON (f.jobid = j.id OR (f.aftaleid = j.serviceaft AND j.serviceaft <> 0))"
                                          
                                          strSQlmtimer_k = strSQlmtimer_k &" WHERE "& jobansKrijobids &" GROUP BY j.id ORDER BY jobstartdato, f.labeldato DESC"
             
@@ -3330,12 +3857,12 @@ case else
                                              strSQlmtimer_k = "SELECT mid, init, mnavn, "_
                                              &" kkundenavn, kkundenr, jobnavn, jobnr, j.id AS jid, jobstartdato, jobslutdato, jo_bruttooms AS jo_bruttooms, jo_valuta, jo_valuta_kurs, "_
                                              &" jobans1, jobans2, jobans3, jobans4, jobans5, jobans_proc_1, jobans_proc_2, jobans_proc_3, jobans_proc_4, jobans_proc_5, "_ 
-                                             &" salgsans1, salgsans2, salgsans3, salgsans4, salgsans5, salgsans1_proc, salgsans2_proc, salgsans3_proc, salgsans4_proc, salgsans5_proc, f.labeldato, jobstatus "
+                                             &" salgsans1, salgsans2, salgsans3, salgsans4, salgsans5, salgsans1_proc, salgsans2_proc, salgsans3_proc, salgsans4_proc, salgsans5_proc, f.labeldato, jobstatus, serviceaft "
                                          
                                              strSQlmtimer_k = strSQlmtimer_k &" FROM medarbejdere "_
                                              &" LEFT JOIN job AS j ON (jobans1 = mid OR jobans2 = mid OR jobans3 = mid OR jobans4 = mid OR jobans5 = mid OR salgsans1 = mid OR salgsans2 = mid OR salgsans3 = mid OR salgsans4 = mid OR salgsans5 = mid) "_
                                              &" LEFT JOIN kunder AS k ON (k.kid = j.jobknr)"_
-                                             &" LEFT JOIN fakturaer f ON (f.jobid = j.id)"
+                                             &" LEFT JOIN fakturaer f ON (f.jobid = j.id OR (f.aftaleid = j.serviceaft AND j.serviceaft <> 0))"
                                          
                                              strSQlmtimer_k = strSQlmtimer_k &" WHERE "& jobansKrijobids &" GROUP BY mid, j.id ORDER BY mnavn"
 
@@ -3345,22 +3872,26 @@ case else
                                     
                                      case else
 
+                                        datoSQL = " AND t.tdato BETWEEN'"& strDatoStartKri &"' AND '"& strDatoEndKri &"'"
+
                                          '** Real. timer SEL MEDARB JOBANSVARLIG
                                          strSQlmtimer_k = "SELECT SUM(t.timer) AS sumtimer, SUM(t.timer*t.timepris*kurs/100) AS sumtimeOms, SUM(t.timer*t.kostpris*t.kpvaluta_kurs/100) AS sumtimeKost, "_
-                                         &" t.tknavn, t.tknr, t.tjobnavn, t.tjobnr, j.id AS jid, jobslutdato, k.kkundenr, jo_bruttooms, "_
+                                         &" t.tknavn, t.tknr, t.tjobnavn, t.tjobnr, j.id AS jid, jobslutdato, k.kkundenr, jo_bruttooms, j.budgettimer as budgettimer, jo_gnstpris, j.fastpris as fastpris, "_
                                          &" jobans1, jobans2, jobans3, jobans4, jobans5, jobans_proc_1, jobans_proc_2, jobans_proc_3, jobans_proc_4, jobans_proc_5, "_ 
                                          &" salgsans1, salgsans2, salgsans3, salgsans4, salgsans5, salgsans1_proc, salgsans2_proc, salgsans3_proc, salgsans4_proc, salgsans5_proc "_
                                          &" FROM timer AS t "_
                                          &" LEFT JOIN job AS j ON (j.jobnr = tjobnr) "_
                                          &" LEFT JOIN kunder AS k ON (k.kid = t.tknr) "_
-                                         &" WHERE tjobnr <> 0 "& jobansKrijobids &" AND ("& aty_sql_realhours &") GROUP BY tjobnr ORDER BY jobslutdato DESC, t.tknr, tjobnavn DESC LIMIT 30"
+                                         &" WHERE tjobnr <> '0' "& jobansKrijobids &" AND ("& aty_sql_realhours &") "& datoSQL &" GROUP BY tjobnr ORDER BY jobslutdato DESC, t.tknr, tjobnavn DESC LIMIT 30"
             
                               
                                     
                                      end select 
                                  
-                                  'response.write strSQlmtimer_k
-                                  'response.flush
+                                'if session("mid") = 1 then
+                                'response.write "HER " & strSQlmtimer_k
+                                'response.flush
+                                'end if
 
                                  
                                 lastMid = 0
@@ -3382,26 +3913,40 @@ case else
 
                                 'lastMmedarbSalgsOkostProc = 0
                                 medarbJobOkostProc = 0
-                                medarbSalgsOkostProc = 0 
+                                medarbSalgsOkostProc = 0
+                                fakbeloebGTthis = 0
+                                totDBclosedProc = 0
+
+                                GMbelob = 0
+                                antaljobs = 0
+
+                                'jobansInvTotlist = 0
+                                'salgsansInvTotlist = 0
+
+                                jobansInvTot = 0
+                                salgsansInvTot = 0
+                                sales_omkostningerIaltprJobClosedGTtjek_list = 0
 
                                  oRec.open strSQlmtimer_k, oConn, 3
                                  while not oRec.EOF 
 
                                     
+
+
+
                                     select case lto
                                     case "epi2017"
 
 
                                             
-                                           
                                             
-
-
-                                            strSQLjobansvInv = "SELECT IF(faktype = 0, COALESCE(sum(f.beloeb * (f.kurs/100)),0), COALESCE(sum(f.beloeb * -1 * (f.kurs/100)),0)) AS fakbeloeb FROM fakturaer f WHERE jobid = " & oRec("jid") &""
+                                            fakbeloeb = 0
+                                            'if cint(oRec("serviceaft")) = 0 then
+                                            strSQLjobansvInv = "SELECT IF(faktype = 0, COALESCE(sum(f.beloeb * (f.kurs/100)),0), COALESCE(sum(f.beloeb * -1 * (f.kurs/100)),0)) AS fakbeloeb FROM fakturaer f WHERE jobid = " & oRec("jid") &" AND shadowcopy = 0 "
 
                                             if anloops = 0 then
                                             strSQLjobansvInv = strSQLjobansvInv &" AND ((brugfakdatolabel = 0 AND f.fakdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"') "
-                                            strSQLjobansvInv = strSQLjobansvInv &" OR (brugfakdatolabel = 1 AND f.labeldato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"')) AND shadowcopy = 0"
+                                            strSQLjobansvInv = strSQLjobansvInv &" OR (brugfakdatolabel = 1 AND f.labeldato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"'))"
                                            
                                             '** Ændret Thomas Skj. 20180606
                                             'strSQLjobansvInv = strSQLjobansvInv &" AND ((brugfakdatolabel = 0 AND f.fakdato BETWEEN '"& year(strDatoStartKri) &"-01-01' AND '"& year(strDatoEndKri) &"-12-31') "
@@ -3417,10 +3962,8 @@ case else
                                             strSQLjobansvInv = strSQLjobansvInv  &" GROUP BY jobid, faktype"
                                             end if
                                             
-                                            'if cint(multipleMids) = 0 OR (cdbl(lastMid) <> cdbl(oRec("mid")) AND antalM > 0) then
-                                            fakbeloeb = 0
-                                            'end if
-
+                                         
+                                           
                                             'if session("mid") = 1 then
                                             'response.write "<br>"& strSQLjobansvInv
                                             'response.flush
@@ -3435,33 +3978,48 @@ case else
                                             wend
                                             oRec2.close 
 
+                                            'end if
+
 
                                             if anloops = 0 then
-                                            strSQLFakPer = strSQLFakPer &" AND ((brugfakdatolabel = 0 AND f.fakdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"') "
-                                            strSQLFakPer = strSQLFakPer &" OR (brugfakdatolabel = 1 AND f.labeldato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"')) AND shadowcopy = 0"
+                                            strSQLFakPer = " AND ((brugfakdatolabel = 0 AND f.fakdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"') "
+                                            strSQLFakPer = strSQLFakPer &" OR (brugfakdatolabel = 1 AND f.labeldato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"')) "
                                             else
-                                            strSQLFakPer = strSQLFakPer
+                                            strSQLFakPer = ""
                                             end if
 
 
                                              'if session("mid") = 1 then
                                             '** Medtager hvis job er faktureret som en del af en aftale
-                                            strSQLFakaftale = "SELECT IF(faktype = 0, COALESCE(sum(fd.aktpris * (fd.kurs/100)),0), COALESCE(sum(fd.aktpris * -1 * (fd.kurs/100)),0)) AS fakbeloeb FROM fakturaer f "_
-                                            &" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& oRec("jid") &") WHERE shadowcopy <> 1 "& strSQLFakPer &" GROUP BY fd.aktid, faktype"
-                                            '"& oRec4("jid") &"
+                                        
+                                            'if cint(oRec("serviceaft")) <> 0 then
+                                             
+                                                strSQLFakaftale = "SELECT IF(faktype = 0, COALESCE(sum(fd.aktpris * (fd.kurs/100)),0), COALESCE(sum(fd.aktpris * -1 * (fd.kurs/100)),0)) AS fakbeloeb FROM fakturaer f "_
+                                                &" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& oRec("jid") &") WHERE shadowcopy <> 1 "& strSQLFakPer &" GROUP BY fd.aktid, faktype"
+                                                '"& oRec4("jid") &"
 
-                                            'if session("mid") = 1 then
-                                            'Response.write strSQLFakaftale
-                                            'Response.flush
-                                            'end if
+                                                'if session("mid") = 1 then
+                                                'Response.write strSQLFakaftale
+                                                'Response.flush
+                                                'end if
 
-                                            oRec8.open strSQLFakaftale, oConn, 3
-                                            if not oRec8.EOF then
+                                       
+                                                oRec8.open strSQLFakaftale, oConn, 3
+                                                while not oRec8.EOF
 
-                                                fakbeloeb = fakbeloeb + oRec8("fakbeloeb") 
+                                                   fakbeloeb = fakbeloeb + oRec8("fakbeloeb") 
+                            
+                                                oRec8.movenext
+                                                wend
+                                                oRec8.close
+                                            
+                                    
+                                             'end if
+                                               
+                                                
 
-                                            end if
-                                            oRec8.close
+
+
                                             'end if
 
 
@@ -3487,6 +4045,8 @@ case else
                                             salgsansInv = 0
                                             salgsansProc = 0
                                             jobsansProc = 0
+
+                                            
                                             'end if
                                             
 
@@ -3509,7 +4069,12 @@ case else
 
                                                             strSQLjobansvInv = strSQLjobansvInv &" m.jobid = " & oRec("jid") & " GROUP BY m.jobid"
                            
-                                                    
+
+                                                            'if session("mid") = 1 then
+                                                            'Response.Write strSQLjobansvInv
+                                                            'Response.flush
+                                                            'end if
+
                                                             oRec2.open strSQLjobansvInv, oConn, 3
                                                             if not oRec2.EOF then
                                     
@@ -3517,6 +4082,7 @@ case else
                                                              
                                                              end if
                                                             oRec2.close 
+                                                            
 
 
                                         
@@ -3560,7 +4126,12 @@ case else
 
 
                                             
+                                            'jobansInv = 0
+                                            'jobansBgt = 0
+                                            'salgsansInv = 0
+                                            'salgsansBgt = 0
                                             
+                                        
                                             jobansInvMinusKost = 0
                                             salgsansInvMinusKost = 0
                                            
@@ -3569,6 +4140,11 @@ case else
                                     
                                             jobansvFundet = 0
                                             jobansvFundetFak = 0
+
+                                            'jobansInvClosedThis = 0
+                                            'jobansInvMinusKostClosedThis = 0
+                                            'salgsansInvClosedThis = 0
+                                            'salgsansInvMinusKostClosedThis = 0
                                             
                                             j = 1
                                             for j = 1 to 5
@@ -3578,6 +4154,7 @@ case else
                                                     if (cdbl(oRec("jobans"&j)) = cdbl(usemrn) AND cint(multipleMids) = 0) OR (cdbl(oRec("jobans"&j)) = cdbl(oRec("mid")) AND cint(multipleMids) = 1) then
                                                     jobansBgt = jobansBgt + (jo_bruttooms * (oRec("jobans_proc_"&j) / 100)) 'jo_bruttooms
                                                     jobansInv = jobansInv + ((fakbeloeb * oRec("jobans_proc_"&j)) / 100)
+                                                    'jobansInvClosedThis = ((fakbeloeb * oRec("jobans_proc_"&j)) / 100)
 
                                                     if (fakbeloeb) <> 0 AND oRec("jobstatus") = 0 AND cint(jobansvFundetFak) = 0 then
                                                     jobansInvMinusKost = jobansInvMinusKost/1 + (fakbeloeb * 1) '(oRec("jobans_proc_"& j) / 100))
@@ -3617,13 +4194,14 @@ case else
                                                     salgsansInvMinusKost = salgsansInvMinusKost
                                                     end if
 
-                                                    if (medarbSalgsOkost) <> 0 AND oRec("jobstatus") = 0 AND cint(salgsansvFundet) = 0 then
+                                                    if (fakbeloeb) <> 0 AND (medarbSalgsOkost) <> 0 AND oRec("jobstatus") = 0 AND cint(salgsansvFundet) = 0 then
                                                     medarbSalgsOkostProc = medarbSalgsOkostProc/1 + (medarbSalgsOkost * 1) '(oRec("salgsans"&j&"_proc") / 100)) 
+                                                    sales_omkostningerIaltprJobClosedGTtjek_list = sales_omkostningerIaltprJobClosedGTtjek_list*1 + (medarbSalgsOkost*1) 
                                                     salgsansvFundet = 1
                                                     else
                                                     medarbSalgsOkostProc = medarbSalgsOkostProc
                                                     end if
-
+                                   
                                                     salgsansProc = salgsansProc + oRec("salgsans"&j&"_proc")
                                                     
                                                     end if
@@ -3655,7 +4233,9 @@ case else
                                     case else
 
                                         fctimer = 0
-                                        strSQL_r = "SELECT COALESCE(SUM(timer), 0) AS fctimer FROM ressourcer_md AS r WHERE jobid = " & oRec("jid") 
+                                        fcpris = 0
+                                        datoSQL = " AND md BETWEEN "& month(strDatoStartKri) & " AND "& month(strDatoEndKri) & " AND aar = "& year(strDatoStartKri)
+                                        strSQL_r = "SELECT COALESCE(SUM(timer), 0) AS fctimer FROM ressourcer_md AS r WHERE jobid = " & oRec("jid") & datoSQL
                                    
                                      
                                         oRec2.open strSQL_r, oConn, 3
@@ -3680,8 +4260,56 @@ case else
                                         indicatorCol = "crimson"
                                         end if
 
+                                        'FC pris
+                                        if cdbl(fctimer) > 0 then
+                                            if cint(oRec("fastpris")) = 1 then
+                                                fcpris = fctimer * oRec("jo_gnstpris")
+                                            else
+                                                
+                                                strSQL = "SELECT medid, aktid, sum(timer) as sumtimer, brug_fasttp, fasttp FROM ressourcer_md LEFT JOIN aktiviteter a ON (aktid = a.id) WHERE jobid = "& oRec("jid") & datoSQL &" GROUP BY medid, aktid"
+                                                oRec2.open strSQL, oConn, 3
+                                                while not oRec2.EOF
+                                                    if cint(oRec2("brug_fasttp")) = 1 then
+                                                        fcpris = fcpris + (oRec2("sumtimer") * oRec2("fasttp"))
+                                                    else
+                                                        strSQLMTP = "SELECT 6timepris FROM timepriser WHERE aktid = "& oRec2("aktid") & " AND medarbid = "& oRec2("medid")
+                                                        'response.Write "<br> S " & strSQLMTP
+                                                        oRec3.open strSQLMTP, oConn, 3 
+                                                            if not oRec3.EOF then
+                                                                fcpris = fcpris + (oRec2("sumtimer") * oRec3("6timepris"))   
+                                                            else
+                                                                'Tag fra jobbet
+                                                                strSQLMTPJob = "SELECT 6timepris FROM timepriser WHERE jobid =" & oRec("jid")
+                                                                oRec4.open strSQLMTPJob, oConn, 3
+                                                                if not oRec4.EOF then
+                                                                    fcpris = fcpris + (oRec2("sumtimer") * oRec4("6timepris"))
+                                                                end if
+                                                                oRec4.close
+                                                            end if
+                                                        oRec3.close
+                                                    end if
+                                                oRec2.movenext
+                                                wend
+                                                oRec2.close
+
+                                            end if
+                                        end if
+
+
+                                        'Real timer pris
+                                        rlpris = 0
+                                        if cdbl(oRec("sumtimer")) > 0 then
+                                            strSQL = "SELECT timer, timepris FROM timer WHERE tjobnr = "& oRec("jid") & " AND tdato BETWEEN '"& strDatoStartKri &"' AND '"& strDatoEndKri &"'"
+                                            oRec2.open strSQL, oConn, 3
+                                            while not oRec2.EOF
+                                                rlpris = rlpris + (oRec2("timer") * oRec2("timepris"))
+                                            oRec2.movenext
+                                            wend
+                                            oRec2.close
+                                        end if
                                     end select
 
+                                    'response.Write "HEJHEJHEJHEJ " & fcpris 
                                     %>
 
                                 <tr>
@@ -3695,7 +4323,8 @@ case else
 
                                             if cint(multipleMids) = 0 then 
 
-                                            if oRec("jobstatus") = 0 AND fakbeloeb = 0 AND anloops = 0 then 'Vis ikke lukkedejob uden fakturering - Vis alle på CLOSED joblsiten
+                                            if oRec("jobstatus") = 0 AND fakbeloeb = 0 AND anloops = 0 then  'GÆLDER både på Åbne og lukke joblisten 20181220 'Vis ikke lukkedejob uden fakturering - Vis alle på CLOSED joblsiten
+                                            'if fakbeloeb = 0 then
                                             dontshowemptyJob = 1
                                             else
                                             dontshowemptyJob = 0
@@ -3709,10 +4338,10 @@ case else
                                             toBeInvoicedGT = (toBeInvoicedGT + (toBeInvoiced)) 
 
 
-                                            if cint(dontshowemptyJob) <> 1 then
+                                        if cint(dontshowemptyJob) <> 1 then
 
                                         %>
-                                            <td><%=oRec("kkundenavn") %> (<%=oRec("kkundenr") %>)</td>
+                                            <td><%=oRec("kkundenavn") %> (<%=oRec("kkundenr") %>) </td>
                                             <td><%=oRec("jobnavn") %> (<%=oRec("jobnr") %>)
                                                 <%if cint(oRec("jobstatus")) = 0 then %>
                                                 <span style="font-size:9px; color:red;">Closed</span>
@@ -3728,47 +4357,91 @@ case else
                                         <%end if %>
 
 
-                                             
-                                        
-                                              <td style="text-align:right;"><%=formatnumber(fakbeloeb, 2) &" "& basisValISO_f8%>
+                                            <td style="text-align:right;"> 
 
-                                              <%if isDate(oRec("labeldato")) = true then %>
-                                              <br />
-                                              <span style="font-size:9px;"><%=formatdatetime(oRec("labeldato"), 2) %></span>
-                                              <%end if %>
-                                             </td>
+                                            <%if cdbl(fakbeloeb) <> 0 then %>
+                                            <%=formatnumber(fakbeloeb, 2) &" "& basisValISO_f8%>
+
+                                                  <%if isDate(oRec("labeldato")) = true then %>
+                                                  <br />
+                                                  <span style="font-size:9px;"><%=formatdatetime(oRec("labeldato"), 2) %></span>
+                                                  <%end if %>
+
+                                            <%else %>
+                                            &nbsp;
+                                            <%end if %>
+                                            
+                                            </td>
+
+
 
                                           <td style="text-align:right;">
                                               <%'if anloops = 0 then %>
                                               <%'formatnumber(matforbrugsumPrJob(oRec("jid")), 2) &" "& basisValISO_f8%>
                                               <%'else %>
+                                              <%if cdbl(medarbSalgsOkost) <> 0 then %>
                                               <%=formatnumber(medarbSalgsOkost, 2) &" "& basisValISO_f8%>
+
+                                              <!--
+                                              <br /><%=sales_omkostningerIaltprJobClosedGTtjek_list %>
+                                              <br />fakbeloeb: <%=fakbeloeb %>-->
+                                              <%else %>
+                                              &nbsp;
+                                              <%end if %>
+
                                               <%'end if %>
                                           </td>    
 
 
-                                            <%if anloops > 0 then %>
+                                            <%
+                                            
+                                            GMbelob = 0
+                                            totDBclosedProc = 0    
+                                            if anloops > 0 then %>
                                                 <td style="text-align:right;">
                                                   <%if cdbl(fakbeloeb) <> 0 then
                                                   
-                                                      totDBclosedProc = ((fakbeloeb*1-medarbSalgsOkost*1)/fakbeloeb*1)*100%>
+                                                      totDBclosedProc = ((fakbeloeb*1-medarbSalgsOkost*1)/fakbeloeb*1)*100
+                                                      
+                                                      GMbelob = ((fakbeloeb*1)-(medarbSalgsOkost*1))
+                                                      GMbelobTot = GMbelobTot/1 + GMbelob/1 
+                                                      %>
 
+
+                                                      <%=formatnumber(GMbelob, 2) & " "& basisValISO_f8%> <br />
                                                       <%=formatnumber(totDBclosedProc, 0) & "%"%>
-                                                       <br />
-                                                      <%=formatnumber(fakbeloeb-medarbSalgsOkost, 2) & " "& basisValISO_f8%>
-                                             
+                                                      
+                                                     
+                                                 <%else %>
+                                                   &nbsp;
                                                   <%end if%>
                                                 </td>
+
                                               <%end if %>
 
-                                          <td style="text-align:right; white-space:nowrap;"><%=formatnumber(jobsansProc, 0)%>% <br /> <%=formatnumber((jobansInv/1), 2) &" "& basisValISO_f8 %></td>
-                                          <td style="text-align:right; white-space:nowrap;"><%=formatnumber(salgsansProc, 0)%>% <br /> <%=formatnumber((salgsansInv/1), 2) &" "& basisValISO_f8 %></td>
 
-                                          <!--<td class="text-right; white-space:nowrap;"><%=formatnumber(jobsalgsansBgtTot, 2) & " "& basisValISO_f8%></td>-->
+                                          <td style="text-align:right; white-space:nowrap;">
+                                              <%if cdbl(jobansInv) <> 0 OR cdbl(jobsansProc) <> 0 then %>
+                                              <%=formatnumber((jobansInv/1), 2) &" "& basisValISO_f8 %><br /><%=formatnumber(jobsansProc, 0)%>% 
+                                              <%
+                                              'jobansInvTotlist = jobansInvTotlist + (jobansInv*1)    
+                                              else %>
+                                              &nbsp;
+                                              <%end if %>
+                                          </td>
+                                          <td style="text-align:right; white-space:nowrap;">
+                                              
+                                              <%if cdbl(salgsansInv) <> 0 OR cdbl(salgsansProc) <> 0 then %>
+                                              <%=formatnumber((salgsansInv/1), 2) &" "& basisValISO_f8 %><br /><%=formatnumber(salgsansProc, 0)%>%
+                                              <%
+                                              'salgsansInvTotlist = salgsansInvTotlist + (salgsansInv*1)
+                                              else %>
+                                              &nbsp;
+                                              <%end if %>
 
-                                           
-                                      
-                                          <!--<td class="text-right;"><%=formatnumber(toBeInvoiced, 2) &" "& basisValISO_f8 %></td>-->
+                                          </td>
+
+                                       
                                     
                                         <%
 
@@ -3779,31 +4452,34 @@ case else
                                             if anloops = 0 then 
                                             strEksport = strEksport & formatnumber(jo_bruttooms, 2) &";"
                                             else
-                                            strEksport = strEksport & formatnumber(fakbeloeb-medarbSalgsOkost, 2) &";"& formatnumber(totDBclosedProc, 0) & ";"
+                                            strEksport = strEksport & formatnumber(GMbelob, 2) &";"& formatnumber(totDBclosedProc, 0) & ";"
                                             end if
                                             
                                             strEksport = strEksport & formatnumber(fakbeloeb, 2) &";"
 
                                             if isDate(oRec("labeldato")) = true then 
-                                            strEksport = strEksport &";"& formatdatetime(oRec("labeldato"), 2)  
+                                            strEksport = strEksport & formatdatetime(oRec("labeldato"), 2) &";"
                                             else
                                             strEksport = strEksport &";"
                                             end if
                                             
                                             if anloops = 0 then
-                                            strEksport = strEksport &";"& formatnumber(matforbrugsumPrJob(oRec("jid")), 2) 
+                                            strEksport = strEksport & formatnumber(medarbSalgsOkost, 2) &";" 'formatnumber(matforbrugsumPrJob(oRec("jid")), 2) 
                                             else
-                                            strEksport = strEksport &";"& formatnumber(medarbSalgsOkost, 2)
+                                            strEksport = strEksport & formatnumber(medarbSalgsOkost, 2) &";"
                                             end if
 
-                                            strEksport = strEksport &";"& formatnumber(jobsansProc, 0) &";"& formatnumber((jobansInv/1), 2) &";"& formatnumber(salgsansProc, 0) &";"& formatnumber((salgsansInv/1), 2) & "xx99123sy#z"
+                                            strEksport = strEksport & formatnumber(jobsansProc, 0) &";"& formatnumber((jobansInv/1), 2) &";"& formatnumber(salgsansProc, 0) &";"& formatnumber((salgsansInv/1), 2) &";xx99123sy#z"
+                                            '& formatnumber(jobansInv/1, 2) &";"& formatnumber(salgsansInvClosedThis/1, 2) &";"& formatnumber(jobansInvMinusKostClosedThis,2) &";"& formatnumber(salgsansInvMinusKostClosedThis, 2)&";xx99123sy#z"
                                             
-                                            
-                                            'strEksport = strEksport &";"& formatnumber(toBeInvoiced, 2) & "xx99123sy#z"
-
-                                            jobansInvTot = jobansInvTot/1 + jobansInv/1
-                                            salgsansInvTot = salgsansInvTot/1 + salgsansInv/1
-                                            matforbrugsumTot = matforbrugsumTot + matforbrugsumPrJob(oRec("jid"))
+                                                'strEksport = strEksport &";"& formatnumber(toBeInvoiced, 2) & "xx99123sy#z"
+                                                'if cint(dontshowemptyJob) <> 1 then
+                                                
+                                                jobansInvTot = jobansInvTot/1 + jobansInv/1
+                                                salgsansInvTot = salgsansInvTot/1 + salgsansInv/1
+                                                
+                                                matforbrugsumTot = matforbrugsumTot + medarbSalgsOkost 'matforbrugsumPrJob(oRec("jid"))
+                                                'end if
 
                                             end if 'dontshowemptyJob
 
@@ -3822,25 +4498,135 @@ case else
                                         end if
 
 
+
+
+
+
                                          
 
                                          
                                       case else   
                                       %>
-                                         <td><%=oRec("tknavn") %> (<%=oRec("kkundenr") %>)</td>
-                                        <td><%=oRec("tjobnavn") %> (<%=oRec("tjobnr") %>)</td>
+                                        <td><%=oRec("tknavn") %> (<%=oRec("kkundenr") %>)</td>
+                                        <td> <a href="medarbdashboard.asp?FM_sog=<%=oRec("tjobnr") %>"><%=oRec("tjobnavn") %> (<%=oRec("tjobnr") %>)</a></td>
                                         <td><%=oRec("jobslutdato") %></td>
-                                        <td style="text-align:right;"><%=formatnumber(fctimer, 2) %></td>
-                                        <td style="text-align:right;"><%=formatnumber(oRec("sumtimer"), 2) %></td>
-                                        <td style="text-align:right;"><%=formatnumber(oRec("sumtimeOms"), 2) %></td>
+
+                                        <%if lto = "sducei" then %>
+                                        <td style="text-align:right;">
+                                            <%
+                                                buddgetPris = oRec("jo_gnstpris") * oRec("budgettimer")
+                                            %>
+                                            <%=formatnumber(oRec("budgettimer"), 2) %> <span style="font-size:9px;"><%=dsb_txt_077 %></span>
+                                            <br />
+                                            <%=formatnumber(buddgetPris, 2) %> <span style="font-size:9px;"><%=dsb_txt_095 %></span>
+                                        </td>
+                                        <%end if %>
+                                        
+
+                                        <td style="text-align:right;">
+                                            <%=formatnumber(fctimer, 2) %> <span style="font-size:9px;"><%=dsb_txt_077 %></span>
+                                            <br />
+                                            <%=formatnumber(fcpris, 2) %> <span style="font-size:9px;"><%=dsb_txt_095 %></span> 
+                                        </td>
+
+                                        <td style="text-align:right;">
+                                            <%=formatnumber(oRec("sumtimer"), 2) %> <span style="font-size:9px;"><%=dsb_txt_077 %></span>
+                                            <br />
+                                            <%=formatnumber(rlpris, 2) %> <span style="font-size:9px;"><%=dsb_txt_095 %></span>
+                                        </td>
+
+                                        <%if lto <> "ddc" AND lto <> "sducei" then %>
+                                        <td style="text-align:right;"><%=formatnumber(oRec("sumtimeOms"), 2) %> </td>
+                                        <%end if %>
+
+
+                                        <%if lto = "ddc" OR lto = "care" OR lto = "sducei" then %>
+                                              
+                                            
+                                            <%
+                                            if lto = "sducei" then
+                                                restbudget = oRec("budgettimer") - oRec("sumtimer")
+                                                if restbudget > 0 OR restbudget = 0 then
+                                                    restbudgetColor = "yellowgreen"
+                                                 else
+                                                    restbudgetColor = "crimson"
+                                                end if
+
+                                                restbudgetpris = buddgetPris - rlpris
+                                                if restbudgetpris > 0 OR restbudgetpris = 0 then
+                                                    restbudgetprisColor = "yellowgreen"
+                                                 else
+                                                    restbudgetprisColor = "crimson"
+                                                end if
+                                            %>
+                                            <td style="text-align:right;">
+                                                <span style="color:<%=restbudgetColor%>;"><%=formatnumber(restbudget,2 ) %></span>
+                                                <br />
+                                                <span style="color:<%=restbudgetprisColor%>;"><%=formatnumber(restbudgetpris, 2) %></span>
+                                            </td>
+                                            <%end if %>
+
+
+                                            <% restIper = fctimer - oRec("sumtimer")
+                                              if restIper > 0 OR restIper = 0 then
+                                                restColor = "yellowgreen"
+                                              else
+                                                restColor = "crimson"
+                                              end if
+
+                                            fcrestpris = fcpris - rlpris
+                                            if fcrestpris > 0 OR restIper = 0 then
+                                            fcrestprisColor = "yellowgreen"
+                                            else
+                                            fcrestprisColor = "crimson"
+                                            end if
+                                        %>
+                                        <td style="text-align:right;">
+                                            <span style="color:<%=restColor%>;"><%=formatnumber(restIper, 2) %></span>
+                                            <br />
+                                            <span style="color:<%=fcrestprisColor%>;"><%=formatnumber(fcrestpris, 2) %></span>
+                                        </td>
+
+
+                                        <%
+                                        totRes = 0
+                                        strSQL_rtot = "SELECT COALESCE(SUM(timer), 0) AS fctimer FROM ressourcer_md AS r WHERE jobid = " & oRec("jid")
+                                        oRec2.open strSQL_rtot, oconn, 3
+                                        if not oRec2.EOF then
+                                            totRes = oRec2("fctimer")
+                                        end if
+                                        oRec2.close
+
+                                        totalTimer = 0
+                                        totTim = "SELECT SUM(timer) AS sumtimer FROM timer WHERE tjobnr = '"& oRec("tjobnr") &"'"
+                                        oRec2.open totTim, oConn, 3
+                                        if not oRec2.EOF then
+                                            totalTimer = oRec2("sumtimer")
+                                        end if
+                                        oRec2.close
+
+                                        restIalt = totRes - totalTimer 
+                                        if restIalt > 0 OR restIalt = 0 then
+                                            restIaltColor = "yellowgreen"
+                                        else
+                                            restIaltColor = "crimson"
+                                        end if
+                                        %>
+
+                                            <%if lto <> "sducei" then %>
+                                            <td style="text-align:right;"><span style="color:<%=restIaltColor%>;"><%=restIalt %></span></td>
+                                            <%end if %>
+
+                                        <%end if %>
+
                                     <%end select %>
 
-                                   
-                                    <%if cint(multipleMids) = 0  AND cint(dontshowemptyJob) <> 1 then %>
+                                   <%if lto <> "sducei" then %>
+                                        <%if cint(multipleMids) = 0 AND cint(dontshowemptyJob) <> 1 then %>
                                     
-                                    <td><div style="background-color:<%=indicatorCol%>; width:10px; height:10px;">&nbsp;</div></td>
+                                        <td><div style="background-color:<%=indicatorCol%>; width:10px; height:10px;">&nbsp;</div></td>
+                                        <%end if %>
                                     <%end if %>
-
                                   
                                    
                                 </tr>
@@ -3889,7 +4675,8 @@ case else
                                 antalM = antalM + 1 
                                 end if
                                  
-                                    
+                                   antaljobs = antaljobs + 1 
+
                                  oRec.movenext
                                  wend
                                  oRec.close
@@ -3912,32 +4699,54 @@ case else
                                                 <%if cint(multipleMids) = 0 then %>
 
                                                 <%if anloops = 0 then %>
-                                                <td colspan="4">&nbsp;</td>
+                                                <td colspan="4">Job: <%=antaljobs%></td>
                                                 <%else %>
-                                                <td colspan="3">&nbsp;</td>
+                                                <td colspan="3">Job: <%=antaljobs%></td>
                                                 <%end if %>
                                                 <!--<td style="white-space:nowrap;"><%=formatnumber(jobsalgsansBgtTotGT, 2) &" "& basisValISO_f8 %></td>-->
 
                                                   
                                                  <!--<td>&nbsp;</td>-->
 
-                                                <td style="white-space:nowrap; text-align:right;"><%=formatnumber(fakbeloebGT, 2) &" "& basisValISO_f8 %></td>
-                                                <td style="white-space:nowrap; text-align:right;"><%=formatnumber(matforbrugsumTot, 2) &" "& basisValISO_f8 %></td> 
+                                                <td style="white-space:nowrap; text-align:right;"><%=formatnumber(fakbeloebGT, 2) &" "& basisValISO_f8 %> 
+
+                                                    <br /><br /><span style="font-size:11px;">On Job resp. only:<br /><%=formatnumber(jobansInvAllClosed, 2)  &" "& basisValISO_f8%></span>
+                                                    <br /><span style="font-size:11px;">On Sales resp. only:<br /><%=formatnumber(salgsansInvAllClosed, 2) &" "& basisValISO_f8 %></span>
+
+                                                </td>
+                                                <td style="white-space:nowrap; text-align:right;"><%=formatnumber(matforbrugsumTot, 2) &" "& basisValISO_f8 %>
+                                                   <br /><br /><span style="font-size:11px;">On Job resp. only:<br /><%=formatnumber(job_omkostningerIaltprJobClosedGTtjek, 2)  &" "& basisValISO_f8%></span>
+                                                    <br />
+                                                    <span style="font-size:11px;">On Sales resp. only:<br /><%=formatnumber(sales_omkostningerIaltprJobClosedGTtjek,2) &" "& basisValISO_f8 %></span>
+                                                     
+                                                    <%if level = 1 then 
+                                                        
+                                                       if formatnumber(sales_omkostningerIaltprJobClosedGTtjek,2) <> formatnumber(sales_omkostningerIaltprJobClosedGTtjek_list,2) then %>
+                                                    <br />
+                                                    <span style="font-size:11px; color:red;">On Sales resp. only (check):<br /><%=formatnumber(sales_omkostningerIaltprJobClosedGTtjek_list,2) &" "& basisValISO_f8 %>!!</span>
+                                                    <%end if %>
+                                                    <%end if %>
+                                                </td> 
 
 
                                                  <%if anloops > 0 then %>
-                                                <td>&nbsp;</td>
+                                                <td style="white-space:nowrap; text-align:right;"><%=formatnumber(GMbelobTot, 2) &" "& basisValISO_f8 %>
+
+                                                    <br /><br /><span style="font-size:11px;">On Job resp. only:<br /><%=formatnumber(jobansInvClosedMinusKost, 2)  &" "& basisValISO_f8%></span>
+                                                    <br /><span style="font-size:11px;">On Sales resp. only:<br /><%=formatnumber(salgsansInvClosedMinusKost, 2) &" "& basisValISO_f8 %></span>
+                                                   
+                                                </td>
                                                 <%end if%>
 
 
                                                  <td style="white-space:nowrap; text-align:right;">
                                                      <%=formatnumber(jobansInvTot, 2) &" "& basisValISO_f8 %>
-                                                     <!--<br />(<%=formatnumber(jobansInvTot, 2) &" "& basisValISO_f8 %>)-->
+                                                     <!--<br /><span style="font-size:75%;">(<%=formatnumber(jobansInvTotlist, 2) &" "& basisValISO_f8 %>)</span>-->
                                                  </td>
                                                  <!--<td>&nbsp;</td>-->
                                                  <td style="white-space:nowrap; text-align:right;">
                                                      <%=formatnumber(salgsansInvTot, 2) &" "& basisValISO_f8 %>
-                                                     <!--<br />(<%=formatnumber(salgsansInvTot, 2) &" "& basisValISO_f8 %>)-->
+                                                     <!--<br /><span style="font-size:75%;">(<%=formatnumber(salgsansInvTotlist, 2) &" "& basisValISO_f8 %>)</span>-->
 
                                                  </td>
                                                 <td>&nbsp;</td>
@@ -4002,7 +4811,8 @@ case else
 
            
 
-
+          
+         
                                   
 
             <%select case lto
@@ -4120,12 +4930,12 @@ case else
                      <table class="table table-stribed">
                             <thead>
                                 <tr>
-                                    <th style="width: 25%">Kunder (kundenr)</th>
-                                    <th style="width: 25%">Job</th>
-                                    <th style="width: 10%">Lev. dato</th>
-                                    <th style="width: 10%">Forecast</th>
-                                    <th style="width: 10%">Realiseret</th>
-                                    <th style="width: 10%">Omsætning</th>
+                                    <th style="width: 25%"><%=dsb_txt_090 %></th>
+                                    <th style="width: 25%"><%=dsb_txt_096 %></th>
+                                    <th style="width: 10%"><%=dsb_txt_088 %></th>
+                                    <th style="width: 10%"><%=dsb_txt_070 %></th>
+                                    <th style="width: 10%"><%=dsb_txt_071 %></th>
+                                    <th style="width: 10%"><%=dsb_txt_092 %></th>
                                     <th style="width: 10%"><!--Indikator--></th>
 
 
@@ -4232,4 +5042,7 @@ case else
 
 
 <%end select 'func %>
+
+<script src="canvasjs/canvasjs.min.js"></script>
+
 <!--#include file="../inc/regular/footer_inc.asp"-->

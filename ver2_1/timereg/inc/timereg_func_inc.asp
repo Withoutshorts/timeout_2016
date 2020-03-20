@@ -175,7 +175,11 @@ diff = dateDiff("d", lastfakdato, varTjDatoUS_start)
 'Response.write "diff: " & diff &"  last fak dato:"& datepart("ww", lastfakdato) &"  Den aktuelle uge: "& strWeek &"<br>"
 if len(lastfakdato) <> 0 AND diff <= 0 then
 		'** Hvis fakuge > den valgte uge ***
-		if datepart("ww", lastfakdato, 2, 2) > strWeek then
+          call thisWeekNo53_fn(lastfakdato)
+            thisWeekNo53_lastfakdato = thisWeekNo53
+
+		if thisWeekNo53_lastfakdato > strWeek then
+
 			fakbgcol_son = "limegreen"
 			fakbgcol_man = "limegreen"	
 			fakbgcol_tir = "limegreen"	

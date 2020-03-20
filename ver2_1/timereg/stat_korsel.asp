@@ -171,7 +171,7 @@ if len(session("user")) = 0 then
 			
 			
 			
-			strSQL = "SELECT mnavn, mid, mnr FROM medarbejdere m WHERE m.mid <> 0 AND mansat <> 2 AND mansat <> 3 AND "& medarbSQLkri &" ORDER BY mnavn"
+			strSQL = "SELECT mnavn, mid, mnr FROM medarbejdere m WHERE m.mid <> 0 AND mansat <> 2 AND mansat <> 3 AND mansat <> 4 AND "& medarbSQLkri &" ORDER BY mnavn"
 			'Response.write strSQL
 			'Response.flush
 			oRec.open strSQL, oConn, 3 
@@ -395,12 +395,13 @@ if len(session("user")) = 0 then
           <%
         '** er periode godkendt ***'
 		        tjkDag = oRec("Tdato")
-		        erugeafsluttet = instr(afslUgerMedab(oRec("tmnr")), "#"&datepart("ww", tjkDag,2,2)&"_"& datepart("yyyy", tjkDag) &"#")
+                call thisWeekNo53_fn(tjkDag)
+		        erugeafsluttet = instr(afslUgerMedab(oRec("tmnr")), "#"&thisWeekNo53&"_"& datepart("yyyy", tjkDag) &"#")
                 
 
                 strMrd_sm = datepart("m", tjkDag, 2, 2)
                 strAar_sm = datepart("yyyy", tjkDag, 2, 2)
-                strWeek = datepart("ww", tjkDag, 2, 2)
+                strWeek = thisWeekNo53 'datepart("ww", tjkDag, 2, 2)
                 strAar = datepart("yyyy", tjkDag, 2, 2)
 
                 if cint(SmiWeekOrMonth) = 0 then
@@ -412,7 +413,7 @@ if len(session("user")) = 0 then
                 end if
 
                 
-                call erugeAfslutte(useYear, usePeriod, oRec("tmnr"), SmiWeekOrMonth, 0)
+                call erugeAfslutte(useYear, usePeriod, oRec("tmnr"), SmiWeekOrMonth, 0, tjkDag)
 		        
 		        'Response.Write "smilaktiv: "& smilaktiv & "<br>"
 		        'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &"<br>"
@@ -428,24 +429,12 @@ if len(session("user")) = 0 then
 						end if
 						oRec2.close
 
-                 call lonKorsel_lukketPer(tjkDag, risiko)
+                 call lonKorsel_lukketPer(tjkDag, risiko, oRec("tmnr"))
               
-		         
-                'if ( ( datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0) OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 ) AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
-                ' (smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) = year(now) AND DatePart("m", tjkDag) < month(now)) OR _
-                '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) < year(now) AND DatePart("m", tjkDag) = 12)) OR _
-                '(smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", tjkDag) < year(now) AND DatePart("m", tjkDag) <> 12) OR _
-                '(smilaktiv = 1 AND autolukvdato = 1 AND (year(now) - DatePart("yyyy", tjkDag) > 1))) OR cint(lonKorsel_lukketIO) = 1 then
-                
-                'ugeerAfsl_og_autogk_smil = 1
-                'else
-                
-                'ugeerAfsl_og_autogk_smil = 0
-                'end if 
-                
+		       
 
                 '*** tjekker om uge er afsluttet / lukket / lønkørsel
-                call tjkClosedPeriodCriteria(tjkDag, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO)
+                call tjkClosedPeriodCriteria(tjkDag, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO, ugegodkendt)
 
 
                 if oRec("godkendtstatus") = 1 OR oRec("godkendtstatus") = 3 OR oRec("overfort") = 1 then '3: tentative

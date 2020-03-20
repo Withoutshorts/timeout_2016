@@ -30,13 +30,41 @@
 
 
 
-        'meMTxt.Text = "HENT DATA"
 
-        'Response.Write("<br>No (INIT): " + Request("no"))
+
         minit = Request("no")
 
         If (minit <> "") Then
-            Call hentData(minit)
+
+            If (minit = "all") Then 'Masse opdatering
+
+                Dim strConn As String = "Driver={MySQL ODBC 3.51 Driver};Server=194.150.108.154;Database=timeout_tia;User=to_outzource2;Password=SKba200473;"
+
+                Dim objConn As OdbcConnection
+                objConn = New OdbcConnection(strConn)
+                objConn.Open()
+
+                'Dim objCmd As OdbcCommand
+                Dim objCmd As OdbcCommand
+                Dim objDR2 As OdbcDataReader
+
+
+                Dim strSQLmedinits As String = "SELECT init FROM medarbejdere WHERE mansat = 1 ORDER BY mid LIMIT 0,300"
+                objCmd = New OdbcCommand(strSQLmedinits, objConn)
+                objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                While objDR2.Read() = True
+
+                    Call hentData(objDR2("init"))
+
+                End While
+                objDR2.Close()
+
+            Else
+                Call hentData(minit)
+            End If
+
+
         End If
 
 

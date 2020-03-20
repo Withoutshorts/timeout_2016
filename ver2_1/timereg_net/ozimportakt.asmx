@@ -239,7 +239,7 @@ Public Class oz_importakt
         End If
 
 
-        If (lto = "oko") Then
+        If (lto = "oko" Or lto = "xcflow") Then
 
             '*** Sletter 0 posteringer og gamle imports der allerede er overfør fra akt_import_temp **'
             Dim strSQLsltakttemp As String = "DELETE FROM akt_import_temp WHERE (overfort = 0 AND aktsum = 0) OR overfort = 1"
@@ -249,14 +249,16 @@ Public Class oz_importakt
         End If
 
 
+
+
         Dim strAktFields As String = ""
-        If (lto = "tia") Then
+        If (lto = "tia" Or lto = "cflow") Then
 
             strAktFields = ", aktstatus"
 
         End If
 
-        If (lto = "oko") Then
+        If (lto = "oko" Or lto = "cflow") Then
 
             strAktFields = ", aktstdato"
 
@@ -292,7 +294,7 @@ Public Class oz_importakt
 
             aktnr = objDR("aktnr")
 
-            If (importtype <> "t2") Then
+            If (importtype <> "t2" And importtype <> "cflow_prima") Then
 
                 akttimer = objDR("akttimer")
                 akttimer = Replace(akttimer, ",", ".")
@@ -342,6 +344,14 @@ Public Class oz_importakt
             End If
 
 
+            If (importtype = "cflow_prima") Then
+                aktstatus = 1 'objDR("aktstatus")
+                jobNr = jobNr.Replace("-", "")
+                aktnr = aktnr.Replace("-", "")
+                avarenr = aktnr
+                aktnr = Right(aktnr, 4) 'aktnr.Substring()
+
+            End If
 
 
             '**** Henter JobID OG Tjekker om jobnr findes '****
@@ -378,14 +388,21 @@ Public Class oz_importakt
             End If
 
 
+
+
+
+
+            '***************************************************************************************************
             '**** Henter kontonr og ID frakontoplan'****
+            '***************************************************************************************************
             If Len(Trim(aktkonto)) <> 0 Then
                 aktkonto = aktkonto
             Else
                 aktkonto = 0
             End If
 
-            If (importtype <> "t2") And lto <> "tia" Then
+
+            If (importtype <> "t2") And lto <> "tia" And importtype <> "cflow_prima" Then
 
                 'objConn2 = New OdbcConnection(strConn)
                 'objConn2.Open()
@@ -407,7 +424,7 @@ Public Class oz_importakt
                 End If
 
 
-
+                '** END kontonr
 
 
 
@@ -471,6 +488,13 @@ Public Class oz_importakt
             '********************************************************************************************
 
 
+            '*** TEST
+            'If lto = "cflow" Then
+            'Dim strSQLjobToverfort2 As String = "INSERT INTO akt_import_temp (overfort, aktnavn) VALUES (14-" & errThis & ", '" & aktnavn & "')"
+            'objCmd2 = New OdbcCommand(strSQLjobToverfort2, objConn2)
+            'objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
+            'End If
+
 
             If CInt(errThis) = 0 Then
 
@@ -483,13 +507,16 @@ Public Class oz_importakt
 
 
                 '*** Linjetype: Budget / Posting
-                If ((Trim(akttype) = "Budget" And lto = "oko") Or (importtype = "t2" And Trim(akttype) = "Posting") Or (lto = "tia" And Trim(akttype) = "Posting")) Then
+                If ((Trim(akttype) = "Budget" And lto = "oko") Or (importtype = "t2" And Trim(akttype) = "Posting") Or (lto = "tia" And Trim(akttype) = "Posting") Or (importtype = "cflow_prima")) Then
+
+
+
 
 
 
 
                     'Akt / Omkostning Konto 101 > 199 skal indlæses som akt. / omkostning, eller salgsomkostninger BUDGETTERET job_ulev: OKO
-                    If (((CInt(aktkonto) >= 101 And CInt(aktkonto) <= 199) And lto = "oko") Or (importtype = "t2" Or lto = "tia")) Then
+                    If (((CInt(aktkonto) >= 101 And CInt(aktkonto) <= 199) And lto = "oko") Or (importtype = "t2" Or lto = "tia") Or (importtype = "cflow_prima")) Then
                         'Dim acc As Integer = 100
                         'If CInt(acc) = 100 Then
 
@@ -497,7 +524,7 @@ Public Class oz_importakt
                         findesAkt = 0
 
                         '** Løn kat BUDGET Opdater / Insert ***'
-                        If lto = "oko" Then
+                        If lto = "oko" Then 'jobNr
                             findesAkt = 0
                         Else
 
@@ -549,7 +576,6 @@ Public Class oz_importakt
 
 
 
-
                         If aktnr <> "0" Then 'Posterings lbn. 
 
 
@@ -563,6 +589,7 @@ Public Class oz_importakt
 
 
 
+                                'SPeCIAL opretter 2 aktiviter INCL tilhørende NAV 90 type
                                 If importtype = "t2" Or lto = "tia" Then
 
 
@@ -638,6 +665,25 @@ Public Class oz_importakt
 
                                     End If 'lto
 
+                                    If importtype = "cflow_prima" Then 'ALTID INSERT
+
+                                        Dim strSQLaktins As String = ("INSERT INTO aktiviteter (editor, dato, navn, aktnr, job, fakturerbar, " _
+                                        & "projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, projektgruppe5, projektgruppe6, projektgruppe7," _
+                                        & "projektgruppe8, projektgruppe9, projektgruppe10, aktstatus, budgettimer, aktbudget, aktbudgetsum, aktstartdato, aktslutdato, aktkonto, fase, extsysid, avarenr) VALUES " _
+                                        & " ('TO_import-primavera','" & Now.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', '" & aktnavn & "', " & aktnr & "," & jobId & ", 1," _
+                                        & " 10,1,1,1,1,1,1,1,1,1,1," & akttimer & ", " & akttpris & ", " & aktsum & ",'" & jobstartdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "'" _
+                                        & ",'" & jobslutdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " & kontoId & ", '', " & varLobenr & ", '" & avarenr & "')")
+
+                                        'Return strSQLaktins
+
+                                        objCmd2 = New OdbcCommand(strSQLaktins, objConn2)
+                                        objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
+
+                                        'objDR2.Close()
+                                        'objConn2.Close()
+
+                                    End If 'lto
+
 
 
                                 End If '20170808 'importtype = "t2" Or lto = "tia"
@@ -664,7 +710,17 @@ Public Class oz_importakt
 
                                 End If
 
+                                If (importtype = "cflow_prima") And aktnavn <> "" Then
+                                    '*** TIA: fakturerber kan ikke ændrees da de er fordelt på faser mm, der manuelt er ændret i TO.
 
+                                    Dim strSQLaktupd As String = ("UPDATE aktiviteter SET editor = 'TO_import-primavera', dato = '" & Now.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " _
+                                    & " navn = '" & aktnavn & "'" _
+                                    & " WHERE avarenr = '" & avarenr & "' AND job = " & jobId)
+
+                                    objCmd = New OdbcCommand(strSQLaktupd, objConn2)
+                                    objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                                End If
 
 
                             End If 'findesAkt
@@ -698,8 +754,8 @@ Public Class oz_importakt
                             If aktnr <> "0" Then '** posterings lbn nummer fra NAV
 
 
-                                Dim strSQLsalgsomkins As String = ("INSERT INTO job_ulev_ju (ju_navn, ju_ipris, ju_faktor, ju_belob, ju_jobid, ju_favorit, ju_fase, ju_stk, ju_stkpris, ju_fravalgt, extsysid, ju_konto) VALUES " _
-                                & " ('" & aktnavn & "', " & akttpris & ", 1, " & aktsum & ", " & jobId & ", 0,'', " & akttimer & ", " & akttpris & ", 0, " & varLobenr & ", " & kontoId & ")")
+                                Dim strSQLsalgsomkins As String = ("INSERT INTO job_ulev_ju (ju_date, ju_editor, ju_navn, ju_ipris, ju_faktor, ju_belob, ju_jobid, ju_favorit, ju_fase, ju_stk, ju_stkpris, ju_fravalgt, extsysid, ju_konto) VALUES " _
+                                & " ('" & Now.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', 'TO_import_service', '" & aktnavn & "', " & akttpris & ", 1, " & aktsum & ", " & jobId & ", 0,'', " & akttimer & ", " & akttpris & ", 0, " & varLobenr & ", " & kontoId & ")")
 
                                 'return strSQLsalgsomkins
 

@@ -65,7 +65,9 @@ if len(session("user")) = 0 then
 
     '**** Tilknytter / Sletter / Opdaterer Uleverandører ***'
 	ju_favorit = id				
-							
+	strDato = year(now) & "/"& month(now) & "/" & day(now)
+    strEditor = session("user")
+
 							
 						For u = 1 to 20
 							    
@@ -183,7 +185,7 @@ if len(session("user")) = 0 then
                                        if cint(ulevid) <> 0 then
                                 
 
-                                            strSQLyuLevOpd = "UPDATE job_ulev_ju SET "_
+                                            strSQLyuLevOpd = "UPDATE job_ulev_ju SET ju_date = '"& strDato &"', ju_editor = '"& strEditor &"', "_
                                             &" ju_navn = '"& ulevnavn &"', ju_ipris = "& ulevpris &", "_
 							                &" ju_faktor = "& ulevfaktor &", ju_belob = "& ulevbelob &", ju_fase = '"& ju_fase &"', ju_stk = "& ulevstk &", ju_stkpris = "& ulevstkpris &", ju_fravalgt = "& ulevfravalgt &" WHERE ju_id ="& ulevid
 
@@ -192,8 +194,8 @@ if len(session("user")) = 0 then
                                             oConn.execute(strSQLyuLevOpd)
 
                                         else
-						                    strSQLInsUlev = "INSERT INTO job_ulev_ju (ju_navn, ju_ipris, ju_faktor, ju_belob, ju_fase, ju_favorit, ju_stk, ju_stkpris, ju_fravalgt) VALUES "_
-							                &" ('"& ulevnavn &"', "& ulevpris &", "_
+						                    strSQLInsUlev = "INSERT INTO job_ulev_ju (ju_date, ju_editor, ju_navn, ju_ipris, ju_faktor, ju_belob, ju_fase, ju_favorit, ju_stk, ju_stkpris, ju_fravalgt) VALUES "_
+							                &" ('"& strDato &"', '"& strEditor &"', '"& ulevnavn &"', "& ulevpris &", "_
 							                &""& ulevfaktor &", "& ulevbelob &", '"& ju_fase &"', "& ju_favorit &", "& ulevstk &", "& ulevstkpris &", "& ulevfravalgt &")"  
 							        
                                             oConn.execute(strSQLInsUlev)

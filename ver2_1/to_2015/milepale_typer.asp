@@ -5,20 +5,19 @@
 <!--#include file="../inc/regular/topmenu_inc.asp"-->
 
 
-<%call menu_2014 %>
 <div class="wrapper">
     <div class="content">
-
+        
 
 <%
 if len(session("user")) = 0 then
-	%>
-	
-	<%
+
 	errortype = 5
 	call showError(errortype)
     response.End
 	end if
+
+    call menu_2014
 
 	func = request("func")
 	if func = "dbopr" then

@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Medarbejdere og gæster, der er tjekket ind i timeout</txt_1>
+    <txt_2 >Medarbejder</txt_2>
+    <txt_3 >Telefon</txt_3>
+    <txt_4 >Logget ind</txt_4>
+    <txt_5 >Hej</txt_5>
+    <txt_6 >Bekræft venligst at du tager til frokost nu</txt_6>
+    <txt_7 >Bekræft</txt_7>
+    <txt_8 >Anuller</txt_8>
+    <txt_9 >Alarm</txt_9>
+    <txt_10 >Alle</txt_10>
+    <txt_11 >Vis alle</txt_11>
+    <txt_12 >Vis kun loggede ind</txt_12>
+    <txt_13 >Vis kun ikke-loggede ind</txt_13>
+    <txt_14 >Info Skærm</txt_14>
+    <txt_15 >Nyheder</txt_15>
+    <txt_16 >Syg</txt_16>
+    <txt_17 >Barn syg</txt_17>
+    <txt_18 >Kursus / Skole</txt_18>
+    <txt_19 >Barsel</txt_19>
+    <txt_20 >Ferie</txt_20>
+    <txt_21 >Feriefri</txt_21>
+    <txt_22 >Afspads.</txt_22>
+    <txt_23 >Har spist</txt_23>
+    <txt_24 >Ikke spist</txt_24>
+    <txt_25 >Ude af huset</txt_25>
+    <txt_26 >Ikke mødt</txt_26>
+    <txt_27 >Alle valgte Medarbejdere er på arbejde i dag</txt_27>
+    <txt_28 >Alle Medarbejdere er på arbejde i dag</txt_28>
+    <txt_29 >Oprettede d.</txt_29>
+    <txt_30 >Ingen beskrivelse</txt_30>
+    <txt_31 >Ingen nyheder i dag</txt_31>
+    <txt_32 >Gæster</txt_32>
+    <txt_33 >i huset</txt_33>
+    <txt_34 >Taget hjem</txt_34>
+    <txt_35 >Spiser til frofost</txt_35>
+    <txt_36 >Forretningsrejse</txt_36>
+    <txt_37 >Arbejder hjemmefra</txt_37>
+    <txt_38 >Tilbage på kontoret</txt_38>
+    <txt_39 >Godkend</txt_39>
+    <txt_40 >Annuller</txt_40>
+    <txt_41 >Der er blevet sendt en mail med medarbejdere der er logget ind i timeout, til</txt_41>
+    <txt_42 >Du har allerede en frokost registreret i dag. Der kan kun registreert en frokost om dagen pr. medarbejder</txt_42>
+    <txt_43 >Du er ikke med i projektgruppen frokostordning - derfor kan du ikke registre frokost'er. Kontakt venligst en administrater hvis du vil spise frokost</txt_43>
+    <txt_44 >OK</txt_44>
+    <txt_45 >Print</txt_45>
+    <txt_46 >Arb. hjemme</txt_46>
+    <txt_47 >For. rejse</txt_47>
+    <txt_48 >Angiv hvornår medarbejderen er tilbage på kontoret</txt_48>
+    <txt_49 >Datoen må ikke være før dagsdato</txt_49>
+    <txt_50 >Mødt</txt_50>
+    <txt_51 >Vedhæftet er en liste over medarbejdere samt gæster der er tjekket ind i Timeout</txt_51>
+    <txt_52 >Oprettet</txt_52>
+    <txt_53 >af</txt_53>
+    <txt_54 >Medarbejdere loggede ind</txt_54>
+    <txt_55 >Nøglekortet er ikke registreret på en medarbejder. Kontakt en adminitrator</txt_55>
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >Employees and Guests checked-in in timeout</txt_1>
+    <txt_2 >Employee</txt_2>
+    <txt_3 >Phone</txt_3>
+    <txt_4 >Checked in</txt_4>
+    <txt_5 >Hey</txt_5>
+    <txt_6 >Please confirm that you go to lunch now</txt_6>
+    <txt_7 >Confirm</txt_7>
+    <txt_8 >Cancel</txt_8>
+    <txt_9 >Alarm</txt_9>
+    <txt_10 >All</txt_10>
+    <txt_11 >Show all</txt_11>
+    <txt_12 >Show checked-in only</txt_12>
+    <txt_13 >Show not checked-in only</txt_13>
+    <txt_14 >Information screen</txt_14>
+    <txt_15 >News</txt_15>
+    <txt_16 >Sick</txt_16>
+    <txt_17 >Child sick</txt_17>
+    <txt_18 >Course / School</txt_18>
+    <txt_19 >Maternity</txt_19>
+    <txt_20 >Holiday</txt_20>
+    <txt_21 >Special holiday</txt_21>
+    <txt_22 >Time off</txt_22>
+    <txt_23 >Eaten</txt_23>
+    <txt_24 >Not eaten</txt_24>
+    <txt_25 >Out of office</txt_25>
+    <txt_26 >Not met</txt_26>
+    <txt_27 >All selected employees are at work today</txt_27>
+    <txt_28 >All employees are at work today</txt_28>
+    <txt_29 >Created</txt_29>
+    <txt_30 >No description</txt_30>
+    <txt_31 >No news today</txt_31>
+    <txt_32 >Guests</txt_32>
+    <txt_33 >Visiting</txt_33>
+    <txt_34 >Gone home</txt_34>
+    <txt_35 >Spiser til frofost</txt_35>
+    <txt_36 >Business trip</txt_36>
+    <txt_37 >Works from home</txt_37>
+    <txt_38 >Back in the office</txt_38>
+    <txt_39 >Approve</txt_39>
+    <txt_40 >Cancel</txt_40>
+    <txt_41 >There has been sent an email with employees that are checked into Timeout, to</txt_41>
+    <txt_42 >Du har allerede én frokost registreret i dag. Der kan kun registreres en frokost om dagen pr. medarbejder</txt_42>
+    <txt_43 >Du er ikke med i projektgruppen Frokostordning - derfor kan du ikke registre frokost. Kontakt venligst en administrater hvis du vil spise frokost</txt_43>
+    <txt_44 >OK</txt_44>
+    <txt_45 >Print</txt_45>
+    <txt_46 >Work home</txt_46>
+    <txt_47 >busi. trip</txt_47>
+    <txt_48 >Specify when the employee is back in the office again</txt_48>
+    <txt_49 >The date can not be before today's date</txt_49>
+    <txt_50 >Met</txt_50>
+    <txt_51 >Attached is a list of employees and guests who have checked into Timeout</txt_51>
+    <txt_52 >Created</txt_52>
+    <txt_53 >by</txt_53>
+    <txt_54 >Employees checked in</txt_54>
+    <txt_55 >The key card is not registered on an employee. Contact an administrator</txt_55>
+
+  </no>
+
+
+  <!--- Svensk -->
+  <so>
+
+    <txt_1 >Employees and Guests checked-in in timeout</txt_1>
+    <txt_2 >Employee</txt_2>
+    <txt_3 >Phone</txt_3>
+    <txt_4 >Checked in</txt_4>
+    <txt_5 >Hey</txt_5>
+    <txt_6 >Please confirm that you go to lunch now</txt_6>
+    <txt_7 >Confirm</txt_7>
+    <txt_8 >Cancel</txt_8>
+    <txt_9 >Alarm</txt_9>
+    <txt_10 >All</txt_10>
+    <txt_11 >Show all</txt_11>
+    <txt_12 >Show checked-in only</txt_12>
+    <txt_13 >Show not checked-in only</txt_13>
+    <txt_14 >Information screen</txt_14>
+    <txt_15 >News</txt_15>
+    <txt_16 >Sick</txt_16>
+    <txt_17 >Child sick</txt_17>
+    <txt_18 >Course / School</txt_18>
+    <txt_19 >Maternity</txt_19>
+    <txt_20 >Holiday</txt_20>
+    <txt_21 >Special holiday</txt_21>
+    <txt_22 >Time off</txt_22>
+    <txt_23 >Eaten</txt_23>
+    <txt_24 >Not eaten</txt_24>
+    <txt_25 >Out of office</txt_25>
+    <txt_26 >Not met</txt_26>
+    <txt_27 >All selected employees are at work today</txt_27>
+    <txt_28 >All employees are at work today</txt_28>
+    <txt_29 >Created</txt_29>
+    <txt_30 >No description</txt_30>
+    <txt_31 >No news today</txt_31>
+    <txt_32 >Guests</txt_32>
+    <txt_33 >Visiting</txt_33>
+    <txt_34 >Gone home</txt_34>
+    <txt_35 >Eating lunch</txt_35>
+    <txt_36 >Business trip</txt_36>
+    <txt_37 >Works from home</txt_37>
+    <txt_38 >Back in the office</txt_38>
+    <txt_39 >Approve</txt_39>
+    <txt_40 >Cancel</txt_40>
+    <txt_41 >There has been sent an email with employees that are checked into Timeout, to</txt_41>
+    <txt_42 >You already have a lunch registered today. Only one lunch per day can be registered pr. employee</txt_42>
+    <txt_43 >You are not in the project group Frokostordning - therefore you cannot register lunch. Please contact an administrator if you want to have lunch</txt_43>
+    <txt_44 >OK</txt_44>
+    <txt_45 >Print</txt_45>
+    <txt_46 >Work home</txt_46>
+    <txt_47 >busi. trip</txt_47>
+    <txt_48 >Specify when the employee is back in the office again</txt_48>
+    <txt_49 >The date can not be before today's date</txt_49>
+    <txt_50 >Met</txt_50>
+    <txt_51 >Attached is a list of employees and guests who have checked into Timeout</txt_51>
+    <txt_52 >Created</txt_52>
+    <txt_53 >by</txt_53>
+    <txt_54 >Employees checked in</txt_54>
+    <txt_55 >The key card is not registered on an employee. Contact an administrator</txt_55>
+
+  </so>
+
+
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >Employees and Guests checked-in in timeout</txt_1>
+    <txt_2 >Employee</txt_2>
+    <txt_3 >Phone</txt_3>
+    <txt_4 >Checked in</txt_4>
+    <txt_5 >Hey</txt_5>
+    <txt_6 >Please confirm that you go to lunch now</txt_6>
+    <txt_7 >Confirm</txt_7>
+    <txt_8 >Cancel</txt_8>
+    <txt_9 >Alarm</txt_9>
+    <txt_10 >All</txt_10>
+    <txt_11 >Show all</txt_11>
+    <txt_12 >Show checked-in only</txt_12>
+    <txt_13 >Show not checked-in only</txt_13>
+    <txt_14 >Information screen</txt_14>
+    <txt_15 >News</txt_15>
+    <txt_16 >Sick</txt_16>
+    <txt_17 >Child sick</txt_17>
+    <txt_18 >Course / School</txt_18>
+    <txt_19 >Maternity</txt_19>
+    <txt_20 >Holiday</txt_20>
+    <txt_21 >Special holiday</txt_21>
+    <txt_22 >Time off</txt_22>
+    <txt_23 >Eaten</txt_23>
+    <txt_24 >Not eaten</txt_24>
+    <txt_25 >Out of office</txt_25>
+    <txt_26 >Not met</txt_26>
+    <txt_27 >All selected employees are at work today</txt_27>
+    <txt_28 >All employees are at work today</txt_28>
+    <txt_29 >Created</txt_29>
+    <txt_30 >No description</txt_30>
+    <txt_31 >No news today</txt_31>
+    <txt_32 >Guests</txt_32>
+    <txt_33 >Visiting</txt_33>
+    <txt_34 >Gone home</txt_34>
+    <txt_35 >Eating lunch</txt_35>
+    <txt_36 >Business trip</txt_36>
+    <txt_37 >Works from home</txt_37>
+    <txt_38 >Back in the office</txt_38>
+    <txt_39 >Approve</txt_39>
+    <txt_40 >Cancel</txt_40>
+    <txt_41 >There has been sent an email with employees that are checked into Timeout, to</txt_41>
+    <txt_42 >You already have a lunch registered today. Only one lunch per day can be registered pr. employee</txt_42>
+    <txt_43 >You are not in the project group Frokostordning - therefore you cannot register lunch. Please contact an administrator if you want to have lunch</txt_43>
+    <txt_44 >OK</txt_44>
+    <txt_45 >Print</txt_45>
+    <txt_46 >Work home</txt_46>
+    <txt_47 >busi. trip</txt_47>
+    <txt_48 >Specify when the employee is back in the office again</txt_48>
+    <txt_49 >The date can not be before today's date</txt_49>
+    <txt_50 >Met</txt_50>
+    <txt_51 >Attached is a list of employees and guests who have checked into Timeout</txt_51>
+    <txt_52 >Created</txt_52>
+    <txt_53 >by</txt_53>
+    <txt_54 >Employees checked in</txt_54>
+    <txt_55 >The key card is not registered on an employee. Contact an administrator</txt_55>
+
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >Employees and Guests checked-in in timeout</txt_1>
+    <txt_2 >Employee</txt_2>
+    <txt_3 >Phone</txt_3>
+    <txt_4 >Checked in</txt_4>
+    <txt_5 >Hey</txt_5>
+    <txt_6 >Please confirm that you go to lunch now</txt_6>
+    <txt_7 >Confirm</txt_7>
+    <txt_8 >Cancel</txt_8>
+    <txt_9 >Alarm</txt_9>
+    <txt_10 >All</txt_10>
+    <txt_11 >Show all</txt_11>
+    <txt_12 >Show checked-in only</txt_12>
+    <txt_13 >Show not checked-in only</txt_13>
+    <txt_14 >Information screen</txt_14>
+    <txt_15 >News</txt_15>
+    <txt_16 >Sick</txt_16>
+    <txt_17 >Child sick</txt_17>
+    <txt_18 >Course / School</txt_18>
+    <txt_19 >Maternity</txt_19>
+    <txt_20 >Holiday</txt_20>
+    <txt_21 >Special holiday</txt_21>
+    <txt_22 >Time off</txt_22>
+    <txt_23 >Eaten</txt_23>
+    <txt_24 >Not eaten</txt_24>
+    <txt_25 >Out of office</txt_25>
+    <txt_26 >Not met</txt_26>
+    <txt_27 >All selected employees are at work today</txt_27>
+    <txt_28 >All employees are at work today</txt_28>
+    <txt_29 >Created</txt_29>
+    <txt_30 >No description</txt_30>
+    <txt_31 >No news today</txt_31>
+    <txt_32 >Guests</txt_32>
+    <txt_33 >Visiting</txt_33>
+    <txt_34 >Gone home</txt_34>
+    <txt_35 >Eating lunch</txt_35>
+    <txt_36 >Business trip</txt_36>
+    <txt_37 >Works from home</txt_37>
+    <txt_38 >Back in the office</txt_38>
+    <txt_39 >Approve</txt_39>
+    <txt_40 >Cancel</txt_40>
+    <txt_41 >There has been sent an email with employees that are checked into Timeout, to</txt_41>
+    <txt_42 >You already have a lunch registered today. Only one lunch per day can be registered pr. employee</txt_42>
+    <txt_43 >You are not in the project group Frokostordning - therefore you cannot register lunch. Please contact an administrator if you want to have lunch</txt_43>
+    <txt_44 >OK</txt_44>
+    <txt_45 >Print</txt_45>
+    <txt_46 >Work home</txt_46>
+    <txt_47 >busi. trip</txt_47>
+    <txt_48 >Specify when the employee is back in the office again</txt_48>
+    <txt_49 >The date can not be before today's date</txt_49>
+    <txt_50 >Met</txt_50>
+    <txt_51 >Attached is a list of employees and guests who have checked into Timeout</txt_51>
+    <txt_52 >Created</txt_52>
+    <txt_53 >by</txt_53>
+    <txt_54 >Employees checked in</txt_54>
+    <txt_55 >The key card is not registered on an employee. Contact an administrator</txt_55>
+
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Employees and Guests checked-in in timeout</txt_1>
+    <txt_2 >Employee</txt_2>
+    <txt_3 >Phone</txt_3>
+    <txt_4 >Checked in</txt_4>
+    <txt_5 >Hey</txt_5>
+    <txt_6 >Please confirm that you go to lunch now</txt_6>
+    <txt_7 >Confirm</txt_7>
+    <txt_8 >Cancel</txt_8>
+    <txt_9 >Alarm</txt_9>
+    <txt_10 >All</txt_10>
+    <txt_11 >Show all</txt_11>
+    <txt_12 >Show checked-in only</txt_12>
+    <txt_13 >Show not checked-in only</txt_13>
+    <txt_14 >Information screen</txt_14>
+    <txt_15 >News</txt_15>
+    <txt_16 >Sick</txt_16>
+    <txt_17 >Child sick</txt_17>
+    <txt_18 >Course / School</txt_18>
+    <txt_19 >Maternity</txt_19>
+    <txt_20 >Holiday</txt_20>
+    <txt_21 >Special holiday</txt_21>
+    <txt_22 >Time off</txt_22>
+    <txt_23 >Eaten</txt_23>
+    <txt_24 >Not eaten</txt_24>
+    <txt_25 >Out of office</txt_25>
+    <txt_26 >Not met</txt_26>
+    <txt_27 >All selected employees are at work today</txt_27>
+    <txt_28 >All employees are at work today</txt_28>
+    <txt_29 >Created</txt_29>
+    <txt_30 >No description</txt_30>
+    <txt_31 >No news today</txt_31>
+    <txt_32 >Guests</txt_32>
+    <txt_33 >Visiting</txt_33>
+    <txt_34 >Gone home</txt_34>
+    <txt_35 >Eating lunch</txt_35>
+    <txt_36 >Business trip</txt_36>
+    <txt_37 >Works from home</txt_37>
+    <txt_38 >Back in the office</txt_38>
+    <txt_39 >Approve</txt_39>
+    <txt_40 >Cancel</txt_40>
+    <txt_41 >There has been sent an email with employees that are checked into Timeout, to</txt_41>
+    <txt_42 >You already have a lunch registered today. Only one lunch per day can be registered pr. employee</txt_42>
+    <txt_43 >You are not in the project group Frokostordning - therefore you cannot register lunch. Please contact an administrator if you want to have lunch</txt_43>
+    <txt_44 >OK</txt_44>
+    <txt_45 >Print</txt_45>
+    <txt_46 >Work home</txt_46>
+    <txt_47 >busi. trip</txt_47>
+    <txt_48 >Specify when the employee is back in the office again</txt_48>
+    <txt_49 >The date can not be before today's date</txt_49>
+    <txt_50 >Met</txt_50>
+    <txt_51 >Attached is a list of employees and guests who have checked into Timeout</txt_51>
+    <txt_52 >Created</txt_52>
+    <txt_53 >by</txt_53>
+    <txt_54 >Employees checked in</txt_54>
+    <txt_55 >The key card is not registered on an employee. Contact an administrator</txt_55>
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+    <txt_1 >Employees and Guests checked-in in timeout</txt_1>
+    <txt_2 >Employee</txt_2>
+    <txt_3 >Phone</txt_3>
+    <txt_4 >Checked in</txt_4>
+    <txt_5 >Hey</txt_5>
+    <txt_6 >Please confirm that you go to lunch now</txt_6>
+    <txt_7 >Confirm</txt_7>
+    <txt_8 >Cancel</txt_8>
+    <txt_9 >Alarm</txt_9>
+    <txt_10 >All</txt_10>
+    <txt_11 >Show all</txt_11>
+    <txt_12 >Show checked-in only</txt_12>
+    <txt_13 >Show not checked-in only</txt_13>
+    <txt_14 >Information screen</txt_14>
+    <txt_15 >News</txt_15>
+    <txt_16 >Sick</txt_16>
+    <txt_17 >Child sick</txt_17>
+    <txt_18 >Course / School</txt_18>
+    <txt_19 >Maternity</txt_19>
+    <txt_20 >Holiday</txt_20>
+    <txt_21 >Special holiday</txt_21>
+    <txt_22 >Time off</txt_22>
+    <txt_23 >Eaten</txt_23>
+    <txt_24 >Not eaten</txt_24>
+    <txt_25 >Out of office</txt_25>
+    <txt_26 >Not met</txt_26>
+    <txt_27 >All selected employees are at work today</txt_27>
+    <txt_28 >All employees are at work today</txt_28>
+    <txt_29 >Created</txt_29>
+    <txt_30 >No description</txt_30>
+    <txt_31 >No news today</txt_31>
+    <txt_32 >Guests</txt_32>
+    <txt_33 >Visiting</txt_33>
+    <txt_34 >Gone home</txt_34>
+    <txt_35 >Eating lunch</txt_35>
+    <txt_36 >Business trip</txt_36>
+    <txt_37 >Works from home</txt_37>
+    <txt_38 >Back in the office</txt_38>
+    <txt_39 >Approve</txt_39>
+    <txt_40 >Cancel</txt_40>
+    <txt_41 >There has been sent an email with employees that are checked into Timeout, to</txt_41>
+    <txt_42 >You already have a lunch registered today. Only one lunch per day can be registered pr. employee</txt_42>
+    <txt_43 >You are not in the project group Frokostordning - therefore you cannot register lunch. Please contact an administrator if you want to have lunch</txt_43>
+    <txt_44 >OK</txt_44>
+    <txt_45 >Print</txt_45>
+    <txt_46 >Work home</txt_46>
+    <txt_47 >busi. trip</txt_47>
+    <txt_48 >Specify when the employee is back in the office again</txt_48>
+    <txt_49 >The date can not be before today's date</txt_49>
+    <txt_50 >Met</txt_50>
+    <txt_51 >Attached is a list of employees and guests who have checked into Timeout</txt_51>
+    <txt_52 >Created</txt_52>
+    <txt_53 >by</txt_53>
+    <txt_54 >Employees checked in</txt_54>
+    <txt_55 >The key card is not registered on an employee. Contact an administrator</txt_55>
+
+  </es>
+
+
+</sprog>

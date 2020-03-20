@@ -932,6 +932,29 @@ Public Class to_import_hours
 
                                 End If 'foundone
 
+
+                                '*** Finder kostpris ****
+                                Dim SQLmedkostpris As String = "SELECT kostpris FROM medarbejdertyper WHERE id = " & medarbejdertypeThis
+
+                                objCmd = New OdbcCommand(SQLmedkostpris, objConn2)
+                                objDR = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                                If objDR.Read() = True Then
+
+                                    If objDR("kostpris") <> 0 Then
+                                        kostpris = objDR("kostpris")
+                                    Else
+                                        kostpris = 0
+                                    End If
+
+
+                                End If
+
+                                objDR.Close()
+                                '** Slut kostpris **
+
+
+
                             Catch ex As Exception
                                 Throw New Exception("medarbejdertypeThis: " + medarbejdertypeThis.ToString + " Hvis timepris ikke findes på job bruges Gen, SELECT FROM medarbejdere, medarbejdertyper error: " + ex.Message)
                             End Try
@@ -1086,6 +1109,7 @@ Public Class to_import_hours
                             If objDR.Read() = True Then
 
                                 kNavn = objDR("kkundenavn")
+                                kNavn = Replace(kNavn, "'", "")
                                 kNavn = EncodeUTF8(kNavn)
                                 kNavn = DecodeUTF8(kNavn)
                                 kNr = jobKid 'objDR("kkundenr")
@@ -1133,7 +1157,7 @@ Public Class to_import_hours
                             '**** IGNORER UGE lukket midlertidigt *****'
                             If InStr(lto, "epi") <> 0 Then
 
-                                errThisTOno = 0
+                                errThisTOno = errThisTOno '0
 
                             Else
 

@@ -518,6 +518,15 @@
     <txt_563 >hvis registreringen gæler for hele dagen, sæt da kryds i 'heledagen'</txt_563>
     <txt_564 >til / fra tidsformatet er forkert</txt_564>
     
+    <txt_565 >Ikke alle år er udfyldt med en dato på den nyoprettede helligdag</txt_565>
+    <txt_566 >Et datofelt på den nyoprettede helligdag har forkert datoformat</txt_566>
+
+    <txt_567 >Angiv fra og til tidspukt</txt_567>
+    
+    <txt_568 >Der er ikke angivet en destination</txt_568>
+    <txt_569 >Perioden må ikke være længere end 12 måneder</txt_569>
+    <txt_570 >CVR må kun indeholde tal</txt_570>
+    
 
   </dk>
 
@@ -791,7 +800,7 @@
     <txt_344 >A project or an agreement need to be selected before invoicing.</txt_344>
     <txt_345 >ERP - Invoice no. allready exists</txt_345>
     <txt_346 >You are about to create an invoice with a number that allready exists.</txt_346>
-    <txt_347 >Please check invoice no. in Control Panel and compare with lastets invoice (search invoices)</txt_347>
+    <txt_347 >Please check invoice no. in Control Panel and compare with latest invoice (search invoices)</txt_347>
     <txt_348 >Please contact you administrator to get access to the Control Panel.</txt_348>
     <txt_349 >TSA - Job no. and proposal no.</txt_349>
     <txt_350 >Job-/project no. Proposal no. templates.</txt_350>
@@ -1011,6 +1020,14 @@
     <txt_562 >You need to specify from / to time.</txt_562>
     <txt_563 >if the registration is for the whole day, check the whole day checkbox</txt_563>
     <txt_564 >The to / from time format is incorrect</txt_564>
+    
+    <txt_565 >Not all years are filled in with a date on the newly created holiday</txt_565>
+    <txt_566 >A date field on the newly created holiday has a wrong date format</txt_566>
+    
+    <txt_567 >Specify start and end time</txt_567>
+    <txt_568 >No destination has been specified</txt_568>
+    <txt_569 >The period can not be longer than 12 months</txt_569>
+    <txt_570 >CVR may only contain numbers</txt_570>
 
   </no>
 
@@ -1287,7 +1304,7 @@
     <txt_344 >A project or an agreement need to be selected before invoicing.</txt_344>
     <txt_345 >ERP - Invoice no. allready exists</txt_345>
     <txt_346 >You are about to create an invoice with a number that allready exists.</txt_346>
-    <txt_347 >Please check invoice no. in Control Panel and compare with lastets invoice (search invoices)</txt_347>
+    <txt_347 >Please check invoice no. in Control Panel and compare with latest invoice (search invoices)</txt_347>
     <txt_348 >Please contact you administrator to get access to the Control Panel.</txt_348>
     <txt_349 >TSA - Job no. and proposal no.</txt_349>
     <txt_350 >Job-/project no. Proposal no. templates.</txt_350>
@@ -1507,6 +1524,15 @@
     <txt_562 >You need to specify from / to time.</txt_562>
     <txt_563 >if the registration is for the whole day, check the whole day checkbox</txt_563>
     <txt_564 >The to / from time format is incorrect</txt_564>
+    
+    <txt_565 >Not all years are filled in with a date on the newly created holiday</txt_565>
+    <txt_566 >A date field on the newly created holiday has a wrong date format</txt_566>
+    
+    <txt_567 >Specify start and end time</txt_567>
+
+    <txt_568 >No destination has been specified</txt_568>
+    <txt_569 >The period can not be longer than 12 months</txt_569>
+    <txt_570 >CVR may only contain numbers</txt_570>
     
 
   </se>
@@ -1784,7 +1810,7 @@
     <txt_344 >A project or an agreement need to be selected before invoicing.</txt_344>
     <txt_345 >ERP - Invoice no. allready exists</txt_345>
     <txt_346 >You are about to create an invoice with a number that allready exists.</txt_346>
-    <txt_347 >Please check invoice no. in Control Panel and compare with lastets invoice (search invoices)</txt_347>
+    <txt_347 >Please check invoice no. in Control Panel and compare with latest invoice (search invoices)</txt_347>
     <txt_348 >Please contact you administrator to get access to the Control Panel.</txt_348>
     <txt_349 >TSA - Job no. and proposal no.</txt_349>
     <txt_350 >Job-/project no. Proposal no. templates.</txt_350>
@@ -2004,6 +2030,15 @@
     <txt_562 >You need to specify from / to time.</txt_562>
     <txt_563 >if the registration is for the whole day, check the whole day checkbox</txt_563>
     <txt_564 >The to / from time format is incorrect</txt_564>
+    
+    <txt_565 >Not all years are filled in with a date on the newly created holiday</txt_565>
+    <txt_566 >A date field on the newly created holiday has a wrong date format</txt_566>
+    
+    <txt_567 >Specify start and end time</txt_567>
+
+    <txt_568 >No destination has been specified</txt_568>
+    <txt_569 >The period can not be longer than 12 months</txt_569>
+    <txt_570 >CVR may only contain numbers</txt_570>
   
   
   </de>
@@ -2288,7 +2323,7 @@
     <txt_344 >A project or an agreement need to be selected before invoicing.</txt_344>
     <txt_345 >ERP - Invoice no. allready exists</txt_345>
     <txt_346 >You are about to create an invoice with a number that allready exists.</txt_346>
-    <txt_347 >Please check invoice no. in Control Panel and compare with lastets invoice (search invoices)</txt_347>
+    <txt_347 >Please check invoice no. in Control Panel and compare with latest invoice (search invoices)</txt_347>
     <txt_348 >Please contact you administrator to get access to the Control Panel.</txt_348>
     <txt_349 >TSA - Job no. and proposal no.</txt_349>
     <txt_350 >Job-/project no. Proposal no. templates.</txt_350>
@@ -2508,6 +2543,15 @@
     <txt_562 >You need to specify from / to time.</txt_562>
     <txt_563 >if the registration is for the whole day, check the whole day checkbox</txt_563>
     <txt_564 >The to / from time format is incorrect</txt_564>
+    
+    <txt_565 >Not all years are filled in with a date on the newly created holiday</txt_565>
+    <txt_566 >A date field on the newly created holiday has a wrong date format</txt_566>
+    
+    <txt_567 >Specify start and end time</txt_567>
+
+    <txt_568 >No destination has been specified</txt_568>
+    <txt_569 >The period can not be longer than 12 months</txt_569>
+    <txt_570 >CVR may only contain numbers</txt_570>
   
   
   </fr>
@@ -2799,7 +2843,7 @@
     <txt_344 >A project or an agreement need to be selected before invoicing.</txt_344>
     <txt_345 >ERP - Invoice no. allready exists</txt_345>
     <txt_346 >You are about to create an invoice with a number that allready exists.</txt_346>
-    <txt_347 >Please check invoice no. in Control Panel and compare with lastets invoice (search invoices)</txt_347>
+    <txt_347 >Please check invoice no. in Control Panel and compare with latest invoice (search invoices)</txt_347>
     <txt_348 >Please contact you administrator to get access to the Control Panel.</txt_348>
     <txt_349 >TSA - Job no. and proposal no.</txt_349>
     <txt_350 >Job-/project no. Proposal no. templates.</txt_350>
@@ -3019,6 +3063,15 @@
     <txt_562 >You need to specify from / to time.</txt_562>
     <txt_563 >if the registration is for the whole day, check the whole day checkbox</txt_563>
     <txt_564 >The to / from time format is incorrect</txt_564>
+    
+    <txt_565 >Not all years are filled in with a date on the newly created holiday</txt_565>
+    <txt_566 >A date field on the newly created holiday has a wrong date format</txt_566>
+    
+    <txt_567 >Specify start and end time</txt_567>
+
+    <txt_568 >No destination has been specified</txt_568>
+    <txt_569 >The period can not be longer than 12 months</txt_569>
+    <txt_570 >CVR may only contain numbers</txt_570>
   
   
   </uk>
@@ -3299,7 +3352,7 @@
     <txt_344 >A project or an agreement need to be selected before invoicing.</txt_344>
     <txt_345 >ERP - Invoice no. allready exists</txt_345>
     <txt_346 >You are about to create an invoice with a number that allready exists.</txt_346>
-    <txt_347 >Please check invoice no. in Control Panel and compare with lastets invoice (search invoices)</txt_347>
+    <txt_347 >Please check invoice no. in Control Panel and compare with latest invoice (search invoices)</txt_347>
     <txt_348 >Please contact you administrator to get access to the Control Panel.</txt_348>
     <txt_349 >TSA - Job no. and proposal no.</txt_349>
     <txt_350 >Job-/project no. Proposal no. templates.</txt_350>
@@ -3519,6 +3572,15 @@
     <txt_562 >You need to specify from / to time.</txt_562>
     <txt_563 >if the registration is for the whole day, check the whole day checkbox</txt_563>
     <txt_564 >The to / from time format is incorrect</txt_564>
+    
+    <txt_565 >Not all years are filled in with a date on the newly created holiday</txt_565>
+    <txt_566 >A date field on the newly created holiday has a wrong date format</txt_566>
+    
+    <txt_567 >Specify start and end time</txt_567>
+
+    <txt_568 >No destination has been specified</txt_568>
+    <txt_569 >The period can not be longer than 12 months</txt_569>
+    <txt_570 >CVR may only contain numbers</txt_570>
 
   </es>
 

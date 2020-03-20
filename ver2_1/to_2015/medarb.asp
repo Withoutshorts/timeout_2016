@@ -31,6 +31,29 @@ Session.LCID = 1030
 
 
 <%
+
+    Private Function Encrypt(ByVal string)
+	    Dim x, i, tmp
+	    For i = 1 To Len( string )
+	    x = Mid( string, i, 1 )
+	    tmp = tmp & Chr( Asc( x ) + 1 )
+	    Next
+	    tmp = StrReverse( tmp )
+	    Encrypt = tmp
+    End Function
+    
+    public randomNumber
+    Sub Test2()
+        nLow = 10000000
+        nHigh = 1000000000
+        Set objRandom = CreateObject("System.Random")
+        randomNumber = objRandom.Next_2(nLow, nHigh)
+
+        randomNumber = replace(randomNumber, "78","")
+        randomNumber = replace(randomNumber, "87","")
+
+    End Sub
+
    
     func = request("func")
 
@@ -54,8 +77,18 @@ Session.LCID = 1030
         call menu_2014
     end if
 
+    call GetSytemSetup()
 
      %>
+
+    <%if useTrainerlog = 1 then %>
+        <style>
+            .removefromtrailerlog {
+                display:none;
+            }
+        </style>
+    <%end if %>
+
     <div id="wrapper">
         <div class="content">
 
@@ -74,8 +107,10 @@ Session.LCID = 1030
                <u><%=medarb_txt_002 %></u>
             </h3>
             
+                <%call meStamdata(id) %>
+
                 <div class="portlet-body">
-                    <div style="text-align:center;"><%=medarb_txt_003 %> <b><%=medarb_txt_004 %></b> <%=medarb_txt_005 %><br />
+                    <div style="text-align:center;"><%=medarb_txt_003 %> <b><%=medarb_txt_004 &": "& meNavn & " ["& meinit &"]"%></b>. <%=medarb_txt_005 %><br />
                         <%=medarb_txt_006 %>
                     </div><br />
                    <div style="text-align:center;"><a class="btn btn-primary btn-sm" role="button" href="medarb.asp?menu=tok&func=sletok&id=<%=id%>">&nbsp <%=medarb_txt_007 %> &nbsp</a>&nbsp&nbsp&nbsp&nbsp<a class="btn btn-default btn-sm" role="button" href="medarb.asp?"><%=medarb_txt_008 %></a>
@@ -183,10 +218,16 @@ Session.LCID = 1030
 		SQLBless = tmp
 		end function
 		
-			strNavn = SQLBless(Request("FM_navn"))
+			strNavn = replace(Request("FM_navn"), "'", "")
 			strAnsat = Request("FM_ansat")
 			
 			strInit = SQLBless(request("FM_init"))
+
+            if len(trim(request("FM_medarb_copy"))) <> 0 then
+            medarb_copy = request("FM_medarb_copy")
+            else
+            medarb_copy = 0
+            end if
 			
 
 			if len(request("FM_timereg")) <> 0 then
@@ -220,6 +261,101 @@ Session.LCID = 1030
             end if
 
 			strEmail = Request("FM_email")
+            if len(trim(strEmail)) <> 0 AND instr(strEmail, "@") = 0 then
+
+            errortype = 227
+			call showError(errortype)
+			Response.end
+			
+            end if
+
+
+
+            '** Salary
+            if len(trim(request("FM_salary"))) <> 0 then
+            salary = request("FM_salary")
+            salary = replace(salary, ".","")
+            salary = replace(salary, ",",".")
+            else
+            salary = 0
+            end if
+                
+            isInt = 0
+	        call erDetInt(trim(salary))
+            if isInt > 0 then
+			errortype = 231
+			call showError(errortype)
+            response.end
+			isInt = 0
+            end if
+
+
+            
+            '** Pension
+            if len(trim(request("FM_pension"))) <> 0 then
+            pension = request("FM_pension")
+            pension = replace(pension, ".","")
+            pension = replace(pension, ",",".")
+            else
+            pension = 0
+            end if
+                
+            isInt = 0
+	        call erDetInt(trim(pension))
+            if isInt > 0 then
+			errortype = 231
+			call showError(errortype)
+            response.end
+			isInt = 0
+            end if
+
+             '** Bruttolontraek
+            if len(trim(request("FM_bruttolontraek"))) <> 0 then
+            bruttolontraek = request("FM_bruttolontraek")
+            bruttolontraek = replace(bruttolontraek, ".","")
+            bruttolontraek = replace(bruttolontraek, ",",".")
+            else
+            bruttolontraek = 0
+            end if
+                
+            isInt = 0
+	        call erDetInt(trim(bruttolontraek))
+            if isInt > 0 then
+			errortype = 231
+			call showError(errortype)
+            response.end
+			isInt = 0
+            end if
+
+                
+
+            if len(trim(request("FM_multimedieskat"))) <> 0 then
+            multimedieskat = request("FM_multimedieskat")
+            else
+            multimedieskat = 0
+            end if
+
+            if len(trim(request("FM_personaleforening"))) <> 0 then
+            personaleforening = request("FM_personaleforening")
+            else
+            personaleforening = 0
+            end if
+
+            if len(trim(request("FM_longruppe_1"))) <> 0 then
+            longruppe_1 = request("FM_longruppe_1")
+            else
+            longruppe_1 = 0
+            end if
+
+            if len(trim(request("FM_longruppe_2"))) <> 0 then
+            longruppe_2 = request("FM_longruppe_2")
+            else
+            longruppe_2 = 0
+            end if
+
+
+
+
 			
             '** RFID **'
             if len(trim(request("medarb_RFID"))) <> 0 then 
@@ -294,6 +430,11 @@ Session.LCID = 1030
 			strExch = replace(request("FM_exch"), "\", "#")
 			
 			sprog = request("FM_sprog")
+
+            if useTrainerlog = 1 then
+                sprog = 2 'altid engelsk ved trainerlog
+            end if
+
             med_cal = request("FM_med_cal")
 
 
@@ -319,6 +460,10 @@ Session.LCID = 1030
             else
             timer_ststop = 0
             end if
+
+          
+
+
 
             '* Findes INITtialer
             InitFindes = 0
@@ -661,10 +806,14 @@ Session.LCID = 1030
 					&" madr = '"& madr & "', mpostnr = '"& mpostnr &"', mcity = '"& mcity &"', mland = '"& mland &"', "_
 					&" mtlf = '"& mtlf &"', mcpr = '"& mcpr &"', mkoregnr = '"& mkoregnr &"', "_
                     &" visskiftversion = "& visskiftversion &", medarbejdertype_grp = "& intMedarbejdertype_grp &", timer_ststop = "& timer_ststop &", "_
-                    &" create_newemployee = "& create_newemployee &", med_lincensindehaver = "& med_lincensindehaver &", medarbejder_rfid = '"& medarb_RFID &"', measyregtimer = "& measyregtimer &", med_cal = '"& med_cal &"'"_
+                    &" create_newemployee = "& create_newemployee &", med_lincensindehaver = "& med_lincensindehaver &", "_
+                    &" medarbejder_rfid = '"& medarb_RFID &"', measyregtimer = "& measyregtimer &", med_cal = '"& med_cal &"', "_
+                    &" salary = "& salary &", pension = "& pension &", multimedieskat = "& multimedieskat &", personaleforening = "& personaleforening &", m1_longruppe = "& longruppe_1 &", "_
+                    &" m2_longruppe = "& longruppe_2 &", bruttolontraek = "& bruttolontraek &""_
 			        &" WHERE Mid = "& id &""
 					
 					
+             
 					'response.flush 
                     'response.write strSQL
 
@@ -684,7 +833,14 @@ Session.LCID = 1030
 					
 					'**** timereg_usejob ****'
                     del = 1 '1 slet fra timereg_usejob / 0: tilføj kun
-					call tilfojtilTU(id, del) 
+                    
+                    if len(trim(request("FM_progrpfollowactivejoblist"))) <> 0 then 'ved opret / rediger medarbejder -- forvælges på opret medarbejder
+                        copyfollow = request("FM_progrpfollowactivejoblist")
+                    else
+                        copyfollow = 0
+                    end if
+
+                    call tilfojtilTU(id, del, copyfollow, medarb_copy) 
 					
 					
 					
@@ -696,10 +852,16 @@ Session.LCID = 1030
 
 					if strPw <> "KEEPTHISPW99" then
 					
+                    ' Hvordan skal nyt password laves
+                    call glemtpassword_visning()
+
+                    'response.Write " int_glemtpassword_visning " & int_glemtpassword_visning
+                    'response.End
+                
 					if request.servervariables("PATH_TRANSLATED") <> "C:\www\timeout_xp\wwwroot\ver2_1\timereg\medarb_red.asp" then
 
                         Set myMail=CreateObject("CDO.Message")
-                        myMail.Subject="TimeOut - Medarbejder profil opdateret"
+                        myMail.Subject="TimeOut - "& medarb_txt_118
                         myMail.From="timeout_no_reply@outzource.dk"
 
                         if len(trim(strEmail)) <> 0 then
@@ -710,9 +872,10 @@ Session.LCID = 1030
                         case "mi"
                         myMail.AddAttachment "D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_10\help_and_faq\TimeOut_indtasttimer_rev_20120106.pdf"
                         case "tia"
-                        myMail.AddAttachment "D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_14\help_and_faq\TimeOut_FAQ.PPTX" 
+                        myMail.AddAttachment "D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_14\help_and_faq\TimeOut-FAQ.PPTX" 
                         case else
-                        myMail.AddAttachment "D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_10\help_and_faq\TimeOut_indtasttimer_rev_20130102.pdf" 
+                        'myMail.AddAttachment "D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_10\help_and_faq\TimeOut_indtasttimer_rev_20130102.pdf" 
+                        myMail.AddAttachment "D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_14\pdf\help\TimeOut Guide - Login.pdf"
                         end select
                     
                         if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
@@ -720,14 +883,74 @@ Session.LCID = 1030
                         else
                         to_url = "https://timeout.cloud"
                         end if
+
+                        to_help = "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/to_2015/help_faq.asp"
                         
-                        myMail.TextBody= "" & medarb_txt_009 &" " & strNavn & vbCrLf _ 
-					    & medarb_txt_118 & vbCrLf _ 
-					    & medarb_txt_012 &" "& strLogin &" "& medarb_txt_013 &" "& strPw & vbCrLf & vbCrLf _ 
-					    & medarb_txt_014  & vbCrLf _ 
-					    & medarb_txt_015 & vbCrLf & vbCrLf _ 
-					    & medarb_txt_119 &": "& to_url&"/"&lto&""& vbCrLf & vbCrLf _ 
-					    & medarb_txt_120 & vbCrLf & vbCrLf & strEditor & vbCrLf 
+
+                        strmailtekst = "" & medarb_txt_009 &" " & strNavn & "<br>"
+                        strmailtekst = strmailtekst & medarb_txt_118 & "<br>" & "<br>"
+
+                        if cint(int_glemtpassword_visning) = 1 then                            
+                            
+                            stampdate = year(now) &"-"& month(now) &"-"& day(now)
+                            stamptime = hour(now) &":"& minute(now) & ":" & second(now)
+                            strSQLForgotPassword_log = "INSERT INTO forgot_password SET medid ="& id &", stampdate ='"& stampdate &"', stamptime ='"& stamptime &"'" 
+                            'response.Write "strSQLForgotPassword_log " & strSQLForgotPassword_log    
+                            'response.End
+                            oConn.execute(strSQLForgotPassword_log)
+
+                            'Henter licens kode
+                            strlisenskey = ""
+                            strSQLlicenskode = "SELECT * FROM licens"
+                            oRec.open strSQLlicenskode, oConn, 3
+                            if not oRec.EOF then
+                                strlisenskey = oRec("key")
+                            end if
+                            oRec.close
+                            
+
+                            linkID = "523a=f53%9c4f8%369ed39ba=78605" 
+ 
+                            call Test2()
+
+                            linkID = linkID &"=0"& randomNumber&"&78="&Encrypt(id)&"&"
+
+                            call Test2()
+
+                            linkID = linkID &"=0"& randomNumber & "&87="&lto&"&"
+                            linkID = linkID & "key="&strlisenskey&"&"
+
+                            call Test2()
+
+                            linkID = linkID & "339462182%0127d=ba61a3ddd%fa"
+
+                            linkID = linkID & randomNumber
+
+                            newpasswordlink = "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/to_2015/newpassword.asp?func=newpassword&"&linkID
+                            strmailtekst = strmailtekst & medarb_txt_012 &" "& strLogin & "<br>"
+                            strmailtekst = strmailtekst & medarb_txt_150 &": <a href='"& newpasswordlink &"'>"& medarb_txt_157 &"</a>" & "<br>" & "<br>"
+                        else
+					        strmailtekst = strmailtekst & medarb_txt_012 &" "& strLogin &" "& medarb_txt_013 &" "& strPw & "<br>" & "<br>"
+                            strmailtekst = strmailtekst & medarb_txt_014  & "<br>"
+					        strmailtekst = strmailtekst & medarb_txt_015 & "<br>" & "<br>"                           
+
+                        end if
+
+					    
+					    strmailtekst = strmailtekst & medarb_txt_119 &": "& to_url&"/"&lto&""& "<br>" & "<br>"
+                        strmailtekst = strmailtekst & medarb_txt_135 &": "& to_help & "<br>" & "<br>"
+					    strmailtekst = strmailtekst & medarb_txt_120 & "<br>" & "<br>" & strEditor & "<br>" 
+
+                        myMail.HTMLBody = "<html><head></head><body>"& strmailtekst &"</body></html>"
+
+                        'myMail.TextBody= "" & medarb_txt_009 &" " & strNavn & vbCrLf _ 
+					    '& medarb_txt_118 & vbCrLf _ 
+					    '& medarb_txt_012 &" "& strLogin &" "& medarb_txt_013 &" "& strPw & vbCrLf & vbCrLf _ 
+					    '& medarb_txt_014  & vbCrLf _ 
+					    '& medarb_txt_015 & vbCrLf & vbCrLf _ 
+					    '& medarb_txt_119 &": "& to_url&"/"&lto&""& vbCrLf & vbCrLf _ 
+                        '& medarb_txt_135 &": "& to_help & vbCrLf & vbCrLf _ 
+					    '& medarb_txt_120 & vbCrLf & vbCrLf & strEditor & vbCrLf 
 
                         
                         myMail.Configuration.Fields.Item _
@@ -786,7 +1009,9 @@ Session.LCID = 1030
 						    &" (Mnavn, Mnr, Mansat, login, pw, Brugergruppe, Medarbejdertype, "_
 						    &" editor, dato, Medarbejderinfo, Email, tsacrm, smilord, exchkonto, init, "_
 						    &" timereg, ansatdato, opsagtdato, sprog, nyhedsbrev, "_
-						    &" madr, mpostnr, mcity, mland, mtlf, mcpr, mkoregnr, visskiftversion, medarbejdertype_grp, timer_ststop, create_newemployee, med_lincensindehaver, medarbejder_rfid, measyregtimer, med_cal) VALUES ("_
+						    &" madr, mpostnr, mcity, mland, mtlf, mcpr, mkoregnr, visskiftversion, medarbejdertype_grp, "_
+                            &" timer_ststop, create_newemployee, med_lincensindehaver, medarbejder_rfid, measyregtimer, med_cal, salary, pension, bruttolontraek, "_
+                            &" multimedieskat, personaleforening, m1_longruppe, m2_longruppe) VALUES ("_
 						    &" '"& strNavn &"',"_
 						    &" "& strMnr &","_
 						    &" '"& strAnsat &"',"_
@@ -805,7 +1030,8 @@ Session.LCID = 1030
 						    &" "& nyhedsbrev &", "_
 						    &" '"& madr & "', '"& mpostnr &"', '"& mcity &"', '"& mland &"', "_
 					        &" '"& mtlf &"', '"& mcpr &"', '"& mkoregnr &"', "& visskiftversion &", "& intMedarbejdertype_grp &", "& timer_ststop &","_
-                            &" "& create_newemployee &", "& med_lincensindehaver &",'"& medarb_RFID &"', "& measyregtimer &", '"& med_cal &"')"
+                            &" "& create_newemployee &", "& med_lincensindehaver &",'"& medarb_RFID &"', "& measyregtimer &", '"& med_cal &"', "& salary &", "& pension &", "& bruttolontraek &", "_
+                            &" "& multimedieskat &","& personaleforening &","& longruppe_1 &","& longruppe_2 &")"
     						
                             'Response.write strSQLminsert
                             'Response.flush
@@ -821,7 +1047,7 @@ Session.LCID = 1030
 						    strSQLmthupd = "INSERT INTO medarbejdertyper_historik (mid, mtype, mtypedato) "_
 			                &" VALUES ("& intMid &", "& strMedarbejdertype &", '"& ansatdato &"') "
 			                oConn.execute(strSQLmthupd)
-    						
+    						thisfile = "medarbejder_prg"
 						    
                           
     						'*** projektgruppe relationer ***'
@@ -840,7 +1066,14 @@ Session.LCID = 1030
                             '**** timereg_usejob ****'
                             call positiv_aktivering_akt_fn() 'wwf
                             if cint(positiv_aktivering_akt_val) <> 1 then
-					            call tilfojtilTU(intMid, 0) 
+
+                                if len(trim(request("FM_progrpfollowactivejoblist"))) <> 0 then 'ved opret / rediger medarbejder -- forvælges på opret medarbejder
+                                    copyfollow = request("FM_progrpfollowactivejoblist")
+                                else
+                                    copyfollow = 0
+                                end if
+
+                                call tilfojtilTU(intMid, 0, copyfollow, medarb_copy) 
 					        end if
     						
 						    '*** Opdaterer timepriser på stamaktiviteter ***
@@ -994,7 +1227,7 @@ Session.LCID = 1030
 
                             
                                     Set myMail=CreateObject("CDO.Message")
-                                    myMail.Subject="Timeout - Medarbejder profil opdateret"
+                                    myMail.Subject="Timeout - "& medarb_txt_118
                                 
                                             select case lto
                                             case "kejd_pb"
@@ -1012,29 +1245,95 @@ Session.LCID = 1030
                                     case "mi"
                                     myMail.AddAttachment "D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_10\help_and_faq\TimeOut_indtasttimer_rev_20120106.pdf"
                                     case "tia"
-                                    myMail.AddAttachment "D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_14\help_and_faq\TimeOut_FAQ.PPTX" 
+                                    myMail.AddAttachment "D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_14\help_and_faq\TimeOut-FAQ.PPTX" 
                                     case else
-                                    myMail.AddAttachment "D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_10\help_and_faq\TimeOut_indtasttimer_rev_20130102.pdf" 
+                                    'myMail.AddAttachment "D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_10\help_and_faq\TimeOut_indtasttimer_rev_20130102.pdf" 
+                                    myMail.AddAttachment "D:\webserver\wwwroot\timeout_xp\wwwroot\ver2_14\pdf\help\TimeOut Guide - Login.pdf"
                                     end select
                     
-                              
-                                    mailtextbody= "" & medarb_txt_009 &" "& strNavn & vbCrLf _ 
-					                & medarb_txt_010 & vbCrLf & vbCrLf _
-					                & medarb_txt_011 & vbCrLf _ 
-					                & medarb_txt_012 &" "& strLogin & " " & medarb_txt_013 &" "& strPw & vbCrLf & vbCrLf _ 
-					                & medarb_txt_014  & vbCrLf _ 
-					                & medarb_txt_015 & vbCrLf & vbCrLf 
 
+                                    
+                 
+                    
                                     if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
-					                mailtextbody = mailtextbody & medarb_txt_119 &": https://outzource.dk/"&lto&""& vbCrLf & vbCrLf 
+                                    to_url = "https://outzource.dk"
                                     else
-                                    mailtextbody = mailtextbody & medarb_txt_119 &": http://timeout.cloud/"&lto&""& vbCrLf & vbCrLf 
+                                    to_url = "https://timeout.cloud"
                                     end if
 
-					                mailtextbody = mailtextbody & medarb_txt_120 & vbCrLf & vbCrLf & strEditor & vbCrLf 
+                                    to_help = "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/to_2015/help_faq.asp"
+                        
+                
+                                    ' Hvordan skal nyt password laves
+                                    call glemtpassword_visning
+                            
+                                    if cint(int_glemtpassword_visning) = 1 then                            
+                            
+                                        stampdate = year(now) &"-"& month(now) &"-"& day(now)
+                                        stamptime = hour(now) &":"& minute(now) & ":" & second(now)
+                                        strSQLForgotPassword_log = "INSERT INTO forgot_password SET medid ="& lastmedid &", stampdate ='"& stampdate &"', stamptime ='"& stamptime &"'" 
+                                        'response.Write "strSQLForgotPassword_log " & strSQLForgotPassword_log    
+                                        'response.End
+                                        oConn.execute(strSQLForgotPassword_log)
+
+                                        'Henter licens kode
+                                        strlisenskey = ""
+                                        strSQLlicenskode = "SELECT * FROM licens"
+                                        oRec.open strSQLlicenskode, oConn, 3
+                                        if not oRec.EOF then
+                                            strlisenskey = oRec("key")
+                                        end if
+                                        oRec.close
+                            
+
+                                        linkID = "80457cf3a%7b15afb=8f4ae06680db" 
+ 
+                                        call Test2()
+
+                                        linkID = linkID &"=0"& randomNumber&"&78="&Encrypt(lastmedid)&"&"
+
+                                        call Test2()
+
+                                        linkID = linkID &"=0"& randomNumber & "&87="&lto&"&"
+                                        linkID = linkID & "key="&strlisenskey&"&"
+
+                                        call Test2()
+
+                                        linkID = linkID & "523a=f53%7946b79c4ed39ba=78605"
+
+                                        linkID = linkID & randomNumber
+
+                                        newpasswordlink = "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/to_2015/newpassword.asp?func=newpassword&"&linkID
+
+                                        strmailtekst = "" & medarb_txt_009 &" "& strNavn & "<br>"
+                                        strmailtekst = strmailtekst & medarb_txt_010 & "<br>" & "<br>"
+                                        strmailtekst = strmailtekst & medarb_txt_011 & "<br>"
+                                        strmailtekst = strmailtekst & medarb_txt_012 &" "& strLogin & "<br>"
+                                        strmailtekst = strmailtekst & medarb_txt_150 &": <a href='"& newpasswordlink &"'>"& medarb_txt_157 &"</a> " & "<br>" & "<br>"
+                                  
+                                    else
+					                     strmailtekst = "" & medarb_txt_009 &" "& strNavn & "<br>" _ 
+					                     & medarb_txt_010 & "<br>" & "<br>" _
+					                     & medarb_txt_011 & "<br>" _ 
+					                     & medarb_txt_012 &" "& strLogin & " " & medarb_txt_013 &" "& strPw & "<br>" & "<br>" _ 
+					                     & medarb_txt_014  & "<br>" _ 
+					                     & medarb_txt_015 & "<br>" & "<br>"                                           
+                                    end if
+                                            
+                
+                                    mailtextbody = mailtextbody & strmailtekst
+
+
+                                    if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
+					                mailtextbody = mailtextbody & medarb_txt_119 &": https://outzource.dk/"&lto&""& "<br>" & "<br>" 
+                                    else
+                                    mailtextbody = mailtextbody & medarb_txt_119 &": http://timeout.cloud/"&lto&""& "<br>" & "<br>" 
+                                    end if
+
+                                    mailtextbody = mailtextbody & medarb_txt_135 &": "& to_help & "<br>" & "<br>" 
 
                         
-                                    myMail.TextBody= mailtextbody
+                                    myMail.HTMLBody = "<html><head></head><body>"& strmailtekst &"</body></html>"
 
                                     myMail.Configuration.Fields.Item _
                                     ("http://schemas.microsoft.com/cdo/configuration/sendusing")=2
@@ -1173,6 +1472,39 @@ Session.LCID = 1030
      
 	if func = "red" then
 
+      
+
+        '*** SIKKERHED *****'
+       create_newemployeeThisMidTjk = 0
+        strSQL = "SELECT create_newemployee FROM medarbejdere WHERE mid = "& id
+        oRec.open strSQL, oConn, 3
+		if not oRec.EOF then
+
+            create_newemployeeThisMidTjk = oRec("create_newemployee")
+
+        end if
+        oRec.close
+
+
+         if session("mid") <> id AND level <> 1 AND create_newemployeeThisMidTjk = 0 then
+
+
+            %>
+            <div style="position:absolute; left:100px; top:-100px; width:350px; background-color:#FFFFFF; padding:20px;">
+
+                You are trying to view information that you are not allowed to enter.<br /><br />
+                Please contact your TimeOut administrator.<br /><br />
+
+                
+
+            </div>
+            <%
+         Response.end 
+         end if
+
+        
+
+
         HeaderTxt = medarb_txt_121
 
 
@@ -1180,10 +1512,14 @@ Session.LCID = 1030
 		&" medarbejdertype, type, navn, medarbejdere.editor, medarbejdere.dato, "_
 		&" Medarbejderinfo, email, tsacrm, smilord, exchkonto, init, timereg, ansatdato, "_
 		&" opsagtdato, sprog, nyhedsbrev,  "_
-		&" madr, mpostnr, mcity, mland, mtlf, mcpr, mkoregnr, visskiftversion, timer_ststop, create_newemployee, med_lincensindehaver, medarbejder_rfid, measyregtimer, med_cal "_
+		&" madr, mpostnr, mcity, mland, mtlf, mcpr, mkoregnr, visskiftversion, timer_ststop, "_
+        &" create_newemployee, med_lincensindehaver, medarbejder_rfid, measyregtimer, med_cal, salary, pension, multimedieskat, personaleforening, m1_longruppe, m2_longruppe, bruttolontraek"_
 		&" FROM medarbejdere, brugergrupper, medarbejdertyper "_
-		&" WHERE mid = "& id &" AND brugergrupper.id = brugergruppe AND medarbejdertyper.id = medarbejdertype"
+		&" WHERE mid = "& id &" AND brugergrupper.id = brugergruppe AND ((medarbejdertyper.id = medarbejdertype) OR mansat = 4)"
 		
+                'response.Write strSQL
+                'response.flush
+
 		oRec.open strSQL, oConn, 3
 		
 		if not oRec.EOF then
@@ -1237,6 +1573,14 @@ Session.LCID = 1030
 		    measyregtimer = oRec("measyregtimer")	
 
             med_cal = oRec("med_cal")
+            salary = oRec("salary") 
+            pension = oRec("pension")
+            bruttolontraek = oRec("bruttolontraek")
+
+            multimedieskat = oRec("multimedieskat")
+            personaleforening = oRec("personaleforening")
+            longruppe_1 = oRec("m1_longruppe")
+            longruppe_2 = oRec("m2_longruppe")
 
 		end if
 		oRec.close
@@ -1281,6 +1625,15 @@ Session.LCID = 1030
         measyregtimer = 0
         med_cal = "DK"
        
+        salary = 0
+        pension = 0
+        bruttolontraek = 0
+
+        multimedieskat = 0
+        personaleforening = 0
+        longruppe_1 = 0
+        longruppe_2 = 0 
+
 		end if
 		oRec.close
 
@@ -1295,6 +1648,31 @@ Session.LCID = 1030
 	end if
 	
 
+        multimedieskatCHK = ""
+        if cint(multimedieskat) = 1 then
+           multimedieskatCHK = "CHECKED"
+        end if
+
+        personaleforeningCHK = ""
+        if cint(personaleforening) = 1 then
+           personaleforeningCHK = "CHECKED"
+        end if
+
+        longruppe_1CHK = ""
+        if cint(longruppe_1) = 1 then
+          longruppe_1CHK = "CHECKED"
+        end if
+
+        longruppe_2CHK = ""
+        if cint(longruppe_2) = 1 then
+          longruppe_2CHK = "CHECKED"
+        end if
+
+        
+
+
+
+
         call showEasyreg_fn()
 
           strCRMcheckedCRM = ""
@@ -1307,6 +1685,7 @@ Session.LCID = 1030
         strCRMcheckedTSA_7 = ""
         strCRMcheckedTSA_8 = ""
 		strCRMcheckedTSA_9 = ""
+        strCRMcheckedTSA_10 = ""
 
 		select case intCRM 
 		case 1
@@ -1327,6 +1706,8 @@ Session.LCID = 1030
         strCRMcheckedTSA_8 = "CHECKED"
         case 9
         strCRMcheckedTSA_9 = "CHECKED"
+        case 10
+        strCRMcheckedTSA_10 = "CHECKED"
 		case else
 		strCRMcheckedTSA = "CHECKED"
 		end select
@@ -1377,7 +1758,7 @@ Session.LCID = 1030
      <div class="container">
       <div class="portlet">
         <h3 class="portlet-title">
-          <u><%=HeaderTxt & " " & medarb_txt_002 %> </u>
+          <u><%=HeaderTxt & " " & medarb_txt_002 %></u>
         </h3>
         
 
@@ -1418,7 +1799,7 @@ Session.LCID = 1030
 
                         <div class="col-lg-1 pad-t5"><%=medarb_txt_023 %>:&nbsp<span style="color:red;">*</span></div>
                                               
-                        <div class="col-lg-2">
+                        <div class="col-lg-1">
                             <%if lto = "tia" AND func = "red" then %>   
                             <input name="FM_init" type="text" class="form-control input-small" value="<%=strInit%>" readonly />
                             <%else %>
@@ -1431,7 +1812,7 @@ Session.LCID = 1030
                         <!-- Id -->
                         <%if level <= 2 OR level = 6 then%>
                         <div class="col-lg-1 pad-t5"><%=medarb_txt_024 %>:&nbsp<span style="color:red;">*</span></div>
-                        <div class="col-lg-1">   
+                        <div class="col-lg-2">   
                             <input name="FM_Mnr" type="text" class="form-control input-small" value="<%=strMnr%>" /> 
                            
                         </div>
@@ -1473,14 +1854,25 @@ Session.LCID = 1030
 		                    chk1 = ""
 		                    chk2 = "CHECKED"
 		                    chk3 = ""
+                            chk4 = ""
+
 		                    case "3"
 		                    chk3 = "CHECKED"
 		                    chk2 = ""
 		                    chk1 = ""
+                            chk4 = ""
+
+                             case "4"
+		                    chk4 = "CHECKED"
+		                    chk2 = ""
+		                    chk1 = ""
+                            chk3 = ""
+
 		                    case else
 		                    chk1 = "CHECKED"
 		                    chk2 = ""
 		                    chk3 = ""
+                            chk4 = ""
 		                    end select 
 		
 	                    %>
@@ -1490,6 +1882,10 @@ Session.LCID = 1030
                                 <%end if %>
 		                    <br /><input type="radio" name="FM_ansat" id="FM_ansat2" value="2" <%=chk2%>> <%=medarb_txt_030 %> 
 		                    <br /><input type="radio" name="FM_ansat" id="FM_ansat3" value="3" <%=chk3%>> <%=medarb_txt_031 %>
+
+                              <%if strAnsat = "4" then 'Må ikke kunnne sktifte til GÆST, med mindre man er det i forvejen. Gæster omdøbes efter 7 dage.%>
+                            <br /><input type="radio" name="FM_ansat" id="FM_ansat4" value="4" <%=chk4%>> <%=medarb_txt_149 %>
+                            <%end if %>
 		                    <br />
 
                         </div>
@@ -1513,7 +1909,7 @@ Session.LCID = 1030
                 <!-- Accordion -->
                 <div class="panel-group accordion-panel" id="accordion-paneled">
                     <!-- PersonData -->
-                    <div class="panel panel-default">
+                    <div class="panel panel-default xremovefromtrailerlog">
                         <div class="panel-heading">
                           <h4 class="panel-title">
                             <a class="accordion-toggle" data-toggle="collapse" data-target="#collapseOne">
@@ -1595,31 +1991,103 @@ Session.LCID = 1030
                                     </div>
                     <div class="col-lg-2"><%=medarb_txt_044 %>:</div>
                     <div class="col-lg-3">   
-                                    <input name="FM_cpr" type="text" class="form-control input-small" value="<%=mcpr%>" />           
+
+                                    <%
+                                    select case lto
+                                    case "ddc", "outz"
+                                        cprHdn = "readonly"
+                                    case else
+                                        cprHdn = ""
+                                    end select%>
+
+                                    <input name="FM_cpr" type="text" class="form-control input-small" value="<%=mcpr%>" <%=cprHdn %>  />           
                     </div>
                                     <div class="col-lg-6">&nbsp;</div>
                 </div>
+
+                            
                     <div class="row">
                                 <div class="col-lg-1">   
                                     &nbsp;
                                     </div>
-                    <div class="col-lg-2"><%=medarb_txt_045 %>:</div>
-                    <div class="col-lg-3">   
-                                    <input name="FM_regnr" type="text" class="form-control input-small" value="<%=mkoregnr%>" />  
-                                          <div class="col-lg-8">   
-                                          &nbsp;
-                                         </div>         
-                   
-                    </div>
-
-                      
-
-                </div>
+                        <div class="col-lg-2"><%=medarb_txt_045 %>:</div>
+                        <div class="col-lg-3">   
+                        <input name="FM_regnr" type="text" class="form-control input-small" value="<%=mkoregnr%>" />  </div> 
+                                          
+                     </div>
                      <div class="row">
                                 <div class="col-lg-1"></div>
                                 <div class="col-lg-2">RFID:</div>
                                 <div class="col-lg-3"><input type="text" class="form-control input-small" name="medarb_RFID" value="<%=medarb_RFID %>" /></div>
                             </div>
+
+
+                     <%'Salary
+                              if cint(level) = 1 then %>
+                                <br />
+                              <div class="row removefromtrailerlog">
+                                  <div class="col-lg-1">&nbsp</div>
+                                   <div class="col-lg-2">
+                                    <b>Løndata</b></div>
+                                 
+                                  </div>
+                              <br />
+                              <div class="row removefromtrailerlog">
+                                  <div class="col-lg-1">&nbsp</div>
+                                   <div class="col-lg-2">
+                                   Månedsløn&nbsp</div>
+                                  <div class="col-lg-2">
+                                      <input type="text" name="FM_salary" value="<%=formatnumber(salary, 2) %>" class="form-control input-small" />
+                                  </div>
+                                  <div class="col-lg-1">DKK</div>
+                                  </div>
+                              
+                              <div class="row removefromtrailerlog">
+                                  <div class="col-lg-1">&nbsp</div>
+                                   <div class="col-lg-2">
+                                    Pension&nbsp</div>
+                                  <div class="col-lg-2">
+                                      <input type="text" name="FM_pension" value="<%=formatnumber(pension, 2) %>" class="form-control input-small" /> 
+                                  </div>
+                                  <div class="col-lg-1">DKK</div>
+                                  </div>
+
+                                  <div class="row removefromtrailerlog">
+                                  <div class="col-lg-1">&nbsp</div>
+                                   <div class="col-lg-2">
+                                    Bruttoløntræk&nbsp</div>
+                                  <div class="col-lg-2">
+                                      <input type="text" name="FM_bruttolontraek" value="<%=formatnumber(bruttolontraek, 2) %>" class="form-control input-small" /> 
+                                  </div>
+                                  <div class="col-lg-1">DKK</div>
+                                  </div>
+
+
+                                  <div class="row removefromtrailerlog">
+                                  <div class="col-lg-1">&nbsp</div>
+                                   <div class="col-lg-2">
+                                    Løngrupper</div>
+                                  <div class="col-lg-2">
+                                      <input type="checkbox" name="FM_multimedieskat" value="1" <%=multimedieskatCHK %>  /> Multimedieskat <br /> 
+                                       <input type="checkbox" name="FM_personaleforening" value="1" <%=personaleforeningCHK %>  /> Personaleforening <br /> 
+                                       <input type="checkbox" name="FM_longruppe_1" value="1" <%=longruppe_1CHK %>  /> Sundhedsforsikring <br /> 
+                                       <input type="checkbox" name="FM_longruppe_2" value="1" <%=longruppe_2CHK %> /> Løngruppe 2
+                                  </div>
+                                 
+                                  </div>
+
+                                <br />
+                              <%else %>
+                              <input type="hidden" name="FM_salary" value="<%=formatnumber(salary, 2) %>"  />
+                               <input type="hidden" name="FM_pension" value="<%=formatnumber(pension, 2) %>"  /> 
+                             <input type="hidden" name="FM_bruttolontraek" value="<%=formatnumber(bruttolontraek, 2) %>"  /> 
+                              <input type="hidden" name="FM_multimedieskat" value="<%=multimedieskat%>"  /> 
+                              <input type="hidden" name="FM_personaleforening" value="<%=personaleforening%>"  /> 
+                              <input type="hidden" name="FM_longruppe_1" value="<%=longruppe_1%>"  /> 
+                              <input type="hidden" name="FM_longruppe_2" value="<%=longruppe_2%>"  /> 
+                              <%end if %>
+
+
 
 
                           </div> <!-- /.panel-body -->
@@ -1647,7 +2115,8 @@ Session.LCID = 1030
 
                             
                               <%if cint(level) = 1 OR cint(meCreate_newemployee) = 1 then %>
-                              <div class="row">
+                              <div class="row removefromtrailerlog">
+
                                   <div class="col-lg-1">&nbsp</div>
                                   <div class="col-lg-2"><%=medarb_txt_047 %>:</div>
                                   <div class="col-lg-2">
@@ -1673,7 +2142,7 @@ Session.LCID = 1030
                                         <div class="col-lg-4">&nbsp</div>
                               </div>
                               
-                              <div class="row">
+                              <div class="row removefromtrailerlog">
                                   <div class="col-lg-1">&nbsp</div>
                                   <div class="col-lg-2"><%=medarb_txt_049 %>:</div>
                                   <div class="col-lg-2"><select class="form-control input-small" name="FM_sprog" style="width:160px;">
@@ -1707,11 +2176,12 @@ Session.LCID = 1030
                     
                               </div>
 
-
+                              <%if useTrainerlog <> 1 then %>
                               <br />
+                              <%end if %>
                           
                             <!-- Kalender -->
-                             <div class="row">
+                             <div class="row removefromtrailerlog">
                                <div class="col-lg-1">&nbsp</div>
                                     <div class="col-lg-2">
                                       
@@ -1752,13 +2222,14 @@ Session.LCID = 1030
 
                            
                               
+                             
 
 
                                <%if cint(showEasyreg_val) = 1 then %>
 
-                                 <div class="row">
+                                 <div class="row removefromtrailerlog">
                                   <div class="col-lg-1">&nbsp</div>
-                                  <div class="col-lg-2">Easyreg timer pr. dag:</div>
+                                  <div class="col-lg-2"><%=medarb_txt_151 %>:</div>
                                   <div class="col-lg-1">
                                       <input class="form-control input-small" type="text" name="FM_measyregtimer" value="<%=measyregtimer%>"/>
                                   </div>
@@ -1778,7 +2249,7 @@ Session.LCID = 1030
 	                            
                                   
                               if cint(level) = 1 then%>	
-                              <div class="row">
+                              <div class="row removefromtrailerlog">
                                   <div class="col-lg-1">&nbsp</div>
                                   <div class="col-lg-2 pad-t20 pad-b20"><%=medarb_txt_050 %>:</div>
                                   <div class="col-lg-2 pad-t20 pad-b20"><%=medarb_txt_051 %> <input id="nyhedsbrev" name="nyhedsbrev" type="radio" value="1" <%=chkny1 %> />&nbsp;&nbsp;<%=medarb_txt_008 %> 
@@ -1789,7 +2260,7 @@ Session.LCID = 1030
 
                               
 
-                              <div class="row">
+                              <div class="row removefromtrailerlog">
                                   <div class="col-lg-1">&nbsp</div>
                                   <div class="col-lg-2"><%=medarb_txt_052 %>:</div>
                                   <div class="col-lg-6">
@@ -1797,8 +2268,12 @@ Session.LCID = 1030
                                   </div>
                                   
                               </div>
+
+                              <%if useTrainerlog <> 5 then %>
                               <br /><br />
-                              <div class="row">
+                              <%end if %>
+
+                              <div class="row removefromtrailerlog">
                                   <div class="col-lg-1">&nbsp</div>
                                   <div class="col-lg-2 pad-b20"><%=medarb_txt_054 %>:</div>
                                   <div class="col-lg-6">
@@ -1931,7 +2406,7 @@ Session.LCID = 1030
 		                        strSQL = "SELECT mt.type, mt.id, mgruppe, "_
                                 &" mtg.navn AS mtgnavn "_ 
                                 &" FROM medarbejdertyper AS mt"_
-                                &" LEFT JOIN medarbtyper_grp AS mtg ON (mtg.id = mgruppe) WHERE mt.id <> 0 ORDER BY mtg.navn, type"
+                                &" LEFT JOIN medarbtyper_grp AS mtg ON (mtg.id = mgruppe) WHERE mt.id <> 0 AND mtype_passiv = 0 ORDER BY mtg.navn, type"
                                 
                                         
                                 oRec.open strSQL, oConn, 3
@@ -2095,7 +2570,7 @@ Session.LCID = 1030
 		
 		
 
-                            if cint(level) = 1 AND func = "red" AND cint(mth) > 1 then
+                            if cint(level) = 1 AND func = "red" AND cint(mth) > 1 AND useTrainerLog <> 1 then
                             %>
                             <br /><br /><br />
                             <%=medarb_txt_069 %><br />
@@ -2113,11 +2588,14 @@ Session.LCID = 1030
                              </div><!-- ROW -->
                               <%end if %>
 
-
+                              
                               <%if cint(level) = 1 OR cint(meCreate_newemployee) = 1 then %>
                                <div class="row">
                                   <div class="col-lg-1">&nbsp</div>
-                                  <div class="col-lg-2"><br /><br /><%=medarb_txt_075 %>:&nbsp&nbsp<a data-toggle="modal" href="#styledModalSstGrp3"><span class="fa fa-info-circle"></span></a></div>
+                                  <div class="col-lg-2">
+                                      <br /><br />
+
+                                      <%=medarb_txt_075 %>:&nbsp&nbsp<a data-toggle="modal" href="#styledModalSstGrp3"><span class="fa fa-info-circle"></span></a></div>
                                     <div id="styledModalSstGrp3" class="modal modal-styled fade" style="top:60px;">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content" style="border:none !important;padding:0;">
@@ -2324,11 +2802,11 @@ Session.LCID = 1030
                                        <table id="scrollable" class="table dataTable table-striped table-bordered table-hover ui-datatable" style="width:100%">
                                            <thead>
                                                <tr style="border-bottom:none">
-                                                   <th style="width:30%">Projektgruppe</th>
-                                                   <th style="text-align:center">Organ. / Virtu.</th>
-                                                   <th style="text-align:center;"><span class="tilfoj_fjern_prg"><u>Tilføj</u></span><input style="display:none" type="checkbox" id="tilfoj_fjern_prg" /></th>
-                                                   <th style="text-align:center;">Teamleder</th>
-                                                   <th style="text-align:center;">Notificer</th>
+                                                   <th style="width:30%"><%=medarb_txt_152 %></th>
+                                                   <th style="text-align:center"><%=medarb_txt_153 %></th>
+                                                   <th style="text-align:center;"><span class="tilfoj_fjern_prg"><u><%=medarb_txt_154 %></u></span><input style="display:none" type="checkbox" id="tilfoj_fjern_prg" /></th>
+                                                   <th style="text-align:center;"><%=medarb_txt_155 %></th>
+                                                   <th style="text-align:center;"><%=medarb_txt_156 %></th>
                                                    
                                                </tr>
                                            </thead>
@@ -2505,11 +2983,14 @@ Session.LCID = 1030
                                  else
                                     pa_tilfojvmedopretCHK = ""
                                  end if%>
-                            <!-- Følg projektgrupper  gøraktive på joblisten -->
-                             <div class="row">
+
+                            <!-- Følg projektgrupper gør aktive på joblisten -->
+                             <div class="row removefromtrailerlog">
                                <div class="col-lg-3">&nbsp</div>
                                     <div class="col-lg-5">
-                                        <input name="FM_progrpfollowactivejoblist" value="1" type="checkbox" <%=pa_tilfojvmedopretCHK %>/> Set all jobs, related to selected projecgroups, active on active joblist for this employee.<br /><br />&nbsp;
+                                        <input name="FM_progrpfollowactivejoblist" id="FM_copy_follow_activejoblist1" value="1" type="checkbox" <%=pa_tilfojvmedopretCHK %>/> Set all jobs, related to selected projectgroups, active on active joblist for this employee.<br /><br />
+                                        <input name="FM_progrpfollowactivejoblist" id="FM_copy_follow_activejoblist2" value="2" type="checkbox" /> Copy favorites & active jobliste from this employee: 
+                                        <%call selectMedarbPrProgrp(0, "", "FM_medarb_copy", 0, 0) %> to the current employee. <br /><span style="color:#999999;">Add to current favorites & Active job list. Remember to add this user to the correct projectgroups.</span><br /><br />&nbsp;
                                         
                                       
                                      </div>
@@ -2519,7 +3000,7 @@ Session.LCID = 1030
 
                             <%if level = 1 OR cint(meCreate_newemployee) = 1 then %>
                             <!-- Juridisk enhed -->
-                             <div class="row">
+                             <div class="row removefromtrailerlog">
                                <div class="col-lg-1">&nbsp</div>
                                     <div class="col-lg-2">
                                       
@@ -2568,10 +3049,10 @@ Session.LCID = 1030
 
                               <!-- Startside -->
                                <%if cint(level) <= 2 OR cint(level) = 6 OR cint(meCreate_newemployee) = 1 then %>
-                                  <div class="row">
+                                  <div class="row removefromtrailerlog">
                                                <div class="col-lg-12"><br />&nbsp</div>
                                             </div>
-                                          <div class="row">
+                                          <div class="row removefromtrailerlog">
 
                                      
                                              <%if cint(level) <= 2 OR cint(level) = 6 then%> 
@@ -2602,7 +3083,8 @@ Session.LCID = 1030
                                                  <input type="radio" name="FM_tsacrm" value="5" <%=strCRMcheckedTSA_5%>> <%=medarb_txt_090 %><br>
                                                   <input type="radio" name="FM_tsacrm" value="7" <%=strCRMcheckedTSA_7%>> <%=medarb_txt_091 %><br>
                                                   <input type="radio" name="FM_tsacrm" value="8" <%=strCRMcheckedTSA_8%>> <%=medarb_txt_092 %><br>
-                                                  <input type="radio" name="FM_tsacrm" value="9" <%=strCRMcheckedTSA_9%>> <%=medarb_txt_133 %><!--mangler--><br>
+                                                  <input type="radio" name="FM_tsacrm" value="9" <%=strCRMcheckedTSA_9%>> <%=medarb_txt_133 %><br>
+                                                  <input type="radio" name="FM_tsacrm" value="10" <%=strCRMcheckedTSA_10%>> <%=medarb_txt_136 %> <!-- Udlæg -->
 
                                                  <%if licensType = "CRM" then%>
                                                  <input type="radio" name="FM_tsacrm" value="1" <%=strCRMcheckedCRM%>> <%=medarb_txt_093 %><br>
@@ -2677,7 +3159,7 @@ Session.LCID = 1030
     case else 'list
 
                 %>
-                <script src="js/medarb_list_201612_jav.js" type="text/javascript"></script>
+                <script src="js/medarb_list_2019_jav.js" type="text/javascript"></script>
                 <input type="hidden" id="soogtekst" value="<%=medarb_txt_134 %>" />
                 <%
 
@@ -2723,31 +3205,128 @@ Session.LCID = 1030
 	        
 	            end if
 
+
+
+
+                '*** Vis aktive
                 if cint(sogsubmitted) = 1 then
-                    if len(trim(request("FM_vispasogluk"))) <> 0 then
-                    vispasogluk = 1
+                    if len(trim(request("FM_vispasogluk_1"))) <> 0 then
+                    vispasogluk_1 = 1
                     else
-                    vispasogluk = 0
+                    vispasogluk_1 = 0
                     end if
                 else
-                    if request.cookies("medarb_2015")("vispasogluk") <> "" then
-                    vispasogluk = request.cookies("medarb_2015")("vispasogluk")
+                    if request.cookies("medarb_2015")("vispasogluk_1") <> "" then
+                    vispasogluk_1 = request.cookies("medarb_2015")("vispasogluk_1")
                     else
-                    vispasogluk = 0
+                    vispasogluk_1 = 0
                     end if
                 end if
 
-                response.cookies("medarb_2015")("vispasogluk") = vispasogluk
-                response.cookies("medarb_2015").expires = date + 1
+                response.cookies("medarb_2015")("vispasogluk_1") = vispasogluk_1
+               
+                               
+                 
 
-                if cint(vispasogluk) = 1 then
-                vispasoglukCHK = "CHECKED"
+                  if cint(sogsubmitted) = 1 then
+                    if len(trim(request("FM_vispasogluk_2"))) <> 0 then
+                    vispasogluk_2 = 1
+                    else
+                    vispasogluk_2 = 0
+                    end if
                 else
-                vispasoglukCHK = ""
+                    if request.cookies("medarb_2015")("vispasogluk_2") <> "" then
+                    vispasogluk_2 = request.cookies("medarb_2015")("vispasogluk_2")
+                    else
+                    vispasogluk_2 = 0
+                    end if
+                end if
+
+                response.cookies("medarb_2015")("vispasogluk_2") = vispasogluk_2
+               
+
+                  if cint(sogsubmitted) = 1 then
+                    if len(trim(request("FM_vispasogluk_3"))) <> 0 then
+                    vispasogluk_3 = 1
+                    else
+                    vispasogluk_3 = 0
+                    end if
+                else
+                    if request.cookies("medarb_2015")("vispasogluk_3") <> "" then
+                    vispasogluk_3 = request.cookies("medarb_2015")("vispasogluk_3")
+                    else
+                    vispasogluk_3 = 0
+                    end if
+                end if
+
+                response.cookies("medarb_2015")("vispasogluk_3") = vispasogluk_3
+               
+
+                  if cint(sogsubmitted) = 1 then
+                    if len(trim(request("FM_vispasogluk_4"))) <> 0 then
+                    vispasogluk_4 = 1
+                    else
+                    vispasogluk_4 = 0
+                    end if
+                else
+                    if request.cookies("medarb_2015")("vispasogluk_4") <> "" then
+                    vispasogluk_4 = request.cookies("medarb_2015")("vispasogluk_4")
+                    else
+                    vispasogluk_4 = 0
+                    end if
+                end if
+
+                response.cookies("medarb_2015")("vispasogluk_4") = vispasogluk_4
+                
+
+                    if cint(vispasogluk_1) = 1 then
+                vispasoglukCHK_1 = "CHECKED"
+                else
+                vispasoglukCHK_1 = ""
+                end if
+
+
+                if cint(vispasogluk_2) = 1 then
+                vispasoglukCHK_2 = "CHECKED"
+                else
+                vispasoglukCHK_2 = ""
+                end if
+
+
+                if cint(vispasogluk_3) = 1 then
+                vispasoglukCHK_3 = "CHECKED"
+                else
+                vispasoglukCHK_3 = ""
                 end if
 
    
+                  if cint(vispasogluk_4) = 1 then
+                vispasoglukCHK_4 = "CHECKED"
+                else
+                vispasoglukCHK_4 = ""
+                end if
+
+
+                if len(trim(request("FM_mtype"))) <> 0 then
+                   mtype = request("FM_mtype")
+                else
+                   
+
+                    if request.cookies("medarb_2015")("mtype") <> "" then
+                    mtype = request.cookies("medarb_2015")("mtype")
+                    else
+                    mtype = 0
+                    end if
+
+                end if
+
                 
+                    
+                    
+                response.cookies("medarb_2015")("mtype") = mtype
+                response.cookies("medarb_2015").expires = date + 60
+
+
          if media <> "eksport" then %>
 
 
@@ -2806,12 +3385,55 @@ Session.LCID = 1030
                                  <%=medarb_txt_099 %>: <br />
 			                    <input type="text" name="FM_soeg" id="FM_soeg" class="form-control input-small" placeholder="% Wildcard" value="<%=thiskri%>">
                                </div>
-                            <div class="col-lg-9"><br />
+                               <div class="col-lg-5">
+                                  <%=medarb_txt_058 %>:
+                                   <br />
+                                    <%strSQLmtyper = "SELECT id, type FROM medarbejdertyper WHERE id <> 0 AND mtype_passiv = 0 ORDER BY type"
+                                       
+                                       'Response.write "strSQLmtyper: " & strSQLmtyper
+                                       'response.flush
+                                       
+                                       %>
+                             <select name="FM_mtype" class="form-control input-small" onchange="submit();">
+                                 <option value="0">Alle</option>
+                                 <%
+                                  oRec.open strSQLmtyper, oCOnn, 3
+                                  while not oRec.EOF
+
+                                     if cint(mtype) = cint(oRec("id")) then
+                                     mTypeSel = "SELECTED"
+                                     else
+                                     mTypeSel = ""
+                                     end if
+                                    %>
+
+                                 <option value="<%=oRec("id") %>" <%=mTypeSel %>><%=oRec("type") %></option>
+
+                                 <%
+                                oRec.movenext
+                                wend
+                                oRec.close
+                                     
+                                  %>
+
+
+                             </select>
+                            </div>
+                            <div class="col-lg-4"><br />
                             <button type="submit" class="btn btn-secondary btn-sm pull-right"><b><%=medarb_txt_100 %> >></b></button>
                             </div>
                              </div>
                     <div class="row">
-                        <div class="col-lg-3"><input id="jq_vispasogluk" name="FM_vispasogluk" type="checkbox" <%=vispasoglukCHK %> value="1" /> <%=medarb_txt_101 %></div>
+                        <div class="col-lg-3">
+                            <input id="jq_vispasogluk_1" name="FM_vispasogluk_1" type="checkbox" <%=vispasoglukCHK_1 %> value="1" /> <%=medarb_txt_145 %>
+                            <br />
+                            <input id="jq_vispasogluk_2" name="FM_vispasogluk_2" type="checkbox" <%=vispasoglukCHK_2 %> value="1" /> <%=medarb_txt_146 %>
+                            <br />
+                            <input id="jq_vispasogluk_3" name="FM_vispasogluk_3" type="checkbox" <%=vispasoglukCHK_3 %> value="1" /> <%=medarb_txt_147 %>
+                            <br />
+                            <input id="jq_vispasogluk_4" name="FM_vispasogluk_4" type="checkbox" <%=vispasoglukCHK_4 %> value="1" /> <%=medarb_txt_148 %>
+                          
+                        </div>
                     </div>
                             
                     </div>
@@ -2861,12 +3483,26 @@ Session.LCID = 1030
 		            sqlsearchKri = " (mid = 0)"
 		            end if
 
-                    if cint(vispasogluk) = 1 then
-                    vispasoglukKri = " AND mansat <> -1"
-                    else
-                    vispasoglukKri = " AND mansat = 1"
+
+                    vispasoglukKri = " AND (mansat = -1"
+
+                    if cint(vispasogluk_1) = 1 then
+                    vispasoglukKri = vispasoglukKri & " OR mansat = 1 "
                     end if
 
+                     if cint(vispasogluk_2) = 1 then
+                    vispasoglukKri = vispasoglukKri & " OR mansat = 2 "
+                    end if
+
+                     if cint(vispasogluk_3) = 1 then
+                    vispasoglukKri = vispasoglukKri & " OR mansat = 3 "
+                    end if
+
+                     if cint(vispasogluk_4) = 1 then
+                    vispasoglukKri = vispasoglukKri & " OR mansat = 4 "
+                    end if
+
+                     vispasoglukKri = vispasoglukKri & ")"
 
                      '** Admin må søge
                     strSQLAdminRights = ""
@@ -2883,14 +3519,23 @@ Session.LCID = 1030
                           end if
 
                      end if
+
+
+                     if cint(mtype) <> 0 then
+                     mtypeSQL = " AND medarbejdertype = " & mtype
+                     else
+                     mtypeSQL = ""
+                     end if
                      %>
                 
 
 
 
-                   <%strSQL = "SELECT mnavn, mid, email, lastlogin, init, mnr, mansat, brugergruppe, medarbejdertype, mt.type AS mtypenavn, b.navn AS brugergruppenavn, ansatdato, m.editor FROM medarbejdere AS m "_
-                    &"LEFT JOIN medarbejdertyper AS mt ON (mt.id = m.medarbejdertype) "_
-                    &"LEFT JOIN brugergrupper AS b ON (b.id = m.brugergruppe) WHERE "& sqlsearchKri &" "& vispasoglukKri &" "& strSQLAdminRights &" ORDER BY mnavn LIMIT 4000" 
+                   <%strSQL = "SELECT mnavn, mid, email, lastlogin, init, mnr, mansat, brugergruppe, firma, medarbejdertype, mt.type AS mtypenavn, b.navn AS brugergruppenavn, ansatdato, m.editor, "_
+                    &" medarbejder_rfid, salary, personaleforening, m1_longruppe, bruttolontraek, multimedieskat, pension "_
+                    &" FROM medarbejdere AS m "_
+                    &" LEFT JOIN medarbejdertyper AS mt ON (mt.id = m.medarbejdertype) "_
+                    &" LEFT JOIN brugergrupper AS b ON (b.id = m.brugergruppe) WHERE "& sqlsearchKri &" "& vispasoglukKri &" "& strSQLAdminRights &" "& mtypeSQL &" ORDER BY mnavn LIMIT 4000" 
         
                     'response.write strSQL
                     'response.flush
@@ -2899,17 +3544,17 @@ Session.LCID = 1030
         
                     while not oRec.EOF
                     
-                       if len(trim(request("jq_visalle"))) <> 0 then
-                      jq_vispasluk = request("jq_visalle")
-                      else
-                      jq_vispasluk = 0
-                      end if
+                      'if len(trim(request("jq_visalle"))) <> 0 then
+                      'jq_vispasluk = request("jq_visalle")
+                      'else
+                      'jq_vispasluk = 0
+                      'end if
 
-                      if jq_vispasluk <> "1" then
-                      visAlleSQLval = " AND mansat = 1 "
-                      else
-                      visAlleSQLval = " AND mansat <> -1 "
-                      end if
+                      'if jq_vispasluk <> "1" then
+                      'visAlleSQLval = " AND mansat = 1 "
+                      'else
+                      'visAlleSQLval = " AND mansat <> -1 "
+                      'end if
 
                        
 
@@ -2962,12 +3607,75 @@ Session.LCID = 1030
                                    <%end if %>
                                 
                                 </a></td>
-                            <td><%=mStatus %>&nbsp;</td>
+                            <td><%=mStatus %>&nbsp;
+
+                                <%if (session("mid") = 1 OR session("mid") = 286) AND lto = "plan" then
+                                    %>
+                                    Løn nr: <%=oRec("medarbejder_rfid")%><br />
+                                    Salary: <%=oRec("salary") %>
+                                    Personaleforening: <%=oRec("personaleforening") %><br />
+                                    Sundhedsforsikring: <%=oRec("m1_longruppe")%><br />
+                                    Multimedieskat: <%=oRec("multimedieskat") %><br />
+                                    Bruttolontraek: <%=oRec("bruttolontraek") %><br />
+                                    Pension: <%=oRec("pension") %>
+                                    <%
+                                    end if%>
+
+
+                            </td>
                             <td><%=left(mtypenavn, 30) %></td>
                             <td><%=left(mBrugergruppe, 30) %></td>
-                            <td><a href="mailto:<%=oRec("email") %>"><%=oRec("email") %></a></td>
-                            <td><%=oRec("ansatdato") %></td>
-                            <td><%=lastLoginDateFm%></td>
+                            <td>
+                                <%if oRec("mansat") <> 4 then %>
+                                <a href="mailto:<%=oRec("email") %>"><%=oRec("email") %></a>
+                                <%else %>
+                                <%=oRec("firma") %>
+                                <%end if %>
+                            </td>
+                            <td>
+                                <%
+
+                                srtyear = year(oRec("ansatdato"))
+                                strmonth = month(oRec("ansatdato"))
+
+                                if strmonth < 10 then
+                                strmonth = "0" & strmonth
+                                end if
+
+                                strday = day(oRec("ansatdato"))
+
+                                if strday < 10 then
+                                strday = "0" & strday
+                                end if
+
+                                sortdato = srtyear&"-"&strmonth&"-"&strday
+
+                                %>
+                                <span style="display:none;"><%=sortdato %></span>
+                                <%=oRec("ansatdato") %>
+                            </td>
+
+                            <td>
+                                <%
+                                srtyear = year(lastLoginDateFm)
+                                strmonth = month(lastLoginDateFm)
+
+                                if strmonth < 10 then
+                                strmonth = "0" & strmonth
+                                end if
+
+                                strday = day(lastLoginDateFm)
+
+                                if strday < 10 then
+                                strday = "0" & strday
+                                end if
+
+                                sortdato = srtyear&"-"&strmonth&"-"&strday
+                                %>
+                                <span style="display:none;"><%=sortdato %></span>
+                                <%=lastLoginDateFm%>
+                            </td>
+
                             <td style="text-align:center;"> <a href="../timereg/joblog.asp?menu=timereg&FM_medarb=<%=oRec("Mid")%>&FM_job=0&selmedarb=<%=oRec("Mid")%>" target="_blank"><span class="fa fa-external-link"></span></a></td>
                             <td style="text-align:center;">
                                 <%if cint(level) = 1 then %>
@@ -3074,7 +3782,7 @@ Session.LCID = 1030
 	                            <td valign=top bgcolor="#ffffff" style="padding:5px 5px 5px 15px;">
                 
                              
-	                            <a href="../inc/log/data/<%=file%>" target="_blank" >Din CSV. fil er klar >></a>
+	                            <a href="../inc/log/data/<%=file%>" target="_blank" ><%=medarb_txt_115 & " "  %>>></a>
 	                            </td></tr>
 	                            </table>
                                 </div>
@@ -3101,7 +3809,7 @@ Session.LCID = 1030
           <section>
                 <div class="row">
                      <div class="col-lg-12">
-                        <b>Funktioner</b>
+                        <b><%=medarb_txt_116 %></b>
                         </div>
                     </div>
                     <form action="medarb.asp?media=eksport" method="Post" target="_blank">
@@ -3109,7 +3817,7 @@ Session.LCID = 1030
                     <div class="row">
                      <div class="col-lg-12 pad-r30">
                          
-                    <input id="Submit5" type="submit" value="Eksport til csv." class="btn btn-sm" /><br />
+                    <input id="Submit5" type="submit" value="<%=medarb_txt_117 %>" class="btn btn-sm" /><br />
                     <!--Eksporter viste kunder og kontaktpersoner som .csv fil-->
                          
                          </div>

@@ -81,7 +81,7 @@ useid = request("type")
 '** Jobafhængighed sættes på folder niveau.
 '** Sesseion jobid sættes i step 1 så dervendes tilbage til den korrekte visning i filarkivet
 
-if lto = "intanet - local" or lto = "nt" then
+if lto = "intanet - local" or lto = "nt" or lto = "hestia" or lto = "dencker" then
 jobid = request("id")
 jobnr = request("jobnr")
 'filepath1 = request("filepath1")
@@ -109,10 +109,30 @@ adg_alle = 0
 end if
 
 'Response.write "request(nomenu)" & nomenu
-if lto = "intranet - local" or lto = "nt" then
+if lto = "intranet - local" or lto = "nt" or lto = "hestia" or lto = "dencker" then
 
-        strSQLupdnt = "INSERT INTO filer (filertxt, type, oprses) "_
-        & " VALUES ("& jobnr &", 1, 'x')" 
+        if lto = "hestia" or lto = "dencker" then
+            filertxt = jobid&"_beskrivelsesdokument"
+            buttontxt = "Vælg fil"
+        else
+            filertxt = jobnr
+            buttontxt = "Select image"
+        end if
+
+        if lto = "nt" then
+        folderid = "1065"
+
+            strSQLupdnt = "INSERT INTO filer (filertxt, type, oprses, folderid) "_
+            & " VALUES ('"& filertxt &"', 1, 'x', "& folderid &")" 
+        
+        else
+
+             strSQLupdnt = "INSERT INTO filer (filertxt, type, oprses) "_
+             & " VALUES ('"& filertxt &"', 1, 'x')" 
+
+        end if
+
+       
 
         'response.Write "tegn: " & strSQLupdnt
         'response.Flush
@@ -133,7 +153,7 @@ if lto = "intranet - local" or lto = "nt" then
                                   <div class="fileinput fileinput-new" data-provides="fileinput">
                                     <div class="fileinput-preview thumbnail" data-trigger="fileinput" style="width: 300px; height: 350px;"></div>
                                     <div>
-                                      <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><INPUT NAME="fileupload1" TYPE="file"></span>
+                                      <span class="btn btn-default btn-file"><span class="fileinput-new"><%=buttontxt %></span><span class="fileinput-exists">Change</span><INPUT NAME="fileupload1" TYPE="file"></span>
                                       <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
                                     </div>
                                   </div>

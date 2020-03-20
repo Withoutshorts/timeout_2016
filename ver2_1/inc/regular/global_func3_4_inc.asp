@@ -54,7 +54,7 @@
          <%else %>
          <b>Særlig feriedage</b>
          <%end if %> 
-         (<%=ferieFriaarStart%>)</span><br /><br />&nbsp;
+         (<%=ferieFristogslLabel%>)</span><br /><br />&nbsp;
 	 </td>
      </tr>
 	  <tr>

@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Leverandør- og Service -partnere</txt_1>
+    <txt_2 >Du er ved at</txt_2>
+    <txt_3 >SLETTE</txt_3>
+    <txt_4 >en Leverandør/Servicepartner. Er dette korrekt?</txt_4>
+    <txt_5 >Opret</txt_5>
+    <txt_6 >Rediger</txt_6>
+    <txt_7 >Opdater</txt_7>
+    <txt_8 >Stamdata</txt_8>
+    <txt_9 >Navn</txt_9>
+    <txt_10 >Email</txt_10>
+    <txt_11 >Leverandør nr</txt_11>
+    <txt_12 >Type</txt_12>
+    <txt_13 >Leverandør</txt_13>
+    <txt_14 >Servicepartner</txt_14>
+    <txt_15 >Adresse</txt_15>
+    <txt_16 >Postnr</txt_16>
+    <txt_17 >By</txt_17>
+    <txt_18 >Land</txt_18>
+    <txt_19 >Tlf</txt_19>
+    <txt_20 >Fax</txt_20>
+    <txt_21 >Kontaktperson</txt_21>
+    <txt_22 >Sidst opdateret den</txt_22>
+    <txt_23 >af</txt_23>
+    <txt_24 >Opret ny</txt_24>
+    <txt_25 >Lev. nr.</txt_25>
+    <txt_26 >Slet</txt_26>
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >Supplier and Service Partners</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >a Supplier / Service Partner. Is this correct?</txt_4>
+    <txt_5 >Create</txt_5>
+    <txt_6 >Edit</txt_6>
+    <txt_7 >Update</txt_7>
+    <txt_8 >Base data</txt_8>
+    <txt_9 >Name</txt_9>
+    <txt_10 >Email</txt_10>
+    <txt_11 >Supplier no</txt_11>
+    <txt_12 >Type</txt_12>
+    <txt_13 >Supplier</txt_13>
+    <txt_14 >Service Partner</txt_14>
+    <txt_15 >Address</txt_15>
+    <txt_16 >ZIP code</txt_16>
+    <txt_17 >City</txt_17>
+    <txt_18 >Country</txt_18>
+    <txt_19 >Tel</txt_19>
+    <txt_20 >Fax</txt_20>
+    <txt_21 >Contact person</txt_21>
+    <txt_22 >Last edited</txt_22>
+    <txt_23 >by</txt_23>
+    <txt_24 >Create new</txt_24>
+    <txt_25 >Sup. no.</txt_25>
+    <txt_26 >Delete</txt_26>
+
+  </no>
+
+
+  <!--- Svensk -->
+  <so>
+
+    <txt_1 >Supplier and Service Partners</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >a Supplier / Service Partner. Is this correct?</txt_4>
+    <txt_5 >Create</txt_5>
+    <txt_6 >Edit</txt_6>
+    <txt_7 >Update</txt_7>
+    <txt_8 >Base data</txt_8>
+    <txt_9 >Name</txt_9>
+    <txt_10 >Email</txt_10>
+    <txt_11 >Supplier no</txt_11>
+    <txt_12 >Type</txt_12>
+    <txt_13 >Supplier</txt_13>
+    <txt_14 >Service Partner</txt_14>
+    <txt_15 >Address</txt_15>
+    <txt_16 >ZIP code</txt_16>
+    <txt_17 >City</txt_17>
+    <txt_18 >Country</txt_18>
+    <txt_19 >Tel</txt_19>
+    <txt_20 >Fax</txt_20>
+    <txt_21 >Contact person</txt_21>
+    <txt_22 >Last edited</txt_22>
+    <txt_23 >by</txt_23>
+    <txt_24 >Create new</txt_24>
+    <txt_25 >Sup. no.</txt_25>
+    <txt_26 >Delete</txt_26>
+    
+  </so>
+
+
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >Supplier and Service Partners</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >a Supplier / Service Partner. Is this correct?</txt_4>
+    <txt_5 >Create</txt_5>
+    <txt_6 >Edit</txt_6>
+    <txt_7 >Update</txt_7>
+    <txt_8 >Base data</txt_8>
+    <txt_9 >Name</txt_9>
+    <txt_10 >Email</txt_10>
+    <txt_11 >Supplier no</txt_11>
+    <txt_12 >Type</txt_12>
+    <txt_13 >Supplier</txt_13>
+    <txt_14 >Service Partner</txt_14>
+    <txt_15 >Address</txt_15>
+    <txt_16 >ZIP code</txt_16>
+    <txt_17 >City</txt_17>
+    <txt_18 >Country</txt_18>
+    <txt_19 >Tel</txt_19>
+    <txt_20 >Fax</txt_20>
+    <txt_21 >Contact person</txt_21>
+    <txt_22 >Last edited</txt_22>
+    <txt_23 >by</txt_23>
+    <txt_24 >Create new</txt_24>
+    <txt_25 >Sup. no.</txt_25>
+    <txt_26 >Delete</txt_26>
+
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >Supplier and Service Partners</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >a Supplier / Service Partner. Is this correct?</txt_4>
+    <txt_5 >Create</txt_5>
+    <txt_6 >Edit</txt_6>
+    <txt_7 >Update</txt_7>
+    <txt_8 >Base data</txt_8>
+    <txt_9 >Name</txt_9>
+    <txt_10 >Email</txt_10>
+    <txt_11 >Supplier no</txt_11>
+    <txt_12 >Type</txt_12>
+    <txt_13 >Supplier</txt_13>
+    <txt_14 >Service Partner</txt_14>
+    <txt_15 >Address</txt_15>
+    <txt_16 >ZIP code</txt_16>
+    <txt_17 >City</txt_17>
+    <txt_18 >Country</txt_18>
+    <txt_19 >Tel</txt_19>
+    <txt_20 >Fax</txt_20>
+    <txt_21 >Contact person</txt_21>
+    <txt_22 >Last edited</txt_22>
+    <txt_23 >by</txt_23>
+    <txt_24 >Create new</txt_24>
+    <txt_25 >Sup. no.</txt_25>
+    <txt_26 >Delete</txt_26>
+
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Supplier and Service Partners</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >a Supplier / Service Partner. Is this correct?</txt_4>
+    <txt_5 >Create</txt_5>
+    <txt_6 >Edit</txt_6>
+    <txt_7 >Update</txt_7>
+    <txt_8 >Base data</txt_8>
+    <txt_9 >Name</txt_9>
+    <txt_10 >Email</txt_10>
+    <txt_11 >Supplier no</txt_11>
+    <txt_12 >Type</txt_12>
+    <txt_13 >Supplier</txt_13>
+    <txt_14 >Service Partner</txt_14>
+    <txt_15 >Address</txt_15>
+    <txt_16 >ZIP code</txt_16>
+    <txt_17 >City</txt_17>
+    <txt_18 >Country</txt_18>
+    <txt_19 >Tel</txt_19>
+    <txt_20 >Fax</txt_20>
+    <txt_21 >Contact person</txt_21>
+    <txt_22 >Last edited</txt_22>
+    <txt_23 >by</txt_23>
+    <txt_24 >Create new</txt_24>
+    <txt_25 >Sup. no.</txt_25>
+    <txt_26 >Delete</txt_26>
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+    <txt_1 >Supplier and Service Partners</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >a Supplier / Service Partner. Is this correct?</txt_4>
+    <txt_5 >Create</txt_5>
+    <txt_6 >Edit</txt_6>
+    <txt_7 >Update</txt_7>
+    <txt_8 >Base data</txt_8>
+    <txt_9 >Name</txt_9>
+    <txt_10 >Email</txt_10>
+    <txt_11 >Supplier no</txt_11>
+    <txt_12 >Type</txt_12>
+    <txt_13 >Supplier</txt_13>
+    <txt_14 >Service Partner</txt_14>
+    <txt_15 >Address</txt_15>
+    <txt_16 >ZIP code</txt_16>
+    <txt_17 >City</txt_17>
+    <txt_18 >Country</txt_18>
+    <txt_19 >Tel</txt_19>
+    <txt_20 >Fax</txt_20>
+    <txt_21 >Contact person</txt_21>
+    <txt_22 >Last edited</txt_22>
+    <txt_23 >by</txt_23>
+    <txt_24 >Create new</txt_24>
+    <txt_25 >Sup. no.</txt_25>
+    <txt_26 >Delete</txt_26>
+    
+  </es>
+
+
+</sprog>

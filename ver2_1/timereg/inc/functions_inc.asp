@@ -486,7 +486,7 @@ function opretPosteringSingle(oprid, fak_el_pos, func, intkontonr, modkontonr, i
 	
 		if len(trim(strTekst)) <> 0 then
 
-	        call htmlreplace(HTMLstring)
+	        call htmlreplace(strTekst)
             strTekst = htmlparseTxt
         
         else

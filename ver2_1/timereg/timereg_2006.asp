@@ -500,7 +500,7 @@ end function
 	<td style="padding-top:5px; padding-bottom:5px; border-top:1px #003399 dashed; border-bottom:1px #003399 dashed;" class=lille><%=tsa_txt_077 %>
 	<select name="FM_use_me" style="font-family: arial; font-size: 9px; width:90px;">
 				<%
-					strSQL = "SELECT Mid, Mnavn, Mnr, Brugergruppe FROM medarbejdere WHERE mansat <> 2 AND mansat <> 3 "& SQLkriEkstern &" ORDER BY Mnavn"
+					strSQL = "SELECT Mid, Mnavn, Mnr, Brugergruppe FROM medarbejdere WHERE mansat <> 2 AND mansat <> 3 AND mansat <> 4 "& SQLkriEkstern &" ORDER BY Mnavn"
 					oRec.open strSQL, oConn, 3
 					
 					while not oRec.EOF 

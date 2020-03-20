@@ -3,8 +3,10 @@
 <!--#include file="dato2.asp"-->
 <%
 	if request("weekselector") = "j" then
-		frauge = datepart("ww", strMrd & "/" & strDag & "/" & strAar, 2,2)
-		tiluge = datepart("ww", strMrd_slut & "/" & strDag_slut & "/" & strAar_slut,2,2)
+        call thisWeekNo53_fn(strMrd & "/" & strDag & "/" & strAar)
+		frauge = thisWeekNo53 'datepart("ww", strMrd & "/" & strDag & "/" & strAar, 2,2)
+        call thisWeekNo53_fn(strMrd_slut & "/" & strDag_slut & "/" & strAar_slut)
+		tiluge = thisWeekNo53 'datepart("ww", strMrd_slut & "/" & strDag_slut & "/" & strAar_slut,2,2)
 		showStrTdato = strDag & ".&nbsp;" & strMrdNavn & "&nbsp;" & strAar
 		showStrUdato = strDag_slut & ".&nbsp;" & strMrdNavn_slut & "&nbsp;" & strAar_slut
 	else

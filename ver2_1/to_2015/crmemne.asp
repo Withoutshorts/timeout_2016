@@ -1,4 +1,4 @@
-ï»¿
+
 
 <!--#include file="../inc/connection/conn_db_inc.asp"-->
 <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
@@ -29,7 +29,7 @@ if len(session("user")) = 0 then
 	
 	select case func
 	case "slet"
-	'*** Her spÃ¸rges om det er ok at der slettes en medarbejder ***
+	'*** Her spørges om det er ok at der slettes en medarbejder ***
 
         oskrift = "CRM - emner" 
         slttxta = "Du er ved at <b>SLETTE</b> et emne. Er dette korrekt?"
@@ -46,7 +46,7 @@ if len(session("user")) = 0 then
 	Response.redirect "crmemne.asp?menu=tok&shokselector=1"
 	
 	case "dbopr", "dbred"
-	'*** Her indsÃ¦ttes en ny type i db ****
+	'*** Her indsættes en ny type i db ****
 		if len(request("FM_navn")) = 0 then
 		
 		errortype = 8
@@ -74,7 +74,7 @@ if len(session("user")) = 0 then
 		end if
 	
 	case "opret", "red"
-	'*** Her indlÃ¦ses form til rediger/oprettelse af ny type ***
+	'*** Her indlæses form til rediger/oprettelse af ny type ***
 	if func = "opret" then
 	strNavn = ""
 	strTimepris = ""
@@ -111,7 +111,7 @@ if len(session("user")) = 0 then
                     <div class="row">
                         <div class="col-lg-10">&nbsp</div>
                         <div class="col-lg-2 pad-b10">
-                            <button type="submit" class="btn btn-success btn-sm pull-right"><b>OpdatÃ©r</b></button>
+                            <button type="submit" class="btn btn-success btn-sm pull-right"><b>Opdatér</b></button>
                         </div>
                     </div>
 

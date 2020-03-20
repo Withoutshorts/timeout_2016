@@ -9,6 +9,7 @@ Set objXmlHttp = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp.open "GET", "http://localhost/inc/xml/menu_sprog.xml", False
 'objXmlHttp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_1/inc/xml/menu_sprog.xml", False
 'objXmlHttp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/menu_sprog.xml", False
+'objXmlHttp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver4_22/inc/xml/menu_sprog.xml", False
 'objXmlHttp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/menu_sprog.xml", False
 objXmlHttp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/menu_sprog.xml", False
 'objXmlHttp.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver4_22/inc/xml/menu_sprog.xml", False
@@ -51,6 +52,9 @@ sXPathQuery_menu = "//sprog/dk"
 'Session.LCID = 1030
 case 2
 sXPathQuery_menu = "//sprog/uk"
+if lto = "a27" then
+    sXPathQuery_menu = "//sprog/trainerlog_uk"
+end if
 'Session.LCID = 2057
 case 3
 sXPathQuery_menu = "//sprog/se"
@@ -98,6 +102,10 @@ For Each oNode_menu in oNodes_menu
     menu_txt_010 = oNode_menu.selectSingleNode("txt_10").Text
     menu_txt_011 = oNode_menu.selectSingleNode("txt_11").Text
     menu_txt_012 = oNode_menu.selectSingleNode("txt_12").Text
+    menu_txt_013 = oNode_menu.selectSingleNode("txt_13").Text
+    menu_txt_014 = oNode_menu.selectSingleNode("txt_14").Text
+    menu_txt_015 = oNode_menu.selectSingleNode("txt_15").Text
+    menu_txt_016 = oNode_menu.selectSingleNode("txt_16").Text
     
 next
 

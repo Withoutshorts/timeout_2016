@@ -1,72 +1,110 @@
 
 <%
-    public resTimerThisM, restimeruspecThisM 
-    function ressourcetimerTildelt(useDateStSQL,job_jid, job_aid, usemrn)
+    public resTimerThisM, restimeruspecThisM, sqlBudgafg, resTimerAll
+    function ressourcetimerTildelt(useDateStSQL, job_jid, job_aid, usemrn, datoKrionly)
 
-      'call aktBudgettjkOn_fn()
-     'if session("mid") = 1 then
-     ' Response.write "aktBudgettjkOn: "& aktBudgettjkOn & " aktBudgettjkOn_afgr "& aktBudgettjkOn_afgr
-     'end if
+    'call aktBudgettjkOn_fn()
+    'if session("mid") = 1 then
+    'Response.write "visAktlinjerSimpel_restimer: "& visAktlinjerSimpel_restimer &" aktBudgettjkOn: "& aktBudgettjkOn & " aktBudgettjkOn_afgr "& aktBudgettjkOn_afgr & " useDateStSQL: " & useDateStSQL & " useDateSlSQL: "& useDateSlSQL & " aktBudgettjkOnViskunmbgt: " & aktBudgettjkOnViskunmbgt
+    'end if
 
                         resTimerThisM = 0
                         restimeruspecThisM = 0
                         SQLdatoKriTimer = ""
-                        if cint(aktBudgettjkOn) = 1 then
+                        if cint(aktBudgettjkOnViskunmbgt) = 1 OR cint(aktBudgettjkOn) = 1 OR cint(visAktlinjerSimpel_restimer) = 1 OR usemrn = 0 then 
+                        'aktBudgettjkOn SKAL være på ellers vises forecast ikke på aktivitetslinjen på timereg og favoritsiden
+                        '** Eler usemrn = 0 en GT på job. Fe.ek på igangværende job
                         '*******************************************
                         '*** Ressource timer tildelt             **'
                         '*******************************************
-                                                                       
+                                                     
+   
                                                                                     
-                                if cint(aktBudgettjkOn_afgr) = 1 then
+                            if cint(aktBudgettjkOn_afgr) = 1 then
 
-                                    '*** Afgræans indenfor regnskabsår // Starter dwet md 1 eller 7 (kontrolpanel)
-                                    if month(useDateStSQL) < month(aktBudgettjkOnRegAarSt) then                                                                          
-                                        useRgnArr =  dateAdd("yyyy", -1, useDateStSQL)
-                                        useRgnArrNext = useDateStSQL
-                                    else
-                                        useRgnArr = useDateStSQL
-                                        useRgnArrNext =  dateAdd("yyyy", 1, useDateStSQL)
+                                        '*** Afgræans indenfor regnskabsår // Starter dwet md 1 eller 7 (kontrolpanel)
+                                        '*** Tjekker om det er 1 eller 7
+                                       
 
-                                    end if
+                                        if month(useDateStSQL) < month(aktBudgettjkOnRegAarSt) then                                                                          
+                                            useRgnArr =  dateAdd("yyyy", -1, useDateStSQL)
+                                            useRgnArrNext = useDateStSQL
+                                        else
+                                            useRgnArr = useDateStSQL
+                                            useRgnArrNext =  dateAdd("yyyy", 1, useDateStSQL)
+
+                                        end if
                                                                      
-                                    else
+                            else
 
                                                                                                             
-                                        useRgnArr = useDateStSQL
-                                        useRgnArrNext =  dateAdd("yyyy", 1, useDateStSQL)
+                                useRgnArr = useDateStSQL
+                                useRgnArrNext =  dateAdd("yyyy", 1, useDateStSQL)
                                                                                     
-                                    end if
+                            end if
 
 
 
                         select case cint(aktBudgettjkOn_afgr) 
                         case 1 'regnskabsår
-                        sqlBudgafg = " AND ((md >= "& month(aktBudgettjkOnRegAarSt) & " AND aar = "& year(useRgnArr) & ") OR (md < "& month(aktBudgettjkOnRegAarSt) & " AND aar = "& year(useRgnArrNext) & "))" 
+                            if month(aktBudgettjkOnRegAarSt) = 7 then
+                            sqlBudgafg = " AND ((md >= "& month(aktBudgettjkOnRegAarSt) & " AND aar = "& year(useRgnArr) & ") OR (md < "& month(aktBudgettjkOnRegAarSt) & " AND aar = "& year(useRgnArrNext) & "))" 
+                            else  
+
+                                '** Hvis årsskifte = Tager det nye år **'
+                                'if datepart("yyyy",useDateStSQL, 2,2) <> datepart("yyyy",useDateSlSQL, 2,2) then 
+                                'sqlBudgafg = " AND ((md >= 1 AND aar = "& year(useRgnArr) + 1 & ") AND (md < 12 AND aar = "& year(useRgnArr) + 1 & "))"
+                                'else
+                                sqlBudgafg = " AND ((md >= 1 AND aar = "& year(useRgnArr) & ") AND (md < 12 AND aar = "& year(useRgnArr) & "))" 
+                                'end if    
+
+                            end if
                         case 2 'måned
-                        sqlBudgafg = " AND (md = "& month(aktBudgettjkOnRegAarSt) & " AND aar = "& year(useRgnArr) & ")" 
+                        sqlBudgafg = " AND (md = "& month(useDateStSQL) & " AND aar = "& year(useRgnArr) & ")" 'aktBudgettjkOnRegAarSt
                         case else
                         sqlBudgafg = ""
                         end select
 
-                        strSQLres = "SELECT IF(aktid <> 0, SUM(timer), 0) AS restimer, IF(aktid = 0, SUM(timer), 0) AS restimeruspec FROM ressourcer_md WHERE ((jobid = "& job_jid &" AND aktid = "& job_aid &" AND medid = "& usemrn &") OR (jobid = "& job_jid &" AND aktid = 0 AND medid = "& usemrn &")) "& sqlBudgafg &"  GROUP BY aktid, medid" 
-                        
-                        'if session("mid") = 1 then
-                        'Response.write "<br>"& strSQLres & " aktBudgettjkOnRegAarSt = "& aktBudgettjkOnRegAarSt &" : useDateStSQL : "& useDateStSQL  &" // useDateSlSQL "& useDateSlSQL & "<br>"
-                        'Response.end 
-                        'end if
+                
+                          
 
 
-                        oRec9.open strSQLres, oConn, 3
-                        while not oRec9.EOF 
-                        resTimerThisM = resTimerThisM + oRec9("restimer")
-                        restimeruspecThisM = restimeruspecThisM + oRec9("restimeruspec")
-                        oRec9.movenext
-                        wend
-                        oRec9.close
+                            if cint(datoKrionly) <> 1 then
+
+                                if cdbl(usemrn) <> 0 then
+                                strSQLres = "SELECT IF(aktid <> 0, SUM(timer), 0) AS restimer, IF(aktid = 0, SUM(timer), 0) AS restimeruspec FROM ressourcer_md WHERE ((jobid = "& job_jid &" AND aktid = "& job_aid &" AND medid = "& usemrn &") OR (jobid = "& job_jid &" AND aktid = 0 AND medid = "& usemrn &")) "& sqlBudgafg &"  GROUP BY aktid, medid" 
+                                else
+                                strSQLres = "SELECT SUM(timer) AS restimer FROM ressourcer_md WHERE (jobid = "& job_jid &") "& sqlBudgafg &"  GROUP BY jobid" 
+                                end if
+
+
+                                'if session("mid") = 1 then
+                                'Response.write "<br>"& strSQLres & " aktBudgettjkOnRegAarSt = "& aktBudgettjkOnRegAarSt &" : useDateStSQL : "& useDateStSQL  &" // useDateSlSQL "& useDateSlSQL & "<br>"
+                                'Response.end 
+                                'end if
+
+
+                                oRec9.open strSQLres, oConn, 3
+                                while not oRec9.EOF 
+
+                                if cdbl(usemrn) <> 0 then
+                                resTimerThisM = resTimerThisM + oRec9("restimer")
+                                restimeruspecThisM = restimeruspecThisM + oRec9("restimeruspec")
+                                else
+                                resTimerAll = oRec9("restimer")
+                                end if
+
+                                oRec9.movenext
+                                wend
+                                oRec9.close
                                                                         
+
+                            end if 'datoKrionly
 
                         end if
 
+
+                            
 
             end function
 
@@ -75,7 +113,7 @@
 
 
 
-
+    '*** Tjekker timer bl.a før indlæsning 
     public fctimer, strAfgSQL, strAfgSQLtimer, feltTxtValFc, fcBelob, fctimerTot, fcBelobTot
     public timerBrugt, timerTastet
     'public feltTxtValFc
@@ -274,7 +312,7 @@
 
 
 
-    public forecastAktids, forecastAktidsTxt
+    public forecastAktids, forecastAktidsTxt, forecastJobidsTxt
     function allejobaktmedFC(viskunForecast, usemrn, jobid, risiko)
 
                     '*************************************************************************************************
@@ -286,11 +324,16 @@
                     '* == Diaglog hvis man kan se der er linjer der er ikke er mere forecast / timebudget på. 
                                             
                     '*** Henter kun aktiviteter med forecast på ****'
-                    forecastAktids = " AND (a.id = 0"
+                    forecastAktids = "" '" OR (a.id = 0"
                     forecastAktidsTxt = "#0#,"
+                    forecastJobidsTxt = "#0#"
                     if cint(viskunForecast) = 1 then
                                               
-                        kforCastSQL = "SELECT aktid FROM ressourcer_md WHERE medid = " & usemrn & " AND jobid = "& jobid &" GROUP BY medid, aktid"
+                        if jobid <> 0 then
+                        kforCastSQL = "SELECT aktid, jobid FROM ressourcer_md WHERE medid = " & usemrn & " AND jobid = "& jobid &" GROUP BY medid, aktid"
+                        else
+                        kforCastSQL = "SELECT aktid, jobid FROM ressourcer_md WHERE medid = " & usemrn & " GROUP BY jobid, aktid"
+                        end if
 
                         '** Tilføj kun på åben job og åbne aktiviteter
                         'kforCastSQL = "SELECT aktid FROM ressourcer_md r"
@@ -298,39 +341,53 @@
                         'kforCastSQL = kforCastSQL & " WHERE r.medid = " & usemrn & " AND r.jobid = "& jobid 
                         'kforCastSQL = kforCastSQL & " GROUP BY r.medid, r.aktid"
 
-                        'if session("mid") = 1 then
-                        'response.write kforCastSQL
-                        'response.flush
-                        'end if
+                         'if session("mid") = 1 then
+                         '       response.write "<br><br>#1<br><br>fc:<br>"& kforCastSQL
+                                'response.flush
+                         '       end if
 
                         oRec5.open kforCastSQL, oConn, 3
                         while not oRec5.EOF 
                         forecastAktids = forecastAktids & " OR a.id = "&oRec5("aktid") 
+                        forecastJobids = forecastJobids & " OR j.id = "&oRec5("jobid") 
                         forecastAktidsTxt = forecastAktidsTxt & ",#"& oRec5("aktid") &"#"
+                        forecastJobidsTxt = forecastJobidsTxt & ",#"& oRec5("jobid") &"#"
+                        'forecastJobidsTxt = forecastJobidsTxt & ","& oRec5("jobid") &""
                         oRec5.movenext
                         wend
                         oRec5.close       
 
-                                                
-                        if cint(risiko) < 0 OR (lto = "oko" AND cint(risiko) = -3) then '+ alle interne
+                                   
+                        if jobid <> 0 then
+    
+                                '**** SPECIAL SETTINGG PR LTO, Interne mm.
+                                if cint(risiko) < 0 OR (lto = "oko" AND cint(risiko) = -3) then '+ alle interne
 
-                        kforCastSQL = "SELECT a.id AS aktid FROM aktiviteter AS a WHERE a.job = "& jobid &" GROUP BY id"
-                        oRec5.open kforCastSQL, oConn, 3
-                        while not oRec5.EOF 
-                        forecastAktids = forecastAktids & " OR a.id = "&oRec5("aktid") 
-                        forecastAktidsTxt = forecastAktidsTxt & ",#"& oRec5("aktid") &"#"
-                        oRec5.movenext
-                        wend
-                        oRec5.close    
+                                kforCastSQL = "SELECT a.id AS aktid FROM aktiviteter AS a WHERE a.job = "& jobid &" GROUP BY id"
 
+                                'if session("mid") = 1 then
+                                'response.write "<br><br>#2<br><br>fc:<br>"& kforCastSQL
+                                'response.flush
+                                'end if
+
+                                oRec5.open kforCastSQL, oConn, 3
+                                while not oRec5.EOF 
+                                forecastAktids = forecastAktids & " OR a.id = "&oRec5("aktid") 
+                                forecastAktidsTxt = forecastAktidsTxt & ",#"& oRec5("aktid") &"#"
+                        
+                                oRec5.movenext
+                                wend
+                                oRec5.close    
+
+
+                                end if
 
                         end if
 
 
-
                     end if
 
-                    forecastAktids = forecastAktids & ")"
+                    'forecastAktids = forecastAktids & ")"
 
                     if cint(viskunForecast) = 1 then
                     forecastAktids = forecastAktids
@@ -353,7 +410,7 @@
         function addresbooking(medid, aktid, jobid, startDato, startDatoTid, slutDato, slutDatoTid, lto)
     	                
                         select case lto
-                        case "essens", "intranet - local", "hidalgo", "outz", "jttek", "dencker"
+                        case "essens", "intranet - local", "hidalgo", "outz", "jttek", "dencker", "wap", "mpt"
                             show_planlag = 1
                         case else
                             show_planlag = 0
@@ -445,7 +502,7 @@
                                     &" VALUES (0, "& session("mid") &", "& aktid &", "& jobid &", "_
                                     &"'"& startDato &"', "_
                                     &"'"& startDato &" "& startDatoTid &"', "_ 
-						            &"'"& startDato &" "& slutDatoTid &"', "_
+						            &"'"& slutDato &" "& slutDatoTid &"', "_
                                     &"0,0,0,"_
 						            &"'"& strEditor &"', "_
 						            &"'"& strEditorDato &"'"_
@@ -483,7 +540,7 @@
                                  
 
                                     '* SKAL IKKE SLETTES Hver gang ved rediger - KUN NÅR DER VÆLGES
-                                    if cint(akt_boooking_findes) = 1 then
+                                    if cint(akt_boooking_findes) = 1 then 'cint(akt_boooking_findes) = 1
                                     strSQLbookdel = "DELETE FROM akt_bookings_rel WHERE abl_bookid = " & aktid
                                     oConn.execute(strSQLbookdel)
                                     end if

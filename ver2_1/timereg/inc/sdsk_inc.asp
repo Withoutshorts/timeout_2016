@@ -279,7 +279,7 @@ function eml_proGrp()
 					
 					strSQL2 = "SELECT p.id, p.navn, m.mnavn, m.email FROM projektgrupper p"_
 					&" LEFT JOIN progrupperelationer pr ON (pr.projektgruppeId = p.id) "_
-					&" LEFT JOIN medarbejdere m ON (m.mid = pr.medarbejderId AND mansat <> '2') WHERE p.id = " & oRec("progrp")
+					&" LEFT JOIN medarbejdere m ON (m.mid = pr.medarbejderId AND mansat <> '2' AND mansat <> '4') WHERE p.id = " & oRec("progrp")
 					
 					'Response.Write strSQL2
 					

@@ -1,6 +1,9 @@
 <% 
 function indlaesEasyreg(lto)
 
+
+               
+
                 'Kun hvis admin logger på
 
                 'Tjekker om det er en hverdag
@@ -30,31 +33,56 @@ function indlaesEasyreg(lto)
                 end if
                 oRec7.close
 
-                'lastEasyregDato = "16/5/2018"
+                'lastEasyregDato = "24/6/2018"
 
                 antalDageDiff = dateDiff("d", lastEasyregDato, now)
 
-                
+               
+
+                '*** SKAL Hentes fra kontrol panel
+           
                 treeweeksminus = now
-                treeweeksminus = dateadd("d", -21, treeweeksminus)
+                treeweeksminus = dateadd("d", -showeasyreg_per, treeweeksminus)
                 treeweeksminus = year(treeweeksminus) &"/"& month(treeweeksminus) &"/"& day(treeweeksminus)
+        
+
+                if cint(showeasyreg_per) <> 0 then
+                strSQLtreeweeksminus =  " AND jobstartdato >= '"& treeweeksminus &"'"
+                else
+                strSQLtreeweeksminus =  ""
+                end if
 
                 '**** Antal Easyreg aktiviteter ****
                 antalEasyreg = 0
-                strSQLeasyregA = "SELECT COUNT(a.id) AS antal FROM job j "_
-                &" LEFT JOIN aktiviteter a ON (a.job = j.id) WHERE easyreg = 1 AND aktstatus = 1 AND job <> 0 AND jobstatus = 1 AND jobstartdato >= '"& treeweeksminus &"' GROUP BY easyreg" 
+                strSQLeasyregA = "SELECT a.id AS antal, COALESCE(Sum(timer)) AS sumtimer, easyreg_max FROM job j "_
+                &" LEFT JOIN aktiviteter a ON (a.job = j.id) "_
+                &" LEFT JOIN timer t ON (t.taktivitetid = a.id) "_
+                &" WHERE easyreg = 1 AND aktstatus = 1 AND job <> 0 AND jobstatus = 1 "& strSQLtreeweeksminus &" GROUP BY taktivitetid" 
+                
 
                 'if session("mid") = 21 then
                 'response.Write strSQLeasyregA
                 'response.flush
                 'end if
 
-                oRec7.Open strSQLeasyregA, oConn, 3
-                if not oRec7.EOF then
-            
-                antalEasyreg = oRec7("antal") 
+                'Response.write "HER: " &  lastEasyregDato & " antalDageDiff: " & antalDageDiff
+                'Response.end
 
+                oRec7.Open strSQLeasyregA, oConn, 3
+                while not oRec7.EOF '
+
+                if ISNULL(oRec7("sumtimer")) <> true then
+            
+                    if cdbl(oRec7("sumtimer")) < cdbl(oRec7("easyreg_max")) then 
+                    antalEasyreg = antalEasyreg + 1 
+                    end if            
+
+                else
+                    antalEasyreg = antalEasyreg + 1 
                 end if
+
+                oRec7.movenext
+                wend
                 oRec7.close
 
                 if antalEasyreg <> 0 then
@@ -67,37 +95,64 @@ function indlaesEasyreg(lto)
                 'Response.Write "EA: "& C & " antalEasyreg: "& antalEasyreg &" antalDageDiff: "& antalDageDiff &" lastEasyregDato: "& lastEasyregDato &"<br>"
                 'end if        
 
+                
+    
+    
                 if antalEasyreg > 0 then
 
-
-               
-
-                '**** Antal Easyreg aktiviteter ****
-                strSQLeasyreg = "SELECT a.id As aktid, navn AS aktnavn, fakturerbar, jobnr, jobnavn, kkundenr, kkundenavn, fasttp, fastkp, fasttp_val FROM aktiviteter a"_
+                    select case datepart("w", now, 2,2) 
+                    case 1,3,5
+                    sqlAktOrdeBy = "DESC"
+                    case else
+                    sqlAktOrdeBy = ""
+                    end select
+              
+                '**** Aktive Easyreg aktiviteter ****
+                strSQLeasyreg = "SELECT a.id As aktid, navn AS aktnavn, fakturerbar, jobnr, jobnavn, kkundenr, kid, "_
+                & " kkundenavn, fasttp, fastkp, fasttp_val, easyreg_max, easyreg_timer_proc, SUM(timer) AS sumtimer FROM aktiviteter a"_
                 & " LEFT JOIN job j ON (j.id = a.job) "_
                 & " LEFT JOIN kunder k ON (kid = j.jobknr) "_
-                &"  WHERE easyreg = 1 AND aktstatus = 1 AND a.job <> 0 AND jobstartdato >= '"& treeweeksminus &"' AND jobstatus = 1"
+                & " LEFT JOIN timer t ON (taktivitetid = a.id) "_
+                &"  WHERE easyreg = 1 AND aktstatus = 1 AND a.job <> 0 "& strSQLtreeweeksminus &" AND jobstatus = 1 GROUP BY taktivitetid ORDER BY taktivitetid "& sqlAktOrdeBy
 
                 'if session("mid") = 21 then
-                'response.write strSQLeasyreg
-                'response.flush
+                'response.write strSQLeasyreg & "<br>antalEasyreg: " & antalEasyreg
+                'response.end
                 'end if
 
 
                 oRec8.Open strSQLeasyreg, oConn, 3
                 while not oRec8.EOF 
             
-              
-              
+
+                        '** MAX Easyreg timer tjk ***'
+                        if ISNULL(oRec8("sumtimer")) <> true then
+                        timerThisAkt = oRec8("sumtimer")
+                        else
+                        timerThisAkt = 0
+                        end if
+
+                        if ISNULL(oRec8("easyreg_max")) <> true then
+                        easyreg_max = oRec8("easyreg_max")
+                        else
+                        easyreg_max = 0
+                        end if
+
+                        
+                        
+                    
+                        if cdbl(easyreg_max) < cdbl(timerThisAkt) then
+
 
                         '*** Henter medarbejdere
-                        strSQlmedarb = "SELECT mid, mnavn, measyregtimer FROM medarbejdere WHERE measyregtimer > 0 AND mansat = 1 ORDER BY mid" 'AND mid = 31
+                        measyregtimer = 0
+                        strSQlmedarb = "SELECT mid, mnavn, measyregtimer FROM medarbejdere WHERE measyregtimer > 0 AND mansat = 1 ORDER BY mid" 'AND mid = 31 AND mid = 7 
                         oRec7.open strSQlmedarb, oConn, 3
                         while not oRec7.EOF 
         
                         dageC = 0
 
-
+                        'Felter til TIMER tabel
                         origin = 7901
                         extsysid = 0
                         mtrx = 0
@@ -120,18 +175,20 @@ function indlaesEasyreg(lto)
                         intTimepris = oRec8("fasttp")
                     
                         kommthis = ""
-                        timerthis = formatnumber(oRec7("measyregtimer")/antalEasyreg, 2)
-
-                        if cdbl(timerthis) < "0,01" then 'tjekker ned på 6 decimaler
-                        'timerthis = "0,0003"
-                        timerthis = formatnumber(oRec7("measyregtimer")/antalEasyreg, 6)
-                        end if
-                        
-                        timerthis = replace(timerthis, ".", "")
-                        timerthis = replace(timerthis, ",", ".")
-
 
                        
+                        timerthis = formatnumber(oRec7("measyregtimer")/antalEasyreg, 2)
+                        
+                        measyregtimer = oRec7("measyregtimer")
+
+                        'if cdbl(timerthis) < "0,01" then 'tjekker ned på 6 decimaler
+                        
+                        'timerthis = formatnumber(oRec7("measyregtimer")/antalEasyreg, 6)
+                        'end if
+
+                      
+                        timerthis = replace(timerthis, ".", "")
+                        timerthis = replace(timerthis, ",", ".")          
                         
                         strMnavn = oRec7("mnavn")
                         medid = oRec7("mid")
@@ -142,7 +199,7 @@ function indlaesEasyreg(lto)
                         strFastpris = 0
                         jobnr = oRec8("jobnr")
                         strJobnavn = replace(oRec8("jobnavn"), "'", "")
-                        strJobknr = oRec8("kkundenr")
+                        strJobknr = oRec8("kid")
                         strJobknavn = replace(oRec8("kkundenavn"), "'", "")
 
                         'pmok = 0
@@ -172,21 +229,42 @@ function indlaesEasyreg(lto)
 
                         datothis = FormatDateTime(datothisBeregn,2) 'day(datothisBeregn) &"/"& month(datothisBeregn) &"/"& year(datothisBeregn)
                         
-                       
+                        'Dobbeltjk timer på dagen pr. emdarb.
+                        medTimerPrDag = 0
+                        sqlMtimerDato = year(datothisBeregn) & "/" & month(datothisBeregn) & "/" & day(datothisBeregn)
+                        strSQlmedarbTimerprDag = "SELECT SUM(timer) AS medtimer FROM timer WHERE tdato = '" & sqlMtimerDato & "' AND tmnr = "& oRec7("mid") &" AND origin = 7901 AND taktivitetnavn = 'Easyreg' GROUP BY tmnr"
+
+                        'Response.Write strSQlmedarbTimerprDag
+                        'Response.Flush
+
+                        oRec9.Open strSQlmedarbTimerprDag, oConn, 3
+                        if not oRec9.EOF then
+
+                         '** MAX MEdarb. timer pr. dag ***'
+                        if ISNULL(oRec9("medtimer")) <> true then
+                        medTimerPrDag = oRec9("medtimer")
+                        else
+                        medTimerPrDag = 0
+                        end if
+                           
+
+                        end if
+                        oRec9.close
+
 
                         toDay = datepart("w", datothis, 2,2)
 
                         'if session("mid") = 21 then
-                        'Response.Write "datothis: " & datothis & " toDay: "& toDay &"<br>"
+                        'Response.Write "datothis: " & datothis & " toDay: "& toDay &" strJobknr: "& strJobknr &"<br>"
                         'end if
 
-                            if toDay < 6 then 'Kun hverdage
+                            if toDay < 6 AND (cdbl(medTimerPrDag) < cdbl(measyregtimer)) then 'Kun hverdage
 
                             
                 
                                 call opdaterTimer(aktid, aktnavn, tfaktimvalue, strFastpris, jobnr, strJobnavn, strJobknr, strJobknavn,_
                                 medid, strMnavn, datothis, timerthis, kommthis, intTimepris,_
-                                dblkostpris, offentlig, intServiceAft, strYear, sTtid, sLtid, visTimerelTid, stopur, intValuta, bopal, destination, dage, tildeliheledage, origin, extsysid, mtrx, intKpValuta)
+                                dblkostpris, offentlig, intServiceAft, strYear, sTtid, sLtid, visTimerelTid, stopur, intValuta, bopal, destination, dage, tildeliheledage, origin, extsysid, mtrx, intKpValuta, 0)
 
 
 
@@ -200,6 +278,8 @@ function indlaesEasyreg(lto)
                         oRec7.movenext
                         wend
                         oRec7.close
+
+                        end if
 
 
                 a = a + 1

@@ -115,7 +115,8 @@ Public Class oz_importmed_na
     Public LastMedID As String = "0"
 
 
-
+    Public HrgrpIdLastId As Integer = 0
+    Public HrgrpId As Integer = 0
 
 
     <WebMethod()> Public Function addmed(ByVal ds As DataSet) As String
@@ -172,9 +173,27 @@ Public Class oz_importmed_na
 
 
 
+        '** HENTER projektgruppe
+        Dim proGrpEq As String = " (projektgruppeid = 0 "
+        Dim proGrpDiff As String = " (projektgruppeid <> 0 "
+
+        Dim strSQLprgFindes As String = "SELECT id FROM projektgrupper WHERE orgvir = 0"
+        objCmd = New OdbcCommand(strSQLprgFindes, objConn)
+        objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+        While objDR2.Read() = True
+
+            proGrpEq += " Or projektgruppeid = " + objDR2("id").ToString
 
 
+            proGrpDiff += " AND projektgruppeid <> " + objDR2("id").ToString
 
+
+        End While
+        objDR2.Close()
+
+        proGrpEq += ")"
+        proGrpDiff += ")"
 
 
 
@@ -289,15 +308,18 @@ Public Class oz_importmed_na
             objDR2.Close()
 
 
-            If LCase(init) = "sni" And lto = "tia" Then
+            If LCase(init) = "xsni" And lto = "tia" Then
                 errId = 10
             End If
 
-            Select Case weblang
+            Dim med_cal As String = "DK"
+            Select Case objDR("countrycode") 'weblang
                 Case "DK"
                     sprog = 1
+                    med_cal = "DK"
                 Case Else
                     sprog = 2
+                    med_cal = "LT"
             End Select
 
 
@@ -305,10 +327,10 @@ Public Class oz_importmed_na
 
                 If CInt(medidFindes) = 0 Then
 
-                    Dim strSQLaktins As String = "INSERT INTO medarbejdere (editor, dato, mnavn, mnr, init, login, pw, medarbejdertype, brugergruppe, mansat, email, ansatdato, opsagtdato, sprog, tsacrm) VALUES "
+                    Dim strSQLaktins As String = "INSERT INTO medarbejdere (editor, dato, mnavn, mnr, init, login, pw, medarbejdertype, brugergruppe, mansat, email, ansatdato, opsagtdato, sprog, tsacrm, med_cal) VALUES "
                     strSQLaktins += " ('TO_import-nav','" & Now.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', '" & mednavn & "', '" & id & "',"
                     strSQLaktins += "'" & init & "', '" & init & "', MD5('" & loginpw & "'), " & medarbejdertype & ", 6, " & mansat & ", '" & email & "', "
-                    strSQLaktins += "'" & ansatdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', '" & opsagtdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " & sprog & ", 9)"
+                    strSQLaktins += "'" & ansatdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', '" & opsagtdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', " & sprog & ", 9, '" & med_cal & "')"
 
                     objCmd2 = New OdbcCommand(strSQLaktins, objConn2)
                     objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
@@ -318,7 +340,7 @@ Public Class oz_importmed_na
                     'brugergruppe = 6,
                     Dim strSQLmedUpd As String = "UPDATE medarbejdere SET editor = 'TO_import-nav-upd', dato = '" & Now.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "',"
                     strSQLmedUpd += "mnavn = '" & mednavn & "', medarbejdertype = " & medarbejdertype & ", mansat = " & mansat & ", email = '" & email & "',"
-                    strSQLmedUpd += "ansatdato = '" & ansatdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', opsagtdato = '" & opsagtdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', sprog = " & sprog & ""
+                    strSQLmedUpd += "ansatdato = '" & ansatdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', opsagtdato = '" & opsagtdato.ToString("yyyy/MM/dd", Globalization.CultureInfo.InvariantCulture) & "', sprog = " & sprog & ", med_cal = '"& med_cal &"'"
                     strSQLmedUpd += " WHERE init = '" & init & "'"
 
                     objCmd2 = New OdbcCommand(strSQLmedUpd, objConn2)
@@ -332,7 +354,7 @@ Public Class oz_importmed_na
 
 
 
-                '*** Finder jobid ***
+                '*** Finder medid ***
                 Dim strSQLlastMedID As String = "SELECT mid FROM medarbejdere WHERE init = '" & init & "'"
                 objCmd = New OdbcCommand(strSQLlastMedID, objConn)
                 objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
@@ -359,7 +381,7 @@ Public Class oz_importmed_na
                 End If
 
 
-                If costcenter <> "0" Then
+                If costcenter <> "0" And LastMedID <> "0" Then
                     '*** Opretter Medarb i COSTCENTER projektgrupper ****
 
 
@@ -368,6 +390,12 @@ Public Class oz_importmed_na
 
                         Case "100", "110", "120", "130", "140", "150"
                             mapping = 11
+                        Case "200"
+                            mapping = 92
+                        Case "210"
+                            mapping = 75
+                        Case "220"
+                            mapping = 76
                         Case "300"
                             mapping = 12
                         Case "320"
@@ -378,16 +406,20 @@ Public Class oz_importmed_na
                             mapping = 15
                         Case "500"
                             mapping = 60
-                        Case "600", "610"
+                        Case "600", "610", "607"
                             mapping = 16
                         Case "700"
                             mapping = 17
+                        Case Else
+                            mapping = 77
                     End Select
 
-
+                    'COSTCENTER
                     '*** sletter eksisterende projgrprel (hvis der er skiftet grupper) ***
-                    Dim strSQLpgldel As String = "DELETE FROM progrupperelationer WHERE medarbejderid =  " & LastMedID & " AND "
-                    strSQLpgldel += "(projektgruppeid = 11 Or projektgruppeid = 12 Or projektgruppeid = 13 Or projektgruppeid = 14 Or projektgruppeid = 15 Or projektgruppeid = 16 Or projektgruppeid = 17)"
+                    Dim strSQLpgldel As String = "DELETE FROM progrupperelationer WHERE medarbejderid =  " & LastMedID & " AND projektgruppeid <> 10 AND "
+                    strSQLpgldel += proGrpEq
+
+                    '"(projektgruppeid = 11 Or projektgruppeid = 12 Or projektgruppeid = 13 Or projektgruppeid = 14 Or projektgruppeid = 15 Or projektgruppeid = 16 Or projektgruppeid = 17)"
 
                     objCmd2 = New OdbcCommand(strSQLpgldel, objConn2)
                     objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
@@ -424,12 +456,13 @@ Public Class oz_importmed_na
                     End If
                     objDR2.Close()
 
+
                     '** medidFindes Linemanager **
                     If CInt(LineMLastId) <> 0 Then
 
                         '*** Findes med INIT ***
                         Dim linemanagerFindes As Integer = 0
-                        Dim HrgrpId As Integer = 0
+
 
                         Dim strSQLlinemanagerFindes As String = "SELECT id FROM projektgrupper WHERE navn = 'HR - " & linemanager & "' AND orgvir = 2 LIMIT 1"
                         objCmd = New OdbcCommand(strSQLlinemanagerFindes, objConn)
@@ -443,6 +476,8 @@ Public Class oz_importmed_na
                         End If
                         objDR2.Close()
 
+
+
                         '*** Opretter HR Projektgruppe ***
                         If CInt(linemanagerFindes) = 0 Then
 
@@ -454,7 +489,7 @@ Public Class oz_importmed_na
                             objCmd2 = New OdbcCommand(strSQLoprHRgrp, objConn2)
                             objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
 
-                            Dim HrgrpIdLastId As Integer = 0
+
                             Dim strSQLlinemanagerLastId As String = "SELECT id FROM projektgrupper WHERE navn = 'HR - " & linemanager & "' AND orgvir = 2 LIMIT 1"
                             objCmd = New OdbcCommand(strSQLlinemanagerLastId, objConn)
                             objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
@@ -469,11 +504,36 @@ Public Class oz_importmed_na
 
 
 
+                        End If
 
-                            If LineMLastId <> 0 Then
 
+                        If LineMLastId <> 0 And (HrgrpIdLastId <> 0 Or HrgrpId <> 0) Then
+
+                            '*** Projekgruppefindes i forvejen
+                            Dim useHrgrpId As String = "0"
+                            If HrgrpId <> 0 Then
+                                useHrgrpId = HrgrpId
+                            Else
+                                useHrgrpId = HrgrpIdLastId
+                            End If
+
+                            Dim erTeamlederLastId As Integer = 0
+
+                            Dim strSQLteamleder As String = "SELECT id FROM progrupperelationer WHERE teamleder = 1 AND projektgruppeid = " & useHrgrpId & " LIMIT 1"
+                            objCmd = New OdbcCommand(strSQLteamleder, objConn)
+                            objDR2 = objCmd.ExecuteReader '(CommandBehavior.closeConnection)
+
+                            If objDR2.Read() = True Then
+
+                                erTeamlederLastId = objDR2("id")
+
+                            End If
+                            objDR2.Close()
+
+
+                            If erTeamlederLastId = 0 Then
                                 Dim strSQLpgrtl As String = ("INSERT INTO progrupperelationer (projektgruppeid, medarbejderid, teamleder) VALUES " _
-                                & " (" & HrgrpIdLastId & ", " & LineMLastId & ", 1)")
+                                & " (" & useHrgrpId & ", " & LineMLastId & ", 1)")
 
 
                                 objCmd2 = New OdbcCommand(strSQLpgrtl, objConn2)
@@ -482,16 +542,32 @@ Public Class oz_importmed_na
                             End If
 
 
-
                         End If
 
 
 
 
+                    End If 'LineMLastId
 
-                        '*** sletter eksisterende projgrprel til LM ***
-                        Dim strSQLpgldelLM As String = "DELETE FROM progrupperelationer WHERE medarbejderid =  " & LastMedID & " AND projektgruppeid <> 10 AND "
-                        strSQLpgldelLM += "(projektgruppeid <> 11 AND projektgruppeid <> 12 AND projektgruppeid <> 13 AND projektgruppeid <> 14 AND projektgruppeid <> 15 AND projektgruppeid <> 16 AND projektgruppeid <> 17)"
+
+
+                    '*** HR Gruppe Relation medarbejder der bliver opdateret 
+                    '*** Sletter eksisterende projgrprel til LM grupper og orpetter nyeste ***
+                    If LastMedID <> "0" And (HrgrpIdLastId <> 0 Or HrgrpId <> 0) Then
+
+                        '*** Projekgruppefindes i forvejen
+                        Dim useHrgrpId As String = "0"
+                        If HrgrpId <> 0 Then
+                            useHrgrpId = HrgrpId
+                        Else
+                            useHrgrpId = HrgrpIdLastId
+                        End If
+
+
+                        '** Må ikke slette de realtioner hvor man selv er teamleder
+                        Dim strSQLpgldelLM As String = "DELETE FROM progrupperelationer WHERE medarbejderid =  " & LastMedID & " AND teamleder <> 1 And projektgruppeid <> 10 And "
+                        strSQLpgldelLM += proGrpDiff
+                        '"(projektgruppeid <> 11 And projektgruppeid <> 12 And projektgruppeid <> 13 And projektgruppeid <> 14 And projektgruppeid <> 15 And projektgruppeid <> 16 And projektgruppeid <> 17) And orgvir = 2"
 
 
                         objCmd2 = New OdbcCommand(strSQLpgldelLM, objConn2)
@@ -499,26 +575,24 @@ Public Class oz_importmed_na
 
                         '** Indsætter **'
                         Dim strSQLpgrelc As String = ("INSERT INTO progrupperelationer (projektgruppeid, medarbejderid) VALUES " _
-                            & " (" & HrgrpId & ", " & LastMedID & ")")
+                            & " (" & useHrgrpId & ", " & LastMedID & ")")
 
 
                         objCmd2 = New OdbcCommand(strSQLpgrelc, objConn2)
                         objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
 
+                    End If
 
-                    End If 'If CInt(LineMLastId) <> 0 Then
+
+                    'End If 'If CInt(LineMLastId) <> 0 Then
 
                 End If ' linemanager <> ""
-
-
-
-
 
 
             End If 'errID
             '**** Opdater overført ************
 
-            Dim strSQLjobToverfort As String = "UPDATE med_import_temp_ds SET overfort = 1 WHERE overfort = 0 AND init = '" & init & "'"
+            Dim strSQLjobToverfort As String = "UPDATE med_import_temp_ds Set overfort = 1 WHERE overfort = 0 And init = '" & init & "'"
             objCmd2 = New OdbcCommand(strSQLjobToverfort, objConn2)
             objCmd2.ExecuteReader() '(CommandBehavior.closeConnection)
 

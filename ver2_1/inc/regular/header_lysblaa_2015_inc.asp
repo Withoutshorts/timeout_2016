@@ -126,6 +126,11 @@
 
     <%end if %>
 
+    <%if thisfile = "joblist" OR thisfile = "favorit.asp" then 'kommentar felt på komm / gå historik fejler pga FM_kommentarfel bliver udkommenteret%>
+    <script src="../inc/jquery/jquery.coookie.js" type="text/javascript"></script>
+    <%end if %>
+
+
     <!--<script type="text/javascript" src="./js/datatables.min.js"></script>-->
     <script type="text/javascript" src="//cdn.datatables.net/plug-ins/1.10.9/sorting/date-dd-MMM-yyyy.js"></script>
     <script src="./js/plugins/datepicker/bootstrap-datepicker.js"></script>
@@ -145,8 +150,9 @@
      <script src="../inc/menu/js/classie.js" type="text/javascript"></script>
      <script src="../inc/menu/js/menu.js" type="text/javascript"></script>
 
+    <script src="../inc/menu/js/menu_systemmeddelelser3.js"></script>
     
-        
+     
 
 
 
@@ -158,14 +164,14 @@
 	
 </head>
 
-<body class=" ">
+<body class="" id="2015">
 
 
 
 
 
 <!--=======================================================
-TimeOut er tænkt og produceret af OutZourCE 2002 - 2015
+TimeOut er tænkt og produceret af OutZourCE 2002 - 2019
 www.OutZourCE.dk 
 Tlf: +45 2684 2000
 timeout@outzource.dk

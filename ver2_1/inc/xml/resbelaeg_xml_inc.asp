@@ -8,8 +8,9 @@ Set objXmlHttp_resbelaeg = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp_resbelaeg.open "GET", "http://localhost/inc/xml/resbelaeg_sprog.xml", False
 'objXmlHttp_resbelaeg.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/resbelaeg_sprog.xml", False
 'objXmlHttp_resbelaeg.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/resbelaeg_sprog.xml", False
+objXmlHttp_resbelaeg.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver4_22/inc/xml/resbelaeg_sprog.xml", False
 'objXmlHttp_resbelaeg.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/resbelaeg_sprog.xml", False
-objXmlHttp_resbelaeg.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/resbelaeg_sprog.xml", False
+'objXmlHttp_resbelaeg.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/resbelaeg_sprog.xml", False
 
 objXmlHttp_resbelaeg.send
 
@@ -236,7 +237,68 @@ Set oNodes_resbelaeg = objXmlDom_resbelaeg.documentElement.selectNodes(sXPathQue
     resbelaeg_txt_143 = oNode_resbelaeg.selectSingleNode("txt_143").Text
     resbelaeg_txt_144 = oNode_resbelaeg.selectSingleNode("txt_144").Text
     resbelaeg_txt_145 = oNode_resbelaeg.selectSingleNode("txt_145").Text
+    resbelaeg_txt_146 = oNode_resbelaeg.selectSingleNode("txt_146").Text
+    resbelaeg_txt_147 = oNode_resbelaeg.selectSingleNode("txt_147").Text
+    resbelaeg_txt_148 = oNode_resbelaeg.selectSingleNode("txt_148").Text
 
+    resbelaeg_txt_149 = oNode_resbelaeg.selectSingleNode("txt_149").Text
+    resbelaeg_txt_150 = oNode_resbelaeg.selectSingleNode("txt_150").Text
+    resbelaeg_txt_151 = oNode_resbelaeg.selectSingleNode("txt_151").Text
+    resbelaeg_txt_152 = oNode_resbelaeg.selectSingleNode("txt_152").Text
+    resbelaeg_txt_153 = oNode_resbelaeg.selectSingleNode("txt_153").Text
+    resbelaeg_txt_154 = oNode_resbelaeg.selectSingleNode("txt_154").Text
+    resbelaeg_txt_155 = oNode_resbelaeg.selectSingleNode("txt_155").Text
+    resbelaeg_txt_156 = oNode_resbelaeg.selectSingleNode("txt_156").Text
+    resbelaeg_txt_157 = oNode_resbelaeg.selectSingleNode("txt_157").Text
+    resbelaeg_txt_158 = oNode_resbelaeg.selectSingleNode("txt_158").Text
+    resbelaeg_txt_159 = oNode_resbelaeg.selectSingleNode("txt_159").Text
+    resbelaeg_txt_160 = oNode_resbelaeg.selectSingleNode("txt_160").Text
+
+    resbelaeg_txt_161 = oNode_resbelaeg.selectSingleNode("txt_161").Text
+    resbelaeg_txt_162 = oNode_resbelaeg.selectSingleNode("txt_162").Text
+    resbelaeg_txt_163 = oNode_resbelaeg.selectSingleNode("txt_163").Text
+    resbelaeg_txt_164 = oNode_resbelaeg.selectSingleNode("txt_164").Text
+    resbelaeg_txt_165 = oNode_resbelaeg.selectSingleNode("txt_165").Text
+    resbelaeg_txt_166 = oNode_resbelaeg.selectSingleNode("txt_166").Text 
+    resbelaeg_txt_167 = oNode_resbelaeg.selectSingleNode("txt_167").Text 
+    resbelaeg_txt_168 = oNode_resbelaeg.selectSingleNode("txt_168").Text 
+    resbelaeg_txt_169 = oNode_resbelaeg.selectSingleNode("txt_169").Text 
+    resbelaeg_txt_170 = oNode_resbelaeg.selectSingleNode("txt_170").Text 
+
+    resbelaeg_txt_171 = oNode_resbelaeg.selectSingleNode("txt_171").Text
+    resbelaeg_txt_172 = oNode_resbelaeg.selectSingleNode("txt_172").Text
+    resbelaeg_txt_173 = oNode_resbelaeg.selectSingleNode("txt_173").Text
+    resbelaeg_txt_174 = oNode_resbelaeg.selectSingleNode("txt_174").Text
+    resbelaeg_txt_175 = oNode_resbelaeg.selectSingleNode("txt_175").Text
+    resbelaeg_txt_176 = oNode_resbelaeg.selectSingleNode("txt_176").Text 
+    resbelaeg_txt_177 = oNode_resbelaeg.selectSingleNode("txt_177").Text 
+    resbelaeg_txt_178 = oNode_resbelaeg.selectSingleNode("txt_178").Text 
+    resbelaeg_txt_179 = oNode_resbelaeg.selectSingleNode("txt_179").Text 
+    resbelaeg_txt_180 = oNode_resbelaeg.selectSingleNode("txt_180").Text
+    
+    resbelaeg_txt_181 = oNode_resbelaeg.selectSingleNode("txt_181").Text
+    resbelaeg_txt_182 = oNode_resbelaeg.selectSingleNode("txt_182").Text
+    resbelaeg_txt_183 = oNode_resbelaeg.selectSingleNode("txt_183").Text
+    resbelaeg_txt_184 = oNode_resbelaeg.selectSingleNode("txt_184").Text
+    resbelaeg_txt_185 = oNode_resbelaeg.selectSingleNode("txt_185").Text
+    resbelaeg_txt_186 = oNode_resbelaeg.selectSingleNode("txt_186").Text 
+    resbelaeg_txt_187 = oNode_resbelaeg.selectSingleNode("txt_187").Text 
+    resbelaeg_txt_188 = oNode_resbelaeg.selectSingleNode("txt_188").Text 
+    resbelaeg_txt_189 = oNode_resbelaeg.selectSingleNode("txt_189").Text 
+    resbelaeg_txt_190 = oNode_resbelaeg.selectSingleNode("txt_190").Text
+    
+    resbelaeg_txt_191 = oNode_resbelaeg.selectSingleNode("txt_191").Text 
+    resbelaeg_txt_192 = oNode_resbelaeg.selectSingleNode("txt_192").Text 
+    resbelaeg_txt_193 = oNode_resbelaeg.selectSingleNode("txt_193").Text 
+    resbelaeg_txt_194 = oNode_resbelaeg.selectSingleNode("txt_194").Text
+    resbelaeg_txt_195 = oNode_resbelaeg.selectSingleNode("txt_195").Text
+    resbelaeg_txt_196 = oNode_resbelaeg.selectSingleNode("txt_196").Text
+    resbelaeg_txt_197 = oNode_resbelaeg.selectSingleNode("txt_197").Text
+    resbelaeg_txt_198 = oNode_resbelaeg.selectSingleNode("txt_198").Text
+    resbelaeg_txt_199 = oNode_resbelaeg.selectSingleNode("txt_199").Text
+    resbelaeg_txt_200 = oNode_resbelaeg.selectSingleNode("txt_200").Text
+    resbelaeg_txt_201 = oNode_resbelaeg.selectSingleNode("txt_201").Text
+    resbelaeg_txt_202 = oNode_resbelaeg.selectSingleNode("txt_202").Text
 
 
 

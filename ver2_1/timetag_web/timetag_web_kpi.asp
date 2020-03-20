@@ -56,7 +56,7 @@
                 <%
                     
                     if session("mid") = 1 AND lto = "hestia" then
-                    usemrn = 84
+                    usemrn = 68
                     else
                     usemrn = session("mid")
                     end if
@@ -76,7 +76,7 @@
                     useStDatoKri = licensstdato
                     end if
 
-                    call lonKorsel_lukketPerPrDato(now)
+                    call lonKorsel_lukketPerPrDato(now, usemrn)
                     if lonKorsel_lukketPerDt > useStDatoKri then
                     useStDatoKri = dateAdd("d", 1, day(lonKorsel_lukketPerDt) &"/"& month(lonKorsel_lukketPerDt) &"/"& year(lonKorsel_lukketPerDt))
                     else
@@ -140,8 +140,42 @@
                 <!------ Ferie saldo ----->
                 <%
                     
-                    ferieafholdt = 0
-                    call ferieAfholdtPer(sqlDatoStartFerie, sqlDatoEndFerie, usemrn, 0) 
+                    'ferieafholdt = 0
+                    ferieaarAfholdt = 0
+                    ferieaarUdbetalt = 0
+                    ferieaarAfholdtUdlon = 0
+                    'call ferieAfholdtPer(sqlDatoStartFerie, sqlDatoEndFerie, usemrn, 0) 
+                     strSQL = "SELECT timer, tdato, month(tdato) AS month, tfaktim, tastedato FROM timer WHERE tmnr = " & usemrn & ""_
+	                        &" AND (tfaktim = 14 OR tfaktim = 19 OR tfaktim = 16) AND tdato BETWEEN '"& sqlDatoStartFerie &"' AND '"& sqlDatoEndFerie &"' ORDER BY tdato"
+                            'response.Write "sql afholdt " & strSQL
+                            oRec7.open strSQL, oConn, 3
+                            
+                            while not oRec7.EOF
+
+                                call normtimerPer(usemrn , oRec7("tdato"), 0, 0)
+	                            if ntimPer <> 0 then
+                                ntimPerUse = ntimPer
+                                else
+                                ntimPerUse = 1
+                                end if 
+
+                                if oRec7("tfaktim") = 14 then
+                                    ferieaarAfholdt = ferieaarAfholdt + (oRec7("timer") / ntimPerUse)
+                                end if
+
+                                if oRec7("tfaktim") = 16 then
+                                    ferieaarUdbetalt = ferieaarUdbetalt + (oRec7("timer") / ntimPerUse)
+                                end if
+
+                                if oRec7("tfaktim") = 19 then
+                                    ferieaarAfholdtUdlon = ferieaarAfholdtUdlon + (oRec7("timer") / ntimPerUse)
+                                end if
+                                
+                        oRec7.movenext
+                        wend
+                        oRec7.close
+
+                        
 
                     
                     'strSQL3 = "SELECT SUM(timer) AS ferieafholdt FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& sqlDatoStartFerie &"' AND '"& sqlDatoEndFerie &"' AND tfaktim = 14 GROUP BY tmnr"
@@ -161,15 +195,18 @@
                     'response.Write "<br> af:" & ferieAFPerTimer(0)
                     
                     ferieoptjent = 0
-                    strSQL4 = "SELECT timer AS ferieoptjent, tdato FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& sqlDatoStartFerie &"' AND '"& sqlDatoEndFerie &"' AND (tfaktim = 15 OR tfaktim = 111 OR tfaktim = 112) ORDER BY tdato"
-                    
+                    strSQL4 = "SELECT sum(timer) AS timer, tdato, tfaktim FROM timer WHERE tmnr = "& usemrn &" AND tdato BETWEEN '"& sqlDatoStartFerie &"' AND '"& sqlDatoEndFerie &"' AND (tfaktim = 15 OR tfaktim = 111 OR tfaktim = 112) GROUP BY tfaktim ORDER BY tdato"
+                    'response.Write strSQL4
                     'if session("mid") = 1 then
                     'Response.write strSQL4
                     'Response.flush
                     'end if
-                    
+                    ferieaarOptjent = 0
+                    ferieaarOverfort = 0
+                    ferieaarOptUdenLon = 0
+
                     oRec7.open strSQL4, oConn, 3
-                    while not oRec7.EOF 
+                    if not oRec7.EOF then
                     
                          call normtimerPer(usemrn, oRec7("tdato"), 6, 0)
 	                     if ntimPer <> 0 then
@@ -178,17 +215,139 @@
                          normTimerGns5 = 1
                          end if 
 
-               
-                    ferieoptjent = ferieoptjent + (oRec7("ferieoptjent")*1/normTimerGns5)
+                                      
+                        if oRec7("tfaktim") = 15 then
+                            ferieaarOptjent = oRec7("timer") / normTimerGns5
+                        end if
+
+                        if oRec7("tfaktim") = 111 then
+                            ferieaarOverfort = oRec7("timer") / normTimerGns5
+                        end if
+
+                        if oRec7("tfaktim") = 112 then
+                            ferieaarOptUdenLon = oRec7("timer") / normTimerGns5
+                        end if
+
                     
+                    end if
+                    oRec7.close
+                   
+                    'response.Write "<br> Ferie opt " & ferieaarOptjent
+                    'response.Write "<br> Ferie overfor " & ferieaarOverfort
+                    'response.Write "<br> Ferie optudenlon " & ferieaarOverfort
+                
+                    'ferieSaldo = (ferieaarOptjent - ferieafholdt)
+                    call ferieBal_fn(ferieaarOptjent, ferieaarOverfort, ferieaarOptUdenLon, ferieaarAfholdt, ferieaarAfholdtUdlon, ferieaarUdbetalt)
+                    ferieSaldo = feriebal
+
+                    'response.Write "<br> tal: " & ferieoptjent
+                %>
+
+                <!-- Feriefri -->
+                <% 
+                    ugp = now
+                    strAar = year(ugp)
+
+                    select case lto
+                        case "akelius", "xintranet - local" 
+                            ferieaarST = strAar &"/1/1"
+	                        ferieaarSL = strAar &"/12/31"
+                        case else
+	                        if cdate(ugp) >= cdate("1-5-"& strAar) AND cdate(ugp) <= cdate("31-12-"& strAar) then
+	                            'Response.Write "OK her"
+	                            ferieaarST = strAar &"/5/1"
+	                            ferieaarSL = strAar+1 &"/4/30"
+	                        else
+	                            ferieaarST = strAar-1 &"/5/1"
+	                            ferieaarSL = strAar &"/4/30"
+	                    end if
+                    end select
+
+
+                    select case lto 
+                        case "mi", "intranet - local", "plan", "akelius", "outz", "xoko"
+                            FefriStartdato = year(now) &"-1-1"
+                            FefriSlutdato = year(now) & "-12-31"
+                        case else
+                            FefriStartdato = ferieaarST
+                            FefriSlutdato = ferieaarSL
+                    end select
+
+
+
+
+                    feFri = 0
+                    feFriBr = 0
+                    feFriUd = 0
+                    feFriPl = 0
+
+                    strSQLFefri = "SELECT timer, tfaktim, tdato FROM timer WHERE tmnr = "& usemrn & " AND tdato BETWEEN '"& FefriStartdato &"' AND '"& FefriSlutdato &"' AND (tfaktim = 12 OR tfaktim = 13 OR tfaktim = 17 OR tfaktim = 18) ORDER BY tdato"
+                    'response.Write strSQLFefri
+                    oRec7.open strSQLFefri, oConn, 3
+                    while not oRec7.EOF
+
+                        call normtimerPer(usemrn , oRec7("tdato"), 0, 0)
+	                    if ntimPer <> 0 then
+                        ntimPerUse = ntimPer
+                        else
+                        ntimPerUse = 1
+                        end if
+
+                        select case cint(oRec7("tfaktim"))
+                            case 12
+
+                                call normtimerPer(usemrn , oRec7("tdato"), 6, 0)
+
+                                if ntimPer <> 0 then
+                                'ntimPerUse = ntimPer/antalDageMtimer
+                                normTimerGns5 = (ntimManIgnHellig + ntimTirIgnHellig + ntimOnsIgnHellig + ntimTorIgnHellig + ntimFreIgnHellig + ntimLorIgnHellig + ntimSonIgnHellig)  / 5
+                                else
+                                normTimerGns5 = 1
+                                end if 
+
+                                feFri = feFri + (oRec7("timer") / normTimerGns5)  
+                    
+                            case 13
+                                feFriBr = feFriBr + (oRec7("timer") / ntimPerUse)
+                            case 17
+                                feFriUd = feFriUd + (oRec7("timer") / ntimPerUse)
+                            case 18
+                                feFriPl = feFriPl +  (oRec7("timer") / ntimPerUse)
+
+                        end select                        
                     oRec7.movenext
                     wend
                     oRec7.close
-                   
-                
-                    ferieSaldo = (ferieoptjent - ferieafholdt)
 
-                    'response.Write "<br> tal: " & ferieoptjent
+                    'sqlNow = year(now) &"-"& month(now) &"-"& day(now)
+                    'call normtimerPer(usemrn, sqlNow, 6, 0)
+	     
+                    'if ntimPer <> 0 then
+                    'normTimerGns5 = (ntimManIgnHellig + ntimTirIgnHellig + ntimOnsIgnHellig + ntimTorIgnHellig + ntimFreIgnHellig + ntimLorIgnHellig + ntimSonIgnHellig) / 5
+                    'else
+                    'normTimerGns5 = 1
+                    'end if 
+
+                    'response.Write "<br> Feriefri opt " & feFri
+                    'response.Write "<br> Feriefri br " & feFriBr
+                    'response.Write "<br> Feriefri ud " & feFriUd
+                    'response.Write "<br> Feriefri pl " & feFriPl
+
+                    'feFri = feFri / normTimerGns5
+                    'feFriBr = feFriBr / normTimerGns5
+                    'feFriUd = feFriUd / normTimerGns5
+                    'feFriPl = feFriPl / normTimerGns5
+
+                    feFrisaldo = (feFri - (feFriBr + feFriUd))
+                    feFrisaldo = feFrisaldo - feFriPl
+
+
+                    'response.Write "<br> norm " & normTimerGns5 & " Saldo " & feFrisaldo
+                    'response.Write "<br> fefri " & feFri
+                    'response.Write "<br> fefriBR " &  feFriBr
+                    'response.Write "<br> feFriUd " &  feFriUd
+                    'response.Write "<br> feFriPl " &  feFriPl
+
                 %>
 
                 <!------ sygetal ----->
@@ -239,6 +398,12 @@
                     flexferieCol = "greenyellow"
                     end if
 
+                    if feFrisaldo < 0 then
+                    flexferiefriCol = "red"
+                    else
+                    flexferiefriCol = "greenyellow"
+                    end if
+
                     if flexsaldo < 0 then
                     flexsaldoCol = "red"
                     else
@@ -265,6 +430,12 @@
                         <td><%=ttw_txt_018 %></td>
                         <td style="text-align:right"><%=formatnumber(ferieSaldo,2) %> d.</td>
                         <td style="vertical-align:middle"><div style="height:10px; width:10px; background-color:<%=flexferieCol%>;"></div></td>
+                    </tr>
+
+                    <tr>
+                        <td><%=ttw_txt_028 %></td>
+                        <td style="text-align:right"><%=formatnumber(feFrisaldo,2) %> d.</td>
+                        <td style="vertical-align:middle"><div style="height:10px; width:10px; background-color:<%=flexferiefriCol%>;"></div></td>
                     </tr>
 
                     <tr>

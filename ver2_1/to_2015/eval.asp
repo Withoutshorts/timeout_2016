@@ -282,7 +282,7 @@
             'strSQLAVG_ikke_fastpris_aktiviteter = "SELECT SUM(timer*TimePris) as sumtimepris, SUM(timer) AS timer FROM timer "_
             '&" LEFT JOIN aktiviteter as a ON (a.job = "& strJobid &" AND a.brug_fasttp = 0) WHERE tjobnr = '"& strJobnr &"' AND a.brug_fasttp = 0 AND ("& aty_sql_realhours &") GROUP BY taktivitetid"
 
-            strSQLAVG_ikke_fastpris_aktiviteter = "SELECT a.id, brug_fasttp, fasttp, navn, SUM(t.timer) AS sumtimer FROM aktiviteter a "_
+            strSQLAVG_ikke_fastpris_aktiviteter = "SELECT a.id, brug_fasttp, fasttp, navn, SUM(t.timer) AS sumtimer, SUM(t.timer*t.TimePris) as sumtimepris FROM aktiviteter a "_
             &" LEFT JOIN timer t ON (t.taktivitetid = a.id) WHERE job = "& strJobid &" AND brug_fasttp = 0 AND ("& aty_sql_realhours &") GROUP BY taktivitetid"
             'response.Write strSQLAVG_ikke_fastpris_aktiviteter
             totalTimerIkkeFastprisAkt = 0
@@ -293,7 +293,7 @@
             while not oRec2.EOF 
 
             sumtimePris_ikke_fastpris_aktiviteter = sumtimePris_ikke_fastpris_aktiviteter + oRec2("sumtimepris")
-            totalTimerIkkeFastprisAkt = totalTimerIkkeFastprisAkt + oRec2("timer")
+            totalTimerIkkeFastprisAkt = totalTimerIkkeFastprisAkt + oRec2("sumtimer")
 
             oRec2.movenext
             wend
@@ -644,7 +644,7 @@
              
         %>
 
-<script src="js/eval_jav7.js" type="text/javascript"></script>
+<script src="js/eval_jav8.js" type="text/javascript"></script>
 
 
 <div class="wrapper"><br /><br />

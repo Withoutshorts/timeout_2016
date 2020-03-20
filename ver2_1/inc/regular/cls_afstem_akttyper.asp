@@ -24,12 +24,66 @@ public dagTimer, fefriplTimer, ferieAFulonTimer, fefriTimerPerBr
 public ferieaarSlut, ferieaarStart, afspTimerTimPer, afspTimerPer, sygaarSt
 public sygDage, sygDagePer, sygTimerPer, barnSygTimerPer, barnSygDagePer, barnSygDage
 public startdatoFerieLabel, slutdatoFerieLabel, barsel, ferieAFPerstDato, feriefriAFPerstDato, barselPerstDato, barnsygPerstDato, sygPerstDato, omsorgPerstDato, afspadPerstDato  
-public  omsorg, senior, divfritimer, fefriTimerPerBrTimer, ferieFriaarStart, ferieFriaarSlut, startdatoFerieFriLabel, slutdatoFerieFriLabel
+public  omsorg, senior, divfritimer, fefriTimerPerBrTimer, ferieFriaarStart, ferieFriaarSlut, startdatoFerieFriLabel, slutdatoFerieFriLabel, startdatoFerieFri, slutdatoFerieFri
 public fefriTimerUdbPer, fefriTimerUdbPerTimer
 public ferieAFulonPer, ferieAFulonPerTimer, ferieUdbPer, ferieUdbPerTimer, ferieOptjUlontimer, ferieOptjOverforttimer, korrektionKomG, korrektionReal, tjenestefri 
 public aldersreduktionOpj, aldersreduktionBr, aldersreduktionUdb
-public aldersreduktionPl, omsorg2pl, omsorg10pl, omsorgKpl, ulempe1706udb, ulempeWudb, rejseDage, e3timer, feriekor 
-	    
+public aldersreduktionPl, omsorg2pl, omsorg10pl, omsorgKpl, ulempe1706udb, ulempeWudb, rejseDage, e3timer, feriekor, omsorgOpt 
+public ferieAfh152020timer, ferieIndefrossettimer
+public diet_maksamount, diet_maksamount_skattefri, diet_maksamount_skat
+
+'** HR list GT var
+public sygTimerTxtGT, sygDageTxtGT, sygTimerPerTxtGT, sygDagePerTxtGT
+public barnsygTimerTxtGT, barnSygDageTxtGT, barnSygTimerPerTxtGT, barnsygDagePerTxtGT
+Public barselTxtGT, omsorgTxtGT, seniorTxtGT
+public ferieAftPerValtimTxtGT, ferieAftPerValTxtGT, ferieAftulonPerValTxtGT, ferieAftulonPerValtimTxtGT, ferieUdbPerValTxtGT, ferieUdbPerValtimTxtGT, divfritimerTxtGT, rejseDageTxtGT
+public ferieValTxtExpGT, ferieValoverfortTxtGT, ferieValUlonTxtGT, feriePlValTxtGT, ferieAftValTxtGT, ferieAftulonValTxtGT, ferieUdbValTxtGT, ferieBalValTxtGT, fefriValTxtGT, fefriplValTxtGT, fefribrValTxtGT
+public fefriudbValTxtGT, fefriBalValTxtGT, fefriPerbrValTxtGT, fefriudbValPerTxtGT, fefriudbValPerTimerTxtGT, ferieValTxtGT, fefriTimerPerBrTimerValTxtGT, ferieIndefrossettimerTxtGT, ferieAfh152020timerTxtGT
+public diet_maksamountGT
+
+sygTimerTxtGT = 0
+sygDageTxtGT = 0
+sygTimerPerTxtGT = 0
+sygDagePerTxtGT = 0
+barnsygTimerTxtGT = 0
+barnSygDageTxtGT = 0
+barnSygTimerPerTxtGT = 0
+barnsygDagePerTxtGT = 0
+barselTxtGT = 0
+omsorgTxtGT = 0
+seniorTxtGT = 0
+ferieAftPerValTxtGT = 0
+ferieAftPerValtimTxtGT = 0
+ferieAftulonPerValTxtGT = 0
+ferieAftulonPerValtimTxtGT = 0
+ferieUdbPerValTxtGT = 0
+ferieUdbPerValtimTxtGT = 0
+divfritimerTxtGT = 0
+rejseDageTxtGT = 0
+ferieValTxtExpGT = 0
+ferieValoverfortTxtGT = 0
+ferieValUlonTxtGT = 0
+feriePlValTxtGT = 0
+ferieAftValTxtGT = 0
+ferieAftulonValTxtGT = 0
+ferieUdbValTxtGT = 0
+ferieBalValTxtGT = 0
+fefriValTxtGT = 0
+fefriplValTxtGT = 0
+fefribrValTxtGT = 0
+fefriudbValTxtGT = 0
+fefriBalValTxtGT = 0
+fefriPerbrValTxtGT = 0
+fefriudbValPerTxtGT = 0
+fefriudbValPerTimerTxtGT = 0
+ferieValTxtGT = 0
+fefriTimerPerBrTimerValTxtGT = 0
+ferieAfh152020timerTxtGT = 0
+ferieIndefrossettimerTxtGT = 0
+diet_maksamountGT = 0
+'normTimerDag = 0
+
+
 
         redim fTimer(arrayHigh), ifTimer(arrayHigh), km(arrayHigh), sTimer(arrayHigh), flexTimer(arrayHigh),  sundTimer(arrayHigh), pausTimer(arrayHigh) 
         redim fpTimer(arrayHigh), feriePLTimer(arrayHigh), fefriTimer(arrayHigh), fefriTimerBr(arrayHigh), afspTimerBrPer(arrayHigh), ferieAFTimer(arrayHigh) 
@@ -46,7 +100,9 @@ public aldersreduktionPl, omsorg2pl, omsorg10pl, omsorgKpl, ulempe1706udb, ulemp
         redim ferieAFulonPer(arrayHigh), ferieAFulonPerTimer(arrayHigh), ferieUdbPer(arrayHigh), ferieUdbPerTimer(arrayHigh)
         redim ferieOptjUlontimer(arrayHigh), ferieOptjOverforttimer(arrayHigh), korrektionKomG(arrayHigh), korrektionReal(arrayHigh), tjenestefri(arrayHigh)
         redim aldersreduktionOpj(arrayHigh), aldersreduktionBr(arrayHigh), aldersreduktionUdb(arrayHigh)
-        redim omsorg2pl(arrayHigh), omsorg10pl(arrayHigh), omsorgKpl(arrayHigh), aldersreduktionPl(arrayHigh), ulempe1706udb(arrayHigh), ulempeWudb(arrayHigh), rejseDage(arrayHigh), e3timer(arrayHigh), feriekor(arrayHigh) 
+        redim omsorg2pl(arrayHigh), omsorg10pl(arrayHigh), omsorgKpl(arrayHigh), aldersreduktionPl(arrayHigh), ulempe1706udb(arrayHigh), ulempeWudb(arrayHigh), rejseDage(arrayHigh), e3timer(arrayHigh), feriekor(arrayHigh), omsorgOpt(arrayHigh) 
+        redim ferieAfh152020timer(arrayHigh), ferieIndefrossettimer(arrayHigh), diet_maksamount(arrayHigh), diet_maksamount_skattefri(arrayHigh), diet_maksamount_skat(arrayHigh)
+        'redim normTimerDag(arrayHigh)
 
 	     
 function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x, viskunGodkendte)
@@ -176,6 +232,7 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x, 
         rejseDage(x) = 0
 
         feriekor(x) = 0
+        omsorgOpt(x) = 0
 
         per13wrt = 0
         per14wrt = 0
@@ -228,6 +285,7 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x, 
 
             end select
 
+
 	        
 	        ferieaarStart = datepart("yyyy", startdatoFerie, 2, 2)
 	        ferieaarSlut = datepart("yyyy", slutdatoFerie, 2, 2)
@@ -240,7 +298,7 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x, 
             '**** Følger feriefridag kalender år eller ferie år REGEL: Kalender år
             '****************************************************
             select case lcase(lto)
-            case "mi", "intranet - local" '** kalender år
+            case "mi", "intranet - local", "plan", "xoko" '** kalender år
             
             'if session("mid") = 1 then
             'Response.write " Startdato: "& startdato &" slutdato:" & slutdato & "::"& year(now) & " visning;" & visning & "<br>"
@@ -304,6 +362,12 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x, 
 	        slutdatoFerie = slutdato
 	        end if
 
+            'select case lto
+            'case "cflow"
+            'lisStDatoSQL = year(startdato) &"/"& month(startdato) &"/"& day(startdato) 'startdato
+            'lisStDato = startdato
+            'end select
+
             
 
               '*** Syg ***'
@@ -342,6 +406,7 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x, 
            alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #-20#", "")
            alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #-30#", "")
            alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #-40#", "")
+           alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #-70#", "") 'Diæter
 	       
 	       '** Trimer og sætter dato interval på hver enekelt type. Ferie skal altid være i ferie år **' 
 	        alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #11#", " OR (af.tfaktim = 11 AND af.tdato BETWEEN '"& startdatoSQLNow &"' AND '"& slutdatoFeriePl &"')")
@@ -391,8 +456,16 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x, 
     	    '** Overarb / Afspad **'
     	    alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #30#", " OR (af.tfaktim = 30 AND af.tdato BETWEEN '"& lisStDatoSQL &"' AND '"& slutdato &"')")
     	    alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #31#", " OR (af.tfaktim = 31 AND af.tdato BETWEEN '"& lisStDatoSQL &"' AND '"& slutdato &"')")
+        
+            '*** Over arb. udbetalt ***'
+            select case lto
+            case "cflow"
+            alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #32#", " OR (af.tfaktim = 32 AND af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"')")
+            case else
     	    alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #32#", " OR (af.tfaktim = 32 AND af.tdato BETWEEN '"& lisStDatoSQL &"' AND '"& slutdato &"')")
-    	    alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #33#", " OR (af.tfaktim = 33 AND af.tdato BETWEEN '"& lisStDatoSQL &"' AND '"& slutdato &"')")
+            end select
+
+            alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #33#", " OR (af.tfaktim = 33 AND af.tdato BETWEEN '"& lisStDatoSQL &"' AND '"& slutdato &"')")
     	    
     	    alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #50#", " OR (af.tfaktim = 50 AND af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"')")
 
@@ -427,6 +500,10 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x, 
     	   
            alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #125#", " OR (af.tfaktim = 125 AND af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"')")
            alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #126#", " OR (af.tfaktim = 126 AND af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"')")
+           alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #127#", " OR (af.tfaktim = 127 AND af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"')")
+
+           alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #128#", " OR (af.tfaktim = 128 AND af.tdato BETWEEN '2019-01-01' AND '2019-08-31')")
+           alleaktivetyperSQL = replace(alleaktivetyperSQL, ", #129#", " OR (af.tfaktim = 129 AND af.tdato BETWEEN '2019-09-01' AND '2020-08-31')")
       
 
             '****'
@@ -465,8 +542,8 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x, 
 	    &" WHERE af.tmnr = "& intMid &" AND ("& alleaktivetyperSQL &") "& viskunGodkendteSQL &" "_
 	    &" GROUP BY af.tfaktim, af.tmnr, af.tdato ORDER BY tdato DESC"
 	    
-        'if lto = "dencker" then
-        'Response.write strSQLtim & "<br><br>"
+        'if session("mid") = 1 then
+        'Response.write "<hr><br><br><br><br>"& strSQLtim & "<br><br>"
         'Response.flush
         'end if
 	    
@@ -572,7 +649,7 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x, 
 
 	                      ''*** FerieFridage afholdt i per **'
 	                    strSQLper = "SELECT SUM(timer) AS sumTimerPer, tdato FROM timer af WHERE af.tmnr = "& intMid &" AND af.tfaktim = 13 AND "_
-	                    &" af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' GROUP BY af.tfaktim, af.tdato ORDER BY tdato DESC"
+	                    &" af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' "& viskunGodkendteSQL &" GROUP BY af.tfaktim, af.tdato ORDER BY tdato DESC"
 	                    
                         'if session("mid") = 1 then
 	                    'Response.Write "####"& strSQLper
@@ -692,7 +769,7 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x, 
 
 	                     ''*** Ferie udbetalt afholdt i per **'
 	                     strSQLper = "SELECT SUM(timer) AS sumTimerPer, tdato FROM timer af WHERE af.tmnr = "& intMid &" AND af.tfaktim = 16 AND "_
-	                     &" af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' GROUP BY af.tfaktim, af.tdato ORDER BY tdato DESC"
+	                     &" af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' "& viskunGodkendteSQL &" GROUP BY af.tfaktim, af.tdato ORDER BY tdato DESC"
 	                
 	                    'Response.Write strSQLper
 	                    'Response.flush
@@ -739,7 +816,7 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x, 
 
 	                     ''*** FerieFridage udbetalt i per **'
 	                     strSQLper = "SELECT SUM(timer) AS sumTimerPer, tdato FROM timer af WHERE af.tmnr = "& intMid &" AND af.tfaktim = 17 AND "_
-	                     &" af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' GROUP BY af.tfaktim, af.tdato ORDER BY tdato DESC"
+	                     &" af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' "& viskunGodkendteSQL &" GROUP BY af.tfaktim, af.tdato ORDER BY tdato DESC"
 	                
 	                    'Response.Write strSQLper
 	                    'Response.flush
@@ -801,7 +878,7 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x, 
 
 	                     ''*** Ferie U løn afholdt i per **'
 	                     strSQLper = "SELECT SUM(timer) AS sumTimerPer, tdato FROM timer af WHERE af.tmnr = "& intMid &" AND af.tfaktim = 19 AND "_
-	                     &" af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' GROUP BY af.tfaktim, af.tdato ORDER BY tdato DESC"
+	                     &" af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' "& viskunGodkendteSQL &" GROUP BY af.tfaktim, af.tdato ORDER BY tdato DESC"
 	                
 	                    'Response.Write strSQLper
 	                    'Response.flush
@@ -851,7 +928,7 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x, 
 	                    strSQLper = "SELECT SUM(timer) AS sumTimerPer, tdato "_
 	                    &" FROM timer af "_
 	                    &" WHERE af.tmnr = "& intMid &" AND af.tfaktim = 20 AND "_
-	                    &" af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' GROUP BY af.tfaktim, af.tdato ORDER BY tdato DESC"
+	                    &" af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' "& viskunGodkendteSQL &" GROUP BY af.tfaktim, af.tdato ORDER BY tdato DESC"
 	                    
 
                         'if session("mid") = 1 then
@@ -904,7 +981,7 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x, 
 	                    strSQLper = "SELECT SUM(timer) AS sumTimerPer, tdato "_
 	                    &" FROM timer af "_
 	                    &" WHERE af.tmnr = "& intMid &" AND af.tfaktim = 21 AND "_
-	                    &" af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' GROUP BY af.tfaktim, af.tdato ORDER BY tdato DESC"
+	                    &" af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' "& viskunGodkendteSQL &" GROUP BY af.tfaktim, af.tdato ORDER BY tdato DESC"
 	                
 	                    oRec5.open strSQLper, oConn, 3
 	                    while not oRec5.EOF 
@@ -968,15 +1045,26 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x, 
          case 25 'divfritimer(x) 
 
          
-         
+        select case lto
+        case "plan"
+        ntimPer = "7,4"
+        case else
 	     call normtimerPer(intMid, oRec6("tdato"), 0, 0)
+        end select
+
 	     if ntimPer <> 0 then
          ntimPerUse = ntimPer
          else
          ntimPerUse = 1
          end if 
      
-         divfritimer(x) = divfritimer(x) + oRec6("sumtimer")
+
+        select case lto
+        case "plan"
+        divfritimer(x) = divfritimer(x) + (oRec6("sumtimer") / ntimPerUse)
+        case else
+        divfritimer(x) = divfritimer(x) + oRec6("sumtimer")
+        end select
 
         case 26
         aldersreduktionPl(x) = aldersreduktionPl(x) + oRec6("sumtimer") 
@@ -997,7 +1085,10 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x, 
 	                
 	                
 	               
-	                
+	                    'if session("mid") = 1 then
+                        'Response.write "per30wrt: " & per30wrt & "<br>"
+                        'response.flush
+                        'end if
 
                     if cint(per30wrt) = 0 then 
 
@@ -1006,8 +1097,13 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x, 
 	                    &" FROM timer af "_
 	                    &" LEFT JOIN aktiviteter a ON (a.id = af.taktivitetid) "_
 	                    &" WHERE af.tmnr = "& intMid &" AND af.tfaktim = 30 AND "_
-	                    &" af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' GROUP BY af.tfaktim, af.tdato"
+	                    &" af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' "& viskunGodkendteSQL &" GROUP BY af.tfaktim, af.tdato"
 	                
+
+                        'if session("mid") = 1 then
+                        'Response.write strSQLper
+                        'response.flush
+                        'end if
 	                
 	                    oRec5.open strSQLper, oConn, 3
 	                    while not oRec5.EOF 
@@ -1043,7 +1139,7 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x, 
 	                strSQLper = "SELECT SUM(timer) AS sumTimerPer, tdato "_
 	                &" FROM timer af "_
 	                &" WHERE af.tmnr = "& intMid &" AND af.tfaktim = 31 AND "_
-	                &" af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' GROUP BY af.tfaktim, af.tdato ORDER BY tdato DESC"
+	                &" af.tdato BETWEEN '"& startdato &"' AND '"& slutdato &"' "& viskunGodkendteSQL &" GROUP BY af.tfaktim, af.tdato ORDER BY tdato DESC"
 	                
 	                
 	                    oRec5.open strSQLper, oConn, 3
@@ -1150,20 +1246,65 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x, 
         ulempeWudb(x) = ulempeWudb(x) +  oRec6("sumenheder")
         case 125
 
-         call normtimerPer(intMid, oRec6("tdato"), 0, 0)
-	     if ntimPer <> 0 then
-         ntimPerUse = ntimPer
-         else
-         ntimPerUse = 1
-         end if 
 
-        
+                select case lto
+                case "plan"
+                ntimPer = "7,4"
+                case "cflow"
+                case else
+	            call normtimerPer(intMid, oRec6("tdato"), 0, 0)
+                end select
 
-        rejseDage(x) = rejseDage(x) +  (oRec6("sumtimer") / ntimPerUse)
+
+                
+                 if ntimPer <> 0 then
+                 ntimPerUse = ntimPer
+                 else
+                 ntimPerUse = 1
+                 end if 
+
+
+                select case lto
+                case "cflow"
+                rejseDage(x) = rejseDage(x) + (oRec6("sumtimer"))
+                case else
+	            rejseDage(x) = rejseDage(x) + (oRec6("sumtimer") / ntimPerUse)
+                end select
+
+         
 
         case 126
+        '** Ferie korrektion
+            
         feriekor(x) = feriekor(x) +  oRec6("sumtimer")
+        case 127
+        '**Omsorg optjent
 
+             'call normtimerPer(intMid, oRec6("tdato"), 6, 0)
+            
+	         'if ntimPer <> 0 then
+             'ntimPerUse = nTimerPerIgnHellig/antalDageMtimer
+             'else
+             'ntimPerUse = 1
+             'end if 
+
+
+             call normtimerPer(intMid, oRec6("tdato"), 6, 0)
+	         if ntimPer <> 0 then
+             normTimerGns5 = (ntimManIgnHellig + ntimTirIgnHellig + ntimOnsIgnHellig + ntimTorIgnHellig + ntimFreIgnHellig + ntimLorIgnHellig + ntimSonIgnHellig)  / 5
+             else
+             normTimerGns5 = 1
+             end if 
+
+            omsorgOpt(x) = omsorgOpt(x) + (oRec6("sumtimer") / normTimerGns5) 'ntimPerUse  
+
+        
+        case 128
+        ferieAfh152020timer(x) = ferieAfh152020timer(x) + oRec6("sumtimer")
+        case 129
+        ferieIndefrossettimer(x) = ferieIndefrossettimer(x) + oRec6("sumtimer")
+    
+    
         end select
 	    
 	    
@@ -1736,7 +1877,15 @@ function fordelpaaaktType(intMid, startDato, slutDato, visning, akttype_sel, x, 
          feriekor(x) = 0
          end if
 
-        
+         if omsorgOpt(x) <> 0 then
+	     omsorgOpt(x) = omsorgOpt(x)
+	     afstemnul(x) = 257
+         else
+         omsorgOpt(x) = 0
+         end if
+
+       
+            
 
 end function   
 

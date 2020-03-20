@@ -633,7 +633,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 	
 	'*** Finder afslutte uger på aktive medarbejdere ***'
 	if cint(medarbSel) = 0 then
-	strSQLmedarb = "SELECT mid FROM medarbejdere WHERE mansat <> '2' AND mansat <> '3'"
+	strSQLmedarb = "SELECT mid FROM medarbejdere WHERE mansat <> 2 AND mansat <> 3 AND mansat <> 4 "
 	oRec4.open strSQLmedarb, oConn, 3
 	while not oRec4.EOF 
 	    
@@ -749,11 +749,13 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
     'medIDNavnWrt = "#0#"
 
 
-     if d = 0 then 'lastWeek <> datepart("ww", oRec("dato"), 2,2) OR%>
+     if d = 0 then 
+        
+        call thisWeekNo53_fn(dtUse)%>
 	
 	<tr bgcolor="#cccccc">
 		<td>&nbsp;</td>
-		<td colspan="<%=csp%>" style="height:20px; padding:5px;"><b>Uge <%=datepart("ww", dtUse, 2,2) &" "& datepart("yyyy", dtUse, 2,2) %> </b></td>
+		<td colspan="<%=csp%>" style="height:20px; padding:5px;"><b>Uge <%=thisWeekNo53 &" "& datepart("yyyy", dtUse, 2,2) %> </b></td>
 		<td>&nbsp;</td>
 	</tr>
 	
@@ -891,7 +893,8 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 		<%else
 		        '** er periode godkendt ***'
 		        tjkDag = oRec("dato")
-		        erugeafsluttet = instr(afslUgerMedab(oRec("lmid")), "#"&datepart("ww", tjkDag,2,2)&"_"& datepart("yyyy", tjkDag) &"#")
+                call thisWeekNo53_fn(tjkDag)
+		        erugeafsluttet = instr(afslUgerMedab(oRec("lmid")), "#"&thisWeekNo53&"_"& datepart("yyyy", tjkDag) &"#")
                 
 		        
 		        'Response.Write "smilaktiv: "& smilaktiv & "<br>"
@@ -901,7 +904,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 		        'Response.Write "autolukvdato: "& autolukvdato & "<br>"
 		        'Response.Write "erugeafsluttet:" & erugeafsluttet & "<br>"
 		        
-		        call lonKorsel_lukketPer(tjkDag)
+		        call lonKorsel_lukketPer(tjkDag, oRec("lmid"))
 		         
                 if (cint(erugeafsluttet) <> 0 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
                 (smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) = year(now) AND DatePart("m", tjkDag) < month(now)) OR _
@@ -1275,7 +1278,8 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
         <td>&nbsp;</td>
 	 </tr>
 	<%
-    lastWeek = datepart("ww", oRec("dato"), 2,2)
+    call thisWeekNo53_fn(oRec("dato"))
+    lastWeek = thisWeekNo53 'datepart("ww", oRec("dato"), 2,2)
 	lastMnavn = oRec("mnavn")
 	lastMnr = oRec("mnr")
 	lastMid = oRec("lmid")
@@ -1323,7 +1327,8 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
     
                 '** er periode godkendt ***'
 		        tjkDag = dtUse
-		        erugeafsluttet = instr(afslUgerMedab(medarbsel), "#"&datepart("ww", tjkDag,2,2)&"_"& datepart("yyyy", tjkDag) &"#")
+                call thisWeekNo53_fn(tjkDag)
+		        erugeafsluttet = instr(afslUgerMedab(medarbsel), "#"&thisWeekNo53&"_"& datepart("yyyy", tjkDag) &"#")
                 
 		        
 		        'Response.Write "smilaktiv: "& smilaktiv & "<br>"
@@ -1333,7 +1338,7 @@ function stempelurlist(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, ty
 		        'Response.Write "autolukvdato: "& autolukvdato & "<br>"
 		        'Response.Write "erugeafsluttet:" & erugeafsluttet & "<br>"
 		        
-		        call lonKorsel_lukketPer(tjkDag)
+		        call lonKorsel_lukketPer(tjkDag, medarbsel)
 		         
                 if (cint(erugeafsluttet) <> 0 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
                 (smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) = year(now) AND DatePart("m", tjkDag) < month(now)) OR _
@@ -2157,6 +2162,12 @@ next
 	call stempelur_kolonne(lto)
 	
 	
+    call thisWeekNo53_fn(stDato)
+    thisWeekNo53_stDato = thisWeekNo53
+
+    call thisWeekNo53_fn(now)
+    thisWeekNo53_now = thisWeekNo53
+
 	select case visning 
 	case 0, 20%>
 
@@ -2164,10 +2175,10 @@ next
 	<%if visning <> 20 then %>
 	
 	<h4><img src="../ill/ikon_stempelur_24.png" alt="" border="0">&nbsp; <%=tsa_txt_340 %>&nbsp;- 
-		<%=tsa_txt_005 %>: <%=datepart("ww", stDato, 2, 2)%></h4>
+		<%=tsa_txt_005 %>: <%=thisWeekNo53_stDato%></h4>
 		
 		<!-- Denne uge, nuværende login -->
-		<%if datepart("ww", stDato, 2, 2) =  datepart("ww", now, 2, 2) then%>
+		<%if cint(thisWeekNo53_stDato) = cint(thisWeekNo53_now) then%>
 		<%=tsa_txt_134 %>: 
 		<%
 		
@@ -2447,8 +2458,8 @@ next
 	</table>
 	
     
-
-	<%if datepart("ww", stDato, 2, 2) =  datepart("ww", now, 2, 2) then%>
+    <%if cint(thisWeekNo53_stDato) = cint(thisWeekNo53_now) then%>
+	<%'if datepart("ww", stDato, 2, 2) =  datepart("ww", now, 2, 2) then%>
 	
 	<%=tsa_txt_139 %>: <% 
 	call timerogminutberegning(logindiffSidste+(loginTimerTot))
@@ -2868,7 +2879,7 @@ function stPauserProgrp(useMid, p1_grp, p2_grp)
         p1_prg_on = 0
         p2_prg_on = 0
 
-        strSQLmansat = " mansat <> 0"
+        strSQLmansat = " mansat <> 0 AND mansat <> 4 "
 
 
         '*** Adgang til Pause 1 ****'

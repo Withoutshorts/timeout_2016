@@ -2,7 +2,13 @@
 <%
 function fLonTimerPer_html_2018(stDato, periode, visning, medid)
 	
-	
+	call thisWeekNo53_fn(stDato)
+    thisWeekNo53_stDato = thisWeekNo53
+
+    call thisWeekNo53_fn(now)
+    thisWeekNo53_now = thisWeekNo53
+
+
 	select case visning 
 	case 0, 20%>
 
@@ -10,11 +16,7 @@ function fLonTimerPer_html_2018(stDato, periode, visning, medid)
 	<%if visning <> 20 then %>
 	
 
-   <!-- Ikke unødige teskter over det hele -,->
-
-    <div class="row">
-        <h4 class="col-lg-4">Saldo <%=tsa_txt_340 %>&nbsp;- <%=tsa_txt_005 %>: <%=datepart("ww", stDato, 2, 2)%></h4>
-    </div> -->
+  
 
 <style>
 
@@ -58,10 +60,12 @@ function fLonTimerPer_html_2018(stDato, periode, visning, medid)
 
             <!-- Denne uge, nuværende login -->
              <%call erStempelurOn() 
-               
+
+              
+
             if cint(stempelur_hideloginOn) = 0 then 'skriv ikke login, men åben komme/gå tom
 
-		    if datepart("ww", stDato, 2, 2) = datepart("ww", now, 2, 2) then%>
+		    if cint(thisWeekNo53_stDato) = cint(thisWeekNo53_now) then%>
 		    <%=tsa_txt_134 %>:
 		    <%
 		
@@ -128,7 +132,7 @@ function fLonTimerPer_html_2018(stDato, periode, visning, medid)
         else 
         cspsStur = 2%>
 
-        <tr><th colspan=10><br /><br /><b><%=tsa_txt_340 %></b> (akkumuleret)</th></tr>
+        <tr><th colspan=10><br /><br /><b><%=tsa_txt_340 %></b> </th></tr>
     </thead>
 
 
@@ -362,7 +366,7 @@ function fLonTimerPer_html_2018(stDato, periode, visning, medid)
 	
     <%if cint(stempelur_hideloginOn) = 0 then 'skriv ikke login, men åben komme/gå tom
 	
-    if datepart("ww", stDato, 2, 2) =  datepart("ww", now, 2, 2) then%>
+    if cint(thisWeekNo53_stDato) = cint(thisWeekNo53_now) then%>
 	<!-- Denne uge incl. nuværende  -->
 	<%=tsa_txt_139 %>: <% 
 	call timerogminutberegning(logindiffSidste+(loginTimerTot))
@@ -825,26 +829,19 @@ function tottimer_2018(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDat
                 stempelUrEkspTxtShowTot = stempelUrEkspTxtShowTot & ""& thoursTot&"."& left(tminTot, 2) &";"
 
                 end if
-      
-        
-                
+     
 
         else 
         
+                call thisWeekNo53_fn(ugeNummer)
+
                 if vis <> 1 then %>
                 <tr>
-		               <!-- <td style="text-align:right">&nbsp;</td> -->
-                        <th colspan=<%=csp-4%>>Løntimer (komme/gå) uge: <%=datepart("ww", ugeNummer, 2,2) %>:</th>
-        
-
-		                <th style="text-align:right"><b><%=thoursTot%>:<%=left(tminTot, 2)%></b></th>
-
-		
-		                <th colspan="100">&nbsp;</th>
-		                <!--<td style="text-align:right">&nbsp;</td>
-		                <td style="text-align:right">&nbsp;</td>
-                        <td style="text-align:right">&nbsp;</td>
-                       <td style="text-align:right">&nbsp;5</td> -->
+		               
+                        <th colspan=<%=csp-4%>>Løntimer (komme/gå) uge <%=thisWeekNo53 %>:</th>
+                        <th style="text-align:right"><b><%=thoursTot%>:<%=left(tminTot, 2)%></b></th>
+                        <th colspan="100">&nbsp;</th>
+		             
 	             </tr>
 		        <%end if %>      
 	    <%end if %>

@@ -27,7 +27,7 @@ Session.LCID = 1030%>
 
     '**** FASTE VAR ****
     media = request("media")
-    
+    onTheFly = request("OnTheFly")
 
     '*** Sætter lokal dato/kr format. Skal indsættes efter kalender.
 	Session.LCID = 1030
@@ -69,7 +69,7 @@ Session.LCID = 1030%>
     end function
     
 
-    if media <> "print" ANd rdir <> "fak" then    
+    if media <> "print" ANd rdir <> "fak" AND onTheFly <> "1" then    
         call menu_2014
     end if
 
@@ -193,7 +193,11 @@ Session.LCID = 1030%>
 					strBeskkpers = SQLBless2(Request("FM_besk_kpers"))
 					
                     kpean = SQLBless2(request("FM_pkean"))
+                    kpean = replace(kpean, " ", "")
+
                     kpcvr = SQLBless2(request("FM_pkcvr"))
+                    kpcvr = replace(kpcvr, " ", "") 
+
 					kptype = request("FM_kptype")
 
                     '**** Nulstiller forvalgte faktura adr / Leverings adr *****'
@@ -328,8 +332,15 @@ Session.LCID = 1030%>
 							
 				        end if
 
+                        if rdir <> "treg" AND rdir <> "fak" then
+					        Response.Write("<script language=""JavaScript"">window.opener.location.reload();</script>")
+				        end if
 
-                        response.Redirect "kontaktpers.asp"
+                        if onTheFly = "1" then
+                            Response.Write("<script language='JavaScript'>window.close();</script>")
+                        else
+                            response.Redirect "kontaktpers.asp"
+                        end if
 
     case "red", "opr"
 
@@ -406,7 +417,7 @@ Session.LCID = 1030%>
           <u>Kontaktperson - <%=funcTxt %></u>
         </h3>
           <form action="kontaktpers.asp?func=<%=dbfunc%>&id=<%=id %>" method="post">
-
+            <input type="hidden" name="OnTheFly" value="<%=onTheFly %>" />
         <!-- Opdater/Annuller knapper -->
         <div style="margin-top:-15px;margin-bottom:15px;">
           <button type="submit" class="btn btn-success btn-sm pull-right" id="sbm_upd0"><b>Opdatér</b></button>

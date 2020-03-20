@@ -448,8 +448,8 @@
 	            end if
 	    
                 'response.Write "tjkDato: " & tjkDato & "<br>"
-
-	            tjkDatoW = datepart("ww", tjkDato, 2,2)
+                call thisWeekNo53_fn(tjkDato)
+	            tjkDatoW = thisWeekNo53 'datepart("ww", tjkDato, 2,2)
 	    
 	            if cint(bruguge_week) = cint(tjkDatoW) then
 	    
@@ -499,7 +499,8 @@
 
         response.cookies("2015")("bruguge") = ""
 
-        bruguge_week = datepart("ww", now, 2,2)
+        call thisWeekNo53_fn(now)
+        bruguge_week = thisWeekNo53 'datepart("ww", now, 2,2)
 
             if len(trim(request("aar"))) <> 0 then
             aar = request("aar")
@@ -840,25 +841,29 @@
                   <div class="col-lg-1">
                       <br />
 
+
+                      <%call thisWeekNo53_fn(now) %>
+
                 <input class="dateweeknum" id="bruguge" name="bruguge" type="checkbox" value="1" <%=brugugeCHK %> />  Week:
-                <input type="text" id="bruguge_selector_of" class="form-control input-small" value="<%=Datepart("ww",now) %>" readonly>
+                <input type="text" id="bruguge_selector_of" class="form-control input-small" value="<%=thisWeekNo53%>" readonly>
 			<select name="bruguge_week" id="bruguge_selector" class="form-control input-small" onchange="submit();" style="display:none" >
+
 			<% for w = 1 to 52
 			
-			if w = 1 then
-			useWeek = 1
-			else
-			useWeek = dateadd("ww", 1, useWeek)
-			end if
+			'if w = 1 then
+			'useWeek = 1
+			'else
+            'useWeek = dateadd("ww", 1, useWeek)
+			'end if
 			
-			if cint(datepart("ww", useWeek, 2,2)) = cint(bruguge_week) then
+			if cint(w) = cint(bruguge_week) then
 			wSel = "SELECTED"
 			else
 			wSel = ""
 			end if
 			
 			%>
-			<option value="<%=datepart("ww", useWeek, 2,2) %>" <%=wSel%>><%=datepart("ww", useWeek, 2,2) %></option>
+			<option value="<%=w%>" <%=wSel%>><%=w %></option>
 			<%
 			next %>
 			
@@ -1340,7 +1345,8 @@
 
                                             strMrd_sm = datepart("m", oRec("tdato"), 2, 2)
                                             strAar_sm = datepart("yyyy", oRec("tdato"), 2, 2)
-                                            strWeek = datepart("ww", oRec("tdato"), 2, 2)
+                                            call thisWeekNo53_fn(oRec("tdato"))
+                                            strWeek = thisWeekNo53 'datepart("ww", oRec("tdato"), 2, 2)
                                             strAar = datepart("yyyy", oRec("tdato"), 2, 2)
 
                                             if cint(SmiWeekOrMonth) = 0 then
@@ -1352,13 +1358,13 @@
                                             end if
 
                 
-                                            call erugeAfslutte(useYear, usePeriod, medarbid(m), SmiWeekOrMonth, 0)
+                                            call erugeAfslutte(useYear, usePeriod, medarbid(m), SmiWeekOrMonth, 0, oRec("Tdato"))
 
-                                            call lonKorsel_lukketPer(oRec("Tdato"), -2)
+                                            call lonKorsel_lukketPer(oRec("Tdato"), -2, medarbid(m))
 
                                             tjkDato = oRec("Tdato")
 
-                                            call tjkClosedPeriodCriteria(tjkDato, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO)    
+                                            call tjkClosedPeriodCriteria(tjkDato, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO, ugegodkendt)    
                                         
                                             'if (cint(ugeerAfsl_og_autogk_smil) = 1 OR cint(overfort) = 1 OR cint(aktgodkendtstatus) = 0) AND cint(level) <> 1 then
                                             'if session("mid") = 1 OR session("mid") = 1505 then
@@ -1693,7 +1699,8 @@
 
                                         strMrd_sm = datepart("m", oRec2("tdato"), 2, 2)
                                         strAar_sm = datepart("yyyy", oRec2("tdato"), 2, 2)
-                                        strWeek = datepart("ww", oRec2("tdato"), 2, 2)
+                                        call thisWeekNo53_fn(oRec2("tdato"))
+                                        strWeek = thisWeekNo53 'datepart("ww", oRec2("tdato"), 2, 2)
                                         strAar = datepart("yyyy", oRec2("tdato"), 2, 2)
 
                                         if cint(SmiWeekOrMonth) = 0 then
@@ -1705,13 +1712,13 @@
                                         end if
 
                 
-                                        call erugeAfslutte(useYear, usePeriod, oRec2("Tmnr"), SmiWeekOrMonth, 0)
+                                        call erugeAfslutte(useYear, usePeriod, oRec2("Tmnr"), SmiWeekOrMonth, 0, oRec2("Tdato"))
 
-                                        call lonKorsel_lukketPer(oRec2("Tdato"), -2)
+                                        call lonKorsel_lukketPer(oRec2("Tdato"), -2, oRec2("Tmnr"))
 
                                         tjkDato = oRec2("Tdato")
 
-                                        call tjkClosedPeriodCriteria(tjkDato, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO)    
+                                        call tjkClosedPeriodCriteria(tjkDato, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO, ugegodkendt)    
                                         
                                         '** TIA
                                         '** Hvis cint(ugeerAfsl_og_autogk_smil) = 1 OR cint(overfort) = 1

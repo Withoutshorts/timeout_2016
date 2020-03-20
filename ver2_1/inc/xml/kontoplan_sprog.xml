@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Kontoplan</txt_1>
+    <txt_2 >Du er ved at</txt_2>
+    <txt_3 >SLETTE</txt_3>
+    <txt_4 >en konto. Er dette korrekt?</txt_4>
+    <txt_5 >Opret Konto</txt_5>
+    <txt_6 >Rediger Konto</txt_6>
+    <txt_7 >Kontonr</txt_7>
+    <txt_8 >Kontonavn</txt_8>
+    <txt_9 >Kontoindehaver</txt_9>
+    <txt_10 >Egenskab</txt_10>
+    <txt_11 >Type</txt_11>
+    <txt_12 >Momskode</txt_12>
+    <txt_13 >Kreditor</txt_13>
+    <txt_14 >Debitor</txt_14>
+    <txt_15 >Samlekonto for omsætning</txt_15>
+    <txt_16 >Samlekonto for udgifter</txt_16>
+    <txt_17 >Overskrift for gruppe</txt_17>
+    <txt_18 >Ingen</txt_18>
+    <txt_19 >Drift</txt_19>
+    <txt_20 >Status</txt_20>
+    <txt_21 >Nøgletalskode</txt_21>
+    <txt_22 >Aktiver</txt_22>
+    <txt_23 >Passiver</txt_23>
+    <txt_24 >Åben</txt_24>
+    <txt_25 >Lukket</txt_25>
+    <txt_26 >Søgefilter</txt_26>
+    <txt_27 >Søg</txt_27>
+    <txt_28 >Kontonavn / nr., % vis alle</txt_28 >
+    <txt_29 >Kontotype</txt_29>
+    <txt_30 >Nøgletalskode</txt_30>
+    <txt_31 >Alle</txt_31>
+    <txt_32 >Debitorer</txt_32>
+    <txt_33 >Kreditorer</txt_33>
+    <txt_34 >Vis fra</txt_34>
+    <txt_35 >Vis kun konti med posteringer i valgte periode</txt_35>
+    <txt_36 >Vis konti</txt_36>
+    <txt_37 >Saldo</txt_37>
+    <txt_38 >Dato</txt_38>    
+    <txt_39 >Tekst</txt_39>
+    <txt_40 >Debit</txt_40>
+    <txt_41 >Kredit</txt_41>
+    <txt_42 >Posteringer</txt_42>
+    <txt_43 >Modkonto</txt_43>
+    <txt_44 >Funktioner</txt_44>
+    <txt_45 >Eksport til csv.</txt_45>
+    <txt_46 >Printvenlig</txt_46>
+    <txt_47 >Åbne</txt_47>
+    <txt_48 >Lukkede</txt_48>
+    <txt_49 >Bilagsnr</txt_49>
+    <txt_50 >Konto</txt_50>
+    <txt_51 >Totalsaldo på viste konti i periode</txt_51>
+
+    
+    
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >Accounts</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >an account. Is this correct?</txt_4>
+    <txt_5 >Create Account</txt_5>
+    <txt_6 >Edit Account</txt_6>
+    <txt_7 >Account No.</txt_7>
+    <txt_8 >Account name</txt_8>
+    <txt_9 >Account holder</txt_9>
+    <txt_10 >Account Attribute</txt_10>
+    <txt_11 >Type</txt_11>
+    <txt_12 >VAT code</txt_12>
+    <txt_13 >Creditor</txt_13>
+    <txt_14 >Debtor</txt_14>
+    <txt_15 >Summary account for revenue</txt_15>
+    <txt_16 >Summary account for expenditures</txt_16>
+    <txt_17 >Headline for group</txt_17>
+    <txt_18 >None</txt_18>
+    <txt_19 >Running</txt_19>
+    <txt_20 >Status</txt_20>
+    <txt_21 >Key figures Code</txt_21>
+    <txt_22 >Assets</txt_22>
+    <txt_23 >Liabilities</txt_23>
+    <txt_24 >Open</txt_24>
+    <txt_25 >Closed</txt_25>
+    <txt_26 >Search filter</txt_26>
+    <txt_27 >Search</txt_27>
+    <txt_28 >Account Name / No,% Show All </txt_28 >
+    <txt_29 >Account type</txt_29>
+    <txt_30 >Key figures Period</txt_30>
+    <txt_31 >All</txt_31>
+    <txt_32 >Debtors</txt_32>
+    <txt_33 >Creditors</txt_33>
+    <txt_34 >Show from</txt_34>
+    <txt_35 >Show accounts with posts in the selected date range only</txt_35>
+    <txt_36 >View accounts</txt_36>
+    <txt_37 >Balance</txt_37>
+    <txt_38 >Date</txt_38>    
+    <txt_39 >Text</txt_39>
+    <txt_40 >Debit</txt_40>
+    <txt_41 >Credit</txt_41>
+    <txt_42 >Transactions</txt_42>
+    <txt_43 >Offset Account</txt_43>
+    <txt_44 >Functions</txt_44>
+    <txt_45 >Export to csv.</txt_45>
+    <txt_46 >Printable version</txt_46>
+    <txt_47 >Opened</txt_47>
+    <txt_48 >Closed</txt_48>
+    <txt_49 >Appendix number</txt_49>
+    <txt_50 >Account</txt_50>
+    <txt_51 >Total balance of displayed accounts in period</txt_51>
+    
+  </no>
+
+
+  <!--- Svensk -->
+  <so>
+
+    <txt_1 >Accounts</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >an account. Is this correct?</txt_4>
+    <txt_5 >Create Account</txt_5>
+    <txt_6 >Edit Account</txt_6>
+    <txt_7 >Account No.</txt_7>
+    <txt_8 >Account name</txt_8>
+    <txt_9 >Account holder</txt_9>
+    <txt_10 >Account Attribute</txt_10>
+    <txt_11 >Type</txt_11>
+    <txt_12 >VAT code</txt_12>
+    <txt_13 >Creditor</txt_13>
+    <txt_14 >Debtor</txt_14>
+    <txt_15 >Summary account for revenue</txt_15>
+    <txt_16 >Summary account for expenditures</txt_16>
+    <txt_17 >Headline for group</txt_17>
+    <txt_18 >None</txt_18>
+    <txt_19 >Running</txt_19>
+    <txt_20 >Status</txt_20>
+    <txt_21 >Key figures Code</txt_21>
+    <txt_22 >Assets</txt_22>
+    <txt_23 >Liabilities</txt_23>
+    <txt_24 >Open</txt_24>
+    <txt_25 >Closed</txt_25>
+    <txt_26 >Search filter</txt_26>
+    <txt_27 >Search</txt_27>
+    <txt_28 >Account Name / No,% Show All </txt_28 >
+    <txt_29 >Account type</txt_29>
+    <txt_30 >Key figures Period</txt_30>
+    <txt_31 >All</txt_31>
+    <txt_32 >Debtors</txt_32>
+    <txt_33 >Creditors</txt_33>
+    <txt_34 >Show from</txt_34>
+    <txt_35 >Show accounts with posts in the selected date range only</txt_35>
+    <txt_36 >View accounts</txt_36>
+    <txt_37 >Balance</txt_37>
+    <txt_38 >Date</txt_38>
+    <txt_39 >Text</txt_39>
+    <txt_40 >Debit</txt_40>
+    <txt_41 >Credit</txt_41>
+    <txt_42 >Transactions</txt_42>
+    <txt_43 >Offset Account</txt_43>
+    <txt_44 >Functions</txt_44>
+    <txt_45 >Export to csv.</txt_45>
+    <txt_46 >Printable version</txt_46>
+    <txt_47 >Opened</txt_47>
+    <txt_48 >Closed</txt_48>
+    <txt_49 >Appendix number</txt_49>
+    <txt_50 >Account</txt_50>
+    <txt_51 >Total balance of displayed accounts in period</txt_51>
+
+  </so>
+
+
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >Accounts</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >an account. Is this correct?</txt_4>
+    <txt_5 >Create Account</txt_5>
+    <txt_6 >Edit Account</txt_6>
+    <txt_7 >Account No.</txt_7>
+    <txt_8 >Account name</txt_8>
+    <txt_9 >Account holder</txt_9>
+    <txt_10 >Account Attribute</txt_10>
+    <txt_11 >Type</txt_11>
+    <txt_12 >VAT code</txt_12>
+    <txt_13 >Creditor</txt_13>
+    <txt_14 >Debtor</txt_14>
+    <txt_15 >Summary account for revenue</txt_15>
+    <txt_16 >Summary account for expenditures</txt_16>
+    <txt_17 >Headline for group</txt_17>
+    <txt_18 >None</txt_18>
+    <txt_19 >Running</txt_19>
+    <txt_20 >Status</txt_20>
+    <txt_21 >Key figures Code</txt_21>
+    <txt_22 >Assets</txt_22>
+    <txt_23 >Liabilities</txt_23>
+    <txt_24 >Open</txt_24>
+    <txt_25 >Closed</txt_25>
+    <txt_26 >Search filter</txt_26>
+    <txt_27 >Search</txt_27>
+    <txt_28 >Account Name / No,% Show All </txt_28 >
+    <txt_29 >Account type</txt_29>
+    <txt_30 >Key figures Period</txt_30>
+    <txt_31 >All</txt_31>
+    <txt_32 >Debtors</txt_32>
+    <txt_33 >Creditors</txt_33>
+    <txt_34 >Show from</txt_34>
+    <txt_35 >Show accounts with posts in the selected date range only</txt_35>
+    <txt_36 >View accounts</txt_36>
+    <txt_37 >Balance</txt_37>
+    <txt_38 >Date</txt_38>
+    <txt_39 >Text</txt_39>
+    <txt_40 >Debit</txt_40>
+    <txt_41 >Credit</txt_41>
+    <txt_42 >Transactions</txt_42>
+    <txt_43 >Offset Account</txt_43>
+    <txt_44 >Functions</txt_44>
+    <txt_45 >Export to csv.</txt_45>
+    <txt_46 >Printable version</txt_46>
+    <txt_47 >Opened</txt_47>
+    <txt_48 >Closed</txt_48>
+    <txt_49 >Appendix number</txt_49>
+    <txt_50 >Account</txt_50>
+    <txt_51 >Total balance of displayed accounts in period</txt_51>
+    
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >Accounts</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >an account. Is this correct?</txt_4>
+    <txt_5 >Create Account</txt_5>
+    <txt_6 >Edit Account</txt_6>
+    <txt_7 >Account No.</txt_7>
+    <txt_8 >Account name</txt_8>
+    <txt_9 >Account holder</txt_9>
+    <txt_10 >Account Attribute</txt_10>
+    <txt_11 >Type</txt_11>
+    <txt_12 >VAT code</txt_12>
+    <txt_13 >Creditor</txt_13>
+    <txt_14 >Debtor</txt_14>
+    <txt_15 >Summary account for revenue</txt_15>
+    <txt_16 >Summary account for expenditures</txt_16>
+    <txt_17 >Headline for group</txt_17>
+    <txt_18 >None</txt_18>
+    <txt_19 >Running</txt_19>
+    <txt_20 >Status</txt_20>
+    <txt_21 >Key figures Code</txt_21>
+    <txt_22 >Assets</txt_22>
+    <txt_23 >Liabilities</txt_23>
+    <txt_24 >Open</txt_24>
+    <txt_25 >Closed</txt_25>
+    <txt_26 >Search filter</txt_26>
+    <txt_27 >Search</txt_27>
+    <txt_28 >Account Name / No,% Show All </txt_28 >
+    <txt_29 >Account type</txt_29>
+    <txt_30 >Key figures Period</txt_30>
+    <txt_31 >All</txt_31>
+    <txt_32 >Debtors</txt_32>
+    <txt_33 >Creditors</txt_33>
+    <txt_34 >Show from</txt_34>
+    <txt_35 >Show accounts with posts in the selected date range only</txt_35>
+    <txt_36 >View accounts</txt_36>
+    <txt_37 >Balance</txt_37>
+    <txt_38 >Date</txt_38>
+    <txt_39 >Text</txt_39>
+    <txt_40 >Debit</txt_40>
+    <txt_41 >Credit</txt_41>
+    <txt_42 >Transactions</txt_42>
+    <txt_43 >Offset Account</txt_43>
+    <txt_44 >Functions</txt_44>
+    <txt_45 >Export to csv.</txt_45>
+    <txt_46 >Printable version</txt_46>
+    <txt_47 >Opened</txt_47>
+    <txt_48 >Closed</txt_48>
+    <txt_49 >Appendix number</txt_49>
+    <txt_50 >Account</txt_50>
+    <txt_51 >Total balance of displayed accounts in period</txt_51>
+
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Accounts</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >an account. Is this correct?</txt_4>
+    <txt_5 >Create Account</txt_5>
+    <txt_6 >Edit Account</txt_6>
+    <txt_7 >Account No.</txt_7>
+    <txt_8 >Account name</txt_8>
+    <txt_9 >Account holder</txt_9>
+    <txt_10 >Account Attribute</txt_10>
+    <txt_11 >Type</txt_11>
+    <txt_12 >VAT code</txt_12>
+    <txt_13 >Creditor</txt_13>
+    <txt_14 >Debtor</txt_14>
+    <txt_15 >Summary account for revenue</txt_15>
+    <txt_16 >Summary account for expenditures</txt_16>
+    <txt_17 >Headline for group</txt_17>
+    <txt_18 >None</txt_18>
+    <txt_19 >Running</txt_19>
+    <txt_20 >Status</txt_20>
+    <txt_21 >Key figures Code</txt_21>
+    <txt_22 >Assets</txt_22>
+    <txt_23 >Liabilities</txt_23>
+    <txt_24 >Open</txt_24>
+    <txt_25 >Closed</txt_25>
+    <txt_26 >Search filter</txt_26>
+    <txt_27 >Search</txt_27>
+    <txt_28 >Account Name / No,% Show All </txt_28 >
+    <txt_29 >Account type</txt_29>
+    <txt_30 >Key figures Period</txt_30>
+    <txt_31 >All</txt_31>
+    <txt_32 >Debtors</txt_32>
+    <txt_33 >Creditors</txt_33>
+    <txt_34 >Show from</txt_34>
+    <txt_35 >Show accounts with posts in the selected date range only</txt_35>
+    <txt_36 >View accounts</txt_36>
+    <txt_37 >Balance</txt_37>
+    <txt_38 >Date</txt_38>
+    <txt_39 >Text</txt_39>
+    <txt_40 >Debit</txt_40>
+    <txt_41 >Credit</txt_41>
+    <txt_42 >Transactions</txt_42>
+    <txt_43 >Offset Account</txt_43>
+    <txt_44 >Functions</txt_44>
+    <txt_45 >Export to csv.</txt_45>
+    <txt_46 >Printable version</txt_46>
+    <txt_47 >Opened</txt_47>
+    <txt_48 >Closed</txt_48>
+    <txt_49 >Appendix number</txt_49>
+    <txt_50 >Account</txt_50>
+    <txt_51 >Total balance of displayed accounts in period</txt_51>
+ 
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+    <txt_1 >Accounts</txt_1>
+    <txt_2 >You are about to</txt_2>
+    <txt_3 >DELETE</txt_3>
+    <txt_4 >an account. Is this correct?</txt_4>
+    <txt_5 >Create Account</txt_5>
+    <txt_6 >Edit Account</txt_6>
+    <txt_7 >Account No.</txt_7>
+    <txt_8 >Account name</txt_8>
+    <txt_9 >Account holder</txt_9>
+    <txt_10 >Account Attribute</txt_10>
+    <txt_11 >Type</txt_11>
+    <txt_12 >VAT code</txt_12>
+    <txt_13 >Creditor</txt_13>
+    <txt_14 >Debtor</txt_14>
+    <txt_15 >Summary account for revenue</txt_15>
+    <txt_16 >Summary account for expenditures</txt_16>
+    <txt_17 >Headline for group</txt_17>
+    <txt_18 >None</txt_18>
+    <txt_19 >Running</txt_19>
+    <txt_20 >Status</txt_20>
+    <txt_21 >Key figures Code</txt_21>
+    <txt_22 >Assets</txt_22>
+    <txt_23 >Liabilities</txt_23>
+    <txt_24 >Open</txt_24>
+    <txt_25 >Closed</txt_25>
+    <txt_26 >Search filter</txt_26>
+    <txt_27 >Search</txt_27>
+    <txt_28 >Account Name / No,% Show All </txt_28 >
+    <txt_29 >Account type</txt_29>
+    <txt_30 >Key figures Period</txt_30>
+    <txt_31 >All</txt_31>
+    <txt_32 >Debtors</txt_32>
+    <txt_33 >Creditors</txt_33>
+    <txt_34 >Show from</txt_34>
+    <txt_35 >Show accounts with posts in the selected date range only</txt_35>
+    <txt_36 >View accounts</txt_36>
+    <txt_37 >Balance</txt_37>
+    <txt_38 >Date</txt_38>
+    <txt_39 >Text</txt_39>
+    <txt_40 >Debit</txt_40>
+    <txt_41 >Credit</txt_41>
+    <txt_42 >Transactions</txt_42>
+    <txt_43 >Offset Account</txt_43>
+    <txt_44 >Functions</txt_44>
+    <txt_45 >Export to csv.</txt_45>
+    <txt_46 >Printable version</txt_46>
+    <txt_47 >Opened</txt_47>
+    <txt_48 >Closed</txt_48>
+    <txt_49 >Appendix number</txt_49>
+    <txt_50 >Account</txt_50>
+    <txt_51 >Total balance of displayed accounts in period</txt_51>
+
+  </es>
+
+
+</sprog>

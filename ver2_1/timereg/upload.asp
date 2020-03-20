@@ -13,7 +13,11 @@
         case "FN_showjob"
 
 
+        if len(trim(request("kundeid"))) <> 0 then
         kundeid = request("kundeid")
+        else
+        kundeid = 0
+        end if
 
         strJobs = "<option value='0'>Vælg folder...</option>" 
 
@@ -174,9 +178,14 @@ end if
 
 'Response.write session("oprsesThis")
 
-kundeid = request("kundeid")
+     if len(trim(request("kundeid"))) <> 0 then
+        kundeid = request("kundeid")
+        else
+        kundeid = 0
+        end if
+
 'if kundeid <> 0 then
-kundeSQLkri = "fo.kundeid = "& kundeid & " OR fo.kundeid = 0 "
+kundeSQLkri = " fo.kundeid = 0 OR (fo.kundeid = "& kundeid & ""
 'else
 'kundeSQLkri = "fo.kundeid <> -1"
 'end if
@@ -202,7 +211,7 @@ iid = 0
 end if
  
 if jobid <> 0 then
-jobidSQL = "AND fo.jobid = " & jobid
+jobidSQL = " AND fo.jobid = " & jobid
 else
 jobidSQL = ""
 end if
@@ -257,7 +266,7 @@ end if
 				oRec.open strSQL, oConn, 3
 				while not oRec.EOF
 				
-				if cint(kundeid) = cint(oRec("Kid")) then
+				if cdbl(kundeid) = cdbl(oRec("Kid")) then
 				isSelected = "SELECTED"
 				else
 				isSelected = ""
@@ -279,7 +288,7 @@ end if
 		
 	
 	
-	<%if sdsk <> 1 then%>
+	<%if cint(sdsk) <> 1 then%>
    
 
 	<b>Folder:</b><br />
@@ -288,7 +297,7 @@ end if
 	strSQL = "SELECT fo.kundeid AS kundeid, fo.navn AS foldernavn, "_
 	&" fo.id AS foid, fo.kundese, fo.jobid"_
 	&" FROM foldere fo "_
-	&" WHERE ("& kundeSQLkri &" "& jobidSQL &") ORDER BY foldernavn"
+	&" WHERE ("& kundeSQLkri &" "& jobidSQL &")) ORDER BY foldernavn"
 
    'Response.Write strSQL
    'Response.flush

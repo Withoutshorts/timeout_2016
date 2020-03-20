@@ -314,9 +314,9 @@ if len(session("user")) = 0 then
 	LantChar = left(strExclude, (antChar -5)) 
 	strExcludeFinal = "WHERE " & LantChar
 	
-	strSQL = "SELECT Mnavn, Mid, init, mnr, mansat FROM medarbejdere "& strExcludeFinal &" AND (mansat <> '2') ORDER BY Mnavn"
+	strSQL = "SELECT Mnavn, Mid, init, mnr, mansat FROM medarbejdere "& strExcludeFinal &" AND (mansat <> '2' AND mansat <> '4') ORDER BY Mnavn"
 	else
-	strSQL = "SELECT Mnavn, Mid, init, mnr, mansat FROM medarbejdere WHERE mansat <> '2' ORDER BY Mnavn"
+	strSQL = "SELECT Mnavn, Mid, init, mnr, mansat FROM medarbejdere WHERE mansat <> '2' AND mansat <> '4' ORDER BY Mnavn"
 	end if
 	
 	oRec.open strSQL, oConn, 3

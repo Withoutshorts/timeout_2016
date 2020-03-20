@@ -358,7 +358,9 @@
 	    
 	    <%
 	       '*** Er uge alfsuttet af medarb, er smiley og autogk slået til
-                erugeafsluttet = instr(afslUgerMedab(usemrn), "#"&datepart("ww", oRec("forbrugsdato"),2,2)&"_"& datepart("yyyy", oRec("forbrugsdato")) &"#")
+                call thisWeekNo53_fn(oRec("forbrugsdato")) 
+                
+                erugeafsluttet = instr(afslUgerMedab(usemrn), "#"& thisWeekNo53 &"_"& datepart("yyyy", oRec("forbrugsdato")) &"#")
                 
                 'Response.Write "erugeafsluttet --" & erugeafsluttet  &"<br>"
                 'Response.flush
@@ -366,7 +368,7 @@
 
                   strMrd_sm = datepart("m", oRec("forbrugsdato"), 2, 2)
                 strAar_sm = datepart("yyyy", oRec("forbrugsdato"), 2, 2)
-                strWeek = datepart("ww", oRec("forbrugsdato"), 2, 2)
+                strWeek = thisWeekNo53 'datepart("ww", oRec("forbrugsdato"), 2, 2)
                 strAar = datepart("yyyy", oRec("forbrugsdato"), 2, 2)
 
                 if cint(SmiWeekOrMonth) = 0 then
@@ -378,7 +380,7 @@
                 end if
 
                 
-                call erugeAfslutte(useYear, usePeriod, usemrn, SmiWeekOrMonth, 0)
+                call erugeAfslutte(useYear, usePeriod, usemrn, SmiWeekOrMonth, 0, oRec("forbrugsdato"))
 		        
 		        'Response.Write "smilaktiv: "& smilaktiv & "<br>"
 		        'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &"<br>"
@@ -387,7 +389,7 @@
 		        'Response.Write "autolukvdato: "& autolukvdato & "<br>"
 		        'Response.Write "erugeafsluttet:" & erugeafsluttet & "<br>"
 		        
-		         call lonKorsel_lukketPer(oRec("forbrugsdato"), oRec("risiko"))
+		         call lonKorsel_lukketPer(oRec("forbrugsdato"), oRec("risiko"), usemrn)
 		         
                 'if ( ( (datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0) OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 )) AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
                 '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", oRec("forbrugsdato")) = year(now) AND DatePart("m", oRec("forbrugsdato")) < month(now)) OR _
@@ -401,7 +403,7 @@
                 'end if 
 				
                 '*** tjekker om uge er afsluttet / lukket / lønkørsel
-                call tjkClosedPeriodCriteria(oRec("forbrugsdato"), ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO)
+                call tjkClosedPeriodCriteria(oRec("forbrugsdato"), ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO, ugegodkendt)
 				
 				
 				
@@ -498,7 +500,92 @@ public strMedarbOptionsHTML
 
         while not oRec.EOF 
         
-        if cint(usemrn) = cint(oRec("mid")) then
+        if cdbl(usemrn) = cdbl(oRec("mid")) then
+        mSEL = "SELECTED"
+        else
+        mSEl = ""
+        end if
+        
+        if oRec("mansat") = 3 then
+        msat = " - Passiv"
+        else
+        msat = ""
+        end if
+
+        if cint(jqHTML) = 1 then
+        strMedarbOptionsHTML = strMedarbOptionsHTML & "<option value="& oRec("mid") &" "&mSel&">"& oRec("mnavn") &" (" & oRec("mnr") &")" & msat &"</option>" 
+        else
+        %>
+        <option value="<%=oRec("mid") %>" <%=mSel %>><%=oRec("mnavn") %> (<%=oRec("mnr") %>) <%=msat %></option>
+        <%
+        end if
+
+    
+
+        oRec.movenext
+        wend
+        oRec.close
+
+        
+        if cint(jqHTML) = 1 then
+        strMedarbOptionsHTML = strMedarbOptionsHTML & "<option value='0'>Ingen</option></select>"
+        else%>
+        <option value="0">Ingen</option>
+        </select>
+        <%end if %>
+      
+       
+
+    <%
+    end sub
+
+    sub selmedarbOptions_2018
+
+        'visAlleMedarb = 1
+
+        'call medarb_teamlederfor
+
+        'strSQLmids
+
+        if len(trim(jqHTML)) <> 0 then
+        jqHTML = 1
+        else
+        jqHTML = 0
+        end if
+
+        if cint(jqHTML) = 1 then
+        strMedarbOptionsHTML = "<select name='mid' id='matreg_medid' style='width:260px;'>"
+        else
+        %>
+
+        
+        
+
+        <select name="mid" id="matreg_medid" class="form-control input-small">
+        <%end if
+
+
+            '*** medarb ****
+            if level <= 2 OR level = 6 then
+        
+                if vis_passive = 1 then
+                strSQLmansat = " (mansat = 1 OR mansat = 3)"
+                else
+                strSQLmansat = " mansat = 1"
+                end if
+	    
+                strSQLM = "SELECT mid, mnavn, mnr, init, mansat FROM medarbejdere WHERE "& strSQLmansat &" ORDER BY mnavn"
+    
+            else
+            strSQLM = "SELECT mid, mnavn, mnr, init, mansat FROM medarbejdere WHERE mid = "& usemrn
+            end if
+
+   
+    	oRec.open strSQLM, oConn, 3 
+
+        while not oRec.EOF 
+        
+        if cdbl(usemrn) = cdbl(oRec("mid")) then
         mSEL = "SELECTED"
         else
         mSEl = ""
@@ -591,7 +678,7 @@ public strMedarbOptionsHTML
 	fj = 0
 	while not oRec.EOF
 	    
-	    if oRec("id") = cint(jobid) OR (jobid = 0 AND oRec("risiko") = -2) then
+	    if oRec("id") = cdbl(jobid) OR (jobid = 0 AND oRec("risiko") = -2) then
 	    'strValgtJob = oRec("jobnavn") & "&nbsp;("& oRec("jobnr") &")</b>"
 	    jCHK = "SELECTED"
 	    else
@@ -688,10 +775,8 @@ public strMedarbOptionsHTML
     '**************************** Indlæs mat forbrug func **********************************************************
     '***************************************************************************************************************
 
-    function indlaes_mat(matregid, otf, medid, jobid, aktid, aftid, matid, strEditor, strDato, intAntal, regdato, valuta, intkode, personlig, bilagsnr, pris, salgspris, navn, gruppe, varenr, opretlager, betegnelse, func, matreg_opdaterpris, matava)
+    function indlaes_mat(matregid, otf, medid, jobid, aktid, aftid, matid, strEditor, strDato, intAntal, regdato, valuta, intkode, personlig, bilagsnr, pris, salgspris, navn, gruppe, varenr, opretlager, betegnelse, func, matreg_opdaterpris, matava, mattype, basic_valuta, basic_kurs, basic_belob)
 	
-	
-		
         'response.write "otf: "& otf &" Dato: "& regdato &" Navn: "& navn & " aktid:" & aktid &"<br>"
         'Response.Write "jobid" & jobid & " antal: "& intAntal & "<br>"
         'response.end
@@ -702,6 +787,10 @@ public strMedarbOptionsHTML
         aftid = 0
         end if
           
+        'intAntal = replace(intAntal, ".","")
+		intAntal = replace(intAntal, ",",".")
+
+
 
         '** Valutakode '***' 
         if valuta <> 0 AND len(trim(valuta)) <> 0 then
@@ -750,20 +839,21 @@ public strMedarbOptionsHTML
 		        
 		       
 		                
-		        regDatoSQL = year(regdato) &"/"& month(regdato) &"/"& day(regdato)
+		        regDatoSQL = year(regdato) &"/"& month(regdato) &"/"& day(regdato) 
 
-      
-	
+
 
 
 		        '**** Hvis materiale forbrug  / Udlæg skal videre faktureres på job **'
                 '**** Tjekker om peridoe er lukket 
 		        if cint(intkode) = 2 OR cint(intkode) = 0  then  '** Ekstern / Ikke angivet **'
 		        
+                call thisWeekNo53_fn(regdato) 
+              
 
                 strMrd_sm = datepart("m", regdato, 2, 2)
                 strAar_sm = datepart("yyyy", regdato, 2, 2)
-                strWeek = datepart("ww", regdato, 2, 2)
+                strWeek = datepart("ww", thisWeekNo53, 2, 2)
                 strAar = datepart("yyyy", regdato, 2, 2)
 
                 if cint(SmiWeekOrMonth) = 0 then
@@ -776,7 +866,7 @@ public strMedarbOptionsHTML
 
         
                 
-                call erugeAfslutte(useYear, usePeriod, medid, SmiWeekOrMonth, 0)
+                call erugeAfslutte(useYear, usePeriod, medid, SmiWeekOrMonth, 0, regdato)
 		        
 		        'Response.Write "smilaktiv: "& smilaktiv & "<br>"
 		        'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &"<br>"
@@ -787,10 +877,12 @@ public strMedarbOptionsHTML
 		        
                   
 
-		         call lonKorsel_lukketPer(regdato, 1)
-		         
+		         call lonKorsel_lukketPer(regdato, 1, medid)
+		         call thisWeekNo53_fn(ugeNrAfsluttet)       
+              
+
                 'if (cint(erugeafsluttet) <> 0 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
-                 if ( (( datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0) OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 )) AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
+                 if ( (( thisWeekNo53 = usePeriod AND cint(SmiWeekOrMonth) = 0) OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 )) AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
                  (smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", regdato) = year(now) AND DatePart("m", regdato) < month(now)) OR _
                     (smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", regdato) < year(now) AND DatePart("m", regdato) = 12)) OR _
                     (smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", regdato) < year(now) AND DatePart("m", regdato) <> 12) OR _
@@ -1083,8 +1175,8 @@ public strMedarbOptionsHTML
                                'Response.Write "HER OK 4: "& matId &","& intAntal &","& strNavn &","& strVarenr&",K:"& dblKobsPris &","& dblSalgsPris &","& strEnhed &","& jobid &","& strEditor &","& strDato &","& medid &","& avaGrp &","& regDatoSQL &",a:"& aftid &","& intValuta &","& intkode &","& bilagsnr &","& dblKurs &","& personlig & "ava:" & ava
 			                   'Response.end 
                                'end if
-
-                                 call insertMat_fn(matId, intAntal, strNavn, strVarenr, dblKobsPris, dblSalgsPris, strEnhed, jobid, aktid, strEditor, strDato, medid, avaGrp, regDatoSQL, aftid, intValuta, intkode, bilagsnr, dblKurs, personlig, ava)
+                                
+                                 call insertMat_fn(matId, intAntal, strNavn, strVarenr, dblKobsPris, dblSalgsPris, strEnhed, jobid, aktid, strEditor, strDato, medid, avaGrp, regDatoSQL, aftid, intValuta, intkode, bilagsnr, dblKurs, personlig, ava, mattype, basic_valuta, basic_kurs, basic_belob)
 
                            
 			  
@@ -1120,7 +1212,7 @@ public strMedarbOptionsHTML
 				&" editor = '"& strEditor &"', dato = '"& strDato &"', usrid = "& medid &", "_
 				&" matgrp = "& avaGrp &", forbrugsdato = '"& regDatoSQL &"', serviceaft = "& aftid &", "_
 				&" valuta = "& intValuta &", intkode = "& intkode &", bilagsnr = '"& bilagsnr &"', "_
-				&" kurs = "& dblKurs &", personlig = "& personlig &", aktid = "& aktid &", ava = "& ava &" WHERE id = " & matregid
+				&" kurs = "& dblKurs &", personlig = "& personlig &", aktid = "& aktid &", ava = "& ava &", mattype = "& mattype &", basic_valuta = '"& basic_valuta &"', basic_kurs = "& basic_kurs &", basic_belob = "& basic_belob &" WHERE id = " & matregid
 				
 				
 				
@@ -1597,7 +1689,7 @@ public strMedarbOptionsHTML
     		
     		
 		    %>
-		    <option value="<%=oRec3("id")%>" <%=valGrpCHK %>><%=oRec3("valutakode")%></option>
+		    <option value="<%=oRec3("id")%>" <%=valGrpCHK %> data-valutakode="<%=oRec3("valutakode") %>" ><%=oRec3("valutakode")%></option>
 		    <%
 		    oRec3.movenext
 		    wend
@@ -1731,7 +1823,7 @@ public strMedarbOptionsHTML
 		    
 		   
 		    %>
-		    <option value="<%=oRec3("id")%>" <%=valGrpCHK %>><%=oRec3("valutakode")%></option>
+		    <option value="<%=oRec3("id")%>" <%=valGrpCHK %> data-valutakode="<%=oRec3("valutakode") %>" ><%=oRec3("valutakode")%></option>
 		    <%
 		    oRec3.movenext
 		    wend
@@ -1763,7 +1855,7 @@ public strMedarbOptionsHTML
     <%
         
     '** Avancegruppe **'    
-    if lto <> "epi" AND lto <> "epi_no" AND lto <> "epi_ab" AND lto <> "epi_sta" AND lto <> "intranet - local" AND lto <> "unik" AND lto <> "alfanordic" then  %>
+    if lto <> "epi" AND lto <> "epi_no" AND lto <> "epi_ab" AND lto <> "epi_sta" AND lto <> "xintranet - local" AND lto <> "unik" AND lto <> "alfanordic" then  %>
 	    <tr>
 		    <td align=right>
            
@@ -1782,6 +1874,14 @@ public strMedarbOptionsHTML
 		
 		    <% 
 		    matgrpVal = "<input id=""avagrpval_0"" name=""avagrpval_0"" type=""hidden"" value=""0"" />"
+
+            select case lto
+            case "sdeo"
+            matgrp = 1
+            case else
+            matgrp = matgrp
+            end select
+
             %>
 		    
     		
@@ -2004,24 +2104,35 @@ public strMedarbOptionsHTML
     
   
     
-  function  insertMat_fn(matId, intAntal, strNavn, strVarenr, dblKobsPris, dblSalgsPris, strEnhed, jobid, aktid, strEditor, strDato, usemrn, avaGrp, regDatoSQL, aftid, intValuta, intkode, bilagsnr, dblKurs, personlig, ava)
+  function insertMat_fn(matId, intAntal, strNavn, strVarenr, dblKobsPris, dblSalgsPris, strEnhed, jobid, aktid, strEditor, strDato, usemrn, avaGrp, regDatoSQL, aftid, intValuta, intkode, bilagsnr, dblKurs, personlig, ava, mattype, basic_valuta, basic_kurs, basic_belob)
 
+                             
+                            mf_konto = 0
+                            if cint(avaGrp) <> 0 then
 
-                               select case lto
-                               case "sdeo" 
-                               mf_konto = 1
-                               case else
-                               mf_konto = 0
-                               end select
+                                strSQLmgk = "SELECT matgrp_konto FROM materiale_grp WHERE id = "& avaGrp
+                                oRec7.open strSQLmgk, oConn, 3
+                                if not oRec7.EOF then
+
+                                   mf_konto = oRec7("matgrp_konto") 
+
+                                end if
+                                oRec7.close
+
+                            else
+                                avaGrp = 0
+                                mf_konto = 0
+                            end if
+
 
                             strSQL = "INSERT INTO materiale_forbrug "_
 				            &" (matid, matantal, matnavn, matvarenr, matkobspris, matsalgspris, matenhed, jobid, "_
-				            &" editor, dato, usrid, matgrp, forbrugsdato, serviceaft, valuta, intkode, bilagsnr, kurs, personlig, aktid, ava, mf_konto) VALUES "_
+				            &" editor, dato, usrid, matgrp, forbrugsdato, serviceaft, valuta, intkode, bilagsnr, kurs, personlig, aktid, ava, mf_konto, mattype, basic_valuta, basic_kurs, basic_belob) VALUES "_
 				            &" ("& matId &", "& intAntal &", '"& strNavn &"', '"& strVarenr &"', "_
 				            &" "& dblKobsPris &", "& dblSalgsPris &", '"& strEnhed &"', "& jobid &", "_
 				            &" '"& strEditor &"', '"& strDato &"', "& usemrn &", "_
 				            &" "& avaGrp &", '"& regDatoSQL &"', "& aftid &", "& intValuta &", "_
-				            &" "& intkode &", '"& bilagsnr &"', "& dblKurs &", "& personlig &", "& aktid &", "& ava &", "& mf_konto &")"
+				            &" "& intkode &", '"& bilagsnr &"', "& dblKurs &", "& personlig &", "& aktid &", "& ava &", "& mf_konto &", "& mattype &", '"& basic_valuta &"', "& basic_kurs &", "& basic_belob &" )"
 				
                             'if session("mid") = 1 then
 				            'Response.Write strSQL

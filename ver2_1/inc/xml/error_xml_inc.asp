@@ -591,6 +591,12 @@ Set oNodes_error = objXmlDom_error.documentElement.selectNodes(sXPathQuery_error
     err_txt_562 = oNode_error.selectSingleNode("txt_562").Text
     err_txt_563 = oNode_error.selectSingleNode("txt_563").Text
     err_txt_564 = oNode_error.selectSingleNode("txt_564").Text
+    err_txt_565 = oNode_error.selectSingleNode("txt_565").Text
+    err_txt_566 = oNode_error.selectSingleNode("txt_566").Text
+    err_txt_567 = oNode_error.selectSingleNode("txt_567").Text
+    err_txt_568 = oNode_error.selectSingleNode("txt_568").Text
+    err_txt_569 = oNode_error.selectSingleNode("txt_569").Text
+    err_txt_570 = oNode_error.selectSingleNode("txt_570").Text
 
 
     next

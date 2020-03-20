@@ -93,8 +93,8 @@ if len(session("user")) = 0 then
 				strOskrifter = strOskrifter  &"Godkendt?;Godkendt af;Faktureret?;"
 				end if
 				
-                
-                strOskrifter = strOskrifter  &"Kommentar;"
+               
+                strOskrifter = strOskrifter &"Kommentar;"
 				
 				
 				objF.writeLine("Periode afgrænsning: "& datointerval & vbcrlf)

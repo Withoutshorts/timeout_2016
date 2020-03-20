@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Ferie, Afspad.</txt_1>
+    <txt_2 >Sygdoms kalender</txt_2>
+    <txt_3 >Medarbejdere</txt_3>
+    <txt_4 >Fra</txt_4>
+    <txt_5 >og</txt_5>
+    <txt_6 >12 måneder frem</txt_6>
+    <txt_7 >Vis</txt_7>
+    <txt_8 >Uge</txt_8>
+    <txt_9 >Måned</txt_9>
+    <txt_10 >Dag</txt_10>
+
+    <txt_11 >Ferie afholdt u. løn</txt_11>
+    <txt_12 >Syg</txt_12>
+    <txt_13 >Barn syg</txt_13>
+    <txt_14 >Afspadsering</txt_14>
+    <txt_15 >Flextid brugt.</txt_15>
+    <txt_16 >Ferie planlagt</txt_16>
+    <txt_17 >Ferie afholdt</txt_17>
+    <txt_18 >Ferie udbetalt</txt_18>
+    <txt_19 >Ferie afholdt u. løn</txt_19>
+    <txt_20 >Feriefri brugt</txt_20>
+
+    <txt_21 >Feriefri udbetalt</txt_21>
+    <txt_22 >Rejsedage</txt_22>
+    <txt_23 >Flextid brugt</txt_23>
+    <txt_24 >Medarbejder</txt_24>
+    <txt_25 >Graf saldo</txt_25>
+    <txt_26 >Ferie saldo</txt_26>
+    <txt_27 >Afspad.</txt_27>
+    <txt_28 >Feriefri Saldo</txt_28>
+    <txt_29 >Funktioner</txt_29>
+    <txt_30 >Print 3-måneders oversigt</txt_30>
+
+    <txt_31 >Print 1-måneds oversigt</txt_31>
+    <txt_32 >Export til csv. (Dag/Dag)</txt_32>
+    <txt_33 >Export til csv. (Sum)</txt_33>
+    <txt_34 >Timer</txt_34>
+    <txt_35 >Dage</txt_35>
+    <txt_36 >Dato</txt_36>
+    <txt_37 >Type</txt_37>
+
+    <txt_38 >Januar</txt_38>
+    <txt_39 >Februar</txt_39>
+    <txt_40 >Marts</txt_40>
+    <txt_41 >April</txt_41>
+    <txt_42 >Maj</txt_42>
+    <txt_43 >Juni</txt_43>
+    <txt_44 >Juli</txt_44>
+    <txt_45 >August</txt_45>
+    <txt_46 >September</txt_46>
+    <txt_47 >Oktober</txt_47>
+    <txt_48 >November</txt_48>
+    <txt_49 >December</txt_49>
+    <txt_50 >Denne side fungere pt kun til chrome. Vi lancere snarest denne side til Edge og Firefox</txt_50>
+    
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >Vacation, lieu</txt_1>
+    <txt_2 >illness calendar</txt_2>
+    <txt_3 >Employees</txt_3>
+    <txt_4 >From</txt_4>
+    <txt_5 >and</txt_5>
+    <txt_6 >12 months ahead</txt_6>
+    <txt_7 >Show</txt_7>
+    <txt_8 >Week</txt_8>
+    <txt_9 >Month</txt_9>
+    <txt_10 >Day</txt_10>
+
+    <txt_11 >Holidays held without pay</txt_11>
+    <txt_12 >Sick</txt_12>
+    <txt_13 >Child sick</txt_13>
+    <txt_14 >Time off in lieu</txt_14>
+    <txt_15 >Flexitime used.</txt_15>
+    <txt_16 >Vacation planned</txt_16>
+    <txt_17 >Vacation held</txt_17>
+    <txt_18 >Vacation paid out</txt_18>
+    <txt_19 >Vaction without pay</txt_19>
+    <txt_20 >Special holidays spent</txt_20>
+
+    <txt_21 >Special holidays paid out</txt_21>
+    <txt_22 >Travel days</txt_22>
+    <txt_23 >Flexitime used.</txt_23>
+    <txt_24 >Employee</txt_24>
+    <txt_25 >Graph Total</txt_25>
+    <txt_26 >Vacation Balance</txt_26>
+    <txt_27 >Lieu</txt_27>
+    <txt_28 >Special holidays balance</txt_28>
+    <txt_29 >Features</txt_29>
+    <txt_30 >Print 3-month summary</txt_30>
+
+    <txt_31 >Print 1-month summary</txt_31>
+    <txt_32 >Export to csv. (Day / Day)</txt_32>
+    <txt_33 >Export to csv. (Sum)</txt_33>
+    <txt_34 >Hours</txt_34>
+    <txt_35 >Days</txt_35>
+    <txt_36 >Date</txt_36>
+    <txt_37 >Type</txt_37>
+
+    <txt_38 >January</txt_38>
+    <txt_39 >February</txt_39>
+    <txt_40 >March</txt_40>
+    <txt_41 >April</txt_41>
+    <txt_42 >May</txt_42>
+    <txt_43 >June</txt_43>
+    <txt_44 >July</txt_44>
+    <txt_45 >August</txt_45>
+    <txt_46 >September</txt_46>
+    <txt_47 >October</txt_47>
+    <txt_48 >November</txt_48>
+    <txt_49 >December</txt_49>
+    <txt_50 >This site currently only works for chrome. We will soon launch this page for Edge and Firefox</txt_50>
+    
+  </no>
+
+
+  <!--- Svensk -->
+  <so>
+
+    <txt_1 >Vacation, lieu</txt_1>
+    <txt_2 >illness calendar</txt_2>
+    <txt_3 >Employees</txt_3>
+    <txt_4 >From</txt_4>
+    <txt_5 >and</txt_5>
+    <txt_6 >12 months ahead</txt_6>
+    <txt_7 >Show</txt_7>
+    <txt_8 >Week</txt_8>
+    <txt_9 >Month</txt_9>
+    <txt_10 >Day</txt_10>
+
+    <txt_11 >Holidays held without pay</txt_11>
+    <txt_12 >Sick</txt_12>
+    <txt_13 >Child sick</txt_13>
+    <txt_14 >Time off in lieu</txt_14>
+    <txt_15 >Flexitime used.</txt_15>
+    <txt_16 >Vacation planned</txt_16>
+    <txt_17 >Vacation held</txt_17>
+    <txt_18 >Vacation paid out</txt_18>
+    <txt_19 >Vaction without pay</txt_19>
+    <txt_20 >Special holidays spent</txt_20>
+
+    <txt_21 >Special holidays paid out</txt_21>
+    <txt_22 >Travel days</txt_22>
+    <txt_23 >Flexitime used.</txt_23>
+    <txt_24 >Employee</txt_24>
+    <txt_25 >Graph Total</txt_25>
+    <txt_26 >Vacation Balance</txt_26>
+    <txt_27 >Lieu</txt_27>
+    <txt_28 >Special holidays balance</txt_28>
+    <txt_29 >Features</txt_29>
+    <txt_30 >Print 3-month summary</txt_30>
+
+    <txt_31 >Print 1-month summary</txt_31>
+    <txt_32 >Export to csv. (Day / Day)</txt_32>
+    <txt_33 >Export to csv. (Sum)</txt_33>
+    <txt_34 >Hours</txt_34>
+    <txt_35 >Days</txt_35>
+    <txt_36 >Date</txt_36>
+    <txt_37 >Type</txt_37>
+
+    <txt_38 >January</txt_38>
+    <txt_39 >February</txt_39>
+    <txt_40 >March</txt_40>
+    <txt_41 >April</txt_41>
+    <txt_42 >May</txt_42>
+    <txt_43 >June</txt_43>
+    <txt_44 >July</txt_44>
+    <txt_45 >August</txt_45>
+    <txt_46 >September</txt_46>
+    <txt_47 >October</txt_47>
+    <txt_48 >November</txt_48>
+    <txt_49 >December</txt_49>
+    <txt_50 >This site currently only works for chrome. We will soon launch this page for Edge and Firefox</txt_50>
+
+  </so>
+
+
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >Vacation, lieu</txt_1>
+    <txt_2 >illness calendar</txt_2>
+    <txt_3 >Employees</txt_3>
+    <txt_4 >From</txt_4>
+    <txt_5 >and</txt_5>
+    <txt_6 >12 months ahead</txt_6>
+    <txt_7 >Show</txt_7>
+    <txt_8 >Week</txt_8>
+    <txt_9 >Month</txt_9>
+    <txt_10 >Day</txt_10>
+
+    <txt_11 >Holidays held without pay</txt_11>
+    <txt_12 >Sick</txt_12>
+    <txt_13 >Child sick</txt_13>
+    <txt_14 >Time off in lieu</txt_14>
+    <txt_15 >Flexitime used.</txt_15>
+    <txt_16 >Vacation planned</txt_16>
+    <txt_17 >Vacation held</txt_17>
+    <txt_18 >Vacation paid out</txt_18>
+    <txt_19 >Vaction without pay</txt_19>
+    <txt_20 >Special holidays spent</txt_20>
+
+    <txt_21 >Special holidays paid out</txt_21>
+    <txt_22 >Travel days</txt_22>
+    <txt_23 >Flexitime used.</txt_23>
+    <txt_24 >Employee</txt_24>
+    <txt_25 >Graph Total</txt_25>
+    <txt_26 >Vacation Balance</txt_26>
+    <txt_27 >Lieu</txt_27>
+    <txt_28 >Special holidays balance</txt_28>
+    <txt_29 >Features</txt_29>
+    <txt_30 >Print 3-month summary</txt_30>
+
+    <txt_31 >Print 1-month summary</txt_31>
+    <txt_32 >Export to csv. (Day / Day)</txt_32>
+    <txt_33 >Export to csv. (Sum)</txt_33>
+    <txt_34 >Hours</txt_34>
+    <txt_35 >Days</txt_35>
+    <txt_36 >Date</txt_36>
+    <txt_37 >Type</txt_37>
+
+    <txt_38 >January</txt_38>
+    <txt_39 >February</txt_39>
+    <txt_40 >March</txt_40>
+    <txt_41 >April</txt_41>
+    <txt_42 >May</txt_42>
+    <txt_43 >June</txt_43>
+    <txt_44 >July</txt_44>
+    <txt_45 >August</txt_45>
+    <txt_46 >September</txt_46>
+    <txt_47 >October</txt_47>
+    <txt_48 >November</txt_48>
+    <txt_49 >December</txt_49>
+    <txt_50 >This site currently only works for chrome. We will soon launch this page for Edge and Firefox</txt_50>
+    
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >Vacation, lieu</txt_1>
+    <txt_2 >illness calendar</txt_2>
+    <txt_3 >Employees</txt_3>
+    <txt_4 >From</txt_4>
+    <txt_5 >and</txt_5>
+    <txt_6 >12 months ahead</txt_6>
+    <txt_7 >Show</txt_7>
+    <txt_8 >Week</txt_8>
+    <txt_9 >Month</txt_9>
+    <txt_10 >Day</txt_10>
+
+    <txt_11 >Holidays held without pay</txt_11>
+    <txt_12 >Sick</txt_12>
+    <txt_13 >Child sick</txt_13>
+    <txt_14 >Time off in lieu</txt_14>
+    <txt_15 >Flexitime used.</txt_15>
+    <txt_16 >Vacation planned</txt_16>
+    <txt_17 >Vacation held</txt_17>
+    <txt_18 >Vacation paid out</txt_18>
+    <txt_19 >Vaction without pay</txt_19>
+    <txt_20 >Special holidays spent</txt_20>
+
+    <txt_21 >Special holidays paid out</txt_21>
+    <txt_22 >Travel days</txt_22>
+    <txt_23 >Flexitime used.</txt_23>
+    <txt_24 >Employee</txt_24>
+    <txt_25 >Graph Total</txt_25>
+    <txt_26 >Vacation Balance</txt_26>
+    <txt_27 >Lieu</txt_27>
+    <txt_28 >Special holidays balance</txt_28>
+    <txt_29 >Features</txt_29>
+    <txt_30 >Print 3-month summary</txt_30>
+
+    <txt_31 >Print 1-month summary</txt_31>
+    <txt_32 >Export to csv. (Day / Day)</txt_32>
+    <txt_33 >Export to csv. (Sum)</txt_33>
+    <txt_34 >Hours</txt_34>
+    <txt_35 >Days</txt_35>
+    <txt_36 >Date</txt_36>
+    <txt_37 >Type</txt_37>
+
+    <txt_38 >January</txt_38>
+    <txt_39 >February</txt_39>
+    <txt_40 >March</txt_40>
+    <txt_41 >April</txt_41>
+    <txt_42 >May</txt_42>
+    <txt_43 >June</txt_43>
+    <txt_44 >July</txt_44>
+    <txt_45 >August</txt_45>
+    <txt_46 >September</txt_46>
+    <txt_47 >October</txt_47>
+    <txt_48 >November</txt_48>
+    <txt_49 >December</txt_49>
+    <txt_50 >This site currently only works for chrome. We will soon launch this page for Edge and Firefox</txt_50>
+
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Vacation, lieu</txt_1>
+    <txt_2 >illness calendar</txt_2>
+    <txt_3 >Employees</txt_3>
+    <txt_4 >From</txt_4>
+    <txt_5 >and</txt_5>
+    <txt_6 >12 months ahead</txt_6>
+    <txt_7 >Show</txt_7>
+    <txt_8 >Week</txt_8>
+    <txt_9 >Month</txt_9>
+    <txt_10 >Day</txt_10>
+
+    <txt_11 >Holidays held without pay</txt_11>
+    <txt_12 >Sick</txt_12>
+    <txt_13 >Child sick</txt_13>
+    <txt_14 >Time off in lieu</txt_14>
+    <txt_15 >Flexitime used.</txt_15>
+    <txt_16 >Vacation planned</txt_16>
+    <txt_17 >Vacation held</txt_17>
+    <txt_18 >Vacation paid out</txt_18>
+    <txt_19 >Vaction without pay</txt_19>
+    <txt_20 >Special holidays spent</txt_20>
+
+    <txt_21 >Special holidays paid out</txt_21>
+    <txt_22 >Travel days</txt_22>
+    <txt_23 >Flexitime used.</txt_23>
+    <txt_24 >Employee</txt_24>
+    <txt_25 >Graph Total</txt_25>
+    <txt_26 >Vacation Balance</txt_26>
+    <txt_27 >Lieu</txt_27>
+    <txt_28 >Special holidays balance</txt_28>
+    <txt_29 >Features</txt_29>
+    <txt_30 >Print 3-month summary</txt_30>
+
+    <txt_31 >Print 1-month summary</txt_31>
+    <txt_32 >Export to csv. (Day / Day)</txt_32>
+    <txt_33 >Export to csv. (Sum)</txt_33>
+    <txt_34 >Hours</txt_34>
+    <txt_35 >Days</txt_35>
+    <txt_36 >Date</txt_36>
+    <txt_37 >Type</txt_37>
+
+    <txt_38 >January</txt_38>
+    <txt_39 >February</txt_39>
+    <txt_40 >March</txt_40>
+    <txt_41 >April</txt_41>
+    <txt_42 >May</txt_42>
+    <txt_43 >June</txt_43>
+    <txt_44 >July</txt_44>
+    <txt_45 >August</txt_45>
+    <txt_46 >September</txt_46>
+    <txt_47 >October</txt_47>
+    <txt_48 >November</txt_48>
+    <txt_49 >December</txt_49>
+    <txt_50 >This site currently only works for chrome. We will soon launch this page for Edge and Firefox</txt_50>
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+    <txt_1 >Vacation, lieu</txt_1>
+    <txt_2 >illness calendar</txt_2>
+    <txt_3 >Employees</txt_3>
+    <txt_4 >From</txt_4>
+    <txt_5 >and</txt_5>
+    <txt_6 >12 months ahead</txt_6>
+    <txt_7 >Show</txt_7>
+    <txt_8 >Week</txt_8>
+    <txt_9 >Month</txt_9>
+    <txt_10 >Day</txt_10>
+
+    <txt_11 >Holidays held without pay</txt_11>
+    <txt_12 >Sick</txt_12>
+    <txt_13 >Child sick</txt_13>
+    <txt_14 >Time off in lieu</txt_14>
+    <txt_15 >Flexitime used.</txt_15>
+    <txt_16 >Vacation planned</txt_16>
+    <txt_17 >Vacation held</txt_17>
+    <txt_18 >Vacation paid out</txt_18>
+    <txt_19 >Vaction without pay</txt_19>
+    <txt_20 >Special holidays spent</txt_20>
+
+    <txt_21 >Special holidays paid out</txt_21>
+    <txt_22 >Travel days</txt_22>
+    <txt_23 >Flexitime used.</txt_23>
+    <txt_24 >Employee</txt_24>
+    <txt_25 >Graph Total</txt_25>
+    <txt_26 >Vacation Balance</txt_26>
+    <txt_27 >Lieu</txt_27>
+    <txt_28 >Special holidays balance</txt_28>
+    <txt_29 >Features</txt_29>
+    <txt_30 >Print 3-month summary</txt_30>
+
+    <txt_31 >Print 1-month summary</txt_31>
+    <txt_32 >Export to csv. (Day / Day)</txt_32>
+    <txt_33 >Export to csv. (Sum)</txt_33>
+    <txt_34 >Hours</txt_34>
+    <txt_35 >Days</txt_35>
+    <txt_36 >Date</txt_36>
+    <txt_37 >Type</txt_37>
+
+    <txt_38 >January</txt_38>
+    <txt_39 >February</txt_39>
+    <txt_40 >March</txt_40>
+    <txt_41 >April</txt_41>
+    <txt_42 >May</txt_42>
+    <txt_43 >June</txt_43>
+    <txt_44 >July</txt_44>
+    <txt_45 >August</txt_45>
+    <txt_46 >September</txt_46>
+    <txt_47 >October</txt_47>
+    <txt_48 >November</txt_48>
+    <txt_49 >December</txt_49>
+    <txt_50 >This site currently only works for chrome. We will soon launch this page for Edge and Firefox</txt_50>
+
+  </es>
+
+
+</sprog>

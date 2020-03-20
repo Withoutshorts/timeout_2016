@@ -55,6 +55,10 @@ if len(session("user")) = 0 then
     aty_hide_on_treg = split(request("aty_hide_on_treg"), "#,")
 
     aty_enh = split(request("FM_aty_enh"), ",")
+
+    aty_mobile_btn = split(request("aty_mobile_btn"), "#,")
+
+    aty_mobile_btn_order = split(request("aty_mobile_btn_order"), ", #, ")
 	
 	for t = 0 to UBOUND(aty_id)
 	err = 0
@@ -103,8 +107,13 @@ if len(session("user")) = 0 then
             end if
 
 	    end if
+
+        if len(trim(aty_mobile_btn(t))) = 0 then
+	    aty_mobile_btn(t) = 0
+	    end if
 	    
-        
+        aty_mobile_btn_order(t) = replace(aty_mobile_btn_order(t), ",", "")
+	    aty_mobile_btn_order(t) = replace(aty_mobile_btn_order(t), ".", "")
 	    
 	     
 	
@@ -121,6 +130,15 @@ if len(session("user")) = 0 then
 
 
            call erDetInt(aty_sort(t))
+	    
+	      if cint(isInt) > 0 then
+	      err = 1
+	      end if
+	      
+	      isInt = 0
+
+
+          call erDetInt(aty_mobile_btn_order(t))
 	    
 	      if cint(isInt) > 0 then
 	      err = 1
@@ -146,11 +164,13 @@ if len(session("user")) = 0 then
         strSQL = strSQL &" aty_pre_dg = '"& trim(aty_pre_dg(t)) &"', "
         strSQL = strSQL &" aty_pre_prg = '"& trim(aty_pre_prg(t)) &"', "
         strSQL = strSQL &" aty_hide_on_treg = "& aty_hide_on_treg(t) &", "
-        strSQL = strSQL &" aty_enh = "& aty_enh(t) &" "
+        strSQL = strSQL &" aty_enh = "& aty_enh(t) &", "
+        strSQL = strSQL &" aty_mobile_btn = "& left(trim(aty_mobile_btn(t)), 1) & ","
+        strSQL = strSQL &" aty_mobile_btn_order = "& left(trim(aty_mobile_btn_order(t)), 4)
         strSQL = strSQL &" WHERE aty_id = "& aty_id(t)
 		
 		
-		'Response.write "t" & t & "<br>"& strSQL & "<br>"
+		Response.write "t" & t & "<br>"& strSQL & "<br>"
 		'Response.flush
 		oConn.execute(strSQL)
 		
@@ -219,13 +239,15 @@ if len(session("user")) = 0 then
         <td class=alt valign=bottom><b>Kolonne & sortering</b><br />(På HR listen, tal før komma er kolonne)</td>
         <td class=alt valign=bottom><b>Vis kolonne på personlig afstemning</b><br />Måned | Dag</td>
         <td class=alt valign=bottom><b>Vis kolonne på Periode godkendelse</b></td>
+        <td class=alt valign=bottom><b>Anvend type som knap på mobilen</b></td>
+        <td class=alt valign=bottom><b>Mobile knap sortering</b></td>
 	</tr>
 	<%
 	
 	
 	strSQL = "SELECT aty_id, aty_label, aty_desc, "_
     & "aty_on, aty_on_realhours, aty_on_invoiceble, aty_on_invoice, aty_on_invoice_chk, "_
-    & "aty_on_workhours, aty_pre, aty_sort, aty_on_recon, aty_enh, aty_on_adhoc, aty_hide_on_treg, aty_pre_dg, aty_pre_prg, aty_on_calender"_
+    & "aty_on_workhours, aty_pre, aty_sort, aty_on_recon, aty_enh, aty_on_adhoc, aty_hide_on_treg, aty_pre_dg, aty_pre_prg, aty_on_calender, aty_mobile_btn, aty_mobile_btn_order"_
     &" FROM akt_typer ORDER BY aty_sort"
 	
 	x = 0
@@ -242,7 +264,7 @@ if len(session("user")) = 0 then
 	
 	%>
 	<tr>
-		<td bgcolor="#cccccc" colspan="17" style="padding:0px; height:1px;"><img src="ill/blank.gif" width="1" height="1" border="0" alt=""></td>
+		<td bgcolor="#cccccc" colspan="18" style="padding:0px; height:1px;"><img src="ill/blank.gif" width="1" height="1" border="0" alt=""></td>
 	</tr>
 	<tr bgcolor="<%=bgcol %>">
         <input id="aty_id" name="aty_id" type="hidden" value="<%=oRec("aty_id")%>" />
@@ -421,6 +443,7 @@ if len(session("user")) = 0 then
                 enhSEL1 = ""
                 enhSEL2 = ""
                 enhSEL3 = ""
+                enhSEL4 = ""
             
             select case oRec("aty_enh")
             case -1
@@ -434,6 +457,9 @@ if len(session("user")) = 0 then
             case 3
             enh = "km."
             enhSEL3 = "SELECTED"
+            case 4
+            enh = "Beløb"
+            enhSEL4 = "SELECTED"
 	        case else
 	        'enh = "tim."
             enhSEL0 = "SELECTED"
@@ -444,6 +470,7 @@ if len(session("user")) = 0 then
                    <option value="1" <%=enhSEL1 %>>Stk.</option>
                    <option value="2" <%=enhSEL2 %>>Enheder</option>
                    <option value="3" <%=enhSEL3 %>>Km</option>
+                   <option value="4" <%=enhSEL4 %>>Beløb</option>
                    <option value="-1" <%=enhSEL01 %>>-</option>
 
                </select>
@@ -483,6 +510,27 @@ if len(session("user")) = 0 then
 
         </td>
 
+        <td>
+
+            <%
+            if oRec("aty_mobile_btn") = 1 then
+		    aty_mobile_btn_CHK = "CHECKED"
+		    else
+		    aty_mobile_btn_CHK = ""
+		    end if  
+            %>
+
+            <input id="aty_mobile_btn" type="checkbox" name="aty_mobile_btn" value="1" <%=aty_mobile_btn_CHK %> />
+            <input id="aty_mobile_btn" name="aty_mobile_btn" type="hidden" value="#" />
+           
+        </td>
+
+        <td>
+            <input type="text" id="aty_mobile_btn_order" name="aty_mobile_btn_order" value="<%=oRec("aty_mobile_btn_order") %>" style="width:40px; font-size:9px;" />
+            <input id="Hidden1" name="aty_mobile_btn_order" type="hidden" value="#" />
+        </td>
+        
+
 	</tr>
 	<%
 	x = x + 1
@@ -498,6 +546,8 @@ if len(session("user")) = 0 then
 	<input id="Hidden5" name="aty_on_invoice_chk" type="hidden" value="#" />
 	<input id="Hidden6" name="aty_on_workhours" type="hidden" value="#" />
 	<input id="Hidden7" name="aty_pre" type="hidden" value="#" />
+    <input id="Hidden8" name="aty_mobile_btn" type="hidden" value="#" />
+    <input id="Hidden8" name="aty_mobile_btn_order" type="hidden" value="#" />
 	
 	
 	

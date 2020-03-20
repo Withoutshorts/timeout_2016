@@ -20,7 +20,7 @@ $(document).ready(function () {
         //var modalidtxt = $("#myModal_" + idtrim);
         var modal = document.getElementById('myModal_' + idtrim);
 
-        alert("HER" + idtrim)
+        //alert("HER" + idtrim)
 
         modal.style.display = "block";
 

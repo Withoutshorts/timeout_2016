@@ -1,9 +1,16 @@
 <%response.buffer = true 
 Session.LCID = 1030
+
+
+    'if session("mid") = 1 AND request("func") = "opret" then
+    'Response.write "<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HER"
+    'Response.end
+    'end if
 %>
 
 <!--#include file="../inc/connection/conn_db_inc.asp"-->
-
+<!--#include file="../inc/regular/global_func.asp"-->
+<!--#include file="../inc/regular/topmenu_inc.asp"-->
 
 <%'** JQUERY START ************************* %>
 
@@ -12,6 +19,7 @@ Session.LCID = 1030
 
 <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
 <!--#include file="../inc/errors/error_inc.asp"-->
+
 <%
  '** ER SESSION UDLØBET  ****
     if len(session("user")) = 0 then
@@ -24,8 +32,7 @@ Session.LCID = 1030
  %>
 
 
-<!--#include file="../inc/regular/global_func.asp"-->
-<!--#include file="../inc/regular/topmenu_inc.asp"-->
+
 
 
 
@@ -34,6 +41,10 @@ Session.LCID = 1030
 
 
 <%
+    
+    
+        
+
 
     if media <> "print" AND media <> "eksport" then    
         call menu_2014
@@ -41,6 +52,7 @@ Session.LCID = 1030
     
 
      if media <> "eksport" then     %>
+
 
 <div class="wrapper">
     <div class="content">
@@ -267,6 +279,8 @@ Session.LCID = 1030
                         </section>    
 
                         <br /><br />
+
+
             <%else 
 
 
@@ -359,12 +373,13 @@ case "dbopr", "dbred"
 	%>
 	<!--#include file="../timereg/inc/isint_func.asp"-->
 	<%
+
+
+    useleftdiv = "to_2015"
+
 	'*** Her indsættes en ny type i db ****
 		if len(request("FM_navn")) = 0 then
-		%>
-		<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
-	
-		<%
+		
 		errortype = 8
 		call showError(errortype)
 		
@@ -380,10 +395,7 @@ case "dbopr", "dbred"
 				
 				call erDetInt(SQLBlessDOT(request("FM_Timepris")))
 				if isInt > 0 then
-				%>
-				<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
-			
-				<%
+				
 				errortype = 39
 				call showError(errortype)
 				isInt = 0
@@ -392,10 +404,7 @@ case "dbopr", "dbred"
 					
 				call erDetInt(SQLBlessDOT(request("FM_Kostpris")))
 				if isInt > 0 then
-				%>
-				<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
-			
-				<%
+				
 				errortype = 39
 				call showError(errortype)
 				isInt = 0
@@ -404,10 +413,7 @@ case "dbopr", "dbred"
 					
 				
 					if len(request("FM_Kostpris")) = 0 OR len(request("FM_timepris")) = 0 then
-					%>
-					<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
 					
-					<%
 					errortype = 39
 					call showError(errortype)
 					
@@ -485,15 +491,77 @@ case "dbopr", "dbred"
 						call erDetInt(request("FM_kostpristarif_D"))
 						int18 = isInt
 
+                        sInt = 0
+						call erDetInt(request("FM_norm_month"))
+						int19 = isInt
                         
+
+                        isInt = 0
+						call erDetInt(SQLBlessDOT(request("FM_norm_son_lige")))
+						int20 = isInt 
+
+                        isInt = 0
+						call erDetInt(SQLBlessDOT(request("FM_norm_man_lige")))
+						int21 = isInt
+
+                        isInt = 0
+						call erDetInt(SQLBlessDOT(request("FM_norm_tir_lige")))
+						int22 = isInt
+
+                        isInt = 0
+						call erDetInt(SQLBlessDOT(request("FM_norm_ons_lige")))
+						int23 = isInt
+
+                        isInt = 0
+						call erDetInt(SQLBlessDOT(request("FM_norm_tor_lige")))
+						int24 = isInt
+
+                        isInt = 0
+						call erDetInt(SQLBlessDOT(request("FM_norm_fre_lige")))
+						int25 = isInt
+
+                        isInt = 0
+						call erDetInt(SQLBlessDOT(request("FM_norm_lor_lige")))
+						int26 = isInt
+
+
+                        isInt = 0
+						call erDetInt(SQLBlessDOT(request("FM_norm_son_ulige2")))
+						int27 = isInt 
+
+                        isInt = 0
+						call erDetInt(SQLBlessDOT(request("FM_norm_man_ulige2")))
+						int28 = isInt
+
+                        isInt = 0
+						call erDetInt(SQLBlessDOT(request("FM_norm_tir_ulige2")))
+						int29 = isInt
+
+                        isInt = 0
+						call erDetInt(SQLBlessDOT(request("FM_norm_ons_ulige2")))
+						int30 = isInt
+
+                        isInt = 0
+						call erDetInt(SQLBlessDOT(request("FM_norm_tor_ulige2")))
+						int31 = isInt
+
+                        isInt = 0
+						call erDetInt(SQLBlessDOT(request("FM_norm_fre_ulige2")))
+						int32 = isInt
+
+                        isInt = 0
+						call erDetInt(SQLBlessDOT(request("FM_norm_lor_ulige2")))
+						int33 = isInt
+
+                   
+
+                        '** Tiløfj FM_norm_man_modetid_ulige2
 
 						
 						if int1 > 0 OR int2 > 0 OR int3 > 0 OR int4 > 0 OR int5 > 0 OR int6 > 0 OR int7 > 0 OR int8 > 0 OR int9 > 0 OR int11 > 0 OR int12 > 0 OR int13 > 0 OR int14 > 0 _
-                        OR int15 > 0 OR int16 > 0 OR int17 > 0 OR int18 > 0 then
-						%>
-						<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
-					
-						<%
+                        OR int15 > 0 OR int16 > 0 OR int17 > 0 OR int18 > 0 _
+                        OR int19 > 0 OR int20 > 0 OR int21 > 0 OR int22 > 0 OR int23 > 0 OR int24 > 0 OR int25 > 0 OR int26 > 0 OR int27 > 0 OR int28 > 0 OR int29 > 0 OR int30 OR int31 > 0 OR int32 > 0 OR int33 > 0 then
+						
 						errortype = 39
 						call showError(errortype)
 						isInt = 0
@@ -579,9 +647,6 @@ case "dbopr", "dbred"
                             kostpristarif_D = replace(kostpristarif_D, ",", ".")
 
                             
-
-
-
 							normtimer_son = SQLBlessDOT2(request("FM_norm_son"))
 							normtimer_man = SQLBlessDOT2(request("FM_norm_man"))
 							normtimer_tir =	SQLBlessDOT2(request("FM_norm_tir"))
@@ -589,7 +654,95 @@ case "dbopr", "dbred"
 							normtimer_tor = SQLBlessDOT2(request("FM_norm_tor"))
 							normtimer_fre = SQLBlessDOT2(request("FM_norm_fre"))
 							normtimer_lor = SQLBlessDOT2(request("FM_norm_lor"))
-							
+
+                            normtimer_son_modetid = request("FM_norm_son_modetid")
+							normtimer_man_modetid = request("FM_norm_man_modetid")
+							normtimer_tir_modetid = request("FM_norm_tir_modetid")
+							normtimer_ons_modetid = request("FM_norm_ons_modetid")
+							normtimer_tor_modetid = request("FM_norm_tor_modetid")
+							normtimer_fre_modetid = request("FM_norm_fre_modetid")
+							normtimer_lor_modetid = request("FM_norm_lor_modetid")
+
+                            normtimer_rul = request("FM_normtimer_rul")
+
+                           
+
+                           '*** lige uger
+                            normtimer_son_lige = SQLBlessDOT2(request("FM_norm_son_lige"))
+							normtimer_man_lige = SQLBlessDOT2(request("FM_norm_man_lige"))
+							normtimer_tir_lige = SQLBlessDOT2(request("FM_norm_tir_lige"))
+							normtimer_ons_lige = SQLBlessDOT2(request("FM_norm_ons_lige"))
+							normtimer_tor_lige = SQLBlessDOT2(request("FM_norm_tor_lige"))
+							normtimer_fre_lige = SQLBlessDOT2(request("FM_norm_fre_lige"))
+							normtimer_lor_lige = SQLBlessDOT2(request("FM_norm_lor_lige"))
+
+                            if len(trim(normtimer_son_lige)) = 0 then
+                            normtimer_son_lige = 0
+                            end if
+
+                            if len(trim(normtimer_man_lige)) = 0 then
+                            normtimer_man_lige = 0
+                            end if
+
+                            if len(trim(normtimer_tir_lige)) = 0 then
+                            normtimer_tir_lige = 0
+                            end if
+
+                            if len(trim(normtimer_ons_lige)) = 0 then
+                            normtimer_ons_lige = 0
+                            end if
+
+                            if len(trim(normtimer_tor_lige)) = 0 then
+                            normtimer_tor_lige = 0
+                            end if
+
+                            if len(trim(normtimer_fre_lige)) = 0 then
+                            normtimer_fre_lige = 0
+                            end if
+
+                            if len(trim(normtimer_lor_lige)) = 0 then
+                            normtimer_lor_lige = 0
+                            end if
+
+
+                            normtimer_son_modetid_lige = request("FM_norm_son_modetid_lige")
+							normtimer_man_modetid_lige = request("FM_norm_man_modetid_lige")
+							normtimer_tir_modetid_lige = request("FM_norm_tir_modetid_lige")
+							normtimer_ons_modetid_lige = request("FM_norm_ons_modetid_lige")
+							normtimer_tor_modetid_lige = request("FM_norm_tor_modetid_lige")
+							normtimer_fre_modetid_lige = request("FM_norm_fre_modetid_lige")
+							normtimer_lor_modetid_lige = request("FM_norm_lor_modetid_lige")
+
+
+                           '** Rul uge 3
+                            normtimer_son_ulige2 = SQLBlessDOT2(request("FM_norm_son_ulige2"))
+							normtimer_man_ulige2 = SQLBlessDOT2(request("FM_norm_man_ulige2"))
+							normtimer_tir_ulige2 =	SQLBlessDOT2(request("FM_norm_tir_ulige2"))
+							normtimer_ons_ulige2 = SQLBlessDOT2(request("FM_norm_ons_ulige2"))
+							normtimer_tor_ulige2 = SQLBlessDOT2(request("FM_norm_tor_ulige2"))
+							normtimer_fre_ulige2 = SQLBlessDOT2(request("FM_norm_fre_ulige2"))
+							normtimer_lor_ulige2 = SQLBlessDOT2(request("FM_norm_lor_ulige2"))
+
+                            normtimer_son_modetid_ulige2 = request("FM_norm_son_modetid_ulige2")
+							normtimer_man_modetid_ulige2 = request("FM_norm_man_modetid_ulige2")
+							normtimer_tir_modetid_ulige2 = request("FM_norm_tir_modetid_ulige2")
+							normtimer_ons_modetid_ulige2 = request("FM_norm_ons_modetid_ulige2")
+							normtimer_tor_modetid_ulige2 = request("FM_norm_tor_modetid_ulige2")
+							normtimer_fre_modetid_ulige2 = request("FM_norm_fre_modetid_ulige2")
+							normtimer_lor_modetid_ulige2 = request("FM_norm_lor_modetid_ulige2")
+
+                           
+                            
+
+                            
+
+                            maanedsnorm = SQLBlessDOT2(request("FM_norm_month"))
+						    if len(maanedsnorm) <> 0 then
+							maanedsnorm = maanedsnorm
+							else
+							maanedsnorm = 0
+							end if
+        
 							
 							if len(dubKostpris) <> 0 then
 							dubKostpris = dubKostpris
@@ -681,6 +834,16 @@ case "dbopr", "dbred"
                             feriesats = 0
                             end if
 
+                            
+                            if len(trim(request("FM_maxflex"))) <> 0 then
+                            maxflex = request("FM_maxflex")
+                            maxflex = replace(maxflex, ",", ".")
+                            else
+                            maxflex = 0
+                            end if
+
+                            
+
                             mtsortorder = request("FM_sortorder")
                             sostergp = request("FM_soster") 
 
@@ -727,10 +890,7 @@ case "dbopr", "dbred"
 
 
 							if request("FM_Kostpris") < 0 OR strTimepris < 0 OR strTimepris1 < 0 OR strTimepris2 < 0 OR strTimepris3 < 0 OR strTimepris4 < 0 OR strTimepris5 < 0 then
-							%>
-							<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
 							
-							<%
 							errortype = 39
 							call showError(errortype)
 							
@@ -742,6 +902,13 @@ case "dbopr", "dbred"
                 else
                 noflex = 0
                 end if
+
+                if len(trim(request("FM_mtype_passiv"))) <> 0 then
+                mtype_passiv = 1
+                else
+                mtype_passiv = 0
+                end if
+                                
 				
 				strEditor = session("user")
 				strDato = session("dato")
@@ -754,15 +921,26 @@ case "dbopr", "dbred"
 				        oConn.execute("INSERT INTO medarbejdertyper (type, timepris, editor, dato, kostpris, normtimer_son, normtimer_man, normtimer_tir, normtimer_ons, normtimer_tor, normtimer_fre, normtimer_lor, "_
 				        &" timepris_a1, timepris_a2, timepris_a3, timepris_a4, timepris_a5, "_
 				        &" tp0_valuta, tp1_valuta, tp2_valuta, tp3_valuta, tp4_valuta, tp5_valuta, sostergp, mtsortorder, mgruppe, afslutugekri, afslutugekri_proc, noflex, "_
-                        &" kostpristarif_A, kostpristarif_B, kostpristarif_C, kostpristarif_D, kp1_valuta, mt_mobil_visstopur, feriesats) VALUES"_
+                        &" kostpristarif_A, kostpristarif_B, kostpristarif_C, kostpristarif_D, kp1_valuta, mt_mobil_visstopur, feriesats, mtype_passiv, mtype_maxflex, maanedsnorm, normtimer_rul,"_
+                        &" normtimer_man_modetid, normtimer_tir_modetid, normtimer_ons_modetid, normtimer_tor_modetid, normtimer_fre_modetid, normtimer_lor_modetid, normtimer_son_modetid,"_
+                        &" normtimer_man_lige, normtimer_tir_lige, normtimer_ons_lige, normtimer_tor_lige, normtimer_fre_lige, normtimer_lor_lige, normtimer_son_lige,"_
+                        &" normtimer_man_modetid_lige, normtimer_tir_modetid_lige, normtimer_ons_modetid_lige, normtimer_tor_modetid_lige, normtimer_fre_modetid_lige, normtimer_lor_modetid_lige, normtimer_son_modetid_lige,"_
+                        &" normtimer_man_ulige2, normtimer_tir_ulige2, normtimer_ons_ulige2, normtimer_tor_ulige2, normtimer_fre_ulige2, normtimer_lor_ulige2, normtimer_son_ulige2,"_
+                        &" normtimer_man_modetid_ulige2, normtimer_tir_modetid_ulige2, normtimer_ons_modetid_ulige2, normtimer_tor_modetid_ulige2, normtimer_fre_modetid_ulige2, normtimer_lor_modetid_ulige2, normtimer_son_modetid_ulige2"_
+                        &") VALUES"_
 				        &" ('"& strNavn &"', "& strTimepris &", '"& strEditor &"', '"& strDato &"', "& dubKostpris &", "_
 				        &" "& normtimer_son &", "& normtimer_man &", "& normtimer_tir &", "& normtimer_ons &", "_
 				        &" "& normtimer_tor &", "& normtimer_fre &", "& normtimer_lor &", "& strTimepris1 &", "_
 				        &" "& strTimepris2 &", "& strTimepris3 &", "& strTimepris4 &", "& strTimepris5 &", "_
 				        &" "& tp0_valuta &","& tp1_valuta &","& tp2_valuta &","& tp3_valuta &","& tp4_valuta &","& tp5_valuta &", "& sostergp &", "_
                         &" "& mtsortorder &", "& mgruppe &","& afslutugekri &","& afslutugekri_proc &", "& noflex &", "_
-                        &" "& kostpristarif_A &","& kostpristarif_B &","& kostpristarif_C &","& kostpristarif_D &", "& kp1_valuta &", "& mt_mobil_visstopur &", "& feriesats &""_
-				        &" )")
+                        &" "& kostpristarif_A &","& kostpristarif_B &","& kostpristarif_C &","& kostpristarif_D &", "& kp1_valuta &", "& mt_mobil_visstopur &", "& feriesats &", "& mtype_passiv &", "& maxflex &", "& maanedsnorm &", "& normtimer_rul &", "_
+                        &" '"& normtimer_man_modetid &"','"& normtimer_tir_modetid &"','"& normtimer_ons_modetid &"','"& normtimer_tor_modetid &"','"& normtimer_fre_modetid &"','"& normtimer_lor_modetid &"','"& normtimer_son_modetid &"', "_
+                        &" "& normtimer_man_lige &","& normtimer_tir_lige &","& normtimer_ons_lige &","& normtimer_tor_lige &","& normtimer_fre_lige &","& normtimer_lor_lige &","& normtimer_son_lige &", "_
+                        &" '"& normtimer_man_modetid_lige &"','"& normtimer_tir_modetid_lige &"','"& normtimer_ons_modetid_lige &"','"& normtimer_tor_modetid_lige &"','"& normtimer_fre_modetid_lige &"','"& normtimer_lor_modetid_lige &"','"&normtimer_son_modetid_lige &"', "_
+                        &" "& normtimer_man_ulige2 &","& normtimer_tir_ulige2 &","& normtimer_ons_ulige2 &","& normtimer_tor_ulige2 &","& normtimer_fre_ulige2 &","& normtimer_lor_ulige2 &","&normtimer_son_ulige2 &", "_
+                        &" '"& normtimer_man_modetid_ulige2 &"','"& normtimer_tir_modetid_ulige2 &"','"& normtimer_ons_modetid_ulige2 &"','"& normtimer_tor_modetid_ulige2 &"','"& normtimer_fre_modetid_ulige2 &"','"&normtimer_lor_modetid_ulige2 &"','"&normtimer_son_modetid_ulige2 &"'"_
+                        &" )")
 				
                 
                         strSQlast = "SELECT id FROM medarbejdertyper WHERE id <> 0 ORDER BY id DESC"
@@ -789,17 +967,28 @@ case "dbopr", "dbred"
                                 if mtypeIdforvlgt <> 0 then
 
                                 lastMid = 0
-                                strSQlmlast = "SELECT mid FROM medarbejdere WHERE mid <> 0 ORDER BY mid DESC LIMIT 1"
+                                strSQlmlast = "SELECT mid, ansatdato FROM medarbejdere WHERE mid <> 0 ORDER BY mid DESC LIMIT 1"
                                 oRec6.open strSQlmlast, oConn, 3 
                                 if not oRec6.EOF then
 
                                 lastMid = oRec6("mid") 
+                                ansatdato = oRec6("ansatdato")
 
                                 end if
                                 oRec6.close
 
                                 strSQlmlastTilfoj = "UPDATE medarbejdere SET medarbejdertype = " & lastId & " WHERE mid = " & lastMid
                                 oConn.execute(strSQlmlastTilfoj)
+
+
+                                '*** Tilføjer til medarbejdertype_historik. Skal gøres pga 1:1 og da der ellers ikke er norm i Forecast_kapacitet og Simulering
+                                '*** 20180709
+                                '*** Medarbejder  type historik ****
+                                ansatdato = year(ansatdato) & "-" & month(ansatdato) & "-" & day(ansatdato)
+						        strSQLmthupd = "INSERT INTO medarbejdertyper_historik (mid, mtype, mtypedato) "_
+			                    &" VALUES ("& lastMid &", "& lastId &", '"& ansatdato &"') "
+			                    oConn.execute(strSQLmthupd)
+
 
                                 end if
 
@@ -816,8 +1005,14 @@ case "dbopr", "dbred"
 				&" tp2_valuta = "& tp2_valuta &", tp3_valuta = "& tp3_valuta &", "_
 				&" tp4_valuta = "& tp4_valuta &", tp5_valuta = "& tp5_valuta &", sostergp = "& sostergp &", mtsortorder = "& mtsortorder &", "_
                 &" mgruppe = "& mgruppe &", afslutugekri = "& afslutugekri &", afslutugekri_proc = "& afslutugekri_proc &", noflex = "& noflex &", "_
-                &" kostpristarif_A = "& kostpristarif_A &", kostpristarif_B = "& kostpristarif_B &", kostpristarif_C = "& kostpristarif_C &", kostpristarif_D = "& kostpristarif_D &", kp1_valuta = "& kp1_valuta &", mt_mobil_visstopur = "& mt_mobil_visstopur &", feriesats = "& feriesats &""_
-				&" WHERE id = "&id&""
+                &" kostpristarif_A = "& kostpristarif_A &", kostpristarif_B = "& kostpristarif_B &", kostpristarif_C = "& kostpristarif_C &", kostpristarif_D = "& kostpristarif_D &","_
+                &" kp1_valuta = "& kp1_valuta &", mt_mobil_visstopur = "& mt_mobil_visstopur &", feriesats = "& feriesats &", mtype_passiv = "& mtype_passiv &", mtype_maxflex = "& maxflex &", maanedsnorm = "& maanedsnorm &", normtimer_rul = "& normtimer_rul &","_
+                &" normtimer_man_modetid = '"& normtimer_man_modetid &"', normtimer_tir_modetid = '"& normtimer_tir_modetid&"', normtimer_ons_modetid = '"& normtimer_ons_modetid &"', normtimer_tor_modetid = '"& normtimer_tor_modetid &"', normtimer_fre_modetid = '"& normtimer_fre_modetid &"', normtimer_lor_modetid = '"& normtimer_lor_modetid &"', normtimer_son_modetid = '"& normtimer_son_modetid &"',"_
+                &" normtimer_man_lige = "& normtimer_man_lige &", normtimer_tir_lige = "& normtimer_tir_lige &", normtimer_ons_lige = "& normtimer_ons_lige &", normtimer_tor_lige = "& normtimer_tor_lige &", normtimer_fre_lige = "& normtimer_fre_lige &", normtimer_lor_lige = "& normtimer_lor_lige &", normtimer_son_lige = "& normtimer_son_lige &","_
+                &" normtimer_man_modetid_lige = '"& normtimer_man_modetid_lige &"', normtimer_tir_modetid_lige = '"& normtimer_tir_modetid_lige &"', normtimer_ons_modetid_lige = '"& normtimer_ons_modetid_lige &"', normtimer_tor_modetid_lige = '"& normtimer_tor_modetid_lige &"', normtimer_fre_modetid_lige = '"& normtimer_fre_modetid_lige &"', normtimer_lor_modetid_lige = '"& normtimer_lor_modetid_lige &"', normtimer_son_modetid_lige = '"& normtimer_son_modetid_lige &"',"_
+                &" normtimer_man_ulige2 = "& normtimer_man_ulige2 &", normtimer_tir_ulige2 = "& normtimer_tir_ulige2 &", normtimer_ons_ulige2 = "& normtimer_ons_ulige2 &", normtimer_tor_ulige2 = "& normtimer_tor_ulige2 &", normtimer_fre_ulige2 = "& normtimer_fre_ulige2 &", normtimer_lor_ulige2 = "& normtimer_lor_ulige2 &", normtimer_son_ulige2 = "& normtimer_son_ulige2 &","_
+                &" normtimer_man_modetid_ulige2 = '"& normtimer_man_modetid_ulige2 &"', normtimer_tir_modetid_ulige2 = '"& normtimer_tir_modetid_ulige2 &"', normtimer_ons_modetid_ulige2 = '"& normtimer_ons_modetid_ulige2 &"', normtimer_tor_modetid_ulige2 = '"& normtimer_tor_modetid_ulige2 &"', normtimer_fre_modetid_ulige2 = '"& normtimer_fre_modetid_ulige2 &"', normtimer_lor_modetid_ulige2 = '"& normtimer_lor_modetid_ulige2 &"', normtimer_son_modetid_ulige2 = '"& normtimer_son_modetid_ulige2 &"'"_
+                &" WHERE id = "&id&""
 
                 'response.write strSQLupd
                 'response.Flush
@@ -851,6 +1046,11 @@ case "dbopr", "dbred"
                 <div style="position:absolute; left:200px; top:0px; width:400px;">
                     <b>Opdaterer timepriser på medarbejdere af denne type.</b><br />
                     Hver medarbejder kan tage op til 15 sekunder at opdatere. <br /><br />
+
+                    <%if instr(lto, "epi") <> 0 then 'Tjekker ikke mtypehistorik %>
+                    <b>Nb: Hvis der er mere end 50 medarbejdere af denne type, kontakt da TimeOut.</b><br /><br />
+                    <%end if  %>
+
                 <%
                 end if
 
@@ -859,14 +1059,17 @@ case "dbopr", "dbred"
 
                 if instr(lto, "epi") <> 0 then 'Tjekker ikke mtypehistorik
                 strSQLm = "SELECT m.mid, m.mnr, m.ansatdato AS mtypedato, init FROM medarbejdere AS m "_
-                &" WHERE m.medarbejdertype = "& id & " AND (mansat = 1 OR mansat = 3) ORDER BY mid LIMIT 40, 50" 'Aktive og passive
+                &" WHERE m.medarbejdertype = "& id & " AND (mansat = 1 OR mansat = 3) ORDER BY mid LIMIT 50" 'Aktive og passive
                
                 else
                 strSQLm = "SELECT m.mid, m.mnr, mth.mtypedato, mth.id, mth.mtype, init FROM medarbejdere AS m "_
                 &" LEFT JOIN medarbejdertyper_historik AS mth ON (mth.mid = m.mid AND mth.mtype = m.medarbejdertype) WHERE m.medarbejdertype = "& id & " AND (mansat = 1 OR mansat = 3) LIMIT 200" 'Aktive og passive
                 end if
+                
+
                 'Response.write strSQLm & "<br>"
                 'Response.flush
+                
                 mt = 0
                 oRec.open strSQLm, oConn, 3
                 While Not oRec.EOF 
@@ -1275,6 +1478,22 @@ case "dbopr", "dbred"
 	
 	case "opret", "red"
 	'*** Her indlæses form til rediger/oprettelse af ny type ***
+
+
+     %><script src="js/medarbtyper.js" type="text/javascript"></script><%
+
+    call GetSytemSetup()
+
+    if useTrainerlog = 1 then
+        %>
+        <style>
+            .removefromtrailerlog {
+                display:none;
+            }
+        </style>
+        
+        <% 
+    end if
 	
 
     '***** Medarbejdertype 1:1
@@ -1322,12 +1541,61 @@ case "dbopr", "dbred"
                          
     
     feriesats = 0
+    maxflex = 0
 
 
     kostpristarif_A = 0
     kostpristarif_B = 0
     kostpristarif_C = 0
     kostpristarif_D = 0
+
+    maanedsnorm = 0
+
+
+
+           normtimer_rul = 0
+
+            normtimer_man_modetid = "00:00"
+            normtimer_tir_modetid = "00:00"  
+            normtimer_ons_modetid = "00:00"
+            normtimer_tor_modetid = "00:00"
+            normtimer_fre_modetid = "00:00" 
+            normtimer_lor_modetid = "00:00"
+            normtimer_son_modetid = "00:00"
+                     
+            normtimer_man_lige = 0
+            normtimer_tir_lige = 0
+            normtimer_ons_lige = 0
+            normtimer_tor_lige = 0
+            normtimer_fre_lige = 0
+            normtimer_lor_lige = 0
+            normtimer_son_lige = 0
+
+            normtimer_man_modetid_lige = "00:00"
+            normtimer_tir_modetid_lige = "00:00" 
+            normtimer_ons_modetid_lige = "00:00"
+            normtimer_tor_modetid_lige = "00:00" 
+            normtimer_fre_modetid_lige = "00:00"  
+            normtimer_lor_modetid_lige = "00:00" 
+            normtimer_son_modetid_lige = "00:00"
+            
+            normtimer_man_ulige2 = 0
+            normtimer_tir_ulige2 = 0
+            normtimer_ons_ulige2 = 0
+            normtimer_tor_ulige2 = 0
+            normtimer_fre_ulige2 = 0
+            normtimer_lor_ulige2 = 0
+            normtimer_son_ulige2 = 0
+
+            normtimer_man_modetid_ulige2 = "00:00"
+            normtimer_tir_modetid_ulige2 = "00:00"
+            normtimer_ons_modetid_ulige2 = "00:00"
+            normtimer_tor_modetid_ulige2 = "00:00"
+            normtimer_fre_modetid_ulige2 = "00:00" 
+            normtimer_lor_modetid_ulige2 = "00:00"
+            normtimer_son_modetid_ulige2 = "00:00"
+
+
 
 	else
 
@@ -1340,9 +1608,18 @@ case "dbopr", "dbred"
 	&" normtimer_tir, normtimer_ons, normtimer_tor, normtimer_fre, normtimer_lor, timepris_a1, "_
 	&" timepris_a2, timepris_a3, timepris_a4, timepris_a5, "_
 	&" tp0_valuta, tp1_valuta, tp2_valuta, tp3_valuta, tp4_valuta, tp5_valuta, sostergp, mtsortorder, mgruppe, afslutugekri, afslutugekri_proc, noflex, "_
-    &" kostpristarif_A, kostpristarif_B, kostpristarif_C, kostpristarif_D, kp1_valuta, mt_mobil_visstopur, feriesats "_
-	&" FROM medarbejdertyper WHERE id=" & id
-	oRec.open strSQL,oConn, 3
+    &" kostpristarif_A, kostpristarif_B, kostpristarif_C, kostpristarif_D, kp1_valuta, mt_mobil_visstopur, feriesats, mtype_passiv, mtype_maxflex AS maxflex, maanedsnorm, normtimer_rul,"_
+    &" normtimer_man_modetid, normtimer_tir_modetid, normtimer_ons_modetid, normtimer_tor_modetid, normtimer_fre_modetid, normtimer_lor_modetid, normtimer_son_modetid,"_
+    &" normtimer_man_lige, normtimer_tir_lige, normtimer_ons_lige, normtimer_tor_lige, normtimer_fre_lige, normtimer_lor_lige, normtimer_son_lige,"_
+    &" normtimer_man_modetid_lige, normtimer_tir_modetid_lige, normtimer_ons_modetid_lige, normtimer_tor_modetid_lige, normtimer_fre_modetid_lige, normtimer_lor_modetid_lige, normtimer_son_modetid_lige,"_
+    &" normtimer_man_ulige2, normtimer_tir_ulige2, normtimer_ons_ulige2, normtimer_tor_ulige2, normtimer_fre_ulige2, normtimer_lor_ulige2, normtimer_son_ulige2,"_
+    &" normtimer_man_modetid_ulige2, normtimer_tir_modetid_ulige2, normtimer_ons_modetid_ulige2, normtimer_tor_modetid_ulige2, normtimer_fre_modetid_ulige2, normtimer_lor_modetid_ulige2, normtimer_son_modetid_ulige2"_
+    &" FROM medarbejdertyper WHERE id=" & id
+
+
+  
+
+	oRec.open strSQL, oConn, 3
 	
 	if not oRec.EOF then
 	
@@ -1397,6 +1674,59 @@ case "dbopr", "dbred"
     mt_mobil_visstopur = oRec("mt_mobil_visstopur")
 
     feriesats = oRec("feriesats")
+    maxflex = oRec("maxflex")
+    mtype_passiv = oRec("mtype_passiv")
+
+    maanedsnorm = oRec("maanedsnorm")
+
+
+
+
+        normtimer_rul = oRec("normtimer_rul")
+
+            normtimer_man_modetid = left(formatdatetime(oRec("normtimer_man_modetid"), 3), 5)
+            normtimer_tir_modetid = left(formatdatetime(oRec("normtimer_tir_modetid"), 3), 5)  
+            normtimer_ons_modetid = left(formatdatetime(oRec("normtimer_ons_modetid"), 3), 5)  
+            normtimer_tor_modetid = left(formatdatetime(oRec("normtimer_tor_modetid"), 3), 5)  
+            normtimer_fre_modetid = left(formatdatetime(oRec("normtimer_fre_modetid"), 3), 5) 
+            normtimer_lor_modetid = left(formatdatetime(oRec("normtimer_lor_modetid"), 3), 5)  
+            normtimer_son_modetid = left(formatdatetime(oRec("normtimer_son_modetid"), 3), 5) 
+                     
+            normtimer_man_lige = oRec("normtimer_man_lige") 
+            normtimer_tir_lige = oRec("normtimer_tir_lige") 
+            normtimer_ons_lige = oRec("normtimer_ons_lige") 
+            normtimer_tor_lige = oRec("normtimer_tor_lige") 
+            normtimer_fre_lige = oRec("normtimer_fre_lige") 
+            normtimer_lor_lige = oRec("normtimer_lor_lige") 
+            normtimer_son_lige = oRec("normtimer_son_lige")
+
+            normtimer_man_modetid_lige = left(formatdatetime(oRec("normtimer_man_modetid_lige"), 3), 5) 
+            normtimer_tir_modetid_lige = left(formatdatetime(oRec("normtimer_tir_modetid_lige"), 3), 5) 
+            normtimer_ons_modetid_lige = left(formatdatetime(oRec("normtimer_ons_modetid_lige"), 3), 5)
+            normtimer_tor_modetid_lige = left(formatdatetime(oRec("normtimer_tor_modetid_lige"), 3), 5) 
+            normtimer_fre_modetid_lige = left(formatdatetime(oRec("normtimer_fre_modetid_lige"), 3), 5)  
+            normtimer_lor_modetid_lige = left(formatdatetime(oRec("normtimer_lor_modetid_lige"), 3), 5) 
+            normtimer_son_modetid_lige = left(formatdatetime(oRec("normtimer_son_modetid_lige"), 3), 5)
+            
+            normtimer_man_ulige2 = oRec("normtimer_man_ulige2")
+            normtimer_tir_ulige2 = oRec("normtimer_tir_ulige2") 
+            normtimer_ons_ulige2 = oRec("normtimer_ons_ulige2")
+            normtimer_tor_ulige2 = oRec("normtimer_tor_ulige2") 
+            normtimer_fre_ulige2 = oRec("normtimer_fre_ulige2") 
+            normtimer_lor_ulige2 = oRec("normtimer_lor_ulige2") 
+            normtimer_son_ulige2 = oRec("normtimer_son_ulige2")
+
+            normtimer_man_modetid_ulige2 = left(formatdatetime(oRec("normtimer_man_modetid_ulige2"), 3), 5) 
+            normtimer_tir_modetid_ulige2 = left(formatdatetime(oRec("normtimer_tir_modetid_ulige2"), 3), 5)
+            normtimer_ons_modetid_ulige2 = left(formatdatetime(oRec("normtimer_ons_modetid_ulige2"), 3), 5)
+            normtimer_tor_modetid_ulige2 = left(formatdatetime(oRec("normtimer_tor_modetid_ulige2"), 3), 5)
+            normtimer_fre_modetid_ulige2 = left(formatdatetime(oRec("normtimer_fre_modetid_ulige2"), 3), 5) 
+            normtimer_lor_modetid_ulige2 = left(formatdatetime(oRec("normtimer_lor_modetid_ulige2"), 3), 5)
+            normtimer_son_modetid_ulige2 = left(formatdatetime(oRec("normtimer_son_modetid_ulige2"), 3), 5)
+
+
+
+
 
 	end if
 	oRec.close
@@ -1407,6 +1737,14 @@ case "dbopr", "dbred"
     else
     noflexCHK = ""
     end if
+
+    if cint(mtype_passiv) <> 0 then
+    mtype_passivCHK = "CHECKED"
+    else
+    mtype_passivCHK = ""
+    end if
+
+                    
 
     if cint(mt_mobil_visstopur) <> 0 then
     mt_mobil_visstopurCHK = "CHECKED"
@@ -1436,8 +1774,12 @@ case "dbopr", "dbred"
    
 
 	end if 
-	%>
 	
+
+
+ 
+	
+    %>
 
     <!--Rediger sidensinhold-->
             <%if level = 1 then %>
@@ -1449,18 +1791,20 @@ case "dbopr", "dbred"
 	        <input type="hidden" name="id" value="<%=id%>">
             <input type="hidden" name="mtypeIdforvlgt" value="<%=strFromId%>">
     
+                <!-- Denne fejler og er lang tid om load. Derfor fjernet. 20200120
                 <div class="row">
                 <div class="col-lg-10">&nbsp</div>
                 <div class="col-lg-2 pad-b10">
                 <button type="submit" class="btn btn-success btn-sm pull-right"><b><%=medarbtyp_txt_029 %></b></button>
                 </div>
                 </div>
+                    -->
 
         <div class="portlet-body">
             <div class="well well-white">
             <div class="row">
                 <div class="col-lg-1">&nbsp</div>
-                <div class="col-lg-2"><%=medarbtyp_txt_008 %>:</div>
+                <div class="col-lg-2"><%=medarbtyp_txt_008 %>:&nbsp<span style="color:red;">*</span></div>
                 <div class="col-lg-5"><input class="form-control input-small" type="text" name="FM_navn" value="<%=strNavn%>">
 
                     <%if len(trim(strNavnFolger)) <> 0 then %>
@@ -1469,58 +1813,233 @@ case "dbopr", "dbred"
                     <%=medarbtyp_txt_032 %> 
                     <%end if %>
                 </div>
+                <div class="col-lg-4"><input type="checkbox" name="FM_mtype_passiv" value="<%=mtype_passiv%>" <%=mtype_passivChk %> /> Passiv (vises ikke på lister)
             </div>
-             <div class="row"><div class="pad-b10"></div></div>
+
+             <div class="row"><div class="col-lg-1 pad-b10">&nbsp;</div></div>
+
                 <div class="row">
                     <div class="col-lg-1">&nbsp</div>
-                    <div class="col-lg-2"><%=medarbtyp_txt_033 %>:</div>
-                    <div class="col-lg-1"><%=medarbtyp_txt_034 %> <br />
+                    <div class="col-lg-2"><%=medarbtyp_txt_033 %>: &nbsp<span style="color:red;">*</span>
+
+                        <%select case lto
+                        case "kongeaa", "xintrant - local", "dencker"%>
+                        <br />
+                        <%select case normtimer_rul 
+                            case 1
+                            normtimer_rulSEL1 = "SELECTED"
+                            normtimer_rulSEL0 = ""
+                            case else
+                            normtimer_rulSEL1 = ""
+                            normtimer_rulSEL0 = "SELECTED"
+                            end select
+                            %>
+
+                        <select name="FM_normtimer_rul" id="FM_normtimer_rul" class="form-control input-small">
+                            <option value="0" <%=normtimer_rulSEL0 %>>Fast ugenorm</option>
+                            <option value="1" <%=normtimer_rulSEL1 %>>Skiftende ugenorm</option>
+                            
+                        </select>
+                        <%case else %>
+                        <input type="hidden" name="FM_normtimer_rul" id="FM_normtimer_rul" value="0" />
+                        <%end select %>
+                    </div>
+                    <div class="col-lg-1"><%=medarbtyp_txt_034 %>: <br />
                         <input type="text" class="form-control input-small" name="FM_norm_man" value="<%=normtimer_man%>">
                     </div>
-                    <div class="col-lg-1"><%=medarbtyp_txt_035 %> <br />
+                    <div class="col-lg-1"><%=medarbtyp_txt_035 %>: <br />
                         <input type="text" class="form-control input-small" name="FM_norm_tir" value="<%=normtimer_tir%>">
                     </div>
-                    <div class="col-lg-1"><%=medarbtyp_txt_036 %> <br />
+                    <div class="col-lg-1"><%=medarbtyp_txt_036 %>: <br />
                         <input type="text" class="form-control input-small" name="FM_norm_ons" value="<%=normtimer_ons%>">
                     </div>
-                    <div class="col-lg-1"><%=medarbtyp_txt_037 %> <br />
+                    <div class="col-lg-1"><%=medarbtyp_txt_037 %>: <br />
                         <input type="text" class="form-control input-small" name="FM_norm_tor" value="<%=normtimer_tor%>">
                     </div>
-                    <div class="col-lg-1"><%=medarbtyp_txt_038 %> <br />
+                    <div class="col-lg-1"><%=medarbtyp_txt_038 %>: <br />
                         <input type="text" class="form-control input-small" name="FM_norm_fre" value="<%=normtimer_fre%>">
                     </div>
-                    <div class="col-lg-1"><%=medarbtyp_txt_039 %> <br />
+                    <div class="col-lg-1"><%=medarbtyp_txt_039 %>: <br />
                         <input type="text" class="form-control input-small" name="FM_norm_lor" value="<%=normtimer_lor%>">
                     </div>
-                    <div class="col-lg-1"><%=medarbtyp_txt_040 %> <br />
+                    <div class="col-lg-1"><%=medarbtyp_txt_040 %>: <br />
                         <input type="text" class="form-control input-small" name="FM_norm_son" value="<%=normtimer_son%>">
                     </div>
                      <div class="col-lg-1"><br /><b><%=medarbtyp_txt_041 %>:</b>&nbsp;<u><%=ugetotal%></u></div>
                 </div>
 
-                <br />
+              
+                 <div class="row">
+                    <div class="col-lg-1">&nbsp</div>
+                    <div class="col-lg-2">Mødetider: (08:00)</div>
 
-                <div class="row">
-                   
-                    <div class="col-lg-1"></div>
-                    <div class="col-lg-2">Feriesats pr. md:</div>
-                    <div class="col-lg-1"><input type="text" name="feriesats" value="<%=feriesats %>" class="form-control input-small" /></div>
-                    <div class="col-lg-4">&nbsp;</div>
-                    
-
-                    <div class="col-lg-4"><input type="checkbox" name="FM_noflex" value="<%=noflex %>" <%=noflexChk %> /> <%=medarbtyp_txt_042 %></div>
+                    <div class="col-lg-1">
+                        <input type="text" class="form-control input-small" name="FM_norm_man_modetid" value="<%=normtimer_man_modetid%>">
+                    </div>
+                    <div class="col-lg-1">
+                        <input type="text" class="form-control input-small" name="FM_norm_tir_modetid" value="<%=normtimer_tir_modetid%>">
+                    </div>
+                    <div class="col-lg-1">
+                        <input type="text" class="form-control input-small" name="FM_norm_ons_modetid" value="<%=normtimer_ons_modetid%>">
+                    </div>
+                    <div class="col-lg-1">
+                        <input type="text" class="form-control input-small" name="FM_norm_tor_modetid" value="<%=normtimer_tor_modetid%>">
+                    </div>
+                    <div class="col-lg-1">
+                        <input type="text" class="form-control input-small" name="FM_norm_fre_modetid" value="<%=normtimer_fre_modetid%>">
+                    </div>
+                    <div class="col-lg-1">
+                        <input type="text" class="form-control input-small" name="FM_norm_lor_modetid" value="<%=normtimer_lor_modetid%>">
+                    </div>
+                    <div class="col-lg-1">
+                        <input type="text" class="form-control input-small" name="FM_norm_son_modetid" value="<%=normtimer_son_modetid%>">
+                    </div>
+                     <div class="col-lg-1"></div>
                 </div>
 
-               <!-- <div class="row">
-                    <div class="col-lg-8">&nbsp;</div>
-                        <div class="col-lg-4"><input type="checkbox" name="FM_noflex" value="<%=noflex %>" <%=noflexChk %> /> <%=medarbtyp_txt_042 %>
+                 <div class="row div_normtimer_rul">
+                    <div class="col-lg-1">&nbsp</div>
+                     </div>
+
+
+                 <div class="row div_normtimer_rul">
+                    <div class="col-lg-1">&nbsp</div>
+                    <div class="col-lg-2">(Lige uger)</div>
+                    <div class="col-lg-1"><%=medarbtyp_txt_034 %>: <br />
+                        <input type="text" class="form-control input-small" name="FM_norm_man_lige" value="<%=normtimer_man_lige%>">
                     </div>
-                </div> -->
+                    <div class="col-lg-1"><%=medarbtyp_txt_035 %>: <br />
+                        <input type="text" class="form-control input-small" name="FM_norm_tir_lige" value="<%=normtimer_tir_lige%>">
+                    </div>
+                    <div class="col-lg-1"><%=medarbtyp_txt_036 %>: <br />
+                        <input type="text" class="form-control input-small" name="FM_norm_ons_lige" value="<%=normtimer_ons_lige%>">
+                    </div>
+                    <div class="col-lg-1"><%=medarbtyp_txt_037 %>: <br />
+                        <input type="text" class="form-control input-small" name="FM_norm_tor_lige" value="<%=normtimer_tor_lige%>">
+                    </div>
+                    <div class="col-lg-1"><%=medarbtyp_txt_038 %>: <br />
+                        <input type="text" class="form-control input-small" name="FM_norm_fre_lige" value="<%=normtimer_fre_lige%>">
+                    </div>
+                    <div class="col-lg-1"><%=medarbtyp_txt_039 %>: <br />
+                        <input type="text" class="form-control input-small" name="FM_norm_lor_lige" value="<%=normtimer_lor_lige%>">
+                    </div>
+                    <div class="col-lg-1"><%=medarbtyp_txt_040 %>: <br />
+                        <input type="text" class="form-control input-small" name="FM_norm_son_lige" value="<%=normtimer_son_lige%>">
+                    </div>
+                     <div class="col-lg-1"><br /><b><%=medarbtyp_txt_041 %>:</b>&nbsp;<u><%=ugetotal_lige%></u></div>
+                </div>
+
+
+                  <div class="row div_normtimer_rul">
+                    <div class="col-lg-1">&nbsp</div>
+                    <div class="col-lg-2">Mødetider: (08:00)</div>
+
+                    <div class="col-lg-1">
+                        <input type="text" class="form-control input-small" name="FM_norm_man_modetid_lige" value="<%=normtimer_man_modetid_lige%>">
+                    </div>
+                    <div class="col-lg-1">
+                        <input type="text" class="form-control input-small" name="FM_norm_tir_modetid_lige" value="<%=normtimer_tir_modetid_lige%>">
+                    </div>
+                    <div class="col-lg-1">
+                        <input type="text" class="form-control input-small" name="FM_norm_ons_modetid_lige" value="<%=normtimer_ons_modetid_lige%>">
+                    </div>
+                    <div class="col-lg-1">
+                        <input type="text" class="form-control input-small" name="FM_norm_tor_modetid_lige" value="<%=normtimer_tor_modetid_lige%>">
+                    </div>
+                    <div class="col-lg-1">
+                        <input type="text" class="form-control input-small" name="FM_norm_fre_modetid_lige" value="<%=normtimer_fre_modetid_lige%>">
+                    </div>
+                    <div class="col-lg-1">
+                        <input type="text" class="form-control input-small" name="FM_norm_lor_modetid_lige" value="<%=normtimer_lor_modetid_lige%>">
+                    </div>
+                    <div class="col-lg-1">
+                        <input type="text" class="form-control input-small" name="FM_norm_son_modetid_lige" value="<%=normtimer_son_modetid_lige%>">
+                    </div>
+                     <div class="col-lg-1"></div>
+                </div>
+
+                 <div class="row div_normtimer_rul">
+                    <div class="col-lg-1">&nbsp</div>
+                     </div>
+
+                 <div class="row div_normtimer_rul">
+                    <div class="col-lg-1">&nbsp</div>
+                    <div class="col-lg-2">(Uge 3 rul)</div>
+                    <div class="col-lg-1"><%=medarbtyp_txt_034 %>: <br />
+                        <input type="text" class="form-control input-small" name="FM_norm_man_ulige2" value="<%=normtimer_man_ulige2%>">
+                    </div>
+                    <div class="col-lg-1"><%=medarbtyp_txt_035 %>: <br />
+                        <input type="text" class="form-control input-small" name="FM_norm_tir_ulige2" value="<%=normtimer_tir_ulige2%>">
+                    </div>
+                    <div class="col-lg-1"><%=medarbtyp_txt_036 %>: <br />
+                        <input type="text" class="form-control input-small" name="FM_norm_ons_ulige2" value="<%=normtimer_ons_ulige2%>">
+                    </div>
+                    <div class="col-lg-1"><%=medarbtyp_txt_037 %>: <br />
+                        <input type="text" class="form-control input-small" name="FM_norm_tor_ulige2" value="<%=normtimer_tor_ulige2%>">
+                    </div>
+                    <div class="col-lg-1"><%=medarbtyp_txt_038 %>: <br />
+                        <input type="text" class="form-control input-small" name="FM_norm_fre_ulige2" value="<%=normtimer_fre_ulige2%>">
+                    </div>
+                    <div class="col-lg-1"><%=medarbtyp_txt_039 %>: <br />
+                        <input type="text" class="form-control input-small" name="FM_norm_lor_ulige2" value="<%=normtimer_lor_ulige2%>">
+                    </div>
+                    <div class="col-lg-1"><%=medarbtyp_txt_040 %>: <br />
+                        <input type="text" class="form-control input-small" name="FM_norm_son_ulige2" value="<%=normtimer_son_ulige2%>">
+                    </div>
+                     <div class="col-lg-1"><br /><b><%=medarbtyp_txt_041 %>:</b>&nbsp;<u><%=ugetotal_ulige2%></u></div>
+                </div>
+
+
+                 <div class="row div_normtimer_rul">
+                    <div class="col-lg-1">&nbsp</div>
+                    <div class="col-lg-2">Mødetider: (08:00)</div>
+
+                    <div class="col-lg-1">
+                        <input type="text" class="form-control input-small" name="FM_norm_man_modetid_ulige2" value="<%=normtimer_man_modetid_ulige2%>">
+                    </div>
+                    <div class="col-lg-1">
+                        <input type="text" class="form-control input-small" name="FM_norm_tir_modetid_ulige2" value="<%=normtimer_tir_modetid_ulige2%>">
+                    </div>
+                    <div class="col-lg-1">
+                        <input type="text" class="form-control input-small" name="FM_norm_ons_modetid_ulige2" value="<%=normtimer_ons_modetid_ulige2%>">
+                    </div>
+                    <div class="col-lg-1">
+                        <input type="text" class="form-control input-small" name="FM_norm_tor_modetid_ulige2" value="<%=normtimer_tor_modetid_ulige2%>">
+                    </div>
+                    <div class="col-lg-1">
+                        <input type="text" class="form-control input-small" name="FM_norm_fre_modetid_ulige2" value="<%=normtimer_fre_modetid_ulige2%>">
+                    </div>
+                    <div class="col-lg-1">
+                        <input type="text" class="form-control input-small" name="FM_norm_lor_modetid_ulige2" value="<%=normtimer_lor_modetid_ulige2%>">
+                    </div>
+                    <div class="col-lg-1">
+                        <input type="text" class="form-control input-small" name="FM_norm_son_modetid_ulige2" value="<%=normtimer_son_modetid_ulige2%>">
+                    </div>
+                     <div class="col-lg-1"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-1">&nbsp</div>
+                     </div>
+                
+               <div class="row">
+                   <div class="col-lg-1">&nbsp</div>
+                   <div class="col-lg-2">Gns. månedsnorm:</div>
+                   <div class="col-lg-1 pad-b10"><input type="text" class="form-control input-small" name="FM_norm_month" value="<%=maanedsnorm%>"></div>
+                    <div class="col-lg-6">
+                        37 timer om ugen x 52 uger = 1.924 timer om året.<br />
+                        1.924 timer / 12 måneder = 160,33 om måneden.</div>
+
+
+
+               </div>
 
             </div>
+            </div>
+
             <div class="row"><div class="pad-b10"></div></div>
 
-            <section>
+            <section class="removefromtrailerlog">
                 <!-- Accordion -->
                 <div class="panel-group accordion-panel" id="accordion-paneled">
                     <!-- PersonData -->
@@ -1679,7 +2198,7 @@ case "dbopr", "dbred"
 
                
 
-            <section>
+            <section class="removefromtrailerlog">
                 <!-- Accordion -->
                 <div class="panel-group accordion-panel" id="accordion-paneled">
                     <!-- PersonData -->
@@ -1693,7 +2212,48 @@ case "dbopr", "dbred"
 
                         <div class="panel-body">
 
-                            <div class="row pad-t20">
+
+                             <div class="row pad-t20">
+                                <div class="col-lg-1">&nbsp</div>
+                                <div class="col-lg-2"><%=medarbtyp_txt_072 %>:</div>
+                                <div class="col-lg-3">
+                                    <select name="FM_gruppe" id="FM_gruppe" class="form-control input-small">         
+                                         <option value="0">Ingen</option>     
+                                       <%
+                                        mttypSELid = 1
+                                        strSQLmt = "SELECT id, navn FROM medarbtyper_grp WHERE id <> 0 ORDER BY navn"
+                                        oRec3.open strSQLmt, oConn, 3
+                                        while not oRec3.EOF
+
+                                        if cint(mgruppe) = oRec3("id") then
+                                            mttypSEL = "SELECTED"
+                                            mttypSELid = oRec3("id")
+                                        else
+                                            mttypSEL = ""
+                                        end if 
+                                        %>
+                                         <option value="<%=oRec3("id") %>" <%=mttypSEL %>><%=oRec3("navn") %></option>
+                                        <%
+                                        oRec3.movenext
+                                        wend
+                                        oRec3.close
+            
+            
+            
+                                        if cint(sostergp) > 0 then
+                                         mttypSEL = "SELECTED"
+                                        else
+                                         mttypSEL = ""
+                                        end if%>
+
+                                        <option value="-1" <%=mttypSEL %> style="background-color:#CCCCCC;">// <%=medarbtyp_txt_073 %> //</option> 
+
+    
+                                      </select> 
+                                </div>
+                            </div>
+
+                            <div class="row">
                                 <div class="col-lg-1">&nbsp</div>
                                 <div class="col-lg-2"><%=medarbtyp_txt_069 %>:</div>
                                 <div class="col-lg-3">
@@ -1740,47 +2300,65 @@ case "dbopr", "dbred"
 
                                         </select>
                                 </div>
+                                <div class="col-lg-3">In reports. If sister group is selected, this group will be selected to.</div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-lg-1">&nbsp</div>
-                                <div class="col-lg-2"><%=medarbtyp_txt_072 %>:</div>
-                                <div class="col-lg-3">
-                                    <select name="FM_gruppe" id="FM_gruppe" class="form-control input-small">         
-                                         <option value="0">Ingen</option>     
-                                       <%
-                                        mttypSELid = 1
-                                        strSQLmt = "SELECT id, navn FROM medarbtyper_grp WHERE id <> 0 ORDER BY navn"
-                                        oRec3.open strSQLmt, oConn, 3
-                                        while not oRec3.EOF
 
-                                        if cint(mgruppe) = oRec3("id") then
-                                            mttypSEL = "SELECTED"
-                                            mttypSELid = oRec3("id")
-                                        else
-                                            mttypSEL = ""
-                                        end if 
-                                        %>
-                                         <option value="<%=oRec3("id") %>" <%=mttypSEL %>><%=oRec3("navn") %></option>
-                                        <%
-                                        oRec3.movenext
-                                        wend
-                                        oRec3.close
-            
-            
-            
-                                        if cint(sostergp) > 0 then
-                                         mttypSEL = "SELECTED"
-                                        else
-                                         mttypSEL = ""
-                                        end if%>
+                           
 
-                                        <option value="-1" <%=mttypSEL %> style="background-color:#CCCCCC;">// <%=medarbtyp_txt_073 %> //</option> 
+                             <div class="row"><div class="col-lg-1 pad-b10">&nbsp;</div></div>
+                                <div class="row">
+                   
+                                    <div class="col-lg-1">&nbsp;</div>
+                                    <div class="col-lg-2">Feriesats pr. md:</div>
+                                    <div class="col-lg-1"><input type="text" name="feriesats" value="<%=feriesats %>" class="form-control input-small" /></div>
+                                    <div class="col-lg-4">&nbsp;</div>
+                    
 
-    
-                                      </select> 
+                    
+                    
                                 </div>
-                            </div>
+                 
+                                
+               
+                                <div class="row">
+                                    <div class="col-lg-1">&nbsp;</div>
+                                     <div class="col-lg-11"><br /><br /><h4>Særaftaler</h4></div>
+                                </div>
+
+                                 <div class="row">
+                                     <div class="col-lg-1">&nbsp;</div>
+                    
+                                     <div class="col-lg-2">Max. Flex:</div>
+                                     <div class="col-lg-1"><input type="text" name="FM_maxflex" value="<%=maxflex %>" class="form-control input-small"/> </div>
+                     
+                                 </div>
+
+                                 <div class="row">
+                                     <div class="col-lg-1">&nbsp;</div>
+                                     <div class="col-lg-4"><input type="checkbox" name="FM_noflex" value="<%=noflex %>" <%=noflexChk %> /> <%=medarbtyp_txt_042 %></div>
+                                     <div class="col-lg-1">&nbsp;</div>
+                 
+                                 </div>
+
+                            <%select case lto
+                            case "intrant - local", "foa"
+                            %>
+                             <div class="row">
+                                     <div class="col-lg-1">&nbsp;</div>
+                                     <div class="col-lg-4"><input type="checkbox" name="" value="" <%=noflexChk %> /> Senior Ordning</div>
+                                     <div class="col-lg-1">&nbsp;</div>
+                 
+                                 </div>
+                             <div class="row">
+                                     <div class="col-lg-1">&nbsp;</div>
+                                     <div class="col-lg-4"><input type="checkbox" name="" value="" <%=noflexChk %> /> Omsorgsdgae</div>
+                                     <div class="col-lg-1">&nbsp;</div>
+                 
+                                 </div>
+                            <%end select%>
+
+
 
                             <div class="row pad-t20">
                                 <div class="col-lg-1">&nbsp</div>
@@ -1940,9 +2518,10 @@ case "dbopr", "dbred"
                                  </div>
                                 </div>
                             </div>
-                            </div>
+                        </section>
+                        </div>
 
-                </section>
+                
              <br /><br /><br />
             <%if func = "red" then %>    
             <div style="font-weight: lighter;"><%=medarbtyp_txt_086 %> <b><%=strDato%></b> <%=medarbtyp_txt_087 %> <b><%=strEditor%></b></div>
@@ -1955,13 +2534,41 @@ case "dbopr", "dbred"
         </div>
 
         </form>
-        </div>
+      
 
         <%else%> 
     	<div><%=medarbtyp_txt_089 %></div>      
         <%end if %>
 
-<%case else %>
+<%case else 
+    
+    
+    
+    if len(trim(request("formsubmitted"))) <> 0 then
+
+            if len(trim(request("FM_vispassive"))) <> 0 then
+            vispassive = 1
+            vispassiveCHK = "CHECKED"
+            else
+            vispassive = 0
+            vispassiveCHK = ""
+            end if
+
+            response.Cookies("tsa")("vispassive") = vispassive
+
+     else
+
+            if request.Cookies("tsa")("vispassive") <> "" AND request.Cookies("tsa")("vispassive") <> "0" then
+            vispassive = 1
+            vispassiveCHK = "CHECKED"
+            else
+            vispassive = 0
+            vispassiveCHK = ""
+            end if
+        
+
+     end if
+     %>
 
 
 
@@ -1973,13 +2580,32 @@ case "dbopr", "dbred"
     <div class="portlet">
         <h3 class="portlet-title"><u><%=medarbtyp_txt_090 %></u></h3>
         
-        <form action="medarbtyper.asp?menu=medarber&func=opret" method="post">
-            <input type="hidden" name="lto" id="lto" value="<%=lto%>">
+       <!-- <form action="medarbtyper.asp?func=opret" method="post">-->
+            <input type="hidden" name="lto" id="lto" value="<%=lto%>"><!-- Fejler på PLAN -->
                 <section>
                          <div class="row">
                              <div class="col-lg-10">&nbsp;</div>
                              <div class="col-lg-2">
-                            <button class="btn btn-sm btn-success pull-right"><b><%=medarbtyp_txt_091 %> +</b></button><br />&nbsp;
+                              <!--   <input type="submit" value="<%=medarbtyp_txt_091 %> +" class="btn btn-sm btn-success pull-right">-->
+                                  <form action="medarbtyper.asp?func=opret" method="post">
+                            <button type="submit" class="btn btn-sm btn-success pull-right"><b><%=medarbtyp_txt_091 %> +</b></button><br />&nbsp;
+                                      </form>
+                               
+                                 <!--<a href="medarbtyper.asp?func=opret"><%=medarbtyp_txt_091 %> +</a>-->
+                            </div>
+                        </div>
+                </section>
+         <!--</form>-->
+
+
+          <form action="medarbtyper.asp?formsubmitted=1" method="post">
+           <br /><br />
+                <section>
+                         <div class="row">
+                             <div class="col-lg-2"><input type="checkbox" value="1" name="FM_vispassive" <%=vispassiveCHK %> /> Show Passive</div>
+                             <div class="col-lg-2">
+                            <button type="submit" class="btn btn-sm btn-secondary"><b><%=godkend_txt_005 %> >></b></button>
+
                             </div>
                         </div>
                 </section>
@@ -1993,15 +2619,24 @@ case "dbopr", "dbred"
                 <tr>
                     <th style="width: 2%"><%=medarbtyp_txt_092 %></th>
                     <th style="width: 5%"><%=medarbtyp_txt_093 %></th>
-                    <th style="width: 22%"><%=medarbtyp_txt_094 %></th>
+                    <th ><%=medarbtyp_txt_094 %></th>
+
+                    <%if useTrainerlog <> 1 then %>
                     <th style="width: 20%"><%=medarbtyp_txt_095 %></th>
-                    <th style="width: 5%"><%=medarbtyp_txt_096 %>?</th>
-                    <th style="width: 20%"><%=medarbtyp_txt_097 %> <br /><span style="font-size:10px;">(<%=medarbtyp_txt_098 %>)</span></th>
-                    <th style="width: 8%"><%=medarbtyp_txt_099 %></th>
-                    <th style="width: 8%"><%=medarbtyp_txt_0100 %></th>
-                    <th style="width: 10%"><%=medarbtyp_txt_101 %></th>
                     
-		            <th><%=medarbtyp_txt_102 %></th>
+                    <th style="width: 5%"><%=medarbtyp_txt_096 %>?</th>
+                    <%end if %>
+
+                    <th style="width: 20%"><%=medarbtyp_txt_097 %> <br /><span style="font-size:10px;">(<%=medarbtyp_txt_098 %>)</span></th>
+
+                    <%if useTrainerlog <> 1 then %>
+                    <th style="width: 8%"><%=medarbtyp_txt_099 %></th>
+                    <th style="width: 8%"><%=medarbtyp_txt_100 %></th>
+                    <%end if %>
+
+                    <th><%=medarbtyp_txt_101 %></th>
+                    
+		            <th style="max-width:5px;"><%=medarbtyp_txt_102 %></th>
 		          
                 </tr>
             </thead>
@@ -2014,12 +2649,18 @@ case "dbopr", "dbred"
 	                odrBy = " ORDER BY mgruppe, mtsortorder, type"
 	                end if
 
+                    if cint(vispassive) <> 0 then
+                    strSQLpassiv = ""
+                    else
+                    strSQLpassiv = " AND mtype_passiv = 0"
+                    end if
+
 	                strSQL = "SELECT mt.id AS id, type, timepris, kostpris, normtimer_son, "_
 	                &" normtimer_man, normtimer_tir, normtimer_ons, normtimer_tor, "_
-	                &" normtimer_fre, normtimer_lor, tp0_valuta, v.valutakode, mtsortorder, sostergp, mgruppe, mtg.navn AS mtgnavn FROM medarbejdertyper mt "_
+	                &" normtimer_fre, normtimer_lor, tp0_valuta, v.valutakode, mtsortorder, sostergp, mgruppe, mtg.navn AS mtgnavn, mtype_passiv FROM medarbejdertyper mt "_
 	                &" LEFT JOIN medarbtyper_grp AS mtg ON (mtg.id = mt.mgruppe)"_
                     &" LEFT JOIN valutaer v ON (v.id = tp0_valuta) "_
-	                &""& odrBy
+	                &" WHERE mt.id <> 0 "& strSQLpassiv &" "& odrBy
 	
 	
 	                oRec.open strSQL, oConn, 3
@@ -2106,20 +2747,34 @@ case "dbopr", "dbred"
                 <tr>
                     <td><%=oRec("id") %></td>
                     <td><%=oRec("mtsortorder") %></td>
-                    <td><a href="medarbtyper.asp?menu=medarb&func=red&id=<%=oRec("id")%>"><%=oRec("type")%> </a>
+                    <td><a href="medarbtyper.asp?menu=medarb&func=red&id=<%=oRec("id")%>"><%=oRec("type")%></a>
 
+                        <%if oRec("mtype_passiv") <> 0 then %>
+                        (passiv)
+                        <%end if %>
                     </td>
+
+                    <%if useTrainerlog <> 1 then %>
                     <td><%=oRec("mtgnavn") %></td>
+                   
                     <td><%if oRec("sostergp") <> 0 then %>
                     (id: <%=oRec("sostergp") %>)
                     <%end if %></td> 
+
+                    <%end if %>
+
                     <td><a href="medarbtyper.asp?menu=medarb&func=med&id=<%=oRec("id")%>"><%=medarbtyp_txt_103 %></a> <b>(<%=antalx%>)</b><br />
                        <span style="font-size:10px"><%=medarbtyp_txt_104 %>: <%=antalxPas %>, <%=medarbtyp_txt_105 %>: <%=t %></span></td>
+
+                    <%if useTrainerlog <> 1 then %>
                     <td><%=oRec("timepris") &" "& oRec("valutakode") %></td>
                     <td><%=oRec("kostpris") &" "& basisValISO%></td>
+                    <%end if %>
+
                     <td><%=formatnumber(ugetotal)%> <%=medarbtyp_txt_116 %> (<%=formatnumber(ugetotal/5, 1)%>)</td>
+
                     <%if cint(antalx) = 0 AND cint(t) = 0 then%>
-		                    <td style="padding-left:10px; text-align:center;"><a href="medarbtyper.asp?menu=medarb&func=slet&id=<%=oRec("id")%>"><span style="color:darkred;" class="fa fa-times"></span></a></td>
+		                    <td style="text-align:center; vertical-align:middle;"><a href="medarbtyper.asp?menu=medarb&func=slet&id=<%=oRec("id")%>"><span style="color:darkred;" class="fa fa-times"></span></a></td>
 		              
 		                <%else%>
                         <td>&nbsp;</td>
@@ -2135,11 +2790,20 @@ case "dbopr", "dbred"
                     <th><%=medarbtyp_txt_092 %></th>
                     <th><%=medarbtyp_txt_093 %></th>
                     <th><%=medarbtyp_txt_094 %></th>
+
+                    <%if useTrainerlog <> 1 then %>
                     <th><%=medarbtyp_txt_095 %></th>
+                    
                     <th><%=medarbtyp_txt_096 %>?</th>
+                    <%end if %>
+
                     <th><%=medarbtyp_txt_097 %> <br /><span style="font-size:10px;">(<%=medarbtyp_txt_098 %>)</span></th>
+
+                    <%if useTrainerlog <> 1 then %>
                     <th><%=medarbtyp_txt_099 %></th>
                     <th><%=medarbtyp_txt_0100 %></th>
+                    <%end if %>
+
                     <th><%=medarbtyp_txt_101 %></th>
                     
 		            <th><%=medarbtyp_txt_102 %></th>

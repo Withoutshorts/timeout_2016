@@ -420,9 +420,14 @@ public venter_ultimo
 						
 						'** Finder showonfak på aktiviteten **
 						strSQL2 = "SELECT showonfak, rabat, enhedsang FROM faktura_det WHERE fakid = "& id &" AND aktid = "& thisaktid(x) &" AND enhedspris = "& SQLBless(useMedarbejderTimepris) 'SQLBless(thisTimePris(x)) 
-						'Response.Write strSQL2
+						
+                        'if session("mid") = 1 then
+                        'Response.Write strSQL2
 						'Response.Flush
-						oRec2.open strSQL2, oConn, 3
+                        'end if
+						
+    
+                        oRec2.open strSQL2, oConn, 3
 						if not oRec2.EOF then
 							
 							akt_showonfak = oRec2("showonfak")
@@ -2259,11 +2264,10 @@ public venter_ultimo
     
     end function
     
-    
-    function godkendknap()
+          function godkendknap()
     %>
   
-     <div id="knap_godkend" style="position:absolute; visibility:visible; display:; top:46px; width:125px; left:580px; border:1px #6CAE1C solid; padding:3px 5px 10px 5px; background-color:#DCF5BD;">
+     <div id="knap_godkend" style="position:absolute; visibility:visible; display:; top:46px; width:125px; left:1080px; border:1px #6CAE1C solid; padding:3px 5px 10px 5px; background-color:#DCF5BD;">
          <table cellspacing=0 cellpadding=0 border=0 width=100%><tr>
                         <td class=lille><%=erp_txt_463 %>:<br /> 
                             <input id="Submit1" type="submit" value="<%=erp_txt_464 %> >>" />
@@ -2272,6 +2276,8 @@ public venter_ultimo
 	</div>
     <%
     end function
+    
+    
     
     
     

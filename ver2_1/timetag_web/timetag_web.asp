@@ -7,7 +7,6 @@
 <!--#include file="../inc/regular/global_func.asp"-->
 
 <%'**** Søgekriterier AJAX **'
-
         'section for ajax calls
         if Request.Form("AjaxUpdateField") = "true" then
         Select Case Request.Form("control")
@@ -90,6 +89,27 @@
 
                     response.write jobbeskTxt
 
+        case "FN_sogfil"
+
+            if len(trim(request("id"))) then
+            jobid = request("id")
+            else
+            jobid = 0
+            end if
+
+            filnavn = ""
+            findesfil = 0
+            strSQL = "SELECT filnavn FROM filer WHERE filertxt = '"&jobid&"_beskrivelsesdokument' ORDER BY id DESC"
+            oRec.open strSQL, oConn, 3
+            if not oRec.EOF then
+                findesfil = 1
+                filnavn = oRec("filnavn")
+            end if
+            oRec.close
+
+            if cint(findesfil) = 1 then
+                response.Write "<a href='../inc/upload/"&lto&"/"&filnavn&"'>" & filnavn & "</a>"
+            end if
 
         case "FN_tjktimer_forecast_tt" 
                 '** FORECAST ALERT 
@@ -144,48 +164,25 @@
                 jq_jobid = 0
                 end if
                         
-
-                        call positiv_aktivering_akt_fn()
-                        '** PA settings // Overrule
-                        if instr(lto, "epi") <> 0 then
-                            pa_aktlist = 1
-                        else
-                            pa_aktlist = pa_aktlist
-                        end if
-
-                        if cint(pa_aktlist) = 0 then 'PA = 0 kan søge i jobbanken / PA = 1 kan kun søge på aktivjobliste
-                        strSQLPAkri =  ""
-                        else
-                        strSQLPAkri =  " AND tu.forvalgt = 1" 
-                        end if
-
-
+                
                 varTjDatoUS_man = request("varTjDatoUS_man")
                 varTjDatoUS_son = dateAdd("d", 6, varTjDatoUS_man)
 
                 varTjDatoUS_man = year(varTjDatoUS_man) &"/"& month(varTjDatoUS_man) &"/"& day(varTjDatoUS_man)
                 varTjDatoUS_son = year(varTjDatoUS_son) &"/"& month(varTjDatoUS_son) &"/"& day(varTjDatoUS_son)
+          
 
-            
+                '*** POSITIV aktivitering + Forecast auto visning
+                call positivakt_forecast_sqlkri(medid)
+                strSQLPAkri = positiv_aktivering_akt_val_SQL
+
+
                 '*** Datospærring Vis først job når stdato er oprindet
-                call lukaktvdato_fn()
-                ignJobogAktper = lukaktvdato
+                call datosparrings_sglkri(lto, varTjDatoUS_man, varTjDatoUS_son)
 
-                select case lto
-                case "mpt"
-                jobstatusExtra = " OR (j.jobstatus = 2) OR (j.jobstatus = 4)"
-                case else
-                jobstatusExtra = ""
-                end select
 
-                select case ignJobogAktper
-                case 0,1
-                strSQLDatokri = " AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobstatus = 1) OR (j.jobstatus = 3) "& jobstatusExtra &")"
-                case 3
-                strSQLDatokri = " AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobslutdato >= '"& varTjDatoUS_man &"' AND j.jobstatus = 1) OR (j.jobstatus = 3) "& jobstatusExtra &")"
-                case else
-                strSQLDatokri = ""
-                end select
+
+                  
 
 
 
@@ -200,10 +197,10 @@
                         &" kkundenavn LIKE '"& jobkundesog &"%' OR kkundenr = '"& jobkundesog &"' OR k.kinit = '"& jobkundesog &"') AND kkundenavn <> ''"
                     end if            
 
-                 lmt = 250
+                 lmt = 350
                  else
                  strSQLSogKri = ""
-                 lmt = 250
+                 lmt = 1200 '350
                  end if            
 
 
@@ -215,18 +212,18 @@
                 end if
 
 
-                select case lto
-                case "mpt"
-                jobstatusSQL = "j.jobstatus <> 0"
-                case else
-                jobstatusSQL = "j.jobstatus = 1 OR j.jobstatus = 3"
-                end select
+                'select case lto
+                'case "mpt"
+                'jobstatusSQL = "j.jobstatus <> 0"
+                'case else
+                'jobstatusSQL = "j.jobstatus = 1 OR j.jobstatus = 3"
+                'end select
 
 
                 strSQL = "SELECT j.id AS jid, j.jobnavn, j.jobnr, j.jobstatus, k.kkundenavn, k.kkundenr, k.kid, j.jobstartdato FROM timereg_usejob AS tu "_ 
                 &" LEFT JOIN job AS j ON (j.id = tu.jobid) "_
                 &" LEFT JOIN kunder AS k ON (k.kid = j.jobknr) "_
-                &" WHERE tu.medarb = "& medid &" AND ("& jobstatusSQL &") "& strSQLPAkri &" "& strSQLDatokri 
+                &" WHERE tu.medarb = "& medid &" "& strSQLPAkri &" "& strSQLDatoStatuskri
             
                 strSQL = strSQL & strSQLSogKri
 
@@ -261,7 +258,7 @@
                 oRec.open strSQL, oConn, 3
                 while not oRec.EOF
         
-                if lastKnavn <> oRec("kkundenavn") AND (lto <> "hestia" AND lto <> "intranet - local")  then
+                if lastKnavn <> oRec("kkundenavn") AND (lto <> "hestia" AND lto <> "xintranet - local")  then
                 
                         if jobkundesog <> "-1" then 'kunde job sog DD
                             
@@ -273,6 +270,11 @@
                         else
 
                             if lto <> "tbg" then '1 job forvalgt i DD
+    
+                            if c > 0 then
+                            strJobogKunderTxt = strJobogKunderTxt & "<option DISABLED></option>"
+                            end if
+
                             strJobogKunderTxt = strJobogKunderTxt & "<option DISABLED>"& left(oRec("kkundenavn"), 20) & "</option>"
                             end if
 
@@ -389,8 +391,8 @@
                 'pa = request("jq_pa") 
                 call positiv_aktivering_akt_fn()
                 pa = pa_aktlist
-                pa_only_specifikke_akt = positiv_aktivering_akt_val
-
+                'pa_only_specifikke_akt = positiv_aktivering_akt_val
+                 positiv_aktivering_akt_val = positiv_aktivering_akt_val
 
                 '*** HER ***
 
@@ -470,13 +472,7 @@
             
                  
     
-                
-                         
-               'pa = 0 '***ÆNDRES til variable
-               'if cint(pa) = 1 then
-               'strSQL= "SELECT a.id AS aid, navn AS aktnavn FROM timereg_usejob LEFT JOIN aktiviteter AS a ON (a.id = tu.aktid) "_
-               '&" WHERE tu.medarb = "& medid &" AND tu.jobid = "& jobid &" AND aktid <> 0 AND a.navn LIKE '%"& aktsog &"%' AND aktstatus = 1 AND ("& replace(aty_sql_realhours, "tfaktim", "a.fakturerbar") &") AND ("& aty_sql_hide_on_treg &") ORDER BY navn LIMIT 20"   
-
+              
                     
                     '** Select eller søgeboks
                     call mobil_week_reg_dd_fn()
@@ -513,11 +509,11 @@
 
 
 
-               if cint(pa) = 1 then '**Kun på Personlig aktliste
+               if cint(pa) = 1 OR cint(positiv_aktivering_akt_val) = 1 then '** Kun på Personlig aktliste / Positiv aktivering
     
     
                    'Positiv aktivering
-                   if cint(pa_only_specifikke_akt) then
+                   if cint(positiv_aktivering_akt_val) = 1 then
 
                    strSQL = "SELECT a.id AS aid, navn AS aktnavn "_
                    &" FROM timereg_usejob AS tu LEFT JOIN aktiviteter AS a ON (a.id = tu.aktid) "_
@@ -582,63 +578,69 @@
                 oRec.open strSQL, oConn, 3
                 while not oRec.EOF
 
-                if cint(pa) = 1 then 'Positiv aktivering
+                if cint(pa) = 1 OR cint(positiv_aktivering_akt_val) = 1 then 'Positiv aktivering
 
                 showAkt = 1
 
                 else
         
-                showAkt = 0
-                if instr(medarbPGrp, "#"& oRec("projektgruppe1") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe2") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe3") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe4") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe5") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe6") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe7") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe8") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe9") &"#") <> 0 _
-                OR instr(medarbPGrp, "#"& oRec("projektgruppe10") &"#") <> 0 then
-                showAkt = 1
-                end if 
+                        showAkt = 0
+                        if instr(medarbPGrp, "#"& oRec("projektgruppe1") &"#") <> 0 _
+                        OR instr(medarbPGrp, "#"& oRec("projektgruppe2") &"#") <> 0 _
+                        OR instr(medarbPGrp, "#"& oRec("projektgruppe3") &"#") <> 0 _
+                        OR instr(medarbPGrp, "#"& oRec("projektgruppe4") &"#") <> 0 _
+                        OR instr(medarbPGrp, "#"& oRec("projektgruppe5") &"#") <> 0 _
+                        OR instr(medarbPGrp, "#"& oRec("projektgruppe6") &"#") <> 0 _
+                        OR instr(medarbPGrp, "#"& oRec("projektgruppe7") &"#") <> 0 _
+                        OR instr(medarbPGrp, "#"& oRec("projektgruppe8") &"#") <> 0 _
+                        OR instr(medarbPGrp, "#"& oRec("projektgruppe9") &"#") <> 0 _
+                        OR instr(medarbPGrp, "#"& oRec("projektgruppe10") &"#") <> 0 then
+                        showAkt = 1
+                        end if 
 
                 end if
                
                   
 
                 
-                '** Forecast peridore afgrænsning
-                'if cint(akt_maksforecast_treg) = 1 then
-                if cint(aktBudgettjkOn) = 1 then
-                    call ressourcefc_tjk(ibudgetaar, ibudgetmd, aar, md, medid, oRec("aid"), timerTastet)
-                end if
                
                 
                 
                 if cint(showAkt) = 1 then 
                  
-              
-                    if cint(aktBudgettjkOn) = 1 then
+            
+                    if cint(positiv_aktivering_akt_val) = 1 AND instr(forecastAktidsTxt, "#"& oRec("aid") &"#") = 0 then 
+                    'Hvis Positivt tildelt / Der har aldrig har været forecast, skal der ikke tjekkes for forecast, da den så må være positivt tildelt.
 
-
-                        if len(trim(feltTxtValFc)) <> 0 then
-                        fcsaldo_txt = "<span style=""font-weight:lighter; font-size:9px;""> (fc. Saldo: "& formatnumber(feltTxtValFc, 2) & " / "& formatnumber(fctimer,2) &" t.)</span>"
-                        end if
-
-                            optionFcDis = ""
-                            if cint(akt_maksforecast_treg) = 1 then
-                                if feltTxtValFc <= 0 then
-                                      optionFcDis = "DISABLED"
-                                end if
-                            end if
+                     fcsaldo_txt = ""
 
                     else
 
-                    fcsaldo_txt = ""
 
-                    end if
+                            if cint(aktBudgettjkOn) = 1 then
+
+                                'KAN SE MEN IKKE TASTE
+                                call ressourcefc_tjk(ibudgetaar, ibudgetmd, aar, md, medid, oRec("aid"), timerTastet)
+
+                                if len(trim(feltTxtValFc)) <> 0 then
+                                fcsaldo_txt = "<span style=""font-weight:lighter; font-size:9px;""> (fc. Saldo: "& formatnumber(feltTxtValFc, 2) & " / "& formatnumber(fctimer,2) &" t.)</span>"
+                                end if
+
+                                    optionFcDis = ""
+                                    if cint(akt_maksforecast_treg) = 1 then
+                                        if feltTxtValFc <= 0 then
+                                              optionFcDis = "DISABLED"
+                                        end if
+                                    end if
+
+                            else
+
+                            fcsaldo_txt = ""
+
+                            end if
                  
 
+                     end if
                 
                        if cint(mobil_week_reg_akt_dd) <> 1 then
 
@@ -890,24 +892,36 @@
 
    
     select case lto
-    case "hestia", "xoutz", "micmatic", "intranet - local"
+    case "hestia", "xoutz", "micmatic"
         showAfslutJob = 1
         showMatreg = 1
         showStop = 0
         showDetailDayResumeOrLink = 0
         ststopbtnTxt = "St. / Stop"
+
+        showLogindhistorik = 0
+        showTimereg = 1
+
       case "dencker"
         showAfslutJob = 0
         showMatreg = 0
         showStop = 0
         showDetailDayResumeOrLink = 1
         ststopbtnTxt = "St. / Stop"
-    case "xintranet - local", "sdutek", "nonstop", "cc" ', "epi", "epi_uk", "epi_ab", "epi_no"
+
+        showLogindhistorik = 0
+        showTimereg = 1
+
+    case "sdutek", "nonstop", "cc" ', "epi", "epi_uk", "epi_ab", "epi_no"
         showAfslutJob = 0
         showMatreg = 0
         showStop = 1
         showDetailDayResumeOrLink = 1
         ststopbtnTxt = "St. / Stop"
+
+        showLogindhistorik = 0
+        showTimereg = 1
+
     case "epi2017"
         showAfslutJob = 0
         showMatreg = 0
@@ -927,7 +941,28 @@
         showDetailDayResumeOrLink = 1
         ststopbtnTxt = "St. / Stop"
 
-    case "cflow"
+        showLogindhistorik = 0
+        showTimereg = 1
+
+        case "miele", "xintranet - local", "cflow"
+        showAfslutJob = 0
+        showMatreg = 0
+        
+      
+        showStop = 1
+        mobil_week_reg_akt_dd = 0
+        mobil_week_reg_job_dd = 1
+        mobil_week_reg_akt_dd_forvalgt = 0
+
+       
+        
+        showDetailDayResumeOrLink = 1
+        ststopbtnTxt = "St. / Stop"
+
+        showLogindhistorik = 1
+        showTimereg = 0
+
+    case "org_cflow"
         showAfslutJob = 0
         showMatreg = 0
         
@@ -943,30 +978,59 @@
         showDetailDayResumeOrLink = 1
         ststopbtnTxt = "St. / Stop"
 
-    case "tbg", "hidalgo"
+        showLogindhistorik = 0
+        showTimereg = 1
+
+    case "hidalgo"
+        showAfslutJob = 0
+        showMatreg = 1
+        showStop = 1
+        showDetailDayResumeOrLink = 0
+        ststopbtnTxt = "St. / Stop"
+
+        showLogindhistorik = 0
+        showTimereg = 1
+
+    case "tbg"
         showAfslutJob = 0
         showMatreg = 1
         showStop = 0
         showDetailDayResumeOrLink = 0
         ststopbtnTxt = "St. / Stop"
+
+        showLogindhistorik = 0
+        showTimereg = 1
+
     case "eniga"
         showAfslutJob = 0
         showMatreg = 0
         showStop = 1
         showDetailDayResumeOrLink = 0
         ststopbtnTxt = "St. / Stop"
+
+        showLogindhistorik = 0
+        showTimereg = 1
+
     case "mpt"
         showAfslutJob = 0
         showMatreg = 1
         showStop = 0
         showDetailDayResumeOrLink = 0
         ststopbtnTxt = "St. / Stop"
+
+        showLogindhistorik = 0
+        showTimereg = 1
+
     case else
         showAfslutJob = 0
         showMatreg = 0
         showStop = 0
         showDetailDayResumeOrLink = 0
         ststopbtnTxt = "St. / Stop"
+
+        showLogindhistorik = 0
+        showTimereg = 1
+
     end select
 
 
@@ -996,8 +1060,8 @@
 
 
 
-<script src="js/timetag_web_jav_2017_023.js" type="text/javascript"></script>
-
+<script src="js/timetag_web_jav_2018_4.js" type="text/javascript"></script>
+<script src="../to_2015/js/plugins/datepicker/bootstrap-datepicker.js"></script>
 
 
 
@@ -1031,7 +1095,22 @@
 
         
 
-    </style>
+  
+                .blink {
+  animation: blink-animation 1s steps(5, start) infinite;
+  -webkit-animation: blink-animation 1s steps(5, start) infinite;
+}
+@keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+@-webkit-keyframes blink-animation {
+  to {
+    visibility: hidden;
+  }
+}
+                    </style>
 
 </head>
     
@@ -1052,6 +1131,40 @@
         <div class="container" style="height:100%">
             <div class="portlet">
                 <div class="portlet-body">
+
+
+
+                      <%if cint(showLogindhistorik) = 1 then %>
+                     <div class="row">
+                                <div class="col-lg-12">
+
+                          
+
+                                            
+                                              Komme/Gå historik (seneste 7 dage)
+                                         
+                                        
+
+                            <%
+
+                                    stdatoSQL = dateadd("d", -7, ddDato)
+                                    stdatoSQL = year(stdatoSQL) &"/"& month(stdatoSQL) &"/"& day(stdatoSQL)
+                                    sldatoSQL = ddDato
+                                    call logindhistorik_week_60_100(session("mid"), 3, stdatoSQL, sldatoSQL) 
+
+                                  
+                                
+                            %>
+
+                                       
+                                       <span class="pull-right"> <a class="btn btn-danger" href="<%=toSubVerPath14 %>../sesaba.asp"><%=ttw_txt_027 %></a></span>
+
+                    </div>
+                    </div>
+
+                    <%end if %>
+
+                    <%if cint(showTimereg) = 1 then %>
                     
                     <div id="dvindlaes_msg" style="position:absolute; top:0px; left:0px; height:100%; width:100%; background-color:#cccccc; visibility:hidden; display:none;"><%=ttw_txt_002 %></div>
                    
@@ -1096,9 +1209,28 @@
                               %> <input type="hidden" id="jq_dato" name="FM_datoer" value="<%=todayDay &"-"& todayMonth &"-"& todayYear%>"/><%
                         case else
                        
-                        %>                        
+                        %>  
+                        
+                        <style>
+                            .datepicker-dropdown
+                            {
+                                margin-top:-10px;
+                            }
+                        </style>
+
                         <div class="row">
-                            <div class="col-lg-12"><input type="text" name="FM_datoer" id="jq_dato" value="<%=todayDay &"-"& todayMonth &"-"& todayYear%>" class="form-control" /> <!-- placeholder="dd-mm-yyyy" --></div>
+                          <!--  <div class="col-lg-12"><input type="text" name="FM_datoer" id="jq_dato" value="<%=todayDay &"-"& todayMonth &"-"& todayYear%>" class="form-control" /></div> -->
+
+                            <div class="col-lg-12">
+                                <div class='input-group date' id='datepicker2'>
+                                    <input type="text" class="form-control" name="FM_datoer" value="<%=todayDay &"-"& todayMonth &"-"& todayYear%>" placeholder="dd-mm-yyyy"  readonly />
+                                    <span class="input-group-addon input-small">
+                                            <span class="fa fa-calendar">
+                                            </span>
+                                    </span>
+                                </div>
+                            </div>
+
                         </div>
                         <%end select %>     
                         
@@ -1148,7 +1280,7 @@
                         <%else %>
                          <div class="row">
                             <div class="col-lg-12">
-                                <input type="text" id="FM_job" name="FM_job" value="" placeholder="<%=ttw_txt_014 %>" class="form-control"/>
+                                <input type="text" id="FM_job" autocomplete="off" name="FM_job" value="" placeholder="<%=ttw_txt_014 %>" class="form-control"/>
                                 <input type="hidden" id="FM_jobid" name="FM_jobid" value="0"/>
                                 <div id="dv_job" style="padding:5px 5px 5px 5px; display:none; visibility:hidden;"></div> 
                             </div>
@@ -1173,6 +1305,11 @@
                                     <h4 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-target="#collapseTwo" id="dv_jobbesk_header"><%=ttw_txt_022 %></a></h4></div>                                    
                                 <div id="collapseTwo" class="panel-collapse collapse">
                                     <div class="panel-body">
+
+                                        <div class="row">
+                                            <div class="col-lg-12" style="padding:5px 5px 5px 25px;" id="dv_fil"></div>
+                                        </div>
+
                                          <div class="row">
                                                 <div class="col-lg-12" id="dv_jobbesk" style="padding:5px 5px 5px 25px;">
                                                <!-- <a href="#" id="jq_jobbesk" target="_blank">Jobbeskrivelse +</a>-->
@@ -1207,7 +1344,7 @@
                          <%else %>
                         <div class="row">
                             <div class="col-lg-12">
-                                <input type="text" id="FM_akt" name="activity" value="" class="form-control" placeholder="<%=ttw_txt_004 %>"/>
+                                <input type="text" id="FM_akt" autocomplete="off" name="activity" value="" class="form-control" placeholder="<%=ttw_txt_004 %>"/>
                                 <input type="hidden" id="FM_aktid" name="FM_aktivitetid" value="0"/>
                                 <div id="dv_akt" class="dv-closed" style="padding:5px 5px 5px 5px;"></div> 
                             </div>
@@ -1450,6 +1587,8 @@
 
                     </form>
 
+
+                    <%end if 'ShowTimereg %>
                     
                        
                 

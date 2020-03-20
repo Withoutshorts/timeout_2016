@@ -1,9 +1,105 @@
 <%
+    thisfile = "monitor"
+
+    'if len(trim(request("fromlogin"))) <> 0 then
+
+    ' session("lto") = request("key")
+    ' lto = request("lto")
+
+    'else
+
     'session("lto") = "xxx"
     'session("lto") = "intranet - local"
-    session("lto") = "9K2017-1124-TO179"
-    'lto = "intranet - local"
+    '        if len(trim(session("lto"))) = "" then
+
+    '         if session("lto") = "9K2018-2506-TO181" then
+    '
+    '        session("lto") = "9K2018-2506-TO181"
+    '        lto = "miele"
+    '
+    '          else
+
+   
+	if instr(request.servervariables("HTTP_HOST"), "localhost") <> 0 then
+
+
+
+		session("lto") = "intranet - local"
+		lto = "intranet - local"
+		'lto = "cflow"
+		ltokey = request("ltokey")
+
+    
+	else
+
+
+        thisIp = request.servervariables("REMOTE_ADDR")
+        '1 gang
+        'response.Cookies("timeout_2015")("ltokey") = "9K2017-1124-TO179"
+        'response.Cookies("timeout_2015").expires = date + 2000
+        select case left(thisIp, 7)
+        case "213.161", "213.161", "89.8.64" 'cflow
+        ltokey = "9K2017-1124-TO179"
+        session("lto") = ltokey
+
+        case "111.111.111.111" 'Cool
+
+        case else 'ltokey OR Cookie - Hvis Monitor ikke genkender IP nummer
+        
+        'Skriv IP på skærmn
+         writeIPToSreeen = 0
+        if writeIPToSreeen = 1 then%>
+        <%=request.servervariables("REMOTE_ADDR")%><br />
+        <%end if
+
+        if len(trim(request("ltokey"))) <> 0 then
+        ltokey = request("ltokey")
+        session("lto") = ltokey
+        response.Cookies("timeout_2015")("ltokey") = ltokey
+        response.Cookies("timeout_2015").expires = date + 2000
+        else
+            
+            if request.Cookies("timeout_2015")("ltokey") <> "" then
+            ltokey = request.Cookies("timeout_2015")("ltokey")
+            session("lto") = ltokey
+            else
+                if len(trim(session("lto"))) <> 0 then 'Inden for 12 timer
+                session("lto") = session("lto")
+                else
+                response.Write "<br><br><center>An error has occurred<br><br>" & monitor_txt_001 & "<br><br>a. no cookie</center>"
+                response.End
+                end if
+
+            end if
+
+        end if
+
+        end select
+    
+
+
+    'session("lto") = session("lto") 
+    end if
+
+
+    select case ltokey
+    case "9K2017-1124-TO179" 'cflow
     lto = "cflow"
+    case "9K2019-2702-TO187" 'Cool
+    lto = "cool"
+    case "2.2013-0812-TO145" 'Hidalgo
+    lto = "hidalgo"
+    case "9K2019-0612-TO193" 'kongeaa
+    lto = "kongeaa"
+    case else
+    response.Write "<br><br><center>An error has occurred<br><br>" & monitor_txt_001 & "<br><br>b. no ltokey</center>"
+    response.End
+    end select
+
+	'*** Midlertidig
+	'ltokey = "9K2017-1124-TO179"
+    'session("lto") = "9K2017-1124-TO179"
+    'lto = "cflow"
 %>
 
 
@@ -37,10 +133,10 @@
                 jq_aktidc = request("jq_aktidc")
 
                 'response.Cookies("monitor_akt")(session("mid")) = jq_aktidc
-                strSQLdel = "DELETE FROM login_historik_aktivejob_rel WHERE lha_mid = "& session("mid") & " AND jq_aktidc <> 0"
-                oConn.execute(strSQLdel)
+                'strSQLdel = "DELETE FROM login_historik_aktivejob_rel WHERE lha_mid = "& session("mid") & " AND jq_aktidc <> 0"
+                'oConn.execute(strSQLdel)
 
-                strSQLins = "INSERT INTO login_historik_aktivejob_rel (lha_mid, lha_aktid) VALUES ("& session("mid") &", "& jq_aktidc &")"
+                strSQLins = "UPDATE login_historik_aktivejob_rel SET lha_aktid = "& jq_aktidc &" WHERE lha_mid = "& session("mid")
                 oConn.execute(strSQLins)
 
 
@@ -53,10 +149,194 @@
 
 
         
-          case "FN_sogakt"
+        case "FN_sogakt"
 
                
                 call selectAkt_jq()
+
+
+        case "FindGuestCompany"
+                guestval = request("guestval")
+                stropt = ""
+
+                strSQL = "SELECT firma FROM medarbejdere WHERE firma LIKE '%"& guestval &"%' AND mansat = 4 GROUP BY firma"
+                oRec.open strSQL, oConn, 3
+                i = 0
+                while not oRec.EOF
+                    stropt = stropt & "<option value='"&oRec("firma")&"'>"& oRec("firma") &"</option>"   
+                i = i + 1
+                oRec.movenext
+                wend
+                oRec.close
+
+                call jq_format(stropt)
+                stropt = jq_formatTxt
+
+                response.Write stropt
+
+        case "FindGuestEmployee"
+
+                guestval = request("guestval")
+                guestCompany = request("guestCompany")
+                stropt = ""
+
+                strSQL = "SELECT mid, mnavn, mtlf FROM medarbejdere WHERE mnavn LIKE '%"& guestval &"%' AND firma LIKE '%"& guestCompany &"%' AND mansat = 4"
+                oRec.open strSQL, oConn, 3
+                i = 0
+                while not oRec.EOF
+                    stropt = stropt & "<option value='"&oRec("mnavn")&"' data-tlf='"&oRec("mtlf")&"'>"& oRec("mnavn") &"</option>"   
+                i = i + 1
+                oRec.movenext
+                wend
+                oRec.close
+
+                call jq_format(stropt)
+                stropt = jq_formatTxt
+
+                response.Write stropt
+
+           case "FindEmployee" 
+                inputName = request("besogInput")
+                        
+                strOpt = ""
+                strSQL = "SELECT mid, mnavn FROM medarbejdere WHERE mnavn LIKE '%"& inputName &"%' AND mansat = 1"
+                oRec.open strSQL, oConn, 3
+                while not oRec.EOF
+                    strOpt = strOpt & "<option value='"&oRec("mid")&"' data-name='"&oRec("mnavn")&"'>"& oRec("mnavn") &"</option>"  
+                oRec.movenext
+                wend
+                oRec.close
+
+                call jq_format(strOpt)
+                strOpt = jq_formatTxt
+
+                response.Write strOpt
+
+
+            case "GetVisitsTel"
+
+                medid = request("medid")
+                strtlf = ""
+                strSQL = "SELECT mtlf FROM medarbejdere WHERE mid = "& medid
+                oRec.open strSQL, oConn, 3
+                if not oRec.EOF then
+                    strtlf = oRec("mtlf")
+                end if
+                oRec.close
+
+                strtlf = replace(strtlf, "+", "")
+                strtlf = replace(strtlf, " ", "")
+
+                response.Write strtlf
+
+
+            case "UploadHoursToAkt"
+
+                datoTastet = request("datotastet")
+                antal = request("antaltimer")
+               'response.Write "dato " & datoTastet
+                'response.end
+                
+
+                aktid = request("aktid")
+                medid = request("medid")
+                response.Write aktidid & " a-m " & medid   
+                'response.End
+                if antal = 0 then
+                    sqlNow = year(now) &"-"& month(now) &"-"& day(now) 
+                    call normtimerPer(medid, sqlNow, 0, 0)
+                    antal = ntimper '7
+                end if
+
+                datoTastetSQL = 0
+                if datoTastet <> "" then
+                    updateMode = 1
+                    datoTastetSQL = year(datoTastet) &"-"& month(datoTastet) &"-"& day(datoTastet)
+                else
+                    updateMode = 2
+                end if
+                
+                timerkom = ""
+                koregnr = ""
+                destination = ""
+                usebopal = 0 
+
+                call indlasTimerTfaktimAktid(lto, medid, antal, 0, aktid, updateMode, datoTastetSQL, 0, timerkom, koregnr, destination, usebopal)
+
+
+            case "UdeafhusetReg"
+
+                medid = request("medid")
+                regtype = request("regkey")
+                startdato = year(now) &"-"& month(now) &"-"& day(now) 
+                startdatoSQL = year(startdato) &"-"& month(startdato) &"-"& day(startdato)
+                slutdato = request("slutdato")
+                slutdatoSQL = year(slutdato) &"-"& month(slutdato) &"-"& day(slutdato)
+                'response.Write "ST " & startdatoSQL & " SL " & slutdatoSQL
+
+                'if cdate(startdatoSQL) > cdate(slutdatoSQL) then
+                    'response.Write "Error"
+                    'response.End
+                'end if
+
+               ' udeafhusettype - 0 = ubestemt, 1 = forretningsrejse, 2 = ferie   
+            
+            
+                call normtimerPer(medid, startdatoSQL, 0, 0)           
+                antal = ntimper '7
+                        
+                select case regtype
+                    case "ferie"
+                        select case lto
+                            case "cool"
+                                aktid = 13
+                            case "dencker"
+                                aktid = 32660
+                            case "hidalgo"
+                                aktid = 13
+                            case "kongeaa"
+                                aktid = 13
+                            case else
+                                aktid = 0
+                        end select
+
+                        udeafhusettype = 2
+                    case "forrejse"
+                        select case lto
+                            case "hidalgo"
+                                aktid = 495
+                            case else
+                                aktid = 33
+                        end select
+                        
+                        udeafhusettype = 1
+                end select
+
+                
+                startdatoFullSQL = startdatoSQL & " 00:00:00"
+                slutdatoFullSQL = slutdatoSQL & " 23:59:59"
+
+                strSQL = "INSERT INTO udeafhuset (medid, fradato, fratidspunkt, tildato, tiltidspunkt, heledagen, fra, til, udeafhusettype) VALUES ("& medid &", '"& startdatoSQL &"', '00:00:00', '"& slutdatoSQL &"', '23:59:59', 1, '"& startdatoFullSQL &"', '"& slutdatoFullSQL &"', "& udeafhusettype &")"
+                oConn.execute(strSQL)
+
+                'Finder sidste udeafhuset id så det kan bruges til extsystid på timer tablenen
+                lastUid = 0
+                strSQL = "SELECT id FROM udeafhuset ORDER BY id DESC" 
+                oRec3.open strSQL, oConn, 3
+                if not oRec3.EOF then
+                    lastUid = oRec3("id")
+                end if
+                oRec3.close
+                'response.Write lastUid
+                'response.end
+                ' Lægger timer ind for i dag, så man kan se det med det samme
+            
+                timerkom = ""
+                koregnr = "" 
+                destination = ""
+                usebopal = 0
+
+                call indlasTimerTfaktimAktid(lto, medid, antal, 0, aktid, 0, startdatoSQL, lastUid, timerkom, koregnr, destination, usebopal)               
 
         end select
         response.end
@@ -72,14 +352,13 @@
 <!--#include file="../inc/regular/global_func.asp"-->
 <!--#include file="../inc/regular/header_lysblaa_2015_inc.asp"-->
 
-
+<meta name="viewport" content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'>
 
 
 
        
         
         <%
-           
 
             'if len(session("user")) = 0 then
 
@@ -91,6 +370,33 @@
             'lto = "cflow"
 
             func = request("func")
+
+            if len(trim(request("vislogud"))) <> 0 then
+                vislogud = request("vislogud")
+            else
+                vislogud = 0
+            end if
+
+            if func <> "registrer" AND vislogud <> 1 then
+            session("login") = ""
+            session("mid") = ""
+            session("user") = ""
+            end if
+
+            select case lto
+            case "outz", "cool", "xcflow", "intranet - local"
+            useGuestLogin = 1
+            case else
+            useGuestLogin = 0
+            end select
+
+            select case lto
+            case "cflow", "intranet - local"
+            useJobAktPicker = 1
+            case else
+            useJobAktPicker = 0
+            end select
+
             medid = request("medid")
             medarb_navn = request("medarb_navn")
             stempelurindstilling = request("stempelurindstilling")
@@ -101,7 +407,203 @@
             skiftjob = 0
             end if
 
+            call browsertype()
+            if browstype_client = "ip" then
+                 
+                if len(trim(request("lastcheckin"))) <> 0 then
+                    lastcheckin = request("lastcheckin")
+                    response.Cookies("to_2015")("lastcheckin") = lastcheckin
+                else
+                    if request.Cookies("to_2015")("lastcheckin") <> "" then
+                        lastcheckin = request.Cookies("to_2015")("lastcheckin")
+                    else
+                        lastcheckin = ""
+                    end if
+                end if
+
+                useGuestLogin = 0
+
+                if lastcheckin <> "" then
+
+                    strSQL = "SELECT Mid, Mnavn FROM medarbejdere WHERE (medarbejder_rfid = "& lastcheckin & " OR mnr = "& lastcheckin & ") AND (mansat = 1 OR mansat = 3)"
+                    'response.Write strSQL
+                    oRec.open strSQL, oConn, 3
+                    if not oRec.EOF then
+                    medarb_navn = oRec("Mnavn")
+                    medid = oRec("Mid")  
+                    session("login") = Trim(oRec("Mid"))
+	                session("mid") = Trim(oRec("Mid"))
+                    session("user") = oRec("Mnavn")
+                    
+                    response.Cookies("2015")("lastlogin") = oRec("Mid")
+                    
+                    'session("rettigheder") = oRec("rettigheder")
+                    else
+                    response.Redirect "monitor.asp?func=startside&redType=3"
+
+                    end if
+                    oRec.close
+
+
+                    'fo_oprettetnytlogin = 0
+                    'strUsrId = medid
+                    'intStempelur = 1 'request("stempelurindstilling")
+                    'io = 1 '= Afslutter hvis åbent mere end 20 timer
+                    'tid = now
+                    'call logindStatus(strUsrId, intStempelur, io, tid)
+
+                    'if fo_oprettetnytlogin = 0 then
+                        'vislogud = 1
+                    'end if
+                    vislogud = 0
+
+                    strSQLlog = "SELECT id, dato, login, logud, mid, stempelurindstilling FROM login_historik WHERE "_
+				    &" mid = "& medid &" AND stempelurindstilling > -1 AND logud IS NULL ORDER BY login DESC limit 0, 1" 
+                    'response.Write strSQLlog
+                    oRec.open strSQLlog, oConn, 3
+                    if not oRec.EOF then
+                        vislogud = 1
+                    end if
+                    oRec.close
+
+                    
+                    %><!--#include file="../inc/regular/top_menu_mobile.asp"--><%
+                    call mobile_header
+
+                end if
+
+            end if
+
             select case func
+                case "meeting"
+                    medid = request("medid")
+                    fradato = year(now) &"-"& month(now) &"-"& day(now)
+                    fratidspunkt = hour(now) &":"& minute(now)
+                    heledagen = 0
+                    tildato = year(now) &"-"& month(now) &"-"& day(now)
+                
+                    fromDateTim = fradato &" "& fratidspunkt        
+
+                    strSQL = "INSERT INTO udeafhuset (medid, fradato, fratidspunkt, tildato, heledagen, fra) VALUES ("& medid &", '"& fradato &"', '"& fratidspunkt &"', '"& tildato &"', "& heledagen &", '"& fromDateTim &"')"
+                    'response.Write strSQL
+                    oConn.execute(strSQL)
+                    
+                    
+                    'response.End
+                    response.Redirect "monitor.asp?func=startside&redType=5" 
+                    
+
+                case "guestlogud"
+
+                    guestid = request("guestid")
+           
+                    call meStamdata(guestid)
+
+                    %>
+                    <div class="container">
+                        <div class="portlet">
+                            <div class="portlet-body">
+                                <div class="row" style="text-align:center;">
+                                    <h3 class="col-lg-12"><%=monitor_txt_002 & " " %><%=menavn & " " %><%=monitor_txt_003 %></h3>
+                                </div>
+
+                                <br />
+
+                                <div class="row">
+                                    <div class="col-lg-12" style="text-align:center;">
+                                        <a href="../sesaba.asp?frommonitor=1&guestlogud=1&medid=<%=guestid %>" class="btn btn-lg btn-danger"><%=monitor_txt_004 %></a>
+                                        <a href="monitor.asp?func=startside" class="btn btn-lg btn-default"><%=monitor_txt_005 %></a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <%
+
+
+            case "guestlogin"
+
+                guestEmployee = request("guestEmployee")
+                guestCompany = request("guestCompany")
+                guestTlf = replace(request("guestTlf"), "'", "''")
+                visit = request("visit")
+
+                if len(trim(guestCompany)) <> 0 AND len(trim(guestEmployee)) <> 0 then
+            
+                    ' Tjekker om gæstemedarbejder findes i forvejen
+                    guestFindes = 0
+                    strSQLFindesGuest = "SELECT mid, mnavn, mtlf FROM medarbejdere WHERE mnavn = '"& guestEmployee &"' AND firma = '"& guestCompany &"' AND mansat = 4"
+                    oRec.open strSQLFindesGuest, oConn, 3
+                    if not oRec.EOF then
+                        session("login") = Trim(oRec("Mid"))
+	                    session("mid") = Trim(oRec("Mid"))
+                        session("user") = oRec("Mnavn")
+
+                        response.Cookies("2015")("lastlogin") = oRec("Mid")
+
+                        '* Opdater telefon nummer til hvis det ikke blev indtastet første gang eller det er blevet ændret
+                        if len(trim(guestTlf)) <> 0 then
+                            oConn.execute("UPDATE medarbejdere SET mtlf = '"& guestTlf &"' WHERE mid = "& oRec("mid"))
+                        end if
+
+                        guestFindes = 1
+
+                        'Sletter gæstens frokost ordning fra sidste gang
+                        strDEL = "DELETE FROM progrupperelationer WHERE projektgruppeid = 12 AND medarbejderid = "& Trim(oRec("Mid"))
+                        oConn.execute(strDEL)
+
+
+                    end if
+                    oRec.close
+
+                    'Hvis gæstemedarbejder ikke findes, oprettes den
+                    if guestFindes = 0 then
+                        ansatdato = year(now) &"-"& month(now) &"-"& day(now)
+                        sqlOpr = "INSERT INTO medarbejdere SET mnavn = '"&guestEmployee&"', firma = '"& guestCompany &"', mansat = 4, ansatdato = '"& ansatdato &"', mtlf = '"& guestTlf &"', brugergruppe = 4"
+                        oConn.execute(sqlOpr)
+                    
+                            
+                        ' Henter den nyoprettede gæst
+                        oRec.open strSQLFindesGuest, oConn, 3
+                        if not oRec.EOF then
+                            session("login") = Trim(oRec("Mid"))
+	                        session("mid") = Trim(oRec("Mid"))
+                            session("user") = oRec("Mnavn")
+
+                            response.Cookies("2015")("lastlogin") = oRec("Mid")
+
+                            guestFindes = 1
+                        end if
+                        oRec.close
+
+                    end if
+
+
+                    fo_oprettetnytlogin = 0
+                    strUsrId = session("mid")
+                    intStempelur = 1 'request("stempelurindstilling")
+                    io = 1 '= Afslutter hvis åbent mere end 20 timer
+                    tid = now
+                    call logindStatus(strUsrId, intStempelur, io, tid)
+
+                    'if fo_oprettetnytlogin = 0 then
+                    '    vislogud = 1
+                    '    'message = 0
+
+                    '    'response.Redirect "monitor.asp?func=startside&vislogud="&vislogud 
+                    'else
+                    '    'response.Redirect "monitor.asp?func=startside&redType=1" 
+                    'end if
+                    
+                    response.Redirect "monitor.asp?func=startside&redType=1" 
+
+                end if
+
+
+
+
+
             case "scan" 
             
                 RFID = request("RFID_field")
@@ -121,12 +623,33 @@
                     session("login") = Trim(oRec("Mid"))
 	                session("mid") = Trim(oRec("Mid"))
                     session("user") = oRec("Mnavn")
+                    
+                    response.Cookies("2015")("lastlogin") = oRec("Mid")
+                    
                     'session("rettigheder") = oRec("rettigheder")
                     else
                     response.Redirect "monitor.asp?func=startside&redType=3"
 
                     end if
                     oRec.close
+
+
+                    '**** Tjekker om der er nogle ude af huset registeringer der skal afsluttes
+                    strSQL = "SELECT id FROM udeafhuset WHERE medid =" & session("mid") & " AND isnull(til) ORDER BY id DESC"
+                    oRec.open strSQL, oConn, 3
+                    if not oRec.EOF then
+
+                        sqlNow = year(now) &"-"& month(now) &"-"& day(now)
+                        sqlNowTime = hour(now) &":"& minute(now)
+                        sqlTilDateTime = sqlNow &" "& sqlNowTime
+                        strConn = "UPDATE udeafhuset SET tildato = '"& sqlNow &"', tiltidspunkt = '"& sqlNowTime &"', til = '"& sqlTilDateTime &"' WHERE id = "& oRec("id")
+                        oConn.execute(strConn)
+
+                        response.Redirect "monitor.asp?func=startside&redType=4&medid="& session("mid")
+                    end if
+                    oRec.close
+
+
 
                     '******* Tjekker logindtid ********'
                     'strSQL = "SELECT id, logud, login FROM login_historik WHERE mid = "& medid &" AND stempelurindstilling = 1 ORDER BY id DESC"
@@ -140,12 +663,10 @@
                     'response.Write logud & id
                     
                     fo_oprettetnytlogin = 0
-
                     strUsrId = medid
                     intStempelur = 1 'request("stempelurindstilling")
                     io = 1 '= Afslutter hvis åbent mere end 20 timer
                     tid = now
-
                     call logindStatus(strUsrId, intStempelur, io, tid)
 
 
@@ -159,20 +680,40 @@
                     'if isNull(logud) = true then 'AND cint(fo_oprettetnytlogin) = 0 AND cint(fo_autoafsluttet) = 0 then
                     'fo_oprettetnytlogin = "1"
 
-                    if skiftjob = "0" then
 
-                            if fo_oprettetnytlogin = "1" then
-                            response.Redirect "monitor.asp?func=startside&redType=1"
-                            else
-                            response.Redirect "monitor.asp?func=registrer" 
-                            end if 
+                    if cint(useJobAktPicker) = 1 then
+                        if skiftjob = "0" then
+                        
+                                '*** Tjek denne i forhold til logind skærm
+                                if fo_oprettetnytlogin = "1" then
+                                response.Redirect "monitor.asp?func=startside&redType=1"
+                                else
+                                response.Redirect "monitor.asp?func=registrer" 
+                                end if 
 
-                    else
+                        else
 
                           
-                            response.Redirect "monitor.asp?func=registrer" 
+                                response.Redirect "monitor.asp?func=registrer&skiftjob=1" 
                             
+                        end if
+                    else
+
+                        if fo_oprettetnytlogin = 0 then
+                            vislogud = 1
+                            'message = 0
+
+                            response.Redirect "monitor.asp?func=startside&vislogud="&vislogud 
+                        else
+                            response.Redirect "monitor.asp?func=startside&redType=1" 
+                        end if
+                    
+                        
+
                     end if
+
+
+                    
 
 
                 else
@@ -253,199 +794,22 @@
                 'end if
                 
 
-            case "startside", "xlogin_valg", "registrer"
-
-           
-
-        %>
-
-        <div class="container" style="width:100%; height:100%">
-            <div class="portlet">
-                <div class="portlet-body">
-                    <script src="js/monitor_jav6.js" type="text/javascript"></script>
-                    <%
-                    if func = "startside" then
-                                       
-
-                        redType = request("redType")
 
 
-                        %>
-                            <div class="row">
-                                <div class="col-lg-12" style="text-align:center"><img src="img/cflow_logo.png" /></div>
-                            </div>
-                        
-                    
-                            
-                            <br />
-                            <form action="monitor.asp?func=scan" id="scan" method="post">
-                                <div style="text-align:center">
-                                    <table style="display:inline-table">
-                                        <tr>
-                                            <td><input type="number" class="form-control input-small" id="RFID_field" name="RFID_field" placeholder="Scan kort" autofocus /></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="row">
-                              
-                                <div class="col-lg-12" style="text-align:right;">
-                                    <br /><br /><br />
-                                    <input type="submit" value="Logind >> " class="btn btn-default" /></div>
-                            </div>
-                                
-                                
-                            </form>
-                           
-                            
-                          
-                            <%
-                            if redType = 1 then
-                                'medarb_navn = request("medarb_navn")
-
-                                if len(trim(session("mid"))) <> 0 then
-                                medidloggetInd = session("mid")
-                                else
-                                medidloggetInd = 0
-                                end if
-
-                                call meStamdata(medidloggetInd)
-
-                                '** Er medarbejder med i Aumatisjon Eller Enginnering
-                                call medariprogrpFn(medidloggetInd)
-                                
-                            %>
-                                <div id="text_besked" class="row">        
-                                    <h3 class="col-lg-12" style="text-align:center">Velkommen <%=meNavn %><br /><span style="font-size:14px;">Du er logget ind <%=formatdatetime(now, 1) & " " & formatdatetime(now, 3)  %></span>
+            case "registrer"
 
 
-                                        <%
-                                            
-                                            if instr(medariprogrpTxt, "#14#") = 0 AND instr(medariprogrpTxt, "#16#") = 0 then
-
-                                            jobidC = "-1"
-                                            aktidC = "-1"
-                                            'end if
-
-                                            '** IKKE PÅ COOKIE DA DET SKAL GÆLDE ALLE TERMINALER
-                                            strSQLsel = "SELECT lha_jobid FROM login_historik_aktivejob_rel WHERE lha_mid = "& medidloggetInd & " AND lha_jobid <> 0"
-
-                                            'response.write strSQLsel
-                                            'response.flush
-
-                                            oRec.open strSQLsel, oConn, 3
-                                            if not oRec.EOF then
-
-                                                jobidC = oRec("lha_jobid")
-
-                                            end if
-                                            oRec.close
-                
-
-                                             '** IKKE PÅ COOKIE DA DET SKAL GÆLDE ALLE TERMINALER
-                                            strSQLsel = "SELECT lha_aktid FROM login_historik_aktivejob_rel WHERE lha_mid = "& medidloggetInd & " AND lha_aktid <> 0"
-                                            oRec.open strSQLsel, oConn, 3
-                                            if not oRec.EOF then
-
-                                                aktidC = oRec("lha_aktid")
-
-                                            end if
-                                            oRec.close
-
-
-                                        jobTxtloggetindpaa = "Du er ikke logget ind på et projekt"
-                                        if jobidC <> "-1" AND jobidC <> "" then
-                                            
-                                            strSQLjob = "SELECT jobnavn, jobnr FROM job WHERE id = " & jobidC
-                                            oRec.open strSQLjob, oConn, 3
-                                            if not oRec.EOF then
-
-                                            jobTxtloggetindpaa = oRec("jobnr") & " " & oRec("jobnavn")
-
-                                            end if
-                                            oRec.close
-
-                                        end if
-
-                                        %>
-
-                                        <br /><br />Projekt: <%=jobTxtloggetindpaa %>
-
-                                        <%end if %>
-
-                                    </h3>
-                                </div>
-
-                            <%
-                            end if
-                            %>
-                            <%
-                            if redType = 2 then
-                                'medarb_navn = request("medarb_navn")
-                            %>
-                                <div id="text_besked" class="row">        
-                                    <h3 class="col-lg-12" style="text-align:center">Tak for i dag <%=medarb_navn %></h3>
-                                </div>
-                            <%
-                            end if
-                            %>
-                             <%
-                            if redType = 3 then
-                                'medarb_navn = request("medarb_navn")
-                            %>
-                                <div id="text_besked" class="row">        
-                                    <h3 class="col-lg-12" style="text-align:center">Bruger findes ikke</h3>
-                                </div>
-                            <%
-                            end if
-                            %>
-
-                        
-                    <%
-                        end if
-
-
-
-
-
-                        if func = "login_valg" then
-
-                        medarb_navn = session("user") 'request("medarb_navn")
-                        medid = session("mid") 'request("medid")
-                    %>
-                        <div class="portlet-title">
-                          <table style="width:100%;">
-                              <tr>
-                                  <td><h3 style="color:black"><%=medarb_navn %> <!--(<%=medid %>)--></h3></td>
-                                  <td style="text-align:right"><img style="width:15%; margin-bottom:2px; margin-left:55px" src="img/cflow_logo.png" /></td>
-                              </tr>
-                          </table>
-                        </div>
-
-                        <br /><br /><br /><br />
-                        <div style="text-align:center">
-                            <table style="display:inline-table; margin-right:200px">
-                                <tr>
-                                    <td><a href="monitor.asp?func=login&medarb_navn=<%=medarb_navn %>&medid=<%=medid %>&stempelurindstilling=1" class="btn btn-success btn-lg"><b>Login</b></a></td>
-                                </tr>
-                            </table>
-
-                            <table style="display:inline-table">
-                                <tr>
-                                    <td><a href="monitor.asp?func=login&medarb_navn=<%=medarb_navn %>&medid=<%=medid %>&stempelurindstilling=2" class="btn btn-success btn-lg"><b>Overtid</b></a></td>
-                                </tr>
-                            </table>
-                        </div>
-                    
-                    <%end if
-
-
-
-                    if func = "registrer" then
 
                         %>
                         <meta http-equiv="refresh" content="120;url=monitor.asp?func=startside" />
                         <script src="js/ugeseddel_2011_jav6.js" type="text/javascript"></script>
                         <!--#include file="inc/touchmonitor_inc.asp"-->
+
+                    <input type="hidden" value="<%=lto %>" id="lto" />
+                    <div class="container" style="width:100%; height:100%">
+                        <div class="portlet">
+                            <div class="portlet-body">
+                                <script src="js/monitor_jav24.js" type="text/javascript"></script>
 
                         <%
                         
@@ -478,7 +842,7 @@
                               <tr>
                                   <td valign="top"><h3 style="color:black;"><%=medarb_navn%> (<%=meNr %>)</h3>
                                   <br />
-                                  <span style="font-size:12px;">Logget på kl. <%=login %></span>
+                                  <span style="font-size:12px;"><%=monitor_txt_035 & " " %> <%=login %></span>
 
                                   <% 
                                     overtidtot = 0
@@ -493,11 +857,13 @@
                                       
 
 
-                                  %><br /><span style="font-size:12px;">Timebank/Flexsaldo: - <!--<%=formatnumber(overtidtot, 2) %>--></span>
+                                  %><br /><span style="font-size:12px;"><%=monitor_txt_036 %>: - <!--<%=formatnumber(overtidtot, 2) %>--></span>
 
 
                                   </td>
-                                  <td style="text-align:right" valign="top"><img style="width:15%; margin-bottom:2px; margin-left:55px" src="img/cflow_logo.png" /></td>
+                                  <td style="text-align:right" valign="top"><img style="width:15%; margin-bottom:2px; margin-left:55px" src="img/cflow_logo.png" />
+								</td>
+								
                               </tr>
                           </table>
                         
@@ -506,18 +872,18 @@
                          
 	                    %><div class="row"><%
                                 
-                          if browstype_client <> "ip" then
+								   if browstype_client <> "ip" then
                             
-                            %>
-                            <div class="col-lg-3">&nbsp;
-                            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-                            <br /><br /><br /><br /><br /><br /><br /><br />
-                              <a href="monitor.asp?func=startside" class="btn btn-lg btn-default"><< <b>Tilbage / Ny bruger</b></a>   
+										%>
+										<div class="col-lg-3">&nbsp;
+										<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+										<br /><br /><br /><br /><br /><br /><br /><br />
+										  <a href="monitor.asp?func=startside" class="btn btn-lg btn-default"><< <b><%=monitor_txt_037 %></b></a>   
 
-                        </div>
-                        <%end if %>
+									</div>
+									<%end if %>
 
-                        <div class="col-lg-3"> 
+                        <div class="col-lg-5"> 
                             
                             <%
                             touchMonitor = 1
@@ -529,44 +895,861 @@
                         <%if browstype_client <> "ip" then %>
                         <div class="col-lg-3">
 
-                                        <table class="table" style="width:300px;">
+                                        <table class="table" style="width:400px;">
 
                                             <tr>
-                                                <th colspan="3">Historik (seneste 14)</th>
+                                                <th colspan="4"><%=monitor_txt_038 %></th>
                                             </tr>
                                         
 
                             <%
-                                    strSQL = "SELECT id, login, logud FROM login_historik WHERE mid = "& medid &" AND stempelurindstilling > 0 AND logud IS NOT NULL ORDER BY id DESC LIMIT 14"
+
+                                
+
+                                    l = 0
+                                    strSQL = "SELECT id, login, logud, minutter FROM login_historik WHERE mid = "& medid &" AND stempelurindstilling > 0 AND logud IS NOT NULL ORDER BY login DESC LIMIT 20"
                                     oRec.open strSQL, oConn, 3
                                     while not oRec.EOF 
                                     login = oRec("login")
                                     logud = oRec("logud")
+
+                                    
+                                    
+
+                                    if lastWeek <> datepart("ww", oRec("login"), 2,2) AND l > 0 then
+
+
+                                            timerThisLastWeek = formatnumber(lastWeekTotal/60, 2)
+                                            minutterThisDBLastWeek = lastWeekTotal
+
+                                           
+                                            if cdbl(timerThisLastWeek) < 1 then
+                                            timerThisLastWeek = 0
+                                            end if
+
+                                            timerThis_kommaLastWeek = instr(timerThisLastWeek, ",")
+                                            if timerThis_kommaLastWeek <> 0 then
+                                            timerThisLastWeek = left(timerThisLastWeek, timerThis_kommaLastWeek - 1)
+                                            end if
+
+                                            timerThis_kommaLastWeek = instr(timerThisLastWeek, ".")
+                                            if timerThis_kommaLastWeek <> 0 then
+                                            timerThisLastWeek = left(timerThisLastWeek, timerThis_kommaLastWeek - 1)
+                                            end if
+
+                                            minutterThisLastWeek = 0
+                                            minutterThisLastWeek = formatnumber(minutterThisDBLastWeek/60, 2)
+                                            minutterThisLastWeek = right(minutterThisLastWeek, 2)
+                                            minutterThisLastWeek = formatnumber((minutterThisLastWeek*60)/100, 0)
+                                          
+
+                                            if minutterThisLastWeek < 10 then
+                                            minutterThisLastWeek = "0"& minutterThisLastWeek
+                                            end if
+
+                                           %>
+
+                                                    <tr><td colspan="4" style="text-align:right;"><span style="font-size:9px;">Week <%=lastWeek %>:</span><b>
+                                                    <%= timerThisLastWeek &":"& minutterThisLastWeek %>
+                                                    </b></td></tr>
+
+                                    <%
+                                        lastWeekTotal = 0
+
+                                    end if
+
                             
+                                    if formatdatetime(login, 2) = formatdatetime(now, 2) then
+                                        trBgcol = "lemonchiffon"
+                                    else
+                                        trBgcol = ""
+                                    end if
+
                                     %>
-                                            <tr>
+                                            <tr style="background-color:<%=trBgcol%>;">
                                                 <td><%=left(weekdayname(weekday(login)), 3) &". "& formatdatetime(login, 2)%></td>
                                                 <td><%=formatdatetime(login, 3)%></td>
                                                 <td>- <%=formatdatetime(logud, 3)%></td>
+                                                <td style="text-align:right;">
+
+                                                    <%  
+                                                        
+                                                        
+                                            timerThis = formatnumber(oRec("minutter")/60, 2)
+                                            minutterThisDB = oRec("minutter")
+
+                                           
+                                            if cdbl(timerThis) < 1 then
+                                            timerThis = 0
+                                            end if
+
+                                            timerThis_komma = instr(timerThis, ",")
+                                            if timerThis_komma <> 0 then
+                                            timerThis = left(timerThis, timerThis_komma - 1)
+                                            end if
+
+                                            timerThis_komma = instr(timerThis, ".")
+                                            if timerThis_komma <> 0 then
+                                            timerThis = left(timerThis, timerThis_komma - 1)
+                                            end if
+
+                                            minutterThis = 0
+                                            minutterThis = formatnumber(minutterThisDB/60, 2)
+                                            minutterThis = right(minutterThis, 2)
+                                            minutterThis = formatnumber((minutterThis*60)/100, 0)
+                                          
+
+                                            if minutterThis < 10 then
+                                            minutterThis = "0"& minutterThis
+                                            end if
+
+                                           %>
+
+
+                                                    <%= timerThis &":"& minutterThis %>
+
+                                                </td>
+                                              
                                             </tr>
 
                                     <%
+
+                                    lastWeek = datepart("ww", oRec("login"), 2,2)
+                                    lastWeekTotal = lastWeekTotal + oRec("minutter") 
+                                    l = l + 1
 
                                     oRec.movenext
                                     wend
                                     oRec.close    
                                 
+
+
+                                        
+                                          
+
+                                           %>
+
+                                                    <tr><td colspan="4" style="text-align:right;"><span style="font-size:9px;">...</b></td></tr>
+
+                                    <%
+                                        lastWeekTotal = 0
+
+
+
                             %></table>
 
 
                         </div>
-                        <%end if %>
+						<%end if '"ip"%>
+
+                        </div></div></div></div>
+
+        <%
+		case "startside", "xlogin_valg", "xregistrer"
+        %>
+        <input type="hidden" value="<%=lto %>" id="lto" />
+        <div class="container" style="width:100%; height:100%">
+            <div class="portlet">
+                <div class="portlet-body">
+                    <script src="js/monitor_jav24.js" type="text/javascript"></script>
+                    <%
+                    if func = "startside" then
+                                       
+
+                        redType = request("redType")
+
+                        select case lto
+                        case "cflow", "intranet - local"
+                         %>
+                            <div class="row">
+                                <div class="col-lg-12" style="text-align:center"><img src="img/cflow_ogo_red_300ppt.jpg" width="300" /></div>
+                            </div>
+                     <%
+                        case "miele"
+                     %>
+                            <div class="row">
+                                <div class="col-lg-12" style="text-align:center"><img src="img/Miele.JPG" /></div>
+                            </div>
+
+
+
+                    <%case "outz", "cool" %>
+                            <div class="row">
+                                <div class="col-lg-12" style="text-align:center"><img src="img/coolsorption_logo.png" /></div>
+                            </div>
+                    <% 
+
+                    case "hidalgo" %>
+                            <div class="row">
+                                <div class="col-lg-12" style="text-align:center"><img width="250px;" src="img/outzource_logo_4c.jpg" /></div>
+                            </div>
+                            <br /><br />
+                    <% 
+                    case "kongeaa"
+                    %>
+                        <div class="row">
+                                <div class="col-lg-12" style="text-align:center"><img width="250px;" src="img/kongeaa_logo.png" /></div>
+                        </div>
+                        <br /><br />
+                    <%
+                        end select
+                       
+                     %>   
+                    
+                            <input type="hidden" id="vislogud" value="<%=vislogud %>" />
+                            <br />
+                            <form action="monitor.asp?func=scan" id="scan" method="post">
+                                <div style="text-align:center">
+                                    <%if browstype_client <> "ip" then %>
+                                    <table style="display:inline-table">
+                                        <tr>
+                                            <td><input type="number" class="form-control input-small" id="RFID_field" name="RFID_field" placeholder="<%=monitor_txt_039 %>" autofocus autocomplete="off" /></td>
+											<td style="padding-left:40px;">
+
+												<input type="submit" class="form-control input-small btn btn-default" value=">>" /> <!-- Manual <=monitor_txt_006 %> -->
+											</td>
+                                        </tr>
+                                    </table>
+                                    <%else %>
+
+                                        <%if lastcheckin <> "" then %>
+                                            <%if vislogud <> 1 then %>
+
+                                                <input type="hidden" id="RFID_field" name="RFID_field" value="<%=lastcheckin %>" />
+                                                <br /><br /><br /><br />
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <button style="font-size:200%;" class="btn btn-success"><b>Login</b></button>
+                                                    </div>
+                                                </div>
+
+                                            <%end if %>
+
+                                        <%else %>
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                Klik på det link du har fået på mail fra Timeout
+                                            </div>
+                                        </div>
+                                        <%end if %>
+                                    <%end if %>
+                                </div>
+							</form>
+
+
+							  <div class="row">
+                                <div class="col-lg-12" style="text-align:center">&nbsp;</div>
+                            </div>
+
+
+                         
+
+                          
+                            <% '**Beskeder til den der logger ind
+
+                            if redType = 1 then
+                                'medarb_navn = request("medarb_navn")
+
+                                if len(trim(request.Cookies("2015")("lastlogin"))) <> 0 then
+                                medidloggetInd = request.Cookies("2015")("lastlogin")
+                                else
+                                medidloggetInd = 0
+                                end if
+
+                                call meStamdata(medidloggetInd)
+
+                                '** Er medarbejder med i Aumatisjon Eller Enginnering
+                                call medariprogrpFn(medidloggetInd)
+                                
+                            %>
+                                <div id="text_besked" class="row">        
+                                    <h3 class="col-lg-12" style="text-align:center"><%=monitor_txt_027 & " " %><%=meNavn %><br /><span style="font-size:14px;"><%=monitor_txt_028 & " " %><%=formatdatetime(now, 1) & " " & formatdatetime(now, 3)  %></span>
+
+
+                                            <%
+                                            if cint(useJobAktPicker) = 1 then
+                                                'AND instr(medariprogrpTxt, "#3#") = 0
+                                                if (instr(medariprogrpTxt, "#14#") = 0 AND instr(medariprogrpTxt, "#16#") = 0 AND instr(medariprogrpTxt, "#19#") = 0) OR (instr(medariprogrpTxt, "#4#") <> 0 OR instr(medariprogrpTxt, "#2#") <> 0) then
+
+                                                jobidC = "-1"
+                                                aktidC = "-1"
+                                                'end if
+
+                                                '** IKKE PÅ COOKIE DA DET SKAL GÆLDE ALLE TERMINALER
+                                                strSQLsel = "SELECT lha_jobid FROM login_historik_aktivejob_rel WHERE lha_mid = "& medidloggetInd & " AND lha_jobid <> 0 ORDER BY lha_id DESC"
+
+                                                'response.write strSQLsel
+                                                'response.flush
+
+                                                oRec.open strSQLsel, oConn, 3
+                                                if not oRec.EOF then
+
+                                                    jobidC = oRec("lha_jobid")
+
+                                                end if
+                                                oRec.close
+                
+
+                                                 '** IKKE PÅ COOKIE DA DET SKAL GÆLDE ALLE TERMINALER
+                                                strSQLsel = "SELECT lha_aktid FROM login_historik_aktivejob_rel WHERE lha_mid = "& medidloggetInd & " AND lha_aktid <> 0 ORDER BY lha_id DESC"
+                                                oRec.open strSQLsel, oConn, 3
+                                                if not oRec.EOF then
+
+                                                    aktidC = oRec("lha_aktid")
+
+                                                end if
+                                                oRec.close
+
+
+                                            jobTxtloggetindpaa = monitor_txt_046
+                                            if jobidC <> "-1" AND jobidC <> "" then
+                                            
+                                                strSQLjob = "SELECT jobnavn, jobnr FROM job WHERE id = " & jobidC
+                                                oRec.open strSQLjob, oConn, 3
+                                                if not oRec.EOF then
+
+                                                jobTxtloggetindpaa = oRec("jobnr") & " " & oRec("jobnavn")
+
+                                                end if
+                                                oRec.close
+
+                                            end if
+
+
+                                                if (cint(memansat) <> 4) then 'Ikke gæst
+                                                %>
+                                                <br /><br /><%=monitor_txt_029 %>: <%=jobTxtloggetindpaa %>
+                                                <%end if %>
+
+                                            <%end if %>
+                                        <%end if %>
+                                    </h3>
+                                </div>
+
+                            <%
+                            end if
+                            %>
+                            <%
+                            if redType = 2 then 'NOT IN USE 20190502
+                                'medarb_navn = request("medarb_navn")
+                            %>
+                                <div id="text_besked" class="row">        
+                                    <h3 class="col-lg-12" style="text-align:center"><%=monitor_txt_030 %> <%=medarb_navn %></h3>
+                                </div>
+                            <%
+                            end if
+                            %>
+                             <%
+                            if redType = 3 then
+                                'medarb_navn = request("medarb_navn")
+                            %>
+                                <div id="text_besked" class="row">        
+                                    <h3 class="col-lg-12" style="text-align:center"><%=monitor_txt_031 %></h3>
+                                </div>
+                            <%
+                            end if
+                            %>
+
+                            <%if redType = 4 then %>
+                                <%call meStamdata(request("medid")) %>
+                                <div id="text_besked" class="row">        
+                                    <h3 class="col-lg-12" style="text-align:center"><%=monitor_txt_032 & " " %><%=menavn %></h3>
+                                </div>
+                            <%end if %>
+
+                            <%if redType = 5 then %>
+                                <%call meStamdata(request("medid")) %>
+                                <div id="text_besked" class="row">        
+                                    <h3 class="col-lg-12" style="text-align:center"><%=monitor_txt_033 & " " %><%=menavn %></h3>
+                                </div>
+                            <%end if %>
+                    <%
+                        end if 'redtype
+
+					
+					'****** Gæstefunktion *****'
+					%>
+
+					 <style>
+                                /* The Modal (background) */
+                                .modal {
+                                    display: none; /* Hidden by default */
+                                    position: fixed; /* Stay in place */
+                                    z-index: 1; /* Sit on top */
+                                    padding-top: 100px; /* Location of the box */
+                                    left: 0;
+                                    top: 0;
+                                    width: 100%; /* Full width */
+                                    height: 100%; /* Full height */
+                                    overflow: auto; /* Enable scroll if needed */
+                                    background-color: rgb(0,0,0); /* Fallback color */
+                                    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+                                }
+
+                                /* Modal Content */
+                                .modal-content {
+                                    background-color: #fefefe;
+                                    margin: auto;
+                                    padding: 20px;
+                                    border: 1px solid #888;
+                                    width: 500px;
+                                 /*   height: 350px; */
+                                }
+
+                                .picmodal:hover,
+                                .picmodal:focus {
+                                text-decoration: none;
+                                cursor: pointer;
+                                }
+                            </style>
+
+                            <%if cint(useGuestLogin) = 1 then %>
+                           
+                                <input type="hidden" id="errorMessege1" value="<%=monitor_txt_040 %>" />
+                                <input type="hidden" id="errorMessege2" value="<%=monitor_txt_041 %>" />
+                                <input type="hidden" id="errorMessege3" value="<%=monitor_txt_042 %>" />
+                                <input type="hidden" id="errorMessege4" value="<%=monitor_txt_043 %>" />
+                                <input type="hidden" id="errorMessege5" value="<%=monitor_txt_044 %>" />
+                                <input type="hidden" id="errorMessege6" value="<%=monitor_txt_045 %>" />
+
+
+								<br><br><br><br><br>
+								
+                                <div class="row">
+                                    <div class="col-lg-12" style="text-align:center;"><a id="gustlogin" class="btn btn-lg btn-secondary" style="width:200px;"><%=monitor_txt_007 %></a></div>
+                                </div>
+
+                                <div id="guestmodal" class="modal">
+                                    <div class="modal-content" style="min-height:350px; width:750px;">
+                                        <a href="monitor.asp?func=startside" style="color:darkgrey;"><span style="padding-left:95%; font-size:150%;" class="fa fa-times"></span></a>
+                                        <form action="monitor.asp?func=guestlogin" id="guestlogin" method="post">
+                                            <div class="row">
+                                                <h5 class="col-lg-4"><%=monitor_txt_008 %> <span style="color:darkred;">*</span></h5>  
+                                                <h5 class="col-lg-4"><%=monitor_txt_009 %> <span style="color:darkred;">*</span></h5>
+                                                <h5 class="col-lg-4"><%=monitor_txt_012 %> <span style="color:darkred;">*</span></h5>
+                                            </div>
+
+                                            <div class="row">
+                                                <h5 class="col-lg-4"><input autocomplete="off" id="guestfirma" name="guestCompany" type="text" class="form-control guestsignField" />
+                                                    <select id="guestfirmalist" class="form-control" style="display:none;" multiple>
+                                                        <option value="0"><%=monitor_txt_010 %></option>
+                                                    </select>
+                                                </h5>
+                                    
+
+                                                <h5 class="col-lg-4"><input autocomplete="off" id="guestEmployee" name="guestEmployee" type="text" class="form-control guestsignField" />
+                                                    <select id="guestEmployeelist" class="form-control" style="display:none;" multiple>
+                                                        <option value="0"><%=monitor_txt_010 %></option>
+                                                    </select>
+                                                </h5> 
+
+                                                <h5 class="col-lg-4"><input autocomplete="off" type="text" class="form-control guestsignField" id="besogInput" name="besogEmployee" />
+                                                    <select id="besogslist" class="form-control" style="display:none;" multiple>
+                                                        <option value="0"><%=monitor_txt_010 %></option>
+                                                    </select>
+                                                </h5>
+
+                                                <input type="hidden" id="visit" name="visit" />
+                                            </div>
+
+                                           <!-- <div class="row">
+                                                <h5 class="col-lg-6"><%=monitor_txt_011 %> <span style="color:darkred;">*</span></h5>
+                                                <h5 class="col-lg-6"><%=monitor_txt_012 %> <span style="color:darkred;">*</span></h5>
+                                            </div>
+                                            <div class="row">
+                                                <h5 class="col-lg-6">
+                                                    +
+                                                    &nbsp
+                                                    <input type="text" class="form-control guestsignField" id="guestTlf" name="guestTlf" style="width:92%; display:inline-block;" /></h5>
+                                                <h5 class="col-lg-6"><input autocomplete="off" type="text" class="form-control guestsignField" id="besogInput" name="besogEmployee" />
+                                                    <select id="besogslist" class="form-control" style="display:none;" multiple>
+                                                        <option value="0"><%=monitor_txt_010 %></option>
+                                                    </select>
+                                                </h5>
+                                                
+                                                <input type="hidden" id="visit" name="visit" />
+                                            </div> -->
+
+                                            <div class="row">
+                                                <h5 class="col-lg-12" style="text-align:center;"><%=monitor_txt_013 & " " %> <%=lto & " " %> <%=monitor_txt_014 %>
+                                                    <br /> <input type="checkbox" id="infoApr" CHECKED class="guestsignField" />
+                                                </h5>
+                                            </div>
+
+                                            <br /><br />  
+                                            <div class="row">
+                                                <div class="col-lg-12" style="text-align:center;">
+                                                    <span id="guestErrorMessege" style="color:darkred;"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-lg-12" style="text-align:center;">
+                                                    <a id="guestsub" style="width:150px;" class="btn btn-lg btn-default"><%=monitor_txt_015 %></a>
+                                                </div>
+                                            </div>                                           
+
+                                        </form>
+
+                                        
+                                      <!--  <div class="row">
+                                            <div class="col-lg-12" style="text-align:center;">
+                                                <a id="closeguestmodal" class="btn btn-sm btn-danger"><%=monitor_txt_016 %></a>
+                                            </div>
+                                        </div> -->
+
+                                    </div>
+                                </div>
+
+
+                                <!-- Liste over gæster der er logget ind, så de kan logges ud igen -->
+                                <div class="row">
+                                    <div class="col-lg-12" style="text-align:center;">
+                                    <br />    
+                                    <a id="gustlist" class="btn btn-lg btn-default" style="width:200px;"><%=monitor_txt_017 %></a></div>
+                                </div>
+                                <div id="guestlistmodal" class="modal">
+                                    <div class="modal-content" style="min-height:350px; width:600px;">
+                                        <span style="padding-left:95%; font-size:150%; cursor:pointer; color:darkgray;" id="closeguestlist" class="fa fa-times"></span>
+
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th><%=monitor_txt_018 %></th>
+                                                    <th><%=monitor_txt_019 %></th>
+                                                    <th><%=monitor_txt_020 %></th>
+                                                    <th><%=monitor_txt_021 %></th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                <%
+                                                nowSQL = year(now) &"-"& month(now) &"-"& day(now)
+                                                strSQL = "SELECT lh.mid as mid, m.mnavn as mnavn, m.firma as firmanavn, lh.login as login FROM login_historik lh LEFT JOIN medarbejdere m ON (m.mid = lh.mid) WHERE lh.dato ='"&nowSQL&"' AND m.mansat = 4 AND IsNull(logud) = true"
+                                                'response.Write strSQL
+                                                oRec.open strSQL, oConn, 3
+                                                while not oRec.EOF
+                                                i = 0
+                                                %>
+                                                <tr>
+                                                    <td><%=oRec("mnavn") %></td>
+                                                    <td><%=oRec("firmanavn") %></td>
+                                                    <td><%=oRec("login") %></td>
+                                                    <td><a href="monitor.asp?func=guestlogud&guestid=<%=oRec("mid") %>" class="btn btn-sm btn-danger"><%=monitor_txt_021 %></a></td>
+                                                </tr>
+                                                <%
+                                                i = i + 1
+                                                oRec.movenext
+                                                wend
+                                                oRec.close
+                                                %>
+                                                <%if i = 0 then %>
+                                                    <tr>
+                                                        <td colspan="4" style="text-align:center;"><%=monitor_txt_022 %></td>
+                                                    </tr>
+                                                <%end if %>
+                                            </tbody>
+
+                                        </table>
+
+                                       <!-- <div class="row" style="padding-top:35%;">
+                                            <div class="col-lg-12" style="text-align:center;">
+                                                <a id="closeguestlist" class="btn btn-sm btn-danger"><%=monitor_txt_016 %></a>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </div>
+
+
+
+
+
+
+                                <br /><br />
+                            <%end if %>
+
+
+                            
+
+
+                            <%
+                            if len(trim(request.Cookies("2015")("lastlogin"))) <> 0 then
+                            medidloggetInd = request.Cookies("2015")("lastlogin")
+                            else
+                            medidloggetInd = 0
+                            end if
+
+                            call meStamdata(medidloggetInd)
+                            %>
+
+                            <%if browstype_client <> "ip" then %>
+                            <div id="logudmodal" class="modal">
+                                <div class="modal-content">
+                            <%end if %>
+                                    <%if (browstype_client = "ip" AND vislogud = 1) OR browstype_client <> "ip" then %>
+                                        <%if browstype_client <> "ip" then %>
+                                            <a href="monitor.asp?func=startside" style="color:darkgrey;"><span style="padding-left:95%; font-size:150%;" class="fa fa-times"></span></a>
+                                        <%end if %>
+
+                                        <div class="row">
+                                            <div class="col-lg-12" style="text-align:center;"><h3><%=monitor_txt_023 & " " %><%=meNavn %></h3></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-12" style="text-align:center;"><h4><%=monitor_txt_024 %></h4></div>
+                                        </div>
+
+
+                                        <br /><br /><br /><br /><br /><br />
+                                        <div class="row">
+                                            <div class="col-lg-12" style="text-align:center;">                                       
+                                                <table style="width:100%">
+                                                    <tr>
+                                                        <td style="width:50%; text-align:center;">
+                                                            <form action="../sesaba.asp?frommonitor=1&medid=<%=medidloggetInd%>" method="post">
+                                                                <input type="submit" style="width:150px;" class="btn btn-lg btn-danger" value="<%=monitor_txt_025 %>">
+                                                            </form>
+                                                        </td>  
+                                                    
+                                                        <td style="text-align:center; width:50%">
+                                                            <span id="logudandet" class="btn btn-lg btn-warning" style="width:150px;"><b><%=monitor_txt_052 %></b></span>
+                                                        </td>
+
+                                                      <!-- <td style="width:50%; text-align:center;">
+                                                            <form action="monitor.asp?func=meeting&medid=<%=medidloggetInd%>" method="post">
+                                                                <input type="submit" style="width:150px;" class="btn btn-lg btn-warning" value="<%=monitor_txt_026 %>">
+                                                            </form>
+                                                        </td> -->                                              
+                                                    </tr>
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                    <%end if %>
+
+                            <%if browstype_client <> "ip" then %>
+                                </div>
+                            </div>
+                            <%end if %>
+
+                            <input type="hidden" id="forretingsrejsetxt1" value="<%=monitor_txt_048 %>" />
+                            <input type="hidden" id="datotext" value="<%=monitor_txt_055 %>" />
+                            <input type="hidden" id="godkendtxt" value="<%=monitor_txt_054 %>" />
+                            <input type="hidden" id="workfromhometxt" value="<%=monitor_txt_049 %>" />
+                            <input type="hidden" id="ferietxt" value="<%=monitor_txt_050 %>" />
+                            <input type="hidden" id="sygtxt" value="<%=monitor_txt_051 %>" />
+                            <input type="hidden" id="meetingtxt" value="<%=monitor_txt_047 %>" />
+                            <input type="hidden" id="vaelgtxt" value="<%=monitor_txt_052 %>" />
+                    
+
+                            <%
+                            if browstype_client = "ip" then 
+                                modalwidth = "300px"
+                            else
+                                modalwidth = "500px"
+                            end if
+
+
+                            if lto = "kongeaa" then
+                                modalheigth = "600px"
+                            else
+                                modalheigth = "400px"
+                            end if
+                            %>
+
+                            <div id="modal_logudadnet" class="modal" style="display:none;">
+                                <div class="modal-content" style="height:<%=modalheigths%>; width:<%=modalwidth%>;">
+                                    <span id="logudandetmodalclose" style="color:darkgrey; cursor:pointer;"><span style="padding-left:95%; font-size:150%;" class="fa fa-times"></span></span>
+
+                                    <div class="row">
+                                        <div class="col-lg-12" style="text-align:center;"><h3 id="logudadnet_title"><%=monitor_txt_053 %></h3></div>
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-lg-12" id="otherbutons">
+                                            <table style="width:100%" >
+                                                <%if lto <> "hidalgo" AND lto <> "kongeaa" then %>
+                                                <tr>
+                                                    <td style="text-align:center;">
+                                                        <form action="monitor.asp?func=meeting&medid=<%=medidloggetInd%>" id="meetinglogud" method="post">
+                                                            <span class="btn btn-lg btn-default logudbtn" id="meeting" style="width:250px;"><b><%=monitor_txt_047 %></b></span>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                                <%end if %>
+
+                                                <%if lto <> "kongeaa" then %>
+                                                <tr>
+                                                    <td style="text-align:center; padding-top:10px;">
+                                                        <span class="btn btn-lg btn-default logudbtn" id="forretingsrejse" style="width:250px;"><b><%=monitor_txt_048 %></b></span>
+                                                    </td>
+                                                </tr>
+                                                <%end if %>
+
+                                                <%if lto <> "kongeaa" then %>
+                                                <tr>
+                                                    <td style="text-align:center; padding-top:10px;">
+                                                        <span class="btn btn-lg btn-default logudbtn" id="workfromhome" style="width:250px;"><b><%=monitor_txt_049 %></b></span>
+                                                    </td>
+                                                </tr>
+                                                <%end if %>
+
+                                                <%if lto = "kongeaa" then %>
+                                                <tr>
+                                                    <td style="text-align:center; padding-top:10px;">
+                                                        <span class="btn btn-lg btn-default logudbtn" id="pause" style="width:250px;"><b>Pause</b></span>
+                                                    </td>
+                                                </tr>
+                                                <%end if %>
+
+                                                <%if lto = "kongeaa" then %>
+                                                <tr>
+                                                    <td style="text-align:center; padding-top:10px;">
+                                                        <span class="btn btn-lg btn-default logudbtn" id="afspadsering" style="width:250px;"><b>Afspadsering</b></span>
+                                                    </td>
+                                                </tr>
+                                                <%end if %>
+
+                                                <tr>
+                                                    <td style="text-align:center; padding-top:10px;">
+                                                        <span class="btn btn-lg btn-default logudbtn" id="ferie" style="width:250px;"><b><%=monitor_txt_050 %></b></span>
+                                                    </td>
+                                                </tr>
+
+                                                <%if lto = "kongeaa" then %>
+                                                <tr>
+                                                    <td style="text-align:center; padding-top:10px;">
+                                                        <span class="btn btn-lg btn-default logudbtn" id="feriefri" style="width:250px;"><b>Feriefri</b></span>
+                                                    </td>
+                                                </tr>
+                                                <%end if %>
+
+                                                <tr>
+                                                    <td style="text-align:center; padding-top:10px;">
+                                                        <span class="btn btn-lg btn-default logudbtn" id="sick" style="width:250px;"><b><%=monitor_txt_051 %></b></span>
+                                                    </td>
+                                                </tr>
+
+                                                <%if lto = "kongeaa" then %>
+                                                <tr>
+                                                    <td style="text-align:center; padding-top:10px;">
+                                                        <span class="btn btn-lg btn-default logudbtn" id="childsick" style="width:250px;"><b>Barnsyg</b></span>
+                                                    </td>
+                                                </tr>
+                                                <%end if %>
+
+                                            </table>
+                                        </div>
+
+                                        <div class="col-lg-12" style="display:none;" id="godkendsektion">
+
+                                            <input type="hidden" id="errormesseege_1" value="<%=infoscreen_txt_048 %>" />
+                                            <input type="hidden" id="errormesseege_2" value="<%=infoscreen_txt_049 %>" />
+
+                                            <%dateNow = day(now) &"-"& month(now) &"-"& year(now) %>
+                                            <input type="hidden" class="form-control" id="datoPopSt" value="<%=dateNow %>" />
+
+                                            <div class='input-group date' id="datepickerdiv" style="display:none;">
+                                                <input type="text" class="form-control" id="tilbagedato" value="<%=dateNow %>" placeholder="dd-mm-yyyy" />
+                                                <span class="input-group-addon">
+                                                    <span class="fa fa-calendar"></span>
+                                                </span>
+                                            </div>
+
+                                            <br /><br />
+                                            
+                                            <div class="col-lg-12" style="text-align:center;">
+                                                <input type="hidden" id="medarbejderid" value="<%=medidloggetInd %>" />
+                                                <input type="hidden" id="regtype" />
+                                                <span class="btn btn-lg btn-success" id="godkend_logud_andet"><%=monitor_txt_054 %></span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <form action="../sesaba.asp?frommonitor=1" id="logudform" method="post">
+                                <input type="hidden" name="medid" id="medid" value="1" />
+                            </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					<%
+
+                        if func = "login_valg" then
+
+                        medarb_navn = session("user") 'request("medarb_navn")
+                        medid = session("mid") 'request("medid")
+                    %>
+                        <div class="portlet-title">
+                          <table style="width:100%;">
+                              <tr>
+                                  <td><h3 style="color:black"><%=medarb_navn %> <!--(<%=medid %>)--></h3></td>
+                                  <td style="text-align:right"><img style="width:15%; margin-bottom:2px; margin-left:55px" src="img/cflow_logo.png" /></td>
+                              </tr>
+                          </table>
+                        </div>
+
+                        <br /><br /><br /><br />
+                        <div style="text-align:center">
+                            <table style="display:inline-table; margin-right:200px">
+                                <tr>
+                                    <td><a href="monitor.asp?func=login&medarb_navn=<%=medarb_navn %>&medid=<%=medid %>&stempelurindstilling=1" class="btn btn-success btn-lg"><b><%=monitor_txt_006 %></b></a></td>
+                                </tr>
+                            </table>
+
+                            <table style="display:inline-table">
+                                <tr>
+                                    <td><a href="monitor.asp?func=login&medarb_navn=<%=medarb_navn %>&medid=<%=medid %>&stempelurindstilling=2" class="btn btn-success btn-lg"><b><%=monitor_txt_034 %></b></a></td>
+                                </tr>
+                            </table>
+                        </div>
+                    
+                    <%end if
+
+
+
+                            if func = "registrer" then
+
+                        
+                            end if %>
+
 
                          </div><!--row -->
 
                    
+
+                                   </div>
+                                </div>
+                            </div>
+                    <%end select %>
                     
-                    <%end if %>
+                 
 
 
                     <% 
@@ -608,9 +1791,7 @@
                     %>
 
 
-                </div>
-            </div>
-        </div>
-<%end select %>
+ 
 
+<%'=lto %>
 <!--#include file="../inc/regular/footer_inc.asp"-->

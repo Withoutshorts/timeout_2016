@@ -1858,7 +1858,7 @@ $(document).ready(function () {
 
         //$(".afase").bind('click', function () {
 
-        $("#div_timereg_" + thisval).html("<table width=100%><tr><td style='padding:20px 20px 20px 20px;'>Henter aktiviteter 1-4 sek...<br /><span style='color:darkred; font-size:10px;'>Maks. 100 (200 lto) aktiviteter pr. job.</span></td></tr></table>")
+        $("#div_timereg_" + thisval).html("<table width=100%><tr><td style='padding:20px 20px 20px 20px;'>Henter aktiviteter 1-4 sek pr. 20 aktiviteter ...<br /><span style='color:darkred; font-size:10px;'>Maks. 100 - 300 aktiviteter pr. job. (lto settings)</span></td></tr></table>")
 
         //alert("der")
         usemrn = $("#usemrn").val()
@@ -1967,7 +1967,7 @@ $(document).ready(function () {
 
 
 
-        $.post("?usemrn=" + usemrn + "&jobid=" + thisval + "&FM_easyreg=" + intEasyreg + "&FM_hr=" + intHR + "&ingTlaas=" + ingTlaas + "&ignakttype=" + ignakttype + "&job_aktids=" + job_aktids + "&lastFakDato=" + lastFakDato + "&job_akt_faser=" + job_akt_faser + "&job_iRowLoops=" + job_iRowLoops + "&stDato=" + stDato + "&slDato=" + slDato + "&FM_vistimereltid=" + vistimereltid + "&FM_ignJobogAktper=" + ignJobogAktper + "&FM_visSimpelAktLinje=" + visSimpelAktLinje + "&FM_jobstatus=" + lastJobstatus + "&sortByval=" + sortByval + "&visallemedarb_bl=" + visallemedarb_bl + "&jobnr_bl=" + jobnr_bl, { control: "FN_showakt", AjaxUpdateField: "true" }, function (data) {
+        $.post("?usemrn=" + usemrn + "&job_iRowLoops=" + job_iRowLoops + "&jobid=" + thisval + "&FM_easyreg=" + intEasyreg + "&FM_hr=" + intHR + "&ingTlaas=" + ingTlaas + "&ignakttype=" + ignakttype + "&job_aktids=" + job_aktids + "&lastFakDato=" + lastFakDato + "&job_akt_faser=" + job_akt_faser + "&stDato=" + stDato + "&slDato=" + slDato + "&FM_vistimereltid=" + vistimereltid + "&FM_ignJobogAktper=" + ignJobogAktper + "&FM_visSimpelAktLinje=" + visSimpelAktLinje + "&FM_jobstatus=" + lastJobstatus + "&sortByval=" + sortByval + "&visallemedarb_bl=" + visallemedarb_bl + "&jobnr_bl=" + jobnr_bl, { control: "FN_showakt", AjaxUpdateField: "true" }, function (data) {
             //$("#fajl").val(data);
 
 

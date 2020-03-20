@@ -54,7 +54,7 @@
                             sqlDate = nh_date(i) &"-"& nh_date_year(i) 
                             sqlDate = year(sqlDate) &"-"& month(sqlDate) &"-"& day(sqlDate)
 
-                                if isDate(sqlDate) = true then
+                                if isDate(sqlDate) = true ANd len(trim(nh_date(i))) <> 0 then
 
                                 nh_name = request("FM_name_"& nh_id_row(i))
                                 nh_name = replace(nh_name, ",", "")
@@ -201,11 +201,15 @@
 
                             row = 1
                             x = 0
-                            stAarSQLkri = dateAdd("yyyy", -5, now)
-                            stAarSQLkriYear = year(stAarSQLkri)
+                            'stAarSQLkri = dateAdd("yyyy", -5, now)
+                            stAarSQLkriYear =  dateAdd("yyyy", -1, now)
+                            endAarSQLkriYear = dateAdd("yyyy", 15, stAarSQLkriYear)
+
+                            stAarSQLkriYear = year(stAarSQLkriYear) & "/1/1"
+                            endAarSQLkriYear = year(endAarSQLkriYear) & "/12/31"
 
                             lastname = ""
-                            strSQL6 = "SELECT nh_id, nh_country, nh_name, nh_duration, nh_date, nh_editor_date, nh_open, nh_sortorder, nh_projgrp FROM national_holidays WHERE nh_id <> 0 AND YEAR(nh_date) >= "& stAarSQLkriYear &" ORDER BY nh_country, nh_sortorder, nh_name, nh_date"
+                            strSQL6 = "SELECT nh_id, nh_country, nh_name, nh_duration, nh_date, nh_editor_date, nh_open, nh_sortorder, nh_projgrp FROM national_holidays WHERE nh_id <> 0 AND nh_date BETWEEN '"& stAarSQLkriYear &"' AND '"& endAarSQLkriYear &"' ORDER BY nh_country, nh_sortorder, nh_name, nh_date"
                             oRec.open strSQL6, oConn, 3
                             while not oRec.EOF
 
@@ -253,10 +257,10 @@
 
                                         'stAar = year(now)
                                         'for y = -5 to 10
-                                        thisYear = year(oRec("nh_date")) '(stAar + y)
+                                        thisYear = datepart("yyyy", oRec("nh_date"), 2,2) '(stAar + y)
                                         %><td><input type="text"  name="FM_date" value="<%=left(formatdatetime(oRec("nh_date"), 2), 5) %>" class="form-control input-small" style="width:50px;"  />
                                             <!--<br /><%=oRec("nh_date")%>--> 
-                                            <input type="hidden" name="FM_date_year" value="<%=thisYear %>" />
+                                            <input type="text" name="FM_date_year" value="<%=thisYear %>" class="form-control input-small" style="width:50px; height:10px; font-size:9px;" readonly/>
                                             <input type="hidden" name="FM_id" value="<%=oRec("nh_id")%>" />
                                             <input type="hidden" name="FM_id_row" value="<%=row%>" />
                                           </td><%
@@ -305,7 +309,7 @@
                                         for y = -1 to 14
                                         thisYear = (stAar + y)
                                         %><td><input type="text" name="FM_date_0" value="" class="form-control input-small" style="width:50px;"  />
-                                            <input type="hidden" name="FM_date_year_0" value="<%=thisYear %>" />
+                                            <input type="text" name="FM_date_year_0" value="<%=thisYear %>" class="form-control input-small" style="width:50px; height:10px; font-size:9px;" readonly />
                                           </td><%
                                         
                                          next%>

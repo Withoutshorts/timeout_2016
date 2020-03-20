@@ -116,13 +116,25 @@
     <txt_109 >Leverandør</txt_109>
     <txt_110 >Underleverandør</txt_110>
     <txt_111 >stk.</txt_111>
-    <txt_112 >Funktioner</txt_112>
+    <txt_112 >Features</txt_112>
     <txt_113 >Eksport til csv. detail (incl. kontaktpers.)</txt_113>
     <txt_114 >Eksport til .csv simpel</txt_114>
     <txt_115 >Denne kunde står som licensindehaver og bruger fakturarækkefølge gruppe nr: (se kontrolpanel)</txt_115>
     <txt_116 >Job/Projekter på denne kunde faktureres som udgangspunkt af følgende licensindehaver:</txt_116>
     <txt_117 >rabat</txt_117>
     <txt_118 >Søg</txt_118>
+    
+    <txt_119 >Kunde budget</txt_119>
+    <txt_120 >Ingen kunder fundet</txt_120>
+    <txt_121 >Tilføj kunde til liste</txt_121>
+    <txt_122 >Vis fra år</txt_122>
+    <txt_123 >Til og med år</txt_123>
+    <txt_124 >Søg kundenavn eller kundenr</txt_124>
+    <txt_125 >Tilføj</txt_125>
+    <txt_126 >Vis</txt_126>
+    <txt_127 >Kunde findes allerede i liste</txt_127>
+    <txt_128 >Budget</txt_128>
+    <txt_129 >Total</txt_129>
     
   </dk>
 
@@ -249,6 +261,18 @@
     <txt_117 >discount</txt_117>
     <txt_118 >Search</txt_118>
     
+    <txt_119 >Customer budget</txt_119>
+    <txt_120 >No customers found</txt_120>
+    <txt_121 >Add customer to list</txt_121>
+    <txt_122 >Show from year</txt_122>
+    <txt_123 >Through year</txt_123>
+    <txt_124 >Search customer name or customer no</txt_124>
+    <txt_125 >Add</txt_125>
+    <txt_126 >Show</txt_126>
+    <txt_127 >Customer already exists in list</txt_127>
+    <txt_128 >Budget</txt_128>
+    <txt_129 >Total</txt_129>
+    
   </no>
 
 
@@ -373,6 +397,18 @@
     <txt_116 >Jobs / Projects on this customer are billed as the basis of the following license holder:</txt_116>
     <txt_117 >discount</txt_117>
     <txt_118 >Search</txt_118>
+    
+    <txt_119 >Customer budget</txt_119>
+    <txt_120 >No customers found</txt_120>
+    <txt_121 >Add customer to list</txt_121>
+    <txt_122 >Show from year</txt_122>
+    <txt_123 >Through year</txt_123>
+    <txt_124 >Search customer name or customer no</txt_124>
+    <txt_125 >Add</txt_125>
+    <txt_126 >Show</txt_126>
+    <txt_127 >Customer already exists in list</txt_127>
+    <txt_128 >Budget</txt_128>
+    <txt_129 >Total</txt_129>
 
   </so>
 
@@ -499,6 +535,18 @@
     <txt_117 >discount</txt_117>
     <txt_118 >Search</txt_118>
     
+    <txt_119 >Customer budget</txt_119>
+    <txt_120 >No customers found</txt_120>
+    <txt_121 >Add customer to list</txt_121>
+    <txt_122 >Show from year</txt_122>
+    <txt_123 >Through year</txt_123>
+    <txt_124 >Search customer name or customer no</txt_124>
+    <txt_125 >Add</txt_125>
+    <txt_126 >Show</txt_126>
+    <txt_127 >Customer already exists in list</txt_127>
+    <txt_128 >Budget</txt_128>
+    <txt_129 >Total</txt_129>
+    
   </de>
 
 
@@ -623,6 +671,18 @@
     <txt_116 >Jobs / Projects on this customer are billed as the basis of the following license holder:</txt_116>
     <txt_117 >discount</txt_117>
     <txt_118 >Search</txt_118>
+    
+    <txt_119 >Customer budget</txt_119>
+    <txt_120 >No customers found</txt_120>
+    <txt_121 >Add customer to list</txt_121>
+    <txt_122 >Show from year</txt_122>
+    <txt_123 >Through year</txt_123>
+    <txt_124 >Search customer name or customer no</txt_124>
+    <txt_125 >Add</txt_125>
+    <txt_126 >Show</txt_126>
+    <txt_127 >Customer already exists in list</txt_127>
+    <txt_128 >Budget</txt_128>
+    <txt_129 >Total</txt_129>
 
   </fr>
 
@@ -750,6 +810,18 @@
     <txt_117 >discount</txt_117>
     <txt_118 >Search</txt_118>
     
+    <txt_119 >Customer budget</txt_119>
+    <txt_120 >No customers found</txt_120>
+    <txt_121 >Add customer to list</txt_121>
+    <txt_122 >Show from year</txt_122>
+    <txt_123 >Through year</txt_123>
+    <txt_124 >Search customer name or customer no</txt_124>
+    <txt_125 >Add</txt_125>
+    <txt_126 >Show</txt_126>
+    <txt_127 >Customer already exists in list</txt_127>
+    <txt_128 >Budget</txt_128>
+    <txt_129 >Total</txt_129>
+    
   </uk>
 
 
@@ -874,6 +946,18 @@
     <txt_116 >Jobs / Projects on this customer are billed as the basis of the following license holder:</txt_116>
     <txt_117 >discount</txt_117>
     <txt_118 >Search</txt_118>
+    
+    <txt_119 >Customer budget</txt_119>
+    <txt_120 >No customers found</txt_120>
+    <txt_121 >Add customer to list</txt_121>
+    <txt_122 >Show from year</txt_122>
+    <txt_123 >Through year</txt_123>
+    <txt_124 >Search customer name or customer no</txt_124>
+    <txt_125 >Add</txt_125>
+    <txt_126 >Show</txt_126>
+    <txt_127 >Customer already exists in list</txt_127>
+    <txt_128 >Budget</txt_128>
+    <txt_129 >Total</txt_129>
 
   </es>
 

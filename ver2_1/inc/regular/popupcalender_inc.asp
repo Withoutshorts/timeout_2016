@@ -1,4 +1,5 @@
 <!--#include file="../connection/conn_db_inc.asp"-->
+<!--#include file="global_func.asp"-->
 <script type="text/javascript">
  function updato(dag, md, aar, hv){
  var thisdag = dag;
@@ -31,7 +32,8 @@
 		  	window.opener.document.all["FM_slut_mrd"].value = thismd;
 		  	window.opener.document.all["FM_slut_aar"].value = thisaar;
 			window.close();
-            }
+
+            }
             if (thishv == 99) {
                 window.opener.document.all["FM_slut_dag_2"].value = thisdag;
                 window.opener.document.all["FM_slut_mrd_2"].value = thismd;
@@ -63,7 +65,8 @@
 			}
 		  	window.opener.document.all["FM_start_aar"].value = year
 			window.close();
-            }
+
+            }
 
             if (thishv == 7) {
                 alert(aar)
@@ -268,8 +271,10 @@ WeekdayfirstW = firstWeekday
 fwdno = 1
 acls = "class=vmenu"
 acls2 = "class=vmenu"
+
+call thisWeekNo53_fn(firstDayOfMonth)
 '** ugenr **%>
-<tr><td height=25 class=lillegray valign=top>&nbsp;<%=datepart("ww", firstDayOfMonth,2,2)%></td>
+<tr><td height=25 class=lillegray valign=top>&nbsp;<%=thisWeekNo53%></td>
 <%
 '** Mellemrum før første dag i første uge
 for fwdno = 1 to firstWeekday - 1%>
@@ -305,11 +310,13 @@ for dayCount = startsecondWeek to numberofdaysinmonth
 		if dayCount <> startsecondWeek then%>
 		</tr>
 		<%end if%>
+
+    <%call thisWeekNo53_fn(dayCount &"/" & strMrd & "/" & strAar) %>
 	<tr>
 		<td colspan="8" bgcolor="#D6DFF5"><img src="<%=illpath%>ill/blank.gif" alt="" border="0"></td>
 	</tr>
 	<tr>
-		<td height=25 valign=top class=lillegray>&nbsp;<%=datepart("ww", formatdatetime(dayCount &"/" & strMrd & "/" & strAar, 0), 2, 2)%></td>
+		<td height=25 valign=top class=lillegray>&nbsp;<%=thisWeekNo53%></td>
 	<%end if%>
 <td align=center valign=top>
 <%

@@ -6,6 +6,7 @@
 function stempelurlist_2018(medarbSel, showtot, layout, sqlDatoStart, sqlDatoSlut, typ, d_end, lnk)
 
 
+     'Response.write "browstype_client: " & browstype_client
 
 if media <> "export" then
 %>
@@ -156,9 +157,26 @@ if media <> "export" then
     
 	if media <> "export" then
 
+    '** H&L timer
+
+        select case lto
+        case "intranet - local", "cflow"
+
+          'if browstype_client <> "ip" then
+          call cflow_hl_timer(medarbSel, sqlDatoStart, sqlDatoSlut)   
+          'end if
+            
+            
+       end select
+
+
+
+    '*****
+
+
 	'*** Finder afslutte uger på aktive medarbejdere ***'
 	if cdbl(medarbSel) = 0 then
-	strSQLmedarb = "SELECT mid FROM medarbejdere WHERE mansat <> '2' AND mansat <> '3'"
+	strSQLmedarb = "SELECT mid FROM medarbejdere WHERE mansat <> '2' AND mansat <> '3' AND mansat <> '4'"
 	oRec4.open strSQLmedarb, oConn, 3
 	while not oRec4.EOF 
 	    
@@ -329,7 +347,7 @@ if media <> "export" then
         stempelUrEkspTxto = ""
         stempelUrEkspTxtShowTot = ""
 
-        lastWeek = "01-01-2002" 'datepart("ww", sqlDatoStart, 2,2) 
+        lastWeek = 0 '"01-01-2002" 'datepart("ww", sqlDatoStart, 2,2) 
 
         lastDato = sqlDatoStart
 
@@ -340,7 +358,7 @@ if media <> "export" then
 
               if media <> "export" then
 
-                  if cint(layout) = 0 then
+                  if cint(layout) = 0 AND browstype_client <> "ip" then
                   '*** Total ***
 	                  if lastMid <> intMids(m) AND m > 0 ANd totalhours > 0 then
                           'Response.write "lastMId:"& lastMid &" lmid:"& oRec("lmid")
@@ -363,7 +381,7 @@ if media <> "export" then
 
               else
 
-                        if cint(showTot) = 1 then
+                        if cint(showTot) = 1 AND browstype_client <> "ip" then
 
                              
                               if lastMid <> intMids(m) AND m > 0 ANd totalhours > 0 then
@@ -458,13 +476,13 @@ if media <> "export" then
 	  'afslSLDato = "2009-12-31"
 	  'call afsluger(oRec("lmid"), afslSTDato, afslSLDato)
 	
-        if media <> "export" then       
+       call thisWeekNo53_fn(oRec("dato"))
 
-      if lastWeek <> datepart("ww", oRec("dato"), 2,2) AND (cint(layout) = 0) then
+       if media <> "export" then       
+
+            if cint(lastWeek) <> cint(thisWeekNo53) AND (cint(layout) = 0) then
     
-            
-
-              if cint(layout) = 0 then
+                    if cint(layout) = 0 AND browstype_client <> "ip" then
                       '*** uge total ***
 	                  if totalhoursWeek > 0 AND d > 0 AND lastMid = oRec("lmid") then
                           'Response.write "lastMId:"& lastMid &" lmid:"& oRec("lmid")
@@ -666,7 +684,7 @@ if media <> "export" then
 	
                                       <tr style="display:none">
 		                                  <!--<td>&nbsp;</td> -->
-		                                  <td colspan="<%=csp%>" style="height:20px; padding:5px;"><h4><span style="font-size:11px; font-weight:lighter;">Komme / Gå tid <!--Uge <%=datepart("ww", dtUseTxt, 2,2) &" "& datepart("yyyy", dtUseTxt, 2,2) %>--></span><br />
+		                                  <td colspan="<%=csp%>" style="height:20px; padding:5px;"><h4><span style="font-size:11px; font-weight:lighter;">Komme / Gå tid </span><br />
             
                                               <%if len(trim(meInit)) <> 0 then %>
                                               <%=meNavn & "  ["& meInit &"]"%>
@@ -733,31 +751,21 @@ if media <> "export" then
       <%end if
 
 
-      'if cDate(lastDato) <> cDate(oRec("dato")) AND cint(layout) = 0 AND d > 1 then
-
-
-          'if cDate(lastDato) <> cDate("01-01-2002") then
-        
-          'Response.write cDate(lastDato) & " x: " & x & " d: "& d &"<br>"
-
-          'call fn_overTid(lto, lastDato, lastMid, 0)
-       
-       
-          'end if
-
-      'end if' lastdate
+      
 
 
       if media <> "export" AND cint(showTot) <> 1 then
 
     
-    
-      if (lastWeek <> datepart("ww", oRec("dato"), 2,2)) AND (cint(layout) = 0) then
+      call thisWeekNo53_fn(oRec("dato"))
+      if (cint(lastWeek) <> cint(thisWeekNo53)) AND (cint(layout) = 0) then
+
+      call thisWeekNo53_fn(dtUse)
       %>
 	
 	  <tr>
 		  <!--<td>&nbsp;</td> -->
-		  <td colspan="<%=csp%>" style="<%=td_height%> padding:5px;"><b>Uge <%=datepart("ww", dtUse, 2,2) &" "& datepart("yyyy", dtUse, 2,2) %> </b></td>
+		  <td colspan="<%=csp%>" style="<%=td_height%> padding:5px;"><b>Uge <%=thisWeekNo53 &" "& datepart("yyyy", dtUse, 2,2) %> </b></td>
 		  <!-- <td>&nbsp;</td> -->
 	  </tr>
 	
@@ -790,20 +798,37 @@ if media <> "export" then
 	  end if%>
 
 
-          <tr>
-              <!--<td style="<%=td_height%>"></td> -->
+          <% 
 
-              <td>
+                    'tjekker helligdag
+                    call helligdage(dtUse, 0, lto, usemrn)
+
+                    if datepart("w", dtUse, 2,2) = 6 or datepart("w", dtUse, 2,2) = 7 or erHellig = 1 then
+                    bgcolorFRI = "#e8e8e8"
+                    else
+                    bgcolorFRI = ""
+                    end if
+                    %>
+
+
+                    <tr style="background:<%=bgcolorFRI%>">
+
+           
+
+              <td style="white-space:nowrap; text-align:center;">
                   <%if showTot = 1 then%>
 			          <%=oRec("antal")%> stk.&nbsp;
 		          <%else
                       '** er periode godkendt ***'
 		              tjkDag = oRec("dato")
-		              erugeafsluttet = instr(afslUgerMedab(oRec("lmid")), "#"&datepart("ww", tjkDag,2,2)&"_"& datepart("yyyy", tjkDag) &"#")
+                      call thisWeekNo53_fn(tjkDag)
+		              erugeafsluttet = instr(afslUgerMedab(oRec("lmid")), "#"&thisWeekNo53&"_"& datepart("yyyy", tjkDag) &"#")
                 
                       strMrd_sm = datepart("m", tjkDag, 2, 2)
                       strAar_sm = datepart("yyyy", tjkDag, 2, 2)
-                      strWeek = datepart("ww", tjkDag, 2, 2)
+
+                      call thisWeekNo53_fn(tjkDag)
+                      strWeek = thisWeekNo53 'datepart("ww", tjkDag, 2, 2)
                       strAar = datepart("yyyy", tjkDag, 2, 2)
 
                       if cint(SmiWeekOrMonth) = 0 then
@@ -815,31 +840,15 @@ if media <> "export" then
                       end if
 
                       'erugeAfslutte(
-                      call erugeAfslutte(useYear, usePeriod, oRec("lmid"), SmiWeekOrMonth, 0)
+                      call erugeAfslutte(useYear, usePeriod, oRec("lmid"), SmiWeekOrMonth, 0, tjkDag)
 		        
-		              'Response.Write "smilaktiv: "& smilaktiv & " autogk:"& autogk &"<br>"
-		              'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &" ugegodkendt: "& ugegodkendt &"<br>"
-		              'Response.Write "autolukvdatodato: "& autolukvdatodato & "<br>"
-		              'Response.Write "tjkDag: "& tjkDag & "<br>"
-		              'Response.Write "autolukvdato: "& autolukvdato & "<br>"
-		              'Response.Write "erugeafsluttet:" & erugeafsluttet & "<br>"
-		        
-		              call lonKorsel_lukketPer(tjkDag, -2)
+		              
+		              call lonKorsel_lukketPer(tjkDag, -2, oRec("lmid"))
 		         
-                      'if ( (( datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0) OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 )) AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
-                      '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) = year(now) AND DatePart("m", tjkDag) < month(now)) OR _
-                      '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) < year(now) AND DatePart("m", tjkDag) = 12)) OR _
-                      '(smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", tjkDag) < year(now) AND DatePart("m", tjkDag) <> 12) OR _
-                      '(smilaktiv = 1 AND autolukvdato = 1 AND (year(now) - DatePart("yyyy", tjkDag) > 1))) OR cint(lonKorsel_lukketIO) = 1 then
-              
-                      'ugeerAfsl_og_autogk_smil = 1
-                      'else
-                      'ugeerAfsl_og_autogk_smil = 0
-                      'end if 
-
+                     
 
                         '*** tjekker om uge er afsluttet / lukket / lønkørsel
-                      call tjkClosedPeriodCriteria(tjkDag, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO)
+                      call tjkClosedPeriodCriteria(tjkDag, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO, ugegodkendt)
 				
                 
                       '* Admin får vist stipledede bokse
@@ -862,7 +871,7 @@ if media <> "export" then
               <%if showTot <> 1 then%>
 		    
 		          <%if cint(oRec("stempelurindstilling")) <> -1 then %>
-                      <td style="text-align:center">
+                      <td style="text-align:center; white-space:nowrap;">
                     
                               <%if len(trim(oRec("login"))) <> 0 then
                     
@@ -911,7 +920,7 @@ if media <> "export" then
                   
                       <%end if 'layout%> 
 
-                      <td style="text-align:center">            
+                      <td style="text-align:center; white-space:nowrap;">            
                       <%			
                           if oRec("logud") = oRec("login") then
                           fColsl = "#cccccc"%>
@@ -962,7 +971,7 @@ if media <> "export" then
                           case "tec", "esn"
                               %><td>&nbsp;</td><%
                           case else %>
-		                      <td><span style="color:#999999; font-size:9px;"><%=oRec("ipn") %></span></td>
+		                      <td><%=oRec("ipn") %></td>
                       <%end select %>
 
                   <%else 'stempelurindstilling%>
@@ -983,7 +992,7 @@ if media <> "export" then
                           if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = -100) AND media <> "print"  then
         
                         %>
-                              <select name="FM_stur" class="form-control input-small">
+                              <select name="FM_stur" class="form-control input-small" style="width:100px;">
 		                      <%if lto <> "fk_bpm" AND lto <> "kejd_pb" AND lto <> "kejd_pb2" then %>
                               <!--<option value="0">Ingen (slet)</option>-->
                               <%end if %>
@@ -1075,6 +1084,7 @@ if media <> "export" then
                           case "esn", "tec", "cst"
                               call findesDerTimer(1, oRec("dato"), medarbSel)
                           case else
+                              call findesDerTimer(1, oRec("dato"), medarbSel)
                           end select
              
                           %>
@@ -1090,7 +1100,7 @@ if media <> "export" then
                       <%
                       if cint(oRec("stempelurindstilling")) <> -1 then 
             
-                              if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = -100) AND media <> "print"  then
+                          if (layout = 1) AND (ugeerAfsl_og_autogk_smil = 0 OR level = 1 OR erTeamlederForVilkarligGruppe = -100) AND media <> "print"  then
 
                 
 
@@ -1127,8 +1137,8 @@ if media <> "export" then
           <%
               'Response.write "lastMid b:" & lastMid & "<br>"
               end if 'media + showtotal
-
-              lastWeek = datepart("ww", oRec("dato"), 2,2)
+              call thisWeekNo53_fn(oRec("dato"))
+              lastWeek = thisWeekNo53 'datepart("ww", oRec("dato"), 2,2)
 	          lastMnavn = meNavn
 	          lastMnr = meNr
 	          lastMid = oRec("lmid")
@@ -1179,21 +1189,7 @@ if media <> "export" then
                    
                 
                   dtUseTxt = dateadd("d", 3, dtUse) '** Sikere det er mid i uge, hvis ugen løber over årsskift
-                  %>
-
-                      <!-- <tr>
-		                  <!-- <td>&nbsp;</td> -.->
-		                  <td colspan="<%=csp%>" style="height:20px; padding:5px;"><h4><span style="font-size:11px; font-weight:lighter;">Komme / Gå tid Uge <%=datepart("ww", dtUseTxt, 2,2) &" "& datepart("yyyy", dtUseTxt, 2,2) %></span><br />
-                              <%if len(trim(meInit)) <> 0 then %>
-                              <%=meNavn & "  ["& meInit &"]"%>
-                              <%else %>
-                              <%=meTxt%>
-                              <%end if %></h4>
-		                  </td>
-		                  <!-- <td>&nbsp;</td> -.->
-	                  </tr> -->
-
-                  <%
+                 
     
                       medIDNavnWrt = medIDNavnWrt & ",#"& medarbsel & "#" 
                       end if
@@ -1205,9 +1201,10 @@ if media <> "export" then
                       'else
 		              tjkDag = dtUse
                       'end if
+                      call thisWeekNo53_fn(tjkDag)
 
                       if cint(SmiWeekOrMonth) = 0 then
-		              erugeafsluttet = instr(afslUgerMedab(medarbsel), "#"&datepart("ww", tjkDag,2,2)&"_"& datepart("yyyy", tjkDag) &"#")
+		              erugeafsluttet = instr(afslUgerMedab(medarbsel), "#"&thisWeekNo53&"_"& datepart("yyyy", tjkDag) &"#")
                       else
                       erugeafsluttet = instr(afslUgerMedab(medarbsel), "#"&datepart("m", tjkDag,2,2)&"_"& datepart("yyyy", tjkDag) &"#")
                       end if
@@ -1215,7 +1212,7 @@ if media <> "export" then
 
                       strMrd_sm = datepart("m", tjkDag, 2, 2)
                       strAar_sm = datepart("yyyy", tjkDag, 2, 2)
-                      strWeek = datepart("ww", tjkDag, 2, 2)
+                      strWeek = thisWeekNo53 'datepart("ww", tjkDag, 2, 2)
                       strAar = datepart("yyyy", tjkDag, 2, 2)
 
                       if cint(SmiWeekOrMonth) = 0 then
@@ -1227,26 +1224,13 @@ if media <> "export" then
                       end if
 
                 
-                      call erugeAfslutte(useYear, usePeriod, medarbsel, SmiWeekOrMonth, 0)
+                      call erugeAfslutte(useYear, usePeriod, medarbsel, SmiWeekOrMonth, 0, tjkDag)
 		        
-                      call lonKorsel_lukketPer(tjkDag, -2)
+                      call lonKorsel_lukketPer(tjkDag, -2, medarbsel)
 
                     
-		         
-                      'if ( (( datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0) OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 )) AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
-                      '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) = year(now) AND DatePart("m", tjkDag) < month(now)) OR _
-                      '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) < year(now) AND DatePart("m", tjkDag) = 12)) OR _
-                      '(smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", tjkDag) < year(now) AND DatePart("m", tjkDag) <> 12) OR _
-                      '(smilaktiv = 1 AND autolukvdato = 1 AND (year(now) - DatePart("yyyy", tjkDag) > 1))) OR cint(lonKorsel_lukketIO) = 1 then
-              
-                      'ugeerAfsl_og_autogk_smil = 1
-                      'else
-                      'ugeerAfsl_og_autogk_smil = 0
-                      'end if 
-                
-
                       '*** tjekker om uge er afsluttet / lukket / lønkørsel
-                      call tjkClosedPeriodCriteria(tjkDag, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO)
+                      call tjkClosedPeriodCriteria(tjkDag, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO, ugegodkendt)
 
 
 
@@ -1285,7 +1269,7 @@ if media <> "export" then
 
                       <% 
 
-                      'tjekker helligdag
+                    'tjekker helligdag
                     call helligdage(dtUse, 0, lto, usemrn)
 
                     if datepart("w", dtUse, 2,2) = 6 or datepart("w", dtUse, 2,2) = 7 or erHellig = 1 then
@@ -1302,7 +1286,7 @@ if media <> "export" then
                           <input type="hidden" value="<%=formatdatetime(dtUse, 2) %>" name="logindato" />
                           <!--<input type="hidden" value="<%=forvalgt_stempelur %>" name="FM_stur" />-->
                           <!--<td>&nbsp</td>-->
-                          <td style="<%=td_height%> padding-right:10px;"><%=left(weekdayname(weekday(dtUse)), 3) %>. <%=formatdatetime(dtUse, 2) %></td>
+                          <td style="<%=td_height%> white-space:nowrap; text-align:center;"><%=left(weekdayname(weekday(dtUse)), 3) %>. <%=formatdatetime(dtUse, 2) %></td>
                                 
                           <td style="white-space:nowrap; text-align:center;">
                               <%if (ugeerAfsl_og_autogk_smil = 0 OR level = 1) then %>
@@ -1325,7 +1309,7 @@ if media <> "export" then
 
                           <td>           
                               <%if (ugeerAfsl_og_autogk_smil = 0 OR level = 1) then %>    
-                              <select name="FM_stur" class="form-control input-small">
+                              <select name="FM_stur" class="form-control input-small" style="width:100px;">
 		                      <%if lto <> "fk_bpm" AND lto <> "kejd_pb" AND lto <> "kejd_pb2"  then %>
                               <!--<option value="0">Ingen</option>-->
                               <%end if %>
@@ -1366,7 +1350,7 @@ if media <> "export" then
                               end select%>
                           </td>
 
-                        <td style="width:300px;"><textarea id="FM_kommentar_<%=d %>" class="FM_kommentar form-control input-small" name="FM_kommentar" style="width:100%; resize:none; height:25px;" disabled placeholder="Kommentar"></textarea>
+                        <td style="width:300px;"><textarea id="FM_kommentar_<%=d %>" class="FM_kommentar form-control input-small" name="FM_kommentar" style="width:100%; resize:none; height:25px;"></textarea>
                         <input type="hidden" name="FM_kommentar" id="Hidden18"  value="#">  </td>
                         <td>&nbsp;</td>
 		                <!-- <td>&nbsp;</td> -->
@@ -1430,10 +1414,18 @@ if media <> "export" then
 
                           if media <> "print" AND layout = "1" then
                           %>
+                            <!--
                           <tr>
-                              <td colspan="20" style="text-align:center">                                                                                 
-                                  <a class="btn btn-default btn-sm" onclick="Javascript:window.open('<%=url%>','','width=750,height=850,resizable=yes,scrollbars=yes')" style="width:50%"><b>Tilføj komme/gå </b></a>
+                              <td  colspan="20" style="text-align:right; border:0px;">
+
+                                    <button type="submit" class="btn btn-success btn-sm pull-right"><b><%=medarb_txt_020 %></b></button> <br /><br />&nbsp;
                               </td>
+
+                          </tr>-->
+                          <tr>
+                              <td colspan="20" style="text-align:center;">                                                                                 
+                                  <a class="btn btn-default btn-sm" onclick="Javascript:window.open('<%=url%>','','width=750,height=850,resizable=yes,scrollbars=yes')" style="width:50%"><b>Tilføj komme/gå </b></a>
+                              <br /><br />&nbsp;</td>
                           </tr>
                           <%end if %>
 
@@ -1454,23 +1446,28 @@ if media <> "export" then
 
                           </tbody>
 
-                              <% if cint(layout) <> 1 AND totalhours <> 0 OR totalmin <> 0 then 
-		                          'Response.write "lastMnavn: " & lastMnavn & " lastMid:"& lastMid &" lastMnr. "&lastMnr &" totalhours "& totalhours  &" ¤"& totalmin &"datoer:"& sqlDatoStart &","& sqlDatoSlut
-                                  'Response.end
+                              <% 
+                               if browstype_client <> "ip" then
+                                  
+                                      if cint(layout) <> 1 AND totalhours <> 0 OR totalmin <> 0 then 
+		                              'Response.write "lastMnavn: " & lastMnavn & " lastMid:"& lastMid &" lastMnr. "&lastMnr &" totalhours "& totalhours  &" ¤"& totalmin &"datoer:"& sqlDatoStart &","& sqlDatoSlut
+                                      'Response.end
 
-                                  if cint(showTot) <> 1 then
+                                      if cint(showTot) <> 1 then
 
-                                      call tottimer_2018(lastMnavn, lastMnr, totalhoursWeek, totalminWeek, lastMid, sqlDatoStart, sqlDatoSlut, 2, lastDato)
-                                      totalminWeek = 0
-                                      totalhoursWeek = 0
+                                          call tottimer_2018(lastMnavn, lastMnr, totalhoursWeek, totalminWeek, lastMid, sqlDatoStart, sqlDatoSlut, 2, lastDato)
+                                          totalminWeek = 0
+                                          totalhoursWeek = 0
 
-                                  end if
+                                      end if
 
-		                          call tottimer_2018(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDatoStart, sqlDatoSlut, 1, lastDato)
-		                          totalhours = 0 
-		                          totalmin = 0
+		                              call tottimer_2018(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDatoStart, sqlDatoSlut, 1, lastDato)
+		                              totalhours = 0 
+		                              totalmin = 0
 
-	                          end if %>
+	                              end if
+                                  
+                              end if%>
 
                               <!-- <tr>
 		                          <td bgcolor="#cccccc" colspan="<%=csp+2%>" style="height:1px;"></td>
@@ -1496,14 +1493,32 @@ if media <> "export" then
             
 
   </table>
-        
+   
+    
   <%if media <> "export" AND media <> "print" AND layout = 1 then %>
 
+        
         <div class="row">
           <div class="col-lg-12">
-              <button type="submit" class="btn btn-success btn-sm pull-right"><b><%=medarb_txt_020 %></b></button> <!-- el. pause -->
+
+              <%select case lto
+              case "cflow", "intranet - local"
+
+               'if session("mid") = 1 OR session("mid") = 26 OR session("mid") = 36 then
+                call medariprogrpFn(session("mid"))
+                if (instr(medariprogrpTxt, "#14#") <> 0 OR instr(medariprogrpTxt, "#16#") <> 0 OR instr(medariprogrpTxt, "#3#") <> 0 OR instr(medariprogrpTxt, "#19#") <> 1) OR level = 1 then
+
+                %>
+              <input type="checkbox" value="1" name="FM_opdater_hl" /> Tilpas H&L timer til ovenstående komme/gå tider
+              <br />Sletter nuværende H&L timer denne uge og indlæser nye.
+              <%end if
+
+              end select%>
+
+              <button type="submit" class="btn btn-success btn-sm pull-right"><b><%=medarb_txt_020 %></b></button>
           </div>
       </div>
+
 
   <%end if %>
          
@@ -1512,11 +1527,10 @@ if media <> "export" then
 
 
 
-
 <%
 else
         
-  if cint(showTot) = 1 then
+  if cint(showTot) = 1 AND browstype_client <> "ip" then
       call tottimer_2018(lastMnavn, lastMnr, totalhours, totalmin, lastMid, sqlDatoStart, sqlDatoSlut, 1, lastDato)
 	totalhours = 0 
 	totalmin = 0

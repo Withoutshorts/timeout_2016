@@ -168,6 +168,13 @@ $(document).ready(function() {
 
         $(".akt_overarb").attr('checked', true);
 
+        $("#FM_akttype_id_5_0").attr('checked', true);
+        $("#FM_akttype_id_5_1").attr('checked', true);
+        $("#FM_akttype_id_5_41").attr('checked', true);
+        $("#FM_akttype_id_3_9").attr('checked', true);
+
+        $("#FM_akttype_id_4_99").attr('checked', false);
+
         /* $("#FM_akttype_id_4_0").attr('checked', true);
         $("#FM_akttype_id_4_12").attr('checked', true); 
         $("#FM_akttype_id_4_13").attr('checked', true);

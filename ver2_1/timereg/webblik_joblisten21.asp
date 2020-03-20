@@ -1086,7 +1086,7 @@ if len(session("user")) = 0 then
             <% 
             mNavn = "Alle (job / kunde ansv. ignoreret)"
             
-             strSQL = "SELECT mnavn, mnr, mid, init FROM medarbejdere WHERE mansat <> '2' ORDER BY mnavn"
+             strSQL = "SELECT mnavn, mnr, mid, init FROM medarbejdere WHERE mansat <> '2' AND mansat <> '4' ORDER BY mnavn"
              oRec.open strSQL, oConn, 3
              while not oRec.EOF
                 
@@ -1446,7 +1446,7 @@ Jobnavn (Jobnr.)
 	strSQL = strSQL & jobansKri & strPgrpSQLkri &" AND "& sqlKundeKri &" "& kansKri &""_
 	&" GROUP BY j.id ORDER BY "& orderBY &", kkundenavn" 
 	
-	strSQL = strSQL & " LIMIT 50"
+	strSQL = strSQL & " LIMIT 5000"
 	
     'Response.write "<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>"& strSQL
 	'Response.flush

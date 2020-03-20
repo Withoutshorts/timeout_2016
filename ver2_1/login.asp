@@ -74,7 +74,12 @@ end if
 '*** Sætter lokal dato/kr format. *****
 Session.LCID = 1030
 
-
+'*** fra WeekRapport Email Dencker
+if len(trim(request("rdir"))) <> 0 then
+rdir = request("rdir") 
+else
+rdir = ""
+end if
 
 
 session("spmettanigol") = session("spmettanigol") + request("attempt")
@@ -119,6 +124,7 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
 
     end if
    
+    
 
     if lto = "demo" then
 			pawval = "gu1234"
@@ -132,153 +138,203 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
 			end if
 
 
-      if len(pawval) <> 0 then
-			    huskCHK = "CHECKED"
-			    else
-			    huskCHK = ""
-			    end if
+     if len(pawval) <> 0 then
+	huskCHK = "CHECKED"
+	else
+	huskCHK = ""
+	end if
 
 	
-	'*** tjekker om det er PDA eller PC ****
-	
-   
-
-      
-
+	'*** tjekker om det er PDA, MOBIL eller PC ****
     call browsertype()
-    
-        
-        
-    'if instr(request.servervariables("HTTP_USER_AGENT"), "Smartphone") <> 0 then
-	
-    if browstype_client = "ip" then
-    'pixLeft = 20
-	'pixTop = 40
-	'tboxsize = 100
 
 
-                if lto = "cflow" then
-                    
-                    response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/to_2015/monitor.asp?func=startside"
-                
-                end if
 
+
+
+            if browstype_client = "ip" then 'KUN Hvis det er mobil
+  
   
 		
-			    if request.Cookies("timeoutcloud")("mobileuser") <> "" AND (lto = "sdutek")  then 'SKAL KUN VÆRE DEM DER IKKE SKAL LOGGE PÅ IGEN = sdutek 
-                '** AND lto <> "outz" AND lto <> "hestia" AND lto <> "oko" and lto <> "epi"       
-                '** Er der cookie og Du allerede er loggget ind, behøver Du ikke logge ind igen på din telefon
-                '** For at skifte bruger på mobil SKAL man slette sine cookies ****'
+			            if request.Cookies("timeoutcloud")("mobileuser") <> "" AND (lto = "sdutek")  then 'SKAL KUN VÆRE DEM DER IKKE SKAL LOGGE PÅ IGEN = sdutek 
+                        '** AND lto <> "outz" AND lto <> "hestia" AND lto <> "oko" and lto <> "epi"       
+                        '** Er der cookie og Du allerede er loggget ind, behøver Du ikke logge ind igen på din telefon
+                        '** For at skifte bruger på mobil SKAL man slette sine cookies ****'
                 
-                    if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
-                    response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_14/timetag_web/timetag_web.asp?flushsessionuser=1"
-                    else
-                    response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/timetag_web/timetag_web.asp?flushsessionuser=1"
-                    end if
+                            if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
+                            response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_14/timetag_web/timetag_web.asp?flushsessionuser=1"
+                            else
+                            response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/timetag_web/timetag_web.asp?flushsessionuser=1"
+                            end if
 				    
-                    'response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_14/timetag_web/timetag_web.asp"
+                            'response.redirect "https://outzource.dk/timeout_xp/wwwroot/ver2_14/timetag_web/timetag_web.asp"
 
-                end if
+                        end if
 				
 			
 
 
-    %>
+                    %>
      
 
 
   
 
-<html xmlns="http://www.w3.org/1999/xhtml">    
-<head>
-<!--<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />-->
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title><%=login_txt_012 %></title>
-
- 
-<script src="login_jav.js" type="text/javascript"></script>
+                <html xmlns="http://www.w3.org/1999/xhtml">    
+                <head>
+                <!--<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />-->
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title><%=login_txt_012 %></title>
 
 
+                  <!--script src="login_jav.js" type="text/javascript"></script>-->
+                <script src="login_jav4.js" type="text/javascript"></script>
+
+
+                    <%
+        
+        
+      
+                        if (lto = "miele" OR lto = "esn") AND Request.Cookies("login")("pwval") <> "" AND Request.Cookies("login")("usrval") <> "" then
+                
+                            strSQL = "SELECT mid FROM medarbejdere WHERE login = '"& Request.Cookies("login")("usrval") & "'"
+                            oRec.open strSQL, oConn, 3
+                            if not oRec.EOF then
+                
+                                strSQLlog = "SELECT id, dato, login, logud, mid, stempelurindstilling FROM login_historik WHERE "_
+				                &" mid = "& oRec("mid") &" AND stempelurindstilling > -1 AND logud IS NULL ORDER BY login DESC limit 0, 1"
+                                'response.Write "strSQLlog " & strSQLlog
+                                ikkeloggetud = 0
+                                oRec2.open strSQLlog, oConn, 3
+                                if not oRec2.EOF then
+                                    ikkeloggetud = 1
+                                end if
+                                oRec2.close
+                
+
+                            end if
+                            oRec.close
+
+                            if ikkeloggetud = 1 then
+                                displaySite = "none"
+                            else
+                                displaySite = "normal"
+                            end if
+                
+                            'response.Write "<br> ikkeloggetud " & ikkeloggetud
+
+                            visCheckInd = 1
+                        end if
+        
+                    %>
 
     
-    <div class="account-wrapper">
-    <div class="account-body">
-
-       <img src="to_2015/img/outzource_logo_4c.jpg" width="200" />
-                <br /><label>TimeOut Mobile</label>
-    <!--<div id="header"><%=login_txt_010 %></div>-->
-    <form id="container" action="login.asp" method="POST">
+                    <div class="account-wrapper">
+                    <div class="account-body" style="display:<%=displaySite%>;">
         
-        <div class="form-group">
+                        <%
+                        select case lto 
+                            case "miele"
+                            logolink = "to_2015/img/Miele_Logo.png"
+                            case "esn"
+                            logolink = "to_2015/img/esn_logo2.png"
+                        end select
+                        %>
+
+                        <%if visCheckInd = 1 then %>
+                            <img src="<%=logolink %>" width="200" />
+                        <%else %>
+                       <img src="to_2015/img/outzource_logo_4c.jpg" width="200" />
+                                <br /><label>TimeOut Mobile</label>
+                        <!--<div id="header"><%=login_txt_010 %></div>-->
+                        <%end if %>
+                        <%
+                            if browstype_client = "ip" AND visCheckInd = 1 then
+                                fieldDisplay = "none"
+                            end if
+                        %>
+
+                    <input type="hidden" id="lto" value="<%=lto %>" />
+                    <input type="hidden" id="ikkeloggetud" value="<%=ikkeloggetud %>" />
+
+                    <form id="container" action="login.asp" method="POST">
+        
+                        <div class="form-group" style="display:<%=fieldDisplay%>;">
 
             
-                    <input type="text" id="m_login" class="form-control" name="login" placeholder="<%=login_txt_019 %>" value="<%=uval %>"/>
-            </div>
+                                    <input type="text" id="m_login" class="form-control" name="login" placeholder="<%=login_txt_019 %>" value="<%=uval %>"/>
+                            </div>
        
         
-       
-           <div class="form-group">
-                <input type="password" id="m_pw" name="pw" class="form-control" placeholder="Password" value="<%=pawval %>"/> 
+        
+                           <div class="form-group" style="display:<%=fieldDisplay%>;">
+                                <input type="password" id="m_pw" name="pw" class="form-control" placeholder="Password" value="<%=pawval %>"/> 
             
-            </div>
+                            </div>
        
 
      
-             <div class="form-group clearfix">
-                <div class="pull-left">					
+                             <div class="form-group clearfix" style="display:<%=fieldDisplay%>;">
+                                <div class="pull-left">					
               
-                    <input id="huskmig" name="huskmig" type="checkbox" value="1" <%=huskCHK %> /> <%=login_txt_011 %>
+                                    <input id="huskmig" name="huskmig" type="checkbox" value="1" <%=huskCHK %> /> <%=login_txt_011 %>
               
-                </div>
+                                </div>
 
-                <div class="pull-right">
-                <a href="timereg/sendpw.asp?lto=<%=lto %>" target="_blank" style="color:#999999; font-size:11px; text-decoration:underline;">Forgot password</a>
-                </div>
-            </div>
+                                <div class="pull-right">
+                                <a href="timereg/sendpw.asp?lto=<%=lto %>" target="_blank" style="color:#999999; font-size:11px; text-decoration:underline;">Forgot password</a>
+                                </div>
+                            </div>
 
-         <!--   <div class="checkbox pull-left">
-               
-              <label style="display:inline;">
-                    <input id="Checkbox1" name="huskmig" type="checkbox" value="1" <%=huskCHK %> /> <%=login_txt_011 %>
-                  
-              </label>
-             -->
-           
-           
+                        
        
         
-            <!---------------- Stempelur ----------------->
+                            <!---------------- Stempelur ----------------->
          
-            <%
-            select case lto
-                case "epi2017" 'KUN AVI DK intw. Sættes automatisk
-                case else
-                call stempelurLoginSetting
-			end select
-            %>
+                            <%
+                            select case lto
+                                case "epi2017", "miele" 'KUN AVI DK intw. Sættes automatisk
+                                case else
+                                call stempelurLoginSetting
+			                end select
+                            %>
         
                      
                   
             
 
-          
-                <input type="submit" class="btn btn-secondary btn-block btn-sm" value="Logind >> "/><br />
-                <span style="font-size:10px; color:#999999;">[<%=lto %>]</span>
+                                <%'if visCheckInd = 0 then %>
+                                <input type="submit" class="btn btn-secondary btn-block btn-sm" value="Logind >> "/><br />
+                                <span style="font-size:10px; color:#999999;">[<%=lto %>]</span>
+                                <%'else %>
+                                <!--<input type="submit" class="btn btn-success btn-block" value="Logind >> "/>-->
+                                <%'end if %>
       
            
 
-    </form>
+                    </form>
 
-    </div></div>
+                    </div></div>
 
-    <!--
-    <br /><br /><br /><br /><br />
-    <div style="padding:20px;"><span style="font-size:8px; color:#999999;"><%=request.servervariables("HTTP_USER_AGENT") %></span></div>
-    -->
+                    
+                    <%if lto = "hestia" then %>
+                    <br /><br /><br /><br /><br />
+                    <div style="padding:20px;"><span style="font-size:8px; color:#999999;"><%=request.servervariables("HTTP_USER_AGENT") %></span></div>
+                    <%end if %>
 
 
-    <%
-	else
+
+
+
+                    <%
+
+
+
+
+    '************************************************************************************************************************
+    '** ALM. WEB Login 
+	'************************************************************************************************************************
+    else
 
 
     %>
@@ -402,6 +458,7 @@ session("spmettanigol") = session("spmettanigol") + request("attempt")
 
             
 
+            <input type="hidden" name="rdir" value="<%=rdir %>" />
             <input type="hidden" id="lto" value="<%=lto %>" />
 
             <div class="form-group">
@@ -625,11 +682,11 @@ else '** POST *****
 		'DECODE(
             if cint(hostPw) = 1 then
             strSQL = "SELECT m.mansat, m.mnavn, b.rettigheder, m.mid, m.tsacrm, m.pw, m.timereg, med_lincensindehaver FROM medarbejdere m, brugergrupper b WHERE "_
-		    &" login = '"& trim(varLogin)&"' AND (mansat <> 2 AND mansat <> 3) AND b.id = m.brugergruppe"
+		    &" login = '"& trim(varLogin)&"' AND (mansat <> 2 AND mansat <> 3 AND mansat <> 4) AND b.id = m.brugergruppe"
 		    
             else
 		    strSQL = "SELECT m.mansat, m.mnavn, b.rettigheder, m.mid, m.tsacrm, m.pw, m.timereg, med_lincensindehaver FROM medarbejdere m, brugergrupper b WHERE "_
-		    &" login = '"& trim(varLogin)&"' AND (mansat <> 2 AND mansat <> 3) AND m.pw = MD5('"& trim(Request.Form("pw")) &"') AND b.id = m.brugergruppe"
+		    &" login = '"& trim(varLogin)&"' AND (mansat <> 2 AND mansat <> 3 AND mansat <> 4) AND m.pw = MD5('"& trim(Request.Form("pw")) &"') AND b.id = m.brugergruppe"
 		    end if
 
         else
@@ -809,8 +866,11 @@ else '** POST *****
                 response.cookies("tsa")("nyhansw") = 1
                 response.cookies("tsa").expires = date + 180
 		        end if
-		       
-		       '*** Ferie Pl ==> Ferie afholdt, AldersRed, omSorg PL ==> Afholdt **'
+
+
+		        '********************************************************************   
+		        '*** Ferie Pl ==> Ferie afholdt, AldersRed, omSorg PL ==> Afholdt **'
+                '****************************************************************
                 select case lto
                 case "tec", "esn"
                 highV = 6
@@ -873,11 +933,20 @@ else '** POST *****
                 end if
                 
 
+
+
                '*** Indlæser tillæg fra AVI DK
                call indlaesTillaeg(lto)
 		        
 		        
-		       
+
+                '*** Sygdom 120 dages regel ***
+               select case lto
+               case "xhidalgo", "xoutz" 
+                   if session("rettigheder") = 1 then
+                   call sygdom120(lto)
+                   end if
+               end select
 		        
 				
 				'*** Opdater login_historik (Stempelur) ****'		
@@ -885,7 +954,7 @@ else '** POST *****
 				intStempelur = request("FM_stempelur")
 				else
                     select case lto 
-                    case "epi2017"
+                    case "epi2017", "miele"
                     intStempelur = 1
                     case else
 				    intStempelur = 0
@@ -898,7 +967,7 @@ else '** POST *****
                 select case lto 
 				case "cst"
                         
-                        strSQLmansat = " mansat <> 0"
+                        strSQLmansat = " mansat <> 0 AND mansat <> 4"
                         call medarbiprojgrp(21, session("mid"), 0, -1)
                         if instr(instrMedidProgrp, "#"& session("mid") &"#,") <> 0 then
                         session("dontLogind") = 1
@@ -914,15 +983,27 @@ else '** POST *****
                 end select
 
 
+                '***********************************************************
                 '**** Log ikke ind automatisk ****'
-                
-               
-
+                '***********************************************************
                 call erStempelurOn()
                
+                if browstype_client = "ip" then
+
+                    'Overstyrer på mobil, så den ALTID stempler login/logud tid
+                    if lto = "esn" then
+                        stempelur_hideloginOn = 0
+                    end if
+
+                end if
+                        
                 if cint(stempelur_hideloginOn) = 1 then 'skriv ikke login, men åben komme/gå tom
 				    
                 else
+
+
+
+                    '*****  Slået fra på Cflow 20180801 da stempelur_hideloginOn = 1 pr. dd (sat i kontrolpanel)
 
                     if session("dontLogind") <> 1 then
 				    '**** Tjekker om der skla laves en auto-logud eller om der er et igangværende logind på dagen ***'    
@@ -939,9 +1020,10 @@ else '** POST *****
                             '***********************************************************
                                 call medariprogrpFn(strUsrId)
                                 dothis = 0
+                                thisid = 0
                                 logudDone = 0
                                 LogudDateTime = year(now)&"/"& month(now)&"/"&day(now)&" "& datepart("h", now) &":"& datepart("n", now) &":"& datepart("s", now) 
-                                call fordelStempelurstimer(strUsrId, lto, dothis, logudDone, LogudDateTime) 
+                                call fordelStempelurstimer(strUsrId, lto, dothis, logudDone, LogudDateTime, thisid) 
 
                             end select
                         end if
@@ -949,6 +1031,51 @@ else '** POST *****
 				    end if
 
                 end if
+
+
+                '******************* Indlæs opfyldning på aktivieter i forhold til komme/Gå ****
+                select case lto 
+				case "lm", "intranet - local"
+                        
+                    'if session("mid") = 1 OR session("mid") = 27 OR session("mid") = 33 then
+                    'if session("mid") = 1 then
+                    forcerun = 1
+                   
+                    sldato = day(now) & "/" & month(now) & "/" & year(now) '"01-01-2002"
+                    sldato = dateAdd("d", -1, sldato) 
+                    stdato = dateAdd("d", -30, sldato) '-30 "01-01-2002"
+                            
+                        'strSQLm  = "SELECT mid FROm medarbejdere WHERe mid <> 0 ORDER BY mid"
+                        'oRec.open strSQLm, oConn, 3
+                        'while not oRec.EOF
+
+                        'call fyldoptimertilnorm(lto, oRec("mid"), forcerun, stdato, sldato)
+
+                        'oRec.movenext
+                        'wend
+                        'oRec.close
+
+                        'if session("mid") = 1 then
+                        'opfuser = 17
+                        'else
+                        opfuser = session("mid") 
+                        'end if
+
+                        call fyldoptimertilnorm(lto, opfuser, forcerun, stdato, sldato)
+                    
+                     'end if
+
+                case "dencker"
+                        
+                    '** Kører manuelt fra HR listen
+                    'if session("mid") = 21 then
+                    'call fyldoptimertilnorm(lto, session("mid"))
+                    'end if
+                        
+                case else
+               
+                end select
+
                 'end select
 
                 'response.end
@@ -1088,7 +1215,7 @@ else '** POST *****
 		response.cookies("tsa")("visAlleMedarb") = ""
 
 		Response.Cookies("loginlto")("lto") = lto
-		Response.Cookies("loginlto").expires = date + 90
+		Response.Cookies("loginlto").expires = date + 2000
        
 		
 		if len(request("huskmig")) <> 0 then
@@ -1109,25 +1236,80 @@ else '** POST *****
 			'*** tjekker om det er PDA eller PC ****
 
    
-    'if lto = "outz" OR lto = "hestia" then
             call browsertype()
             browstype_client = browstype_client
-    'else
-     '       browstype_client = "xx"
-    'end if
+    
  
-
+            '****************************
+            '**** MOBILE ****************
+            '****************************
 			if browstype_client = "ip" then
 			
 			    'New server
-                if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
-                response.redirect "http://outzource.dk/timeout_xp/wwwroot/ver2_14/timetag_web/timetag_web.asp?flushsessionuser=1"
-                else
-                response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/timetag_web/timetag_web.asp?flushsessionuser=1"
-                end if
+                'if instr(request.servervariables("LOCAL_ADDR"), "195.189.130.210") <> 0 then
+                'response.redirect "http://outzource.dk/timeout_xp/wwwroot/ver2_14/timetag_web/timetag_web.asp?flushsessionuser=1"
+                'else
+                'response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/timetag_web/timetag_web.asp?flushsessionuser=1"
+                'end if
 
 
-			else
+                strSQLlandingpage = "SELECT tsacrm FROM medarbejdere WHERE mid ="& session("mid")
+                    oRec.open strSQLlandingpage, oConn, 3
+                    if not oRec.EOF then
+
+                        select case lto
+                        case "nt"
+                        response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/timetag_web/expence.asp"
+                        case "a27"
+                        response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/to_workout/workout.asp"
+                        case "lm"
+                        response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/timetag_web/expence.asp"
+                        case else
+
+                                select case cint(oRec("tsacrm"))
+                                case 3
+                                    ddDato = year(now) &"/"& month(now) &"/"& day(now)
+                                    ddDato_ugedag = day(now) &"/"& month(now) &"/"& year(now)
+                                    ddDato_ugedag_w = datepart("w", ddDato_ugedag, 2, 2)
+            
+                                    varTjDatoUS_man_tt = dateAdd("d", -(ddDato_ugedag_w-1), ddDato_ugedag)
+                                    response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/to_2015/logindhist_2011.asp?usemrn="&session("mid")&"&varTjDatoUS_man="&varTjDatoUS_man_tt
+                                case 6
+
+                                    '*** LINK til UGESEDDEL
+                                    'ddDato = year(now) &"/"& month(now) &"/"& day(now)
+                                    'ddDato_ugedag = day(now) &"/"& month(now) &"/"& year(now)
+                                    'ddDato_ugedag_w = datepart("w", ddDato_ugedag, 2, 2)
+            
+                                    'varTjDatoUS_man_tt = dateAdd("d", -(ddDato_ugedag_w-1), ddDato_ugedag)
+                                    'response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/to_2015/ugeseddel_2011.asp?usemrn="&session("mid")&"&varTjDatoUS_man="&varTjDatoUS_man_tt
+
+                                    '*** LINK TIL mobil reg. ugeseddel ****'
+
+                                    response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/timetag_web/timetag_web.asp?flushsessionuser=1"
+
+                                case 9
+                                     response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/to_2015/favorit.asp"
+                                case 10
+                                     response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/timetag_web/expence.asp"
+                                case else
+                            
+                                    '*** STANDARD mobil timereg. ugeseddel 
+                                    if lto <> "miele" AND lto <> "esn" AND lto <> "hidalgo" then
+                                    response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/timetag_web/timetag_web.asp?flushsessionuser=1"
+                                    else
+                                    '*** CHECK IND / UD knapper side
+                                    response.redirect "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/timetag_web/checkin.asp"
+                                    end if
+
+                                end select
+
+                        end select
+                    end if
+                    oRec.close
+
+
+			else 'WEB
 				
 				'*********************************************************
 				'**** Tjekker om det er localhost (udviklingsmaskine) ****
@@ -1159,6 +1341,15 @@ else '** POST *****
 				'	end if
 				'else
 
+                    if len(trim(rdir)) <> 0 AND lto = "dencker" then
+
+                        if rdir = "igv" then
+                        response.redirect "to_2015/webblik_joblisten.asp?menu=webblik&fromvmenu=1"
+                        end if
+
+                    end if
+
+
                     '***** KUNDE/EKSTERN *****'
 					if stransatkunde = "1" then
 
@@ -1182,21 +1373,21 @@ else '** POST *****
 
                                 'Response.Write "timereg/logindhist_2011.asp?usemrn="&session("mid")&"&varTjDatoUS_man="&mandagIuge&"&varTjDatoUS_son="&sondagIuge
                                 'Response.end
-                                if lto = "cflow" then
-                                response.redirect "to_2015/logindhist_2011.asp?usemrn="&session("mid")&"&varTjDatoUS_man="&mandagIuge&"&varTjDatoUS_son="&sondagIuge
-                                else
+                                if lto = "xtec" OR lto = "xcst" OR lto = "xesn" then
                                 response.redirect "timereg/logindhist_2011.asp?usemrn="&session("mid")&"&varTjDatoUS_man="&mandagIuge&"&varTjDatoUS_son="&sondagIuge
+                                else
+                                response.redirect "to_2015/logindhist_2011.asp?usemrn="&session("mid")&"&varTjDatoUS_man="&mandagIuge&"&varTjDatoUS_son="&sondagIuge        
                                 end if
                                 'response.redirect "timereg/logindhist_2011.asp"    
 
                                 case 4
-						        response.redirect "timereg/webblik_joblisten.asp?menu=webblik&fromvmenu=1"
+						        response.redirect "to_2015/webblik_joblisten.asp?menu=webblik&fromvmenu=1"
                                 case 5
 
                                     if lto = "nt" OR lto = "intranet - local" then
                                     response.redirect "to_2015/job_nt.asp"
                                     else
-						            response.redirect "timereg/jobs.asp?menu=job&shokselector=1&fromvemenu=j"
+						            response.redirect "to_2015/job_list.asp"
                                     end if
                     
                                 case 6
@@ -1221,6 +1412,10 @@ else '** POST *****
                                 call sonmaniuge(now)
 						        response.redirect "to_2015/favorit.asp?varTjDatoUS_man="&mandagIuge
                                 
+
+                                case 10
+                                response.redirect "to_2015/materialerudlaeg.asp"
+
                                 case else '0
 
 
@@ -1232,9 +1427,15 @@ else '** POST *****
                                             'Response.write timeout_version
                                             'Response.end
 
-                                            if request.servervariables("PATH_TRANSLATED") <> "C:\www\timeout_xp\wwwroot\ver2_1\login.asp" then
+                                         if request.servervariables("PATH_TRANSLATED") <> "C:\www\timeout_xp\wwwroot\ver2_1\login.asp" then
+                                    
+                                            select case lto
+                                            case "a27"
+                                           
+                                                 response.redirect "../ver2_14/to_workout/workout.asp"
 
-                                            
+                                            case else
+
                                             select case timeout_version
                                             case "ver2_1"
 							                response.redirect "timereg/timereg_akt_2006.asp"
@@ -1252,15 +1453,18 @@ else '** POST *****
                                             end select
 							                'response.redirect "timereg/timereg_2006_fs.asp"
 
-                                        else
+                                            end select
 
-                                        'select case lto
-                                        'case "dencker", "intranet - local"
-                                        'response.redirect "http://localhost/timeout_xp/timereg/timereg_akt_2006.asp"
-                                        response.redirect "http://localhost/timereg/timereg_akt_2006.asp"
-                                        'case else
-                                        'response.redirect "http://localhost/timeout_xp/timereg/timereg_akt_2006.asp?hideallbut_first=1"
-                                        'end select
+                                        else 'localhost
+
+                                        '
+                                        
+                                        'ORG
+                                        'response.redirect "http://localhost/timereg/timereg_akt_2006.asp"
+                                        'A27
+                                        response.redirect "http://localhost/to_workout/workout.asp"
+
+                                        
 
                                         end if
 

@@ -1,0 +1,588 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Kørsels statistik</txt_1>
+    <txt_2 >Medarbejder</txt_2>
+    <txt_3 >Vis fra</txt_3>
+    <txt_4 >Til</txt_4>
+    <txt_5 >Alle</txt_5>
+    <txt_6 >Vis sum fordelt pr. medarbejder og 60 dages regel.</txt_6>
+    <txt_7 >24 md. forud for slut dato i valgt interval.</txt_7>
+    <txt_8 >Vis</txt_8>
+    <txt_9 >Dag</txt_9>
+    <txt_10 >Kontakt (kunde)</txt_10>
+
+    <txt_11 >Job</txt_11>
+    <txt_12 >Aktivitet</txt_12>
+    <txt_13 >Kommentar</txt_13>
+    <txt_14 >Bopælstur</txt_14>
+    <txt_15 >60 dages regel</txt_15>
+    <txt_16 >Destination</txt_16>
+    <txt_17 >Km</txt_17>
+    <txt_18 >Dato</txt_18>
+    <txt_19 >Kontakt</txt_19>
+    <txt_20 >Ingen registreringer i valgte uge.</txt_20>
+
+    <txt_21 >Kørsel til destination</txt_21>
+    <txt_22 >Periode</txt_22>
+    <txt_23 >Antal dage med</txt_23>
+    <txt_24 >kørsel i periode</txt_24>
+    <txt_25 >skattefri godtgørelse</txt_25>
+    <txt_26 >Akkumuleret pr. destination</txt_26>
+    <txt_27 >foregående 24 md. periode</txt_27>
+    <txt_28 >nulstillet af mellemlæg.</txt_28>
+    <txt_29 >periode på min. arb. 60 dage</txt_29>
+    <txt_30 >Resterende dage</txt_30>
+
+    <txt_31 >Mnr</txt_31>
+    <txt_32 >Init</txt_32>
+    <txt_33 >Antal arb. dage</txt_33>
+    <txt_34 >Antal dage m. godtgørelse</txt_34>
+    <txt_35 >Akkumuleret pr. dest.</txt_35>
+    <txt_36 >Rest dage</txt_36>
+    <txt_37 >Vedr.</txt_37>
+    <txt_38 >Nulstilling af 60 dages regel (tildeler yderligere 60 dage) på destination.</txt_38>
+    <txt_39 >Der har været mere end 60 arbejdsdage mellem seneste registering på denne destination og denne registering,</txt_39>
+    <txt_40 >derfor udviddes antal dage med skattefrigodtgørelse på denne destination med yderligere 60 dage.</txt_40>
+
+    <txt_41 >Seneste kørsel til destination var</txt_41>
+    <txt_42 >Diff</txt_42>
+    <txt_43 >arb. dage</txt_43>
+    <txt_44 >Funktioner</txt_44>
+    <txt_45 >.csv fil eksport</txt_45>
+    <txt_46 >Print version</txt_46>
+    <txt_47 >Fra</txt_47>
+    <txt_48 >Via</txt_48>
+    <txt_49 >Destination ikke angivet</txt_49>
+    <txt_50 >Total i periode</txt_50>
+    <txt_51 >År</txt_51>
+    
+    <txt_52 >man</txt_52>
+    <txt_53 >tir</txt_53>
+    <txt_54 >ons</txt_54>
+    <txt_55 >tor</txt_55>
+    <txt_56 >fre</txt_56>
+    <txt_57 >lør</txt_57>
+    <txt_58 >søn</txt_58>
+    
+    <txt_59 >jan</txt_59>
+    <txt_60 >feb</txt_60>
+    <txt_61 >mar</txt_61>
+    <txt_62 >apr</txt_62>
+    <txt_63 >maj</txt_63>
+    <txt_64 >jun</txt_64>
+    <txt_65 >jul</txt_65>
+    <txt_66 >aug</txt_66>
+    <txt_67 >sep</txt_67>
+    <txt_68 >okt</txt_68>
+    <txt_69 >nov</txt_69>
+    <txt_70 >dec</txt_70>
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >Mileage</txt_1>
+    <txt_2 >Employee</txt_2>
+    <txt_3 >Show from</txt_3>
+    <txt_4 >To</txt_4>
+    <txt_5 >All</txt_5>
+    <txt_6 >Display sum distributed per. employee and 60 day rule.</txt_6>
+    <txt_7 >24 months prior to end date in selected range.</txt_7>
+    <txt_8 >Show</txt_8>
+    <txt_9 >Day</txt_9>
+    <txt_10 >Contact (customer)</txt_10>
+
+    <txt_11 >Job</txt_11>
+    <txt_12 >Activity</txt_12>
+    <txt_13 >Comment </txt_13>
+    <txt_14 >From home</txt_14>
+    <txt_15 >60 days rule</txt_15>
+    <txt_16 >Destination</txt_16>
+    <txt_17 >Km</txt_17>
+    <txt_18 >Date</txt_18>
+    <txt_19 >Contact</txt_19>
+    <txt_20 >No registrations in selected week.</txt_20>
+
+    <txt_21 >Mileage to destination</txt_21>
+    <txt_22 >Period</txt_22>
+    <txt_23 >Number of days with</txt_23>
+    <txt_24 >driving in period</txt_24>
+    <txt_25 >tax-free allowance</txt_25>
+    <txt_26 >Accumulated per. destination</txt_26>
+    <txt_27 >previous 24 month period</txt_27>
+    <txt_28 >reset by interlining.</txt_28>
+    <txt_29 >period of min. 60 work days</txt_29>
+    <txt_30 >Remaining days</txt_30>
+
+    <txt_31 >emplo. no.</txt_31>
+    <txt_32 >Init</txt_32>
+    <txt_33 >Work days</txt_33>
+    <txt_34 >Days with compensation</txt_34>
+    <txt_35 >Accumulated per. Dest.</txt_35>
+    <txt_36 >Rest days</txt_36>
+    <txt_37 >Relating to.</txt_37>
+    <txt_38 >Restting the 60 days rule (allocates additional 60 days) at destination.</txt_38>
+    <txt_39 >There have been more than 60 working days between the last registration at this destination and this registration,</txt_39>
+    <txt_40 >Therefore, the number of days with tax relief at this destination was extended by another 60 days.</txt_40>
+
+    <txt_41 >Last drive to destination was</txt_41>
+    <txt_42 >Diff</txt_42>
+    <txt_43 >work days</txt_43>
+    <txt_44 >Functions</txt_44>
+    <txt_45 >..csv file export</txt_45>
+    <txt_46 >Printable version</txt_46>
+    <txt_47 >From</txt_47>
+    <txt_48 >By</txt_48>
+    <txt_49 >Destination not specified</txt_49>
+    <txt_50 >Total in period</txt_50>
+    <txt_51 >Year</txt_51>
+    
+    <txt_52 >mon</txt_52>
+    <txt_53 >tue</txt_53>
+    <txt_54 >wed</txt_54>
+    <txt_55 >thu</txt_55>
+    <txt_56 >fri</txt_56>
+    <txt_57 >sat</txt_57>
+    <txt_58 >sun</txt_58>
+    
+    <txt_59 >jan</txt_59>
+    <txt_60 >feb</txt_60>
+    <txt_61 >mar</txt_61>
+    <txt_62 >apr</txt_62>
+    <txt_63 >may</txt_63>
+    <txt_64 >jun</txt_64>
+    <txt_65 >jul</txt_65>
+    <txt_66 >aug</txt_66>
+    <txt_67 >sep</txt_67>
+    <txt_68 >oct</txt_68>
+    <txt_69 >nov</txt_69>
+    <txt_70 >dec</txt_70>
+    
+
+  </no>
+
+
+  <!--- Svensk -->
+  <so>
+
+    <txt_1 >Mileage</txt_1>
+    <txt_2 >Employee</txt_2>
+    <txt_3 >Show from</txt_3>
+    <txt_4 >To</txt_4>
+    <txt_5 >All</txt_5>
+    <txt_6 >Display sum distributed per. employee and 60 day rule.</txt_6>
+    <txt_7 >24 months prior to end date in selected range.</txt_7>
+    <txt_8 >Show</txt_8>
+    <txt_9 >Day</txt_9>
+    <txt_10 >Contact (customer)</txt_10>
+
+    <txt_11 >Job</txt_11>
+    <txt_12 >Activity</txt_12>
+    <txt_13 >Comment </txt_13>
+    <txt_14 >From home</txt_14>
+    <txt_15 >60 days rule</txt_15>
+    <txt_16 >Destination</txt_16>
+    <txt_17 >Km</txt_17>
+    <txt_18 >Date</txt_18>
+    <txt_19 >Contact</txt_19>
+    <txt_20 >No registrations in selected week.</txt_20>
+
+    <txt_21 >Mileage to destination</txt_21>
+    <txt_22 >Period</txt_22>
+    <txt_23 >Number of days with</txt_23>
+    <txt_24 >driving in period</txt_24>
+    <txt_25 >tax-free allowance</txt_25>
+    <txt_26 >Accumulated per. destination</txt_26>
+    <txt_27 >previous 24 month period</txt_27>
+    <txt_28 >reset by interlining.</txt_28>
+    <txt_29 >period of min. 60 work days</txt_29>
+    <txt_30 >Remaining days</txt_30>
+
+    <txt_31 >emplo. no.</txt_31>
+    <txt_32 >Init</txt_32>
+    <txt_33 >Work days</txt_33>
+    <txt_34 >Days with compensation</txt_34>
+    <txt_35 >Accumulated per. Dest.</txt_35>
+    <txt_36 >Rest days</txt_36>
+    <txt_37 >Relating to.</txt_37>
+    <txt_38 >Restting the 60 days rule (allocates additional 60 days) at destination.</txt_38>
+    <txt_39 >There have been more than 60 working days between the last registration at this destination and this registration,</txt_39>
+    <txt_40 >Therefore, the number of days with tax relief at this destination was extended by another 60 days.</txt_40>
+
+    <txt_41 >Last drive to destination was</txt_41>
+    <txt_42 >Diff</txt_42>
+    <txt_43 >work days</txt_43>
+    <txt_44 >Functions</txt_44>
+    <txt_45 >..csv file export</txt_45>
+    <txt_46 >Printable version</txt_46>
+    <txt_47 >From</txt_47>
+    <txt_48 >By</txt_48>
+    <txt_49 >Destination not specified</txt_49>
+    <txt_50 >Total in period</txt_50>
+    <txt_51 >Year</txt_51>
+    
+    <txt_52 >mon</txt_52>
+    <txt_53 >tue</txt_53>
+    <txt_54 >wed</txt_54>
+    <txt_55 >thu</txt_55>
+    <txt_56 >fri</txt_56>
+    <txt_57 >sat</txt_57>
+    <txt_58 >sun</txt_58>
+    
+    <txt_59 >jan</txt_59>
+    <txt_60 >feb</txt_60>
+    <txt_61 >mar</txt_61>
+    <txt_62 >apr</txt_62>
+    <txt_63 >may</txt_63>
+    <txt_64 >jun</txt_64>
+    <txt_65 >jul</txt_65>
+    <txt_66 >aug</txt_66>
+    <txt_67 >sep</txt_67>
+    <txt_68 >oct</txt_68>
+    <txt_69 >nov</txt_69>
+    <txt_70 >dec</txt_70>
+    
+  </so>
+
+
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >Mileage</txt_1>
+    <txt_2 >Employee</txt_2>
+    <txt_3 >Show from</txt_3>
+    <txt_4 >To</txt_4>
+    <txt_5 >All</txt_5>
+    <txt_6 >Display sum distributed per. employee and 60 day rule.</txt_6>
+    <txt_7 >24 months prior to end date in selected range.</txt_7>
+    <txt_8 >Show</txt_8>
+    <txt_9 >Day</txt_9>
+    <txt_10 >Contact (customer)</txt_10>
+
+    <txt_11 >Job</txt_11>
+    <txt_12 >Activity</txt_12>
+    <txt_13 >Comment </txt_13>
+    <txt_14 >From home</txt_14>
+    <txt_15 >60 days rule</txt_15>
+    <txt_16 >Destination</txt_16>
+    <txt_17 >Km</txt_17>
+    <txt_18 >Date</txt_18>
+    <txt_19 >Contact</txt_19>
+    <txt_20 >No registrations in selected week.</txt_20>
+
+    <txt_21 >Mileage to destination</txt_21>
+    <txt_22 >Period</txt_22>
+    <txt_23 >Number of days with</txt_23>
+    <txt_24 >driving in period</txt_24>
+    <txt_25 >tax-free allowance</txt_25>
+    <txt_26 >Accumulated per. destination</txt_26>
+    <txt_27 >previous 24 month period</txt_27>
+    <txt_28 >reset by interlining.</txt_28>
+    <txt_29 >period of min. 60 work days</txt_29>
+    <txt_30 >Remaining days</txt_30>
+
+    <txt_31 >emplo. no.</txt_31>
+    <txt_32 >Init</txt_32>
+    <txt_33 >Work days</txt_33>
+    <txt_34 >Days with compensation</txt_34>
+    <txt_35 >Accumulated per. Dest.</txt_35>
+    <txt_36 >Rest days</txt_36>
+    <txt_37 >Relating to.</txt_37>
+    <txt_38 >Restting the 60 days rule (allocates additional 60 days) at destination.</txt_38>
+    <txt_39 >There have been more than 60 working days between the last registration at this destination and this registration,</txt_39>
+    <txt_40 >Therefore, the number of days with tax relief at this destination was extended by another 60 days.</txt_40>
+
+    <txt_41 >Last drive to destination was</txt_41>
+    <txt_42 >Diff</txt_42>
+    <txt_43 >work days</txt_43>
+    <txt_44 >Functions</txt_44>
+    <txt_45 >..csv file export</txt_45>
+    <txt_46 >Printable version</txt_46>
+    <txt_47 >From</txt_47>
+    <txt_48 >By</txt_48>
+    <txt_49 >Destination not specified</txt_49>
+    <txt_50 >Total in period</txt_50>
+    <txt_51 >Year</txt_51>
+    
+    <txt_52 >mon</txt_52>
+    <txt_53 >tue</txt_53>
+    <txt_54 >wed</txt_54>
+    <txt_55 >thu</txt_55>
+    <txt_56 >fri</txt_56>
+    <txt_57 >sat</txt_57>
+    <txt_58 >sun</txt_58>
+    
+    <txt_59 >jan</txt_59>
+    <txt_60 >feb</txt_60>
+    <txt_61 >mar</txt_61>
+    <txt_62 >apr</txt_62>
+    <txt_63 >may</txt_63>
+    <txt_64 >jun</txt_64>
+    <txt_65 >jul</txt_65>
+    <txt_66 >aug</txt_66>
+    <txt_67 >sep</txt_67>
+    <txt_68 >oct</txt_68>
+    <txt_69 >nov</txt_69>
+    <txt_70 >dec</txt_70>
+    
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >Mileage</txt_1>
+    <txt_2 >Employee</txt_2>
+    <txt_3 >Show from</txt_3>
+    <txt_4 >To</txt_4>
+    <txt_5 >All</txt_5>
+    <txt_6 >Display sum distributed per. employee and 60 day rule.</txt_6>
+    <txt_7 >24 months prior to end date in selected range.</txt_7>
+    <txt_8 >Show</txt_8>
+    <txt_9 >Day</txt_9>
+    <txt_10 >Contact (customer)</txt_10>
+
+    <txt_11 >Job</txt_11>
+    <txt_12 >Activity</txt_12>
+    <txt_13 >Comment </txt_13>
+    <txt_14 >From home</txt_14>
+    <txt_15 >60 days rule</txt_15>
+    <txt_16 >Destination</txt_16>
+    <txt_17 >Km</txt_17>
+    <txt_18 >Date</txt_18>
+    <txt_19 >Contact</txt_19>
+    <txt_20 >No registrations in selected week.</txt_20>
+
+    <txt_21 >Mileage to destination</txt_21>
+    <txt_22 >Period</txt_22>
+    <txt_23 >Number of days with</txt_23>
+    <txt_24 >driving in period</txt_24>
+    <txt_25 >tax-free allowance</txt_25>
+    <txt_26 >Accumulated per. destination</txt_26>
+    <txt_27 >previous 24 month period</txt_27>
+    <txt_28 >reset by interlining.</txt_28>
+    <txt_29 >period of min. 60 work days</txt_29>
+    <txt_30 >Remaining days</txt_30>
+
+    <txt_31 >emplo. no.</txt_31>
+    <txt_32 >Init</txt_32>
+    <txt_33 >Work days</txt_33>
+    <txt_34 >Days with compensation</txt_34>
+    <txt_35 >Accumulated per. Dest.</txt_35>
+    <txt_36 >Rest days</txt_36>
+    <txt_37 >Relating to.</txt_37>
+    <txt_38 >Restting the 60 days rule (allocates additional 60 days) at destination.</txt_38>
+    <txt_39 >There have been more than 60 working days between the last registration at this destination and this registration,</txt_39>
+    <txt_40 >Therefore, the number of days with tax relief at this destination was extended by another 60 days.</txt_40>
+
+    <txt_41 >Last drive to destination was</txt_41>
+    <txt_42 >Diff</txt_42>
+    <txt_43 >work days</txt_43>
+    <txt_44 >Functions</txt_44>
+    <txt_45 >..csv file export</txt_45>
+    <txt_46 >Printable version</txt_46>
+    <txt_47 >From</txt_47>
+    <txt_48 >By</txt_48>
+    <txt_49 >Destination not specified</txt_49>
+    <txt_50 >Total in period</txt_50>
+    <txt_51 >Year</txt_51>
+    
+    <txt_52 >mon</txt_52>
+    <txt_53 >tue</txt_53>
+    <txt_54 >wed</txt_54>
+    <txt_55 >thu</txt_55>
+    <txt_56 >fri</txt_56>
+    <txt_57 >sat</txt_57>
+    <txt_58 >sun</txt_58>
+    
+    <txt_59 >jan</txt_59>
+    <txt_60 >feb</txt_60>
+    <txt_61 >mar</txt_61>
+    <txt_62 >apr</txt_62>
+    <txt_63 >may</txt_63>
+    <txt_64 >jun</txt_64>
+    <txt_65 >jul</txt_65>
+    <txt_66 >aug</txt_66>
+    <txt_67 >sep</txt_67>
+    <txt_68 >oct</txt_68>
+    <txt_69 >nov</txt_69>
+    <txt_70 >dec</txt_70>
+
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Mileage</txt_1>
+    <txt_2 >Employee</txt_2>
+    <txt_3 >Show from</txt_3>
+    <txt_4 >To</txt_4>
+    <txt_5 >All</txt_5>
+    <txt_6 >Display sum distributed per. employee and 60 day rule.</txt_6>
+    <txt_7 >24 months prior to end date in selected range.</txt_7>
+    <txt_8 >Show</txt_8>
+    <txt_9 >Day</txt_9>
+    <txt_10 >Contact (customer)</txt_10>
+
+    <txt_11 >Job</txt_11>
+    <txt_12 >Activity</txt_12>
+    <txt_13 >Comment </txt_13>
+    <txt_14 >From home</txt_14>
+    <txt_15 >60 days rule</txt_15>
+    <txt_16 >Destination</txt_16>
+    <txt_17 >Km</txt_17>
+    <txt_18 >Date</txt_18>
+    <txt_19 >Contact</txt_19>
+    <txt_20 >No registrations in selected week.</txt_20>
+
+    <txt_21 >Mileage to destination</txt_21>
+    <txt_22 >Period</txt_22>
+    <txt_23 >Number of days with</txt_23>
+    <txt_24 >driving in period</txt_24>
+    <txt_25 >tax-free allowance</txt_25>
+    <txt_26 >Accumulated per. destination</txt_26>
+    <txt_27 >previous 24 month period</txt_27>
+    <txt_28 >reset by interlining.</txt_28>
+    <txt_29 >period of min. 60 work days</txt_29>
+    <txt_30 >Remaining days</txt_30>
+
+    <txt_31 >emplo. no.</txt_31>
+    <txt_32 >Init</txt_32>
+    <txt_33 >Work days</txt_33>
+    <txt_34 >Days with compensation</txt_34>
+    <txt_35 >Accumulated per. Dest.</txt_35>
+    <txt_36 >Rest days</txt_36>
+    <txt_37 >Relating to.</txt_37>
+    <txt_38 >Restting the 60 days rule (allocates additional 60 days) at destination.</txt_38>
+    <txt_39 >There have been more than 60 working days between the last registration at this destination and this registration,</txt_39>
+    <txt_40 >Therefore, the number of days with tax relief at this destination was extended by another 60 days.</txt_40>
+
+    <txt_41 >Last drive to destination was</txt_41>
+    <txt_42 >Diff</txt_42>
+    <txt_43 >work days</txt_43>
+    <txt_44 >Functions</txt_44>
+    <txt_45 >..csv file export</txt_45>
+    <txt_46 >Printable version</txt_46>
+    <txt_47 >From</txt_47>
+    <txt_48 >By</txt_48>
+    <txt_49 >Destination not specified</txt_49>
+    <txt_50 >Total in period</txt_50>
+    <txt_51 >Year</txt_51>
+    
+    <txt_52 >mon</txt_52>
+    <txt_53 >tue</txt_53>
+    <txt_54 >wed</txt_54>
+    <txt_55 >thu</txt_55>
+    <txt_56 >fri</txt_56>
+    <txt_57 >sat</txt_57>
+    <txt_58 >sun</txt_58>
+    
+    <txt_59 >jan</txt_59>
+    <txt_60 >feb</txt_60>
+    <txt_61 >mar</txt_61>
+    <txt_62 >apr</txt_62>
+    <txt_63 >may</txt_63>
+    <txt_64 >jun</txt_64>
+    <txt_65 >jul</txt_65>
+    <txt_66 >aug</txt_66>
+    <txt_67 >sep</txt_67>
+    <txt_68 >oct</txt_68>
+    <txt_69 >nov</txt_69>
+    <txt_70 >dec</txt_70>
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+    <txt_1 >Mileage</txt_1>
+    <txt_2 >Employee</txt_2>
+    <txt_3 >Show from</txt_3>
+    <txt_4 >To</txt_4>
+    <txt_5 >All</txt_5>
+    <txt_6 >Display sum distributed per. employee and 60 day rule.</txt_6>
+    <txt_7 >24 months prior to end date in selected range.</txt_7>
+    <txt_8 >Show</txt_8>
+    <txt_9 >Day</txt_9>
+    <txt_10 >Contact (customer)</txt_10>
+
+    <txt_11 >Job</txt_11>
+    <txt_12 >Activity</txt_12>
+    <txt_13 >Comment </txt_13>
+    <txt_14 >From home</txt_14>
+    <txt_15 >60 days rule</txt_15>
+    <txt_16 >Destination</txt_16>
+    <txt_17 >Km</txt_17>
+    <txt_18 >Date</txt_18>
+    <txt_19 >Contact</txt_19>
+    <txt_20 >No registrations in selected week.</txt_20>
+
+    <txt_21 >Mileage to destination</txt_21>
+    <txt_22 >Period</txt_22>
+    <txt_23 >Number of days with</txt_23>
+    <txt_24 >driving in period</txt_24>
+    <txt_25 >tax-free allowance</txt_25>
+    <txt_26 >Accumulated per. destination</txt_26>
+    <txt_27 >previous 24 month period</txt_27>
+    <txt_28 >reset by interlining.</txt_28>
+    <txt_29 >period of min. 60 work days</txt_29>
+    <txt_30 >Remaining days</txt_30>
+
+    <txt_31 >emplo. no.</txt_31>
+    <txt_32 >Init</txt_32>
+    <txt_33 >Work days</txt_33>
+    <txt_34 >Days with compensation</txt_34>
+    <txt_35 >Accumulated per. Dest.</txt_35>
+    <txt_36 >Rest days</txt_36>
+    <txt_37 >Relating to.</txt_37>
+    <txt_38 >Restting the 60 days rule (allocates additional 60 days) at destination.</txt_38>
+    <txt_39 >There have been more than 60 working days between the last registration at this destination and this registration,</txt_39>
+    <txt_40 >Therefore, the number of days with tax relief at this destination was extended by another 60 days.</txt_40>
+
+    <txt_41 >Last drive to destination was</txt_41>
+    <txt_42 >Diff</txt_42>
+    <txt_43 >work days</txt_43>
+    <txt_44 >Functions</txt_44>
+    <txt_45 >..csv file export</txt_45>
+    <txt_46 >Printable version</txt_46>
+    <txt_47 >From</txt_47>
+    <txt_48 >By</txt_48>
+    <txt_49 >Destination not specified</txt_49>
+    <txt_50 >Total in period</txt_50>
+    <txt_51 >Year</txt_51>
+    
+    <txt_52 >mon</txt_52>
+    <txt_53 >tue</txt_53>
+    <txt_54 >wed</txt_54>
+    <txt_55 >thu</txt_55>
+    <txt_56 >fri</txt_56>
+    <txt_57 >sat</txt_57>
+    <txt_58 >sun</txt_58>
+    
+    <txt_59 >jan</txt_59>
+    <txt_60 >feb</txt_60>
+    <txt_61 >mar</txt_61>
+    <txt_62 >apr</txt_62>
+    <txt_63 >may</txt_63>
+    <txt_64 >jun</txt_64>
+    <txt_65 >jul</txt_65>
+    <txt_66 >aug</txt_66>
+    <txt_67 >sep</txt_67>
+    <txt_68 >oct</txt_68>
+    <txt_69 >nov</txt_69>
+    <txt_70 >dec</txt_70>
+    
+  </es>
+
+
+</sprog>

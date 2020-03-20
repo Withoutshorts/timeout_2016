@@ -158,7 +158,7 @@ if media <> "export" then
 
 	'*** Finder afslutte uger på aktive medarbejdere ***'
 	if cdbl(medarbSel) = 0 then
-	strSQLmedarb = "SELECT mid FROM medarbejdere WHERE mansat <> '2' AND mansat <> '3'"
+	strSQLmedarb = "SELECT mid FROM medarbejdere WHERE mansat <> 2 AND mansat <> 3 AND mansat <> 4 "
 	oRec4.open strSQLmedarb, oConn, 3
 	while not oRec4.EOF 
 	    
@@ -329,7 +329,7 @@ if media <> "export" then
      stempelUrEkspTxto = ""
      stempelUrEkspTxtShowTot = ""
 
-     lastWeek = "01-01-2002" 'datepart("ww", sqlDatoStart, 2,2) 
+     lastWeek = 0 '"01-01-2002" 'datepart("ww", sqlDatoStart, 2,2) 
 
      lastDato = sqlDatoStart
 
@@ -458,9 +458,11 @@ if media <> "export" then
 	'afslSLDato = "2009-12-31"
 	'call afsluger(oRec("lmid"), afslSTDato, afslSLDato)
 	
+    call thisWeekNo53_fn(oRec("dato"))
+
      if media <> "export" then       
 
-    if lastWeek <> datepart("ww", oRec("dato"), 2,2) AND (cint(layout) = 0) then
+    if cint(lastWeek) <> cint(thisWeekNo53) AND (cint(layout) = 0) then
     
             
 
@@ -666,7 +668,7 @@ if media <> "export" then
 	
                                     <tr bgcolor="#F7F7F7">
 		                                <td>&nbsp;</td>
-		                                <td colspan="<%=csp%>" style="height:20px; padding:5px;"><h4><span style="font-size:11px; font-weight:lighter;">Komme / Gå tid <!--Uge <%=datepart("ww", dtUseTxt, 2,2) &" "& datepart("yyyy", dtUseTxt, 2,2) %>--></span><br />
+		                                <td colspan="<%=csp%>" style="height:20px; padding:5px;"><h4><span style="font-size:11px; font-weight:lighter;">Komme / Gå tid </span><br />
             
                                             <%if len(trim(meInit)) <> 0 then %>
                                             <%=meNavn & "  ["& meInit &"]"%>
@@ -752,12 +754,14 @@ if media <> "export" then
 
     
     
-    if (lastWeek <> datepart("ww", oRec("dato"), 2,2)) AND (cint(layout) = 0) then
+    if (cint(lastWeek) <> cint(thisWeekNo53)) AND (cint(layout) = 0) then
+
+        call thisWeekNo53_fn(dtUse)
     %>
 	
 	<tr bgcolor="#D6DFf5">
 		<td>&nbsp;</td>
-		<td colspan="<%=csp%>" style="<%=td_height%> padding:5px;"><b>Uge <%=datepart("ww", dtUse, 2,2) &" "& datepart("yyyy", dtUse, 2,2) %> </b></td>
+		<td colspan="<%=csp%>" style="<%=td_height%> padding:5px;"><b>Uge <%=thisWeekNo53 &" "& datepart("yyyy", dtUse, 2,2) %> </b></td>
 		<td>&nbsp;</td>
 	</tr>
 	
@@ -800,11 +804,13 @@ if media <> "export" then
 		<%else
 		        '** er periode godkendt ***'
 		        tjkDag = oRec("dato")
-		        erugeafsluttet = instr(afslUgerMedab(oRec("lmid")), "#"&datepart("ww", tjkDag,2,2)&"_"& datepart("yyyy", tjkDag) &"#")
+                call thisWeekNo53_fn(tjkDag)
+
+		        erugeafsluttet = instr(afslUgerMedab(oRec("lmid")), "#"&thisWeekNo53&"_"& datepart("yyyy", tjkDag) &"#")
                 
                 strMrd_sm = datepart("m", tjkDag, 2, 2)
                 strAar_sm = datepart("yyyy", tjkDag, 2, 2)
-                strWeek = datepart("ww", tjkDag, 2, 2)
+                strWeek = thisWeekNo53 'datepart("ww", tjkDag, 2, 2)
                 strAar = datepart("yyyy", tjkDag, 2, 2)
 
                 if cint(SmiWeekOrMonth) = 0 then
@@ -816,7 +822,7 @@ if media <> "export" then
                 end if
 
                 'erugeAfslutte(
-                call erugeAfslutte(useYear, usePeriod, oRec("lmid"), SmiWeekOrMonth, 0)
+                call erugeAfslutte(useYear, usePeriod, oRec("lmid"), SmiWeekOrMonth, 0, tjkDag)
 		        
 		        'Response.Write "smilaktiv: "& smilaktiv & " autogk:"& autogk &"<br>"
 		        'Response.Write "SmiWeekOrMonth: "& SmiWeekOrMonth &" ugeNrAfsluttet: "& ugeNrAfsluttet & " tjkDag: "& tjkDag &" ugegodkendt: "& ugegodkendt &"<br>"
@@ -825,22 +831,13 @@ if media <> "export" then
 		        'Response.Write "autolukvdato: "& autolukvdato & "<br>"
 		        'Response.Write "erugeafsluttet:" & erugeafsluttet & "<br>"
 		        
-		        call lonKorsel_lukketPer(tjkDag, -2)
+		        call lonKorsel_lukketPer(tjkDag, -2, oRec("lmid"))
 		         
-                'if ( (( datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0) OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 )) AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
-                '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) = year(now) AND DatePart("m", tjkDag) < month(now)) OR _
-                '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) < year(now) AND DatePart("m", tjkDag) = 12)) OR _
-                '(smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", tjkDag) < year(now) AND DatePart("m", tjkDag) <> 12) OR _
-                '(smilaktiv = 1 AND autolukvdato = 1 AND (year(now) - DatePart("yyyy", tjkDag) > 1))) OR cint(lonKorsel_lukketIO) = 1 then
-              
-                'ugeerAfsl_og_autogk_smil = 1
-                'else
-                'ugeerAfsl_og_autogk_smil = 0
-                'end if 
+               
 
 
                  '*** tjekker om uge er afsluttet / lukket / lønkørsel
-                call tjkClosedPeriodCriteria(tjkDag, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO)
+                call tjkClosedPeriodCriteria(tjkDag, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO, ugegodkendt)
 				
                 
                 '* Admin får vist stipledede bokse
@@ -1090,6 +1087,7 @@ if media <> "export" then
             case "esn", "tec", "cst"
                 call findesDerTimer(1, oRec("dato"), medarbSel)
             case else
+                call findesDerTimer(1, oRec("dato"), medarbSel)
             end select
              
            %>
@@ -1150,7 +1148,8 @@ if media <> "export" then
     'Response.write "lastMid b:" & lastMid & "<br>"
     end if 'media + showtotal
 
-    lastWeek = datepart("ww", oRec("dato"), 2,2)
+    call thisWeekNo53_fn(oRec("dato"))
+    lastWeek = thisWeekNo53 'datepart("ww", oRec("dato"), 2,2)
 	lastMnavn = meNavn
 	lastMnr = meNr
 	lastMid = oRec("lmid")
@@ -1204,11 +1203,13 @@ if media <> "export" then
                    
                 
                   dtUseTxt = dateadd("d", 3, dtUse) '** Sikere det er mid i uge, hvis ugen løber over årsskift
+                  call thisWeekNo53_fn(dtUseTxt)
+
                   %>
 	
 	          <tr bgcolor="#F7F7F7">
 		            <td>&nbsp;</td>
-		            <td colspan="<%=csp%>" style="height:20px; padding:5px;"><h4><span style="font-size:11px; font-weight:lighter;">Komme / Gå tid Uge <%=datepart("ww", dtUseTxt, 2,2) &" "& datepart("yyyy", dtUseTxt, 2,2) %></span><br />
+		            <td colspan="<%=csp%>" style="height:20px; padding:5px;"><h4><span style="font-size:11px; font-weight:lighter;">Komme / Gå tid Uge <%=thisWeekNo53 &" "& datepart("yyyy", dtUseTxt, 2,2) %></span><br />
                         <%if len(trim(meInit)) <> 0 then %>
                         <%=meNavn & "  ["& meInit &"]"%>
                         <%else %>
@@ -1225,14 +1226,11 @@ if media <> "export" then
     
     
                 '** er periode godkendt ***'
-                'if session("mid") = 331 then
-                'tjkDag = dateadd("d", 3, dtUse) '** Periode altid torsdag, pga månedsskift / årsskift
-                'else
-		        tjkDag = dtUse
-                'end if
-
+                tjkDag = dtUse
+                call thisWeekNo53_fn(tjkDag)
+                
                 if cint(SmiWeekOrMonth) = 0 then
-		        erugeafsluttet = instr(afslUgerMedab(medarbsel), "#"&datepart("ww", tjkDag,2,2)&"_"& datepart("yyyy", tjkDag) &"#")
+		        erugeafsluttet = instr(afslUgerMedab(medarbsel), "#"&thisWeekNo53&"_"& datepart("yyyy", tjkDag) &"#")
                 else
                 erugeafsluttet = instr(afslUgerMedab(medarbsel), "#"&datepart("m", tjkDag,2,2)&"_"& datepart("yyyy", tjkDag) &"#")
                 end if
@@ -1240,7 +1238,7 @@ if media <> "export" then
 
                 strMrd_sm = datepart("m", tjkDag, 2, 2)
                 strAar_sm = datepart("yyyy", tjkDag, 2, 2)
-                strWeek = datepart("ww", tjkDag, 2, 2)
+                strWeek = thisWeekNo53 'datepart("ww", tjkDag, 2, 2)
                 strAar = datepart("yyyy", tjkDag, 2, 2)
 
                 if cint(SmiWeekOrMonth) = 0 then
@@ -1252,26 +1250,13 @@ if media <> "export" then
                 end if
 
                 
-                call erugeAfslutte(useYear, usePeriod, medarbsel, SmiWeekOrMonth, 0)
+                call erugeAfslutte(useYear, usePeriod, medarbsel, SmiWeekOrMonth, 0, tjkDag)
 		        
-                call lonKorsel_lukketPer(tjkDag, -2)
+                call lonKorsel_lukketPer(tjkDag, -2, medarbsel)
 
-                    
-		         
-                'if ( (( datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0) OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 )) AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
-                '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) = year(now) AND DatePart("m", tjkDag) < month(now)) OR _
-                '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) < year(now) AND DatePart("m", tjkDag) = 12)) OR _
-                '(smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", tjkDag) < year(now) AND DatePart("m", tjkDag) <> 12) OR _
-                '(smilaktiv = 1 AND autolukvdato = 1 AND (year(now) - DatePart("yyyy", tjkDag) > 1))) OR cint(lonKorsel_lukketIO) = 1 then
-              
-                'ugeerAfsl_og_autogk_smil = 1
-                'else
-                'ugeerAfsl_og_autogk_smil = 0
-                'end if 
-                
 
                 '*** tjekker om uge er afsluttet / lukket / lønkørsel
-                call tjkClosedPeriodCriteria(tjkDag, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO)
+                call tjkClosedPeriodCriteria(tjkDag, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO, ugegodkendt)
 
 
 

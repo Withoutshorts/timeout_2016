@@ -180,12 +180,23 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
                      jhGTTxt = ""
                      end if
 
-                  
-                
+                 
+                     if cint(timesimh1h2) = 1 then
+
+
+                             if month(aktBudgettjkOnRegAarSt) = 1 then
+                                strSQLmedrd = "SELECT SUM(timer) AS sumtimer FROM ressourcer_md WHERE jobid = " & jobid & " "& strSQLAktResKri &" AND (aar = "& h1aar &") GROUP BY " & sqlRGrpBY 
+                             else
+                                strSQLmedrd = "SELECT SUM(timer) AS sumtimer FROM ressourcer_md WHERE jobid = " & jobid & " "& strSQLAktResKri &" AND ((aar = "& h1aar &" AND md >= 7) OR (aar = "& h1aar+1 &" AND md < 7)) GROUP BY " & sqlRGrpBY 
+                             end if
+
+                     
+                     else
                      strSQLmedrd = "SELECT SUM(timer) AS sumtimer FROM ressourcer_md WHERE jobid = " & jobid & " "& strSQLAktResKri &" AND aar = "& h1aar &" AND md = "& h1md  & " GROUP BY " & sqlRGrpBY 
-                    
+                     end if            
+
                     'if session("mid") = 1 then 
-                    'response.Write "strSQLmedrd: " & strSQLmedrd
+                    'response.Write "aktBudgettjkOnRegAarSt: "& aktBudgettjkOnRegAarSt &" strSQLmedrd: " & strSQLmedrd
                     'response.flush
                     'end if            
 
@@ -198,14 +209,18 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
                      oRec3.close
 
                     
-                     useH2 = 900
+                     useH2 = 1 '900
                      if cint(useH2) = 1 then
 
                     strSQLmedrd = "SELECT SUM(timer) AS sumtimer FROM ressourcer_md WHERE jobid = " & jobid & " "& strSQLAktResKri &" AND aar = "& h2aar &" AND md = "& h2md & " GROUP BY " & sqlRGrpBY   
+                    'strSQLmedrd = "SELECT SUM(timer) AS sumtimer FROM ressourcer_md WHERE jobid = " & jobid & " "& strSQLAktResKri &" AND aar = "& h2aar &" AND md <= 6 GROUP BY " & sqlRGrpBY
+                    'Response.write strSQLmedrd
+                    'Response.flush
                      oRec3.open strSQLmedrd, oConn, 3
                      if not oRec3.EOF then
 
                         jh2 = oRec3("sumtimer")
+                        'jh1 = jh1 + jh2
 
                      end if
                      oRec3.close
@@ -213,14 +228,37 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
                      end if
 
                 
-                    if lto = "wwf" OR lto = "intranet - local" then
+                    if lto = "wwf" OR lto = "intranet - local" OR lto = "ddc" then
 
                     
+                              if cint(timesimh1h2) = 1 then
+                             
+                                if month(aktBudgettjkOnRegAarSt) = 1 then
                             
+                                    nextFY1 = h1aar
+                                    nextFY2 = h1aar+1
+                                    nextFY3 = h1aar+2
+
+                                else ' WWF FY start 7
+                                    nextFY1 = h1aar+1
+                                    nextFY2 = h1aar+2
+                                    nextFY3 = h1aar+3
+                                end if
+
+                             else
+                                    nextFY1 = h1aar
+                            nextFY2 = h1aar+1
+                            nextFY3 = h1aar+2
+
+                             end if
+                          
+                      
+
+
                
                             if aktid = 0 then
                             '** Budgetfordeling pr. FRA JOB ÅR 1
-                            strSQLbudgerFordelFY = "SELECT timer FROM ressourcer_ramme WHERE jobid = " & jobid & " AND aktid = 0 AND aar = "& h1aar+1 &""  
+                            strSQLbudgerFordelFY = "SELECT timer, rr_budgetbelob FROM ressourcer_ramme WHERE jobid = " & jobid & " AND aktid = 0 AND aar = "& nextFY1 &""  
                     
                             'if session("mid") = 1 then
                             'response.write strSQLbudgerFordelFY 
@@ -229,30 +267,45 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
                              oRec3.open strSQLbudgerFordelFY, oConn, 3
                              if not oRec3.EOF then
 
+                                select case lto
+                                case "ddc"
+                                jobbudget_fordeling_aar1 = oRec3("rr_budgetbelob")
+                                case else
                                 jobbudget_fordeling_aar1 = oRec3("timer")
+                                end select
 
                              end if
                              oRec3.close     
 
                              '** Budgetfordeling pr. FRA JOB ÅR 2
-                            strSQLbudgerFordelFY = "SELECT timer FROM ressourcer_ramme WHERE jobid = " & jobid & " AND aktid = 0 AND aar = "& h1aar+2 &""  
+                            strSQLbudgerFordelFY = "SELECT timer, rr_budgetbelob FROM ressourcer_ramme WHERE jobid = " & jobid & " AND aktid = 0 AND aar = "& nextFY2 &""  
                     
                              oRec3.open strSQLbudgerFordelFY, oConn, 3
                              if not oRec3.EOF then
 
+                                 select case lto
+                                case "ddc"
+                                jobbudget_fordeling_aar2 = oRec3("rr_budgetbelob")
+                                case else
                                 jobbudget_fordeling_aar2 = oRec3("timer")
+                                end select
 
                              end if
                              oRec3.close     
 
 
                              '** Budgetfordeling pr. FRA JOB ÅR 3
-                            strSQLbudgerFordelFY = "SELECT timer FROM ressourcer_ramme WHERE jobid = " & jobid & " AND aktid = 0 AND aar = "& h1aar+3 &""  
+                            strSQLbudgerFordelFY = "SELECT timer, rr_budgetbelob FROM ressourcer_ramme WHERE jobid = " & jobid & " AND aktid = 0 AND aar = "& nextFY3 &""  
                     
                              oRec3.open strSQLbudgerFordelFY, oConn, 3
                              if not oRec3.EOF then
-
+                                
+                                select case lto
+                                case "ddc"
+                                jobbudget_fordeling_aar3 = oRec3("rr_budgetbelob")
+                                case else
                                 jobbudget_fordeling_aar3 = oRec3("timer")
+                                end select
 
                              end if
                              oRec3.close     
@@ -379,9 +432,26 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
                     &" WHERE r.jobid = "& jobid &" "& aktSQLkriAvgTp &" "& onlyThisMedarbidsFC & " GROUP BY "& grpByTp
 
                     else 'nedarves
+
+
+                    select case lto
+                    case "ddc" 'findes på job - Kun en aktivitet på hvert job
+
+                     strSQLAvgTp = "SELECT COALESCE(SUM(r.timer*tp.6timepris),0) AS fctimeOms, COALESCE(SUM(r.timer),0) AS fctimerAntal FROM ressourcer_md AS r "_
+                    &" LEFT JOIN timepriser AS tp ON (tp.jobid = "& jobid &" AND tp.aktid = 0 AND medarbid = medid) "_
+                    &" WHERE r.jobid = "& jobid &" "& aktSQLkriAvgTp &" "& onlyThisMedarbidsFC & " GROUP BY "& grpByTp
+
+                    case else 'findes på aktivitet
+
+            
+
                     strSQLAvgTp = "SELECT COALESCE(SUM(r.timer*tp.6timepris),0) AS fctimeOms, COALESCE(SUM(r.timer),0) AS fctimerAntal FROM ressourcer_md AS r "_
                     &" LEFT JOIN timepriser AS tp ON (tp.jobid = "& jobid &" AND tp.aktid = r.aktid AND medarbid = medid) "_
                     &" WHERE r.jobid = "& jobid &" "& aktSQLkriAvgTp &" "& onlyThisMedarbidsFC & " GROUP BY "& grpByTp
+        
+                    end select
+
+
                     end if  
                 
 
@@ -537,6 +607,8 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
             
                      
             diffbudget_FC = formatnumber(diffbudget_FC, 0)
+            'diffbudget_FC = budgetGT
+            
 
 
             if aktid = 0 then 'GT tal kun pr. job linje eller s bliver det dobbelt
@@ -599,9 +671,18 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
     h2cls = "jh1_"& jobid
     jobDisAbled = ""
     else
-    h1cls = "x"
-    h2cls = "x"
-    jobDisAbled = "DISABLED" 
+
+            select case lto
+            case "xddc"
+            h1cls = "jh1_"& jobid
+            h2cls = "jh1_"& jobid
+            jobDisAbled = ""
+            case else
+            h1cls = "x"
+            h2cls = "x"
+            jobDisAbled = "DISABLED" 
+            end select
+
     end if
 
     'visKunFCFelter
@@ -632,7 +713,7 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
 
       <td><input type="text" name="FM_<%=aktFMname%>timebudget_FY0" id="FM_timerbudget_FY0_<%=jobid%>_<%=aktid %>" class="jobakt_budgettimer_FY <%=aktclassFY0 %> form-control input-small" value="<%=rammeFY0 %>" style="width:50px; background-color:<%=bgthisFY0%>;" <%=jobDisAbled %> />
 
-          <%if aktid = 0 AND lto = "wwf" then %>
+          <%if aktid = 0 AND (lto = "wwf" OR lto = "ddc") then %>
             <span style="font-size:9px; line-height:10px;"><%=formatnumber(jobbudget_fordeling_aar1,0)%></span>
             <%end if %>
 
@@ -640,13 +721,13 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
       </td>
      <td><input type="text" name="FM_<%=aktFMname%>timebudget_FY1" id="FM_timerbudget_FY1_<%=jobid%>_<%=aktid %>" class="jobakt_budgettimer_FY1 <%=aktclassFY1 %> form-control input-small" value="<%=rammeFY1 %>" style="width:50px;"  <%=jobDisAbled %>/>
 
-         <%if aktid = 0 AND lto = "wwf" then %>
+         <%if aktid = 0 AND (lto = "wwf" OR lto = "ddc") then %>
             <span style="font-size:9px; line-height:10px;"><%=formatnumber(jobbudget_fordeling_aar2,0)%></span>
             <%end if %>
 
      </td>
         <td><input type="text" name="FM_<%=aktFMname%>timebudget_FY2" id="FM_timerbudget_FY2_<%=jobid%>_<%=aktid %>" class="jobakt_budgettimer_FY2 <%=aktclassFY2 %> form-control input-small" value="<%=rammeFY2 %>" style="width:50px;" <%=jobDisAbled %> />
-            <%if aktid = 0 AND lto = "wwf" then %>
+            <%if aktid = 0 AND (lto = "wwf" OR lto = "ddc") then %>
             <span style="font-size:9px; line-height:10px;"><%=formatnumber(jobbudget_fordeling_aar3,0)%></span>
             <%end if %>
         </td>
@@ -657,7 +738,7 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
                 <input type="hidden" name="FM_<%=aktFMname%>timebudget_FY2" value="##" />
 
 
-        <%if cint(timesimh1h2) = 1 then %>
+        <%if cint(timesimh1h2) = 999 then %>
         <td><input type="text" style="width:40px;" disabled value="<%=rammeFY0 %>" class="form-control input-small" /></td>
         <%end if %>
         
@@ -692,7 +773,7 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
         <td style="padding-right:2px;"><input type="text" name="" class="form-control input-small" style="width:60px;" value="<%=realomsH1 %>" DISABLED /></td>
         <%end if %>
         
-        <%if cint(timesimh1h2) = 1 then %>
+        <%if cint(timesimh1h2) = 999 then %>
         <!-- H2 Ressouce timer og TP -->
         <td style="white-space:nowrap;"><input type="text" id="h2tilradighed_jobakt_<%=jobid%>_<%=aktid %>" class="form-control input-small" value="<%=timerTilH2%>" style="width:60px;" disabled /></td>
         <td><input type="text" id="h2t_jobakt_<%=jobid%>_<%=aktid%>" class="<%=h2cls%> jh2 form-control input-small" value="<%=jh2%>" style="width:60px;" disabled  /></td>
@@ -705,14 +786,30 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
         <td style="background-color:#FFFFFF;"><input type="text" id="budget_h1_jobakt_<%=jobid%>_<%=aktid %>" class="form-control input-small" style="width:60px; border:0px;" value="<%=budgetFY0h1 %>" DISABLED /></td>
         <%end if %>        
 
-        <%if cint(timesimh1h2) = 1 then %>
+        <%if cint(timesimh1h2) = 999 then %>
         <td style="background-color:#FFFFFF;"><input type="text" id="budget_h2_jobakt_<%=jobid%>_<%=aktid %>" class="form-control input-small" style="width:60px; border:0px; background-color:<%=bgthis%>;" value="<%=budgetFY0h2%>" /></td>
         <%end if %>
 
         <td><input type="text" id="budget_jobakt_<%=jobid%>_<%=aktid %>" class="form-control input-small" style="width:80px; border:0px;" value="<%=jhGTTxt%>" DISABLED /></td><!-- budgetFY0 -->
 
-        <!-- diffbudget_FC = (jobbudget - 100) -->
-        <td><input type="text" id="budget_jobakt_<%=jobid%>_<%=aktid %>" class="form-control input-small" style="width:80px; border:0px; background-color:<%=diffbudget_FCtdCol%>;" value="<%=diffbudget_FC%>" DISABLED /></td><!-- budgetFY0 -->
+
+        
+                    <%
+                    ''** SALDO FY DKK Budget - Forecast    
+                    select case lto
+                    case "ddc"%>
+                   <td><input type="text" id="budget_jobakt_<%=jobid%>_<%=aktid %>" class="form-control input-small" style="width:80px; border:0px; background-color:<%=diffbudget_FCtdCol%>;" value="<%=diffbudget_FC%>" DISABLED /></td><!-- budgetFY0 -->
+
+          
+                    <%case else
+                        ''** SALDO GT DKK Budget - Forecast (tages fra FY. oko model)  
+                        %>
+
+                        <!-- diffbudget_FC = (jobbudget - 100) -->
+                        <td><input type="text" id="budget_jobakt_<%=jobid%>_<%=aktid %>" class="form-control input-small" style="width:80px; border:0px; background-color:<%=diffbudget_FCtdCol%>;" value="<%=diffbudget_FC%>" DISABLED /></td><!-- budgetFY0 -->
+
+                    <%end select %>
+
 
 
          
@@ -739,7 +836,7 @@ function jobaktbudgetfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, budge
             strExport = strExport & budgetFY0h1 &";"
             end if
 
-            if cint(timesimh1h2) = 1 then
+            if cint(timesimh1h2) = 999 then
             strExport = strExport & budgetFY0h2 &";"
             end if
 
@@ -825,9 +922,19 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                          strSQLjobFcGt = strSQLjobFcGt & " LEFT JOIN timepriser AS tp ON (tp.jobid = " & jobid &" AND tp.aktid = r.aktid AND tp.medarbid = r.medid)" 
                          end if
 
+                         if cint(timesimh1h2) = 1 then
+                             
+                                if month(aktBudgettjkOnRegAarSt) = 1 then
+                                strSQLjobFcGt = strSQLjobFcGt & " WHERE r.jobid = " & jobid &" "& aktKri &" AND (r.medid <> 0) AND (aar = "& h1aar &") GROUP BY "& grpBy 
+                                else
+                                strSQLjobFcGt = strSQLjobFcGt & " WHERE r.jobid = " & jobid &" "& aktKri &" AND (r.medid <> 0) AND ((aar = "& h1aar &" AND md >= 7) OR (aar = "& h1aar+1 &" AND md < 7)) GROUP BY "& grpBy 
+                                end if
+                    
 
+                         else
                          strSQLjobFcGt = strSQLjobFcGt & " WHERE r.jobid = " & jobid &" "& aktKri &" AND (r.medid <> 0) AND (aar = "& h1aar &" AND md = "& h1md &") GROUP BY "& grpBy 
-                        
+                         end if                
+
                          'if session("mid") = 1 then
                          'response.Write "<br>strSQLjobFcGt: " & strSQLjobFcGt & " - p: "& p
                          'response.flush
@@ -1069,7 +1176,18 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
 
                     if cint(timesimtp) = 0 then '** Beregn IKKE timepriser
 
-                     strSQLmedrd = "SELECT SUM(timer) AS sumtimer FROM ressourcer_md WHERE jobid = " & jobid &" "& aktKri &" AND (medid = 0 "& medarbIPgrp(p) &") AND (aar = "& h1aar &" AND md = "& h1md &") GROUP BY "& grpBy 
+                         if cint(timesimh1h2) = 1 then
+
+                                if month(aktBudgettjkOnRegAarSt) = 1 then
+                                strSQLmedrd = "SELECT SUM(timer) AS sumtimer FROM ressourcer_md WHERE jobid = " & jobid &" "& aktKri &" AND (medid = 0 "& medarbIPgrp(p) &") AND (aar = "& h1aar &") GROUP BY "& grpBy 
+                                else
+                                strSQLmedrd = "SELECT SUM(timer) AS sumtimer FROM ressourcer_md WHERE jobid = " & jobid &" "& aktKri &" AND (medid = 0 "& medarbIPgrp(p) &") AND ((aar = "& h1aar &" AND md >= 7) OR (aar = "& h1aar+1 &" AND md < 7)) GROUP BY "& grpBy
+                                end if
+
+                         else
+                         strSQLmedrd = "SELECT SUM(timer) AS sumtimer FROM ressourcer_md WHERE jobid = " & jobid &" "& aktKri &" AND (medid = 0 "& medarbIPgrp(p) &") AND (aar = "& h1aar &" AND md = "& h1md &") GROUP BY "& grpBy 
+                         end if   
+
                      'response.Write "<br>strSQLmedrd: " & strSQLmedrd & " - p: "& p
                      'response.flush
                      progrpTot = 0
@@ -1086,9 +1204,23 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                     else '*** Forecast incl timepriser pr. gruppe
 
                      strSQLmedrd = "SELECT SUM(rmd.timer) AS sumtimer, 6timepris AS avgGrpTp, COUNT(medarbid) AS antalmedtp FROM ressourcer_md rmd "_
-                     &" LEFT JOIN timepriser tp ON (tp.jobid = rmd.jobid AND tp.aktid = rmd.aktid AND (tp.medarbid = rmd.medid)) "_     
-                     &" WHERE rmd.jobid = " & jobid &" "& replace(aktKri, "aktid", "rmd.aktid") &" AND (medid = 0 "& medarbIPgrp(p) &") AND (aar = "& h1aar &" AND md = "& h1md &")"_
-                     &" GROUP BY tp.6timepris" 
+                     &" LEFT JOIN timepriser tp ON (tp.jobid = rmd.jobid AND tp.aktid = rmd.aktid AND (tp.medarbid = rmd.medid)) "
+                                
+                     if cint(timesimh1h2) = 1 then
+
+                         if month(aktBudgettjkOnRegAarSt) = 1 then
+                         strSQLmedrd = strSQLmedrd &" WHERE rmd.jobid = " & jobid &" "& replace(aktKri, "aktid", "rmd.aktid") &" AND (medid = 0 "& medarbIPgrp(p) &") AND (aar = "& h1aar &")"
+                         else
+                         strSQLmedrd = strSQLmedrd &" WHERE rmd.jobid = " & jobid &" "& replace(aktKri, "aktid", "rmd.aktid") &" AND (medid = 0 "& medarbIPgrp(p) &") AND ((aar = "& h1aar &" AND md >= 7) OR (aar = "& h1aar+1 &" AND md < 7))"
+                         end if
+
+                     else
+
+                        strSQLmedrd = strSQLmedrd &" WHERE rmd.jobid = " & jobid &" "& replace(aktKri, "aktid", "rmd.aktid") &" AND (medid = 0 "& medarbIPgrp(p) &") AND (aar = "& h1aar &" AND md = "& h1md &")"
+
+                     end if
+
+                     strSQLmedrd = strSQLmedrd &" GROUP BY tp.6timepris" 
                      
                      'strSQLmedrd = "SELECT AVG(6timepris) AS avgGrpTp FROM timepriser WHERE jobid = " & jobid &" "& aktKri &" AND (medarbid = 0 "& replace(medarbIPgrp(p), "medid", "medarbid") &") GROUP BY aktid" 
                      'response.Write "<br>strSQLmedrd: " & strSQLmedrd  '& " - p: "& p
@@ -1269,8 +1401,24 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                      h2 = 0
                      h1h2 = 0
                 
-                         strSQLmedrd = "SELECT SUM(timer) AS sumtimer FROM ressourcer_md WHERE jobid = " & jobid & " AND aktid = "& aktid &" AND medid = "& antalm(m,1) &" AND aar = "& h1aar &" AND md = "& h1md  &" GROUP BY medid" 
-                         'response.Write "strSQLmedrd: " & strSQLmedrd
+                        if cint(timesimh1h2) = 1 then
+
+                             if month(aktBudgettjkOnRegAarSt) = 1 then
+                             strSQlmdKri = ""
+                             strSQLmedrd = "SELECT SUM(timer) AS sumtimer FROM ressourcer_md WHERE jobid = " & jobid & " AND aktid = "& aktid &" AND medid = "& antalm(m,1) &" AND (aar = "& h1aar &") GROUP BY medid" 
+
+                             else
+                             strSQlmdKri = ""
+                             strSQLmedrd = "SELECT SUM(timer) AS sumtimer FROM ressourcer_md WHERE jobid = " & jobid & " AND aktid = "& aktid &" AND medid = "& antalm(m,1) &" AND ((aar = "& h1aar &" AND md >= 7) OR (aar = "& h1aar+1 &" AND md < 7)) GROUP BY medid" 
+                             end if
+                                               
+                        else
+                        strSQlmdKri = " AND md = "& h1md &""
+                        strSQLmedrd = "SELECT SUM(timer) AS sumtimer FROM ressourcer_md WHERE jobid = " & jobid & " AND aktid = "& aktid &" AND medid = "& antalm(m,1) &" AND aar = "& h1aar &" "& strSQlmdKri &" GROUP BY medid" 
+                       
+                        end if
+                         
+                         'response.Write "strSQLmedrd: " & strSQLmedrd & "<br>" & cint(timesimh1h2) & "<br>"
                          'response.flush
                 
                          oRec3.open strSQLmedrd, oConn, 3
@@ -1360,14 +1508,19 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                     if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0 then
 
                         if cint(timesimtp) = 1 then
+
+                        select case lto
+                        case "ddc" 'altid timepris på job
+                        strSQLmedtp = "SELECT 6timepris FROM timepriser WHERE jobid = " & jobid & " AND aktid = 0 AND medarbid = "& antalm(m,1)
+                        case else 'tp timepris på aktiviteter
+                        strSQLmedtp = "SELECT 6timepris FROM timepriser WHERE jobid = " & jobid & " AND aktid = "& aktid &" AND medarbid = "& antalm(m,1)
+                        end select
                 
-                        strSQLmedtp = "SELECT 6timepris FROM timepriser WHERE jobid = " & jobid & " AND aktid = "& aktid &" AND medarbid = "& antalm(m,1)  
+                        'strSQLmedtp = "SELECT 6timepris FROM timepriser WHERE jobid = " & jobid & " AND aktid = "& aktid &" AND medarbid = "& antalm(m,1)  
                     
                            'if session("mid") = 1 AND antalm(m,1) = 16 then
-                        
-                           ' response.write "strSQLmedtp: " & strSQLmedtp & "<br>"
-                           ' response.flush
-
+                           'response.write "strSQLmedtp: " & strSQLmedtp & "<br>"
+                           'response.flush
                            'end if
                  
                  
@@ -1403,6 +1556,10 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                     end if
 
                     
+                    'if lto = "ddc" then
+                    'medarbTp = 850
+                    'end if
+
                     '** REAL timer pr. dato ***'
                     'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 2 OR cint(visKunFCFelter) = 3 then
                     if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "2") <> 0 OR instr(visKunFCFelter, "3") <> 0 then
@@ -1496,11 +1653,13 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
                 case "oko", "intranet - local"
                 tpmedarbDisabled = "DISABLED"
                 case else
-                tpmedarbDisabled = "DISABLED"
+                tpmedarbDisabled = ""
                 end select
             
+                
+
              %>
-            <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;"><input name="FM_tp" type="<%=h1h2type %>" value="<%=formatnumber(medarbTp,0) %>" style="width:45px; background-color:<%=bgHfc%>;" id="mh1t_jobaktmid_<%=jobid%>_<%=aktid %>_<%=antalm(m,1)%>" class="<%=mt1jacls%> form-control input-small mh1t mh1t_jobaktmid_<%=jobid%>_<%=aktid%>" maxlength="<%=h1h2Maxl %>" <%=tpmedarbDisabled %> />
+            <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;"><input name="FM_tp" type="<%=h1h2type %>" readonly value="<%=formatnumber(medarbTp,0) %>" style="width:45px; background-color:<%=bgHfc%>;" id="mh1t_jobaktmid_<%=jobid%>_<%=aktid %>_<%=antalm(m,1)%>" class="<%=mt1jacls%> form-control input-small mh1t mh1t_jobaktmid_<%=jobid%>_<%=aktid%>" maxlength="<%=h1h2Maxl %>" <%=tpmedarbDisabled %>/>
                   <%if aktid <> 0 then %>
                   <div style="font-size:8px; float:right;">DKK</div>
                   <%end if %>
@@ -1515,8 +1674,38 @@ function medarbfelter(jobnr, jobid, aktid, h1aar, h2aar, h1md, h2md, bgttpris)
             <%'if cint(visKunFCFelter) = 0 OR cint(visKunFCFelter) = 1 then 
              if instr(visKunFCFelter, "0") <> 0 OR instr(visKunFCFelter, "1") <> 0 then%>
             <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;">
+                
+                <%if cint(timesimh1h2) = 1 then %>
+
+                  <input type="hidden" name="FM_H1" id="mh1h_jobaktmid_<%=jobid%>_<%=aktid %>_<%=antalm(m,1)%>"  value="<%=h1 %>" />
+                  
+                
+                  <span style="color:#5582d2;" class="add_h1h" id="sp_add_h1h_jobaktmid_<%=jobid%>_<%=aktid %>_<%=antalm(m,1)%>"><%=h1 %></span>
+                
+              
+
+                <%if aktid <> 0 then %>
+                <span style="color:#5582d2;" class="add_h1h" id="add_h1h_jobaktmid_<%=jobid%>_<%=aktid %>_<%=antalm(m,1)%>"><b>+</b></span>
+                <%end if %>
+                 
+                
+                <%else%>
                 <input type="<%=h1h2type %>" name="FM_H1" id="mh1h_jobaktmid_<%=jobid%>_<%=aktid %>_<%=antalm(m,1)%>" class="<%=mh1jacls%> form-control input-small mh1 mh1h_jobaktmid_<%=jobid%>_<%=aktid%> mh1h_jobaktmid_<%=jobid%>_<%=aktid%>_<%=p %>" style="width:45px; background-color:<%=h1h2BGcol%>;" value="<%=h1 %>" maxlength="<%=h1h2Maxl %>" />
+                <%end if %>
+
             </td>
+
+           
+
+
+            <!--
+            <%if cint(timesimh1h2) = 1 then %>
+            <td class="afd_p_<%=p%> afd_p" style="visibility:<%=pvzb%>; display:<%=pdsp%>;">
+                <input type="<%=h1h2type %>" name="FM_H2" id="mh2h_jobaktmid_<%=jobid%>_<%=aktid %>_<%=antalm(m,1)%>" class="<%=mh2jacls%> form-control input-small mh2 mh2h_jobaktmid_<%=jobid%>_<%=aktid%>" style="width:45px; background-color:<%=h1h2BGcol%>;" value="<%=h2 %>" maxlength="<%=h1h2Maxl %>" />
+            </td>
+            <%end if%>-->
+
+
            <%else %>
             <input type="hidden" name="FM_H1" value="<%=h1 %>" /> 
            <%end if %>

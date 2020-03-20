@@ -21,7 +21,10 @@
     <txt_11 >Joboverblik / Resume</txt_11>
 
     <txt_12>Ferietildeling nyt ferieår</txt_12>
-    
+    <txt_13>Fak.plan og tilbuds status</txt_13>
+    <txt_14 >Projekt - Medabejdertid</txt_14>
+    <txt_15 >Uge registrering</txt_15>
+    <txt_16 >Ingen meddelelser</txt_16>
 
   </dk>
 
@@ -42,6 +45,10 @@
     <txt_10>Medarbejder - Projekttid</txt_10>
     <txt_11 >Job Overview / Summary</txt_11>
     <txt_12>Ferietildeling nyt ferieår</txt_12>
+    <txt_13>Inv. plan and prop. status</txt_13>
+    <txt_14 >Project - Employee time</txt_14>
+    <txt_15 >Week registration</txt_15>
+    <txt_16 >No new announcements</txt_16>
 
   </no>
 
@@ -61,10 +68,14 @@
     <txt_10>Medarbejder - Projekttid</txt_10>
     <txt_11 >Job Overview / Summary</txt_11>
     <txt_12>Ferietildeling nyt ferieår</txt_12>
+    <txt_13>Inv. plan and prop. status</txt_13>
+    <txt_14 >Project - Employee time</txt_14>
+    <txt_15 >Week registration</txt_15>
+    <txt_16 >No new announcements</txt_16>
 
   </se>
 
-  
+
   <!-- Tysk -->
   <de>
 
@@ -80,10 +91,14 @@
     <txt_10>Employee - Projecttime</txt_10>
     <txt_11 >Job Overview / Summary</txt_11>
     <txt_12>Ferietildeling nyt ferieår</txt_12>
+    <txt_13>Inv. plan and prop. status</txt_13>
+    <txt_14 >Project - Employee time</txt_14>
+    <txt_15 >Week registration</txt_15>
+    <txt_16 >No new announcements</txt_16>
 
   </de>
 
-  
+
   <!-- Fransk -->
   <fr>
     <txt_1 >Feuille de temps</txt_1>
@@ -98,10 +113,14 @@
     <txt_10>Employee - Projecttime</txt_10>
     <txt_11 >Job Overview / Summary</txt_11>
     <txt_12>Ferietildeling nyt ferieår</txt_12>
-    
+    <txt_13>Inv. plan and prop. status</txt_13>
+    <txt_14 >Project - Employee time</txt_14>
+    <txt_15 >Week registration</txt_15>
+    <txt_16 >No new announcements</txt_16>
+
   </fr>
-  
- 
+
+
   <!-- Engelsk -->
   <uk>
 
@@ -115,9 +134,13 @@
 
     <txt_8>Servicedesk</txt_8>
     <txt_9>Administration</txt_9>
-    <txt_10>Employee - Projecttime</txt_10>
+    <txt_10>Employee - Project time</txt_10>
     <txt_11>Job Overview / Summary</txt_11>
     <txt_12>Holiday Allocation</txt_12>
+    <txt_13>Inv. plan and prop. status</txt_13>
+    <txt_14 >Project - Employee time</txt_14>
+    <txt_15 >Week registration</txt_15>
+    <txt_16 >No new announcements</txt_16>
 
   </uk>
 
@@ -133,11 +156,38 @@
     <txt_7 >Economía</txt_7>
     <txt_8 >Service-Desk</txt_8>
     <txt_9 >Administración</txt_9>
-    <txt_10>Employee - Projecttime</txt_10>
+    <txt_10>Employee - Project time</txt_10>
     <txt_11 >Job Overview / Summary</txt_11>
     <txt_12>Ferietildeling nyt ferieår</txt_12>
+    <txt_13>Inv. plan and prop. status</txt_13>
+    <txt_14 >Project - Employee time</txt_14>
+    <txt_15 >Week registration</txt_15>
+    <txt_16 >No new announcements</txt_16>
 
   </es>
+  
+  
+  <!-- Trainerlog UK -->
+  <trainerlog_uk>
 
+    <txt_1>Timerecording</txt_1>
+    <txt_2>Projects</txt_2>
+    <txt_3>Reports</txt_3>
+    <txt_4>Customers</txt_4>
+    <txt_5>Staff</txt_5>
+    <txt_6>Stock</txt_6>
+    <txt_7>Economy</txt_7>
+
+    <txt_8>Servicedesk</txt_8>
+    <txt_9>Administration</txt_9>
+    <txt_10>Employee - Project time</txt_10>
+    <txt_11>Job Overview / Summary</txt_11>
+    <txt_12>Holiday Allocation</txt_12>
+    <txt_13>Inv. plan and prop. status</txt_13>
+    <txt_14 >Project - Employee time</txt_14>
+    <txt_15 >Week registration</txt_15>
+    <txt_16 >No new announcements</txt_16>
+
+  </trainerlog_uk>
 
 </sprog>

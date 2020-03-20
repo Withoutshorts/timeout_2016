@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Du er ved at</txt_1>
+    <txt_2 >SLETTE</txt_2>
+    <txt_3 >en momskode. Er dette korrekt?</txt_3>
+    <txt_4 >Momskoder</txt_4>
+    <txt_5 >Navn</txt_5>
+    <txt_6 >Moms kvotient</txt_6>
+    <txt_7 >Slet</txt_7>
+    <txt_8 >Ingen momskoder registreret</txt_8>
+    <txt_9 >Opret ny</txt_9>
+    <txt_10 >Opdater</txt_10>
+    <txt_11 >Opret</txt_11>
+
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >You are about to</txt_1>
+    <txt_2 >DELETE</txt_2>
+    <txt_3 >a VAT code. Is this correct?</txt_3>
+    <txt_4 >VAT codes</txt_4>
+    <txt_5 >Name</txt_5>
+    <txt_6 >VAT quotient</txt_6>
+    <txt_7 >Delete</txt_7>
+    <txt_8 >No VAT codes registered</txt_8>
+    <txt_9 >Create new</txt_9>
+    <txt_10 >Update</txt_10>
+    <txt_11 >Create</txt_11>
+  
+  </no>
+  
+  
+  <!--- Svensk -->
+  <so>
+
+    <txt_1 >You are about to</txt_1>
+    <txt_2 >DELETE</txt_2>
+    <txt_3 >a VAT code. Is this correct?</txt_3>
+    <txt_4 >VAT codes</txt_4>
+    <txt_5 >Name</txt_5>
+    <txt_6 >VAT quotient</txt_6>
+    <txt_7 >Delete</txt_7>
+    <txt_8 >No VAT codes registered</txt_8>
+    <txt_9 >Create new</txt_9>
+    <txt_10 >Update</txt_10>
+    <txt_11 >Create</txt_11>
+
+  </so>
+  
+  
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >You are about to</txt_1>
+    <txt_2 >DELETE</txt_2>
+    <txt_3 >a VAT code. Is this correct?</txt_3>
+    <txt_4 >VAT codes</txt_4>
+    <txt_5 >Name</txt_5>
+    <txt_6 >VAT quotient</txt_6>
+    <txt_7 >Delete</txt_7>
+    <txt_8 >No VAT codes registered</txt_8>
+    <txt_9 >Create new</txt_9>
+    <txt_10 >Update</txt_10>
+    <txt_11 >Create</txt_11>
+
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >You are about to</txt_1>
+    <txt_2 >DELETE</txt_2>
+    <txt_3 >a VAT code. Is this correct?</txt_3>
+    <txt_4 >VAT codes</txt_4>
+    <txt_5 >Name</txt_5>
+    <txt_6 >VAT quotient</txt_6>
+    <txt_7 >Delete</txt_7>
+    <txt_8 >No VAT codes registered</txt_8>
+    <txt_9 >Create new</txt_9>
+    <txt_10 >Update</txt_10>
+    <txt_11 >Create</txt_11>
+
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >You are about to</txt_1>
+    <txt_2 >DELETE</txt_2>
+    <txt_3 >a VAT code. Is this correct?</txt_3>
+    <txt_4 >VAT codes</txt_4>
+    <txt_5 >Name</txt_5>
+    <txt_6 >VAT quotient</txt_6>
+    <txt_7 >Delete</txt_7>
+    <txt_8 >No VAT codes registered</txt_8>
+    <txt_9 >Create new</txt_9>
+    <txt_10 >Update</txt_10>
+    <txt_11 >Create</txt_11>
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+    
+    <txt_1 >You are about to</txt_1>
+    <txt_2 >DELETE</txt_2>
+    <txt_3 >a VAT code. Is this correct?</txt_3>
+    <txt_4 >VAT codes</txt_4>
+    <txt_5 >Name</txt_5>
+    <txt_6 >VAT quotient</txt_6>
+    <txt_7 >Delete</txt_7>
+    <txt_8 >No VAT codes registered</txt_8>
+    <txt_9 >Create new</txt_9>
+    <txt_10 >Update</txt_10>
+    <txt_11 >Create</txt_11>
+
+  </es>
+
+
+</sprog>

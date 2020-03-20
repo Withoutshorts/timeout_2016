@@ -54,7 +54,7 @@
                 strSenesteMatHTML = strSenesteMatHTML & "<td valign=bottom class= alt>"
                     strSenesteMatHTML = strSenesteMatHTML & left(tsa_txt_251, 3) & "."
                 strSenesteMatHTML = strSenesteMatHTML & "</td>"
-                strSenesteMatHTML = strSenesteMatHTML & "<td valign=bottom class= alt>" & tsa_txt_221 & "</td>"
+                strSenesteMatHTML = strSenesteMatHTML & "<td valign=bottom class= alt>" & left(tsa_txt_221, 3) & ".</td>"
             strSenesteMatHTML = strSenesteMatHTML & "</tr>"
  
            
@@ -82,7 +82,7 @@
 
             strSQLmat = "SELECT m.mnavn AS medarbejdernavn, mnr, init, mf.id AS mfid, mf.matvarenr AS varenr, mg.navn AS gnavn, mf.matenhed AS enhed, "_
             &" mf.matnavn AS navn, mf.matantal AS antal, mf.dato, mf.editor, "_
-            & "mf.matkobspris, mf.matsalgspris, mf.jobid, mf.matgrp, "_
+            & "mf.matkobspris, mf.matsalgspris, mf.jobid, mf.matgrp, mf_konto, "_
             &" mf.usrid, mf.forbrugsdato, j.id, j.jobnr, j.jobnavn, "_
             &" mg.av, f.fakdato, k.kkundenavn, "_
             &" k.kkundenr, mf.valuta, mf.intkode, mf.bilagsnr, v.valutakode, mf.personlig, j.serviceaft, "_
@@ -153,9 +153,25 @@
 
                     strSenesteMatHTML = strSenesteMatHTML & "<font class=""megetlillesort"">"
                         if len(oRec("gnavn")) <> 0 then
-                        strSenesteMatHTML = strSenesteMatHTML & "<br /> ~ " & oRec("gnavn")
+                        strSenesteMatHTML = strSenesteMatHTML & "<br />" & oRec("gnavn")
+
                             if level <= 2 OR level = 6 then
-                            strSenesteMatHTML = strSenesteMatHTML & "(" & oRec("av") & "%)"
+                            strSenesteMatHTML = strSenesteMatHTML & " (" & oRec("av") & "%) "
+
+                                    kontonavn = ""
+                                    strSQLkonto = "SELECT navn FROM kontoplan WHERE id = "& oRec("mf_konto")
+                                    oRec7.open strSQLkonto, oConn, 3
+                                    if not oRec7.EOF then
+
+                                        kontonavn = oRec7("navn")
+
+                                    end if
+                                    oRec7.close
+
+                                     if cint(oRec("mf_konto")) <> 0 then
+                                     strSenesteMatHTML = strSenesteMatHTML & " - " & kontonavn
+                                     end if
+
                             end if
                         end if
                     strSenesteMatHTML = strSenesteMatHTML & "</font>&nbsp;"
@@ -248,7 +264,7 @@
                 strSenesteMatHTML = strSenesteMatHTML & "</td>"
 
 
-                strSenesteMatHTML = strSenesteMatHTML & "<td valign=top style=""padding:5px 2px 2px 2px; border-bottom:1px d6dff5 solid;"">"
+                strSenesteMatHTML = strSenesteMatHTML & "<td valign=top style=""padding:5px 2px 2px 10px; border-bottom:1px d6dff5 solid;"">"
 
                     
                     '*** Er uge alfsuttet af medarb, er smiley og autogk slået til
@@ -281,7 +297,7 @@
                     'Response.Write "autolukvdato: "& autolukvdato & "<br>"
                     'Response.Write "erugeafsluttet:" & erugeafsluttet & "<br>"
 
-                    call lonKorsel_lukketPer(oRec("forbrugsdato"), oRec("risiko"))
+                    call lonKorsel_lukketPer(oRec("forbrugsdato"), oRec("risiko"), usemrn)
 
                     'if (cint(erugeafsluttet) <> 0 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
                     if ( (( datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0) OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 )) AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
@@ -306,14 +322,14 @@
                     '*** Ændre denne så man vælger ved flueben fra matreg. om det skal oprettes på lager **'
 
                     if oRec("varenr") = "0" then	
-                    strSenesteMatHTML = strSenesteMatHTML & "<a href=""materialer_indtast.asp?id=" & oRec("id") & "&func=red&matregid=" & oRec("mfid") & "&lastid=" & oRec("mfid") & "&fromsdsk=" & fromsdsk & "&aftid=" & aftid &  "&vis=otf&mid="&usemrn&"""><img src=""../ill/ac0059-16.gif"" alt=""& tsa_txt_251 &"" border=0 /></a>&nbsp;"
+                    strSenesteMatHTML = strSenesteMatHTML & "<a href=""materialer_indtast.asp?id=" & oRec("id") & "&func=red&matregid=" & oRec("mfid") & "&lastid=" & oRec("mfid") & "&fromsdsk=" & fromsdsk & "&aftid=" & aftid &  "&vis=otf&mid="&usemrn&""" style=""color:yellowgreen;"">..\</a>&nbsp;"
                     else
                     strSenesteMatHTML = strSenesteMatHTML & "&nbsp;"
                     end if
 
                     strSenesteMatHTML = strSenesteMatHTML & "</td>"
                     strSenesteMatHTML = strSenesteMatHTML & "<td valign=top style=""padding:5px 2px 2px 2px; border-bottom:1px d6dff5 solid;"">"
-                    strSenesteMatHTML = strSenesteMatHTML & "&nbsp;<a href=""materialer_indtast.asp?id="& oRec("id") &"&func=slet&matregid="& oRec("mfid") & "&fromsdsk=" & fromsdsk & "&aftid=" & aftid & "&vis=" & vis & "&mid="& usemrn &"""><img src=""../ill/slet_16.gif"" alt="& tsa_txt_221 &" border=0 /></a>"
+                    strSenesteMatHTML = strSenesteMatHTML & "&nbsp;<a href=""materialer_indtast.asp?id="& oRec("id") &"&func=slet&matregid="& oRec("mfid") & "&fromsdsk=" & fromsdsk & "&aftid=" & aftid & "&vis=" & vis & "&mid="& usemrn &""" style=""color:red;"">X</a>"
                     else
                     strSenesteMatHTML = strSenesteMatHTML & "&nbsp;"
                     strSenesteMatHTML = strSenesteMatHTML & "</td>"

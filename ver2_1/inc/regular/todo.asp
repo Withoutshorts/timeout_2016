@@ -207,7 +207,10 @@
 		<a href="javascript:NewWin_todo('todo_add.asp?func=list&wk=<%=todosondag%>');" target="_self" class='vmenu'>Opgavelisten <img src="../ill/pile_selected.gif" width="10" height="6" alt="" border="0"></a><br>
 			<br><b>Du har:</b> (<%=session("user")%>)<br>
 			Total:&nbsp;<font color="#999999"><%=totalpaliste%> opgave(r),</font> <font color="darkred"><%=gamlepaaliste%> afsluttet.</font><br>
-			Uge <%=datepart("ww", useDate, 2, 2)%>:&nbsp;<font color="Goldenrod"><%=nyepaliste%> opgave(r),</font> <font color="darkred"><%=gamleuge%> afsluttet.</font>
+
+            <%call thisWeekNo53_fn(useDate)  %>
+
+			Uge <%=thisWeekNo53%>:&nbsp;<font color="Goldenrod"><%=nyepaliste%> opgave(r),</font> <font color="darkred"><%=gamleuge%> afsluttet.</font>
 			<br><br>
 			<u><b>Dagens opgaver d. <%=daynow%>:</b></u><br>
 			<font color="#5582d2">

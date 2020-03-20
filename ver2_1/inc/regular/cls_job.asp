@@ -1,12 +1,140 @@
 
 <%
-    
-    
+
+    public strSQLDatoStatuskri
+    function datosparrings_sglkri(lto, varTjDatoUS_man, varTjDatoUS_son)
+
+                    call lukaktvdato_fn()
+                    ignJobogAktper = lukaktvdato
+
+                    select case lto
+                    case "mpt"
+                    jobstatusExtra = " OR (j.jobstatus = 2) OR (j.jobstatus = 4)"
+                    case else
+                    jobstatusExtra = ""
+                    end select
+
+
+                    select case ignJobogAktper
+                    case 0,1
+                    strSQLDatoStatuskri = " AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobstatus = 1) OR (j.jobstatus = 3) "& jobstatusExtra &")"
+                    case 3
+                    strSQLDatoStatuskri = " AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobslutdato >= '"& varTjDatoUS_man &"' AND j.jobstatus = 1) OR (j.jobstatus = 3) "& jobstatusExtra &")"
+                    case else
+                    strSQLDatoStatuskri = " AND ((j.jobstatus = 1) OR (j.jobstatus = 3) "& jobstatusExtra &")"
+                    end select
+
+                    'strSQLDatoStatuskri = " AND ((j.jobstatus = 1) OR (j.jobstatus = 3) "& jobstatusExtra &")"
+
+    end function
+
+
+    public strmedarbjobans 
+    function GetMedarbJobAns(medid)
+        
+        if level <> 1 then     
+            if level = 2 OR level = 6 then
+                strmedarbjobans = ""
+                strSQL = "SELECT id FROM job WHERE (jobans1 = "& medid &" OR jobans2 = "& medid &" OR jobans3 = "& medid &" OR jobans4 = "& medid &" OR jobans5 = "& medid &")"
+                oRec.open strSQL, oConn, 3
+                j = 0
+                while not oRec.EOF
+
+                    if j <> 0 then
+                        strmedarbjobans = strmedarbjobans & "," & oRec("id")
+                    else
+                        strmedarbjobans = oRec("id")
+                    end if
+
+                j = j + 1
+                oRec.movenext
+                wend
+                oRec.close
+
+            else
+            strmedarbjobans = "ingen"
+            end if
+        else
+            strmedarbjobans = "alle"
+        end if
+
+    end function
+
+
+    public positiv_aktivering_akt_val_SQL
+    function positivakt_forecast_sqlkri(medid)
+
+                    call positiv_aktivering_akt_fn()
+
+
+                    positiv_aktivering_akt_val = positiv_aktivering_akt_val
+
+                    if cint(positiv_aktivering_akt_val) = 1 OR cint(pa_aktlist) = 1 then 'Positiv aktivering / Må kun søge i aktiv jobliste
+                    positiv_aktivering_akt_val_SQL = " AND ((tu.forvalgt = 1 "
+            
+                            if cint(positiv_aktivering_akt_val) = 1 then
+                            positiv_aktivering_akt_val_SQL = positiv_aktivering_akt_val_SQL & " AND tu.aktid <> 0 AND risiko >= 0) OR risiko < 0"
+
+
+                                            'Ved Positiv aktivering + PA = 1 søg i personlig jobliste, skal de aktiviteter med forecast på altid være tilgengelige
+                                            call aktBudgettjkOn_fn()
+                                            '*************************************************************************************************
+                                            '*** Henter kun akt med ressource forecase Oko, WWF timer for valgte medarb    *******************
+                                            '*************************************************************************************************
+                                            if cint(aktBudgettjkOnViskunmbgt) = 1 then
+                                                
+                                               
+                                               
+                                                datoKrionly = 1
+                                                call ressourcetimerTildelt(varTjDatoUS_man, 0, 0, medid, datoKrionly)
+                                                
+                                                strSQLaktIdFc = "SELECT jobid FROM ressourcer_md WHERE jobid <> 0 AND medid = "& medid &" "& sqlBudgafg &" GROUP BY jobid"
+                                                
+                                                         'Response.Write "<option>OK - "& strSQLaktIdFc &"</option>"
+                                                         'Response.end
+
+                                                jobidsMtimSQL = ""
+                                                oRec6.open strSQLaktIdFc, oConn, 3 
+                                                While not oRec6.EOF
+
+                                                jobidsMtimSQL = jobidsMtimSQL & " OR j.id = " & oRec6("jobid")
+                                            
+                                                oRec6.movenext
+                                                wend
+                                                oRec6.close
+
+                                               
+                                            
+                                                positiv_aktivering_akt_val_SQL = positiv_aktivering_akt_val_SQL & jobidsMtimSQL
+
+                                          
+
+                                            end if
+                                            '*************************************************************************************************
+                                    
+
+                                    positiv_aktivering_akt_val_SQL = positiv_aktivering_akt_val_SQL & ")"
+
+                            else
+                            positiv_aktivering_akt_val_SQL = positiv_aktivering_akt_val_SQL & "))"
+                            end if
+
+                    
+
+                    else
+                    positiv_aktivering_akt_val_SQL = ""
+                    end if
+ 
+
+                    
+                  
+
+
+    end function
 
     
     function selectJobogKunde_jq()
-    
-    
+                
                 '*** SØG kunde & Job 
 
                  medid = request("jq_medid")
@@ -17,13 +145,34 @@
                  jq_jobidc = "-1"
                  end if
     
+                 
+
                  lto = request("lto") 
+
+              
     
                
                 if len(trim(request("jq_newfilterval"))) <> 0 then
                 filterVal = 1 
                 jobkundesog = request("jq_newfilterval")
                 
+                if len(trim(request("searchmode"))) <> 0 then 'Searchmode bruges af Monitor Cflow Oliver
+
+                    searchmode = request("searchmode")
+                    sogSort = request("sogSort")
+
+                    select case cint(sogSort)
+                    case 1
+                    strsogSort = "ORDER BY jobnr, jobnavn"
+                    case 2
+                    strsogSort = "ORDER BY jobnr DESC, jobnavn"
+                   end select          
+    
+                else
+
+                    searchmode = 0
+
+                end if
 
                 'if session("mid") = 1 then
                 '*** ÆØÅ **'
@@ -39,50 +188,28 @@
         
                 
 
-                call positiv_aktivering_akt_fn()
-
-              
-
-                if cint(pa_aktlist) = 0 then 'PA = 0 kan søge i jobbanken / PA = 1 kan kun søge på aktivjobliste
-                strSQLPAkri =  ""
-                else
-                strSQLPAkri =  " AND tu.forvalgt = 1" 
-                end if
-            
-               
-                varTjDatoUS_man = request("varTjDatoUS_man")
-                varTjDatoUS_son = dateAdd("d", 6, varTjDatoUS_man)
-
-                varTjDatoUS_man = year(varTjDatoUS_man) &"/"& month(varTjDatoUS_man) &"/"& day(varTjDatoUS_man)
-                varTjDatoUS_son = year(varTjDatoUS_son) &"/"& month(varTjDatoUS_son) &"/"& day(varTjDatoUS_son)
-
-                
-                
-
-                '*** Datospærring Vis først job når stdato er oprindet
-                call lukaktvdato_fn()
-                ignJobogAktper = lukaktvdato
-
-                select case lto
-                case "mpt"
-                jobstatusExtra = " OR (j.jobstatus = 2) OR (j.jobstatus = 4)"
-                case else
-                jobstatusExtra = ""
-                end select
-
-
-                select case ignJobogAktper
-                case 0,1
-                strSQLDatokri = " AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobstatus = 1) OR (j.jobstatus = 3) "& jobstatusExtra &")"
-                case 3
-                strSQLDatokri = " AND ((j.jobstartdato <= '"& varTjDatoUS_son &"' AND j.jobslutdato >= '"& varTjDatoUS_man &"' AND j.jobstatus = 1) OR (j.jobstatus = 3) "& jobstatusExtra &")"
-                case else
-                strSQLDatokri = ""
-                end select
-
-                   
 
                 if filterVal <> 0 then
+
+
+                    varTjDatoUS_man = request("varTjDatoUS_man")
+                    varTjDatoUS_son = dateAdd("d", 6, varTjDatoUS_man)
+
+                    varTjDatoUS_man = year(varTjDatoUS_man) &"/"& month(varTjDatoUS_man) &"/"& day(varTjDatoUS_man)
+                    varTjDatoUS_son = year(varTjDatoUS_son) &"/"& month(varTjDatoUS_son) &"/"& day(varTjDatoUS_son)                  
+                
+    
+                    '***** POSITIV aktivitering ***'
+                    call positivakt_forecast_sqlkri(medid)
+                    strSQLPAkri = positiv_aktivering_akt_val_SQL
+                    'strSQLPAkri = ""
+          
+               
+                  '*** Datospærring Vis først job når stdato er oprindet
+                  call datosparrings_sglkri(lto, varTjDatoUS_man, varTjDatoUS_son)
+
+                   
+             
 
                  if jobkundesog <> "-1" then
                  strSQLSogKri = " AND (jobnr LIKE '"& jobkundesog &"%' OR jobnavn LIKE '%"& jobkundesog &"%' OR "_
@@ -90,35 +217,35 @@
                  lmt = 50
                  else
                  strSQLSogKri = ""
-                 lmt = 250
+                 lmt = 500 '250
                  end if
             
                  lastKid = 0
                 
 
-                select case lto
-                case "mpt"
-                jobstatusSQL = "j.jobstatus <> 0"
-                case else
-                jobstatusSQL = "j.jobstatus = 1 OR j.jobstatus = 3"
-                end select
-
+               
                 strSQL = "SELECT j.id AS jid, j.jobnavn, j.jobnr, j.jobstatus, k.kkundenavn, k.kkundenr, k.kid FROM timereg_usejob AS tu "_ 
                 &" LEFT JOIN job AS j ON (j.id = tu.jobid) "_
                 &" LEFT JOIN kunder AS k ON (k.kid = j.jobknr) "_
-                &" WHERE tu.medarb = "& medid &" AND ("& jobstatusSQL &") "& strSQLPAkri &" "& strSQLDatokri 
+                &" WHERE tu.medarb = "& medid &" "& strSQLPAkri &" "& strSQLDatoStatuskri 
+        
+                'AND ("& jobstatusSQL &")
                 
                 strSQL = strSQL & strSQLSogKri
 
                 if lto = "cflow" then
-                strSQL = strSQL &" GROUP BY j.id ORDER BY kkundenavn, jobnr, jobnavn LIMIT "& lmt       
+                    if cint(searchmode = 1) then
+                    strSQL = strSQL &" GROUP BY j.id "& strsogSort &" LIMIT "& lmt       
+                    else
+                    strSQL = strSQL &" GROUP BY j.id ORDER BY jobnr, jobnavn LIMIT "& lmt
+                    end if
                 else
                 strSQL = strSQL &" GROUP BY j.id ORDER BY kkundenavn, jobnavn LIMIT "& lmt
                 end if
 
-                'if session("mid") = 1 then
-                 'response.write "<option>strSQL " & strSQL & "</option>"
-                 'response.end
+                'if session("mid") = 1 OR session("mid") = 35 then
+                'response.write "strSQL " & strSQL & ""
+                'response.flush
                 'end if
     
                 select case lto 
@@ -132,31 +259,82 @@
                         if len(trim(week_txt_009)) = 0 then
                         week_txt_009 = "Select Job"
                         end if
-
+                        if cint(searchmode) <> 1 then
                         strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" SELECTED>"& week_txt_009 &":</option>"
-                    end if            
+                        else
+                        strJobogKunderTxt = strJobogKunderTxt & ""
+                        end if
+                end if            
 
                 end select
 
-                 
+
+                dim jobtd
+                redim jobtd(lmt)
+
+                antalA = 0
+                antalB = 0
+                antalC = 0
+                antalD = 0
+                antalE = 0
+                antalF = 0
+                antalG = 0
+                antalH = 0
+                antalI = 0
+                antalJ = 0
+                antalK = 0
+                antalL = 0
+                antalM = 0
+                antalN = 0
+                antalO = 0
+                antalP = 0
+                antalQ = 0
+                antalR = 0
+                antalS = 0
+                antalT = 0
+                antalU = 0
+                antalV = 0
+                antalX = 0
+                antalY = 0
+                antalZ = 0
+                antalAE = 0
+                antalOO = 0
+                antalAA = 0
+                antalW = 0
+
+                alabetColor = ""
+                alabetDisplay = ""
+
+                j = 0
                 k = 0
                 oRec.open strSQL, oConn, 3
                 while not oRec.EOF
         
-             
+    
+                'if lto = "cflow" then
+                'strtdtest = strtdtest & "<td>j: "& j & "</td>"
+                'end if
+
+                'if session("mid") = 1 then
+                '   strJobogKunderTxt = strJobogKunderTxt & "<option>"& strSQL &"</option>"
+                'response.end
+                'end if
+
 
                 if lastKnavn <> oRec("kkundenavn") then
     
-
-                    if k <> 0 then
-                    ' strJobogKunderTxt = strJobogKunderTxt &"<br>"
-                    strJobogKunderTxt = strJobogKunderTxt & "<option DISABLED></option>"
+                    if cint(searchmode) <> 1 then
+                        if k <> 0 then
+                            ' strJobogKunderTxt = strJobogKunderTxt &"<br>"
+                            strJobogKunderTxt = strJobogKunderTxt & "<option DISABLED></option>"
+                        end if
                     end if
     
                 'strJobogKunderTxt = strJobogKunderTxt & oRec("kkundenavn") &" "& oRec("kkundenr") &"<br>"
 
-                 strJobogKunderTxt = strJobogKunderTxt & "<option DISABLED>"& oRec("kkundenavn") &" "& oRec("kkundenr") &"</option>"
-    
+                   if cint(searchmode) <> 1 then
+                        strJobogKunderTxt = strJobogKunderTxt & "<option DISABLED>"& oRec("kkundenavn") &" "& oRec("kkundenr") &"</option>"
+                    end if
                 end if 
                  
                ' strJobogKunderTxt = strJobogKunderTxt & "<input type=""hidden"" id=""hiddn_job_"& oRec("jid") &""" value="""& oRec("jobnavn") & " ("& oRec("jobnr") &")"">"
@@ -170,20 +348,198 @@
 
                 select case lto
                 case "intranet - local", "cflow"
-                strJobogKunderTxt = strJobogKunderTxt & "<option value="& oRec("jid") &" "& jobidSEL &">"& oRec("jobnr") &" "& oRec("jobnavn") &"</option>"
+                    if cint(searchmode) <> 1 then
+
+    
+                        strJobogKunderTxt = strJobogKunderTxt & "<option value="& oRec("jid") &" "& jobidSEL &">"& oRec("jobnr") &" "& oRec("jobnavn") &"</option>"
+                    
+    
+                     else
+
+                        strjobnavn = oRec("jobnavn")
+                        if len(strjobnavn) > 14 then
+                        strjobnavn = left(strjobnavn, 14) & "..."
+                        else
+                        strjobnavn = strjobnavn
+                        end if
+
+                        'strjobnavnFirstLetter = left(strjobnavn,1)
+                        'strjobnavn = right(strjobnavn, (len(strjobnavn) - 1))
+
+                        strjobnFirstLetter = left(oRec("jobnr"),1)
+                        
+                        select case strjobnFirstLetter
+                            case "1"
+                                if antalA < 1 then
+                                    alabetColor = "#db2b2b"
+                                    alabetDisplay = ""
+                                    antalA = antalA + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "2"
+                                if antalB < 1 then
+                                    alabetColor = "#db2b2b"
+                                    alabetDisplay = ""
+                                    antalB = antalB + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "3"
+                                if antalC < 1 then
+                                    alabetColor = "#db2b2b"
+                                    alabetDisplay = ""
+                                    antalC = antalC + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "4"
+                                if antalD < 1 then
+                                    alabetColor = "#db2b2b"
+                                    alabetDisplay = ""
+                                    antalD = antalD + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "5"
+                                if antalE < 1 then
+                                    alabetColor = "#db2b2b"
+                                    alabetDisplay = ""
+                                    antalE = antalE + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "6"
+                                if antalF < 1 then
+                                    alabetColor = "#db2b2b"
+                                    alabetDisplay = ""
+                                    antalF = antalF + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "7"
+                                if antalG < 1 then
+                                    alabetColor = "#db2b2b"
+                                    alabetDisplay = ""
+                                    antalG = antalG + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "8"
+                                if antalH < 1 then
+                                    alabetColor = "#db2b2b"
+                                    alabetDisplay = ""
+                                    antalH = antalH + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if
+                            case "9"
+                                if antalI < 1 then
+                                    alabetColor = "#db2b2b"
+                                    alabetDisplay = ""
+                                    antalI = antalI + 1
+                                else
+                                    alabetColor = ""
+                                    alabetDisplay = "hidden"
+                                end if                            
+                            case else
+                                alabetColor = ""
+                                alabetDisplay = "hidden"
+                        end select
+
+                          'strtd = strtd & "<td>j: "& j & " "& oRec("jobnavn") & " ("& oRec("jobnr") &") </td>"
+
+
+                        if len(oRec("jobnavn")) > 40 then
+                        jobnavn_nr = left(oRec("jobnavn"), 40) & ".. ("& oRec("jobnr") &")"
+                        else
+                        jobnavn_nr = oRec("jobnavn") &" ("& oRec("jobnr") &")"
+                        end if
+
+                        'jobtd(j)
+                        'thisjobtd = ""
+                        jobtd(j) = "<td> <div style='display:inline-block;'> <span style='margin-left:15px; font-size:110%; width:35px; visibility:"&alabetDisplay&"; background-color:#db2b2b;' class='btn btn-default btn-sm'><b style='color:white'>"&strjobnFirstLetter&"<b></span> <br> <span style='width:200px; margin-top:1px; margin-left:15px; font-size:200%; background-color:#f9f9f9;' class='btn btn-default jobsel' id="& oRec("jid") &"><b><span>"&oRec("jobnr")&"</span> <br> <span style='font-size:17px;'>"& strjobnavn &"</span>" &" <input type='hidden' id='jobnavn_sel_"&oRec("jid")&"' value='"& jobnavn_nr &"' /></b></span> </div> </td>"
+                            
+                            'if j = 0 then
+                            '    strtd = strtd & "<tr>"
+                            'end if
+                            
+                            'strtd = strtd & thisjobtd 
+
+                            'if right(j, 1) = 5 then
+                            '    strtd = strtd & "</tr>"
+                            'end if
+
+                            'totaljobs = totaljobs + 1
+                
+
+                    end if
+    
                 case else
                 strJobogKunderTxt = strJobogKunderTxt & "<option value="& oRec("jid") &" "& jobidSEL &">"& oRec("jobnavn") & " ("& oRec("jobnr") &")" &"</option>"
                 end select
 
+                j = j + 1
                 k = k + 1
                 lastKnavn = oRec("kkundenavn") 
                 oRec.movenext
                 wend
                 oRec.close
 
-              
-                if cint(k) = 0 then
-                strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" DISABLED>"& week_txt_010 &"</option>"
+                if cint(searchmode) <> 1 then
+                    if cint(k) = 0 then
+                        strJobogKunderTxt = strJobogKunderTxt & "<option value=""-1"" DISABLED>"& week_txt_010 &"</option>"
+                    end if
+                end if
+
+                if cint(searchmode) = 1 then
+
+
+                    strtd = ""
+                    row = 1
+                    totaljobs = 0
+                    for i = 0 TO UBOUND(jobtd)
+    
+                        if len(jobtd(i)) <> 0 then
+                           if row = 1 then
+                                strtd = strtd & "<tr>"
+                           end if
+                            
+                            strtd = strtd & jobtd(i)
+
+                            if row = 5 then
+                                strtd = strtd & "</tr>"
+                                row = 0
+                            end if
+
+                            row = row + 1
+                            totaljobs = totaljobs + 1
+                        end if
+
+                        
+                    next
+        
+                    if cint(totaljobs) < 5 then
+                    'if cint(j) < 5 then
+                        td = totaljobs
+                        for td = totaljobs TO 4
+                            strtd = strtd & "<td style='display:none;'>&nbsp;</td>"
+                        next
+                    end if
+                    
+                    'if session("mid") = 1 then
+                    'strtd = strtd & "<td>"& strSQL &"</td>" & "<td>HER DER</td>" & strtdtest
+                    'end if
+
+                    strJobogKunderTxt = strJobogKunderTxt & strtd
                 end if
 
 
@@ -194,7 +550,7 @@
 
                     response.write strJobogKunderTxt
 
-                end if    
+                end if    'filterval
     
     
     
@@ -626,14 +982,17 @@ end function
 						            'Mailer.AddRecipient "" & jobans1 & "", "" & jobans1email & ""
 		                            'Mailer.AddRecipient "" & jobans2 & "", "" & jobans2email & ""
 
-                                    myMail.To= ""& jobans1 &"<"& jobans1email &">"
-                                    myMail.Cc= ""& jobans2 &"<"& jobans2email &">"
+                                    'myMail.To= ""& jobans1 &"<"& jobans1email &">"
+                                    'myMail.Cc= ""& jobans2 &"<"& jobans2email &">"
 
                                     
+                                    myMail.To= jobans1email
+                                    myMail.CC= jobans2email 
             						
                                     if lto = "synergi1" then
                                     'Mailer.AddRecipient "Bettina Schou", "bs@synergi1.dk"
-                                    myMail.Bcc= "Bettina Schou<bs@synergi1.dk>"
+                                    'myMail.Bcc= "Bettina Schou<bs@synergi1.dk>"
+                                    myMail.Bcc= "Louise Frandsen<lf@synergi1.dk>"
                                     'Mailer.AddRecipient "TimeOut Support", "support@outzource.dk"
                                     end if
 

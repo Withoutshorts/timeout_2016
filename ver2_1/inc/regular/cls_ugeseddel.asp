@@ -63,7 +63,8 @@ sub showafslutuge_ugeseddel
          '** Periode aflsutning Dag / UGE / MD
          select case cint(SmiWeekOrMonth) 
          case 0
-         weekMonthDate = datepart("ww", varTjDatoUS_son,2,2)
+         call thisWeekNo53_fn(varTjDatoUS_son)
+         weekMonthDate = thisWeekNo53 'datepart("ww", varTjDatoUS_son,2,2)
          case 1
          weekMonthDate = datepart("m", varTjDatoUS_son,2,2)
          case 2
@@ -73,7 +74,7 @@ sub showafslutuge_ugeseddel
 
         '** Er periode afsluttet?
         '** ugeNrAfsluttet, showAfsuge, cdAfs, ugegodkendt, ugegodkendtaf, ugegodkendtTxt, ugegodkendtdt
-        call erugeAfslutte(datepart("yyyy", varTjDatoUS_son,2,2), weekMonthDate, usemrn, SmiWeekOrMonth, 0) 
+        call erugeAfslutte(datepart("yyyy", varTjDatoUS_son,2,2), weekMonthDate, usemrn, SmiWeekOrMonth, 0, varTjDatoUS_son) 
 
        
         
@@ -114,7 +115,8 @@ sub showafslutuge_ugeseddel
          '*** Finder dato på den peridoeder skal afsluttes
          select case cint(SmiWeekOrMonth) 
          case 0
-         s0Show_weekMd = datePart("ww", s0Show_sidstedagsidsteuge, 2,2)
+         call thisWeekNo53_fn(s0Show_sidstedagsidsteuge)
+         s0Show_weekMd = thisWeekNo53 'datePart("ww", s0Show_sidstedagsidsteuge, 2,2)
          case 1
          s0Show_weekMd = datePart("m", s0Show_sidstedagsidsteuge, 2,2)
          case 2
@@ -126,7 +128,7 @@ sub showafslutuge_ugeseddel
 
         
         '** tjekker om uge er afsluttet og viser afsluttet eller form til afslutning
-		call erugeAfslutte(year(s0Show_sidstedagsidsteuge), s0Show_weekMd, usemrn, SmiWeekOrMonth, 0)
+		call erugeAfslutte(year(s0Show_sidstedagsidsteuge), s0Show_weekMd, usemrn, SmiWeekOrMonth, 0, s0Show_sidstedagsidsteuge)
 
        
       
@@ -312,7 +314,9 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
 	oleft = 0
 	otop = 0
 	owdt = 500
-	oskrift = tsa_txt_338 &" "& datepart("ww", varTjDatoUS_tor, 2, 2) &" - "& datepart("yyyy", varTjDatoUS_tor, 2, 2) 
+    call thisWeekNo53_fn(varTjDatoUS_tor)
+
+	oskrift = tsa_txt_338 &" "& thisWeekNo53 &" - "& datepart("yyyy", varTjDatoUS_tor, 2, 2) 
 	
 	'call sideoverskrift_2014(oleft, otop, owdt, oskrift)
 
@@ -321,9 +325,12 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
     %>
            <h4>
        <%
-       thisWeek = datepart("ww", sldatoSQL, 2,2)
-       prevWeek = datepart("ww", dateAdd("d", -7, sldatoSQL), 2,2) 
-       nextWeek = datepart("ww", dateAdd("d", 7, sldatoSQL), 2,2) 
+       call thisWeekNo53_fn(sldatoSQL)
+       thisWeek = thisWeekNo53 'datepart("ww", sldatoSQL, 2,2)
+       call thisWeekNo53_fn(dateAdd("d", -7, sldatoSQL))
+       prevWeek = thisWeekNo53 'datepart("ww", dateAdd("d", -7, sldatoSQL), 2,2) 
+       call thisWeekNo53_fn(dateAdd("d", 7, sldatoSQL))
+       nextWeek = thisWeekNo53 'datepart("ww", dateAdd("d", 7, sldatoSQL), 2,2) 
 
 
 
@@ -347,7 +354,10 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
         if browstype_client = "ip" then
     %>
 
-    <%thisWeek = datepart("ww", sldatoSQL, 2,2) %>
+    <%'thisWeek = datepart("ww", sldatoSQL, 2,2) 
+      call thisWeekNo53_fn(sldatoSQL)
+      thisWeek = thisWeekNo53   
+     %>
 
     <br />
     <div class="row">
@@ -359,19 +369,34 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
 
 
 
-  <%end if 'showheader
+  <%
+  
+      '** H&L timer
+
+        select case lto
+        case "intranet - local", "cflow"
+
+             varTjDatoUS_sonUseforWeek = dateAdd("d", 6, varTjDatoUS_man) 
+             varTjDatoUS_sonUseforWeek = year(varTjDatoUS_sonUseforWeek) & "/" & month(varTjDatoUS_sonUseforWeek) & "/"& day(varTjDatoUS_sonUseforWeek)
+          call cflow_hl_timer(usemrn, varTjDatoUS_man, varTjDatoUS_sonUseforWeek)   
+            
+            
+       end select
+
+      
+      
+  end if 'showheader
       
    'end if   'visLukUge%>
 
   
 
-<%if media <>  "print" then 
-    
-   
-    %>
-
- 
-<%end if%>
+ <%
+  
+     
+      
+     
+  %>
 
  
 
@@ -403,19 +428,31 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                             
                              <span style="float:right;"> 
 
-                            <% if cint(stempelurOn) = 1 AND session("mid") = 1 then %>
-                            <span id="sp_sumlontimer_dag_<%=datepart("w", st_dato, 2,2)%>">&nbsp;</span> vs.
-                            <%end if %>
-                            <span id="sp_sumtimer_dag_<%=datepart("w", st_dato, 2,2)%>">&nbsp;</span></a></h4>
+                                    <% 
+                                    showKommega = 1 'slå den til når den er klar til CFLOW    
+                                    if cint(stempelurOn) = 1 AND cint(showKommega) = 1 then 'AND session("mid") = 1%>
+                                    <span id="sp_sumlontimer_dag_<%=datepart("w", st_dato, 2,2)%>">&nbsp;</span> vs.
+                                    <%end if %>
+
+
+                            <span id="sp_sumtimer_dag_<%=datepart("w", st_dato, 2,2)%>">&nbsp;</span></a>
                          
                             </span>
+                            </h4>
 
                         </div>
                 <!-- /.panel-heading -->
                 
 
                     <%
-                    if nowdate = dateid AND (datePart("ww", now, 2,2) = datePart("ww", st_dato, 2,2)) then %>
+
+                     call thisWeekNo53_fn(now)
+                     thisWeekNo53_now = thisWeekNo53
+
+                     call thisWeekNo53_fn(st_dato)
+                     thisWeekNo53_st_dato = thisWeekNo53
+
+                    if nowdate = dateid AND (cint(thisWeekNo53_now) = cint(thisWeekNo53_st_dato)) then %>
                     <div id="<%=dateid %>" class="panel-collapse collapse in">
                     <%else %>
                     <div id="<%=dateid %>" class="panel-collapse collapse">
@@ -429,7 +466,8 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                           <%
                          'select case lto 
                          'case "cflow", "intranet - local"
-                        if cint(stempelurOn) = 1 AND lto <> "epi2017" then
+                      
+                        if cint(stempelurOn) = 1 AND lto <> "epi2017" AND showKommega = 1 then
 
                              'if session("mid") = 1 then%>
               
@@ -441,39 +479,60 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
 
                                 </div>
 
-                                <% if nowdate = dateid AND (datePart("ww", now, 2,2) = datePart("ww", st_dato, 2,2)) then %>
+                             
+                        <% 
+                        call thisWeekNo53_fn(now)
+                     thisWeekNo53_now = thisWeekNo53
+
+                     call thisWeekNo53_fn(st_dato)
+                     thisWeekNo53_st_dato = thisWeekNo53
+
+                    if nowdate = dateid AND (cint(thisWeekNo53_now) = cint(thisWeekNo53_st_dato)) then    
+                    %>
 
                                 <div class="col-lg-5 well-white">
                                 <%
 
 
-                                    if lto <> "tec" AND lto <> "esn" AND lto <> "cflow" AND lto <> "intranet - local" then %>
-                                    <a class="btn btn-default" href="<%=toSubVerPath14 %>stempelur.asp?func=redloginhist&medarbSel=<%=session("mid")%>&showonlyone=1&hidemenu=1&id=0&rdir=sesaba" target="_top" style="color:#FFFFFF;"><%=tsa_txt_435 %></a>
+                                    if lto <> "tec" AND lto <> "esn" AND lto <> "cflow" AND lto <> "intranet - local" then 'SKAL MATCHE menu LOGUD %>
+                                    <a class="btn btn-danger" href="<%=toSubVerPath14 %>stempelur.asp?func=redloginhist&medarbSel=<%=session("mid")%>&showonlyone=1&hidemenu=1&id=0&rdir=sesaba" target="_top" style="color:#FFFFFF;"><%=tsa_txt_435 %></a>
                                     <%else 
-                                        
-                                        if cint(aabentLogudfindes) = 1 then%>
 
-                                                <a class="btn btn-info" href="<%=toSubVerPath14 %>../sesaba.asp?fromweblogud=1&rdir=ugeseddel&varTjDatoUS_man=<%=varTjDatoUS_man %>" target="_top">1) Frys aktuelle komme/gå tid</a><br />
-                                                <%if lto = "cflow" OR lto = "intranet - local" then  %>
+                                       %>
+
+                                         
+                                        <!--
+                                        'if cint(aabentLogudfindes) = 1 then%>
+
+                                        <a class="btn btn-info" href="=toSubVerPath14 %>../sesaba.asp?fromweblogud=1&rdir=ugeseddel&varTjDatoUS_man==varTjDatoUS_man %>" target="_top">1) Frys aktuelle komme/gå tid</a><br />
+                                        <if lto = "cflow" OR lto = "intranet - local" then  %>
+                                              
                                                 <span style="font-size:11px;">Stopper aktuelle komme/gå tid og beregner løn-timer. Du kan herefter registrere projekttimer og tillæg så de passer til din komme/gå tid (100 tals).</span><br /><br />
-                                                <%end if 
+                                                end if 
+                                                <span style="background-color:#cccccc; padding:8px;">2) =tsa_txt_435 %></span>
 
-                                                %><span style="background-color:#cccccc; padding:8px;">2) <%=tsa_txt_435 %></span><%
+                                        'else
 
-                                        else
-
-                                               %><span style="background-color:#cccccc; padding:8px;">1) Frys aktuelle komme/gå tid</span><br /><br />
-                                    
-                                            
-
-                                               <a class="btn btn-danger" href="<%=toSubVerPath14 %>../sesaba.asp?fromweblogud=1&logudDone=1" target="_top" style="color:#FFFFFF;">2) <%=tsa_txt_435 %></a><% 
-
-                                   
-                                  
+                                             <span style="background-color:#cccccc; padding:8px;">1) Frys aktuelle komme/gå tid</span><br /><br />
+                                               <a class="btn btn-danger" href="=toSubVerPath14 %>../sesaba.asp?fromweblogud=1&logudDone=1" target="_top" style="color:#FFFFFF;">2) =tsa_txt_435 %></a>  
                                  
-                                        end if 
+                                        'end if 
                                                     
-                                    end if %>
+                                    'end if 
+                                     -->
+                              
+
+                                      <a class="btn btn-danger" href="<%=toSubVerPath14 %>../sesaba.asp?fromweblogud=1" target="_top" style="color:#FFFFFF;"><%=tsa_txt_435 %></a> <br />
+
+                                     <%select case lto 
+                                      case "cflow"
+                                     %>
+                                      <span style="font-size:11px;">[Afslutter seneste åbne komme/gå tid og overfører løn-timer til H&L]</span><%
+                                     case else
+
+                                     end select
+
+                                end if%>
 
                                 </div>
            
@@ -500,7 +559,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                                         
                                     if browstype_client <> "ip" then
                                     %>
-                                        <th style="width:25%;"><b><%=tsa_txt_022 %> (<%=tsa_txt_066 %>)</b></th>
+                                        <th style="width:25%;"><b><%=tsa_txt_022 %> (<%=tsa_txt_249 %>)</b></th>
                                     <%else if browstype_client = "ip" then %>
                                         <th style="width:25%;"><b><%=tsa_txt_022 %></b></th>
                                     <%end if
@@ -518,7 +577,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                                     <%end if
                                     end if %>
 
-                                    <th><b>Start - Stop</b></th>
+                                    <!--<th><b>Start - Stop</b></th>-->
                                     <th style="text-align:right"><b><%=tsa_txt_148 %></b></th>
 
                                    
@@ -534,8 +593,12 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
 
                             select case lto
                             case "cflow"
-                            strSQLTFaktimKri = " AND tfaktim = 1 "
+                            'strSQLTFaktimKri = " AND (tfaktim = 1 OR tfaktim = 2 OR tfaktim = 50 OR tfaktim = 52 OR tfaktim = 60 OR tfaktim = 61 OR tfaktim = 14 OR tfaktim = 22 OR tfaktim = 20 OR tfaktim = 21) "
+                            'strSQLTFaktimKri = " AND (tfaktim <> 50 AND tfaktim <> 52 AND tfaktim <> 60 AND tfaktim <> 61 AND tfaktim <> 14 AND tfaktim <> 22 AND tfaktim <> 20 AND tfaktim <> 21) "
+                            'strSQLTFaktimKri = " AND (tfaktim = 1) "
                             'strSQLTFaktimKri = ""
+                            'strSQLTFaktimKri = "AND ("& aty_sql_realhours &")" 
+                            strSQLTFaktimKri = ""
                             strSQLodrBy = " tdato, sttid "
                             case "nonstop"
                             strSQLodrBy = " tdato, tfaktim, sttid "
@@ -545,18 +608,28 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                             strSQLTFaktimKri = ""
                             end select
 
+                               'if session("mid") = 1 then
+                               'Response.write aty_sql_realhours 
+                               'end if
+
+                            '*** Praktikant må ikke se sygdom **
+                            strSQLaidmaikkesetype = ""
+                            if (lto = "plan" AND session("mid") = 274 AND medarbid <> 274) OR (lto = "plan" AND session("mid") = 1 AND medarbid <> 1) then
+                                strSQLaidmaikkesetype = " AND (a.fakturerbar <> 20 AND a.fakturerbar <> 21) "
+                            end if
+
 
                            strSQL = "SELECT tid, taktivitetnavn, timer, tfaktim, tjobnavn, tjobnr, tdato, "_
-                           &" tknr, tknavn, tmnavn, tmnr, kkundenr, godkendtstatus, godkendtstatusaf, m.mnr, timerkom, init, a.fase, a.easyreg, j.risiko, sttid, sltid, j.id as jobid, tidspunkt FROM timer "_
+                           &" tknr, tknavn, tmnavn, tmnr, kkundenr, godkendtstatus, godkendtstatusaf, m.mnr, timerkom, init, a.fase, a.easyreg, j.risiko, sttid, sltid, j.id as jobid, tidspunkt, overfort FROM timer "_
                            &" LEFT JOIN medarbejdere AS m ON (m.mid = tmnr)"_
                            &" LEFT JOIN aktiviteter AS a ON (a.id = taktivitetid)"_
                            &" LEFT JOIN job AS j ON (j.jobnr = tjobnr)"_
-                           &" LEFT JOIN kunder K on (kid = tknr) WHERE tmnr = "& medarbid &" "& strSQLTFaktimKri &" AND "_
-                           &" tdato BETWEEN '"& stdatoSQL &"' AND '"& sldatoSQL &"' ORDER BY "& strSQLodrBy &" DESC "
+                           &" LEFT JOIN kunder K on (kid = tknr) WHERE sltid IS NOT NULL AND tmnr = "& medarbid &" "& strSQLTFaktimKri &" AND "_
+                           &" tdato BETWEEN '"& stdatoSQL &"' AND '"& sldatoSQL &"' "& strSQLaidmaikkesetype &" ORDER BY "& strSQLodrBy &" DESC "
    
 
                         'if session("mid") = 1 then
-                        '   Response.Write strSQL
+                        'Response.Write strSQL
                         '   Response.flush
                         'end if
 
@@ -570,6 +643,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                            antalEasyReg = 0
                            eaDag = 0
                            atDag = 0
+                           overfort = 0
                            'ugegodkendtTxt = ""
    
                            oRec.open strSQL, oConn, 3
@@ -578,11 +652,15 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
 
                                         '** Er periode/timeregistrering godkendt ***'
 		                                tjkDag = oRec("Tdato")
-		                                erugeafsluttet = instr(afslUgerMedab(oRec("tmnr")), "#"&datepart("ww", tjkDag,2,2)&"_"& datepart("yyyy", tjkDag) &"#")
+                                        call thisWeekNo53_fn(tjkDag)
+                 
+		                                erugeafsluttet = instr(afslUgerMedab(oRec("tmnr")), "#"&thisWeekNo53&"_"& datepart("yyyy", tjkDag) &"#")
+
+                                        overfort = oRec("overfort")
 
                                         strMrd_sm = datepart("m", tjkDag, 2, 2)
                                         strAar_sm = datepart("yyyy", tjkDag, 2, 2)
-                                        strWeek = datepart("ww", tjkDag, 2, 2)
+                                        strWeek = thisWeekNo53 'datepart("ww", tjkDag, 2, 2)
                                         strAar = datepart("yyyy", tjkDag, 2, 2)
 
                                         if cint(SmiWeekOrMonth) = 0 then
@@ -594,33 +672,36 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                                         end if
 
                 
-                                        call erugeAfslutte(useYear, usePeriod, usemrn, SmiWeekOrMonth, 0)
+                                        call erugeAfslutte(useYear, usePeriod, usemrn, SmiWeekOrMonth, 0, tjkDag)
                 
-                                        call lonKorsel_lukketPer(tjkDag, oRec("risiko"))
+                                        call lonKorsel_lukketPer(tjkDag, oRec("risiko"), usemrn)
                 
-		                                'if ( (( datepart("ww", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 0) OR (datepart("m", ugeNrAfsluttet, 2, 2) = usePeriod AND cint(SmiWeekOrMonth) = 1 )) AND cint(ugegodkendt) = 1 AND smilaktiv = 1 AND autogk = 1 AND ugeNrAfsluttet <> "1-1-2044") OR _
-                                        '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) = year(now) AND DatePart("m", tjkDag) < month(now)) OR _
-                                        '(smilaktiv = 1 AND autolukvdato = 1 AND (day(now) > autolukvdatodato AND DatePart("yyyy", tjkDag) < year(now) AND DatePart("m", tjkDag) = 12)) OR _
-                                        '(smilaktiv = 1 AND autolukvdato = 1 AND DatePart("yyyy", tjkDag) < year(now) AND DatePart("m", tjkDag) <> 12) OR _
-                                        '(smilaktiv = 1 AND autolukvdato = 1 AND (year(now) - DatePart("yyyy", tjkDag) > 1))) OR cint(lonKorsel_lukketIO) = 1 then
-              
-                                        'ugeerAfsl_og_autogk_smil = 1
-                                        'else
-                                        'ugeerAfsl_og_autogk_smil = 0
-                                        'end if 
+		                                
 
                                         '*** tjekker om uge er afsluttet / lukket / lønkørsel
-                                        call tjkClosedPeriodCriteria(tjkDag, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO)
+                                        call tjkClosedPeriodCriteria(tjkDag, ugeNrAfsluttet, usePeriod, SmiWeekOrMonth, splithr, smilaktiv, autogk, autolukvdato, lonKorsel_lukketIO, ugegodkendt)
 
                 
-                                        if oRec("godkendtstatus") = 1 OR oRec("godkendtstatus") = 3 then 'Godkendt ell. Tentative
-                                        ugeerAfsl_og_autogk_smil = 1
-                                        else
+                                        'if oRec("godkendtstatus") = 1 OR oRec("overfort") = 1 then 'Godkendt ell. Tentative
+                                        'OR oRec("godkendtstatus") = 3    
+                                        'ugeerAfsl_og_autogk_smil = 1
+                                        'else
                                         ugeerAfsl_og_autogk_smil = ugeerAfsl_og_autogk_smil
-                                        end if
+                                        'end if
 
 
+                                        '***** LAST faktdato ***************************************
+		                                lastFakdato = "01/01/2002"
+		                                strSQLlastfak = "SELECT fakdato FROM fakturaer WHERE jobid = "& oRec("jobid") &" AND faktype = 0 ORDER BY fakdato DESC LIMIT 0,1"
+		        
+		       
+		                                oRec2.open strSQLlastfak, oConn, 3
+		                                if not oRec2.EOF then
+		                                lastFakdato = oRec2("fakdato")
+		                                end if
+		                                oRec2.close
 
+                                        '***********************************************************
 
 
 
@@ -663,27 +744,17 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
     
                             %>
                            <tr bgcolor="<%=bgcol%>">
-                          <!-- <td valign=top style="border-bottom:1px #cccccc solid; padding-right:20px; height:20px; white-space:nowrap;">
-                               <%
-                                tmp = 1
-                               if tmp = 900 then
-                               'if (((ugeerAfsl_og_autogk_smil = 0 AND cint(ugegodkendt) <> 1) OR (level = 1)) AND media <> "print") then %>
-                               <input type="text" value="<%=oRec("tdato")%>" style="width:80px;" />
-                                <%else %>
-                               <%=oRec("tdato")%>
-                               <%end if %>
-
-                           </td> -->
-                         <!--  <td valign=top style="border-bottom:1px #cccccc solid;"><%=left(oRec("tmnavn"), 10) %> 
-                           <%if len(trim(oRec("init"))) <> 0 then %>
-                           [<%=oRec("init") %>]
-                           <%end if %></td> -->
+                        
                            
                            <% if browstype_client <> "ip" then %>
                                <td valign=top style="width:25%"><%=oRec("tknavn") %> (<%=oRec("kkundenr") %>)</td>
 
                                <%if lto = "mpt" OR (level = 1 OR level = 2 OR level = 6) then %>
-                               <td valign=top style="width:30%"><a href="../timereg/jobs.asp?menu=job&func=red&id=<%=oRec("jobid")%>" target="_blank" ><%=oRec("tjobnavn") %> (<%=oRec("tjobnr") %>)</a></td>
+                                    <%if lto = "mpt" then %>
+                                    <td valign=top style="width:30%"><a href="jobs.asp?func=red&jobid=<%=oRec("jobid")%>" target="_blank" ><%=oRec("tjobnavn") %> (<%=oRec("tjobnr") %>)</a></td>
+                                    <%else %>
+                                    <td valign=top style="width:30%"><a href="../timereg/jobs.asp?menu=job&func=red&id=<%=oRec("jobid")%>" target="_blank" ><%=oRec("tjobnavn") %> (<%=oRec("tjobnr") %>)</a></td>
+                                    <%end if %>
                                <%else %>
                                <td valign=top style="width:30%"><%=oRec("tjobnavn") %> (<%=oRec("tjobnr") %>)</td>
                                <%end if %>
@@ -750,24 +821,47 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
 
                                </td>
                             <%end if
-                              end if%>
-                        
-                                      
-                           <td>
-                                  <%
 
+                              end if
+                                
+                                
+                                
+                                '*** tilføj start stop på hver linje%>
+                                <!--
+                                <td>
                                 if lto = "cflow" then
-                                %>
-                                <span style="font-size:12px;"><%=left(formatdatetime(oRec("tidspunkt"), 3), 5) %> </span> - <a class="btn btn-xs btn-danger" href="#">Stop</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <span style="font-size:12px;">
+                                =left(formatdatetime(oRec("tidspunkt"), 3), 5) %> </span> - <a class="btn btn-xs btn-danger" href="#">Stop</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                end if%>
+                                </td>
+                                end if %> 
+                                -->
+                               
 
-                               <%
-                                end if
-      
-                        %></td><td style="text-align:right"><%
+                               <td style="text-align:right"><%
                 
+                                '*** Åben / Spærret for indtastninger hvis:
+                                'Or cint(godkendtstatus) = 3
+                                '*** Der må redigeres hvis:
+                                '*** Ugen ikke er godkendt
+                                '*** Origin = Passer til siden
+                                '*** Timer ikke er overført
+                                '*** Afviste timer må gerne redigeres. (f.eks uge godkendt men projekttimer afvist)
+                                '*** Admin må gerne redigere i Godkendte, Afviste og Tentative timer eller hvor uge er godkendt. MEN ikke overførte.
+                                '*** hvis uge ikke er godkendt eller den er afvist er ugeerAfsl_og_autogk_smil = 0
                 
-                                if (((ugeerAfsl_og_autogk_smil = 0 AND cint(ugegodkendt) <> 1) OR (level = 1)) AND media <> "print") then
-                                      
+                                'if session("mid") = 21 then
+                                '   Response.write "overfort: " & overfort & " ugeerAfsl_og_autogk_smil: " & ugeerAfsl_og_autogk_smil & "oRec(godkendtstatus): " & oRec("godkendtstatus") & " lastfakdato: "& lastfakdato & " oRec(tdato): " & oRec("tdato")
+                                'end if
+
+                                '** Åben:
+                                if cint(overfort) = 0 AND cdate(lastfakdato) < cdate(oRec("tdato")) AND media <> "print" AND _
+                                ( (ugeerAfsl_og_autogk_smil = 0 AND oRec("godkendtstatus") <> 1) _
+                                OR (ugeerAfsl_og_autogk_smil = 1 AND oRec("godkendtstatus") = 2) _
+                                OR ((ugeerAfsl_og_autogk_smil = 1 OR ugeerAfsl_og_autogk_smil = 0) AND level = 1) ) OR (cint(overfort) = 2 AND level = 1) then
+                                 
+                                    'AND (cdate(lastfakdato) < cdate(oRec("Tdato")
+
                                       select case cint(oRec("godkendtstatus"))
                                          case 2
                                          gkbgcol = "red"
@@ -820,6 +914,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                                   %>
                                   <span style="color:<%=gkbgcol%>;"><%=formatnumber(oRec("timer"), 2) %></span>
                                   
+
                                 <%end if %>
 
                 
@@ -846,10 +941,7 @@ varTjDatoUS_tor = dateAdd("d", 3, varTjDatoUS_man)
                            
                     
                        
-                                             '  else 
-                       
-                                                     'response.write "teamLederEditOK: "& teamLederEditOK & "ugeerAfsl_og_autogk_smil: " & ugeerAfsl_og_autogk_smil & " ugegodkendt: "& ugegodkendt &" level "& level 
-
+                                           
 
                                         '***  Admin kan godkende for alle medarb. Teamleder kun for dem man er teamleder for. 
                                          '*** visAlleMedarb = 1 skal være slået til før man kan godkende andres (undt. admin), da det ikke giver mening at goende sine egne timer

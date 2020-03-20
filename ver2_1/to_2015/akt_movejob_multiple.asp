@@ -25,6 +25,7 @@
     strSQLjobnr = ""
     end if
 
+
      '** Kopier til querystring MANUELT
     if len(trim(request("jobnr2"))) <> 0 then
     jobnr2 = request("jobnr2")
@@ -93,6 +94,7 @@
                     end if
 
                     jobnavn = "Job Not found"
+                    sogtJobnrFra = jobnr 
                     jobnr = 0
                     kkundenavn = "Customer Not found on update multible jobs"
                     kknr = 0
@@ -204,9 +206,9 @@
         		
 					
 		
-
+        
 		
-		Response.redirect "akt_movejob_multiple.asp?jobnr="&jobnr&"&jobnr2="&jobnr2
+		Response.redirect "akt_movejob_multiple.asp?jobnr="&sogtJobnrFra&"&jobnr2="&jobnr2
 		end if
 
 
@@ -284,7 +286,7 @@
 		            &" LEFT JOIN job j ON (j.id = a.job) "_
                     &" LEFT JOIN kunder ON (kid = jobknr) "_
                     &" LEFT JOIN timer ON (taktivitetid = a.id) "_
-                    &" WHERE "& whSQL &" GROUP BY taktivitetid ORDER BY jobnr, jobnavn, fase, a.navn"
+                    &" WHERE "& whSQL &" GROUP BY taktivitetid ORDER BY jobnr, jobnavn, fase, a.navn LIMIT 100"
 		
 		            'Response.Write strSQLjob
 		            'Response.flush
@@ -388,7 +390,7 @@
 		            &" LEFT JOIN job j ON (j.id = a.job) "_
                     &" LEFT JOIN kunder ON (kid = jobknr) "_
                     &" LEFT JOIN timer ON (taktivitetid = a.id) "_
-                    &" WHERE "& whSQL &" GROUP BY a.id ORDER BY jobnr, jobnavn, fase, a.navn"
+                    &" WHERE "& whSQL &" GROUP BY a.id ORDER BY jobnr, jobnavn, fase, a.navn LIMIT 100"
 			        oRec2.open strSQLjobnew, oConn, 3
 			        while not oRec2.EOF
 				
@@ -464,7 +466,7 @@
                        <option value=">=">Efter</option>
                        <option value="<=">Før</option>
                        
-                   </select> <input type="text" name="FM_fradato" value="<%=day(now) &"/"& month(now) &"/"& year(now) %>" />
+                   </select> <input type="text" name="FM_fradato" value="<%=day(now) &"/"& month(now) &"/"& year(now) %>" /> - <span><b>OBS dato er inkl.</b></span>
 
                 
 

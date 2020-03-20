@@ -412,7 +412,7 @@ document.getElementById("FM_besk_"+t+"").value = txt
 	       
 	        
 	        
-	        strSQL = "SELECT mnavn, mnr, mid, init FROM medarbejdere WHERE mansat <> '2' ORDER BY mnavn"
+	        strSQL = "SELECT mnavn, mnr, mid, init FROM medarbejdere WHERE mansat <> '2' AND mansat <> '4' ORDER BY mnavn"
 	        oRec.open strSQL, oConn, 3
 	        while not oRec.EOF 
 	        
@@ -638,7 +638,8 @@ document.getElementById("FM_besk_"+t+"").value = txt
 	
 	
 	if len(trim(oRec("sttid"))) <> 0 then
-	thisDato = datepart("ww", cdate(oRec("sttid")), 2,2)
+    call thisWeekNo53_fn(oRec("sttid"))
+	thisDato = thisWeekNo53 'datepart("ww", cdate(oRec("sttid")), 2,2)
 	else
 	thisDato = lastDato
 	end if

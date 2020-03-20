@@ -227,7 +227,7 @@
                         response.write strSQLlogin
                         oConn.execute(strSQLlogin)
 
-                        response.Redirect("touchmonitor.asp?func=startside")
+                        'response.Redirect("touchmonitor.asp?func=startside")
 
                        
                     %>

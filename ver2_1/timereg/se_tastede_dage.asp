@@ -66,8 +66,9 @@ oRec.open strSQL, oConn, 0, 1
 	<%
 	while not oRec.EOF
 	strTdato = oRec("Tdato")
-	convertDate(strTdato )
-	strWeekNum = datepart("ww", strTdato,2,2)
+	convertDate(strTdato)
+    call thisWeekNo53_fn(strTdato)
+	strWeekNum = thisWeekNo53 'datepart("ww", strTdato,2,2)
 	%>
 	<tr>
 		<td bgcolor="#003399" colspan="9"><img src="ill/blank.gif" width="1" height="1" border="0" alt=""></td>

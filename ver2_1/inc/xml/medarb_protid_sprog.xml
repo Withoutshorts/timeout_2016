@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Fra: (hele måneder)</txt_1>
+    <txt_2 >Til</txt_2>
+    <txt_3 >Søg</txt_3>
+    <txt_4 >Medarbejder</txt_4>
+    <txt_5 >Total pr. medarbejder</txt_5>
+    <txt_6 >Funktioner</txt_6>
+    <txt_7 >Print</txt_7>
+    <txt_8 >Total</txt_8>
+    <txt_9>Medarbejder - projekttid</txt_9>
+    <txt_10>Projekt</txt_10>
+
+    <txt_11 >Jan</txt_11>
+    <txt_12 >Feb</txt_12>
+    <txt_13 >Mar</txt_13>
+    <txt_14 >Apr</txt_14>
+    <txt_15 >Maj</txt_15>
+    <txt_16 >Jun</txt_16>
+    <txt_17 >Jul</txt_17>
+    <txt_18 >Aug</txt_18>
+    <txt_19 >Sep</txt_19>
+    <txt_20 >Okt</txt_20>
+    <txt_21 >Nov</txt_21>
+    <txt_22 >Dec</txt_22>
+
+    <txt_23 >Job</txt_23>
+    <txt_24 >Medarbejder</txt_24>
+    <txt_25 >Total per. job</txt_25>
+    <txt_26 >Total per. medarbejder</txt_26>
+    <txt_27 >Alle</txt_27>
+    <txt_28 >Aktivitet</txt_28>
+    <txt_29 >Total</txt_29>
+    <txt_30 >Sortering</txt_30>
+    <txt_31 >Projekttid</txt_31>
+    <txt_32 >Medarbejdertid</txt_32>
+    <txt_33 >Opdel efter</txt_33>
+    <txt_34 >Jobnavn</txt_34>
+    <txt_35 >Jobnr</txt_35>
+    <txt_36 >Valgte job</txt_36>
+    <txt_37 >Ingen projekter fundet, som du har adgang til</txt_37>
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+    <txt_1 >From: (whole months)</txt_1>
+    <txt_2 >To</txt_2>
+    <txt_3 >Search</txt_3>
+    <txt_4 >Employee</txt_4>
+    <txt_5 >Total per. employee</txt_5>
+    <txt_6 >Functions</txt_6>
+    <txt_7 >Print</txt_7>
+    <txt_8 >Total</txt_8>
+    <txt_9>Employee - project time</txt_9>
+    <txt_10>Project</txt_10>
+
+    <txt_11 >Jan</txt_11>
+    <txt_12 >Feb</txt_12>
+    <txt_13 >Mar</txt_13>
+    <txt_14 >Apr</txt_14>
+    <txt_15 >May</txt_15>
+    <txt_16 >Jun</txt_16>
+    <txt_17 >Jul</txt_17>
+    <txt_18 >Aug</txt_18>
+    <txt_19 >Sep</txt_19>
+    <txt_20 >Oct</txt_20>
+    <txt_21 >Nov</txt_21>
+    <txt_22 >Dec</txt_22>
+
+    <txt_23 >Job</txt_23>
+    <txt_24 >Employee</txt_24>
+    <txt_25 >Total per. job</txt_25>
+    <txt_26 >Total per. employee</txt_26>
+    <txt_27 >All</txt_27>
+    <txt_28 >Activity</txt_28>
+    <txt_29 >Total</txt_29>
+    <txt_30 >Sort by</txt_30>
+    <txt_31 >Project time</txt_31>
+    <txt_32 >Employee time</txt_32>
+    <txt_33 >Divide by</txt_33>
+    <txt_34 >Job Name</txt_34>
+    <txt_35 >Job No.</txt_35>
+    <txt_36 >Selected jobs</txt_36>
+    <txt_37 >No projects found that you can access</txt_37>
+
+  </no>
+
+
+  <!--- Svensk -->
+  <so>
+
+    <txt_1 >From: (whole months)</txt_1>
+    <txt_2 >To</txt_2>
+    <txt_3 >Search</txt_3>
+    <txt_4 >Employee</txt_4>
+    <txt_5 >Total per. employee</txt_5>
+    <txt_6 >Features</txt_6>
+    <txt_7 >Print</txt_7>
+    <txt_8 >Total</txt_8>
+    <txt_9>Employee - project time</txt_9>
+    <txt_10>Project</txt_10>
+
+    <txt_11 >Jan</txt_11>
+    <txt_12 >Feb</txt_12>
+    <txt_13 >Mar</txt_13>
+    <txt_14 >Apr</txt_14>
+    <txt_15 >May</txt_15>
+    <txt_16 >Jun</txt_16>
+    <txt_17 >Jul</txt_17>
+    <txt_18 >Aug</txt_18>
+    <txt_19 >Sep</txt_19>
+    <txt_20 >Oct</txt_20>
+    <txt_21 >Nov</txt_21>
+    <txt_22 >Dec</txt_22>
+
+    <txt_23 >Job</txt_23>
+    <txt_24 >Employee</txt_24>
+    <txt_25 >Total per. job</txt_25>
+    <txt_26 >Total per. employee</txt_26>
+    <txt_27 >All</txt_27>
+    <txt_28 >Activity</txt_28>
+    <txt_29 >Total</txt_29>
+    <txt_30 >Sort by</txt_30>
+    <txt_31 >Project time</txt_31>
+    <txt_32 >Employee time</txt_32>
+    <txt_33 >Divide by</txt_33>
+    <txt_34 >Job Name</txt_34>
+    <txt_35 >Job No.</txt_35>
+    <txt_36 >Selected jobs</txt_36>
+    <txt_37 >No projects found that you can access</txt_37>
+
+
+  </so>
+
+
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >From: (whole months)</txt_1>
+    <txt_2 >To</txt_2>
+    <txt_3 >Search</txt_3>
+    <txt_4 >Employee</txt_4>
+    <txt_5 >Total per. employee</txt_5>
+    <txt_6 >Features</txt_6>
+    <txt_7 >Print</txt_7>
+    <txt_8 >Total</txt_8>
+    <txt_9>Employee - project time</txt_9>
+    <txt_10>Project</txt_10>
+
+    <txt_11 >Jan</txt_11>
+    <txt_12 >Feb</txt_12>
+    <txt_13 >Mar</txt_13>
+    <txt_14 >Apr</txt_14>
+    <txt_15 >May</txt_15>
+    <txt_16 >Jun</txt_16>
+    <txt_17 >Jul</txt_17>
+    <txt_18 >Aug</txt_18>
+    <txt_19 >Sep</txt_19>
+    <txt_20 >Oct</txt_20>
+    <txt_21 >Nov</txt_21>
+    <txt_22 >Dec</txt_22>
+
+    <txt_23 >Job</txt_23>
+    <txt_24 >Employee</txt_24>
+    <txt_25 >Total per. job</txt_25>
+    <txt_26 >Total per. employee</txt_26>
+    <txt_27 >All</txt_27>
+    <txt_28 >Activity</txt_28>
+    <txt_29 >Total</txt_29>
+    <txt_30 >Sort by</txt_30>
+    <txt_31 >Project time</txt_31>
+    <txt_32 >Employee time</txt_32>
+    <txt_33 >Divide by</txt_33>
+    <txt_34 >Job Name</txt_34>
+    <txt_35 >Job No.</txt_35>
+    <txt_36 >Selected jobs</txt_36>
+    <txt_37 >No projects found that you can access</txt_37>
+
+
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >From: (whole months)</txt_1>
+    <txt_2 >To</txt_2>
+    <txt_3 >Search</txt_3>
+    <txt_4 >Employee</txt_4>
+    <txt_5 >Total per. employee</txt_5>
+    <txt_6 >Features</txt_6>
+    <txt_7 >Print</txt_7>
+    <txt_8 >Total</txt_8>
+    <txt_9>Employee - project time</txt_9>
+    <txt_10>Project</txt_10>
+
+    <txt_11 >Jan</txt_11>
+    <txt_12 >Feb</txt_12>
+    <txt_13 >Mar</txt_13>
+    <txt_14 >Apr</txt_14>
+    <txt_15 >May</txt_15>
+    <txt_16 >Jun</txt_16>
+    <txt_17 >Jul</txt_17>
+    <txt_18 >Aug</txt_18>
+    <txt_19 >Sep</txt_19>
+    <txt_20 >Oct</txt_20>
+    <txt_21 >Nov</txt_21>
+    <txt_22 >Dec</txt_22>
+
+    <txt_23 >Job</txt_23>
+    <txt_24 >Employee</txt_24>
+    <txt_25 >Total per. job</txt_25>
+    <txt_26 >Total per. employee</txt_26>
+    <txt_27 >All</txt_27>
+    <txt_28 >Activity</txt_28>
+    <txt_29 >Total</txt_29>
+    <txt_30 >Sort by</txt_30>
+    <txt_31 >Project time</txt_31>
+    <txt_32 >Employee time</txt_32>
+    <txt_33 >Divide by</txt_33>
+    <txt_34 >Job Name</txt_34>
+    <txt_35 >Job No.</txt_35>
+    <txt_36 >Selected jobs</txt_36>
+    <txt_37 >No projects found that you can access</txt_37>
+
+
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >From: (whole months)</txt_1>
+    <txt_2 >To</txt_2>
+    <txt_3 >Search</txt_3>
+    <txt_4 >Employee</txt_4>
+    <txt_5 >Total per. employee</txt_5>
+    <txt_6 >Features</txt_6>
+    <txt_7 >Print</txt_7>
+    <txt_8 >Total</txt_8>
+    <txt_9>Employee - project time</txt_9>
+    <txt_10>Project</txt_10>
+
+    <txt_11 >Jan</txt_11>
+    <txt_12 >Feb</txt_12>
+    <txt_13 >Mar</txt_13>
+    <txt_14 >Apr</txt_14>
+    <txt_15 >May</txt_15>
+    <txt_16 >Jun</txt_16>
+    <txt_17 >Jul</txt_17>
+    <txt_18 >Aug</txt_18>
+    <txt_19 >Sep</txt_19>
+    <txt_20 >Oct</txt_20>
+    <txt_21 >Nov</txt_21>
+    <txt_22 >Dec</txt_22>
+
+    <txt_23 >Job</txt_23>
+    <txt_24 >Employee</txt_24>
+    <txt_25 >Total per. job</txt_25>
+    <txt_26 >Total per. employee</txt_26>
+    <txt_27 >All</txt_27>
+    <txt_28 >Activity</txt_28>
+    <txt_29 >Total</txt_29>
+    <txt_30 >Sort by</txt_30>
+    <txt_31 >Project time</txt_31>
+    <txt_32 >Employee time</txt_32>
+    <txt_33 >Divide by</txt_33>
+    <txt_34 >Job Name</txt_34>
+    <txt_35 >Job No.</txt_35>
+    <txt_36 >Selected jobs</txt_36>
+    <txt_37 >No projects found that you can access</txt_37>
+
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+    <txt_1 >From: (whole months)</txt_1>
+    <txt_2 >To</txt_2>
+    <txt_3 >Search</txt_3>
+    <txt_4 >Employee</txt_4>
+    <txt_5 >Total per. employee</txt_5>
+    <txt_6 >Features</txt_6>
+    <txt_7 >Print</txt_7>
+    <txt_8 >Total</txt_8>
+    <txt_9>Employee - project time</txt_9>
+    <txt_10>Project</txt_10>
+
+    <txt_11 >Jan</txt_11>
+    <txt_12 >Feb</txt_12>
+    <txt_13 >Mar</txt_13>
+    <txt_14 >Apr</txt_14>
+    <txt_15 >May</txt_15>
+    <txt_16 >Jun</txt_16>
+    <txt_17 >Jul</txt_17>
+    <txt_18 >Aug</txt_18>
+    <txt_19 >Sep</txt_19>
+    <txt_20 >Oct</txt_20>
+    <txt_21 >Nov</txt_21>
+    <txt_22 >Dec</txt_22>
+
+    <txt_23 >Job</txt_23>
+    <txt_24 >Employee</txt_24>
+    <txt_25 >Total per. job</txt_25>
+    <txt_26 >Total per. employee</txt_26>
+    <txt_27 >All</txt_27>
+    <txt_28 >Activity</txt_28>
+    <txt_29 >Total</txt_29>
+    <txt_30 >Sort by</txt_30>
+    <txt_31 >Project time</txt_31>
+    <txt_32 >Employee time</txt_32>
+    <txt_33 >Divide by</txt_33>
+    <txt_34 >Job Name</txt_34>
+    <txt_35 >Job No.</txt_35>
+    <txt_36 >Selected jobs</txt_36>
+    <txt_37 >No projects found that you can access</txt_37>
+
+  </es>
+
+
+</sprog>

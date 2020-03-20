@@ -77,7 +77,42 @@ case "FN_getKpers"
                              else
                              strAtt = 0
                              end if
-                             
+
+                             'if len(trim(request("FM_usealtadr_all"))) <> 0 then
+                             'kid_all = 1
+                             'else
+                             kid_all = 0
+                             'end if      
+
+                             '*** 20191206 IKKE Sat igang endnu da KID skal skiftes på job
+
+                            if cint(kid_all) = 1 then 'Skift kunde / hent kontaktpers
+
+                                 strSQLkpersCount = "SELECT kid, kkundenavn FROM kunder WHERE kid <> 0 AND cvr <> 0 AND useasfak = 5 ORDER BY kkundenavn"
+				                'Response.write strSQLkpersCount
+				                'Response.end
+				                oRec2.open strSQLkpersCount, oConn, 3
+                					
+					                while not oRec2.EOF
+						              
+						                
+						                '*** ÆØÅ **'
+						                kpersnavn = oRec2("kkundenavn")
+						                call jq_format(kpersnavn)
+                                        kpersnavn = jq_formatTxt 
+						             
+						                
+						                
+						                Response.Write "<option value='"& oRec2("kid") &"'>"& kpersnavn &"</option>"
+						                
+					                oRec2.movenext
+					                wend
+					                oRec2.close
+					                
+					               
+
+                            else
+
                                 strSQLkpersCount = "SELECT id, navn FROM kontaktpers WHERE kundeid = "& kid &" ORDER BY navn"
 				                'Response.write strSQLkpersCount
 				                'Response.end
@@ -126,6 +161,8 @@ case "FN_getKpers"
 					                
 					           
                                     <%
+
+                                end if
                              
        case "FN_getMatTilFak"
                             
@@ -270,7 +307,13 @@ case "FN_getKpers"
 	                        '***hent kun dem der ikke allerede er faktureret ***'
 	                        strSQL = strSQL &" AND erfak = 0 " 
 	                        
-	                        strSQL = strSQL &" AND ("& isMatWrt &") GROUP BY mf.matid, mf.matsalgspris, mf.matnavn ORDER BY mgp.navn, mf.aktid, mf.matnavn"
+	                        strSQL = strSQL &" AND ("& isMatWrt &") GROUP BY mf.matid, mf.matsalgspris, mf.matnavn"
+                            
+                                if lto = "nt" then
+                                strSQL = strSQL &", mf.id"
+                                end if
+                                
+                            strSQL = strSQL &" ORDER BY mgp.navn, mf.aktid, mf.matnavn"
 
                             end select
 	                        
@@ -278,6 +321,7 @@ case "FN_getKpers"
 	                        'Response.Write strSQL
 	                        'Response.flush
                             'end if
+
 	                        
 	                        oRec.open strSQL, oConn, 3
                             im = 0
@@ -366,9 +410,17 @@ case "FN_getCustDesc"
                  else
                  kid = 0
                  end if
+
+                   
+
+                 'if cint(kid_all) = 1 then
+                 'whSQL = " kid <> 0 AND useasfak = 5 AND cvr <> '0' ORDER BY kkuundenavn"               
+                 'else
+                 whSQL = " kid = "& kid
+                 'end if
                  
                   strSQLkpersAdr = "SELECT kid, kkundenavn AS navn, adresse, postnr, city AS town, "_
-                  &" land, ean, cvr FROM kunder WHERE kid = "& kid
+                  &" land, ean, cvr FROM kunder WHERE "& whSQL
 		   
             else
                  
@@ -536,15 +588,19 @@ case "FN_bankkonto"
         'Response.write "<option>"& kidSel &"</option>"
         'Response.end
 
-        strSQLKonto = "SELECT kid, regnr, kontonr, regnr_b, kontonr_b, regnr_c, kontonr_c FROM kunder WHERE kid = "& kidSel 'Selskab, licensejer eller datter selskab **'
+        strSQLKonto = "SELECT kid, regnr, kontonr, regnr_b, kontonr_b, regnr_c, kontonr_c, "_
+        &" bank, bank_b, bank_c, bank_d, bank_e, "_
+        &" regnr_d, kontonr_d, regnr_e, kontonr_e "_
+        &" FROM kunder WHERE kid = "& kidSel 'Selskab, licensejer eller datter selskab **'
 		oRec.open strSQLKonto, oConn, 3 
 		if not oRec.EOF then
             
 
-             strBankkonto = "<option value='0'>"& oRec("regnr") &" "& oRec("kontonr") &"</option>"
-             strBankkonto = strBankkonto & "<option value='1'>"& oRec("regnr_b") &" "& oRec("kontonr_b") &"</option>" 
-             strBankkonto = strBankkonto & "<option value='2'>"& oRec("regnr_c") &" "& oRec("kontonr_c") &"</option>"
-           
+             strBankkonto = "<option value='0'>"& oRec("bank") &": "& oRec("regnr") &" "& oRec("kontonr") &"</option>"
+             strBankkonto = strBankkonto & "<option value='1'>"& oRec("bank_b") &": "& oRec("regnr_b") &" "& oRec("kontonr_b") &"</option>" 
+             strBankkonto = strBankkonto & "<option value='2'>"& oRec("bank_c") &": "& oRec("regnr_c") &" "& oRec("kontonr_c") &"</option>"
+             strBankkonto = strBankkonto & "<option value='3'>"& oRec("bank_d") &": "& oRec("regnr_d") &" "& oRec("kontonr_d") &"</option>"
+             strBankkonto = strBankkonto & "<option value='4'>"& oRec("bank_e") &": "& oRec("regnr_e") &" "& oRec("kontonr_e") &"</option>"
             
             
         end if
@@ -864,7 +920,7 @@ end if
 	<%if cdbl(visaspopup) = 0 then %>
 	            <!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
 
-                <SCRIPT language=javascript src="inc/fak_func_2007.js"></script>
+                <SCRIPT language=javascript src="inc/fak_func_2007_1.js"></script>
 
 
 	            

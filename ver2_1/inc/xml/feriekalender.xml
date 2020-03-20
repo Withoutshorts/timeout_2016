@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<sprog>
+
+  <!--- Dansk -->
+  <dk>
+
+    <txt_1 >Hej</txt_1>
+
+  </dk>
+
+
+  <!--- Norsk -->
+  <no>
+
+
+    <txt_1 >Hej</txt_1>
+
+  </no>
+
+
+  <!--- Svensk -->
+  <so>
+
+    <txt_1 >Hej</txt_1>
+
+  </so>
+
+
+  <!--- Tysk -->
+  <de>
+
+    <txt_1 >Hej</txt_1>
+    
+  </de>
+
+
+  <!--- Fransk -->
+  <fr>
+
+    <txt_1 >Hej</txt_1>
+
+  </fr>
+
+
+
+  <!-- Engelsk -->
+  <uk>
+
+    <txt_1 >Hej</txt_1>
+
+  </uk>
+
+
+  <!--- Spansk -->
+  <es>
+
+    <txt_1 >Hej</txt_1>
+
+  </es>
+
+
+</sprog>

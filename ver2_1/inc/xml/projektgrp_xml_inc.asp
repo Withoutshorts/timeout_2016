@@ -5,9 +5,10 @@ Dim objXMLHTTP_progrp, objXMLDOM_progrp, i_progrp, strHTML_progrp
 Set objXMLDom_progrp = Server.CreateObject("Microsoft.XMLDOM")
 Set objXmlHttp_progrp = Server.CreateObject("Msxml2.ServerXMLHTTP")
 'objXmlHttp_progrp.open "GET", "http://localhost/Git/timeout_2016/ver2_1/inc/xml/projektgrp_sprog.xml", False
-'objXmlHttp_progrp.open "GET", "http://localhost/inc/xml/projektgrp_sprog.xml", False
+'objXmlHttp_progrp.open "GET", "http://localhost/inc/xml/progrp_sprog.xml", False
 'objXmlHttp_progrp.open "GET", "http://outzource.dk/timeout_xp/wwwroot/ver2_10/inc/xml/projektgrp_sprog.xml", False
 'objXmlHttp_progrp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver3_99/inc/xml/projektgrp_sprog.xml", False
+'objXmlHttp_progrp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver4_22/inc/xml/projektgrp_sprog.xml", False
 'objXmlHttp_progrp.open "GET", "https://outzource.dk/timeout_xp/wwwroot/ver2_14/inc/xml/projektgrp_sprog.xml", False
 objXmlHttp_progrp.open "GET", "https://timeout.cloud/timeout_xp/wwwroot/ver2_14/inc/xml/projektgrp_sprog.xml", False
 
@@ -45,6 +46,9 @@ sXPathQuery_progrp = "//sprog/dk"
 'Session.LCID = 1030
 case 2
 sXPathQuery_progrp = "//sprog/uk"
+if lto = "a27" then
+    sXPathQuery_progrp = "//sprog/trainerlog_uk"
+end if
 'Session.LCID = 2057
 case 3
 sXPathQuery_progrp = "//sprog/se"
@@ -132,6 +136,7 @@ Set oNodes_progrp = objXmlDom_progrp.documentElement.selectNodes(sXPathQuery_pro
         progrp_txt_048 = oNode_progrp.selectSingleNode("txt_48").Text
         progrp_txt_049 = oNode_progrp.selectSingleNode("txt_49").Text
         progrp_txt_050 = oNode_progrp.selectSingleNode("txt_50").Text
+        progrp_txt_051 = oNode_progrp.selectSingleNode("txt_51").Text
 
 
   

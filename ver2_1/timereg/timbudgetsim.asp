@@ -767,7 +767,7 @@ oRec.close
 
            <%strSQLMedarb = "SELECT mnavn, init, mid, p.navn AS pgrpnavn, p.id AS pid FROM projektgrupper AS p "_
              &"LEFT JOIN progrupperelationer AS pr ON (projektgruppeId = p.id)"_
-             &"LEFT JOIN medarbejdere ON (mid = medarbejderId ) WHERE mansat <> 2 "& medarbinitSQL &" AND projektgruppeId <> 10 AND p.id <> 10 ORDER BY pgrpnavn, mnavn LIMIT 80"
+             &"LEFT JOIN medarbejdere ON (mid = medarbejderId ) WHERE mansat <> 2 AND mansat <> 4 "& medarbinitSQL &" AND projektgruppeId <> 10 AND p.id <> 10 ORDER BY pgrpnavn, mnavn LIMIT 80"
             
                'response.write strSQLMedarb
                'response.Flush

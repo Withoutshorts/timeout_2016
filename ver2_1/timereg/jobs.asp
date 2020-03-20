@@ -2,8 +2,8 @@
 
 
 <!--#include file="../inc/connection/conn_db_inc.asp"-->
-<!--#include file="../inc/errors/error_inc.asp"-->
 <!--#include file="../inc/regular/global_func.asp"-->
+<!--#include file="../inc/errors/error_inc.asp"-->
 <!--#include file="../inc/regular/job_func.asp"-->
 <!--#include file="CuteEditor_Files/include_CuteEditor.asp" -->
 <!--#include file="../inc/regular/topmenu_inc.asp"--> 
@@ -180,16 +180,58 @@ case "FN_getAktlisten"
 
 case "FN_getKundelisten_2013"
               
+              'Session.LCID = 1033
+
               dim kundeArr_2013
               redim kundeArr_2013(50)
               
               if len(trim(request.Form("cust"))) <> 0 then
-              jq_sog_val = request.Form("cust")
+              'jq_sog_val = request.Form("cust")
 
+                '*** ÆØÅ **'
+              'call jq_format(jq_sog_val)
+              'jq_sog_val = jq_formatTxt
+
+              'call utf_format(jq_sog_val)
+              'jq_sog_val = utf_formatTxt
+
+              'call utf_format(jq_sog_val)
+              'jq_sog_val = utf_formatTxt
+
+               'call htmlparseCSV(HTMLstring)
+               'jq_sog_val = htmlparseCSVTxt 
+                  'jq_sog_val = Server.URLEncode(jq_sog_val)
+
+                  'jq_sog_val = Server.HTMLDecode(jq_sog_val)
+
+                   'jq_sog_val = replace(jq_sog_val, "%C3%A6%", "&aelig;")
+                   'jq_sog_val = replace(jq_sog_val, "C3", "&aelig;")
+                   'jq_sog_val = replace(jq_sog_val, "A6", "")
+                   'jq_sog_val = replace(jq_sog_val, "%", "")
+                   'jq_sog_val = replace(jq_sog_val, "oe", "ø")
+
+                   'jq_sog_val = Server.HTMLEncode(jq_sog_val)
+
+                   'call utf_format(jq_sog_val)
+                   'jq_sog_val = utf_formatTxt
+
+                   'call htmlparseCSV(HTMLstring)
+                   'jq_sog_val = htmlparseCSVTxt 
+
+                   '*** ÆØÅ **'
+                   'call jq_format(jq_sog_val)
+                   'jq_sog_val = jq_formatTxt
+                   jq_sog_val = request("sog_val")
+
+                  
               else
               jq_sog_val = ""
               end if
 
+             'if session("mid") = 1 then
+             '  jq_sog_val = "U+00E6"
+             'end if
+                
 
               if jq_sog_val <> "" then
               jq_sog_valSQL = " AND (Kkundenavn LIKE '%"& jq_sog_val &"%' OR Kkundenr LIKE '"& jq_sog_val &"%')"
@@ -199,10 +241,11 @@ case "FN_getKundelisten_2013"
 
               'jq_sog_valSQL = " AND (Kkundenavn LIKE 'p%')"
 
-                strSQL = "SELECT Kkundenavn, Kkundenr, Kid, kundeans1, kundeans2 FROM kunder WHERE ketype <> 'e' AND (useasfak = 0 OR useasfak = 1 OR useasfak = 5) "& jq_sog_valSQL &" ORDER BY Kkundenavn LIMIT 50"
+                strSQL = "SELECT Kkundenavn, Kkundenr, Kid, kundeans1, kundeans2 FROM kunder WHERE ketype <> 'e' AND (useasfak = 0 OR useasfak = 1 OR useasfak = 5) "& jq_sog_valSQL &" GROUP BY kid ORDER BY Kkundenavn LIMIT 500"
 			    
                 'if session("mid") = 1 then
-                'Response.write "<option>"& jq_sog_val &" sQL:_ "& strSQL & "</option>"
+                'Response.write "<option>"& jq_sog_valSQL &" sQL:_ "& strSQL & "</option>"
+                'response.write(Server.HTMLEncode("The image tag: <img>"))
                 'Response.end
                 'end if
                 
@@ -213,19 +256,27 @@ case "FN_getKundelisten_2013"
 			    while not oRec.EOF
 
 
+                if cdbl(oRec("kundeans1")) <> 0 then
+
             	strSQL2 = "SELECT mnavn, mnr FROM medarbejdere WHERE mid = "&oRec("kundeans1")
 				oRec2.open strSQL2, oConn, 3 
 				if not oRec2.EOF then
 				kans1 = oRec2("mnavn")
 				end if
 				oRec2.close
+
+                end if
 				
+
+                if cdbl(oRec("kundeans2")) <> 0 then
 				strSQL2 = "SELECT mnavn, mnr FROM medarbejdere WHERE mid = "&oRec("kundeans2")
 				oRec2.open strSQL2, oConn, 3 
 				if not oRec2.EOF then
 				kans2 = " - &nbsp;&nbsp;" & oRec2("mnavn") 
 				end if
 				oRec2.close
+
+                end if
 				
 				if len(kans1) <> 0 OR len(kans2) <> 0 then
 				anstxt = " --- "& job_txt_001 &": "
@@ -403,6 +454,8 @@ if len(session("user")) = 0 then
 	end if
 
     tp_jobid = id
+
+    response.cookies("2015")("lastjobid") = id
 	
     '**** Hvilken div skal vises? ****
 	if len(request("showdiv")) <> 0 then
@@ -637,9 +690,10 @@ if len(session("user")) = 0 then
 	end if
 	
 	if rdir <> "webblik" then
-	Response.redirect "jobs.asp?menu=job&shokselector=1&fm_kunde="&request("fm_kunde_sog")&"&jobnr_sog="&request("jobnr_sog")&"&filt="&request("filt")
+	'Response.redirect "jobs.asp?menu=job&shokselector=1&fm_kunde="&request("fm_kunde_sog")&"&jobnr_sog="&request("jobnr_sog")&"&filt="&request("filt")
+    Response.redirect "../to_2015/job_list.asp?hidelist=1"
 	else
-	Response.redirect "webblik_joblisten.asp"
+	Response.redirect "../to_2015/webblik_joblisten.asp"
 	end if
 	
 	case "sletfil"
@@ -994,21 +1048,24 @@ if len(session("user")) = 0 then
 			
             if cint(budget_mandatoryOn) = 1 then 'Budget  / InternLønOmk. mandatory
 
-            if len(trim(request("FM_interntbelob"))) <> 0 then
-            interntbelobTjk = request("FM_interntbelob")
-            else
-            interntbelobTjk = 0
-            end if
+                if len(trim(request("FM_interntbelob"))) <> 0 then
+                interntbelobTjk = request("FM_interntbelob")
+                else
+                interntbelobTjk = 0
+                end if
 			
-            isInt = 0    
-		    call erDetInt(interntbelobTjk)
-            if (isInt > 0 OR cdbl(interntbelobTjk) < 100) AND func = "dbred" then 
-            call visErrorFormat
+                isInt = 0    
+		        call erDetInt(interntbelobTjk)
+                if (isInt > 0 OR cdbl(interntbelobTjk) < 100) AND func = "dbred" then 
+                call visErrorFormat
     		
-		    errortype = 182
-		    call showError(errortype)
-		    response.End
-			end if
+		        errortype = 182
+		        call showError(errortype)
+		        response.End
+			    end if
+
+             
+
 
             end if
 			
@@ -1099,7 +1156,7 @@ if len(session("user")) = 0 then
 			    
 			    
 				call erDetInt(request("FM_budget"&simpeludvEXT&""))
-				if isInt > 0 OR instr(request("FM_budget"&simpeludvEXT&""), "-") <> 0 OR trim(lcase(request("FM_budget"&simpeludvEXT&""))) = "nan" then
+				if isInt > 0 OR trim(lcase(request("FM_budget"&simpeludvEXT&""))) = "nan" then 'OR instr(request("FM_budget"&simpeludvEXT&""), "-") <> 0 20200114
 				
 				call visErrorFormat
 				
@@ -1624,6 +1681,10 @@ if len(session("user")) = 0 then
 				
 				strEditor = session("user")
 				strDato = session("dato")
+
+                ddupdate = year(now) & "/" & month(now) & "/" & day(now)
+
+
 				intAktfavgp = "0, "& request("FM_favorit")
 				strAktFase = replace("0, "& request("FM_favorit_fase"), "'", "")
 				strAktFase = replace(strAktFase, "''", "")
@@ -1943,6 +2004,39 @@ if len(session("user")) = 0 then
                 call valutaKurs(jo_valuta)
                 dblKurs = dblKurs 
 
+              
+                if len(trim(request("project_tier"))) <> 0 then
+                project_tier = request("project_tier")
+                project_tier = replace(project_tier, "'", "")
+                else
+                project_tier = ""
+                end if
+
+
+                '*** GDPR Epinion ************************************
+               
+
+                if len(trim(request("FM_data_outside_eu"))) <> 0 then
+                data_outside_eu = request("FM_data_outside_eu")
+                else
+                data_outside_eu = 0
+                end if
+
+                 if len(trim(request("FM_categories_process"))) <> 0 then
+                categories_process = request("FM_categories_process")
+                categories_process = replace(categories_process, "'", "")
+                else
+                categories_process = ""
+                end if
+                
+                if len(trim(request("FM_safeguard"))) <> 0 then
+                safeguard = request("FM_safeguard")
+                safeguard = replace(safeguard, "'", "")
+                else
+                safeguard = ""
+                end if
+
+
                 '******* Sti til dokumenter på egen filserver *****'
                 if len(trim(request("FM_filepath1"))) <> 0 then 
                 filepath1 = request("FM_filepath1")
@@ -1952,7 +2046,95 @@ if len(session("user")) = 0 then
                 filepath1 = ""
                 end if
 
+                if len(trim(request("FM_filepath2"))) <> 0 then 
+                filepath2 = request("FM_filepath2")
+                filepath2 = replace(filepath2, "'", "")
+                filepath2 = replace(filepath2, "\", "#")
+                else
+                filepath2 = ""
+                end if
 
+                if len(trim(request("FM_filepath3"))) <> 0 then 
+                filepath3 = request("FM_filepath3")
+                filepath3 = replace(filepath3, "'", "")
+                filepath3 = replace(filepath3, "\", "#")
+                else
+                filepath3 = ""
+                end if
+
+
+                if len(trim(request("FM_gdpr_projecttype"))) <> 0 then 
+                gdpr_projecttype = request("FM_gdpr_projecttype")
+                else
+                gdpr_projecttype = 0
+                end if
+
+                if len(trim(request("FM_gdpr_personaldata"))) <> 0 then 
+                gdpr_personaldata = request("FM_gdpr_personaldata")
+                else
+                gdpr_personaldata = 0
+                end if
+
+                if len(trim(request("FM_gdpr_safeguard_io"))) <> 0 then 
+                gdpr_safeguard_io = request("FM_gdpr_safeguard_io")
+                else
+                gdpr_safeguard_io = 0
+                end if
+
+                
+                if len(trim(request("FM_gdpr_personaldatavendor"))) <> 0 then 
+                gdpr_personaldatavendor = request("FM_gdpr_personaldatavendor")
+                else
+                gdpr_personaldatavendor = 0
+                end if
+                  
+
+
+                if len(trim(request("FM_gdpr_strippedforpersonal_data"))) <> 0 then 
+                gdpr_strippedforpersonal_data = request("FM_gdpr_strippedforpersonal_data")
+                else
+                gdpr_strippedforpersonal_data = 0
+                end if
+
+                if len(trim(request("FM_gdpr_personal"))) <> 0 then 
+                gdpr_personal = request("FM_gdpr_personal")
+                else
+                gdpr_personal = 0
+                end if
+
+                if len(trim(request("FM_gdpr_sensitive"))) <> 0 then 
+                gdpr_sensitive = request("FM_gdpr_sensitive")
+                else
+                gdpr_sensitive = 0
+                end if
+
+
+                if session("mid") = 32821 OR session("mid") = 1 then
+                 
+                if (lto = "epi2017" OR lto = "intranet - local") AND func = "dbred" AND strStatus = 0 AND cint(gdpr_strippedforpersonal_data) = 0 AND cint(gdpr_personaldata) = 0 then
+
+                call visErrorFormat
+				errortype = 201
+                call showError(errortype)
+                Response.end
+
+                end if
+
+                end if
+
+                
+                if lto = "epi2017" AND func = "dbred" AND strStatus = 1 AND level <> 1 AND _
+                ( len(trim(filepath1)) = 0 OR _
+                ( cint(gdpr_personaldata) = 0 AND ( len(trim(filepath2)) = 0 OR len(trim(categories_process)) = 0 ) ) OR _
+                ( cint(data_outside_eu) = 1 AND len(trim(safeguard)) = 0 ) ) then
+                
+                call visErrorFormat
+				errortype = 201
+                call showError(errortype)
+                Response.end
+		        
+				
+                end if
 
 				
 				'**********************************'
@@ -2180,7 +2362,7 @@ if len(session("user")) = 0 then
 					 	
 					 	
 							    strSQLjob = ("INSERT INTO job (jobnavn, jobnr, jobknr, jobTpris, jobstatus, jobstartdato,"_
-							    &" jobslutdato, editor, dato, projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, "_
+							    &" jobslutdato, editor, dato, creator, createdate, projektgruppe1, projektgruppe2, projektgruppe3, projektgruppe4, "_
 							    &" projektgruppe5, projektgruppe6, projektgruppe7, projektgruppe8, projektgruppe9, projektgruppe10, "_
 							    &" fakturerbart, budgettimer, fastpris, kundeok, beskrivelse "_
 							    &", ikkeBudgettimer, tilbudsnr, jobans1, jobans2, "_
@@ -2192,7 +2374,8 @@ if len(session("user")) = 0 then
                                 &" virksomheds_proc, syncslutdato, altfakadr, preconditions_met, laasmedtpbudget,"_
                                 &" salgsans1, salgsans2, salgsans3, salgsans4, salgsans5, "_
                                 &" salgsans1_proc, salgsans2_proc, salgsans3_proc, salgsans4_proc, salgsans5_proc, filepath1, fomr_konto, "_
-                                &" jfak_sprog, jfak_moms, alert, lincensindehaver_faknr_prioritet_job, jo_valuta, jo_valuta_kurs, jo_usefybudgetingt "_
+                                &" jfak_sprog, jfak_moms, alert, lincensindehaver_faknr_prioritet_job, jo_valuta, jo_valuta_kurs, jo_usefybudgetingt, filepath2, filepath3, "_
+                                &" categories_process, data_outside_eu, safeguard, gdpr_safeguard_io, gdpr_personaldata, gdpr_projecttype, project_tier, gdpr_personaldatavendor, gdpr_strippedforpersonal_data, gdpr_personal, gdpr_sensitive "_
                                 &") VALUES "_
 							    &"('"& strNavn &"', "_
 							    &"'"& strjnr &"', "_ 
@@ -2203,6 +2386,8 @@ if len(session("user")) = 0 then
 							    &"'"& slutDato &"', "_
 							    &"'"& strEditor &"', "_
 							    &"'"& strDato &"', "_ 
+                                &"'"& strEditor &"', "_
+                                &"'"& year(now) &"-"& month(now) &"-"& day(now) &"', "_ 
 							    &""& strProjektgr1 &", "_ 
 							    &""& strProjektgr2 &", "_ 
 							    &""& strProjektgr3 &", "_ 
@@ -2230,7 +2415,10 @@ if len(session("user")) = 0 then
                                 &" "& virksomheds_proc &", "& syncslutdato &", "& altfakadr &", "& preconditions_met &", "& laasmedtpbudget &", "_
                                 &" "& salgsans1 &","& salgsans2 &","& salgsans3 &","& salgsans4 &","& salgsans5 &", "_
                                 &" "& salgsans_proc_1 &","& salgsans_proc_2 &","& salgsans_proc_3 &","& salgsans_proc_4 &","& salgsans_proc_5 &", "_
-                                &" '"& filepath1 &"', "& fomr_konto &", "& jfak_sprog &", "& jfak_moms &", "& alert &", '"& lincensindehaver_faknr_prioritet_job &"', "& jo_valuta &", "& dblKurs &", "& useFYbudgetinGT &""_
+                                &" '"& filepath1 &"', "& fomr_konto &", "& jfak_sprog &", "& jfak_moms &", "& alert &", '"& lincensindehaver_faknr_prioritet_job &"', "_
+                                &""& jo_valuta &", "& dblKurs &", "& useFYbudgetinGT &", '"& filepath2 &"', '"& filepath3 &"', "_
+                                &"'"& categories_process &"', "& data_outside_eu &", '"& safeguard &"', "& gdpr_safeguard_io &", "& gdpr_personaldata &", "& gdpr_projecttype &", '"& project_tier &"', "_
+                                &"'"& gdpr_personaldatavendor &"',"& gdpr_strippedforpersonal_data &", '"& gdpr_personal &"', '"& gdpr_sensitive &"'"_
                                 &")")
     							
 							    'Response.write strFakturerbart & "<br><br>"
@@ -2286,7 +2474,7 @@ if len(session("user")) = 0 then
 									&" FROM progrupperelationer "_
 									&" LEFT JOIN medarbejdere ON (mid = progrupperelationer.medarbejderid) "_
 									&" LEFT JOIN medarbejdertyper ON (medarbejdertyper.id = medarbejdertype) "_
-									&" WHERE projektgruppeid = "& oRec5("id") &" AND mnavn <> '' AND mansat <> 2 ORDER BY mnavn"
+									&" WHERE projektgruppeid = "& oRec5("id") &" AND mnavn <> '' AND mansat <> 2 AND mansat <> 4 ORDER BY mnavn"
 									oRec3.open strSQLmtp, oConn, 3
 									this6timepris = 0
 									while not oRec3.EOF
@@ -2453,9 +2641,10 @@ if len(session("user")) = 0 then
 				                oConn.execute(strSQL)
 				               
 				                
-				                
-								
-							else '** REDIGER
+				            '****************************************************************************************    
+							'** REDIGER
+                            '****************************************************************************************
+							else 
 							
 
 
@@ -2508,7 +2697,11 @@ if len(session("user")) = 0 then
                             &" salgsans1_proc = "& salgsans_proc_1 &", salgsans2_proc = "& salgsans_proc_2 &", salgsans3_proc = "& salgsans_proc_3 &", salgsans4_proc = "& salgsans_proc_4 &", "_
                             &" salgsans5_proc = "& salgsans_proc_5 &", filepath1 = '"& filepath1 &"', fomr_konto = "& fomr_konto &","_
                             &" jfak_sprog = "& jfak_sprog &", jfak_moms = "& jfak_moms &", alert = "& alert &", "_
-                            &" lincensindehaver_faknr_prioritet_job = '"& lincensindehaver_faknr_prioritet_job &"', jo_valuta = "& jo_valuta &", jo_valuta_kurs = "& dblKurs &", jo_usefybudgetingt = "& useFYbudgetinGT &""_
+                            &" lincensindehaver_faknr_prioritet_job = '"& lincensindehaver_faknr_prioritet_job &"', "_
+                            &" jo_valuta = "& jo_valuta &", jo_valuta_kurs = "& dblKurs &", jo_usefybudgetingt = "& useFYbudgetinGT &", "_
+                            &" filepath2 = '"& filepath2 &"', filepath3 = '"& filepath3 &"', categories_process = '"& categories_process &"', data_outside_eu = "& data_outside_eu &", safeguard = '"& safeguard &"',"_
+                            &" gdpr_safeguard_io = "& gdpr_safeguard_io &", gdpr_personaldata = "& gdpr_personaldata &", gdpr_projecttype = "& gdpr_projecttype &", project_tier = '"& project_tier &"',"_
+                            &" gdpr_personaldatavendor = '"& gdpr_personaldatavendor &"', gdpr_strippedforpersonal_data = "& gdpr_strippedforpersonal_data&", gdpr_personal = '"& gdpr_personal &"',gdpr_sensitive = '"& gdpr_sensitive &"'"_
 							&" WHERE id = "& id 
 							
 							'Response.Write strSQL
@@ -2985,15 +3178,19 @@ if len(session("user")) = 0 then
 								intAktfavgp_use = split(intAktfavgp, ",")
 								strAktFase_use = split(strAktFase, ", ")
                                 firstLoop = 0
-								for a = 0 to UBOUND(intAktfavgp_use)
-								'for a = 1 to 1
-                                    'Response.Write "a" & a & " val: "& intAktfavgp_use(a) &"<br>"
-                                    'Response.flush
-                                    if len(trim(intAktfavgp_use(a))) <> 0 then
-								    call tilknytstamakt(a, intAktfavgp_use(a), trim(strAktFase_use(1)), 0, varjobId)
-                                    end if
+
+                               
+
+								        for a = 0 to UBOUND(intAktfavgp_use)
+								        'for a = 1 to 1
+                                            'Response.Write "a" & a & " val: "& intAktfavgp_use(a) &"<br>"
+                                            'Response.flush
+                                            if len(trim(intAktfavgp_use(a))) <> 0 then
+								            call tilknytstamakt(a, intAktfavgp_use(a), trim(strAktFase_use(1)), 0, varjobId)
+                                            end if
 							
-                                next
+                                        next
+
                                 
                                 'Response.write "her"
                                 'Response.end
@@ -3213,8 +3410,12 @@ if len(session("user")) = 0 then
                             jobans4email = ""
                             jobans5email = ""
 
+                            jobstatus = 0
+                            lkDatoThis = "2002-01-01"
+
+
 				            '**** Finder jobansvarlige *****
-				            strSQL = "SELECT job.id AS jid, jobnavn, jobnr, jobans1, jobans2, jobans3, jobans4, jobans5, job.beskrivelse, job_internbesk, "_
+				            strSQL = "SELECT job.id AS jid, jobnavn, jobnr, jobstatus, lukkedato, jobans1, jobans2, jobans3, jobans4, jobans5, job.beskrivelse, job_internbesk, "_
                             &" m1.mnavn AS m1mnavn, m1.email AS m1email, m1.mansat AS m1mansat, "_
 				            &" m2.mnavn AS m2mnavn, m2.email AS m2email, m2.mansat AS m2mansat, "_
                             &" m3.mnavn AS m3mnavn, m3.email AS m3email, m3.mansat AS m3mansat, "_
@@ -3237,7 +3438,10 @@ if len(session("user")) = 0 then
 				            if not oRec5.EOF then
             				
 				            jobid = oRec5("jid")
-				            
+				                
+                            jobstatus = oRec5("jobstatus")
+                            lkDatoThis = oRec5("lukkedato")
+
                             jobans1 = oRec5("m1mnavn")
                             jobans1Init = oRec5("m1init")
                             if isNull(oRec5("m1email")) <> true then 
@@ -3362,7 +3566,35 @@ if len(session("user")) = 0 then
 
 		                            strBody = "<br>"
                                     strBody = strBody &"<b>"&job_txt_021&":</b> "& strkkundenavn & "<br>" 
-						            strBody = strBody &"<b>"&job_txt_022&":</b> "& jobnavnThis &" ("& intJobnr &") <br><br>"
+						            strBody = strBody &"<b>"&job_txt_022&":</b> "& jobnavnThis &" ("& intJobnr &")"
+                                    if lto = "mpt" then
+                                        strBody = strBody & "<br>"
+                                        
+                                        statusnavn = ""
+                                        strlkDatoThis = ""
+                                        select case cint(jobstatus)
+									        case 1
+									        strStatusNavn = job_txt_094
+									        case 2
+									        strStatusNavn = job_txt_095 'passiv
+									        case 0
+									        strStatusNavn = job_txt_096
+                                                if cdate(lkDatoThis) <> "01-01-2002" then
+                                                strlkDatoThis = " ("& formatdatetime(lkDatoThis, 2) & ")"
+                                                end if
+									        case 3
+									        strStatusNavn = job_txt_063
+                                            case 4
+									        strStatusNavn = job_txt_098
+                                            case 5
+									        strStatusNavn = "Evaluering"
+									    end select
+
+                                        strBody = strBody &"<b>"&job_txt_241&":</b> "& strStatusNavn & strlkDatoThis & "<br><br>"
+
+                                    else
+                                        strBody = strBody & "<br><br>"
+                                    end if
 
                                     if jobans1 <> "0" AND isNULL(jobans1) <> true then
                                     strBody = strBody &"<b>"&job_txt_023&":</b> "& jobans1 &" "& jobans1init &"<br><br>"
@@ -3373,12 +3605,12 @@ if len(session("user")) = 0 then
 		                            end if
 
                                     if len(trim(strBesk)) <> 0 then
-                                    strBody = strBody &"<hr><b>"&job_txt_025&":</b><br>"
+                                    strBody = strBody &"<br><b>"&job_txt_025&":</b><br>"
                                     strBody = strBody & strBesk &"<br><br><br><br>"
                                     end if
 
                                     if len(trim(job_internbesk)) <> 0 then
-                                    strBody = strBody &"<hr><b>"&job_txt_026&":</b><br>"
+                                    strBody = strBody &"<br><b>"&job_txt_026&":</b><br>"
                                     strBody = strBody & job_internbesk &"<br><br>"
                                     end if
 
@@ -3793,7 +4025,7 @@ if len(session("user")) = 0 then
 
                                             if cdbl(ulevid) <> 0 then
 
-                                            strSQLUpdUlev = "UPDATE job_ulev_ju SET "_
+                                            strSQLUpdUlev = "UPDATE job_ulev_ju SET ju_date = '"& ddupdate &"', ju_editor = '"& strEditor &"', "_
 							                &" ju_fase = '"& ulevfase &"', ju_navn = '"& ulevnavn &"', ju_ipris = "& ulevpris &", "_
 							                &" ju_faktor = "& ulevfaktor &", ju_belob = "& ulevbelob &",  ju_jobid = "& varJobId & ", ju_stk = "& ulevstk &", ju_stkpris = "& ulevstkpris &", ju_matid = "& ulevmatid &", "
                         
@@ -3809,7 +4041,7 @@ if len(session("user")) = 0 then
 
                                             else
     							
-						                    strSQLInsUlev = "INSERT INTO job_ulev_ju SET "_
+						                    strSQLInsUlev = "INSERT INTO job_ulev_ju SET ju_date = '"& ddupdate &"', ju_editor = '"& strEditor &"',"_
 							                &" ju_fase = '"& ulevfase &"', ju_navn = '"& ulevnavn &"', ju_ipris = "& ulevpris &", "_
 							                &" ju_faktor = "& ulevfaktor &", ju_belob = "& ulevbelob &",  ju_jobid = "& varJobId& ", ju_stk = "& ulevstk &", ju_stkpris = "& ulevstkpris & ", ju_matid = "& ulevmatid &", "
                         
@@ -3851,19 +4083,99 @@ if len(session("user")) = 0 then
 							
 						    'Response.end
 							
+
+
+
+
 							
-						    '*****************************************************************************'
-							'*** tilføjer job i timereg_usejob (Vis guide), både ved opret og rediger ****'
-							'*****************************************************************************'
+					    '*****************************************************************************'
+					    '*** tilføjer job i timereg_usejob (Vis guide), både ved opret og rediger ****'
+					    '*****************************************************************************'
 						
                         'repsonse.write "her"
                         'response.end
 
+                                '**** Aktive aktiviteter på dette job
+
+                  
+
+                                progrpFindespaaAkt10 = 0
+                                aktiveAktids = "#0#"
+                                strSQlAkt = "SELECT id FROM aktiviteter WHERE job = " & varJobId & " AND aktstatus = 1"
+                                oRec4.open strSQlAkt, oConn, 3
+                                while not oRec4.EOF
+                                    
+                                    for ai = 1 to 10
+
+                                        select case ai
+                                        case 1
+                                        pid = strProjektgr1
+                                        case 2
+                                        pid = strProjektgr2
+                                        case 3
+                                        pid = strProjektgr3
+                                        case 4
+                                        pid = strProjektgr4
+                                        case 5
+                                        pid = strProjektgr5
+                                        case 6
+                                        pid = strProjektgr6
+                                        case 7
+                                        pid = strProjektgr7
+                                        case 8
+                                        pid = strProjektgr8
+                                        case 9
+                                        pid = strProjektgr9
+                                        case 10
+                                        pid = strProjektgr9
+                                        end select                
+
+                                        call projktgrpPaaAktids(pid, oRec4("id"))
+                                        progrpFindespaaAkt10 = progrpFindespaaAkt10 & progrpFindespaaAktivitet
+
+                                    next
+
+                                    if instr(progrpFindespaaAkt10, "1") <> 0 then '001001100 Prokjektgruppen findes på aktiviteten som progruppe 1-10
+                                    aktiveAktids = aktiveAktids & ",#" & oRec4("id") & "#"  
+                                    end if
+
+                                oRec4.movenext
+                                wend
+                                oRec4.close
+
+                            
+
                          
 							medarUseJobWrt = ""
 							dtNow = year(now) & "-"& month(now) & "-"& day(now)
+
+                      
+                      'Tester hastighed når EPI redigere elelr opretter job. 
+                      'Optimer nedenstående f.eks vælge alle medarbejdere på job og tjek med instr.
+                      'strSQLex = "SELECT id, aktid FROM timereg_usejob WHERE jobid = "& varJobId &" AND medarb = " & oRec5("MedarbejderId") & " AND aktid = 0"
+                     
+                     'if instr(lto, "epi") <> 0 then
+                     'opdaterTimereg_usejob = 0
+                     'else
+                     opdaterTimereg_usejob = 1
+                     'end if
+
+                    
+                        
+                    if cint(opdaterTimereg_usejob) = 1 then
 							
-								strSQL = "SELECT DISTINCT(MedarbejderId) FROM progrupperelationer WHERE ("_
+
+                                '** KUN AKTIVE og passive medarbjedere
+                                select case lto
+                                case "epi2017"
+                                mansatSQLkri = "m.mansat = 1" 'kun aktive
+                                case else
+                                mansatSQLkri = "m.mansat = 1 OR m.mansat = 3" 'Aktive og passive
+                                end select
+
+
+								strSQL = "SELECT DISTINCT(MedarbejderId), mansat, mid FROM progrupperelationer "_
+                                &" LEFT JOIN medarbejdere m ON (m.mid = MedarbejderId AND ("& mansatSQLkri &")) WHERE ("_
 								&" ProjektgruppeId = "& strProjektgr1 &""_
 								&" OR ProjektgruppeId =" & strProjektgr2 &""_
 								&" OR ProjektgruppeId =" & strProjektgr3 &""_
@@ -3874,51 +4186,112 @@ if len(session("user")) = 0 then
 								&" OR ProjektgruppeId =" & strProjektgr8 &""_
 								&" OR ProjektgruppeId =" & strProjektgr9 &""_
 								&" OR ProjektgruppeId =" & strProjektgr10 &""_
-								&") GROUP BY MedarbejderId"
+								&") AND mid IS NOT NULL GROUP BY MedarbejderId"
 								
+                                'if session("mid") = 1 then
                                 'Response.Write "strSQL "& strSQL & "<br><hr>"
-
+                                'Response.end
+                                'end if
 								
 								oRec5.open strSQL, oConn, 3
 								while not oRec5.EOF
 
                                     
-                                    medarbfundet = 0
-                                    strSQLex = "SELECT id FROM timereg_usejob WHERE jobid = "& varJobId &" AND medarb = " & oRec5("MedarbejderId")
+                                
+                                 medarbfundet = 0
+
                                     
-                                    'Response.Write strSQLex &"<br><br>"
-                                    
-                                    oRec4.open strSQLex, oConn, 3
-                                    if not oRec4.EOF then
-                                    medarbfundet = 1
                                             
-                                            if cint(forvalgt) = 1 then 'sæt aktiv for alle tilmeldte medarbejdere i valgte projektgrupper
+                                            '** Henter både job og specifikke aktiviter
+                                            strSQLex = "SELECT id, aktid FROM timereg_usejob WHERE jobid = "& varJobId &" AND medarb = " & oRec5("MedarbejderId") & " AND aktid = 0"
 
-                                            strSQLfvlgt = "UPDATE timereg_usejob SET forvalgt = 1, forvalgt_sortorder = 0, forvalgt_af = "& session("mid") &", forvalgt_dt = '"& dtNow &"', favorit = 1 WHERE id = " & oRec4("id") 
+                                             'if session("mid") = 1 then
+                                             'Response.Write "strSQL "& strSQLex & "<br><hr>"
+                                             'Response.end
+                                             'end if
+                                    
+                                            oRec4.open strSQLex, oConn, 3
+                                            if not oRec4.EOF then
+                                            medarbfundet = 1
+                                            
+                                                    if cint(forvalgt) = 1 then 'sæt aktiv for alle tilmeldte medarbejdere i valgte projektgrupper
 
-                                            oConn.execute(strSQLfvlgt)
-                                            'Response.Write strSQLfvlgt & "<br>"
+                                    
+                                                        strSQLfvlgt = "UPDATE timereg_usejob SET forvalgt = 1, forvalgt_sortorder = 0, forvalgt_af = "& session("mid") &", forvalgt_dt = '"& dtNow &"', favorit = 1 WHERE id = " & oRec4("id") 
+                                                        oConn.execute(strSQLfvlgt)
+                                                        'Response.Write strSQLfvlgt & "<br>"
 
-                                            end if
 
-                                    End if
-                                    oRec4.close
+                                                        'Aktiviteten er blevet lukket/passiv. Sletter aldrig den på jobbet aktid = 0
+                                                        strSQLfvlgtDel = "DELETE FROM timereg_usejob WHERE jobid = " & varJobId & " AND medarb = " & oRec5("MedarbejderId") & " AND aktid <> 0"
+                                                        oConn.execute(strSQLfvlgtDel)
+
+                                                        aktids = replace(aktiveAktids, "#", "")
+                                                        aktidsarr = split(aktids, ",")
+                                
+                                                        for a = 1 to UBOUND(aktidsarr)
+
+
+                                                                strSQL3 = "INSERT INTO timereg_usejob (medarb, jobid, forvalgt, forvalgt_sortorder, forvalgt_af, forvalgt_dt, favorit, aktid) VALUES "_
+                                                                &" ("& oRec5("MedarbejderId") &", "& varJobId &", 1, 0, "& session("mid") &", '"& dtNow &"', 1, "& aktidsarr(a) &")"
+                                                                oConn.execute(strSQL3)
+
+                                                        next
+
+
+                                                    end if 'forvalgt
+
+                                            End if
+                                            oRec4.close
+
+
+
+                                 
 
                                     if cint(medarbfundet) = 0 then 
                                         
                                         if cint(forvalgt) = 1 then 'sæt aktiv
-                                        strSQL3 = "INSERT INTO timereg_usejob (medarb, jobid, forvalgt, forvalgt_sortorder, forvalgt_af, forvalgt_dt, favorit) VALUES "_
-                                        &" ("& oRec5("MedarbejderId") &", "& varJobId &", 1, 0, "& session("mid") &", '"& dtNow &"', 1)"
+                                       
 
-                                         oConn.execute(strSQL3)
+                                                strSQL3 = "INSERT INTO timereg_usejob (medarb, jobid, forvalgt, forvalgt_sortorder, forvalgt_af, forvalgt_dt, favorit, aktid) VALUES "_
+                                                &" ("& oRec5("MedarbejderId") &", "& varJobId &", 1, 0, "& session("mid") &", '"& dtNow &"', 1, 0)"
+                                                oConn.execute(strSQL3)
+
+                                                aktids = replace(aktiveAktids, "#", "")
+                                                aktidsarr = split(aktids, ",")
+                                
+                                                for a = 1 to UBOUND(aktidsarr)
+
+
+                                                        strSQL3 = "INSERT INTO timereg_usejob (medarb, jobid, forvalgt, forvalgt_sortorder, forvalgt_af, forvalgt_dt, favorit, aktid) VALUES "_
+                                                        &" ("& oRec5("MedarbejderId") &", "& varJobId &", 1, 0, "& session("mid") &", '"& dtNow &"', 1, "& aktidsarr(a) &")"
+                                                        oConn.execute(strSQL3)
+
+                                                next
+
+                                        
                                         else
                                         
-                                                
-                                                call positiv_aktivering_akt_fn() 'wwf
-                                                if cint(positiv_aktivering_akt_val) <> 1 then
-                                                strSQL3 = "INSERT INTO timereg_usejob (medarb, jobid) VALUES ("& oRec5("MedarbejderId") &", "& varJobId &")"
-                                                oConn.execute(strSQL3)
+                                                '**** Sætter i jobbanken. Gælder ALLE undt WWF der har manuel positiv aktivering (Kontrolpanel)
+
+                                                 'if instr(lto, "epi") <> 0 then
+                                                 'opdaterTimereg_usejob3 = 0
+                                                 'else
+                                                 opdaterTimereg_usejob3 = 1
+                                                 'end if
+
+
+                                                if cint(opdaterTimereg_usejob3) = 1 then
+
+                                                    call positiv_aktivering_akt_fn() 'wwf
+                                                    if cint(positiv_aktivering_akt_val) <> 1 then
+                                                    strSQL3 = "INSERT INTO timereg_usejob (medarb, jobid) VALUES ("& oRec5("MedarbejderId") &", "& varJobId &")"
+                                                    oConn.execute(strSQL3)
+                                                    end if
+
                                                 end if
+
+
                                         end if
 
                                    
@@ -3940,10 +4313,17 @@ if len(session("user")) = 0 then
                                 'Response.End
 
 							
+                            
+
+
 							if func = "dbred" then
-							'*** Sletter ikke længere aktuelle medarbejdere fra timereg usejob **'
+							    '*** Sletter ikke længere aktuelle medarbejdere fra timereg usejob **'
                                 'if len(trim(medarUseJobWrt)) <> 0 then
+                                if lto = "tia" then
 							    strSQLdelUseJob = "DELETE FROM timereg_usejob WHERE jobid = "& varJobId & "" & medarUseJobWrt & " AND favorit <> 1"
+                                else
+                                strSQLdelUseJob = "DELETE FROM timereg_usejob WHERE jobid = "& varJobId & "" & medarUseJobWrt & ""
+                                end if
 
                                 'Response.Write "<br><br>"& strSQLdelUseJob
 
@@ -3953,8 +4333,14 @@ if len(session("user")) = 0 then
 
 
 
+                            end if 'opdaterTimereg_usejob = 1 insrt(epi)
+
+
+
+
                             '**** Sætter EASYreg aktiv på aktiviteter for alle medarbejdere ****'
-                            
+                            call showEasyreg_fn()
+                            if cint(showEasyreg_val) = 1 then
                             oEasyReg = 0
                             strSQLea = "SELECT easyreg, id FROM aktiviteter WHERE job = "& id & " AND easyreg = 1"
 				            oRec5.open strSQLea, oConn, 3
@@ -3976,7 +4362,11 @@ if len(session("user")) = 0 then
 				               
 				            'Response.end
 				         
-					        
+					        end if 'showEasyreg_val
+
+
+                            
+
 
 
 					        '************************************************'
@@ -4208,7 +4598,7 @@ if len(session("user")) = 0 then
 							case "sdsk2"
 							rdirLink = "sdsk.asp?func=red&id=0"
 							case "webblik"
-							rdirLink = "webblik_joblisten.asp"
+							rdirLink = "../to_2015/webblik_joblisten.asp"
 							case "webblik_tilfakturering"
 							rdirLink = "webblik_tilfakturering.asp"
 							case "webblik_milepale"
@@ -4232,9 +4622,15 @@ if len(session("user")) = 0 then
 							case else
 							
 							'**til joblisten
-							rdirLink = "jobs.asp?menu=job&shokselector=1&id="&varJobId&"&jobnr_sog="&strJobsog&"&filt="&filt&"&fm_kunde="&vmenukundefilt
+						    'rdirLink = "jobs.asp?menu=job&shokselector=1&id="&varJobId&"&jobnr_sog="&strJobsog&"&filt="&filt&"&fm_kunde="&vmenukundefilt
 							
-                            
+                            '*** Skal være således at listyen ikke bliver vist med det samme, da f.eks Hestia opfatter det som en fejl at den står længe og venter på listen (1400 job)
+                            if func = "dbopr" then
+                            rdirLink = "../to_2015/job_list.asp?hidelist=1"
+                            else
+                            rdirLink = "../to_2015/job_list.asp?hidelist=1" '?id="&varJobId&"&jobnr_sog="&strJobsog&"&filt="&filt&"&fm_kunde="&vmenukundefilt
+                            end if
+
                           end select
 							
 						  
@@ -4344,9 +4740,9 @@ if len(session("user")) = 0 then
 	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
     
     <%if step = 2 then %>
-    <script src="inc/job_jav_2017.js"></script>
+    <script src="inc/job_jav_2020_3.js"></script>
     <%else %>
-    <script src="inc/job_listen_jav.js"></script>
+    <script src="inc/job_listen_jav2.js"></script>
     <%end if 
     
     
@@ -4876,6 +5272,8 @@ if len(session("user")) = 0 then
     preconditions_met = 0 '1 = ja, 0= ikke angivet, 2 = nej vent
 
     filepath1 = ""
+    filepath2 = ""
+    filepath3 = ""
     fomr_konto = 0
 
     useasfak = 0
@@ -4890,6 +5288,7 @@ if len(session("user")) = 0 then
     end select
 
     lincensindehaver_faknr_prioritet_job = "0"
+    project_tier = ""
 
 	else '*** REDIGER JOB *****'
     
@@ -4900,7 +5299,7 @@ if len(session("user")) = 0 then
 
 	strSQL = "SELECT id, jobnavn, jobnr, kkundenavn, jobknr, "_
 	&" jobTpris, jobstatus, jobstartdato, jobslutdato, projektgruppe1, projektgruppe2, "_
-	&" projektgruppe3, projektgruppe4, projektgruppe5, job.dato, job.editor, "_
+	&" projektgruppe3, projektgruppe4, projektgruppe5, job.dato, job.editor, creator, createdate, "_
 	&" fakturerbart, budgettimer, fastpris, kundeok, job.beskrivelse, "_
 	&" ikkeBudgettimer, tilbudsnr, projektgruppe6, projektgruppe7, "_
 	&" projektgruppe8, projektgruppe9, projektgruppe10, job.serviceaft, "_
@@ -4908,8 +5307,9 @@ if len(session("user")) = 0 then
 	&" jo_gnstpris, jo_gnsfaktor, jo_gnsbelob, jo_bruttofortj, jo_dbproc, "_
 	&" udgifter, risiko, sdskpriogrp, usejoborakt_tp, ski, job_internbesk, abo, ubv, sandsynlighed, "_
     &" diff_timer, diff_sum, jo_udgifter_ulev, jo_udgifter_intern, jo_bruttooms, restestimat, stade_tim_proc, virksomheds_proc, "_
-    &" syncslutdato, lukkedato, altfakadr, preconditions_met, laasmedtpbudget, filepath1, fomr_konto, jfak_moms, jfak_sprog, useasfak, alert,"_
-    &" lincensindehaver_faknr_prioritet_job, jo_valuta, jo_valuta_kurs, jo_usefybudgetingt "_
+    &" syncslutdato, lukkedato, altfakadr, preconditions_met, laasmedtpbudget, filepath1, filepath2, filepath3, fomr_konto, jfak_moms, jfak_sprog, useasfak, alert,"_
+    &" lincensindehaver_faknr_prioritet_job, jo_valuta, jo_valuta_kurs, jo_usefybudgetingt, categories_process, data_outside_eu, safeguard, gdpr_safeguard_io, gdpr_personaldata, gdpr_projecttype, project_tier, "_
+    &" gdpr_personaldatavendor, gdpr_strippedforpersonal_data, gdpr_personal, gdpr_sensitive"_
     &" FROM job, kunder WHERE id = " & id &" AND kunder.Kid = jobknr"
 	
         'if session("mid") = 1 then
@@ -4941,6 +5341,8 @@ if len(session("user")) = 0 then
 	strDato = oRec("dato")
 	strLastUptDato = oRec("dato")
 	strEditor = oRec("editor")
+    strCreatedDate = oRec("createdate")
+    strCreator = oRec("creator")
 	strFakturerbart = oRec("fakturerbart")
 	
 	
@@ -5047,6 +5449,20 @@ if len(session("user")) = 0 then
     filepath1 = "" 
     end if
 
+     if len(trim(oRec("filepath2"))) <> 0 then
+    filepath2 = oRec("filepath2")
+    filepath2 = replace(filepath2, "#", "\")
+    else
+    filepath2 = "" 
+    end if
+
+    if len(trim(oRec("filepath3"))) <> 0 then
+    filepath3 = oRec("filepath3")
+    filepath3 = replace(filepath3, "#", "\")
+    else
+    filepath3 = "" 
+    end if
+
     fomr_konto = oRec("fomr_konto")
 
     jfak_moms = oRec("jfak_moms")
@@ -5058,6 +5474,23 @@ if len(session("user")) = 0 then
     jo_valuta_kurs = oRec("jo_valuta_kurs")
 
     jo_usefybudgetingt = oRec("jo_usefybudgetingt")
+
+    categories_process = oRec("categories_process")
+    data_outside_eu = oRec("data_outside_eu")
+    safeguard = oRec("safeguard")
+
+        gdpr_safeguard_io = oRec("gdpr_safeguard_io") 
+        gdpr_personaldata = oRec("gdpr_personaldata") 
+        gdpr_projecttype = oRec("gdpr_projecttype")
+
+        project_tier = oRec("project_tier")
+
+        gdpr_personaldatavendor = oRec("gdpr_personaldatavendor")
+        gdpr_strippedforpersonal_data = oRec("gdpr_strippedforpersonal_data")
+
+
+    gdpr_personal = oRec("gdpr_personal") 
+    gdpr_sensitive = oRec("gdpr_sensitive")
 
     end if
 	oRec.close
@@ -5247,10 +5680,15 @@ if len(session("user")) = 0 then
     <%if func = "red" then%>
 	<tr>
 		<td colspan=4 bgcolor="#ffffff" height="30" style="  padding-top:5px; padding-left:20px;">
+        <%if isDate(strCreatedDate) = true AND strCreatedDate <> "01-01-2002" then %>
+            <%=job_txt_630 %> <b><%=strCreatedDate %></b> <%=job_txt_054 %> <b><%=strCreator %></b>
+            <br />
+        <%end if %>
+
         <%if isdate(strLastUptDato) = true then %>
 		<%=job_txt_053 %> <b><%=formatdatetime(strLastUptDato, 2)%></b><%=" "&job_txt_054&" " %><b><%=strEditor%></b>
         <%else %>
-           strLastUptDato: <%=strLastUptDato %>
+           strLastUptDato: <%=strLastUptDato %> Err. NOT VALID date format.
         <%end if %>
 		</td>
 	</tr>
@@ -5351,6 +5789,20 @@ if len(session("user")) = 0 then
 
         </td>
 	</tr>
+
+
+        
+        <%select case lto
+        case "intranet - local", "dencker"%>
+        <tr>
+		<td style="">&nbsp;</td>
+		<td valign=top style="padding:5px 5px 10px 0px;" colspan=2><b>Project tier:</b><br /><input type="text" name="project_tier" value="<%=project_tier %>" style="width:300px;" />
+            </td>
+	     </tr>
+        <%case else %>
+        <input type="hidden" name="project_tier" value="<%=project_tier %>" />
+        <%end select %>
+
 	<tr>
 		<td style="">&nbsp;</td>
 		<td valign=top style="padding:5px 5px 10px 0px;" colspan=2>
@@ -5395,7 +5847,7 @@ if len(session("user")) = 0 then
 					<input type="hidden" id="FM_nexttnr" value="<%=strNexttilbudsnr %>">
 
                     <%select case lto
-                    case "epi2017"
+                    case "epi2017", "intranet - local"
                         sandBdr = "border:1px red solid;"
                     case else
                         sandBdr = ""
@@ -5405,21 +5857,345 @@ if len(session("user")) = 0 then
             <br /><span style="font-size:10px; font-family:arial; color:#999999;">(<%=job_txt_067 &" " %>=<%=" "& job_txt_068 &" " %>*<%=" "& job_txt_069 %>)</span>
             
 	       
-	</td>
-    <td style="" width=8>&nbsp;</td>
-	</tr>	
+	        </td>
+            <td>&nbsp;</td>
+	        </tr>	
 
   
-                        <%select case lto 
-                        case "essens", "xintranet - local"
-                           %> 
-                        <tr><td colspan="4" style="padding:0px 10px 10px 10px;">
-                        <%=job_txt_070 %>:<br /> <input type="text" name="FM_filepath1" placeholder="c:\..." style="width:450px;" value="<%=filepath1 %>" /> <br /><br />
-                        </td></tr>
-               <%   
+                        <%
+                            
+                        showfilepath_gdpr = 1
+                           
+                        if cint(showfilepath_gdpr) = 1 then
+                           
+                        select case lto 
+                        case "essens", "intranet - local", "epi2017"
 
+                            select case lto
+                            case "epi2017", "intranet - local"
+                            filepathTxt = "GDPR information" 
+                            case else
+                            filepathTxt = job_txt_070 
+                            end select 
+
+                           %> 
+                        <tr><td colspan="4" style="padding:20px 20px 20px 20px;">
+                        <div style="padding:10px 10px 10px 10px; background-color:#faf0f0;">    
+                        <b><%=filepathTxt %>:</b><br />
+                        Link to contract <font color=red size=2>*</font> <input type="text" name="FM_filepath1" placeholder="URL" style="width:410px;" value="<%=filepath1 %>" /> <br />
+
+
+                         <%
+                        gdpr_projecttype0SEL = ""
+                        gdpr_projecttype1SEL = ""
+                        gdpr_projecttype2SEL = ""
+                        select case gdpr_projecttype 
+                        case 0
+                            gdpr_projecttype0SEL = "SELECTED"
+                            gdpr_projecttype1SEL = ""
+                            gdpr_projecttype2SEL = ""
+                        case 1
+                            gdpr_projecttype0SEL = ""
+                            gdpr_projecttype1SEL = "SELECTED"
+                            gdpr_projecttype2SEL = ""
+                        case 2
+                            gdpr_projecttype0SEL = ""
+                            gdpr_projecttype1SEL = ""
+                            gdpr_projecttype2SEL = "SELECTED"
+                        end select%>
+                        
+                        <br />
+                        Project type <font color=red size=2>(*)</font> <select name="FM_gdpr_projecttype">
+                            <option value="0" <%=gdpr_projecttype0SEL %>>Ad-hoc (Consulting)</option>
+                            <option value="1" <%=gdpr_projecttype1SEL %>>Data collection</option>
+                            <option value="2" <%=gdpr_projecttype2SEL %>>Hybrid</option>
+                        </select><br />
+                            <br />
+                            
+
+                        <%
+                        gdpr_personaldata0SEL = ""
+                        gdpr_personaldata1SEL = ""
+                        gdpr_personaldata2SEL = ""
+                        select case gdpr_personaldata 
+                        case 0
+                            gdpr_personaldata0SEL = "SELECTED"
+                            gdpr_personaldata1SEL = ""
+                            gdpr_personaldata2SEL = ""
+                        case 1
+                            gdpr_personaldata0SEL = ""
+                            gdpr_personaldata1SEL = "SELECTED"
+                            gdpr_personaldata2SEL = ""
+                        case 2
+                            gdpr_personaldata0SEL = ""
+                            gdpr_personaldata1SEL = ""
+                            gdpr_personaldata2SEL = "SELECTED"
                         end select
                         %>
+                        
+                        <br />
+                          <div style="padding-bottom:2px">
+                        Personal Data <font color=red size=2>(*)</font> <select id="FM_gdpr_personaldata" name="FM_gdpr_personaldata">
+                            <option value="0" <%=gdpr_personaldata0SEL %>>Dataprosessor (add text below)</option>
+                            <option value="1" <%=gdpr_personaldata1SEL %>>Data controller</option>
+                            <option value="2" <%=gdpr_personaldata2SEL %>>No personal data</option>
+                        </select>
+                              </div>
+                       
+                       <div id="dv_filepath2">
+                           <%if session("mid") = 1 OR session("mid") = 32821 OR session("mid") = 33407 then 
+
+                              end if 
+
+
+                               gdpr_personaldatavendor1SEL = ""
+                               gdpr_personaldatavendor2SEL = ""
+                               gdpr_personaldatavendor3SEL = ""
+                               gdpr_personaldatavendor4SEL = ""
+                               gdpr_personaldatavendor5SEL = ""
+                               gdpr_personaldatavendor6SEL = ""
+                               gdpr_personaldatavendor7SEL = ""
+                               gdpr_personaldatavendor8SEL = ""
+                               gdpr_personaldatavendor9SEL = ""
+                               gdpr_personaldatavendor10SEL = ""
+                               gdpr_personaldatavendor11SEL = ""
+                               gdpr_personaldatavendor12SEL = ""
+                               
+                               'if instr(gdpr_personaldatavendor, "01") <> 0 then
+                               'gdpr_personaldatavendor1SEL = "SELECTED"
+                               'end if
+                               'if instr(gdpr_personaldatavendor, "02") <> 0 then
+                               'gdpr_personaldatavendor2SEL = "SELECTED"
+                               'end if
+                               'if instr(gdpr_personaldatavendor, "3") <> 0 then
+                               'gdpr_personaldatavendor3SEL = "SELECTED"
+                               'end if
+                               'if instr(gdpr_personaldatavendor, "4") <> 0 then
+                               'gdpr_personaldatavendor4SEL = "SELECTED"
+                               ' end if
+                               'if instr(gdpr_personaldatavendor, "5") <> 0 then 
+                               'gdpr_personaldatavendor5SEL = "SELECTED"
+                               ' end if
+                               'if instr(gdpr_personaldatavendor, "6") <> 0 then
+                               'gdpr_personaldatavendor6SEL = "SELECTED"
+                               ' end if
+                               'if instr(gdpr_personaldatavendor, "7") <> 0 then
+                               'gdpr_personaldatavendor7SEL = "SELECTED"
+                               ' end if
+                               'if instr(gdpr_personaldatavendor, "8") <> 0 then
+                               'gdpr_personaldatavendor8SEL = "SELECTED"
+                               ' end if
+                               'if instr(gdpr_personaldatavendor, "9") <> 0 then
+                               'gdpr_personaldatavendor9SEL = "SELECTED"
+                               ' end if
+                               'if instr(gdpr_personaldatavendor, "10") <> 0 then
+                               'gdpr_personaldatavendor10SEL = "SELECTED"
+                               ' end if
+                               'if instr(gdpr_personaldatavendor, "11") <> 0 then
+                               'gdpr_personaldatavendor11SEL = "SELECTED"
+                               'end if
+                               'if instr(gdpr_personaldatavendor, "12") <> 0 then
+                               'gdpr_personaldatavendor12SEL = "SELECTED"
+                               'end if
+                               
+                               
+                               %>
+                           <br />
+                           Data Vendor:<font color=red size=2>(*)</font><br /><select name="FM_gdpr_personaldatavendor" size="13" style="width:412px;" multiple>
+                            <option value="0" <%=gdpr_personaldatavendor0SEL %>>Vendor (add text below)</option>
+                            <!--
+                                <option value="01" <%=gdpr_personaldatavendor1SEL %>>Marius Pedersen (Shredding of sensitive material)</option>
+                            <option value="02" <%=gdpr_personaldatavendor2SEL %>>Microsoft (Operates cloud service O365 and Azure, that is used for e.g. E-mail and server operations)</option>
+                               <option value="3" <%=gdpr_personaldatavendor3SEL %>>Timengo DPG A/S (Backup of server data)</option>
+                               -->
+
+                               <%strSQLdatavendors = "SELECT id, navn FROM selectboxoptions WHERE selectboxlist = 0 ORDER BY id"
+                                   oRec2.open strSQLdatavendors, oConn, 3 
+		                            while not oRec2.EOF 
+
+                                     if instr(gdpr_personaldatavendor, oRec2("id")) <> 0 then
+                                       gdpr_personaldatavendorSEL = "SELECTED"
+                                       end if
+                                    %> 
+                                        <option value="<%=oRec2("id") %>" <%=gdpr_personaldatavendorSEL%> ><%=oRec2("navn") %></option>
+                                    <%
+                                    oRec2.movenext
+                                    wend
+                                    oRec2.close%>
+                               <!--
+                               <option value="4" <%=gdpr_personaldatavendor4SEL %>>Compaya A/S (SMS send outs)</option>
+                               <option value="5" <%=gdpr_personaldatavendor5SEL %>>Informi GIS A/S (RVU location treatment)</option>
+                               <option value="6" <%=gdpr_personaldatavendor6SEL %>>Focus vision (Mobile etnography)</option>
+                               <option value="7" <%=gdpr_personaldatavendor7SEL %>>Charlie Tango (KPMG - KMD processes personal data in connection with the parties' agreement of delivery of documents to e-Boks. The processing consists of sending documents received from the customer to e-Boks)</option>
+                               <option value="8" <%=gdpr_personaldatavendor8SEL %>>Express Paperbased (Print, scanning, enveloping. Treating name, e-mail and address)</option>
+                               <option value="9" <%=gdpr_personaldatavendor9SEL %>>Via scan (Print, scanning, enveloping. Treating name, e-mail and address)</option>
+                               <option value="10" <%=gdpr_personaldatavendor10SEL %>>JT Digital Solutions v/ Jan Selchau Thomsen (JTDS receives a merge file from Epinion and then prints data, content and any attached folder. Then letters and content are enveloped and sent to PostNord.)</option>
+                               <option value="11" <%=gdpr_personaldatavendor11SEL %>>AWS (Data processing, web hosting and similar services)</option>
+                               <option value="12" <%=gdpr_personaldatavendor12SEL %>>Zoom (Mobile ethnography)</option>
+                               -->
+                        </select>
+                        <br /><br />
+                           Stripped for personal data
+                             
+
+                             <%if cint(gdpr_strippedforpersonal_data) = 0 then
+                               gdpr_strippedforpersonal_dataCHK0 = "CHECKED"
+                             end if%>
+                           <br />
+                           <input type="radio" name="FM_gdpr_strippedforpersonal_data" value="0" <%=gdpr_strippedforpersonal_dataCHK0 %> /> N/A
+
+                           <%if cint(gdpr_strippedforpersonal_data) = 1 then
+                               gdpr_strippedforpersonal_dataCHK1 = "CHECKED"
+                             end if%>
+                           <br />
+                           <input type="radio" name="FM_gdpr_strippedforpersonal_data" value="1" <%=gdpr_strippedforpersonal_dataCHK1 %>/> Yes 
+
+                            <%if cint(gdpr_strippedforpersonal_data) = 2 then
+                               gdpr_strippedforpersonal_dataCHK1 = "CHECKED"
+                             end if%>
+                           <br />
+                           <input type="radio" name="FM_gdpr_strippedforpersonal_data" value="2" <%=gdpr_strippedforpersonal_dataCHK2 %> /> No
+                           
+
+                        <br />
+                           
+
+                           
+                           
+
+                       <br />    
+                       Link to Data processor agreement <font color=red size=2>(*)</font><br /><input type="text" name="FM_filepath2" placeholder="URL" style="width:410px;" value="<%=filepath2 %>" /> <br />
+                      
+
+
+                        <br />
+                        Categories of processing <font color=red size=2>(*)</font><br />
+                           <!--<input type="text" id="FM_categories_process" name="FM_categories_process" style="width:410px;" value="<%=categories_process %>" /> <br />-->
+                           <select name="FM_categories_process" id="FM_categories_process"  style="width:410px;">
+
+                               <!--<option value="">Select categories..</option>-->
+                           <%   strSQLcatofproc = "SELECT id, navn FROM selectboxoptions WHERE selectboxlist = 1 ORDER BY id"
+                                   oRec2.open strSQLcatofproc, oConn, 3 
+		                            while not oRec2.EOF 
+
+                                     if instr(categories_process, oRec2("navn")) <> 0 then
+                                       gdpr_catofprocSEL = "SELECTED"
+                                       end if
+                                    %> 
+                                        <option value="<%=oRec2("navn") %>" <%=gdpr_catofprocSEL%> ><%=oRec2("navn") %></option>
+                                    <%
+                                    oRec2.movenext
+                                    wend
+                                    oRec2.close%> 
+                               
+                               </select><br />
+
+
+
+                           <div id="dv_ordinary_personal_data" style="display:; visibility:visible;">
+                           <br /><br />
+                           Ordinary personal data
+                           <br />
+                            <%   strSQLcatofproc = "SELECT id, navn FROM selectboxoptions WHERE selectboxlist = 2 ORDER BY id"
+                                   oRec2.open strSQLcatofproc, oConn, 3 
+		                            while not oRec2.EOF 
+                                    gdpr_personalSEL = ""
+
+                                     if instr(gdpr_personal, "#"& oRec2("id") &"#") <> 0 then
+                                       gdpr_personalSEL = "CHECKED"
+                                       end if
+                                    %> 
+                                        <input type="checkbox" name="FM_gdpr_personal" value="#<%=oRec2("id")%>#" <%=gdpr_personalSEL%> /><%=oRec2("navn") %><br />
+                                    <%
+                                    oRec2.movenext
+                                    wend
+                                    oRec2.close%> 
+                               </div>
+
+                           <div id="dv_sensitive_personal_data" style="display:; visibility:visible;">
+                           <br /><br />
+                           Sensitive personal data
+                           <br />
+                            <%   strSQLcatofproc = "SELECT id, navn FROM selectboxoptions WHERE selectboxlist = 3 ORDER BY id"
+                                   oRec2.open strSQLcatofproc, oConn, 3 
+		                            while not oRec2.EOF 
+                                    gdpr_sensitiveSEL = ""
+
+                                     if instr(gdpr_sensitive, "#"& oRec2("id") &"#") <> 0 then
+                                       gdpr_sensitiveSEL = "CHECKED"
+                                       end if
+                                    %> 
+                                        <input type="checkbox" name="FM_gdpr_sensitive" value="#<%=oRec2("id")%>#" <%=gdpr_sensitiveSEL%> /><%=oRec2("navn") %><br />
+                                    <%
+                                    oRec2.movenext
+                                    wend
+                                    oRec2.close%> 
+
+
+
+
+                                        
+                         <%'*************** data_outside_eu *************************
+                        data_outside_eu0SEL = ""
+                        data_outside_eu1SEL = ""
+                        select case data_outside_eu 
+                        case 0
+                            data_outside_eu0SEL = "SELECTED"
+                            data_outside_eu1SEL = ""
+                        case 1
+                            data_outside_eu0SEL = ""
+                            data_outside_eu1SEL = "SELECTED"
+                        end select%>
+                        
+                        <br />
+                        Personal data are transferred out side EU <font color=red size=2>(*)</font> <br /><select id="FM_data_outside_eu" name="FM_data_outside_eu">
+                            <option value="0" <%=data_outside_eu0SEL %>>No</option>
+                            <option value="1" <%=data_outside_eu1SEL %>>Yes</option>
+                        </select><br />
+
+                         </div>
+
+                        <div id="dv_gdpr_data_outside_eu">
+
+                        <%
+                        gdpr_safeguard_io0SEL = ""
+                        gdpr_safeguard_io1SEL = ""
+                        select case gdpr_safeguard_io
+                        case 0
+                            gdpr_safeguard_io0SEL = "SELECTED"
+                            gdpr_safeguard_io1SEL = ""
+                        case 1
+                            gdpr_safeguard_io0SEL = ""
+                            gdpr_safeguard_io1SEL = "SELECTED"
+                        end select%>
+                        
+                        <br />
+                        
+                            <div style="padding-bottom:2px">
+                        Safeguards for exceptional transfers of personal data <font color=red size=2>(*)</font> <select name="FM_gdpr_safeguard_io">
+                            <option value="0" <%=gdpr_safeguard_io0SEL %>>N/A</option>
+                            <option value="1" <%=gdpr_safeguard_io1SEL %>>Yes (add text below)</option>
+                        </select>
+                        </div>
+
+                        <input type="text" name="FM_safeguard" style="width:410px;" value="<%=safeguard%>" /> <br />
+
+
+                        <%if level = 1 then %>
+                        <br />General description of technical and organisational security measures:<br /> <input type="text" name="FM_filepath3" placeholder="URL" style="width:410px;" value="<%=filepath3 %>" /> <br /><br />
+                        <%else%>
+                        <input type="hidden" name="FM_filepath3" value="<%=filepath3 %>" />
+                        <%end if%>
+
+                        </div> <!-- dv_gdpr_data_outside_eu -->
+
+                        </div>
+                        </td></tr>
+                        <%
+                        end select
+        
+    end if 'showfilepath & GDPR%>
+
 	
     	
 	<tr bgcolor="#FFFFFF">
@@ -5489,13 +6265,45 @@ if len(session("user")) = 0 then
 	else
 	bcols = 52
 	end if%>
+
+    <%if (func = "red"  AND lto = "hestia" OR lto = "dencker" OR lto = "hidalgo") AND id <> 0 then %>
+
+        <%
+        filnavn = ""
+        findesfil = 0
+        strSQL = "SELECT filnavn FROM filer WHERE filertxt = '"&id&"_beskrivelsesdokument' ORDER BY id DESC"
+        oRec.open strSQL, oConn, 3
+        if not oRec.EOF then
+            findesfil = 1
+            filnavn = oRec("filnavn")
+        end if
+        oRec.close
+
+        if cint(findesfil) = 1 then
+            uploadtxt = "Vælg nyt"
+            'response.Write "<span> strSQL "& strSQL & " " & filnavn &"</span>"
+        else
+            uploadtxt = "Tilføj"
+        end if
+        %>
+
+        <tr>
+            <td>&nbsp</td>
+            <td style="padding:5px 0px 0px 2px;" colspan=2>
+                <b>Dokument:</b>                
+               <a target="_blank" class="vmenu" href="../inc/upload/<%=lto %>/<%=filnavn %>"><%=filnavn %></a>
+               &nbsp -  &nbsp <a style="cursor:pointer; color:#3366BB" class="vmenu" onclick="Javascript:window.open('../to_2015/upload.asp?menu=fob&func=opret&id=<%=id%>', '', 'width=650,height=600,resizable=yes,scrollbars=yes')"><b><%=uploadtxt %></b></a> 
+            </td>
+        </tr>
+    <%end if %>
+
 	<tr>
 		<td style="">&nbsp;</td>
 		<td style="padding:5px 0px 0px 2px;" colspan=2><b><%=job_txt_079 %>:</b>
 		<%if showaspopup <> "y" then %>
 		&nbsp;<a href="#" id="a_internnote" class="vmenu"> +<%=" "&job_txt_080 %></a><br>
 		<%end if%>
-		
+
 		                <%
 		                dim content
 
@@ -5716,15 +6524,62 @@ if len(session("user")) = 0 then
                                     %>
                                     <%'jobstatus_fn_options %>
 
+                                           <%select case lto
+                                            case "mpt", "local - intranet"
+
+                                                'if level = 1 then
+                                                'wprotec = ""
+                                                'else
+                
+                                                    'if stCHK0 = "CHECKED" then 'Hvis job er lukket må kun admin ændre status
+                                                    'wprotec = "readonly"
+                                                    'else
+                                                    'wprotec = ""
+                                                    'end if
+
+                                                'end if
+
+                                                if dbfunc = "dbred" then
+                                                    if level = 1 then
+                                                        wprotec = ""
+                                                    else
+                                                        if strStatus <> 0 AND strStatus <> 2 then
+                                                            wprotec = ""
+                                                        else
+                                                            wprotec = "readonly"
+                                                        end if
+                                                    end if
+                                                end if
+
+                                            case else
+
+                                                if level <= 2 OR level = 6 then
+                                                wprotec = ""
+                                                else
+
+                                                    if stCHK0 = "CHECKED" then
+                                                    wprotec = "readonly"
+                                                    else
+                                                    wprotec = ""
+                                                    end if
+
+                                                end if
+
+                                         end select  %> 
+
+
+                                    <%if wprotec <> "readonly" then %>
 									<option value="1"><%=jobstatus_txt_007 %></option>
 									<option value="2"><%=jobstatus_txt_008 %></option> 
-									<option value="0"><%=jobstatus_txt_009 %></option>
-                                    <option value="4"><%=jobstatus_txt_004 %></option>
-									
-									<option value="3"><%=jobstatus_txt_003 %></option>
+									<option value="4"><%=jobstatus_txt_004 %></option>
+							        <option value="3"><%=jobstatus_txt_003 %></option>
                                      <option value="5"><%=jobstatus_txt_010 %></option>
+                                    <%end if %>
 
-									
+                                    <%if (lto = "mpt" AND level = 1) OR lto <> "mpt" then %>
+									<option value="0"><%=jobstatus_txt_009 %></option>
+                                    <%end if %>
+
 									</select> 
 
                                     <%if strStatus = 3 then
@@ -6526,7 +7381,7 @@ if len(session("user")) = 0 then
                         <%if func <> "red" then
 
                             select case lto
-                            case "synergi1", "qwert", "hestia", "mpt"
+                            case "synergi1", "qwert", "hestia", "xmpt"
                             advJobansCHK = "CHECKED"
                             case "dencker"
 
@@ -6732,18 +7587,21 @@ if len(session("user")) = 0 then
                                       forvalgCHK = ""
                                       end if
 
-                                 end if %>
+                                 end if 
+                                    
+                                 call positiv_aktivering_akt_fn() 'wwf
+                                 if cint(positiv_aktivering_akt_val) <> 1 then%>
 
-                                 <br /><br />
+                                 <br />
                               
-								<input type="checkbox" name="FM_forvalgt" id="FM_forvalgt" <%=forvalgCHK %> value="1"><b><%=job_txt_142 %></b> 
+								<input type="checkbox" name="FM_forvalgt" id="FM_forvalgt" <%=forvalgCHK %> value="1"><b><%=job_txt_142 %> / Favorites</b> 
                                 <%=job_txt_143 %> 
-                              
-                              
-                                                               
-                                 
 
-                                 </td></tr>
+                                <%end if %>
+                              
+                              
+                           
+                                </td></tr>
                        </table>
                     
 
@@ -7735,7 +8593,7 @@ end select '*** Step %>
 	
 	
 	<!--#include file="../inc/regular/header_lysblaa_inc.asp"-->
-    <script src="inc/job_listen_jav.js"></script>
+    <script src="inc/job_listen_jav2.js"></script>
     
  <div id="loadbar" style="position:absolute; display:; visibility:visible; top:300px; left:280px; width:300px; background-color:#ffffff; border:10px #9ACD32 solid; padding:10px; z-index:100000000;">
 
@@ -7931,7 +8789,14 @@ end select '*** Step %>
 	        sogaktCHK = ""		
     end if	
 	
-	    
+	if len(trim(request("FM_sogakt_easyreg"))) <> 0 then
+			sogakt_easyreg = 1
+			sogakt_easyregCHK = "CHECKED"
+	else
+	        sogakt_easyreg = 0
+	        sogakt_easyregCHK = ""		
+    end if	    
+   
         
         
         '*************************************************
@@ -8038,6 +8903,11 @@ end select '*** Step %>
 			show_jobnr_sog = ""
 		end if
 
+
+    '**** Vis kun med Easyreg ***'
+    if cint(sogakt_easyreg) = 1 then
+    sogeKri = sogeKri & " a.easyreg = 1 AND "
+    end if
 
 		
     '**** Projektgrupper ****'
@@ -8166,7 +9036,7 @@ end select '*** Step %>
             <%
             mNavn = "Alle"
             
-             strSQL = "SELECT mnavn, mnr, mid, init FROM medarbejdere WHERE mansat <> '2' ORDER BY mnavn"
+             strSQL = "SELECT mnavn, mnr, mid, init FROM medarbejdere WHERE mansat <> '2' AND mansat <> '4' ORDER BY mnavn"
              oRec.open strSQL, oConn, 3
              while not oRec.EOF
                 
@@ -8208,7 +9078,12 @@ end select '*** Step %>
 		<br />
         (% = wildcard) <%=job_txt_209 %> ";" <%=job_txt_210 %>, ">", "<" <%=job_txt_211 %> "--" (<%=job_txt_212 %>) <%=job_txt_213 %><br />
         
-        <input id="FM_sogakt" name="FM_sogakt" type="checkbox" value="1" <%=sogaktCHK%> /> <%=job_txt_214 %> 
+        <input id="FM_sogakt" name="FM_sogakt" type="checkbox" value="1" <%=sogaktCHK%> /> <%=job_txt_214 %><br />
+        <%
+        call showEasyreg_fn()    
+        if cint(showEasyreg_val) = 1 then %>
+        <input name="FM_sogakt_easyreg" type="checkbox" value="1" <%=sogakt_easyregCHK%> /> Vis kun job hvor der er Easyreg aktiviteter
+        <%end if %>
         <br /><br /><br />
         <div style="border:1px #CCCCCC solid; padding:5px;">
         <input type="checkbox" name="FM_vis_timepriser" <%=vis_timepriserCHK %> value="1" />
@@ -8347,7 +9222,7 @@ end select '*** Step %>
 	end if
 	
     '** jobans **'
-	if cint(medarb_jobans) = 0 then
+	if cdbl(medarb_jobans) = 0 then
 	jobansKri = ""
 	else
 	jobansKri = " (jobans1 = " & medarb_jobans & " OR jobans2 = "& medarb_jobans &") AND "
@@ -8355,7 +9230,7 @@ end select '*** Step %>
 	
 
     '** kontaktpersoner hos kunde **'
-    if cint(hd_kpers) <> -1 AND cint(hd_kpers) <> 0  then
+    if cdbl (hd_kpers) <> -1 AND cdbl(hd_kpers) <> 0 then
     kpersSQLkri = " AND kundekpers = " & hd_kpers
     else
     kpersSQLkri = ""
@@ -8380,6 +9255,9 @@ end select '*** Step %>
 	
 	<table cellspacing="0" cellpadding="0" border="0" bgcolor="#ffffff" width=100%>
 	<form action="jobs.asp?menu=job&func=opdjobliste&jobnr_sog=<%=jobnr_sog%>&filt=<%=filt%>&fm_kunde_sog=<%=fmkunde%>&FM_kunde=<%=fmkunde%>" method="post">
+    <input type="hidden" value="<%=lto %>" id="jq_lto" />
+    <input type="hidden" value="<%=level %>" id="jq_level" />
+
 	<%sub tabletop%>
 	
 	<tr bgcolor="#5582D2">
@@ -8432,7 +9310,7 @@ end select '*** Step %>
     strSQL = strSQL &", j.projektgruppe1, j.projektgruppe2, j.projektgruppe3, j.projektgruppe4, j.projektgruppe5, j.projektgruppe6, j.projektgruppe7, j.projektgruppe8, j.projektgruppe9, j.projektgruppe10 "
 	   
 	
-	if cint(sogakt) = 1 then
+	if cint(sogakt) = 1 OR cint(sogakt_easyreg) = 1 then
 	    strSQL = strSQL &" FROM aktiviteter AS a "
 	    strSQL = strSQL &" LEFT JOIN job AS j ON (j.id = a.job)"
 	    strSQL = strSQL &" LEFT JOIN kunder ON (kunder.kid = jobknr)"
@@ -8447,7 +9325,7 @@ end select '*** Step %>
 	&" GROUP BY j.id ORDER BY "&varOrder&" LIMIT 5000"
 	
 	
-	
+    jobids_all = 0
 	x = 0
 	cnt = 0
 	jids = 0
@@ -8625,7 +9503,7 @@ end select '*** Step %>
 	'*** Antal aktiviteter på job *** KUN AKTIVE I DETTE VIEW 
 	strAktnavn = ""
     lastFase = ""
-    strSQL2 = "SELECT id, navn, fase, aktstatus FROM aktiviteter WHERE job = "& oRec("id") & " AND aktstatus = 1 ORDER BY fase, sortorder, navn"
+    strSQL2 = "SELECT id, navn, fase, aktstatus, easyreg FROM aktiviteter WHERE job = "& oRec("id") & " AND aktstatus = 1 ORDER BY fase, sortorder, navn"
 	oRec5.open strSQL2, oConn, 3
 	while not oRec5.EOF 
 	x = x + 1
@@ -8646,6 +9524,10 @@ end select '*** Step %>
         strAktnavn = strAktnavn & " - passiv"
         end if
         
+        if oRec5("easyreg") = 1 then
+        strAktnavn = strAktnavn & " <span style=""color:red;"">(E!)</span>"
+        end if
+
     strAktnavn = strAktnavn & "<br>"
 
 
@@ -8654,52 +9536,7 @@ end select '*** Step %>
 	oRec5.close
 	Antal = x
 	
-	''** Antal brugte fakturerbare timer **
-	'strSQL3 = "SELECT sum(timer) AS timerTotFaktimerpajob FROM timer WHERE Tjobnr= " & oRec("jobnr") &" AND ("& aty_sql_realhours &")"
-	'oRec3.open strSQL3, oConn, 3
-	'if not oRec3.EOF then
-	'timerTotFakbarePajob = oRec3("timerTotFaktimerpajob")
-	'end if
-
-	'oRec3.close
 	
-	'if len(timerTotFakbarePajob) <> 0 then
-	'timerTotFakbarePajob = timerTotFakbarePajob
-	'else
-	'timerTotFakbarePajob = 0
-	'end if
-	
-	'*** fakturerbare timer tildelt på aktiviteter **** 
-	'strSQL3 = "SELECT sum(budgettimer) AS akttimer FROM aktiviteter WHERE job = " & oRec("id") &" AND fakturerbar = 1 ORDER BY budgettimer"
-	'oRec3.open strSQL3, oConn, 3
-	'if not oRec3.EOF then
-	'	akttfaktimtildelt = oRec3("akttimer")
-	'end if
-	'oRec3.close
-	
-	'if len(akttfaktimtildelt) <> 0 then
-	'akttfaktimtildelt = akttfaktimtildelt
-	'else
-	'akttfaktimtildelt = 0
-	'end if
-	
-	
-	'***Ikke fakturerbare timer tildelt på aktiviteter **** 
-	'strSQL3 = "SELECT sum(budgettimer) AS aktnotftimer FROM aktiviteter WHERE job = " & oRec("id") &" AND fakturerbar = 0 ORDER BY budgettimer"
-	'oRec3.open strSQL3, oConn, 3
-	'if not oRec3.EOF then
-	'	akttnotfaktimtildelt = oRec3("aktnotftimer")
-	'end if
-	'oRec3.close
-	
-	'if len(akttnotfaktimtildelt) <> 0 then
-	'akttnotfaktimtildelt = akttnotfaktimtildelt
-	'else
-	'akttnotfaktimtildelt = 0
-	'end if
-
-
-
 	%>
 	<tr>
 		<td bgcolor="#d6dff5" colspan="11"><img src="ill/blank.gif" width="1" height="1" border="0" alt=""></td>
@@ -9060,15 +9897,55 @@ end select '*** Step %>
 		<option value="2" <%=stCHK2%>>Passiv</option>
 		</select>
         -->
+
+        <%select case lto
+            case "mpt", "local - intranet"
+
+                if level = 1 then
+                wprotec = ""
+                else
+                
+                    if stCHK0 = "CHECKED" then 'Hvis job er lukket må kun admin ændre status
+                    wprotec = "readonly"
+                    else
+                    wprotec = ""
+                    end if
+
+                end if
+
+            case else
+
+                if level <= 2 OR level = 6 then
+                wprotec = ""
+                else
+
+                    if stCHK0 = "CHECKED" then
+                    wprotec = "readonly"
+                    else
+                    wprotec = ""
+                    end if
+
+                end if
+
+         end select  %>
         
+       
+        <%if wprotec <> "readonly" then%>
         <input type="radio" class="FM_listestatus_1" name="FM_listestatus_<%=oRec("id")%>" value="1" id="FM_listestatus_1_<%=oRec("id")%>" <%=stCHK1%>/><span style="color:<%=stBgcol1%>; font-size:9px;"><%=jobstatus_txt_007 %></span><br />
         <input type="radio" class="FM_listestatus_2" name="FM_listestatus_<%=oRec("id")%>" value="2" id="FM_listestatus_2_<%=oRec("id")%>" <%=stCHK2%>/><span style="color:<%=stBgcol2%>; font-size:9px;"><%=jobstatus_txt_011 %></span><br />
         <input type="radio" class="FM_listestatus_3" name="FM_listestatus_<%=oRec("id")%>" value="3" id="FM_listestatus_3_<%=oRec("id")%>" <%=stCHK3%>/><span style="color:<%=stBgcol3%>; font-size:9px;"><%=jobstatus_txt_003 %><br />
         <input type="radio" class="FM_listestatus_4" name="FM_listestatus_<%=oRec("id")%>" value="4" id="FM_listestatus_4_<%=oRec("id")%>" <%=stCHK4%>/><span style="color:<%=stBgcol4%>; font-size:9px;"><%=jobstatus_txt_012 %></span><br />
         <input type="radio" class="FM_listestatus_5" name="FM_listestatus_<%=oRec("id")%>" value="5" id="FM_listestatus_5_<%=oRec("id")%>" <%=stCHK5%>/><span style="color:<%=stBgcol5%>; font-size:9px;"><%=jobstatus_txt_006 %></span><br />
+        <%end if %>
 
         <input type="radio" class="FM_listestatus_0" name="FM_listestatus_<%=oRec("id")%>" value="0" id="FM_listestatus_0_<%=oRec("id")%>" <%=stCHK0%>/><span style="color:<%=stBgcol0%>; font-size:9px;"><%=jobstatus_txt_009 %> <br /><%=lkDato %></span>
         
+
+
+            <%jobids_all = jobids_all & ", "& oRec("id") %>
+         
+
+
 		<%else%>
 		<%=stNavn%>
 		<input type="hidden" name="FM_listestatus" id="Hidden1" value="<%=oRec("jobstatus")%>">
@@ -9162,18 +10039,23 @@ end select '*** Step %>
 			    deleteok = 0
 			    faktotbel = 0
                 fakturaBel_tot = 0
+                fakAftaleid = 0
 			    strSQLffak = "SELECT f.fid, f.faknr, f.aftaleid, f.faktype, f.jobid, f.fakdato, f.beloeb, "_
-			    &" f.faktype, f.kurs, SUM(fd.aktpris) AS aktbel, brugfakdatolabel, labeldato, fakadr, shadowcopy, f.valuta FROM fakturaer f "_
-			    &" LEFT JOIN faktura_det AS fd ON (fd.fakid = f.fid AND fd.enhedsang <> 3)"_
-			    &" WHERE jobid = " & oRec("id") & ""_
+			    &" f.faktype, f.kurs, brugfakdatolabel, labeldato, fakadr, shadowcopy, f.valuta, afsender FROM fakturaer f "_
+			    &" WHERE (jobid = " & oRec("id") & " AND shadowcopy = 0) OR (aftaleid = "& oRec("serviceaft") &" AND aftaleid <> 0 AND shadowcopy = 0)"_
 			    &" GROUP BY f.fid ORDER BY f.fakdato DESC"
 
+                'OR aftid = "& oRec("serviceaft") &"
+                '&" LEFT JOIN faktura_det AS fd ON (fd.fakid = f.fid)"_
+                'AND fd.enhedsang <> 3
+                'SUM(fd.aktpris) AS aktbel
                 '&" AND aftaleid = 0 AND shadowcopy = 0"_
 
 
-			    'Response.Write "strSQLffak<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>" & strSQLffak 
+			    'Response.Write strSQLffak 
 			    'Response.flush
-			    f = 0
+			    
+                f = 0
 			    oRec3.open strSQLffak, oConn, 3
 			    while not oRec3.EOF 
 			        
@@ -9187,13 +10069,13 @@ end select '*** Step %>
 
                               strFakAftNavn = ""
 
-                             if oRec3("shadowcopy") = 1 then 'AND oRec2("aftaleid") <> 0 then
+                             if oRec3("aftaleid") <> 0 then 'AND oRec2("aftaleid") <> 0 then 'oRec3("shadowcopy") = 1
                
                    
 
                                         strSQLFakorg = "SELECT f.fid, f.beloeb, f.valuta, f.kurs, f.faktype, f.aftaleid, fd.aktpris FROM fakturaer f "_
-                                        &" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& oRec("id") &") WHERE faknr = '"& oRec3("faknr") &"' AND shadowcopy <> 1 "
-
+                                        &" LEFT JOIN faktura_det fd ON (fd.fakid = f.fid AND fd.aktid = "& oRec("id") &") WHERE fid = "& oRec3("fid") &" AND shadowcopy <> 1 "
+                                        
                                         oRec8.open strSQLFakorg, oConn, 3
                                         if not oRec8.EOF then
 
@@ -9221,14 +10103,14 @@ end select '*** Step %>
                                         oRec8.open strSQLaftale, oConn, 3
                                         if not oRec8.EOF then
                                         
-                                        strFakAftNavn = "<span style=""font-size:9px; color:#999999;""> - " & left(oRec8("navn"), 3) & " ("& oRec8("aftalenr") &")</span>" 
+                                        strFakAftNavn = "<span style=""font-size:9px; color:#999999;""> - " & left(oRec8("navn"), 5) & " ("& oRec8("aftalenr") &")</span>" 
                                         
                                         end if
                                         oRec8.close
 
 
 
-                                else
+                            else
                         
                  
                         
@@ -9236,62 +10118,33 @@ end select '*** Step %>
                                 fakKurs = oRec3("kurs")
                                 fakBeloeb = oRec3("beloeb")
                                 fakType = oRec3("faktype")
-                                fakAktbel = oRec3("aktbel")
+                                fakAktbel = 0 'oRec3("aktbel")
 
-                                end if 'shadowcopy
+                            end if 'aftale fak
 
 			          
                       %>
-                      <tr><td class=lille valign=top>
+                      <tr>
                       <%
 			        
-                            fidLink = 0
-                            if cdate(oRec3("fakdato")) >= cdate("01-01-2006") AND editok = 1 then
+                            'fidLink = 0
+                            'if editok = 1 then 'cdate(oRec3("fakdato")) >= cdate("01-01-2006") AND
+                            fidLink = oRec3("fid")    
+                            'end if
+
                           
-                         
-
-                                if cint(oRec3("shadowcopy")) = 0 then
-                    
-                                    fidLink = oRec3("fid")    
-
-                                else
-                        
-                                strSQLFakorg = "SELECT fid FROM fakturaer WHERE faknr = '"& oRec3("faknr") &"' AND shadowcopy <> 1"
-                                oRec8.open strSQLFakorg, oConn, 3
-                                if not oRec8.EOF then
-
-                                    fidLink = oRec8("fid")
-
-                                end if
-                                oRec8.close
-
-
-                                end if
-                          
-                          if fidLink <> 0 then
+                          if cint(editok) = 1 then 'fidLink <> 0 then
                           %>
-			              <a href="erp_opr_faktura_fs.asp?visminihistorik=1&visfaktura=2&visjobogaftaler=1&id=<%=fidLink%>&FM_jobonoff=<%=FM_jobonoffval%>&FM_kunde=<%=oRec3("fakadr")%>&FM_job=<%=oRec3("jobid")%>&FM_aftale=<%=oRec3("aftaleid")%>&fromfakhist=1" class="lgron" target="_blank"><b><%=oRec3("faknr")%></b></a> 
+			              <td class=lille valign=top><a href="erp_opr_faktura_fs.asp?visminihistorik=1&visfaktura=2&visjobogaftaler=1&id=<%=fidLink%>&FM_jobonoff=<%=FM_jobonoffval%>&FM_kunde=<%=oRec3("fakadr")%>&FM_job=<%=oRec3("jobid")%>&FM_aftale=<%=oRec3("aftaleid")%>&fromfakhist=1" class="lgron" target="_blank"><b><%=oRec3("faknr")%></b></a> 
                           <%=strFakAftNavn %>
                           </td>
-                          <td align=right class=lille valign=top style="white-space:nowrap;"><%=fakDato %>
                           <%else 
-                          
-                          '*** Vis ikke slettede fakturaer på joblisten
-                          %>
-
-                          <!--<b><%=oRec3("faknr") &"</b> "& strFakAftNavn &"</td><td align=right class=lille valign=top style=""white-space:nowrap;""> "& fakDato %>-->
+                          %><td class=lille valign=top><b><%=oRec3("faknr") &" "& strFakAftNavn %></b></td>
                           <%end if %>
                           
-                          
-
-                    <%else%>
-                    <b><%=oRec3("faknr") &"</b> "& strFakAftNavn &"</td><td align=right class=lille valign=top style=""white-space:nowrap;""> "& fakDato %>
-                    <% end if
-                    
-                         
-                      %>
-
-                      </td></tr>
+                         <td align=right class=lille valign=top style="white-space:nowrap;"><%=fakDato %></td>
+                       
+                      </tr>
                       <%
                     
 
@@ -9412,6 +10265,12 @@ end select '*** Step %>
     
 	oRec.movenext
 	wend
+    oRec.Close
+    
+        %>
+           <input type="hidden" id="jq_jids" value="<%=jobids_all %>" />
+        <%
+
 	
 	if cnt > 0 then%>
     	<tr style="background-color:#FFFFFF;">
@@ -9561,7 +10420,7 @@ end select '*** Step %>
 	
 
     <%
-    oRec.Close
+    'oRec.Close
     
     
     else 'vis_timepriser%>
@@ -9595,15 +10454,19 @@ end select '*** Step %>
 
                         strSQL = "SELECT tp.jobid, tp.aktid, tp.medarbid, tp.timeprisalt, tp.6timepris, tp.6valuta, j.jobnavn, j.jobnr, a.navn AS aktnavn, a.fase, m.mnavn, m.init, m.mnr, "_
                         &" v.valutakode, j.jobans1, j.jobans2, j.id, "_
-                        &" k.kkundenavn, k.kkundenr FROM job AS j, kunder AS k"_
+                        &" k.kkundenavn, k.kkundenr FROM job AS j"_
+                        &" LEFT JOIN kunder AS k ON (k.kid = j.jobknr) "_
                         &" LEFT JOIN timepriser AS tp ON (tp.jobid = j.id) "_
                         &" LEFT JOIN aktiviteter AS a ON (a.id = tp.aktid) "_
                         &" LEFT JOIN medarbejdere AS m ON (m.mid = tp.medarbid) "_
                         &" LEFT JOIN valutaer AS v ON (v.id = tp.6valuta) "_
                         &" WHERE "& varJobknrKri &" "& sogeKri &" "& jobansKri &" k.kid = j.jobknr " & varFilt &" "& datoKri &" "& replace(prjgrpSQLkri, "projektgruppe", "j.projektgruppe") &""_ 
                         &" AND j.jobnavn IS NOT NULL AND m.mnavn IS NOT NULL GROUP BY tp.jobid, tp.aktid, tp.medarbid ORDER BY k.kkundenavn, j.jobnavn, j.jobnr, "& sortTpBy &" LIMIT 0,10000"
-						'Response.write strSQL & "<br>"
+						
+                        'Response.write strSQL & "<br>"
 						'Response.flush
+
+
                         oRec2.open strSQL, oConn, 3 
 						    
                             cnt = 0

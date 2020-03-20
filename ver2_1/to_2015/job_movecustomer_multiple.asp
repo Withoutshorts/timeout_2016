@@ -157,8 +157,13 @@
              <div class="row">
                 <div class="col-lg-1">&nbsp</div>
                 <div class="col-lg-6">
-                    Flytter job fra oprindelige kunde til den valgte nedenstående kunde.<br />
-                    Gælder også aktiviteter og fakturaer og timeforbrug.
+                    Flytter job fra den oprindelige kunde til den valgte nedenstående kunde.<br />
+                    Gælder også aktiviteter, fakturaer og timeforbrug.<br /><br />
+                    <b>Bemærk!</b> Bankkonto oplysninger, deres ref. mm. bliver stående som de er og skal tilpasses på den enkelte faktura efterfølgende.
+
+                    <!--<br /><br /><input type="checkbox" name=" " value="1" /> Kopier job istedet for flyt<br /><br />
+                        -->
+
                     <br /><br /><b>Vælg job og tilbud:</b> (vælg gerne flere)<br />
                     <%
 
@@ -173,7 +178,7 @@
 		
 		            %>
 		
-            <select name="FM_jids" multiple size=10 style="width:700px;">
+            <select name="FM_jids" multiple size=10 style="width:700px;" class="form-control input-small">
           
               
 		        <%
@@ -226,7 +231,7 @@
             <div class="row">
                 <div class="col-lg-1">&nbsp</div>
                 <div class="col-lg-6"><br /><br /><b>Flyt til kunde:</b> (vælg 1)<br />
-                    <select name="FM_kunde" size=10 style="width:700px;">
+                    <select name="FM_kunde" size=10 style="width:700px;" class="form-control input-small">
                     <%strSQL = "SELECT Kkundenavn, Kkundenr, Kid, kundeans1, kundeans2 FROM kunder WHERE ketype <> 'e' AND (useasfak = 1 OR useasfak = 0 OR useasfak = 5) ORDER BY Kkundenavn"
 			        oRec.open strSQL, oConn, 3
 			        kans1 = ""

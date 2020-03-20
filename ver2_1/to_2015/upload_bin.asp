@@ -8,7 +8,7 @@
 <div class="content">
 <div class="container">
 <div class="portlet">
-<h3 class="portlet-title"><u>Upload</u></h3>
+<h3 class="portlet-title"><u>Upload</u> <%response.Write "TF " & thisfile %></h3>
 <div class="portlet-body">
 
 
@@ -23,7 +23,21 @@ else
 
 end if
 
+    select case lto
+        case "mpt"
+            direkteVidere = 1
+            filjobid = 0
+            strSQL = "SELECT jobid FROM filer WHERE oprses = 'x'"
+            response.Write strSQL
+            oRec.open strSQL, oConn, 3
+            if not oRec.EOF then
+                filjobid = oRec("jobid")
+            end if
+            oRec.close
 
+        case else
+            direkteVidere = 0
+    end select
 
     call TimeOutVersion() 
 
@@ -46,20 +60,24 @@ end if
 '  ***********
    Upload.SetMaxSize 900000, True
 
-   if lto = "nt" then
+   if lto = "nt" or lto = "hestia" or lto = "dencker" then
 
     deletenewfileEntry = 0
-
+    deletenewFileName = "FILE NOT FOUND"
+    deletenewFileJobnr = "0"
     For each file in Upload.Files
         
         
         
         'response.Write "test: " & file.FileName & "<br>"
 
-        strSQL = "SELECT id FROM filer WHERE filnavn = '"& file.FileName &"'"
+        strSQL = "SELECT id, filertxt FROM filer WHERE filnavn = '"& file.FileName &"'"
 			oRec.open strSQL, oConn, 3 
 			if not oRec.EOF then
 			deletenewfileEntry = 1
+            deletenewFileName = file.FileName
+            deletenewFileJobnr = oRec("filertxt")
+    
 			end if
 			oRec.close
 
@@ -72,7 +90,7 @@ end if
         %>
             <div class="row" style="text-align:center">
                 <div class="col-lg-4">
-                    A file of the same name is already uploaded to the server, rename the image or choose another to continue
+                    A file of the same name (<b><%=deletenewFileName%></b> used at job/order no.: <b><%=deletenewFileJobnr%></b>) is already uploaded to the server, rename the image or choose another to continue
                 </div>
             </div>
             <br />
@@ -309,9 +327,26 @@ if filtype <> 6 then '** 6 = Materiale billeder
 	
 	Response.Write("<script language=""JavaScript"">window.opener.document.getElementById(""FM_pic"").value = "& filid &";</script>")
 	Response.Write("<script language=""JavaScript"">window.opener.document.getElementById(""FM_pic_navn"").value = '"& filnavn &"';</script>")
-	response.write "<a href='#' onClick=""JavaScript:window.opener.location.reload();avascript:window.close();"" class=vmenu>[Luk]</a><br><br>"
-	'Response.Write("<script language=""JavaScript"">window.opener.location.reload();</script>")
 	
+    if cint(direkteVidere) = 1 AND deletenewfileEntry <> 1 then
+        
+        if filjobid = 0 then
+            response.write "JavaScript:window.opener.location.reload();javascript:window.close();"
+        else
+            response.Redirect "jobs.asp?func=red&jobid="& filjobid
+        end if
+        %>
+        <script type="text/javascript">
+            window.opener.location.reload();
+            javascript: window.close();
+        </script>
+        <%
+    else
+        response.write "<a href='#' onClick=""JavaScript:window.opener.location.reload();avascript:window.close();"" class=vmenu>[Luk]</a><br><br>"
+	    'Response.Write("<script language=""JavaScript"">window.opener.location.reload();</script>")
+    end if
+
+
     'end if
 	
 	

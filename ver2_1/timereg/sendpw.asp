@@ -4,9 +4,7 @@
 
 <!--#include file="../inc/regular/global_func.asp"--> 
 
-<%  'GIT 20160811 - SK
-    
-    if len(trim(request("glt_pw_email"))) <> 0 then
+<%  if len(trim(request("glt_pw_email"))) <> 0 then
     strEmail = request("glt_pw_email")
     else
     strEmail = "dsfwer23411"
@@ -25,6 +23,27 @@
     lto = "xxx"
     end if
 
+    Private Function Encrypt(ByVal string)
+	    Dim x, i, tmp
+	    For i = 1 To Len( string )
+	    x = Mid( string, i, 1 )
+	    tmp = tmp & Chr( Asc( x ) + 1 )
+	    Next
+	    tmp = StrReverse( tmp )
+	    Encrypt = tmp
+    End Function
+    
+    public randomNumber
+    Sub Test2()
+        nLow = 10000000
+        nHigh = 1000000000
+        Set objRandom = CreateObject("System.Random")
+        randomNumber = objRandom.Next_2(nLow, nHigh)
+
+        randomNumber = replace(randomNumber, "78","")
+        randomNumber = replace(randomNumber, "87","")
+
+    End Sub
 
     
      %>
@@ -49,14 +68,13 @@
 
                         
                         strLogin = "-1"
-
                             strSQL = "SELECT mid, email, mnavn, login FROM medarbejdere WHERE email = '" & strEmail &"'"
 						    oRec.open strSQL, oConn, 3
 						    if not oRec.EOF then
 							    strPw = "21"& right(oRec("mnavn"), 2) & "X2"& left(oRec("login"),2) & "C" & right(now,2)
                                 strNavn = oRec("mnavn")
                                 strLogin = oRec("login")
-
+                                medarbejderid = oRec("mid")
                                     
                                     strSQLupd = "UPDATE medarbejdere SET pw = MD5('"& strPw &"') WHERE mid = "& oRec("mid")
                                     oConn.execute(strSQLupd)
@@ -113,17 +131,69 @@
                         myMail.To= ""& strNavn &"<"& strEmail &">"
                         end if
 
-
-                        ' Selve teksten
-					    myMail.TextBody = "" & "Hej "& strNavn & vbCrLf & vbCrLf _ 
-					    & "Dit brugernavn er: " & strLogin & " og dit password er: " & strPw & vbCrLf & vbCrLf _ 
-					    & "Gem disse oplysninger, til du skal logge ind i TimeOut."  & vbCrLf _ 
-					    & "Du kan altid selv ændre dem når du er logget på systemet." & vbCrLf & vbCrLf _ 
-					    & "Adressen til TimeOut er: https://timeout.cloud/"&lto&""& vbCrLf & vbCrLf _ 
-					    & "Med venlig hilsen"& vbCrLf & vbCrLf & strEditor & vbCrLf 
-                       
-                       
                         
+                        call glemtpassword_visning
+
+                        if cint(int_glemtpassword_visning) = 1 then
+                            stampdate = year(now) &"-"& month(now) &"-"& day(now)
+                            stamptime = hour(now) &":"& minute(now) & ":" & second(now)
+                            strSQLForgotPassword_log = "INSERT INTO forgot_password SET medid ="& medarbejderid &", stampdate ='"& stampdate &"', stamptime ='"& stamptime &"'" 
+                            'response.Write "strSQLForgotPassword_log " & strSQLForgotPassword_log    
+                            'response.End
+                            oConn.execute(strSQLForgotPassword_log)
+
+                            'Henter licens kode
+                            strlisenskey = ""
+                            strSQLlicenskode = "SELECT * FROM licens"
+                            oRec.open strSQLlicenskode, oConn, 3
+                            if not oRec.EOF then
+                                strlisenskey = oRec("key")
+                            end if
+                            oRec.close
+                            
+
+                            linkID = "2e60c62249a%01dba7%da=e797df7d4f436" 
+ 
+                            call Test2()
+
+                            linkID = linkID &"=0"& randomNumber&"&78="&Encrypt(medarbejderid)&"&"
+
+                            call Test2()
+
+                            linkID = linkID &"=0"& randomNumber & "&87="&lto&"&"
+                            linkID = linkID & "key="&strlisenskey&"&"
+
+                            call Test2()
+
+                            linkID = linkID & "523af=537946b7%9c4f8369ed39%ba78605"
+
+                            linkID = linkID & randomNumber
+
+                            newpasswordlink = "<a href='https://timeout.cloud/timeout_xp/wwwroot/ver2_14/to_2015/newpassword.asp?func=newpassword&"&linkID&"'>Klik her</a>"
+
+                            strmailtekst = "Hej " & strNavn & "<br>" & "<br>"
+                            
+                            strmailtekst = strmailtekst & newpasswordlink & " for at ændre dit password: " & "<br>"
+                             
+                            strmailtekst = strmailtekst & "<br>" & "<br>"                           
+                            strmailtekst = strmailtekst & "Med venlig hilsen"& "<br>" & "<br>" & strEditor & "<br>" 
+                            
+
+                            myMail.HTMLBody = "<html><head></head><body>"& strmailtekst &"</body></html>" 'strmailtekst
+
+                        else
+                            
+                            ' Selve teksten
+					        myMail.TextBody = "" & "Hej "& strNavn & vbCrLf & vbCrLf _ 
+					        & "Dit brugernavn er: " & strLogin & " og dit password er: " & strPw & vbCrLf & vbCrLf _ 
+					        & "Gem disse oplysninger, til du skal logge ind i TimeOut."  & vbCrLf _ 
+					        & "Du kan altid selv ændre dem når du er logget på systemet." & vbCrLf & vbCrLf _ 
+					        & "Adressen til TimeOut er: https://timeout.cloud/"&lto&""& vbCrLf & vbCrLf _ 
+					        & "Med venlig hilsen"& vbCrLf & vbCrLf & strEditor & vbCrLf 
+
+                        end if
+
+                       
                         myMail.Configuration.Fields.Item _
                         ("http://schemas.microsoft.com/cdo/configuration/sendusing")=2
                         'Name or IP of remote SMTP server

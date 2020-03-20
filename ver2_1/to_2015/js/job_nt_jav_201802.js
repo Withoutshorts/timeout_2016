@@ -363,6 +363,12 @@ $(document).ready(function () {
     });
 
 
+    $("#auto_cal").click(function () {
+
+        //alert("Wait")
+        beregn_order()
+
+    });
 
     $("#cost_price_pc, #sales_price_pc").keyup(function () {
 

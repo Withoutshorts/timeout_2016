@@ -278,7 +278,8 @@ public class ozUploadFileOmk
 
                 string beskrivelse = data.beskrivelse.ToString().Replace("'", "");
                 beskrivelse = beskrivelse.ToString().Replace("‘", "");
-                
+                beskrivelse = beskrivelse.ToString().Replace(";", "");
+
                 string belob = data.belob.ToString().Replace(".", "");
                 belob = belob.ToString().Replace(",", ".");
 
